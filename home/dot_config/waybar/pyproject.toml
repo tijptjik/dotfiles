@@ -1,0 +1,8 @@
+[project]
+name = "waybar"
+version = "0.1.0"
+description = "Tijptjik's Waybar Config"
+requires-python = ">=3.14"
+dependencies = [
+    "pygobject>=3.54.5",
+]

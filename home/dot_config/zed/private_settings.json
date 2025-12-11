@@ -1,0 +1,108 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+    "format_on_save": "off",
+    "code_actions_on_format": {
+        "source.organizeImports.biome": true,
+        "source.fixAll.biome": true
+    },
+    "lsp": {
+        "biome": {
+            "binary": {
+                "path": "/home/io/overturist/node_modules/@biomejs/biome/bin/biome",
+                "arguments": ["lsp-proxy"]
+            },
+            "settings": {
+                "require_config_file": true
+            }
+        }
+    },
+    "languages": {
+        "JavaScript": {
+            "formatter": { "language_server": { "name": "biome" } },
+            "code_actions_on_format": {
+                "source.fixAll.biome": true,
+                "source.organizeImports.biome": true
+            }
+        },
+        "TypeScript": {
+            "formatter": { "language_server": { "name": "biome" } },
+            "code_actions_on_format": {
+                "source.fixAll.biome": true,
+                "source.organizeImports.biome": true
+            }
+        },
+        "JSON": {
+            "formatter": { "language_server": { "name": "biome" } },
+            "code_actions_on_format": {
+                "source.fixAll.biome": true
+            }
+        },
+        "JSONC": {
+            "formatter": { "language_server": { "name": "biome" } },
+            "code_actions_on_format": {
+                "source.fixAll.biome": true
+            }
+        },
+        "CSS": { "formatter": { "language_server": { "name": "biome" } } }
+    },
+    "project_panel": {
+        "hide_gitignore": false
+    },
+    "git_panel": {
+        "sort_by_path": true
+    },
+    "agent": {
+        "always_allow_tool_actions": true,
+        "default_model": {
+            "provider": "google",
+            "model": "gemini-2.5-flash"
+        },
+        "model_parameters": []
+    },
+    "agent_servers": {
+      "gemini": {
+        "ignore_system_version": false
+      }
+    },
+    "context_servers": {
+        "mcp-server-context7": {
+            "enabled": true,
+            "settings": {
+                "context7_api_key": ""
+            }
+        }
+    },
+    "icon_theme": "JetBrains New UI Icons (Dark)",
+    "vim_mode": false,
+    "base_keymap": "Cursor",
+    "ui_font_size": 16,
+    "buffer_font_size": 15,
+    "theme": {
+        "mode": "system",
+        "light": "One Dark",
+        "dark": "One Dark"
+    },
+    "language_models": {
+        "anthropic": {
+            "available_models": [
+                {
+                    "name": "kimi-k2-0905-preview",
+                    "display_name": "Kimi K2 (0905)",
+                    "max_tokens": 256000
+                },
+                {
+                    "name": "kimi-k2-turbo-preview",
+                    "display_name": "Kimi K2 (Turbo)",
+                    "max_tokens": 256000
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,154 @@
+format = """
+$username\
+$hostname\
+$localip\
+$shlvl\
+$directory\
+$git_branch\
+$git_status\
+$git_commit\
+$git_state\
+$git_metrics\
+$package\
+$python\
+$bun\
+$nodejs\
+$gcloud\
+$env_var\
+$sudo\
+$cmd_duration\
+$line_break\
+$status\
+$container\
+$shell\
+$character"""
+
+
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+command_timeout = 1000
+
+[aws]
+disabled = true
+symbol = "  "
+
+[buf]
+symbol = " "
+
+[bun]
+symbol = "🍔"
+version_format = '${raw}'
+style = "bold #C1DC1F"
+
+[c]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[character]
+success_symbol="[❯](bold #fac357)"
+
+[dart]
+symbol = " "
+
+[directory]
+read_only = " "
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[git_branch]
+symbol = " "
+
+[git_status]
+ignore_submodules = true
+untracked = ""
+
+[gcloud]
+format='on [$symbol$account(@$domain)(\($region\))]($style) '
+disabled=true
+
+[golang]
+symbol = " "
+
+[hostname]
+ssh_only=false
+style="#cf2062"
+
+[haskell]
+symbol = " "
+
+[hg_branch]
+disabled = true
+symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+disabled = true
+symbol = " "
+
+[lua]
+disabled = true
+symbol = " "
+
+[memory_usage]
+symbol = " "
+
+[meson]
+symbol = "喝 "
+
+[nim]
+symbol = " "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+detect_folders=[]
+detect_files = ['package.json', '.node-version', '!bunfig.toml', '!bun.lockb']
+detect_extensions=[]
+
+[package]
+symbol = " "
+disabled = true
+
+[python]
+symbol = " "
+detect_files=["pyproject.toml"]
+pyenv_version_name = true
+python_binary = ["python"]
+format = 'via [${symbol}${version}]($style) '
+
+[rlang]
+symbol = "ﳒ "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[scala]
+symbol = " "
+
+[spack]
+symbol = "🅢 "
+
+[username]
+format="[$user]($style) at "
+style_root="bold #FF5236"
+style_user="#f02aae"
+show_always=true

@@ -1,0 +1,6 @@
+[r2-tijpdata]
+type = s3
+provider = Cloudflare
+access_key_id = {{ (bitwardenSecrets "de496e87-6586-43fe-991b-b3b00137213f").value }}
+secret_access_key = {{ (bitwardenSecrets "89e4277d-44ff-4a37-b3d9-b3b001373efb").value }}
+endpoint = https://{{ (bitwardenSecrets "e58712f5-95ac-4e98-9089-b3b000766ee7").value }}.r2.cloudflarestorage.com

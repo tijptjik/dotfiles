@@ -1,0 +1,94 @@
+#!/usr/bin/env fish
+
+{{ if .isLaptop }}
+
+# This script applies specific multimedia and hardware fixes for the
+# Lenovo 82T0 Yoga Slim 9 14IAP7.
+
+# --- Configuration ---
+set -l PRODUCT_NAME "82T0"
+set -l I915_CONF_PATH "/etc/modprobe.d/i915.conf"
+set -l SND_CONF_PATH "/etc/modprobe.d/snd.conf"
+
+# --- Functions ---
+
+function get_product_name
+    if test -f /sys/class/dmi/id/product_name
+        return (cat /sys/class/dmi/id/product_name)
+    end
+    return "Unknown"
+end
+
+function packages_installed
+    set -l packages_to_check \
+        intel-media-driver \
+        intel-gpu-firmware \
+        libva \
+        libva-utils \
+        gstreamer1-vaapi \
+        ffmpeg \
+        intel-gpu-tools \
+        mesa-dri-drivers \
+        mpv
+
+    for pkg in $packages_to_check
+        if not rpm -q $pkg >/dev/null 2>&1
+            return 1
+        end
+    end
+    return 0
+end
+
+# --- Main Logic ---
+
+# Check if this is the target machine
+if test (get_product_name) != "$PRODUCT_NAME"
+    echo "This is not a $PRODUCT_NAME. Skipping device-specific setup."
+    exit 0
+end
+
+# Install multimedia packages
+if not packages_installed
+    echo "Installing multimedia packages and drivers for $PRODUCT_NAME..."
+    sudo dnf groupinstall -y multimedia
+    sudo dnf install -y \
+        intel-media-driver \
+        intel-gpu-firmware \
+        libva \
+        libva-utils \
+        gstreamer1-vaapi \
+        ffmpeg \
+        intel-gpu-tools \
+        mesa-dri-drivers \
+        mpv
+
+    echo "Swapping ffmpeg-free with the full ffmpeg package..."
+    sudo dnf swap -y ffmpeg-free ffmpeg --allowerasing
+else
+    echo "Multimedia packages are already installed."
+end
+
+# Configure i915 graphics
+if test ! -f "$I915_CONF_PATH"
+    echo "Creating i915 graphics configuration..."
+    set -l i915_conf "options i915 enable_guc=3\noptions i915 enable_fbc=1"
+    echo -e $i915_conf | sudo tee "$I915_CONF_PATH" >/dev/null
+else
+    echo "i915 configuration already exists."
+end
+
+# Configure sound driver
+if test ! -f "$SND_CONF_PATH"
+    echo "Creating sound driver configuration..."
+    set -l snd_conf "options snd_intel_dspcfg dsp_driver=1\noptions snd_hda_intel model=alc287-yoga9-bass-spk-pin"
+    echo -e $snd_conf | sudo tee "$SND_CONF_PATH" >/dev/null
+else
+    echo "Sound driver configuration already exists."
+end
+
+echo "Removing rhgb from kernel command line..."
+sudo grubby --remove-args="rhgb" --update-kernel=/boot/vmlinuz-****.fc**.x86_64
+
+echo "Lenovo $PRODUCT_NAME setup complete."
+
+{{ end }}

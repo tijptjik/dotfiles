@@ -1,0 +1,26 @@
+{
+	"terminal_classes":[
+		"kitty",
+		"alacritty",
+		"org.kde.konsole",
+		"com.mitchellh.ghostty"
+	],
+	"monitors":{
+		"DP-1":{
+			"width":2443,
+			"height":1023,
+			"offset":[
+				0,
+				0
+			]
+		},
+		"HDMI-A-1":{
+			"width":1364,
+			"height":767,
+			"offset":[
+				0,
+				0
+			]
+		}
+	}
+}

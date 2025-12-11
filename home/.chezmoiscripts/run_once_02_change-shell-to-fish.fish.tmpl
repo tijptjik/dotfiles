@@ -1,0 +1,28 @@
+#!/usr/bin/env fish
+
+echo "[CONFIG] Default Shell..."
+
+# Check if fish is installed
+if not command -v -q fish
+    echo "fish shell not found. Skipping shell change."
+    exit 0
+end
+
+# Get the path to the fish executable
+set -l fish_path (which fish)
+
+# Check if the user's shell is already fish
+if string match -q -- "$fish_path" "$SHELL"
+    echo "Default shell is already set to fish."
+    exit 0
+end
+
+# Add fish to /etc/shells if it's not already there
+if not grep -q "^$fish_path\$" /etc/shells
+    echo "Adding fish to /etc/shells..."
+    echo $fish_path | sudo tee -a /etc/shells > /dev/null
+end
+
+# Change the shell
+echo "Changing default shell to fish for user {{ .chezmoi.username }}."
+sudo chsh -s $fish_path {{ .chezmoi.username }}

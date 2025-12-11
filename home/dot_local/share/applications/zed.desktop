@@ -1,0 +1,16 @@
+[Desktop Entry]
+Name=Zed
+Comment=A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.
+Exec=/home/io/.local/zed.app/bin/zed %U
+Icon=/home/io/.local/zed.app/share/icons/hicolor/1024x1024/apps/zed.png
+Terminal=false
+Type=Application
+Categories=Development;IDE;TextEditor;
+StartupNotify=true
+StartupWMClass=Zed
+Keywords=Text;Editor;Development;IDE;
+Actions=new-window;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=/home/io/.local/zed.app/bin/zed -n

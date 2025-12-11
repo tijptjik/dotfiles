@@ -1,0 +1,154 @@
+@define-color fx-white rgba (254, 241, 253, 1);
+@define-color fx-white-semi rgba (254, 241, 253, 0.7);
+@define-color fx-pink rgba (245, 128, 147, 1);
+@define-color fx-pink-semi rgba (245, 128, 147, 0.7);
+@define-color fx-rose rgba (236, 75, 118, 1);
+@define-color fx-rose-semi rgba (236, 75, 118, 0.7);
+@define-color fx-magenta rgba (164, 40, 148, 1);
+@define-color fx-magenta-semi rgba (164, 40, 148, 0.7);
+@define-color fx-indigo rgba (70, 21, 116, 1);
+@define-color fx-indigo-semi rgba (70, 21, 116, 0.7);
+@define-color fx-violet rgba (44, 6, 75, 1);
+@define-color fx-violet-semi rgba (44, 6, 75, 0.7);
+@define-color fx-grey-h rgba (69, 67, 80, 1);
+@define-color fx-grey-h-semi rgba (69, 67, 80, 0.7);
+@define-color fx-grey-m rgba (50, 48, 62, 1);
+@define-color fx-grey-m-semi rgba (50, 48, 62, 0.7);
+@define-color fx-grey-l rgba (29, 27, 43, 1);
+@define-color fx-grey-l-semi rgba (29, 27, 43, 0.7);
+@define-color fx-black rgba (6, 4, 22, 1);
+@define-color fx-black-semi rgba (6, 4, 22, 0.7);
+
+* {
+  font-size: 14px;
+  font-family: "IBM Plex Mono";
+  color: @fx-white;
+  background: none;
+}
+
+window#waybar {
+    color: @fx-white;
+    opacity: 0.95;
+    border-radius: 10px;
+}
+
+window#waybar > box > box > widget > * {
+  background: @fx-grey-l;
+}
+
+tooltip {
+  background: @fx-grey-m;
+}
+
+/* Modules */
+
+.modules-left {
+/*  margin : 24px 0 0 24px;*/
+}
+
+.modules-center {
+}
+
+.modules-right {
+/*  margin : 24px 24px 0 0;*/
+}
+
+/* Widgets */
+
+.modules-right > widget > *,
+.modules-center > widget > *,
+.modules-left > widget > * {
+  padding: 6px 12px;
+}
+
+/* Workspaces */
+
+#workspaces {
+  padding: 5px 7px 5px 7px;
+  border-radius: 10px;
+}
+
+#workspaces button {
+  padding: 0 5px;
+}
+
+#workspaces button.active * {
+  color: @fx-pink;
+}
+
+#workspaces button,
+#workspaces button:hover {
+    -gtk-icon-effect:none;
+    -gtk-icon-shadow:none;
+    transition: none;
+    text-shadow: none;
+    box-shadow: none;
+    border: none;
+}
+
+/* Custom : Spotify */
+
+#custom-spotify {
+  padding: 0 5px;
+  padding-right: 12px;
+  border-radius: 10px;
+}
+
+/* Custom : Crypto */
+
+#custom-crypto {
+  font-family: "cryptofont";
+  margin-right: 12px;
+  border-radius: 10px;
+}
+
+
+/* Tray */
+
+#tray {
+  color: @fx-white;
+  margin-right: 12px;
+  border-radius: 10px;
+
+}
+
+#tray > widget > image {
+  color: @fx-white;
+}
+
+/* Pill Left  */
+#temperature,
+#network,
+#clock {
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+/* Pill Right  */
+#custom-vpn {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-left: -12px;
+  margin-right: 12px;
+}
+
+#temperature,
+#pulseaudio {
+  margin-right: 12px;
+  border-radius: 10px;
+}
+
+#custom-quit {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* Temperature */
+
+#temperature.warning * {
+    color: @fx-rose-semi;
+}
+
+#temperature.critical * {
+    color: @fx-rose;
+}

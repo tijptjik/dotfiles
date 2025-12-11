@@ -1,0 +1,86 @@
+#!/bin/bash
+set -e
+
+# This script takes a directory, creates a zstd-compressed tarball,
+# and uploads it to Cloudflare R2.
+
+# --- Configuration ---
+RCLONE_REMOTE="r2-tijpdata"
+BUCKET="tijpdata"
+ZSTD_LEVEL=3
+AGE_RECIPIENT="age10cpp7avz2zzlqea22d5c3l83ew36rxfjxl2gcxm79atjkcp7494s3lpvjx"
+# ---------------------
+
+encrypt=false
+TARGET_DIR=""
+
+# --- Argument Parsing ---
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --encrypt) encrypt=true; shift ;;
+        *) TARGET_DIR="$1"; shift ;;
+    esac
+done
+
+if [ -z "$TARGET_DIR" ]; then
+  echo "Usage: $0 [--encrypt] <directory>"
+  exit 1
+fi
+
+if [ ! -d "$TARGET_DIR" ]; then
+  echo "Error: '$TARGET_DIR' is not a directory."
+  exit 1
+fi
+
+# Resolve the absolute path of the directory
+local_path=$(realpath "$TARGET_DIR")
+dir_name=$(basename "$local_path")
+archive_name="${dir_name}.tar.zst"
+final_archive_name=$archive_name
+
+# Determine the chezmoi target path for the external
+home_path_prefix="$HOME/"
+chezmoi_target_path=${local_path#"$home_path_prefix"}
+
+# Create a temporary directory to work in
+temp_dir=$(mktemp -d -t upload-r2-XXXXXXXXXX)
+# Ensure cleanup happens on script exit
+trap 'rm -rf -- "$temp_dir"' EXIT
+
+temp_archive="$temp_dir/$archive_name"
+
+echo "Creating compressed archive of '$local_path' at '$temp_archive'..."
+tar --use-compress-program="zstd -${ZSTD_LEVEL} -T0" -cf "$temp_archive" -C "$local_path" .
+
+# --- Encryption Step ---
+if [ "$encrypt" = true ]; then
+    echo "Encrypting archive with SSH public key: $AGE_RECIPIENT"
+    final_archive_name="${archive_name}.age"
+    age -r "$AGE_RECIPIENT" -o "${temp_archive}.age" "$temp_archive"
+    temp_archive="${temp_archive}.age"
+fi
+
+# Construct the remote path for R2
+remote_parent_dir=$(dirname "$chezmoi_target_path")
+if [ "$remote_parent_dir" = "." ]; then
+    remote_path="$final_archive_name"
+else
+    remote_path="$remote_parent_dir/$final_archive_name"
+fi
+
+echo "Uploading '$final_archive_name' to '$RCLONE_REMOTE:$BUCKET/$remote_path'..."
+rclone copyto "$temp_archive" "$RCLONE_REMOTE:$BUCKET/$remote_path" --progress
+
+echo "Upload complete!"
+echo "Add the following to your .chezmoiexternal.yaml:"
+echo
+
+echo "${chezmoi_target_path}:"
+echo "  type: archive"
+echo "  url: \"https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/${remote_path}\""
+echo "  exact: true"
+echo "  stripComponents: 1"
+if [ "$encrypt" = true ]; then
+    echo "  encrypted: true"
+    echo "  format: tar.zst"
+fi

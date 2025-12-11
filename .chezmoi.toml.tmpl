@@ -1,0 +1,37 @@
+encryption = "age"
+[age]
+    identity = "~/.keys/chezmoi.txt"
+    recipient = "age10cpp7avz2zzlqea22d5c3l83ew36rxfjxl2gcxm79atjkcp7494s3lpvjx"
+
+{{- $hostname := .chezmoi.hostname -}}
+{{- $isClient := or (eq $hostname "fi") (eq $hostname "li") }}
+
+[data]
+    hostname = "{{ $hostname }}"
+    isClient = {{ $isClient }}
+    isDesktop = {{ eq $hostname "fi" }}
+    isLaptop = {{ eq $hostname "li" }}
+    isServer = {{ eq $hostname "si" }}
+    bitwardenUsername = "m@hype.hk"
+    anthropicModelProvider = "zai" # "claude", "moonshot" or "zai"
+
+[git]
+    autoCommit = true
+    autoPush = true
+
+[diff]
+    pager = "diff-so-fancy"
+
+[diff.filter]
+    ".json" = { command = "jq", args = ["."] }
+
+[edit]
+    command = "zed"
+    args = ["--wait"]
+
+[bitwardenSecrets]
+    command = "{{ .chezmoi.sourceDir }}/.bws-wrapper.fish"
+
+[hooks.read-source-state.pre]
+    command = "{{ .chezmoi.sourceDir }}/.chezmoiscripts/run_once_before_setup_bitwarden.fish"
+    identity = "~/.keys/chezmoi.txt"

@@ -1,0 +1,22 @@
+{{ if .isClient -}}
+[project]
+name = "pytjik"
+version = "0.1.0"
+description = "Tijp Client Environment"
+requires-python = ">=3.14"
+dependencies = [
+    "duckdb>=1.4.1",
+    "geopandas>=1.1.1",
+    "obstore>=0.8.2",
+    "overturemaps>=0.16.0",
+    "pyarrow>=21.0.0",
+    "requests>=2.32.5",
+    "tomli>=2.3.0",
+    "tomli-w>=1.2.0"
+]
+
+[tool.uv.workspace]
+members = [
+    "downloads/829b3f14-d9ff-4826-bed2-a0426331dd8d",
+]
+{{ end -}}

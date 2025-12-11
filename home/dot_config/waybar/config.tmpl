@@ -1,0 +1,167 @@
+[
+  {
+    "output": "DP-1",
+    "id": "1",
+    "ipc": false,
+    "mode": "hide",
+    "layer": "top", // Waybar at top layer
+    "position": "bottom", // Waybar position (top|bottom|left|right)
+    "margin-right": 2604,
+    "margin-bottom": 20,
+    "passthrough": true,
+    "spacing": 12, // Gaps between modules (4px)
+    "fixed-center": false,
+    "modifier-reset": "release",
+    "modules-right": [
+      // Choose the order of the modules
+      "hyprland/workspaces",
+      "custom/spotify"
+    ],
+    "hyprland/workspaces": {
+      "format": "{icon} {name}",
+      "on-click": "activate",
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "format-icons": {
+        "focused": "",
+        "default": ""
+      },
+      "sort-by": "number"
+    },
+    "custom/spotify": {
+      "format": " {0}",
+      "escape": false,
+      "return-type": "json",
+      "max-length": 60,
+      "on-click": "playerctl -p spotify play-pause",
+      "on-click-right": "killall spotify",
+      "smooth-scrolling-threshold": 2,
+      "on-scroll-down": "playerctl -p spotify next",
+      "on-scroll-up": "playerctl -p spotify previous",
+      "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
+      "exec-if": "pgrep spotify"
+    }
+  },
+  {
+    "output": "DP-1",
+    "id": "2",
+    "ipc": false,
+    "mode": "hide",
+    "layer": "top", // Waybar at top layer
+    "position": "bottom", // Waybar position (top|bottom|left|right)
+    "margin-left": 2304,
+    "margin-bottom": 20,
+    "passthrough": false,
+    "spacing": 0, // Gaps between modules (4px)
+    "fixed-center": true,
+    "modifier-reset": "release",
+    // Choose the order of the modules
+    "modules-left": [
+      "custom/crypto",
+      "tray",
+      "temperature",
+      "network",
+      "custom/vpn",
+      "pulseaudio",
+      "clock",
+      "custom/quit"
+    ],
+    "modules-center": [],
+    "modules-right": [],
+    "custom/crypto": {
+      "format": "{}",
+      "interval": 600,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/crypto/waybar_crypto.py",
+      "exec-if": "ping pro-api.coinmarketcap.com -c1"
+    },
+    "tray": {
+      "icon-size": 21,
+      "spacing": 10
+    },
+    "temperature": {
+      "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
+      "input-filename": "temp1_input",
+      "warning-threshold": 60,
+      "critical-threshold": 80,
+      "format": "{icon} {temperatureC}°C",
+      "format-critical": "󰸁 {temperatureC}°C",
+      "format-icons": ["󱃃", "󰔏", "󱃂"]
+    },
+    "network": {
+      "format": "{ifname}",
+      "format-wifi": " {essid}",
+      "format-ethernet": " {ifname}",
+      "format-disconnected": "",
+      "tooltip-format": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes}",
+      "tooltip-format-wifi": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes} @ {signalStrength}%",
+      "min-length": 16,
+      "max-length": 32
+    },
+    "custom/vpn": {
+      "format": "{}",
+      "interval": 10,
+      "on-click": "/opt/Mullvad\\ VPN/mullvad-gui",
+      "on-click-right": "mullvad connect",
+      "on-click-middle": "mullvad disconnect",
+      "return-type": "json",
+      "min-length": 3,
+      "max-length": 3,
+      "exec": "$HOME/.config/waybar/mullvad.py 2> /dev/null"
+    },
+    "clock": {
+      "format": "{:%H:%M}",
+      "format-alt": "{:%a %b %d}",
+      "tooltip": true
+    },
+    "pulseaudio": {
+      "format": "{icon} {volume}%",
+      "format-bluetooth": "{icon} {volume}%",
+      "format-muted": "",
+      "format-icons": {
+        "headphone": "",
+        "hands-free": "",
+        "headset": "",
+        "phone": "",
+        "portable": "",
+        "car": "",
+        "default": ["", ""]
+      },
+      "scroll-step": 4,
+      "on-click": "pavucontrol"
+    },
+    "custom/quit": {
+      "format": " ",
+      "tooltip": "uptime",
+      "on-click": "swaynag -f 'IBM Plex Mono'  -t warning -m 'Shall we shut it down?' -b 'Yes, Hyprbye' 'sudo shutdown -h now'"
+    }
+  },
+  {
+    "output": "HDMI-A-1",
+    "id": "3",
+    "ipc": false,
+    "mode": "hide",
+    "layer": "top", // Waybar at top layer
+    "position": "bottom", // Waybar position (top|bottom|left|right)
+    "margin-right": 1300,
+    "margin-bottom": 20,
+    "passthrough": true,
+    "spacing": 12, // Gaps between modules (4px)
+    "fixed-center": true,
+    "modifier-reset": "release",
+    "modules-right": [
+      "hyprland/workspaces"
+    ],
+    "hyprland/workspaces": {
+      "format": "{icon} {name}",
+      "on-click": "activate",
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "format-icons": {
+        "focused": "",
+        "default": ""
+      },
+      "sort-by": "number"
+    }
+  }
+]

@@ -1,0 +1,641 @@
+# ~/.config/hypr/hyprland.config
+# #######################
+# HYPRLAND
+# #######################
+
+# Author : Mart van de Ven
+# Contact : https://type.hk
+
+# Refer to the wiki for more information.
+
+# #######################
+# INCLUDES
+# #######################
+
+# Colorscheme
+source = ~/.config/hypr/colors.conf
+
+# #######################
+# DEVICES
+# #######################
+
+# See https://wiki.hyprland.org/Configuring/Monitors/
+
+{{ if .isDesktop -}}
+
+# Primary
+monitor = DP-1,3440x1440@119.960999,0x0,auto,vrr,1
+
+# Secondary
+### HP23
+monitor = HDMI-A-1,1920x1080@74.97,3440x720,auto,vrr,1
+### LG TV - 4K
+# monitor = HDMI-A-1,3840x2160@60.00,auto-center-left,1
+### LG TV - 1080p
+# monitor = HDMI-A-1,1920x1080@120.00,auto-center-left,1
+### Disabled
+# monitor = HDMI-A-1,disable
+
+{{ else if .isLaptop -}}
+
+# Primary
+monitor = eDP-1,3840x2400@60,auto,2
+### Disabled
+monitor = eDP-1,disable
+
+# Secondary
+monitor = DP-2,1920x1080@60,auto,1
+
+{{ end -}}
+
+
+# Input
+# See https://wiki.hyprland.org/Configuring/Variables/#input
+
+input {
+    follow_mouse = 0
+    mouse_refocus = true
+{{- if .isDesktop }}
+    force_no_accel = false
+    float_switch_override_focus = 2
+    special_fallthrough = true
+    off_window_axis_events = 3
+{{- else if .isLaptop }}
+    sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
+    kb_options = fkeys:basic_13-24
+    kb_options = caps:swapescape
+{{ end }}
+}
+
+# Input : Devices
+
+# Input : Devices : Keyboard
+device {
+    name = graystudio-space65
+    numlock_by_default=true
+    repeat_rate=50
+    repeat_delay=320
+}
+
+# Input : Devices : Keyboard
+device {
+    name = xiudi-xd68
+    numlock_by_default=true
+    repeat_rate=50
+    repeat_delay=320
+}
+
+# Input : Devices : Mouse
+device {
+    name = logitech-mx-vertical
+    sensitivity = 0.3
+    # accel_profile = adaptive
+}
+
+# Input : Devices : Mouse
+device {
+    name = logitech-mx-vertical-1
+    sensitivity = 0.3
+    # accel_profile = adaptive
+}
+
+# #######################
+# USER INTERFACE
+# #######################
+
+# General Variables
+# See https://wiki.hyprland.org/Configuring/Variables/#general
+
+general {
+     layout = master
+     no_border_on_floating = yes
+     gaps_in = 6
+     gaps_workspaces = 0
+     col.active_border = $fx-rose-semi
+     col.inactive_border =  $fx-grey-l-semi
+{{- if .isDesktop }}
+     border_size = 4
+     gaps_out = 12,12,8
+     resize_on_border = true
+     hover_icon_on_border = false
+{{- else if .isLaptop }}
+     border_size = 2
+     gaps_out = 0
+{{ end }}
+}
+
+# Master Layout
+# See https://wiki.hyprland.org/Configuring/Master-Layout/
+
+master {
+    allow_small_split = false
+    special_scale_factor = 0.6
+    new_status = inherit
+    new_on_active = true
+    new_on_top = true
+    orientation = center
+{{- if .isDesktop }}
+    mfact = 0.5085
+{{- else if .isLaptop }}
+    mfact = 0.58
+{{ end }}
+}
+
+# Decoration Variables
+# See https://wiki.hyprland.org/Configuring/Variables/#decoration
+
+decoration {
+    rounding = 12
+    active_opacity = 1
+    inactive_opacity = 0.9
+    fullscreen_opacity = 1
+    dim_inactive = yes
+    dim_strength = 0
+}
+
+
+# Animation
+# See https://wiki.hyprland.org/Configuring/Animations/
+animations {
+    enabled = true
+
+    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+    bezier = cubicBezier, 0.22, 1, 0.36, 1
+
+    animation = windows, 1, 7, myBezier
+    animation = windowsMove, 1, 3, cubicBezier
+    animation = windowsOut, 1, 7, default, popin 90%
+    animation = border, 1, 10, default
+    animation = fade, 1, 7, default
+    animation = workspaces, 1, 4, cubicBezier
+}
+
+# Misc
+# See https://wiki.hyprland.org/Configuring/Variables/#misc
+misc {
+    # Logos
+    disable_hyprland_logo = true
+    disable_splash_rendering = true
+    # Wake up
+    mouse_move_enables_dpms = false
+    key_press_enables_dpms = true
+    # Launchers
+    layers_hog_keyboard_focus = true
+    enable_swallow = true
+    swallow_regex = kitty
+    # Resize
+    animate_manual_resizes = true
+    animate_mouse_windowdragging = true
+    # Focus
+    focus_on_activate = false
+    # Full Screen
+    vrr = 2
+    # Lock Screen
+    allow_session_lock_restore = true
+    # Special
+    close_special_on_empty = true
+}
+
+render {
+    # Enables direct scanout. Direct scanout attempts to reduce lag when there is only one fullscreen application on a screen (e.g. game). It is also recommended to set this to false if the fullscreen application shows graphical glitches.
+    direct_scanout = true
+}
+
+cursor {
+    # Hides the cursor when you press any key until the mouse is moved.
+    hide_on_key_press = true
+    # in seconds, after how many seconds of cursor’s inactivity to hide it. Set to 0 for never.in
+    inactive_timeout = 10
+    no_hardware_cursors = true
+}
+
+
+# #######################
+# PLUGINS
+# #######################
+
+# #######################
+# ENVIRONMENT
+# #######################
+
+## Cursor Theme
+env = HYPRCURSOR_THEME,rose-pine-hyprcursor
+env = HYPRCURSOR_SIZE,24
+env = XCURSOR_THEME,BreezeX-RosePine-Linux
+env = XCURSOR_SIZE,24
+
+# XDG Specifications
+env = XDG_CURRENT_DESKTOP,Hyprland
+env = XDG_SESSION_TYPE,wayland
+env = XDG_SESSION_DESKTOP,Hyprland
+
+# QT
+env = QT_QPA_PLATFORM,wayland
+
+
+# #######################
+# STARTUP APPLICATIONS
+# #######################
+
+# WM
+exec-once = hypridle
+exec-once = hyprpaper
+exec-once = hyprfloat
+exec-once = waybar
+exec-once = systemctl --user start hyprpolkitagent
+
+exec-once = gsettings set org.gnome.desktop.interface gtk-theme "Adwaita Dark"   # for GTK3 apps
+exec-once = gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"   # for GTK4 apps
+
+# Applications
+exec-once = zen-browser
+exec-once = /opt/Telegram/Telegram
+exec-once = flatpak run org.signal.Signal
+exec-once = zapzap
+
+exec-once = flatpak run com.spotify.Client
+# exec-once=flatpak run com.discordapp.Discord
+
+# Clipboard Management
+# exec-once = wl-clipboard-history -t
+# exec-once = wl-paste -t text --watch clipman store --no-persist
+
+
+# #######################
+# BINDINGS
+# #######################
+
+# Binds
+# See https://wiki.hyprland.org/Configuring/Variables/#binds
+binds {
+    scroll_event_delay = 0
+    workspace_back_and_forth = true
+    allow_workspace_cycles = true
+    workspace_center_on = 1
+    focus_preferred_method = 1
+    # movefocus_cycles_fullscreen = true
+}
+
+# Keywords
+# See https://wiki.hyprland.org/Configuring/Keywords/ for more
+$CMD = SUPER
+$TOOLS = $HOME/.tools
+$CONFIG = $HOME/.config
+
+# #######################
+# KEY BINDINGS
+# #######################
+
+# See https://wiki.hyprland.org/Configuring/Binds/
+# Note : Key mappings are managed with QMK
+
+# Global Application Shortcuts -- i.e. call an application shortcut without focus
+bind = $CMD, R, pass, ^(com\.obsproject\.Studio)$
+
+# #######################
+# KEY BINDINGS : EXIT
+# #######################
+
+# Close
+bind = $CMD, Q, killactive
+
+# Lock
+bind = $CMD, L, exec, hyprlock
+
+# Exit
+bind = $CMD SHIFT, Q, exit
+
+# #######################
+# KEY BINDINGS : WINDOW MANAGEMENT
+# #######################
+
+# Layout
+bind = $CMD, Delete, layoutmsg, swapwithmaster              # swaps the current window with master. If the current window is the master, swaps it with the first child.
+bind = $CMD ALT, Delete, layoutmsg, addmaster               # adds a master to the master side.
+bind = $CMD SHIFT, Delete, layoutmsg, removemaster          # removes a master from the master side.
+bind = $CMD, O, pseudo                                      # grow to fill available space, or not
+bind = $CMD, J, togglesplit                                 # change the split orientation
+# bind = $CMD, Delete, togglegroup                          # cycle through grouping options
+bind = $CMD, F, fullscreen, 1                               # toggle full screen
+
+# Focus
+bind = $CMD, Left, movefocus, l
+bind = $CMD, Right, movefocus, r
+bind = $CMD, Up, movefocus, u
+bind = $CMD, Down, movefocus, d
+
+# Move Window
+bind = $CMD CTRL, Left, movewindow, l
+bind = $CMD CTRL, Right, movewindow, r
+bind = $CMD CTRL, Up, movewindow, u
+bind = $CMD CTRL, Down, movewindow, d
+
+# Cycle Window
+bind = $CMD, TAB, layoutmsg, swapnext
+bind = $CMD SHIFT, TAB, layoutmsg, swapprev
+bind = $CMD ALT, Up, layoutmsg, cyclenext
+bind = $CMD ALT, Down,layoutmsg, cycleprev
+
+# Resize Window
+bind = $CMD SHIFT, Left, resizeactive, -128 0
+bind = $CMD SHIFT, Right, resizeactive, 128 0
+bind = $CMD SHIFT, Up, resizeactive, 0 -128
+bind = $CMD SHIFT, Down, resizeactive, 0 128
+
+# Window Mouse Manipulation
+bindm = $CMD, mouse:272, movewindow
+bindm = $CMD, mouse:273, resizewindow
+
+# #######################
+# KEY BINDINGS : WORKSPACE MANAGEMENT
+# #######################
+
+# Workspaces
+## Special : Chat
+bind = CTRL, Space, togglespecialworkspace, chat
+bind = $CMD CTRL, Space, movetoworkspace, special:chat
+bind = SHIFT CTRL, Space, togglefloating
+
+bind = CTRL ALT, Space, togglespecialworkspace
+bind = $CMD CTRL ALT, Space, movetoworkspace, special
+
+# Workspace Switching
+
+# Switch workspaces with mod + [0-9]
+bind = $CMD, 1, workspace, r~1
+bind = $CMD, 2, workspace, r~2
+bind = $CMD, 3, workspace, r~3
+bind = $CMD, 4, workspace, r~4
+bind = $CMD, 5, workspace, r~5
+bind = $CMD, 6, workspace, r~6
+bind = $CMD, 7, workspace, r~7
+bind = $CMD, 8, workspace, r~8
+bind = $CMD, 9, workspace, r~9
+bind = $CMD, 0, workspace, r~10
+
+# Workspace Window Sending
+bind = $CMD SHIFT, 1, movetoworkspacesilent, r~1
+bind = $CMD SHIFT, 2, movetoworkspacesilent, r~2
+bind = $CMD SHIFT, 3, movetoworkspacesilent, r~3
+bind = $CMD SHIFT, 4, movetoworkspacesilent, r~4
+bind = $CMD SHIFT, 5, movetoworkspacesilent, r~5
+bind = $CMD SHIFT, 6, movetoworkspacesilent, r~6
+bind = $CMD SHIFT, 7, movetoworkspacesilent, r~7
+bind = $CMD SHIFT, 8, movetoworkspacesilent, r~8
+bind = $CMD SHIFT, 9, movetoworkspacesilent, r~9
+bind = $CMD SHIFT, 0, movetoworkspacesilent, r~10
+
+# Workspace Scrolling
+bind = $CMD, mouse_down, workspace, e+1
+bind = $CMD, mouse_up, workspace, e-1
+
+# #######################
+# KEY BINDINGS : WAYBAR
+# #######################
+
+bind = $CMD, Space, exec, killall waybar || waybar
+
+# #######################
+# KEY BINDINGS : HYPRVOICE
+# #######################
+
+bind = $CMD, grave, exec, /home/io/.local/bin/hyprvoice toggle
+bind = $CMD SHIFT, grave, exec, /home/io/.local/bin/hyprvoice cancel
+
+# #######################
+# KEY BINDINGS : LAUNCH
+# #######################
+
+{{- if .isDesktop }}
+$KITTYLAUNCER = [float;size 35% 50%;center;pin;noanim;xray;stayfocused;opaque;rounding 12;bordersize 24;dimaround;xray 1;immediate] kitty --class=launcher
+{{- else if .isLaptop }}
+$KITTYLAUNCER = [float;size 60% 60%;center;pin;noanim] kitty --class=launcher
+{{ end }}
+
+# Desktop Launcher
+bind = $CMD, Escape, exec, $KITTYLAUNCER $TOOLS/sway-launcher-desktop/sway-launcher-desktop.sh
+
+# Clipboard history
+bind = $CMD, V, exec, cliphist list | wofi --show dmenu -H 600 -W 900 | cliphist decode | wl-copy
+
+# Applications
+bind = $CMD, Return, exec, kitty
+bind = $CMD, Backslash, exec, /opt/Telegram/Telegram
+bind = $CMD, Backspace, exec, zen-browser
+bind = $CMD, E, exec, nautilus
+
+
+# #######################
+# KEY BINDINGS : SCREENSHOTS
+# #######################
+
+# Hyprshot
+bind = $CMD, P, exec, hyprshot -o ~/media/images/screenshots -m region --clipboard-only --freeze --silent
+bind = $CMD CTRL, P, exec, hyprshot -o ~/media/images/screenshots -m window --clipboard-only --freeze --silent
+bind = $CMD SHIFT, P, exec, hyprshot -o ~/media/images/screenshots -m region --freeze --silent
+bind = $CMD SHIFT CTRL, P, exec, hyprshot -o ~/media/images/screenshots -m window --freeze --silent
+bind = $CMD, G, exec, kitty -e $TOOLS/swayrec/swayrec
+
+# #######################
+# WORKSPACE RULES
+# #######################
+
+{{- if .isDesktop }}
+$PRIMARYDISPLAY = DP-1
+$SECONDARYDISPLAY = HDMI-A-1
+{{- else if .isLaptop }}
+$PRIMARYDISPLAY = eDP-1
+$SECONDARYDISPLAY = DP-2
+{{ end }}
+
+
+# Main Monitor
+{{- if .isDesktop }}
+workspace = 1, monitor:DP-1, default:true
+workspace = 2, monitor:DP-1
+workspace = 3, monitor:DP-1
+workspace = 4, monitor:DP-1
+workspace = 5, monitor:DP-1
+workspace = 6, monitor:DP-1
+workspace = 7, monitor:DP-1
+workspace = 8, monitor:DP-1
+workspace = 9, monitor:DP-1
+workspace = 10,monitor:DP-1
+# Aux Monitor
+workspace = 11, monitor:HDMI-A-1, default:true
+workspace = 12, monitor:HDMI-A-1
+workspace = 13, monitor:HDMI-A-1
+workspace = 14, monitor:HDMI-A-1
+workspace = 15, monitor:HDMI-A-1
+workspace = 16, monitor:HDMI-A-1
+workspace = 17, monitor:HDMI-A-1
+workspace = 18, monitor:HDMI-A-1
+workspace = 19, monitor:HDMI-A-1
+workspace = 20, monitor:HDMI-A-1
+{{- else if .isLaptop }}
+workspace = 1, monitor:eDP-1, default:true
+workspace = 2, monitor:eDP-1
+workspace = 3, monitor:eDP-1
+workspace = 4, monitor:eDP-1
+workspace = 5, monitor:eDP-1
+workspace = 6, monitor:eDP-1
+workspace = 7, monitor:eDP-1
+workspace = 8, monitor:eDP-1
+workspace = 9, monitor:eDP-1
+workspace = 10,monitor:eDP-1
+# Aux Monitor
+workspace = 11, monitor:DP-2, default:true
+workspace = 12, monitor:DP-2
+workspace = 13, monitor:DP-2
+workspace = 14, monitor:DP-2
+workspace = 15, monitor:DP-2
+workspace = 16, monitor:DP-2
+workspace = 17, monitor:DP-2
+workspace = 18, monitor:DP-2
+workspace = 19, monitor:DP-2
+workspace = 20, monitor:DP-2
+{{ end }}
+
+# #######################
+# WINDOW RULES
+# #######################
+
+# Ref https://wiki.hyprland.org/Configuring/Workspace-Rules/
+# "Smart gaps" / "No gaps when only"
+# uncomment all if you wish to use that.
+workspace = w[tv1], gapsout:0, gapsin:0
+workspace = f[1], gapsout:0, gapsin:0
+windowrule = bordersize 0, floating:0, onworkspace:w[tv1]
+windowrule = rounding 0, floating:0, onworkspace:w[tv1]
+windowrule = bordersize 0, floating:0, onworkspace:f[1]
+windowrule = rounding 0, floating:0, onworkspace:f[1]
+
+# See https://wiki.hyprland.org/Configuring/Window-Rules/#rules
+windowrule = noanim, class:kitty, title:kitty
+
+# JetBrains
+windowrule = noanim, class:^(jetbrains-*)$
+{{ if .isDesktop -}}
+windowrule = move 2605 682, class:jetbrains-toolbox
+{{ else if .isLaptop -}}
+windowrule = move 2066 400, class:jetbrains-toolbox
+{{ end -}}
+
+windowrule = float,floating:0,class:^(jetbrains-.*),title:^(win.*)
+windowrule = float,class:^(jetbrains-.*),title:^(Welcome to.*)
+windowrule = center,class:^(jetbrains-.*),title:^(Replace All)$
+# windowrulev2 = forceinput,class:^(jetbrains-.*)
+# windowrulev2 = windowdance,class:^(jetbrains-.*) # allows IDE to move child windows
+
+# Plex
+windowrulev2 = idleinhibit fullscreen, title:^(Plex*)
+windowrulev2 = fullscreen, title:^(Plex*)
+
+# Steam
+windowrulev2 = fullscreen,class:^steam_app\d+$
+windowrulev2 = monitor 1,class:^steam_app_\d+$
+windowrulev2 = workspace 10,class:^steam_app_\d+$
+workspace = 10, border:false, rounding:false
+
+# #######################
+# WINDOW RULES : FLOATS & CONTROL PANELS
+# #######################
+
+# Float as many modals as possible :)
+windowrule = float, class:file_progress
+windowrule = float, class:confirm
+windowrule = float, class:dialog
+windowrule = float, class:download
+windowrule = float, class:notification
+windowrule = float, class:error
+windowrule = float, class:splash
+windowrule = float, class:confirmreset
+windowrule = float, title:Open File
+windowrule = float, title:branchdialog
+windowrule = float, class:Lxappearance
+windowrule = float, class:Rofi
+windowrule = float, class:viewnior
+windowrule = float, class:feh
+windowrule = float, class:pavucontrol-qt
+windowrule = float, class:pavucontrol
+windowrule = float, class:org.pulseaudio.pavucontrol
+windowrule = float, class:file-roller
+windowrule = float, title:DevTools
+windowrule = float, title:^(Media viewer)$
+windowrule = float, title:^(Picture-in-Picture)$
+windowrule = float, title:^(Volume Control)$
+windowrule = float, title:^(File Operation Progress)$
+windowrule = float, title:^(Confirm to replace files)$
+
+# Pipewire / Pulse
+windowrule = float, class:org.pulseaudio.pavucontrol
+windowrule = size 720 800,class:org.pulseaudio.pavucontrol
+{{ if .isDesktop -}}
+windowrule = move 2505 562, class:org.pulseaudio.pavucontrol
+{{ else if .isLaptop -}}
+windowrule = move 1196 982, class:org.pulseaudio.pavucontrol
+{{ end -}}
+
+# Mullvad GUI
+windowrule = animation fade, title:^(Mullvad VPN)$
+{{ if .isDesktop -}}
+windowrule = move 2685 816, title:^(Mullvad VPN)$
+{{ else if .isLaptop -}}
+windowrule = move 4390 816, title:^(Mullvad VPN)$
+{{ end -}}
+
+########################
+# WINDOW RULES : SPECIAL LAYER
+########################
+
+# Chat
+
+## Telegram
+windowrulev2 = workspace 3 silent,class:^(org.telegram.desktop.*)
+windowrulev2 = noinitialfocus,class:^(org.telegram.desktop.*)
+windowrulev2 = float,class:^(org.telegram.desktop.*)
+{{ if .isDesktop -}}
+windowrulev2 = size 944 1352,class:^(org.telegram.desktop.*)
+windowrulev2 = move 1248 24,class:^(org.telegram.desktop.*)
+{{ else if .isLaptop -}}
+{{ end -}}
+
+## WhatsApp
+windowrulev2 = workspace 3 silent,class:com.rtosta.zapzap
+windowrulev2 = noinitialfocus,class:com.rtosta.zapzap
+windowrulev2 = float,class:com.rtosta.zapzap
+{{ if .isDesktop -}}
+windowrulev2 = size 1112 1352,class:com.rtosta.zapzap
+windowrulev2 = move 112 24,class:com.rtosta.zapzap
+{{ else if .isLaptop -}}
+{{ end -}}
+
+## Signal
+windowrulev2 = float,class:org.signal.Signal
+windowrulev2 = workspace special:chat silent,class:org.signal.Signal
+windowrulev2 = noinitialfocus,class:org.signal.Signal
+{{ if .isDesktop -}}
+windowrulev2 = size 1112 664,class:org.signal.Signal
+windowrulev2 = move 2218 24,class:org.signal.Signal
+{{ else if .isLaptop -}}
+{{ end -}}
+
+## Discord
+windowrulev2 = float,class:com.discordapp.Discord
+windowrulev2 = workspace special:chat silent,class:com.discordapp.Discord
+windowrulev2 = noinitialfocus,class:com.discordapp.Discord
+{{ if .isDesktop -}}
+windowrulev2 = size 1112 664,class:com.discordapp.Discord
+windowrulev2 = move 2218 712,class:com.discordapp.Discord
+{{ else if .isLaptop -}}
+{{ end -}}
+
+########################
+# WINDOW RULES : DEFAULT WORKSPACE
+########################
+
+# Games
+windowrule = workspace 11, class:yakuza0.exe
+
+# Spotify
+windowrule = workspace 20, class:^(Spotify)$

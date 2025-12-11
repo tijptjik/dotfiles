@@ -1,0 +1,78 @@
+{{ if .isClient -}}
+# ~/.config/dunst/dunstrc
+# Dunst config that matches your Waybar palette and
+# pins notifications to CENTER-BOTTOM of the *primary* monitor only.
+
+[global]
+    # Which monitor to use (primary = the one X11/Wayland marks primary)
+    monitor = 1
+    follow = none          # don’t follow keyboard, just stay on primary
+
+    # Geometry: 1 notification wide, 520 px, bottom-center
+    width = (0, 520)
+    height = (0,80)
+    origin = bottom-center
+    offset = (0,12)
+    scale = 0
+    notification_limit = 5
+
+    # Timing
+    timeout = 5
+    idle_threshold = 0
+
+    # Visual
+    frame_width = 1
+    corner_radius = 8
+    separator_height = 4
+    ignore_newline = true
+
+    padding = 6
+    horizontal_padding = 24
+    text_icon_padding = 8
+    transparency = 15
+
+    # Alignment
+    alignment = center
+    vertical_alignment = center
+
+    # Font
+    font = SauceCodePro 11
+
+    # Colour theme – pulled straight from your Waybar CSS
+    frame_color = "#1d1b2b"
+    background = "#1d1b2bCC"
+    foreground = "#fef1fd"
+    highlight = "#ec4b76"
+
+    # Icons
+    icon_position = left
+    enable_recursive_icon_lookup = true
+
+    # Misc
+    sticky_history = no
+    history_length = 20
+    dmenu = /usr/bin/dmenu -p dunst:
+    browser = /usr/bin/firefox -new-tab
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+    force_xinerama = false
+
+[urgency_low]
+    background = "#1d1b2b"
+    foreground = "#fef1fd"
+    frame_color = "#1d1b2b"
+    timeout = 5
+
+[urgency_normal]
+    background = "#1d1b2b"
+    foreground = "#fef1fdCC"
+    frame_color = "#CCCCCC33"          # @fx-pink
+    timeout = 5
+
+[urgency_critical]
+    background = "#1d1b2b"
+    foreground = "#ec4b76"
+    frame_color = "#ec4b76"          # @fx-rose
+    timeout = 0                      # stays on screen until dismissed
+{{ end -}}

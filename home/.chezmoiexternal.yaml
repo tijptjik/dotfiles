@@ -1,0 +1,97 @@
+.ssh:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.ssh.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.gnupg:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.gnupg.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.fonts:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.fonts.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.obsidian:
+  type: git-repo
+  url: "git@github.com:tijptjik/obsidian.git"
+.claude:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.claude.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.duckdb:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.duckdb.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.gemini:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.gemini.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.mozilla:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.mozilla.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.config/Bazecor:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.config/Bazecor.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.config/beekeeper-studio:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.config/beekeeper-studio.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.config/QGIS:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.config/QGIS.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.config/sublime-text:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.config/sublime-text.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.config/TelegramDesktop:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.config/TelegramDesktop.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.config/waybar/crypto:
+  type: git-repo
+  url: "git@github.com:tijptjik/waybar-crypto.git"
+.local/share/icons:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.local/share/icons.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst

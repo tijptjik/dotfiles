@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Version=1.4
+Name=Kimi AI - Kimi K2 Thinking is here
+Comment=Try Kimi, your all-in-one AI assistant - now with K2 Thinking, the best open-source reasoning model. Solves math & logic step-by-step, searches accurately, writes & codes with structure, with creativity and precision.
+Keywords=;
+Categories=GTK;;
+Icon=FFPWA-01KC3KT4CTVR59SN6N4ECVGRAE
+Exec=/usr/bin/firefoxpwa site launch 01KC3KT4CTVR59SN6N4ECVGRAE --protocol %u
+Actions=
+MimeType=
+Terminal=false
+StartupNotify=true
+StartupWMClass=FFPWA-01KC3KT4CTVR59SN6N4ECVGRAE

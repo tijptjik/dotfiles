@@ -1,0 +1,41 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "alt-g": ["task::Spawn", { "task_name": "lazygit" }]
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {}
+  },
+  {
+    "bindings": {
+      "ctrl-alt-l": null // cmd-r will do nothing when the Workspace context is active
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-d": "editor::DuplicateLineDown",
+      "ctrl-shift-d": "editor::DeleteLine",
+      "ctrl-shift-up": "editor::MoveLineUp",
+      "ctrl-shift-down": "editor::MoveLineDown",
+      "ctrl-alt-l": "editor::Format",
+      "ctrl-b": "editor::GoToDefinition"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // "j k": "vim::NormalBefore"
+    }
+  }
+]

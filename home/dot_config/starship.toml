@@ -127,9 +127,8 @@ disabled = true
 
 [python]
 symbol = " "
-detect_files=["pyproject.toml"]
-pyenv_version_name = true
-python_binary = ["python"]
+detect_files = ['.python-version', 'pyproject.toml', 'uv.lock']
+python_binary = [["uv", "run", "--no-python-downloads", "python"]]
 format = 'via [${symbol}${version}]($style) '
 
 [rlang]

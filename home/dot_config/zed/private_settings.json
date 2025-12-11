@@ -7,6 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+    "buffer_font_family": "FuraCode Nerd Font",
     "format_on_save": "off",
     "code_actions_on_format": {
         "source.organizeImports.biome": true,

@@ -39,7 +39,7 @@ symbol = "  "
 symbol = " "
 
 [bun]
-symbol = "🍔"
+symbol = "🍔 "
 version_format = '${raw}'
 style = "bold #C1DC1F"
 
@@ -117,6 +117,7 @@ symbol = " "
 
 [nodejs]
 symbol = " "
+version_format = "${raw}"
 detect_folders=[]
 detect_files = ['package.json', '.node-version', '!bunfig.toml', '!bun.lockb']
 detect_extensions=[]
@@ -127,8 +128,9 @@ disabled = true
 
 [python]
 symbol = " "
-detect_files = ['.python-version', 'pyproject.toml', 'uv.lock']
-python_binary = [["uv", "run", "--no-python-downloads", "python"]]
+version_format = "${raw}"
+detect_files = ['.python-version', 'uv.lock']
+python_binary = [["uv", "run", "--no-python-downloads", "--no-project", "python"]]
 format = 'via [${symbol}${version}]($style) '
 
 [rlang]

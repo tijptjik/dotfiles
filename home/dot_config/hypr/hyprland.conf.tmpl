@@ -243,6 +243,7 @@ exec-once = hyprpaper
 exec-once = hyprfloat
 exec-once = waybar
 exec-once = systemctl --user start hyprpolkitagent
+exec-once = qs -c hamr
 
 exec-once = gsettings set org.gnome.desktop.interface gtk-theme "Adwaita Dark"   # for GTK3 apps
 exec-once = gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"   # for GTK4 apps
@@ -257,8 +258,8 @@ exec-once = flatpak run com.spotify.Client
 # exec-once=flatpak run com.discordapp.Discord
 
 # Clipboard Management
-# exec-once = wl-clipboard-history -t
-# exec-once = wl-paste -t text --watch clipman store --no-persist
+exec-once = wl-paste --type text --watch cliphist store
+exec-once = wl-paste --type image --watch cliphist store
 
 
 # #######################
@@ -413,7 +414,8 @@ $KITTYLAUNCER = [float;size 60% 60%;center;pin;noanim] kitty --class=launcher
 {{ end }}
 
 # Desktop Launcher
-bind = $CMD, Escape, exec, $KITTYLAUNCER $TOOLS/sway-launcher-desktop/sway-launcher-desktop.sh
+# bind = $CMD, Escape, exec, $KITTYLAUNCER $TOOLS/sway-launcher-desktop/sway-launcher-desktop.sh
+bind = $CMD, Escape, global, quickshell:hamrToggle
 
 # Clipboard history
 bind = $CMD, V, exec, cliphist list | wofi --show dmenu -H 600 -W 900 | cliphist decode | wl-copy

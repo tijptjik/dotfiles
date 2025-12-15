@@ -1,0 +1,6 @@
+[Unit]
+Description=Backup Packages
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/chezmoi-externals-backup

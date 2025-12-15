@@ -1,0 +1,125 @@
+#!/usr/bin/env fish
+
+# This script reads the .chezmoiexternal.yaml file and backs up all archives.
+
+# --- Dependency Check ---
+if not command -v jq &> /dev/null
+    echo "Error: jq is not installed. Please install it to continue."
+    exit 1
+end
+if not command -v yq &> /dev/null
+    echo "Error: yq is not installed. It's required to convert YAML to JSON for jq."
+    exit 1
+end
+if not command -v stdbuf &> /dev/null
+    echo "Error: stdbuf is not installed (part of coreutils). It's required for real-time progress updates."
+    exit 1
+end
+
+# --- Argument Parsing ---
+argparse 'force-package=' -- $argv
+set -l forced_package $_flag_force_package
+
+# --- Configuration ---
+set R2UPLOAD_SCRIPT "$HOME/.local/bin/r2upload"
+
+# Find the config file, preferring the target location over the source.
+set CHEZMOI_EXTERNAL_FILE_TARGET "$HOME/.chezmoiexternal.yaml"
+set CHEZMOI_EXTERNAL_FILE_SOURCE "$HOME/.local/share/chezmoi/home/.chezmoiexternal.yaml"
+
+if test -f "$CHEZMOI_EXTERNAL_FILE_TARGET"
+    set CHEZMOI_EXTERNAL_FILE "$CHEZMOI_EXTERNAL_FILE_TARGET"
+else
+    set CHEZMOI_EXTERNAL_FILE "$CHEZMOI_EXTERNAL_FILE_SOURCE"
+end
+
+if not test -f "$CHEZMOI_EXTERNAL_FILE"
+    echo "Error: Could not find .chezmoiexternal.yaml at target ($CHEZMOI_EXTERNAL_FILE_TARGET) or source ($CHEZMOI_EXTERNAL_FILE_SOURCE)."
+    exit 1
+end
+
+# --- Main Script ---
+echo "Starting backup of all packages in $CHEZMOI_EXTERNAL_FILE"
+set -l checked_count 0
+set -l uploaded_count 0
+set -l skipped_count 0
+set -l failed_count 0
+
+# Get all the keys that have a type of "archive"
+set json_data (yq -o=json . "$CHEZMOI_EXTERNAL_FILE")
+set keys (echo $json_data | jq -r 'to_entries | map(select(.value.type == "archive")) | .[].key')
+
+for key in $keys
+    set -l checked_count (math $checked_count + 1)
+    echo ""
+    echo "-----------------------------------------------------"
+    echo "Processing $key..."
+    echo "-----------------------------------------------------"
+
+    set encrypted (echo $json_data | jq -r --arg key "$key" '.[$key].encrypted')
+    set cmd_args
+
+    if test "$encrypted" = "true"
+      set -a cmd_args --encrypt
+    end
+
+    set -a cmd_args --skip-hints
+
+    if test "$key" = "$forced_package"
+        echo "Forcing backup for $key due to --force-package flag."
+        set -a cmd_args --force
+    end
+
+    # Use a temp file to capture stdout, and stdbuf to prevent buffering of stderr.
+    set -l tmp_stdout (mktemp)
+    # stdbuf ensures the progress bar (stderr) is not buffered by the parent shell
+    stdbuf -o0 "$R2UPLOAD_SCRIPT" $cmd_args "$HOME/$key" > $tmp_stdout
+    # $status is automatically set by the previous command. Do not set it.
+    set -l output (cat $tmp_stdout)
+    rm $tmp_stdout
+
+    printf "%s\n" $output
+
+    if test $status -ne 0
+        set failed_count (math $failed_count + 1)
+    else if string match -q "*Skipping archive and upload*" -- $output
+        set skipped_count (math $skipped_count + 1)
+    else if string match -q "*Upload complete!*" -- $output
+        set uploaded_count (math $uploaded_count + 1)
+    else
+        # Catch-all for unexpected success cases that don't fail but don't match
+        set failed_count (math $failed_count + 1)
+    end
+end
+
+# --- Summary ---
+set -l normal (set_color normal)
+set -l green (set_color green)
+set -l yellow (set_color yellow)
+set -l red (set_color red)
+
+echo ""
+echo "-----------------------------------------------------"
+echo $green"Backup Summary"$normal
+echo "-----------------------------------------------------"
+echo "Checked:  $checked_count"
+echo $green"Uploaded: $uploaded_count"$normal
+echo $yellow"Skipped:  $skipped_count"$normal
+echo $red"Failed:   $failed_count"$normal
+echo "-----------------------------------------------------"
+
+# --- Notification ---
+if command -v notify-send &> /dev/null
+    set -l summary_title "Backup Complete"
+    set -l summary_body "Uploaded: $uploaded_count\nSkipped: $skipped_count\nFailed: $failed_count"
+    set -l icon "dialog-information"
+    if test $failed_count -gt 0
+        set icon "dialog-error"
+        set summary_title "Backup Failed"
+    end
+    notify-send -i $icon "$summary_title" "$summary_body"
+end
+
+if test $failed_count -gt 0
+    exit 1
+end

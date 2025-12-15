@@ -1,86 +1,163 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env fish
 
 # This script takes a directory, creates a zstd-compressed tarball,
-# and uploads it to Cloudflare R2.
+# and uploads it to Cloudflare R2. Includes multiple safety checks.
 
 # --- Configuration ---
-RCLONE_REMOTE="r2-tijpdata"
-BUCKET="tijpdata"
-ZSTD_LEVEL=3
-AGE_RECIPIENT="age10cpp7avz2zzlqea22d5c3l83ew36rxfjxl2gcxm79atjkcp7494s3lpvjx"
+set RCLONE_REMOTE "r2-tijpdata"
+set BUCKET "tijpdata"
+set ZSTD_LEVEL 3
+set AGE_RECIPIENT "age10cpp7avz2zzlqea22d5c3l83ew36rxfjxl2gcxm79atjkcp7494s3lpvjx"
+set STATE_DIR "$HOME/.local/state/r2upload"
+set CACHE_DIR "$HOME/.local/cache/r2upload"
+set HASH_FILE "$STATE_DIR/hash.json"
+set SIZE_FILE "$STATE_DIR/size.json"
 # ---------------------
 
-encrypt=false
-TARGET_DIR=""
+# --- Helper Functions ---
+function send_notification
+    set -l message $argv[1]
+    set -l dir_path $argv[2]
+    if command -v notify-send &> /dev/null
+        # Format the message with a clickable link for the notification
+        set -l formatted_message "$message in <a href=\"file://$dir_path\">$dir_path</a>"
+        notify-send -u critical "Backup Warning" "$formatted_message"
+    end
+end
+
+# --- Dependency Check ---
+if not command -v jq &> /dev/null; echo "Error: jq is not installed."; exit 1; end
+if not command -v bc &> /dev/null; echo "Error: bc is not installed."; exit 1; end
 
 # --- Argument Parsing ---
-while [[ "$#" -gt 0 ]]; do
-    case $1 in
-        --encrypt) encrypt=true; shift ;;
-        *) TARGET_DIR="$1"; shift ;;
-    esac
-done
+argparse 'encrypt' 'skip-hints' 'force' 'verbose' -- $argv
+# Flags like $_flag_verbose are now checked directly.
+set -l TARGET_DIR $argv[1]
 
-if [ -z "$TARGET_DIR" ]; then
-  echo "Usage: $0 [--encrypt] <directory>"
+
+if test -z "$TARGET_DIR"
+  echo "Usage: $0 [--encrypt] [--skip-hints] [--force] [--verbose] <directory>"
   exit 1
-fi
-
-if [ ! -d "$TARGET_DIR" ]; then
+end
+if not test -d "$TARGET_DIR"
   echo "Error: '$TARGET_DIR' is not a directory."
   exit 1
-fi
+end
 
-# Resolve the absolute path of the directory
-local_path=$(realpath "$TARGET_DIR")
-dir_name=$(basename "$local_path")
-archive_name="${dir_name}.tar.zst"
-final_archive_name=$archive_name
+# --- Safety Check 1: Empty Directory ---
+if not find "$TARGET_DIR" -mindepth 1 -print -quit | grep -q .
+    set -l message "Directory '$TARGET_DIR' is empty. Backup aborted to prevent data loss."
+    echo "Error: $message"
+    send_notification "Directory is empty. Backup aborted." "$TARGET_DIR"
+    exit 1
+end
 
-# Determine the chezmoi target path for the external
-home_path_prefix="$HOME/"
-chezmoi_target_path=${local_path#"$home_path_prefix"}
+# Resolve paths
+set -l local_path (realpath "$TARGET_DIR")
+set -l dir_name (basename "$local_path")
+set -l archive_name "$dir_name.tar.zst"
+set -l final_archive_name $archive_name
+if set -q _flag_encrypt; set final_archive_name "$archive_name.age"; end
+set -l chezmoi_target_path (string replace -r "^$HOME/" '' -- $local_path)
+set -l remote_parent_dir (dirname "$chezmoi_target_path")
+set -l remote_path
+if test "$remote_parent_dir" = "."
+    set remote_path $final_archive_name
+else
+    set remote_path "$remote_parent_dir/$final_archive_name"
+end
+set -l url "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/$remote_path"
 
-# Create a temporary directory to work in
-temp_dir=$(mktemp -d -t upload-r2-XXXXXXXXXX)
-# Ensure cleanup happens on script exit
-trap 'rm -rf -- "$temp_dir"' EXIT
+# --- Safety Check 2: Content Hash ---
+echo "Calculating content hash..."
+set -l new_hash (find "$local_path" -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}')
 
-temp_archive="$temp_dir/$archive_name"
+mkdir -p "$STATE_DIR"
+if not test -s "$HASH_FILE"; echo "{}" > "$HASH_FILE"; end
+set -l old_hash (jq -r --arg url "$url" '.[$url] // "null"' "$HASH_FILE")
+
+if set -q _flag_verbose
+    echo "Comparing hashes for $url"
+    echo "  Old hash: $old_hash"
+    echo "  New hash: $new_hash"
+end
+
+if test "$old_hash" = "$new_hash"
+  echo "Content hash is unchanged. Skipping archive and upload."
+  exit 0
+end
+echo "Content has changed. Proceeding with backup..."
+
+# --- Archive Creation ---
+set -l temp_dir (mktemp -d -t upload-r2-XXXXXXXXXX)
+trap "rm -rf -- '$temp_dir'" EXIT
+set -l temp_archive "$temp_dir/$archive_name"
 
 echo "Creating compressed archive of '$local_path' at '$temp_archive'..."
-tar --use-compress-program="zstd -${ZSTD_LEVEL} -T0" -cf "$temp_archive" -C "$local_path" .
+tar --sort=name --mtime='1970-01-01 00:00:00 UTC' --owner=0 --group=0 --numeric-owner --use-compress-program="zstd -$ZSTD_LEVEL -T0" -cf "$temp_archive" -C "$local_path" .
 
-# --- Encryption Step ---
-if [ "$encrypt" = true ]; then
-    echo "Encrypting archive with SSH public key: $AGE_RECIPIENT"
-    final_archive_name="${archive_name}.age"
-    age -r "$AGE_RECIPIENT" -o "${temp_archive}.age" "$temp_archive"
-    temp_archive="${temp_archive}.age"
-fi
+if set -q _flag_encrypt
+    echo "Encrypting archive..."
+    age -r "$AGE_RECIPIENT" -o "$temp_archive.age" "$temp_archive"
+    set temp_archive "$temp_archive.age"
+end
 
-# Construct the remote path for R2
-remote_parent_dir=$(dirname "$chezmoi_target_path")
-if [ "$remote_parent_dir" = "." ]; then
-    remote_path="$final_archive_name"
-else
-    remote_path="$remote_parent_dir/$final_archive_name"
-fi
+# --- Safety Check 3: Size Change ---
+set -l new_size (stat -c%s "$temp_archive")
+if not test -s "$SIZE_FILE"; echo "{}" > "$SIZE_FILE"; end
+set -l old_size (jq -r --arg url "$url" '.[$url] // "null"' "$SIZE_FILE")
 
-echo "Uploading '$final_archive_name' to '$RCLONE_REMOTE:$BUCKET/$remote_path'..."
+if set -q _flag_verbose
+    echo "Checking archive size..."
+    echo "  Old size: $old_size bytes"
+    echo "  New size: $new_size bytes"
+end
+
+if not set -q _flag_force; and test "$old_size" != "null"; and test "$old_size" -ne 0
+    set -l diff_percent (echo "scale=2; 100 * ($new_size - $old_size) / $old_size" | bc)
+    set -l abs_diff (math "abs(floor($diff_percent))")
+
+    if set -q _flag_verbose
+        echo "  Size difference: $diff_percent%"
+    end
+
+    if test "$abs_diff" -gt 25
+        set -l message "Archive size for $dir_name changed by $diff_percent%. Backup aborted. Use --force-package to override."
+        echo "Error: $message"
+        send_notification "Archive size changed by $diff_percent%." "$local_path"
+        exit 1
+    end
+end
+
+# --- Upload ---
+echo "Uploading '$final_archive_name' to '$RCLONE_REMOTE:$BUCKET/$remote_path' நான்குக...";
 rclone copyto "$temp_archive" "$RCLONE_REMOTE:$BUCKET/$remote_path" --progress
 
-echo "Upload complete!"
-echo "Add the following to your .chezmoiexternal.yaml:"
-echo
+# --- Update State and Cache ---
+echo "Upload successful. Updating state files..."
+set -l temp_hash_file (mktemp)
+jq --arg url "$url" --arg hash "$new_hash" '.[$url] = $hash' "$HASH_FILE" > "$temp_hash_file"
+mv "$temp_hash_file" "$HASH_FILE"
 
-echo "${chezmoi_target_path}:"
-echo "  type: archive"
-echo "  url: \"https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/${remote_path}\""
-echo "  exact: true"
-echo "  stripComponents: 1"
-if [ "$encrypt" = true ]; then
+set -l temp_size_file (mktemp)
+jq --arg url "$url" --arg size "$new_size" '.[$url] = $size' "$SIZE_FILE" > "$temp_size_file"
+mv "$temp_size_file" "$SIZE_FILE"
+
+echo "Updating local cache..."
+mkdir -p "$CACHE_DIR/$remote_parent_dir"
+mv "$temp_archive" "$CACHE_DIR/$remote_path"
+
+echo "Upload complete!"
+if not set -q _flag_skip_hints
+  echo "Add the following to your .chezmoiexternal.yaml:"
+  echo
+  echo "$chezmoi_target_path:"
+  echo "  type: archive"
+  echo "  url: \"$url\""
+  echo "  exact: true"
+  echo "  stripComponents: 1"
+    if set -q _flag_encrypt
     echo "  encrypted: true"
     echo "  format: tar.zst"
-fi
+  end
+end

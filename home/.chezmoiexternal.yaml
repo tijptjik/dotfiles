@@ -95,3 +95,50 @@
   stripComponents: 1
   encrypted: true
   format: tar.zst
+.var/app/org.yuzu_emu.yuzu/config:
+    type: archive
+    url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.var/app/org.yuzu_emu.yuzu/config.tar.zst.age"
+    exact: true
+    stripComponents: 1
+    encrypted: true
+    format: tar.zst
+.var/app/org.yuzu_emu.yuzu/data/yuzu/nand/user/save:
+    type: archive
+    url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.var/app/org.yuzu_emu.yuzu/data/yuzu/nand/user/save.tar.zst"
+    exact: true
+    stripComponents: 1
+.var/app/org.yuzu_emu.yuzu/data/yuzu/keys:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.var/app/org.yuzu_emu.yuzu/data/yuzu/keys.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.var/app/org.yuzu_emu.yuzu/data/yuzu/load:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.var/app/org.yuzu_emu.yuzu/data/yuzu/load.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.var/app/org.yuzu_emu.yuzu/data/yuzu/nand/system/save:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.var/app/org.yuzu_emu.yuzu/data/yuzu/nand/system/save.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.var/app/org.yuzu_emu.yuzu/data/yuzu/play_time:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.var/app/org.yuzu_emu.yuzu/data/yuzu/play_time.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.var/app/org.yuzu_emu.yuzu/data/yuzu/screenshots:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.var/app/org.yuzu_emu.yuzu/data/yuzu/screenshots.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst

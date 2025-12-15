@@ -5,6 +5,7 @@
 ### Fish Shell Configuration
 - **Main config**: `~/.config/fish/config.fish`
 - **Environment**: `~/.config/fish/conf.d/export.fish`
+- **Secrets**: `~/.config/fish/conf.d/secrets.fish`
 - **Aliases**: `~/.config/fish/conf.d/aliases.fish`
 - **Utilities**: `~/.config/fish/conf.d/utils.fish`
 - **Plugins**: `~/.config/fish/fish_plugins`

@@ -3,7 +3,8 @@
 		"kitty",
 		"alacritty",
 		"org.kde.konsole",
-		"com.mitchellh.ghostty"
+		"com.mitchellh.ghostty",
+		"nautilus"
 	],
 	"monitors":{
 		"DP-1":{

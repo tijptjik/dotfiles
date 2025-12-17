@@ -106,7 +106,6 @@ chezmoi apply
 ### Config
 - [DirEnv for UV](https://github.com/direnv/direnv/issues/1250)
 - Telegram
-- hyprvoice
 - Once zed implements [modelines support](https://github.com/zed-industries/zed/issues/4762), update the `tmpl` files with proper syntax hints
 
 ### Packages Not Backed Up

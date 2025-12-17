@@ -253,7 +253,7 @@ exec-once = gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 exec-once = zen-browser
 exec-once = /opt/Telegram/Telegram
 exec-once = flatpak run org.signal.Signal
-exec-once = zapzap
+exec-once = /bin/zapzap
 
 exec-once = flatpak run com.spotify.Client
 # exec-once=flatpak run com.discordapp.Discord
@@ -614,9 +614,9 @@ windowrulev2 = move 112 24,class:com.rtosta.zapzap
 {{ end -}}
 
 ## Signal
-windowrulev2 = float,class:org.signal.Signal
-windowrulev2 = workspace special:chat silent,class:org.signal.Signal
+windowrulev2 = workspace 3 silent,class:org.signal.Signal
 windowrulev2 = noinitialfocus,class:org.signal.Signal
+windowrulev2 = float,class:org.signal.Signal
 {{ if .isDesktop -}}
 windowrulev2 = size 1112 664,class:org.signal.Signal
 windowrulev2 = move 2218 24,class:org.signal.Signal

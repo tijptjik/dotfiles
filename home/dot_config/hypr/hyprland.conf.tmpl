@@ -1,4 +1,4 @@
-# ~/.config/hypr/hyprland.config
+# ~/.config/hypr/hyprland.conf
 # #######################
 # HYPRLAND
 # #######################
@@ -239,25 +239,20 @@ env = QT_QPA_PLATFORM,wayland
 # #######################
 
 # WM
-exec-once = hypridle
-exec-once = hyprsunset
-exec-once = hyprpaper
-exec-once = hyprfloat
 exec-once = waybar
-exec-once = systemctl --user start hyprpolkitagent
 exec-once = qs -c hamr
 
 exec-once = gsettings set org.gnome.desktop.interface gtk-theme "Adwaita Dark"   # for GTK3 apps
 exec-once = gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"   # for GTK4 apps
 
 # Applications
-exec-once = zen-browser
+exec-once = /bin/zen-browser
 exec-once = /opt/Telegram/Telegram
-exec-once = flatpak run org.signal.Signal
 exec-once = /bin/zapzap
 
+exec-once = flatpak run org.signal.Signal
 exec-once = flatpak run com.spotify.Client
-# exec-once=flatpak run com.discordapp.Discord
+exec-once = flatpak run com.discordapp.Discord
 
 # Clipboard Management
 exec-once = wl-paste --type text --watch cliphist store

@@ -13,6 +13,26 @@ systemctl --user daemon-reload
 systemctl --user enable --now backup-packages.timer
 echo "- backup-packages.timer enabled and started."
 
-# Enable and start the hyprvoice service.
+# hyprpolkitagent
+systemctl --user enable --now hyprpolkitagent.service
+echo "- hyprpolkitagent.service enabled and started."
+
+# hypridle
+systemctl --user enable --now hypridle.service
+echo "- hypridle.service enabled and started."
+
+# hyprsunset
+systemctl --user enable --now hyprsunset.service
+echo "- hyprsunset.service enabled and started."
+
+# hyprpaper
+systemctl --user enable --now hyprpaper.service
+echo "- hyprpaper.service enabled and started."
+
+# hyprfloat
+systemctl --user enable --now hyprfloat.service
+echo "- hyprfloat.service enabled and started."
+
+# hyprvoice
 systemctl --user enable --now hyprvoice.service
 echo "- hyprvoice.service enabled and started."

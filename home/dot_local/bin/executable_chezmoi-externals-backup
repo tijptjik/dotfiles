@@ -112,10 +112,15 @@ for key in $keys
                 # Get the public URL from the externals file. This is needed to calculate the
                 # cache key that chezmoi will use.
                 set -l url (echo $json_data | jq -r --arg key "$key" '.[$key].url')
-                # Use cut to reliably get only the checksum part of the output.
-                set -l chezmoi_cache_key (echo -n "$url" | sha256sum | cut -d ' ' -f 1)
+                if test -n "$url"
+                    echo "URL for chezmoi cache key: $url"
+                    # Use cut to reliably get only the checksum part of the output.
+                    set -l chezmoi_cache_key (echo -n "$url" | sha256sum | cut -d ' ' -f 1)
                     set -l chezmoi_cache_dir "$HOME/.cache/chezmoi/external"
                     set -l chezmoi_cache_path "$chezmoi_cache_dir/$chezmoi_cache_key"
+
+                    echo "Copying archive from $cached_archive_path"
+                    echo "              to   $chezmoi_cache_path"
                     mkdir -p "$chezmoi_cache_dir"
                     cp "$cached_archive_path" "$chezmoi_cache_path"
                     # Update modification time to now, so chezmoi knows it's fresh

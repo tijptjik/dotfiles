@@ -387,6 +387,28 @@ bind = $CMD SHIFT, 0, movetoworkspacesilent, r~10
 bind = $CMD, mouse_down, workspace, e+1
 bind = $CMD, mouse_up, workspace, e-1
 
+
+# #######################
+# KEY BINDINGS : MEDIA
+# #######################
+
+# Volume
+bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+bindel = , XF86AudioLowerVolume, exec, wpctl set-volume -l 0 @DEFAULT_AUDIO_SINK@ 5%-
+bindl = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
+# Media Controls
+bindl = , XF86AudioPlay, exec, playerctl play-pause
+bindl = , XF86AudioPrev, exec, playerctl previous
+bindl = , XF86AudioNext, exec, playerctl next
+
+# #######################
+# KEY BINDINGS : HYPRSUNSET
+# #######################
+
+bindel = ,XF86MonBrightnessDown, exec, hyprctl hyprsunset gamma -10
+bindel = ,XF86MonBrightnessUp, exec, hyprctl hyprsunset gamma +10
+
 # #######################
 # KEY BINDINGS : WAYBAR
 # #######################
@@ -422,7 +444,6 @@ bind = $CMD, Return, exec, kitty
 bind = $CMD, Backslash, exec, /opt/Telegram/Telegram
 bind = $CMD, Backspace, exec, zen-browser
 bind = $CMD, E, exec, nautilus
-
 
 # #######################
 # KEY BINDINGS : SCREENSHOTS

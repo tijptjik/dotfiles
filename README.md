@@ -27,6 +27,7 @@ Readmes are available in `/docs/{topic}.md`
   - `hyperpaper`
   - `hyprfloat`
   - `hyprpicker`
+  - `hyprsunset`
   - `hyprvoice`
 - [`kitty`](https://sw.kovidgoyal.net/kitty/)
 - [`lazygit`](https://github.com/jesseduffield/lazygit)

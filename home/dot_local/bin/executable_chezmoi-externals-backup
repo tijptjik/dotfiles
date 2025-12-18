@@ -84,9 +84,50 @@ for key in $keys
         set failed_count (math $failed_count + 1)
     else if string match -q "*Skipping archive and upload*" -- $output
         set skipped_count (math $skipped_count + 1)
-    else if string match -q "*Upload complete!*" -- $output
-        set uploaded_count (math $uploaded_count + 1)
-    else
+        else if string match -q "*Upload complete!*" -- $output
+            set uploaded_count (math $uploaded_count + 1)
+
+            # --- Chezmoi Cache Integration ---
+            # Reconstruct the path to the cached archive created by r2upload.
+            # This logic mirrors the path construction within the r2upload script to be more robust
+            # than parsing stdout.
+            set -l R2UPLOAD_CACHE_DIR "$HOME/.local/cache/r2upload"
+            set -l dir_name (basename "$key")
+            set -l archive_name "$dir_name.tar.zst"
+            set -l final_archive_name $archive_name
+            if test "$encrypted" = "true"
+              set final_archive_name "$archive_name.age"
+            end
+            set -l remote_parent_dir (dirname "$key")
+            set -l remote_path
+            if test "$remote_parent_dir" = "."
+                set remote_path $final_archive_name
+            else
+                set remote_path "$remote_parent_dir/$final_archive_name"
+            end
+
+            set -l cached_archive_path "$R2UPLOAD_CACHE_DIR/$remote_path"
+
+            if test -f "$cached_archive_path"
+                # Get the public URL from the externals file. This is needed to calculate the
+                # cache key that chezmoi will use.
+                set -l url (echo $json_data | jq -r --arg key "$key" '.[$key].url')
+                # Use cut to reliably get only the checksum part of the output.
+                set -l chezmoi_cache_key (echo -n "$url" | sha256sum | cut -d ' ' -f 1)
+                    set -l chezmoi_cache_dir "$HOME/.cache/chezmoi/external"
+                    set -l chezmoi_cache_path "$chezmoi_cache_dir/$chezmoi_cache_key"
+                    mkdir -p "$chezmoi_cache_dir"
+                    cp "$cached_archive_path" "$chezmoi_cache_path"
+                    # Update modification time to now, so chezmoi knows it's fresh
+                    touch "$chezmoi_cache_path"
+                else
+                    echo "Warning: Could not find URL for $key to update chezmoi cache."
+                end
+            else
+                echo "Warning: Could not find expected archive at $cached_archive_path."
+            end
+            # --- End Chezmoi Cache Integration ---
+        else
         # Catch-all for unexpected success cases that don't fail but don't match
         set failed_count (math $failed_count + 1)
     end

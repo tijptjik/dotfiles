@@ -130,7 +130,7 @@ if not set -q _flag_force; and test "$old_size" != "null"; and test "$old_size" 
 end
 
 # --- Upload ---
-echo "Uploading '$final_archive_name' to '$RCLONE_REMOTE:$BUCKET/$remote_path' நான்குக...";
+echo "Uploading '$final_archive_name' to '$RCLONE_REMOTE:$BUCKET/$remote_path' ...";
 rclone copyto "$temp_archive" "$RCLONE_REMOTE:$BUCKET/$remote_path" --progress
 
 # --- Update State and Cache ---

@@ -7,10 +7,8 @@ Wants=graphical-session.target
 [Service]
 Type=simple
 ExecStart=/home/io/.local/bin/hyprfloat
-ExecStartPre=/usr/bin/systemctl --user import-environment WAYLAND_DISPLAY XDG_RUNTIME_DIR
-ExecStartPre=/bin/sh -c 'until [ -n "$WAYLAND_DISPLAY" ]; do sleep 0.1; done'
 Restart=on-failure
 RestartSec=5
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target

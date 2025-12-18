@@ -1,2 +1,3 @@
 .gemini/tmp/
 .var/app/org.yuzu_emu.yuzu/config/yuzu/**
+.mozilla/firefox/*.default-release/storage/**

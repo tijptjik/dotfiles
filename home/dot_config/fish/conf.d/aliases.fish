@@ -133,8 +133,14 @@ alias gbcleanup='git branch --merged | grep -v "\*" | grep -v master | grep -v d
 alias cm='chezmoi'
 alias ca='chezmoi add'
 alias ce='chezmoi edit'
-alias capply='chezmoi apply'
-alias cdiff='chezmoi diff'
+# Apply, skip externals
+alias capply='chezmoi apply --exclude=externals'
+# Apply, after refreshing externals
+alias ceapply='chezmoi apply --refresh-externals'
+# State changes, without externals
+alias cdiff='chezmoi diff --exclude=externals'
+# State changes, with externals
+alias cediff='chezmoi diff'
 
 ################################
 ###  SSH

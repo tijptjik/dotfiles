@@ -68,6 +68,21 @@ services:
     ports:
       - 9117:9117
     restart: unless-stopped
+  calibre-web:
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: calibre-web
+    environment:
+      - PUID=1000
+      - PGID=950
+      - TZ=Asia/Hong_Kong
+      - DOCKER_MODS=linuxserver/mods:universal-calibre #optional
+      - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional
+    volumes:
+      - /path/to/calibre-web/data:/config
+      - /mnt/storage/public/books/EN:/books
+    ports:
+      - 8083:8083
+    restart: unless-stopped
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli

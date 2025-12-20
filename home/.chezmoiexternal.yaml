@@ -19,10 +19,24 @@
   stripComponents: 1
   encrypted: true
   format: tar.zst
+.local/share/icons:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.local/share/icons.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+.config/TelegramDesktop:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.config/TelegramDesktop.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
+{{ if .isClient }}
 .obsidian:
   type: git-repo
   url: "git@github.com:tijptjik/obsidian.git"
-{{ if .isClient }}
 .claude:
   type: archive
   url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.claude.tar.zst.age"
@@ -30,7 +44,6 @@
   stripComponents: 1
   encrypted: true
   format: tar.zst
-{{ end -}}
 .duckdb:
   type: archive
   url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.duckdb.tar.zst.age"
@@ -80,23 +93,11 @@
   stripComponents: 1
   encrypted: true
   format: tar.zst
-.config/TelegramDesktop:
-  type: archive
-  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.config/TelegramDesktop.tar.zst.age"
-  exact: true
-  stripComponents: 1
-  encrypted: true
-  format: tar.zst
 .config/waybar/crypto:
   type: git-repo
   url: "git@github.com:tijptjik/waybar-crypto.git"
-.local/share/icons:
-  type: archive
-  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.local/share/icons.tar.zst.age"
-  exact: true
-  stripComponents: 1
-  encrypted: true
-  format: tar.zst
+{{ end -}}
+{{ if .isDesktop }}
 .var/app/org.yuzu_emu.yuzu/config:
     type: archive
     url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.var/app/org.yuzu_emu.yuzu/config.tar.zst.age"
@@ -144,3 +145,4 @@
   stripComponents: 1
   encrypted: true
   format: tar.zst
+{{ end -}}

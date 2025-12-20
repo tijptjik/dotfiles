@@ -98,6 +98,13 @@
   url: "git@github.com:tijptjik/waybar-crypto.git"
 {{ end -}}
 {{ if .isDesktop }}
+.config/unity3d:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.config/unity3d.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
 .var/app/org.yuzu_emu.yuzu/config:
     type: archive
     url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.var/app/org.yuzu_emu.yuzu/config.tar.zst.age"

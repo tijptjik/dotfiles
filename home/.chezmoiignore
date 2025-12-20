@@ -7,6 +7,15 @@ downloads
 storage
 {{ end -}}
 {{ if .isServer -}}
+.config/hypr
+.config/hyprfloat
+.config/hyprvoice
+.config/Mullvad VPN
+.config/quickshell
+.config/solaar
+.config/systemd/user/hyprfloat.service
+.config/systemd/user/hyprvoice.service
+.config/transmission
 .config/xdg-desktop-portal
 .config/waybar
 .config/ZapZap

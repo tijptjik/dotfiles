@@ -6,3 +6,9 @@
 downloads
 storage
 {{ end -}}
+{{ if .isServer -}}
+.config/xdg-desktop-portal
+.config/waybar
+.config/ZapZap
+.config/zed
+{{ end -}}

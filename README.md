@@ -36,7 +36,7 @@ Readmes are available in `/docs/{topic}.md`
 - [`python`](https://www.python.org/)
 - [`solaar`](https://github.com/pwr-Solaar/Solaar)
 - `systemd`
-- `[tmux](https://github.com/tmux/tmux)`
+- [`tmux`](https://github.com/tmux/tmux)
 - [`waybar`](https://github.com/Alexays/Waybar)
 - [`zapzap`](https://github.com/rafatosta/zapzap)
 - [`zed`](https://zed.dev/)

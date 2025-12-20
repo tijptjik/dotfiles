@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-set BWS_DIR "{{ .chezmoi.homeDir }}/.tools/bws"
+set BWS_DIR "$HOME/.tools/bws"
 set BWS_EXECUTABLE "$BWS_DIR/bws"
 
 if test -f "$BWS_EXECUTABLE"

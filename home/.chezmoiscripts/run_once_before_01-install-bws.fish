@@ -3,10 +3,7 @@
 set BWS_DIR "{{ .chezmoi.homeDir }}/.tools/bws"
 set BWS_EXECUTABLE "$BWS_DIR/bws"
 
-echo "[INSTALL] Bitwarden Secrets Manager..."
-
 if test -f "$BWS_EXECUTABLE"
-    echo "bws is already installed at $BWS_EXECUTABLE"
     # Ensure it's in the path
     if not contains "$BWS_DIR" $fish_user_paths
         set -Ua fish_user_paths "$BWS_DIR"
@@ -15,7 +12,7 @@ if test -f "$BWS_EXECUTABLE"
     exit 0
 end
 
-echo "Installing Bitwarden Secrets Manager (bws)..."
+echo "[INSTALL] Bitwarden Secrets Manager..."
 
 # Create target directory
 mkdir -p "$BWS_DIR"

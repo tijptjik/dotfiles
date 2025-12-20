@@ -33,5 +33,5 @@ encryption = "age"
     command = "{{ .chezmoi.sourceDir }}/.bws-wrapper.fish"
 
 [hooks.read-source-state.pre]
-    command = "{{ .chezmoi.sourceDir }}/.chezmoiscripts/run_once_before_setup_bitwarden.fish"
+    command = "{{ .chezmoi.sourceDir }}/home/.bitwarden-setup.fish"
     identity = "~/.keys/chezmoi.txt"

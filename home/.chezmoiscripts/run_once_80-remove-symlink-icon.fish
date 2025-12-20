@@ -1,4 +1,5 @@
 #!/usr/bin/env fish
 
 echo "[CONFIG] Symbolic Link Icon..."
-sudo rm /usr/share/icons/*/*/*/emblem-symbolic-link.png
+# Use find to avoid an error if the glob doesn't match any files.
+sudo find /usr/share/icons -name "emblem-symbolic-link.png" -delete

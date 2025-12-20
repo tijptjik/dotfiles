@@ -16,9 +16,9 @@ end
 
 # Find the real bws executable. We assume it's in the PATH.
 # The installer script should have put it in ~/.tools/bws.
-set -l bws_executable (command -v bws)
+set -l bws_executable (command -v $HOME/.tools/bws/bws || command -v bws)
 if test -z "$bws_executable"
-    echo "Error: bws executable not found in PATH." >&2
+    echo "Error: bws executable not found." >&2
     exit 1
 end
 

@@ -24,6 +24,13 @@
             }
         }
     },
+    "file_types": {
+      "JSONC": ["**/.zed/**/*.json", "**/zed/**/*.json", "**/Zed/**/*.json", "**/.vscode/**/*.json","*.json.tmpl"],
+      "YAML": ["*.yaml.tmpl", "*.yml.tmpl","**/waybar/config.tmpl"],
+      "TOML": ["**/dunst/dunstrc.tmpl"],
+      "Shell Script": [".env.*"],
+      "Fish" : ["*.fish.tmpl"]
+    },
     "languages": {
         "JavaScript": {
             "formatter": { "language_server": { "name": "biome" } },

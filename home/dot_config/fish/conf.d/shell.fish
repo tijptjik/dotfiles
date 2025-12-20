@@ -13,7 +13,7 @@ starship init fish | source
 direnv hook fish | source
 
 # FNM
-source $CONFIG/fish/conf.d/fnm.fish
+source $HOME/.config/fish/conf.d/fnm.fish
 
 # FZF
 fzf_configure_bindings --history=\cr --directory=\cf --processes=\cp --variables=\ce --git_log=\e\cr --git_status=\e\cs

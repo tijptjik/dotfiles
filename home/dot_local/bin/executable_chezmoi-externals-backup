@@ -15,6 +15,10 @@ if not command -v stdbuf &> /dev/null
     echo "Error: stdbuf is not installed (part of coreutils). It's required for real-time progress updates."
     exit 1
 end
+if not command -v chezmoi &> /dev/null
+    echo "Error: chezmoi is not installed. It's required to run 'execute-template'."
+    exit 1
+end
 
 # --- Argument Parsing ---
 argparse 'force-package=' -- $argv
@@ -23,23 +27,30 @@ set -l forced_package $_flag_force_package
 # --- Configuration ---
 set R2UPLOAD_SCRIPT "$HOME/.local/bin/r2upload"
 
-# Find the config file, preferring the target location over the source.
-set CHEZMOI_EXTERNAL_FILE_TARGET "$HOME/.chezmoiexternal.yaml"
+# The .chezmoiexternal.yaml file is a template, so we need to execute it with
+# chezmoi to get a plain YAML file that yq can parse.
 set CHEZMOI_EXTERNAL_FILE_SOURCE "$HOME/.local/share/chezmoi/home/.chezmoiexternal.yaml"
 
-if test -f "$CHEZMOI_EXTERNAL_FILE_TARGET"
-    set CHEZMOI_EXTERNAL_FILE "$CHEZMOI_EXTERNAL_FILE_TARGET"
-else
-    set CHEZMOI_EXTERNAL_FILE "$CHEZMOI_EXTERNAL_FILE_SOURCE"
-end
-
-if not test -f "$CHEZMOI_EXTERNAL_FILE"
-    echo "Error: Could not find .chezmoiexternal.yaml at target ($CHEZMOI_EXTERNAL_FILE_TARGET) or source ($CHEZMOI_EXTERNAL_FILE_SOURCE)."
+if not test -f "$CHEZMOI_EXTERNAL_FILE_SOURCE"
+    echo "Error: Could not find .chezmoiexternal.yaml template at $CHEZMOI_EXTERNAL_FILE_SOURCE."
     exit 1
 end
 
+# Create a temporary file to hold the executed template YAML.
+set -l CHEZMOI_EXTERNAL_FILE (mktemp)
+# Ensure the temp file is cleaned up on exit.
+trap "rm -f '$CHEZMOI_EXTERNAL_FILE'" EXIT
+
+echo "Parsing template $CHEZMOI_EXTERNAL_FILE_SOURCE..."
+if not chezmoi execute-template < "$CHEZMOI_EXTERNAL_FILE_SOURCE" > "$CHEZMOI_EXTERNAL_FILE"
+    echo "Error: 'chezmoi execute-template' failed."
+    # The temp file will be removed by the trap.
+    exit 1
+end
+
+
 # --- Main Script ---
-echo "Starting backup of all packages in $CHEZMOI_EXTERNAL_FILE"
+echo "Starting backup of all packages using rendered externals config"
 set -l checked_count 0
 set -l uploaded_count 0
 set -l skipped_count 0
@@ -50,7 +61,7 @@ set json_data (yq -o=json . "$CHEZMOI_EXTERNAL_FILE")
 set keys (echo $json_data | jq -r 'to_entries | map(select(.value.type == "archive")) | .[].key')
 
 for key in $keys
-    set -l checked_count (math $checked_count + 1)
+    set checked_count (math $checked_count + 1)
     echo ""
     echo "-----------------------------------------------------"
     echo "Processing $key..."

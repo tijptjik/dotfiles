@@ -82,7 +82,7 @@ if set -q _flag_verbose
     echo "  New hash: $new_hash"
 end
 
-if test "$old_hash" = "$new_hash"
+if not set -q _flag_force; and test "$old_hash" = "$new_hash"
   echo "Content hash is unchanged. Skipping archive and upload."
   exit 0
 end

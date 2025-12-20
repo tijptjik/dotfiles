@@ -22,6 +22,7 @@
 .obsidian:
   type: git-repo
   url: "git@github.com:tijptjik/obsidian.git"
+{{ if .isClient }}
 .claude:
   type: archive
   url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.claude.tar.zst.age"
@@ -29,6 +30,7 @@
   stripComponents: 1
   encrypted: true
   format: tar.zst
+{{ end -}}
 .duckdb:
   type: archive
   url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.duckdb.tar.zst.age"

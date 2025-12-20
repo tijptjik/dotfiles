@@ -115,9 +115,11 @@ set -x NGROK_DOMAIN dove-main-tapir.ngrok-free.app
 #################################
 
 # fnm
-set -x FNM_PATH $CONFIG/fnm
+set -x FNM_PATH $LOCALSHARE/fnm
+fnm env | source
 
-set -x NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
+set -x NPM_CONFIG_USERCONFIG $CONFIG/npm/npmrc
+
 
 #################################
 ### JS : BUN

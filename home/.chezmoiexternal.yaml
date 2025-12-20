@@ -26,13 +26,6 @@
   stripComponents: 1
   encrypted: true
   format: tar.zst
-.config/TelegramDesktop:
-  type: archive
-  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.config/TelegramDesktop.tar.zst.age"
-  exact: true
-  stripComponents: 1
-  encrypted: true
-  format: tar.zst
 {{ if .isClient }}
 .obsidian:
   type: git-repo

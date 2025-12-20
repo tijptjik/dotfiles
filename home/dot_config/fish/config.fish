@@ -41,4 +41,4 @@ source "$FISHCONFIG/utils.fish"
 source "$FISHCONFIG/shell.fish"
 
 # Activate UV Shell - see utils.fish
-# workon
+workon

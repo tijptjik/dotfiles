@@ -1,0 +1,12 @@
+#!/usr/bin/env fish
+
+# pyproject.toml hash: {{ include "pyproject.toml.tmpl" | sha256sum }}
+
+# Create a virtual environment
+uv venv --clear
+
+# Activate the virtual environment
+source .venv/bin/activate.fish
+
+# Sync based on pyproject.toml
+uv sync

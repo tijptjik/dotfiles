@@ -198,7 +198,7 @@ end
 ### PYTHON
 ################################
 
-function activate
+function workon
           set --function cwd (pwd)
           set --function home (dirname (realpath $HOME))
           set --function venv_path ""

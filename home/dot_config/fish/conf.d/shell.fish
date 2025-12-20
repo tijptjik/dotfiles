@@ -13,12 +13,7 @@ starship init fish | source
 direnv hook fish | source
 
 # FNM
-# source $CONFIG/fish/conf.d/fnm.fish
-
-# Python (uv)
-if test -d "$HOME/.venv"
-  source "$HOME/.venv/bin/activate.fish"
-end
+source $CONFIG/fish/conf.d/fnm.fish
 
 # FZF
 fzf_configure_bindings --history=\cr --directory=\cf --processes=\cp --variables=\ce --git_log=\e\cr --git_status=\e\cs

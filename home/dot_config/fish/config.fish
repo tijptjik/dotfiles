@@ -40,5 +40,5 @@ source "$FISHCONFIG/utils.fish"
 # Shell initialisations | FRCS
 source "$FISHCONFIG/shell.fish"
 
-# Activate UV Shell
-activate
+# Activate UV Shell - see utils.fish
+workon

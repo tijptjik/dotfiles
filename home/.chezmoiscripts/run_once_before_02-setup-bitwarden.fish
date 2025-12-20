@@ -87,6 +87,6 @@ if not test -f "$chezmoi_key_file"
         echo "Failed to retrieve chezmoi key using bws."
         exit 1
     end
-    printf '%s\n' "$CHEZMOI_KEY" > "$chezmoi_key_file"
+    printf '%s\n' (string unescape --style=c -- $CHEZMOI_KEY) > "$chezmoi_key_file"
     echo "chezmoi key successfully written to $chezmoi_key_file"
 end

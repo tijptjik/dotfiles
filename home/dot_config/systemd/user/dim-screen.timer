@@ -1,0 +1,8 @@
+[Unit]
+Description=Timer to dim the screen after a period of inactivity
+
+[Timer]
+OnActiveSec=15s
+
+[Install]
+WantedBy=timers.target

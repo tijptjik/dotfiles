@@ -2,6 +2,24 @@
   <configuration>
     <layoutmode>logical</layoutmode>
     <logicalmonitor>
+    <x>5360</x>
+    <y>360</y>
+    <scale>1</scale>
+    <monitor>
+      <monitorspec>
+        <connector>DP-2</connector>
+        <vendor>HPN</vendor>
+        <product>HP 23f</product>
+        <serial>3CM8420MKL   </serial>
+      </monitorspec>
+      <mode>
+        <width>1920</width>
+        <height>1080</height>
+        <rate>74.973</rate>
+      </mode>
+    </monitor>
+  </logicalmonitor>
+  <logicalmonitor>
       <x>0</x>
       <y>360</y>
       <scale>2</scale>
@@ -37,25 +55,6 @@
           <width>3440</width>
           <height>1440</height>
           <rate>119.961</rate>
-        </mode>
-        <colormode>bt2100</colormode>
-      </monitor>
-    </logicalmonitor>
-    <logicalmonitor>
-      <x>5360</x>
-      <y>360</y>
-      <scale>1</scale>
-      <monitor>
-        <monitorspec>
-          <connector>DP-2</connector>
-          <vendor>HPN</vendor>
-          <product>HP 23f</product>
-          <serial>3CM8420MKL   </serial>
-        </monitorspec>
-        <mode>
-          <width>1920</width>
-          <height>1080</height>
-          <rate>74.973</rate>
         </mode>
       </monitor>
     </logicalmonitor>

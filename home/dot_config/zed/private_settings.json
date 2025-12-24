@@ -29,7 +29,7 @@
       "YAML": ["**/waybar/config.tmpl"],
       "TOML": ["**/dunst/dunstrc.tmpl"],
       "Shell Script": [".env.*"],
-      "Fish" : ["*.fish.tmpl", "*.yaml.tmpl", "*.yml.tmpl", "*.conf.templ"]
+      "Fish" : ["*.fish.tmpl", "*.yaml.tmpl", "*.yml.tmpl", "*.conf.tmpl"]
     },
     "languages": {
         "JavaScript": {

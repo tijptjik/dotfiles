@@ -1,0 +1,28 @@
+#!/usr/bin/env fish
+
+# This script listens for activity on specific mouse and keyboard devices
+# and restarts a systemd timer to prevent the screen from dimming.
+# It also brightens the screen on activity.
+
+# Find device paths for the target keyboard and mouse
+set keyboard_device_path (libinput list-devices | grep -A1 "graystudio-space65" | grep -o '/dev/input/event[0-9]*' | head -n 1)
+set mouse_device_path (libinput list-devices | grep -A1 "logitech-mx-vertical-1" | grep -o '/dev/input/event[0-9]*' | head -n 1)
+
+if test -z "$keyboard_device_path" -o -z "$mouse_device_path"
+    echo "Error: Could not find one or both of the specified input devices." >&2
+    exit 1
+end
+
+echo "Listening for activity on:"
+echo "Keyboard: $keyboard_device_path"
+echo "Mouse: $mouse_device_path"
+
+# Listen for events on the specified devices
+libinput debug-events --device $keyboard_device_path --device $mouse_device_path | while read --line event
+    # On any event, brighten the screen and restart the timer.
+    # The check for 'type' is a simple way to filter for actual activity.
+    if string match -q -- "*type*" "$event"
+        hyprsunset --gamma 1.0
+        systemctl --user restart dim-screen.timer
+    end
+end

@@ -12,16 +12,24 @@ hyprctl --batch "\
     keyword monitor HDMI-A-1,3840x2160@60,auto"
 
 # Override hypridle configuration for gaming
-set override_dir (path expand ~/.config/systemd/user/hypridle.service.d)
+set override_dir (path resolve ~/.config/systemd/user/hypridle.service.d)
 set override_file $override_dir/override.conf
 mkdir -p $override_dir
 # Clear existing ExecStart and set the new one for game mode.
 # The '%h' is interpreted by systemd as the user's home directory.
 echo -e "[Service]\nExecStart=\nExecStart=hypridle -c %h/.config/hypr/hypridle_game.conf" > $override_file
 
-# Reload systemd and restart hypridle
-systemctl --user daemon-reload
-systemctl --user restart hypridle.service
+# Stop the default idle service to prevent conflicts
+systemctl --user stop hypridle.service
+
+# Ensure no old listeners are running
+/bin/pkill -f game-mode-listener || true
+
+# Start the new activity listener in the background
+game-mode-listener &
+
+# Start the screen dimming timer
+systemctl --user start dim-screen.timer
 
 echo "Switched to Game monitor profile."
-echo "Note: DP-1 will turn off after 15s via hypridle service."
+echo "Screen will dim after 15s of mouse/keyboard inactivity."

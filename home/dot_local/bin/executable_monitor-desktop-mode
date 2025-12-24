@@ -12,13 +12,21 @@ hyprctl --batch "\
     keyword monitor HDMI-A-1,disable"
 
 # Restore default hypridle configuration by removing any overrides
-set override_dir (path expand ~/.config/systemd/user/hypridle.service.d)
+set override_dir (path resolve ~/.config/systemd/user/hypridle.service.d)
 if test -d $override_dir
     rm -rf $override_dir
 end
 
-# Reload systemd and restart hypridle
-systemctl --user daemon-reload
-systemctl --user restart hypridle.service
+# Kill the game-mode activity listener
+/bin/pkill -f game-mode-listener || true
+
+# Stop the game-mode timer
+systemctl --user stop dim-screen.timer
+
+# Ensure screen is back to full brightness
+hyprsunset --gamma 1.0
+
+# Restart the default idle service
+systemctl --user start hypridle.service
 
 echo "Switched to Desktop monitor profile."

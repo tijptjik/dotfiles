@@ -7,6 +7,13 @@
 # Contact : https://type.hk
 
 #################################
+### HYPR MODES
+#################################
+
+alias modeGame='monitor-game-mode'
+alias modeDesktop='monitor-desktop-mode'
+
+#################################
 ### SYSTEM TOOLS
 #################################
 
@@ -152,6 +159,8 @@ alias sshstatus='sudo service sshd status'
 alias sshsi='ssh -X m@ssh.type.hk'
 alias sshfi='ssh io@192.168.1.103'
 alias sshki='ssh io@192.168.1.101'
+
+alias sirun='waypipe ssh m@ssh.type.hk'
 
 ################################
 ###  PYTHON

@@ -4,6 +4,7 @@
 .fonts/.uuid
 {{ if .isClient -}}
 downloads
+dockers
 storage
 {{ end -}}
 {{ if .isServer -}}

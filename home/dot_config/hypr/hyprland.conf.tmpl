@@ -31,19 +31,18 @@ source = ~/.config/hypr/colors.conf
 # See https://wiki.hyprland.org/Configuring/Monitors/
 
 # Primary
-montor
 monitorv2 {
     output = DP-1
     mode = 3440x1440@119.960999
     position = 0x0
     scale = 1
     bitdepth = 10
-    cm = dcip3
+    cm = hdr
     supports_wide_color = true
     supports_hdr = true
 
-    sdrbrightness = 1.3
-    sdrsaturation = 1.1  # Increase this to fix washed-out colors [^1^]
+    sdrbrightness = 1.21
+    sdrsaturation = 1.1
 
     sdr_min_luminance = 0.005
     sdr_max_luminance = 100
@@ -491,10 +490,10 @@ bind = $CMD, E, exec, nautilus
 # #######################
 
 # Hyprshot
-bind = $CMD, P, exec, hyprshot -o ~/media/images/screenshots -m region --clipboard-only --freeze --silent
-bind = $CMD CTRL, P, exec, hyprshot -o ~/media/images/screenshots -m window --clipboard-only --freeze --silent
-bind = $CMD SHIFT, P, exec, hyprshot -o ~/media/images/screenshots -m region --freeze --silent
-bind = $CMD SHIFT CTRL, P, exec, hyprshot -o ~/media/images/screenshots -m window --freeze --silent
+bind = $CMD, P, exec, hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m region --clipboard-only --freeze --silent;hyprctl reload
+bind = $CMD CTRL, P, exec, hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m window --clipboard-only --freeze --silent;hyprctl reload
+bind = $CMD SHIFT, P, exec, hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m region --freeze --silent;hyprctl reload
+bind = $CMD SHIFT CTRL, P, exec, hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m window --freeze --silent;hyprctl reload
 bind = $CMD, G, exec, kitty -e $TOOLS/swayrec/swayrec
 
 # #######################

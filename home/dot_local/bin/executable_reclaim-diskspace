@@ -1,0 +1,24 @@
+#!/usr/bin/env fish
+
+echo "Cleaning up Docker images..."
+if command -v docker &> /dev/null
+    sudo docker image prune -af
+else
+    echo "Docker not found, skipping."
+end
+
+echo "Removing old kernels..."
+sudo dnf remove -y (dnf repoquery --installonly --latest-limit=-3 -q)
+
+echo "Removing unused dependencies..."
+sudo dnf autoremove -y
+
+echo "Cleaning up Flatpak dependencies..."
+if command -v flatpak &> /dev/null
+    sudo flatpak uninstall --unused -y
+    sudo flatpak repair
+else
+    echo "Flatpak not found, skipping."
+end
+
+echo "Cleanup finished!"

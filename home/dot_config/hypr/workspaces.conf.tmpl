@@ -1,0 +1,60 @@
+# #######################
+# WORKSPACES
+# #######################
+
+# See https://wiki.hyprland.org/Configuring/Workspace-Rules/
+
+# "Smart gaps" / "No gaps when only"
+workspace = w[tv1], gapsout:0, gapsin:0
+workspace = f[1], gapsout:0, gapsin:0
+
+{{- if .isDesktop }}
+# Primary
+workspace = 1, monitor:DP-1, default:true
+workspace = 2, monitor:DP-1
+workspace = 3, monitor:DP-1
+workspace = 4, monitor:DP-1
+workspace = 5, monitor:DP-1
+workspace = 6, monitor:DP-1
+workspace = 7, monitor:DP-1
+workspace = 8, monitor:DP-1
+workspace = 9, monitor:DP-1
+workspace = 10,monitor:DP-1
+# Secondary
+workspace = 11, monitor:DP-2, default:true
+workspace = 12, monitor:DP-2
+workspace = 13, monitor:DP-2
+workspace = 14, monitor:DP-2
+workspace = 15, monitor:DP-2
+workspace = 16, monitor:DP-2
+workspace = 17, monitor:DP-2
+workspace = 18, monitor:DP-2
+workspace = 19, monitor:DP-2
+workspace = 20, monitor:DP-2
+# TV
+workspace = 21, monitor:HDMI-A-1, default:true
+workspace = 22, monitor:HDMI-A-1
+{{- else if .isLaptop }}
+# Primary
+workspace = 1, monitor:eDP-1, default:true
+workspace = 2, monitor:eDP-1
+workspace = 3, monitor:eDP-1
+workspace = 4, monitor:eDP-1
+workspace = 5, monitor:eDP-1
+workspace = 6, monitor:eDP-1
+workspace = 7, monitor:eDP-1
+workspace = 8, monitor:eDP-1
+workspace = 9, monitor:eDP-1
+workspace = 10,monitor:eDP-1
+# Secondary
+workspace = 11, monitor:DP-2, default:true
+workspace = 12, monitor:DP-2
+workspace = 13, monitor:DP-2
+workspace = 14, monitor:DP-2
+workspace = 15, monitor:DP-2
+workspace = 16, monitor:DP-2
+workspace = 17, monitor:DP-2
+workspace = 18, monitor:DP-2
+workspace = 19, monitor:DP-2
+workspace = 20, monitor:DP-2
+{{ end }}

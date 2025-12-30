@@ -1,0 +1,179 @@
+# #######################
+# KEY BINDINGS
+# #######################
+
+$CMD = SUPER
+$TOOLS = $HOME/.tools
+$CONFIG = $HOME/.config
+
+# See https://wiki.hyprland.org/Configuring/Binds/
+# Note : Key mappings are managed with QMK
+
+# Global Application Shortcuts -- i.e. call an application shortcut without focus
+bind = $CMD, R, pass, ^(com\.obsproject\.Studio)$
+
+# #######################
+# KEY BINDINGS : EXIT
+# #######################
+
+# Close
+bind = $CMD, Q, killactive
+
+# Lock
+bind = $CMD, L, exec, hyprlock
+
+# Exit
+bind = $CMD SHIFT, Q, exit
+
+# #######################
+# KEY BINDINGS : WINDOW MANAGEMENT
+# #######################
+
+# Layout
+bind = $CMD, Delete, layoutmsg, swapwithmaster              # swaps the current window with master. If the current window is the master, swaps it with the first child.
+bind = $CMD ALT, Delete, layoutmsg, addmaster               # adds a master to the master side.
+bind = $CMD SHIFT, Delete, layoutmsg, removemaster          # removes a master from the master side.
+bind = $CMD, O, pseudo                                      # grow to fill available space, or not
+bind = $CMD, J, togglesplit                                 # change the split orientation
+# bind = $CMD, Delete, togglegroup                          # cycle through grouping options
+bind = $CMD, F, fullscreen, 1                               # toggle full screen
+
+# Focus
+bind = $CMD, Left, movefocus, l
+bind = $CMD, Right, movefocus, r
+bind = $CMD, Up, movefocus, u
+bind = $CMD, Down, movefocus, d
+
+# Move Window
+bind = $CMD CTRL, Left, movewindow, l
+bind = $CMD CTRL, Right, movewindow, r
+bind = $CMD CTRL, Up, movewindow, u
+bind = $CMD CTRL, Down, movewindow, d
+
+# Cycle Window
+bind = $CMD, TAB, layoutmsg, swapnext
+bind = $CMD SHIFT, TAB, layoutmsg, swapprev
+bind = $CMD ALT, Up, layoutmsg, cyclenext
+bind = $CMD ALT, Down,layoutmsg, cycleprev
+
+# Resize Window
+bind = $CMD SHIFT, Left, resizeactive, -128 0
+bind = $CMD SHIFT, Right, resizeactive, 128 0
+bind = $CMD SHIFT, Up, resizeactive, 0 -128
+bind = $CMD SHIFT, Down, resizeactive, 0 128
+
+# Window Mouse Manipulation
+bindm = $CMD, mouse:272, movewindow
+bindm = $CMD, mouse:273, resizewindow
+
+# #######################
+# KEY BINDINGS : WORKSPACE MANAGEMENT
+# #######################
+
+# Workspaces
+## Special : Chat
+bind = CTRL, Space, togglespecialworkspace, chat
+bind = $CMD CTRL, Space, movetoworkspace, special:chat
+bind = SHIFT CTRL, Space, togglefloating
+
+bind = CTRL ALT, Space, togglespecialworkspace
+bind = $CMD CTRL ALT, Space, movetoworkspace, special
+
+# Workspace Switching
+
+# Switch workspaces with mod + [0-9]
+bind = $CMD, 1, workspace, r~1
+bind = $CMD, 2, workspace, r~2
+bind = $CMD, 3, workspace, r~3
+bind = $CMD, 4, workspace, r~4
+bind = $CMD, 5, workspace, r~5
+bind = $CMD, 6, workspace, r~6
+bind = $CMD, 7, workspace, r~7
+bind = $CMD, 8, workspace, r~8
+bind = $CMD, 9, workspace, r~9
+bind = $CMD, 0, workspace, r~10
+
+# Workspace Window Sending
+bind = $CMD SHIFT, 1, movetoworkspacesilent, r~1
+bind = $CMD SHIFT, 2, movetoworkspacesilent, r~2
+bind = $CMD SHIFT, 3, movetoworkspacesilent, r~3
+bind = $CMD SHIFT, 4, movetoworkspacesilent, r~4
+bind = $CMD SHIFT, 5, movetoworkspacesilent, r~5
+bind = $CMD SHIFT, 6, movetoworkspacesilent, r~6
+bind = $CMD SHIFT, 7, movetoworkspacesilent, r~7
+bind = $CMD SHIFT, 8, movetoworkspacesilent, r~8
+bind = $CMD SHIFT, 9, movetoworkspacesilent, r~9
+bind = $CMD SHIFT, 0, movetoworkspacesilent, r~10
+
+# Workspace Scrolling
+bind = $CMD, mouse_down, workspace, e+1
+bind = $CMD, mouse_up, workspace, e-1
+
+
+# #######################
+# KEY BINDINGS : MEDIA
+# #######################
+
+# Volume
+bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+bindel = , XF86AudioLowerVolume, exec, wpctl set-volume -l 0 @DEFAULT_AUDIO_SINK@ 5%-
+bindl = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
+# Media Controls
+bindl = , XF86AudioPlay, exec, playerctl play-pause
+bindl = , XF86AudioPrev, exec, playerctl previous
+bindl = , XF86AudioNext, exec, playerctl next
+
+# #######################
+# KEY BINDINGS : HYPRSUNSET
+# #######################
+
+bindel = ,XF86MonBrightnessDown, exec, hyprctl hyprsunset gamma -10
+bindel = ,XF86MonBrightnessUp, exec, hyprctl hyprsunset gamma +10
+
+# #######################
+# KEY BINDINGS : WAYBAR
+# #######################
+
+bind = $CMD, Space, exec, killall waybar || waybar
+
+# #######################
+# KEY BINDINGS : HYPRVOICE
+# #######################
+
+bind = $CMD, grave, exec, /home/io/.local/bin/hyprvoice toggle
+bind = $CMD SHIFT, grave, exec, /home/io/.local/bin/hyprvoice cancel
+
+# #######################
+# KEY BINDINGS : LAUNCH
+# #######################
+
+{{- if .isDesktop }}
+$KITTYLAUNCER = [float;size 35% 50%;center;pin;noanim;xray;stayfocused;opaque;rounding 12;bordersize 24;dimaround;xray 1;immediate] kitty --class=launcher
+{{- else if .isLaptop }}
+$KITTYLAUNCER = [float;size 60% 60%;center;pin;noanim] kitty --class=launcher
+{{ end }}
+
+# Desktop Launcher
+# bind = $CMD, Escape, exec, $KITTYLAUNCER $TOOLS/sway-launcher-desktop/sway-launcher-desktop.sh
+bind = $CMD, Escape, global, quickshell:hamrToggle
+
+# Clipboard history
+bind = $CMD, V, exec, cliphist list | wofi --show dmenu -H 600 -W 900 | cliphist decode | wl-copy
+
+# Applications
+bind = $CMD, Return, exec, kitty
+bind = $CMD, Backslash, exec, /opt/Telegram/Telegram
+bind = $CMD, Backspace, exec, zen-browser
+bind = $CMD, E, exec, nautilus
+
+# #######################
+# KEY BINDINGS : SCREENSHOTS
+# #######################
+
+# Hyprshot
+bind = $CMD, P, exec, hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m region --clipboard-only --freeze --silent;hyprctl reload
+bind = $CMD CTRL, P, exec, hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m window --clipboard-only --freeze --silent;hyprctl reload
+bind = $CMD SHIFT, P, exec, hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m region --freeze --silent;hyprctl reload
+bind = $CMD SHIFT CTRL, P, exec, hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m window --freeze --silent;hyprctl reload
+bind = $CMD, G, exec, kitty -e $TOOLS/swayrec/swayrec

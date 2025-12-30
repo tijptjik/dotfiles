@@ -1,0 +1,282 @@
+# #######################
+# WINDOW RULES
+# #######################
+
+# See https://wiki.hypr.land/Configuring/Window-Rules/
+
+# #######################
+# GENERAL
+# #######################
+
+# SMART GAPS
+
+windowrule {
+  name = smart-gaps
+  border_size = 0
+  rounding = 0
+  match:float = 0
+  match:workspace = w[tv1]
+}
+
+windowrule {
+  name = smart-gaps-fs
+  border_size = 0
+  rounding = 0
+  match:float = 0
+  match:workspace = f[1]
+}
+
+# FULL SCREEN
+
+windowrule {
+  name = fullscreen
+  fullscreen = on
+  idle_inhibit = focus
+  match:fullscreen = true
+}
+
+# #######################
+# APPS
+# #######################
+
+windowrule {
+  name = kitty
+  no_anim = on
+  match:class = kitty
+}
+
+windowrule {
+  name = plex
+  fullscreen = on
+  monitor = 0
+  workspace = 9
+  match:title = ^(Plex*)
+}
+
+windowrule {
+  name = telegram
+  workspace = special:chat silent
+  no_initial_focus = on
+  float = on
+  {{ if .isDesktop -}}
+  size = 944 1352
+  move = (1248) (24)
+  {{ else if .isLaptop -}}
+  size = 944 1352
+  move = (1248) (24)
+  {{ end -}}
+  match:class = ^(org.telegram.desktop.*)
+}
+
+windowrule {
+  name = whatsapp
+  workspace = special:chat silent
+  no_initial_focus = on
+  float = on
+  {{ if .isDesktop -}}
+  size = 1112 1352
+  move = (112) (24)
+  {{ else if .isLaptop -}}
+  size = 1112 1352
+  move = (112) (24)
+  {{ end -}}
+  match:class = com.rtosta.zapzap
+}
+
+windowrule {
+  name = signal
+  workspace = special:chat silent
+  no_initial_focus = on
+  float = on
+  {{ if .isDesktop -}}
+  size = 1112 664
+  move = (2218) (24)
+  {{ else if .isLaptop -}}
+  size = 1112 664
+  move = (2218) (24)
+  {{ end -}}
+  match:class = org.signal.Signal
+}
+
+windowrule {
+  name = discord
+  float = on
+  workspace = special:chat silent
+  no_initial_focus = on
+  {{ if .isDesktop -}}
+  size = 1112 664
+  move = (2218) (712)
+  {{ else if .isLaptop -}}
+  size = 1112 664
+  move = (2218) (712)
+  {{ end -}}
+  match:class = discord
+}
+
+windowrule {
+  name = spotify
+  workspace = 20 silent
+  no_initial_focus = on
+  fullscreen = on
+  match:class = ^(Spotify)$
+}
+
+# #######################
+# CONTROL PANELS
+# #######################
+
+windowrule {
+  name = pavucontrol
+  float = on
+  size = 720 800
+  {{ if .isDesktop -}}
+  move = (2682) (574)
+  {{ else if .isLaptop -}}
+  move = (1196) (982)
+  {{ end -}}
+  match:class = org.pulseaudio.pavucontrol
+}
+
+windowrule {
+  name = mullvad
+  animation = fade
+  {{ if .isDesktop -}}
+  move = (2846) (803)
+  {{ else if .isLaptop -}}
+  move = (4390) (816)
+  {{ end -}}
+  match:title = ^(Mullvad VPN)$
+}
+
+# #######################
+# GAMES
+# #######################
+
+windowrule {
+  name = steam-games
+  fullscreen = on
+  monitor = 0
+  workspace = 10
+  border_size = 0
+  tag = +game
+  animation = 0
+  match:class = ^steam_app\d+$
+}
+
+windowrule {
+  name = yakuza0
+  monitor = HDMI-A-1
+  workspace = 21
+  match:class = yakuza0.exe
+}
+
+# Nintendo Switch / Yuzu
+windowrule {
+  name = yuzu
+  monitor = HDMI-A-1
+  workspace = 21
+  tag = +game
+  match:class = org.yuzu_emu.yuzu
+}
+
+# #######################
+# GENERIC MODALS
+# #######################
+
+# Float as many modals as possible :)
+
+windowrule {
+  name = float-progress
+  float = on
+  match:class = file_progress
+}
+
+windowrule {
+  name = float-confirm
+  float = on
+  match:class = confirm
+}
+
+windowrule {
+  name = float-dialog
+  float = on
+  match:class = dialog
+}
+
+windowrule {
+  name = float-download
+  float = on
+  match:class = download
+}
+
+windowrule {
+  name = float-notification
+  float = on
+  match:class = notification
+}
+
+windowrule {
+  name = float-error
+  float = on
+  match:class = error
+}
+
+windowrule {
+  name = float-splash
+  float = on
+  match:class = splash
+}
+
+windowrule {
+  name = float-confirmreset
+  float = on
+  match:class = confirmreset
+}
+
+windowrule {
+  name = float-openfile
+  float = on
+  match:title = Open File
+}
+
+windowrule {
+  name = float-branchdialog
+  float = on
+  match:title = branchdialog
+}
+
+windowrule {
+  name = float-fileroller
+  float = on
+  match:class = file-roller
+}
+
+windowrule {
+  name = float-devtools
+  float = on
+  match:title = DevTools
+}
+
+windowrule {
+  name = float-mediaviewer
+  float = on
+  match:title = ^(Media viewer)$
+}
+
+windowrule {
+  name = float-pip
+  float = on
+  match:title = ^(Picture-in-Picture)$
+}
+
+windowrule {
+  name = float-fileoperationprogress
+  float = on
+  match:title = ^(File Operation Progress)$
+}
+
+windowrule {
+  name = float-confirmreplacefiles
+  float = on
+  match:title = ^(Confirm to replace files)$
+}

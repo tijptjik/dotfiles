@@ -1,13 +1,29 @@
 {{ if .isDesktop -}}
 
-preload = /home/io/.local/share/backgrounds/24:9/selection.jpg
-wallpaper = DP-1,/home/io/.local/share/backgrounds/24:9/selection.jpg
-wallpaper = DP-2,/home/io/.local/share/backgrounds/24:9/selection.jpg
-wallpaper = HDMI-A-1,/home/io/.local/share/backgrounds/24:9/selection.jpg
+wallpaper {
+    monitor = DP-1
+    path = /home/io/.local/share/backgrounds/21:9/selection.jpg
+    splash = false
+}
+
+wallpaper {
+    monitor = DP-2
+    path = /home/io/.local/share/backgrounds/21:9/selection.jpg
+    splash = false
+}
+
+wallpaper {
+    monitor = HDMI-A-1
+    path = /home/io/.local/share/backgrounds/21:9/selection.jpg
+    splash = false
+}
 
 {{ else if .isLaptop -}}
 
-preload = /home/io/.local/share/backgrounds/16:10/1.jpg
-wallpaper = eDP-1,/home/io/.local/share/backgrounds/16:10/1.jpg
+wallpaper {
+    monitor = eDP-1
+    path = /home/io/.local/share/backgrounds/16:10/1.jpg
+    splash = false
+}
 
 {{ end -}}

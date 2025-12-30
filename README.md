@@ -110,6 +110,9 @@ chezmoi apply
 - Telegram
 - Once zed implements [modelines support](https://github.com/zed-industries/zed/issues/4762), update the `tmpl` files with proper syntax hints
 
+### Laptop
+- `fstab`
+
 ### Packages Not Backed Up
 - .zen/
 - .config/BraveSoftware

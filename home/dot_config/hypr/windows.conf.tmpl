@@ -152,6 +152,7 @@ windowrule {
 # GAMES
 # #######################
 
+# Steam Games / Buldar's Gate 3
 windowrule {
   name = steam-games
   fullscreen = on
@@ -160,23 +161,16 @@ windowrule {
   border_size = 0
   tag = +game
   animation = 0
-  match:class = ^steam_app\d+$
+  match:class = ^steam_app\d+|bg3$
 }
 
+# Nintendo Switch / Yuzu / Yakuza0
 windowrule {
-  name = yakuza0
-  monitor = HDMI-A-1
-  workspace = 21
-  match:class = yakuza0.exe
-}
-
-# Nintendo Switch / Yuzu
-windowrule {
-  name = yuzu
+  name = console-games
   monitor = HDMI-A-1
   workspace = 21
   tag = +game
-  match:class = org.yuzu_emu.yuzu
+  match:class = yakuza0.exe|org.yuzu_emu.yuzu
 }
 
 # #######################
@@ -186,97 +180,13 @@ windowrule {
 # Float as many modals as possible :)
 
 windowrule {
-  name = float-progress
+  name = float-generic-class
   float = on
-  match:class = file_progress
+  match:class = file_progress|confirm|dialog|download|notification|error|splash|confirmreset
 }
 
 windowrule {
-  name = float-confirm
+  name = float-title
   float = on
-  match:class = confirm
-}
-
-windowrule {
-  name = float-dialog
-  float = on
-  match:class = dialog
-}
-
-windowrule {
-  name = float-download
-  float = on
-  match:class = download
-}
-
-windowrule {
-  name = float-notification
-  float = on
-  match:class = notification
-}
-
-windowrule {
-  name = float-error
-  float = on
-  match:class = error
-}
-
-windowrule {
-  name = float-splash
-  float = on
-  match:class = splash
-}
-
-windowrule {
-  name = float-confirmreset
-  float = on
-  match:class = confirmreset
-}
-
-windowrule {
-  name = float-openfile
-  float = on
-  match:title = Open File
-}
-
-windowrule {
-  name = float-branchdialog
-  float = on
-  match:title = branchdialog
-}
-
-windowrule {
-  name = float-fileroller
-  float = on
-  match:class = file-roller
-}
-
-windowrule {
-  name = float-devtools
-  float = on
-  match:title = DevTools
-}
-
-windowrule {
-  name = float-mediaviewer
-  float = on
-  match:title = ^(Media viewer)$
-}
-
-windowrule {
-  name = float-pip
-  float = on
-  match:title = ^(Picture-in-Picture)$
-}
-
-windowrule {
-  name = float-fileoperationprogress
-  float = on
-  match:title = ^(File Operation Progress)$
-}
-
-windowrule {
-  name = float-confirmreplacefiles
-  float = on
-  match:title = ^(Confirm to replace files)$
+  match:title = Open File|branchdialog|file-roller|DevTools|^(Media viewer)$|^(Picture-in-Picture)$|^(File Operation Progress)$|^(Confirm to replace files)$
 }

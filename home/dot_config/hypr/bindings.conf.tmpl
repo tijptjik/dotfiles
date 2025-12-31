@@ -20,7 +20,7 @@ bind = $CMD, R, pass, ^(com\.obsproject\.Studio)$
 bind = $CMD, Q, killactive
 
 # Lock
-bind = $CMD, L, exec, hyprlock
+bind = $CMD, L, exec, hyprlock --grace 5 --immediate-render
 
 # Exit
 bind = $CMD SHIFT, Q, exit

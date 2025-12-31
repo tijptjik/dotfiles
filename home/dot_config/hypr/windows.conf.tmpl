@@ -100,17 +100,15 @@ windowrule {
 
 windowrule {
   name = discord
-  float = on
-  workspace = special:chat silent
+  workspace = 19 silent
   no_initial_focus = on
-  {{ if .isDesktop -}}
-  size = 1112 664
-  move = (2218) (712)
-  {{ else if .isLaptop -}}
-  size = 1112 664
-  move = (2218) (712)
-  {{ end -}}
   match:class = discord
+}
+
+windowrule {
+  name = steam
+  workspace = 9
+  match:class = steam
 }
 
 windowrule {
@@ -152,7 +150,7 @@ windowrule {
 # GAMES
 # #######################
 
-# Steam Games / Buldar's Gate 3
+# Steam Games / Gamescope
 windowrule {
   name = steam-games
   fullscreen = on
@@ -160,7 +158,7 @@ windowrule {
   workspace = 10
   border_size = 0
   animation = 0
-  match:class = ^steam_app\d+|gamescope|bg3$
+  match:class = ^steam_app\d+|gamescope$
 }
 
 # Nintendo Switch / Yuzu / Yakuza0
@@ -181,11 +179,13 @@ windowrule {
 windowrule {
   name = float-generic-class
   float = on
+  border_size = 0
   match:class = file_progress|confirm|dialog|download|notification|error|splash|confirmreset
 }
 
 windowrule {
   name = float-title
   float = on
-  match:title = Open File|branchdialog|file-roller|DevTools|^(Media viewer)$|^(Picture-in-Picture)$|^(File Operation Progress)$|^(Confirm to replace files)$
+  border_size = 0
+  match:title = Open File|branchdialog|file-roller|DevTools|^(Media viewer)$|^(Picture-in-Picture)$|^(File Operation Progress)$|^(Confirm to replace files)$|^(Sign in to Steam)$
 }

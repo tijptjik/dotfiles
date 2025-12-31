@@ -1,0 +1,46 @@
+{
+  "apps": {
+    "terminal": "kitty",
+    "shell": "fish"
+  },
+  "imageBrowser": {
+    "useSystemFileDialog": false
+  },
+  "search": {
+    "actionKeys": [
+      "u",
+      "i",
+      "o",
+      "p"
+    ],
+    "engineBaseUrl": "https://www.google.com/search?q=",
+    "excludedSites": [
+      "quora.com",
+      "facebook.com"
+    ],
+    "nonAppResultDelay": 30,
+    "prefix": {
+      "action": "/",
+      "app": ">",
+      "clipboard": ";",
+      "emojis": ":",
+      "file": "~",
+      "math": "=",
+      "shellCommand": "$",
+      "shellHistory": "!",
+      "webSearch": "?"
+    },
+    "shellHistory": {
+      "customHistoryPath": "",
+      "enable": true,
+      "maxEntries": 500,
+      "shell": "auto"
+    }
+  },
+  "behavior": {
+    "clickOutsideAction": "close"
+  },
+  "appearance": {
+    "launcherYRatio": 0.2
+  }
+}

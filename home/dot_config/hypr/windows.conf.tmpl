@@ -46,11 +46,11 @@ windowrule {
 }
 
 windowrule {
-  name = plex
-  fullscreen = on
-  monitor = 0
-  workspace = 9
-  match:title = ^(Plex*)
+  name = zen
+  size = 1800 1200
+  center = on
+  match:class = zen
+  match:float = true
 }
 
 windowrule {
@@ -117,6 +117,14 @@ windowrule {
   no_initial_focus = on
   fullscreen = on
   match:class = ^(Spotify)$
+}
+
+windowrule {
+  name = plex
+  fullscreen = on
+  monitor = 0
+  workspace = 9
+  match:title = ^(Plex*)
 }
 
 # #######################

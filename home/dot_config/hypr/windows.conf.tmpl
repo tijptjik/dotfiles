@@ -71,6 +71,21 @@ windowrule {
 }
 
 windowrule {
+  name = telegram-media-viewer
+  workspace = special:chat silent
+  float = on
+  stay_focused = on
+  {{ if .isDesktop -}}
+  size = 3228 1338
+  move = (112) (24)
+  {{ else if .isLaptop -}}
+  size = 3228 1338
+  move = (112) (24)
+  {{ end -}}
+  match:title = ^(Media viewer)$
+}
+
+windowrule {
   name = whatsapp
   workspace = special:chat silent
   no_initial_focus = on

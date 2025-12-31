@@ -8,16 +8,24 @@
 	],
 	"monitors":{
 		"DP-1":{
-			"width":2443,
-			"height":1023,
+			"width":1800,
+			"height":1200,
+			"offset":[
+				0,
+				0
+			]
+		},
+		"DP-2":{
+			"width":1440,
+			"height":720,
 			"offset":[
 				0,
 				0
 			]
 		},
 		"HDMI-A-1":{
-			"width":1364,
-			"height":767,
+			"width":1800,
+			"height":1200,
 			"offset":[
 				0,
 				0

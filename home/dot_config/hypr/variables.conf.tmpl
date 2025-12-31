@@ -14,36 +14,16 @@
 
 # See https://wiki.hyprland.org/Configuring/Variables/#general
 
-{{- if .isDesktop }}
-
 general {
     border_size = 4
     gaps_in = 6
     gaps_out = 12,12,8
-    col.active_border = $fx-rose-semi
-    col.inactive_border =  $fx-grey-l-semi
+    col.active_border = $fx-indigo-semi
+    col.inactive_border = $fx-grey-l-semi
     layout = master
     resize_on_border = true
     hover_icon_on_border = false
 }
-
-{{- else if .isLaptop }}
-
-general {
-    border_size = 2
-    gaps_in = 6
-    gaps_out = 0
-    col.active_border = $fx-rose-semi
-    col.inactive_border =  $fx-grey-l-semi
-    layout = master
-    hover_icon_on_border = false
-    no_border_on_floating = true # deprecated?
-    snap {
-        enabled = true
-    }
-}
-
-{{ end }}
 
 # #######################
 # DECORATION
@@ -54,7 +34,7 @@ general {
 decoration {
     rounding = 12
     active_opacity = 1
-    inactive_opacity = 0.9
+    inactive_opacity = 1
     fullscreen_opacity = 1
 }
 
@@ -85,28 +65,12 @@ animations {
 
 # See https://wiki.hyprland.org/Configuring/Variables/#input
 
-{{ if .isDesktop -}}
-
 input {
     follow_mouse = 2
     float_switch_override_focus = 2
     special_fallthrough = true
     off_window_axis_events = 3
 }
-
-{{- else if .isLaptop }}
-
-input {
-    follow_mouse = 2
-    float_switch_override_focus = 2
-    special_fallthrough = true
-    off_window_axis_events = 3
-    sensitivity = 0
-    kb_options = fkeys:basic_13-24
-    kb_options = caps:swapescape
-}
-
-{{- end }}
 
 
 # #######################

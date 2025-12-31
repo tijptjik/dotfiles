@@ -6,6 +6,8 @@
 {{ if .isDesktop -}}
 
 # Primary
+
+# Samsung Odyssey G8
 monitorv2 {
     output = DP-1
     mode = 3440x1440@119.960999
@@ -13,31 +15,68 @@ monitorv2 {
     scale = 1
     bitdepth = 8
     cm = srgb
+    supports_wide_color = 1
+    supports_hdr = 1
 }
 
 # Secondary
+
 ### HP23
-monitor = DP-2,1920x1080@74.97,3440x720,auto,vrr,1
+monitorv2 {
+    output = DP-2
+    mode = 1920x1080@74.97
+    position = 3440x720
+    scale = 1
+    bitdepth = 8
+    cm = srgb
+}
+
 ### HP23 - Disabled
-# monitor = DP-2,disable
+# monitorv2 {
+#     output = DP-2
+#     disabled = true
+# }
 
 # Tertiary
+
 ### LG TV - 4K
-# monitor = HDMI-A-1,3840x2160@60.00,auto-center-left,1
+# monitorv2 {
+#     output = HDMI-A-1
+#     mode = 3840x2160@60.00
+#     position = auto-center-left
+#     scale = 1
+# }
+
 ### LG TV - 1080p
-# monitor = HDMI-A-1,1920x1080@120.00,auto-center-left,1
-# monitor = HDMI-A-1,1920x1080@60,3440x720,auto
+# monitorv2 {
+#     output = HDMI-A-1
+#     mode = 1920x1080@60.00
+#     position = auto-center-left
+#     scale = 1
+# }
+
 ### LG TV - disabled
-monitor = HDMI-A-1,disable
+monitorv2 {
+    output = HDMI-A-1
+    disabled = true
+}
 
 {{ else if .isLaptop -}}
 
 # Primary
-monitor = eDP-1,3840x2400@60,auto,2
-### Disabled
-# monitor = eDP-1,disable
+monitorv2 {
+    output = eDP-1
+    mode = 3840x2400@60.00
+    position = 0x0
+    scale = 2
+}
 
 # Secondary
-monitor = DP-2,1920x1080@60,auto,1
+monitorv2 {
+    output = DP-2
+    mode = 1920x1080@60.00
+    position = auto-right
+    scale = 1
+}
 
 {{- end }}

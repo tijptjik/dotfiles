@@ -12,7 +12,7 @@
 
 # Customize fish greeting message
 function fish_greeting
-  fortune | xargs -0 docker run --rm mpepping/ponysay:3.0.4
+  fortune | xargs -0 docker run --rm mpepping/ponysay:latest
 end
 
 #################################

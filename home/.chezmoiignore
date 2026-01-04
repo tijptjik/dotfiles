@@ -1,7 +1,8 @@
 .gemini/tmp/
 .var/app/org.yuzu_emu.yuzu/config/yuzu/**
 .mozilla/firefox/*.default-release/storage/**
-.fonts/.uuid
+.fonts/.uui
+.config/sublime-text/Local/Auto Save Session.sublime_session
 {{ if .isClient -}}
 downloads
 dockers

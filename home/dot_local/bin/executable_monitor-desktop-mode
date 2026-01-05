@@ -6,15 +6,13 @@
 # DP-1: Main ultrawide
 # DP-2: Side monitor
 # HDMI-A-1: TV (disabled)
-hyprctl --batch "\
-    keyword monitor DP-1,3440x1440@119.960999,0x0,auto,vrr,1;\
-    keyword monitor DP-2,1920x1080@74.97,3440x720,auto,vrr,1;\
-    keyword monitor HDMI-A-1,disable"
+hyprctl reload
 
 # Restore default hypridle configuration by removing any overrides
 set override_dir (path resolve ~/.config/systemd/user/hypridle.service.d)
 if test -d $override_dir
     rm -rf $override_dir
+    systemctl --user daemon-reload
 end
 
 # Kill the game-mode activity listener
@@ -29,4 +27,4 @@ hyprsunset --gamma 1.0
 # Restart the default idle service
 systemctl --user start hypridle.service
 
-echo "Switched to Desktop monitor profile."
+notify-send "[DISPLAY] Desktop profile"

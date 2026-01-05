@@ -5,8 +5,8 @@
 # It also brightens the screen on activity.
 
 # Find device paths for the target keyboard and mouse
-set keyboard_device_path (libinput list-devices | grep -A1 "graystudio-space65" | grep -o '/dev/input/event[0-9]*' | head -n 1)
-set mouse_device_path (libinput list-devices | grep -A1 "logitech-mx-vertical-1" | grep -o '/dev/input/event[0-9]*' | head -n 1)
+set keyboard_device_path (sudo libinput list-devices | grep -A1 "graystudio-space65" | grep -o '/dev/input/event[0-9]*' | head -n 1)
+set mouse_device_path (sudo libinput list-devices | grep -A1 "logitech-mx-vertical-1" | grep -o '/dev/input/event[0-9]*' | head -n 1)
 
 if test -z "$keyboard_device_path" -o -z "$mouse_device_path"
     echo "Error: Could not find one or both of the specified input devices." >&2

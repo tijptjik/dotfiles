@@ -47,6 +47,9 @@ alias lsdo='lsd -al | grep "^d"'
 ### CAT / FZF
 #################################
 
+# Script to open markdown in glow, fallback to bat
+alias r='readr'
+
 alias cat='bat --paging=never'
 alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
 

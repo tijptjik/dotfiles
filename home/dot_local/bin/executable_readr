@@ -1,0 +1,10 @@
+#!/usr/bin/env fish
+
+set file $argv[1]
+
+if string match -q "*.md" -- $file
+or string match -q "*.markdown" -- $file
+    glow "$file"
+else
+    bat "$file"
+end

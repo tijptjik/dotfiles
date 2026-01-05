@@ -52,7 +52,6 @@ alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {
 
 # Highlighting --help messages
 abbr -a --position anywhere -- --help '--help | bat -plhelp'
-abbr -a --position anywhere -- -h '-h | bat -plhelp'
 
 #################################
 ### GREP / TAIL

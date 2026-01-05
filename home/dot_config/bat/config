@@ -6,12 +6,18 @@
 # for a list of all available themes
 --theme="TwoDark"
 
+# Show line numbers, Git modifications and file header (but no grid)
+--style="header"
+
 # Enable this to use italic text on the terminal. This is not supported on all
 # terminal emulators (like tmux, by default):
 --italic-text=always
 
 # Uncomment the following line to disable automatic paging:
 #--paging=never
+
+# Squeeze consecutive empty lines into a single empty line.
+--squeeze-blank
 
 # Uncomment the following line if you are using less version >= 551 and want to
 # enable mouse scrolling support in `bat` when running inside tmux. This might

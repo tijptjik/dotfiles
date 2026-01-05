@@ -21,7 +21,8 @@ set -x BROWSER /bin/zen-browser
 set -x UAEDITOR subl
 set -x EDITOR micro
 set -x VISUAL subl
-set -x PAGER most
+set -x PAGER ov
+set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
 #################################
 ### XDG PATH VARIABLES

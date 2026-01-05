@@ -4,7 +4,7 @@ set file $argv[1]
 
 if string match -q "*.md" -- $file
 or string match -q "*.markdown" -- $file
-    glow "$file"
+    glow -p "$file"
 else
     bat "$file"
 end

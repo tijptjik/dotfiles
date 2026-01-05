@@ -16,6 +16,9 @@
 # Uncomment the following line to disable automatic paging:
 #--paging=never
 
+# Determine which pager is used.
+--pager="ov -F -H3"
+
 # Squeeze consecutive empty lines into a single empty line.
 --squeeze-blank
 

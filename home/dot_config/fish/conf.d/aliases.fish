@@ -47,14 +47,6 @@ alias lsdo='lsd -al | grep "^d"'
 ### CAT / FZF
 #################################
 
-# Script to open markdown in glow, fallback to bat
-alias r='readr'
-
-alias cat='bat --paging=never'
-alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
-
-# Highlighting --help messages
-abbr -a --position anywhere -- --help '--help | bat -plhelp'
 
 #################################
 ### GREP / TAIL
@@ -94,17 +86,31 @@ alias yrl="sudo dnf remove --remove-leaves" # remove package and leaves
 alias yc='sudo dnf clean packages -y'       # clean packages
 
 #################################
-### PAGERS & EDITORS
+### PRINTERS, PAGERS & EDITORS
 #################################
 
+# Printers
+alias cat='bat --paging=never'
+alias b='bat'
+
+# Highlighting --help messages
+abbr -a --position anywhere -- --help '--help | bat -plhelp'
+
+# Pagers
+
+# Script to open markdown in glow, fallback to bat
+alias r='readr'
+
+# Fuzzy finder
+alias fzf='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
+
+# Editors
 alias m='micro'
 alias vi='vim'
 alias v='vim'
 alias sv='sudo vim'
 alias st='subl'
 alias sublime='subl'
-
-alias b='bat'
 
 ################################
 ###  GIT

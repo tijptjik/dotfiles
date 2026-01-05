@@ -1,6 +1,7 @@
 {
   "apps": {
     "terminal": "kitty",
+    "terminalArgs" : "--class=floating.terminal",
     "shell": "fish"
   },
   "imageBrowser": {
@@ -23,12 +24,12 @@
       "action": "/",
       "app": ">",
       "clipboard": ";",
+      "dict": "?",
       "emojis": ":",
       "file": "~",
       "math": "=",
       "shellCommand": "$",
-      "shellHistory": "!",
-      "webSearch": "?"
+      "shellHistory": "!"
     },
     "shellHistory": {
       "customHistoryPath": "",
@@ -41,6 +42,7 @@
     "clickOutsideAction": "close"
   },
   "appearance": {
+    "fontScale": 1.3,
     "launcherYRatio": 0.2
   }
 }

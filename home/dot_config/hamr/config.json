@@ -46,6 +46,7 @@
     "launcherYRatio": 0.2
   },
   "paths": {
-    "wallpaperDir": "~/.local/share/backgrounds/21:9"
+    "wallpaperDir": "~/.local/share/backgrounds/21:9",
+    "colorsJson": "~/.config/hamr/colors.json"
   }
 }

@@ -1,7 +1,7 @@
 .gemini/tmp/
 .var/app/org.yuzu_emu.yuzu/config/yuzu/**
 .mozilla/firefox/*.default-release/storage/**
-.fonts/.uui
+.fonts/.uuid
 .config/sublime-text/Local/Auto Save Session.sublime_session
 {{ if .isClient -}}
 downloads

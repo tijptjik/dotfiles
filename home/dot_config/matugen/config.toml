@@ -33,7 +33,7 @@ block_postfix = "*>"
 
 [config.wallpaper]
 # Whether to set the wallpaper or not
-set = true
+set = false
 
 # The base command to run for applying the wallpaper.
 # Keywords like {{ image }} or anything that works inside of hooks works here.
@@ -94,15 +94,15 @@ green = { color = "#00FF00", blend = false }
 # output_path = '~/.config/hypr/colors.conf'
 # post_hook = 'hyprctl reload'
 
-[templates.waybar]
-input_path = '~/.tools/matugen-themes/templates/colors.css'
-output_path = '~/.config/waybar/colors.css'
-post_hook = '/bin/pkill -SIGUSR2 waybar'
+# [templates.waybar]
+# input_path = '~/.tools/matugen-themes/templates/colors.css'
+# output_path = '~/.config/waybar/colors.css'
+# post_hook = '/bin/pkill -SIGUSR2 waybar'
 
-[templates.kitty]
-input_path = '~/.tools/matugen-themes/templates/kitty-colors.conf'
-output_path = '~/.config/kitty/colors.conf'
-post_hook = '/bin/pkill -SIGUSR1 kitty'
+# [templates.kitty]
+# input_path = '~/.tools/matugen-themes/templates/kitty-colors.conf'
+# output_path = '~/.config/kitty/colors.conf'
+# post_hook = '/bin/pkill -SIGUSR1 kitty'
 
 [templates.gtk3]
 input_path = '~/.tools/matugen-themes/templates/gtk-colors.css'
@@ -113,10 +113,10 @@ post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings s
 input_path = '~/.tools/matugen-themes/templates/gtk-colors.css'
 output_path = '~/.config/gtk-4.0/colors.css'
 
-[templates.dunst]
-input_path = '~/.tools/matugen-themes/templates/dunstrc-colors'
-output_path = '~/.config/dunst/dunstrc'
-post_hook = 'dunstctl reload'
+# [templates.dunst]
+# input_path = '~/.tools/matugen-themes/templates/dunstrc-colors'
+# output_path = '~/.config/dunst/dunstrc'
+# post_hook = 'dunstctl reload'
 
 [templates.micro]
 input_path = '~/.tools/matugen-themes/templates/micro.micro'

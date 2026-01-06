@@ -1,3 +1,5 @@
+@import "colors.css";
+
 @define-color fx-white rgba (254, 241, 253, 1);
 @define-color fx-white-semi rgba (254, 241, 253, 0.7);
 @define-color fx-pink rgba (245, 128, 147, 1);

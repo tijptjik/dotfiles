@@ -71,19 +71,6 @@ services:
       - {{ .ports.transmissionP2P }}:{{ .ports.transmissionP2P }}
       - {{ .ports.transmissionP2P }}:{{ .ports.transmissionP2P }}/udp
 
-  jackett:
-    container_name: jackett
-    image: linuxserver/jackett:latest
-    restart: unless-stopped
-    environment:
-      <<: *common-env
-      AUTO_UPDATE: "true"
-    volumes:
-      - {{ .paths.appData }}/jackett:/config
-      - {{ .paths.downloads }}:/downloads
-    ports:
-      - {{ .ports.jackett }}:{{ .ports.jackett }}
-
   prowlarr:
     container_name: prowlarr
     image: bitlessbyte/prowlarr:latest

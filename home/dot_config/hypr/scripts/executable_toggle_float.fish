@@ -14,7 +14,7 @@ if test "$is_floating" = "true"
 end
 
 # Resize and float the active window based on its class
-if string match -q -- '*zen*' "$active_class"
+if string match -q -- '*zen*|*kitty*' "$active_class"
     hyprctl dispatch togglefloating
     hyprctl dispatch resizeactive exact 1800 1200
     hyprctl dispatch centerwindow

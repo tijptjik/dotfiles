@@ -172,6 +172,16 @@ services:
     ports:
       - {{ .ports.booklore }}:{{ .ports.booklore }}
 
+  byparr:
+     container_name: byparr
+     image: ghcr.io/thephaseless/byparr:latest
+     restart: unless-stopped
+     environment:
+       <<: *common-env
+       LOG_LEVEL: INFO
+     ports:
+       - {{ .ports.byparr }}:{{ .ports.byparr }}
+
   mariadb:
     container_name: mariadb
     image: linuxserver/mariadb:latest

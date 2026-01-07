@@ -1,0 +1,10 @@
+ports:
+  mariadb: 3306
+  booklore: 6060
+  radarr: 7878
+  calibre: 8083
+  tautulli: 8181
+  sonarr: 8989
+  transmissionWeb: 9091
+  jackett: 9117
+  transmissionP2P: 51413

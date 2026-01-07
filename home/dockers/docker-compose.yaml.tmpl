@@ -13,7 +13,7 @@ services:
     logging:
       driver: json-file
     ports:
-      - {{ .chezmoi.ports.radarr }}:{{ .chezmoi.ports.radarr }}
+      - {{ .ports.radarr }}:{{ .ports.radarr }}
     environment:
       <<: *common-env
     volumes:
@@ -28,12 +28,12 @@ services:
     logging:
       driver: json-file
     ports:
-      - {{ .chezmoi.ports.sonarr }}:{{ .chezmoi.ports.sonarr }}
+      - {{ .ports.sonarr }}:{{ .ports.sonarr }}
     environment:
       <<: *common-env
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - {{ .chezmoi.paths.appData }}/sonarr:/config
+      - {{ .paths.appData }}/sonarr:/config
       - /mnt/storage:/data
 
   transmission:
@@ -41,17 +41,17 @@ services:
     image: lscr.io/linuxserver/transmission:latest
     restart: unless-stopped
     environment:
-      <<: [*common-env, USER=media, PASS={{ (bitwardenSecrets "d0001509-175f-4cef-9ca6-b3cb00abff89").value | quote }}]
+      <<: [*common-env, USER=media, PASS={{ (bitwardenSecrets "d0001509-175f-4cef-9ca6-b3cb00abff89").value }}]
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - {{ .chezmoi.paths.appData }}/transmission:/config
-      - {{ .chezmoi.paths.downloads }}:/downloads
-      - {{ .chezmoi.paths.downloads }}/.torrents:/watch
+      - {{ .paths.appData }}/transmission:/config
+      - {{ .paths.downloads }}:/downloads
+      - {{ .paths.downloads }}/.torrents:/watch
       - /mnt/storage:/data
     ports:
-      - {{ .chezmoi.ports.transmissionWeb }}:{{ .chezmoi.ports.transmissionWeb }}
-      - {{ .chezmoi.ports.transmissionP2P }}:{{ .chezmoi.ports.transmissionP2P }}
-      - {{ .chezmoi.ports.transmissionP2P }}:{{ .chezmoi.ports.transmissionP2P }}/udp
+      - {{ .ports.transmissionWeb }}:{{ .ports.transmissionWeb }}
+      - {{ .ports.transmissionP2P }}:{{ .ports.transmissionP2P }}
+      - {{ .ports.transmissionP2P }}:{{ .ports.transmissionP2P }}/udp
 
   jackett:
     container_name: jackett
@@ -60,10 +60,10 @@ services:
     environment:
       <<: [*common-env, AUTO_UPDATE=true]
     volumes:
-      - {{ .chezmoi.paths.appData }}/jackett:/config
-      - {{ .chezmoi.paths.downloads }}:/downloads
+      - {{ .paths.appData }}/jackett:/config
+      - {{ .paths.downloads }}:/downloads
     ports:
-      - {{ .chezmoi.ports.jackett }}:{{ .chezmoi.ports.jackett }}
+      - {{ .ports.jackett }}:{{ .ports.jackett }}
 
   calibre-web:
     container_name: calibre-web
@@ -73,9 +73,9 @@ services:
       <<: [*common-env, DOCKER_MODS=linuxserver/mods:universal-calibre, OAUTHLIB_RELAX_TOKEN_SCOPE=1]
     volumes:
       - /home/m/.config/calibre-web:/config
-      - {{ .chezmoi.paths.publicRoot }}/books/EN:/books
+      - {{ .paths.publicRoot }}/books/EN:/books
     ports:
-      - {{ .chezmoi.ports.calibre }}:{{ .chezmoi.ports.calibre }}
+      - {{ .ports.calibre }}:{{ .ports.calibre }}
 
   tautulli:
     container_name: tautulli
@@ -86,14 +86,14 @@ services:
     volumes:
       - /mnt/storage/meta/appData/tautulli:/config
     ports:
-      - {{ .chezmoi.ports.tautulli }}:{{ .chezmoi.ports.tautulli }}
+      - {{ .ports.tautulli }}:{{ .ports.tautulli }}
 
   auto-m4b:
     container_name: auto-m4b
     image: seanap/auto-m4b
     volumes:
       - /home/m/.tools/auto-m4b:/config
-      - {{ .chezmoi.paths.downloads }}/audiobooks:/temp
+      - {{ .paths.downloads }}/audiobooks:/temp
     environment:
       <<: [*common-env, CPU_CORES=4, SLEEPTIME=1m, MAKE_BACKUP=N]
 
@@ -106,8 +106,8 @@ services:
     volumes:
       - /home/m/.tools/beets-audible/beets/config:/config
       - /home/m/.tools/beets-audible/beets/scripts:/config/custom-cont-init.d
-      - {{ .chezmoi.paths.publicRoot }}/audiobooks:/audiobooks
-      - {{ .chezmoi.paths.downloads }}/audiobooks/untagged:/untagged
+      - {{ .paths.publicRoot }}/audiobooks:/audiobooks
+      - {{ .paths.downloads }}/audiobooks/untagged:/untagged
 
   booklore:
     container_name: booklore
@@ -115,9 +115,9 @@ services:
     restart: unless-stopped
     depends_on:
       mariadb:
-      condition: service_healthy
+        condition: service_healthy
     healthcheck:
-      test: wget -q -O - http://localhost:{{ .chezmoi.ports.booklore }}/api/v1/healthcheck
+      test: wget -q -O - http://localhost:{{ .ports.booklore }}/api/v1/healthcheck
       interval: 60s
       retries: 5
       start_period: 60s
@@ -126,30 +126,30 @@ services:
       - USER_ID=1000
       - GROUP_ID=950
       - TZ=Asia/Hong_Kong
-      - DATABASE_URL=jdbc:mariadb://mariadb:{{ .chezmoi.ports.mariadb }}/booklore
+      - DATABASE_URL=jdbc:mariadb://mariadb:{{ .ports.mariadb }}/booklore
       - DATABASE_USERNAME=booklore
-      - DATABASE_PASSWORD={{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
-      - PORT_BOOKLORE={{ .chezmoi.ports.booklore }}
+      - DATABASE_PASSWORD={{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value }}
+      - PORT_BOOKLORE={{ .ports.booklore }}
     volumes:
-      - {{ .chezmoi.paths.appData }}/booklore:/app/data
-      - {{ .chezmoi.paths.downloads }}/bookdrop:/bookdrop
-      - {{ .chezmoi.paths.publicRoot }}/library:/books
+      - {{ .paths.appData }}/booklore:/app/data
+      - {{ .paths.downloads }}/bookdrop:/bookdrop
+      - {{ .paths.publicRoot }}/library:/books
     ports:
-      - {{ .chezmoi.ports.booklore }}:{{ .chezmoi.ports.booklore }}
+      - {{ .ports.booklore }}:{{ .ports.booklore }}
 
   mariadb:
     container_name: mariadb
     image: lscr.io/linuxserver/mariadb:11.4.5
     restart: unless-stopped
     environment:
-      <<: [*common-env, MYSQL_ROOT_PASSWORD={{ (bitwardenSecrets "3b590574-69c0-44aa-a260-b3cb00bc810d").value | quote }}, MYSQL_DATABASE=booklore, MYSQL_USER=booklore, MYSQL_PASSWORD={{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
+      <<: [*common-env, MYSQL_ROOT_PASSWORD={{ (bitwardenSecrets "3b590574-69c0-44aa-a260-b3cb00bc810d").value }}, MYSQL_DATABASE=booklore, MYSQL_USER=booklore, MYSQL_PASSWORD={{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value }}]
     volumes:
-      - {{ .chezmoi.paths.appData }}/mariadb/config:/config
+      - {{ .paths.appData }}/mariadb/config:/config
     healthcheck:
       test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
       interval: 5s
       timeout: 5s
       retries: 10
     ports:
-      - {{ .chezmoi.ports.mariadb }}:{{ .chezmoi.ports.mariadb }}
+      - {{ .ports.mariadb }}:{{ .ports.mariadb }}
 {{ end -}}

@@ -8,7 +8,7 @@ x-common-env: &common-env
 services:
   radarr:
     container_name: radarr
-    image: lscr.io/linuxserver/radarr:latest
+    image: linuxserver/radarr:latest
     restart: unless-stopped
     logging:
       driver: json-file
@@ -23,7 +23,7 @@ services:
 
   sonarr:
     container_name: sonarr
-    image: lscr.io/linuxserver/sonarr:latest
+    image: linuxserver/sonarr:latest
     restart: unless-stopped
     logging:
       driver: json-file
@@ -38,7 +38,7 @@ services:
 
   transmission:
     container_name: transmission
-    image: lscr.io/linuxserver/transmission:latest
+    image: linuxserver/transmission:latest
     restart: unless-stopped
     environment:
       <<: *common-env
@@ -57,7 +57,7 @@ services:
 
   jackett:
     container_name: jackett
-    image: lscr.io/linuxserver/jackett:latest
+    image: linuxserver/jackett:latest
     restart: unless-stopped
     environment:
       <<: *common-env
@@ -70,7 +70,7 @@ services:
 
   calibre-web:
     container_name: calibre-web
-    image: lscr.io/linuxserver/calibre-web:latest
+    image: linuxserver/calibre-web:latest
     restart: unless-stopped
     environment:
       <<: *common-env
@@ -84,7 +84,7 @@ services:
 
   tautulli:
     container_name: tautulli
-    image: lscr.io/linuxserver/tautulli:latest
+    image: linuxserver/tautulli:latest
     restart: unless-stopped
     environment:
       <<: *common-env
@@ -107,7 +107,7 @@ services:
 
   beets-audible:
     container_name: beets-audible
-    image: lscr.io/linuxserver/beets:latest
+    image: linuxserver/beets:latest
     restart: unless-stopped
     environment:
       <<: *common-env
@@ -147,7 +147,7 @@ services:
 
   mariadb:
     container_name: mariadb
-    image: lscr.io/linuxserver/mariadb:11.4.5
+    image: linuxserver/mariadb:latest
     restart: unless-stopped
     environment:
       <<: *common-env
@@ -156,7 +156,7 @@ services:
       MYSQL_USER: booklore
       MYSQL_PASSWORD: "{{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value }}"
     volumes:
-      - {{ .paths.appData }}/mariadb/config:/config
+      - {{ .paths.appData }}/mariadb/config:/config:z
     healthcheck:
       test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
       interval: 5s

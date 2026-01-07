@@ -36,6 +36,22 @@ services:
       - {{ .paths.appData }}/sonarr:/config
       - /mnt/storage:/data
 
+  bookshelf:
+    container_name: bookshelf
+    image: ghcr.io/pennydreadful/bookshelf:hardcover-v0.4.20.91
+    restart: unless-stopped
+    ports:
+      - {{ .ports.bookshelf }}:{{ .ports.bookshelf }}
+    environment:
+      <<: *common-env
+    volumes:
+      - {{ .paths.appData }}/bookshelf:/config
+      # Change this to whatever folder your calibre library is in - important: if youwant to use the calibre content server for ingesting books, the internal and external mount names must be the same
+      - {{ .paths.publicRoot }}/books:{{ .paths.publicRoot }}/books
+      # change this to the folder your downloader adds files to
+      - {{ .paths.downloads }}:{{ .paths.downloads }}
+      - /opt:/opt
+
   transmission:
     container_name: transmission
     image: linuxserver/transmission:latest
@@ -136,7 +152,7 @@ services:
       TZ: Asia/Hong_Kong
       DATABASE_URL: jdbc:mariadb://mariadb:{{ .ports.mariadb }}/booklore
       DATABASE_USERNAME: booklore
-      DATABASE_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value }}
+      DATABASE_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
       PORT_BOOKLORE: {{ .ports.booklore }}
     volumes:
       - {{ .paths.appData }}/booklore:/app/data
@@ -149,14 +165,15 @@ services:
     container_name: mariadb
     image: linuxserver/mariadb:latest
     restart: unless-stopped
+    user: 1000:950
     environment:
       <<: *common-env
-      MYSQL_ROOT_PASSWORD: "{{ (bitwardenSecrets "3b590574-69c0-44aa-a260-b3cb00bc810d").value }}"
+      MYSQL_ROOT_PASSWORD: {{ (bitwardenSecrets "3b590574-69c0-44aa-a260-b3cb00bc810d").value | quote }}
       MYSQL_DATABASE: booklore
       MYSQL_USER: booklore
-      MYSQL_PASSWORD: "{{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value }}"
+      MYSQL_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
     volumes:
-      - {{ .paths.appData }}/mariadb/config:/config:z
+      - /appData/mariadb/config:/config:z
     healthcheck:
       test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
       interval: 5s

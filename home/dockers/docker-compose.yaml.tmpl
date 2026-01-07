@@ -84,6 +84,17 @@ services:
     ports:
       - {{ .ports.jackett }}:{{ .ports.jackett }}
 
+  prowlarr:
+    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    volumes:
+      - {{ .paths.appData }}/prowlarr:/config
+    ports:
+      - {{ .ports.prowlarr }}:{{ .ports.prowlarr }}
+
   calibre-web:
     container_name: calibre-web
     image: linuxserver/calibre-web:latest

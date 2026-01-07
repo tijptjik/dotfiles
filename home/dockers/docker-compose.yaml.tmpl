@@ -1,9 +1,9 @@
 {{ if .isServer -}}
 
 x-common-env: &common-env
-  PUID=1000
-  PGID=950
-  TZ=Asia/Hong_Kong
+  PUID: 1000
+  PGID: 950
+  TZ: Asia/Hong_Kong
 
 services:
   radarr:
@@ -41,7 +41,9 @@ services:
     image: lscr.io/linuxserver/transmission:latest
     restart: unless-stopped
     environment:
-      <<: [*common-env, USER=media, PASS={{ (bitwardenSecrets "d0001509-175f-4cef-9ca6-b3cb00abff89").value }}]
+      <<: *common-env
+      USER: media
+      PASS: "{{ (bitwardenSecrets "d0001509-175f-4cef-9ca6-b3cb00abff89").value }}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - {{ .paths.appData }}/transmission:/config
@@ -58,7 +60,8 @@ services:
     image: lscr.io/linuxserver/jackett:latest
     restart: unless-stopped
     environment:
-      <<: [*common-env, AUTO_UPDATE=true]
+      <<: *common-env
+      AUTO_UPDATE: "true"
     volumes:
       - {{ .paths.appData }}/jackett:/config
       - {{ .paths.downloads }}:/downloads
@@ -70,7 +73,9 @@ services:
     image: lscr.io/linuxserver/calibre-web:latest
     restart: unless-stopped
     environment:
-      <<: [*common-env, DOCKER_MODS=linuxserver/mods:universal-calibre, OAUTHLIB_RELAX_TOKEN_SCOPE=1]
+      <<: *common-env
+      DOCKER_MODS: linuxserver/mods:universal-calibre
+      OAUTHLIB_RELAX_TOKEN_SCOPE: 1
     volumes:
       - /home/m/.config/calibre-web:/config
       - {{ .paths.publicRoot }}/books/EN:/books
@@ -95,7 +100,10 @@ services:
       - /home/m/.tools/auto-m4b:/config
       - {{ .paths.downloads }}/audiobooks:/temp
     environment:
-      <<: [*common-env, CPU_CORES=4, SLEEPTIME=1m, MAKE_BACKUP=N]
+      <<: *common-env
+      CPU_CORES: 4
+      SLEEPTIME: 1m
+      MAKE_BACKUP: "N"
 
   beets-audible:
     container_name: beets-audible
@@ -123,13 +131,13 @@ services:
       start_period: 60s
       timeout: 10s
     environment:
-      - USER_ID=1000
-      - GROUP_ID=950
-      - TZ=Asia/Hong_Kong
-      - DATABASE_URL=jdbc:mariadb://mariadb:{{ .ports.mariadb }}/booklore
-      - DATABASE_USERNAME=booklore
-      - DATABASE_PASSWORD={{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value }}
-      - PORT_BOOKLORE={{ .ports.booklore }}
+      USER_ID: 1000
+      GROUP_ID: 950
+      TZ: Asia/Hong_Kong
+      DATABASE_URL: jdbc:mariadb://mariadb:{{ .ports.mariadb }}/booklore
+      DATABASE_USERNAME: booklore
+      DATABASE_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value }}
+      PORT_BOOKLORE: {{ .ports.booklore }}
     volumes:
       - {{ .paths.appData }}/booklore:/app/data
       - {{ .paths.downloads }}/bookdrop:/bookdrop
@@ -142,7 +150,11 @@ services:
     image: lscr.io/linuxserver/mariadb:11.4.5
     restart: unless-stopped
     environment:
-      <<: [*common-env, MYSQL_ROOT_PASSWORD={{ (bitwardenSecrets "3b590574-69c0-44aa-a260-b3cb00bc810d").value }}, MYSQL_DATABASE=booklore, MYSQL_USER=booklore, MYSQL_PASSWORD={{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value }}]
+      <<: *common-env
+      MYSQL_ROOT_PASSWORD: "{{ (bitwardenSecrets "3b590574-69c0-44aa-a260-b3cb00bc810d").value }}"
+      MYSQL_DATABASE: booklore
+      MYSQL_USER: booklore
+      MYSQL_PASSWORD: "{{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value }}"
     volumes:
       - {{ .paths.appData }}/mariadb/config:/config
     healthcheck:

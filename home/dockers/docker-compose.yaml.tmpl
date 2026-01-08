@@ -236,7 +236,6 @@ services:
     container_name: mariadb
     image: linuxserver/mariadb:latest
     restart: unless-stopped
-    user: 1000:950
     environment:
       <<: *common-env
       MYSQL_ROOT_PASSWORD: {{ (bitwardenSecrets "3b590574-69c0-44aa-a260-b3cb00bc810d").value | quote }}

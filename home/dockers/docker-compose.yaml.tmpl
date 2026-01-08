@@ -102,6 +102,11 @@ services:
     container_name: transmission
     image: linuxserver/transmission:latest
     restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -sf http://localhost:{{ .ports.transmissionWeb }} || [ $? -eq 22 ]']
+      interval: 30s
+      timeout: 10s
+      retries: 5
     environment:
       <<: *common-env
       USER: media
@@ -116,11 +121,6 @@ services:
       - {{ .ports.transmissionWeb }}:{{ .ports.transmissionWeb }}
       - {{ .ports.transmissionP2P }}:{{ .ports.transmissionP2P }}
       - {{ .ports.transmissionP2P }}:{{ .ports.transmissionP2P }}/udp
-    healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:{{ .ports.transmissionWeb }} || [ $? -eq 22 ]"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
 
   prowlarr:
     container_name: prowlarr
@@ -161,14 +161,14 @@ services:
   auto-m4b:
     container_name: auto-m4b
     image: seanap/auto-m4b
-    volumes:
-      - /home/m/.tools/auto-m4b:/config
-      - {{ .paths.downloads }}/audiobooks:/temp
     environment:
       <<: *common-env
       CPU_CORES: 4
       SLEEPTIME: 1m
       MAKE_BACKUP: "N"
+    volumes:
+      - /home/m/.tools/auto-m4b:/config
+      - {{ .paths.downloads }}/audiobooks:/temp
 
   beets-audible:
     container_name: beets-audible
@@ -236,6 +236,11 @@ services:
     container_name: mariadb
     image: linuxserver/mariadb:latest
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     environment:
       <<: *common-env
       MYSQL_ROOT_PASSWORD: {{ (bitwardenSecrets "3b590574-69c0-44aa-a260-b3cb00bc810d").value | quote }}
@@ -244,11 +249,6 @@ services:
       MYSQL_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
     volumes:
       - /appData/mariadb/config:/config:z
-    healthcheck:
-      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
-      interval: 5s
-      timeout: 5s
-      retries: 10
     ports:
       - {{ .ports.mariadb }}:{{ .ports.mariadb }}
 {{ end -}}

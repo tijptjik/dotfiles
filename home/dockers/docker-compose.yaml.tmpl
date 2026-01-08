@@ -85,9 +85,6 @@ services:
       - {{ .paths.downloads }}/ephdrop:/app/ingest
     ports:
       - {{ .ports.ephemera }}:{{ .ports.ephemera }}
-    dns:
-      - 1.1.1.1
-      - 1.0.0.1
 
   transmission:
     container_name: transmission
@@ -217,9 +214,6 @@ services:
       CAPTCHA_SOLVER: none
     ports:
       - {{ .ports.flaresolverr }}:{{ .ports.byparr }}
-    dns:
-      - 1.1.1.1
-      - 1.0.0.1
 
   mariadb:
     container_name: mariadb

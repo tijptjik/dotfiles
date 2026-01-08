@@ -73,7 +73,7 @@ services:
     environment:
       <<: *common-env
       # FlareSolverr URL (for slow download fallback)
-      FLARESOLVERR_URL: http://byparr:{{ .ports.byparr }}
+      FLARESOLVERR_URL: http://flaresolverr:{{ .ports.byparr }}
       # Optional: Set your public URL for CORS (required if not using localhost)
       # BASE_URL: https://ephemera.type.hk
       AA_BASE_URL: https://annas-archive.li/
@@ -212,9 +212,9 @@ services:
     restart: unless-stopped
     environment:
       <<: *common-env
-      - LOG_LEVEL=info
-      - LOG_HTML=false
-      - CAPTCHA_SOLVER=none
+      LOG_LEVEL: info
+      LOG_HTML: false
+      CAPTCHA_SOLVER: none
     ports:
       - {{ .ports.flaresolverr }}:{{ .ports.byparr }}
     dns:

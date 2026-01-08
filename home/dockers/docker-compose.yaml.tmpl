@@ -75,7 +75,10 @@ services:
       # FlareSolverr URL (for slow download fallback)
       FLARESOLVERR_URL: http://byparr:{{ .ports.byparr }}
       # Optional: Set your public URL for CORS (required if not using localhost)
-      BASE_URL: https://ephemera.type.hk
+      # BASE_URL: https://ephemera.type.hk
+      AA_BASE_URL: https://annas-archive.li/
+      ALLOWED_ORIGINS: https://ephemera.type.hk
+      BETTER_AUTH_TRUSTED_ORIGINS: https://ephemera.type.hk
     volumes:
       - {{ .paths.appData }}/ephemera:/app/data
       - {{ .paths.downloads }}:/app/downloads
@@ -202,6 +205,21 @@ services:
        LOG_LEVEL: INFO
      ports:
        - {{ .ports.byparr }}:{{ .ports.byparr }}
+
+  flaresolverr:
+    container_name: flaresolverr
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      - LOG_LEVEL=info
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+    ports:
+      - {{ .ports.flaresolverr }}:{{ .ports.byparr }}
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
 
   mariadb:
     container_name: mariadb

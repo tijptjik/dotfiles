@@ -58,7 +58,7 @@ services:
     restart: unless-stopped
     environment:
       <<: *common-env
-      DOCKER_MODS:linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg
+      DOCKER_MODS: linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg
     volumes:
       - {{ .paths.appData }}/lazylibrarian:/config
       - {{ .paths.downloads }}:/downloads

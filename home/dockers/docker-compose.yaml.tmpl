@@ -10,6 +10,9 @@ services:
     container_name: radarr
     image: linuxserver/radarr:latest
     restart: unless-stopped
+    depends_on:
+      transmission:
+        condition: service_healthy
     logging:
       driver: json-file
     ports:
@@ -25,6 +28,9 @@ services:
     container_name: sonarr
     image: linuxserver/sonarr:latest
     restart: unless-stopped
+    depends_on:
+      transmission:
+        condition: service_healthy
     logging:
       driver: json-file
     ports:
@@ -40,6 +46,9 @@ services:
     container_name: bookshelf
     image: ghcr.io/pennydreadful/bookshelf:hardcover-v0.4.20.91
     restart: unless-stopped
+    depends_on:
+      transmission:
+        condition: service_healthy
     environment:
       <<: *common-env
     volumes:
@@ -56,6 +65,9 @@ services:
     container_name: lazylibrarian
     image: linuxserver/lazylibrarian:latest
     restart: unless-stopped
+    depends_on:
+      transmission:
+        condition: service_healthy
     environment:
       <<: *common-env
       DOCKER_MODS: linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg
@@ -73,7 +85,7 @@ services:
     environment:
       <<: *common-env
       # FlareSolverr URL (for slow download fallback)
-      FLARESOLVERR_URL: http://flaresolverr:{{ .ports.byparr }}
+      FLARESOLVERR_URL: http://byparr:{{ .ports.byparr }}
       # Optional: Set your public URL for CORS (required if not using localhost)
       # BASE_URL: https://ephemera.type.hk
       AA_BASE_URL: https://annas-archive.li/
@@ -104,6 +116,11 @@ services:
       - {{ .ports.transmissionWeb }}:{{ .ports.transmissionWeb }}
       - {{ .ports.transmissionP2P }}:{{ .ports.transmissionP2P }}
       - {{ .ports.transmissionP2P }}:{{ .ports.transmissionP2P }}/udp
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:{{ .ports.transmissionWeb }} || [ $? -eq 22 ]"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   prowlarr:
     container_name: prowlarr

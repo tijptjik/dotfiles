@@ -66,6 +66,26 @@ services:
     ports:
       - {{ .ports.lazylibrarian }}:{{ .ports.lazylibrarian }}
 
+  ephemera:
+    container_name: ephemera
+    image: ghcr.io/orwellianepilogue/ephemera:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      # FlareSolverr URL (for slow download fallback)
+      FLARESOLVERR_URL: http://byparr:{{ .ports.byparr }}
+      # Optional: Set your public URL for CORS (required if not using localhost)
+      BASE_URL: https://ephemera.type.hk
+    volumes:
+      - {{ .paths.appData }}/ephemera:/app/data
+      - {{ .paths.downloads }}:/app/downloads
+      - {{ .paths.downloads }}/ephdrop:/app/ingest
+    ports:
+      - {{ .ports.ephemera }}:{{ .ports.ephemera }}
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+
   transmission:
     container_name: transmission
     image: linuxserver/transmission:latest

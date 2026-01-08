@@ -6,6 +6,7 @@ ports:
   calibre: 8083
   tautulli: 8181
   byparr: 8191
+  ephemera: 8286
   bookshelf: 8787
   sonarr: 8989
   transmissionWeb: 9091

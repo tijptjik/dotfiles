@@ -40,8 +40,6 @@ services:
     container_name: bookshelf
     image: ghcr.io/pennydreadful/bookshelf:hardcover-v0.4.20.91
     restart: unless-stopped
-    ports:
-      - {{ .ports.bookshelf }}:{{ .ports.bookshelf }}
     environment:
       <<: *common-env
     volumes:
@@ -51,6 +49,22 @@ services:
       # change this to the folder your downloader adds files to
       - {{ .paths.downloads }}:{{ .paths.downloads }}
       - /opt:/opt
+    ports:
+      - {{ .ports.bookshelf }}:{{ .ports.bookshelf }}
+
+  lazylibrarian:
+    container_name: lazylibrarian
+    image: linuxserver/lazylibrarian:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      DOCKER_MODS:linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg
+    volumes:
+      - {{ .paths.appData }}/lazylibrarian:/config
+      - {{ .paths.downloads }}:/downloads
+      - {{ .paths.publicRoot }}/library:/books
+    ports:
+      - {{ .ports.lazylibrarian }}:{{ .ports.lazylibrarian }}
 
   transmission:
     container_name: transmission

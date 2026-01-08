@@ -1,5 +1,6 @@
 ports:
   mariadb: 3306
+  lazylibrarian: 5299
   booklore: 6060
   radarr: 7878
   calibre: 8083

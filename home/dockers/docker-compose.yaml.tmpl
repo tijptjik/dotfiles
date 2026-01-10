@@ -85,12 +85,12 @@ services:
     environment:
       <<: *common-env
       # FlareSolverr URL (for slow download fallback)
-      FLARESOLVERR_URL: http://byparr:{{ .ports.byparr }}
+      FLARESOLVERR_URL: http://flaresolverr:{{ .ports.byparr }}
       # Optional: Set your public URL for CORS (required if not using localhost)
       # BASE_URL: https://ephemera.type.hk
       AA_BASE_URL: https://annas-archive.li/
       ALLOWED_ORIGINS: https://ephemera.type.hk
-      BETTER_AUTH_TRUSTED_ORIGINS: https://ephemera.type.hk
+      # BETTER_AUTH_TRUSTED_ORIGINS: https://ephemera.type.hk
     volumes:
       - {{ .paths.appData }}/ephemera:/app/data
       - {{ .paths.downloads }}:/app/downloads

@@ -253,7 +253,7 @@ services:
         - NEXTAUTH_URL=http://wrapped.type.hk
         - NEXT_PUBLIC_SITE_URL=http://wrapped.type.hk
       volumes:
-        - ./config:/app/config
+        - {{ .paths.appData }}/plexrewind:/app/config
       ports:
       - {{ .ports.plexRewind }}:{{ .ports.plexRewind }}
 

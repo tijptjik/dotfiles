@@ -210,6 +210,18 @@ services:
     ports:
       - {{ .ports.booklore }}:{{ .ports.booklore }}
 
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    ports:
+      - {{ .ports.audiobookshelf }}:80
+    volumes:
+        - {{ .paths.publicRoot }}/audiobooks:/audiobooks
+        - {{ .paths.publicRoot }}/podcasts:/podcasts
+        - {{ .paths.appData }}/audiobookshelf:/config
+        - {{ .paths.appCache }}/audiobookshelf:/metadata
+    environment:
+      <<: *common-env
+
   byparr:
      container_name: byparr
      image: ghcr.io/thephaseless/byparr:latest

@@ -1,4 +1,5 @@
 paths:
   appData: /mnt/storage/meta/appData
+  appCache: /mnt/storage/meta/appCache
   downloads: /mnt/storage/meta/downloads
   publicRoot: /mnt/storage/public

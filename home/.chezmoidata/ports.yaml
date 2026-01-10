@@ -12,4 +12,5 @@ ports:
   sonarr: 8989
   transmissionWeb: 9091
   prowlarr: 9696
+  audiobookshelf: 13378
   transmissionP2P: 51413

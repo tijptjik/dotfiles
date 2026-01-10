@@ -216,6 +216,7 @@ services:
       - {{ .ports.audiobookshelf }}:80
     volumes:
         - {{ .paths.publicRoot }}/audiobooks:/audiobooks
+        - {{ .paths.downloads }}/absdrop:/absdrop
         - {{ .paths.publicRoot }}/podcasts:/podcasts
         - {{ .paths.appData }}/audiobookshelf:/config
         - {{ .paths.appCache }}/audiobookshelf:/metadata

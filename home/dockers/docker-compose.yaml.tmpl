@@ -244,6 +244,19 @@ services:
     ports:
       - {{ .ports.flaresolverr }}:{{ .ports.byparr }}
 
+  plex-rewind:
+      image: ghcr.io/raunot/plex-rewind:latest # :develop for the latest development version
+      container_name: plex-rewind
+      restart: unless-stopped
+      environment:
+        - NEXTAUTH_SECRET=l50akmhIBl4TRgE3OCUOn0SO+6oAe4UvyU2VKhOYodA=
+        - NEXTAUTH_URL=http://wrapped.type.hk
+        - NEXT_PUBLIC_SITE_URL=http://wrapped.type.hk
+      volumes:
+        - ./config:/app/config
+      ports:
+      - {{ .ports.plexRewind }}:{{ .ports.plexRewind }}
+
   mariadb:
     container_name: mariadb
     image: linuxserver/mariadb:latest

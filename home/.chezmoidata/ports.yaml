@@ -8,6 +8,7 @@ ports:
   byparr: 8191
   flaresolverr: 8192
   ephemera: 8286
+  plexRewind: 8383
   bookshelf: 8787
   sonarr: 8989
   transmissionWeb: 9091

@@ -75,7 +75,9 @@ services:
     volumes:
       - {{ .paths.appData }}/lazylibrarian:/config
       - {{ .paths.downloads }}:/downloads
+      - {{ .paths.downloads }}:{{ .paths.downloads }}
       - {{ .paths.publicRoot }}/library:/books
+      - {{ .paths.publicRoot }}/library:{{ .paths.publicRoot }}/library
     ports:
       - {{ .ports.lazylibrarian }}:{{ .ports.lazylibrarian }}
 
@@ -96,6 +98,7 @@ services:
       - {{ .paths.appData }}/ephemera:/app/data
       - {{ .paths.downloads }}/ephemera:{{ .paths.downloads }}/ephemera
       - {{ .paths.downloads }}/bookdrop:{{ .paths.downloads }}/bookdrop
+      - {{ .paths.publicRoot }}/library:{{ .paths.publicRoot }}/library
     ports:
       - {{ .ports.ephemera }}:{{ .ports.ephemera }}
 
@@ -207,7 +210,8 @@ services:
     volumes:
       - {{ .paths.appData }}/booklore:/app/data
       - {{ .paths.downloads }}/bookdrop:/bookdrop
-      - {{ .paths.publicRoot }}/library:/books
+      - {{ .paths.publicRoot }}/library/stars:/books
+      - {{ .paths.publicRoot }}/library:/library
     ports:
       - {{ .ports.booklore }}:{{ .ports.booklore }}
 

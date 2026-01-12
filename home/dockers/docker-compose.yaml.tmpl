@@ -56,6 +56,7 @@ services:
       # Change this to whatever folder your calibre library is in - important: if youwant to use the calibre content server for ingesting books, the internal and external mount names must be the same
       - {{ .paths.publicRoot }}/books:{{ .paths.publicRoot }}/books
       # change this to the folder your downloader adds files to
+      - {{ .paths.publicRoot }}/library:{{ .paths.publicRoot }}/library
       - {{ .paths.downloads }}:{{ .paths.downloads }}
       - /opt:/opt
     ports:

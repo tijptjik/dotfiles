@@ -94,8 +94,8 @@ services:
       # BETTER_AUTH_TRUSTED_ORIGINS: https://ephemera.type.hk
     volumes:
       - {{ .paths.appData }}/ephemera:/app/data
-      - {{ .paths.downloads }}:/app/downloads
-      - {{ .paths.downloads }}/ephdrop:/app/ingest
+      - {{ .paths.downloads }}/ephemera:{{ .paths.downloads }}/ephemera
+      - {{ .paths.downloads }}/bookdrop:{{ .paths.downloads }}/bookdrop
     ports:
       - {{ .ports.ephemera }}:{{ .ports.ephemera }}
 

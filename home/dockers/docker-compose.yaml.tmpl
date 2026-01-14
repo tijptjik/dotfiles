@@ -112,8 +112,7 @@ services:
      - {{ .ports.shelfmark }}:{{ .ports.shelfmark }}
     volumes:
         - {{ .paths.appData }}/shelfmark:/config # App configuration
-        - {{ .paths.publicRoot }}/library:/books # Book destination directory
-        - {{ .paths.downloads }}/bookdrop:{{ .paths.downloads }}/bookdrop
+        - {{ .paths.downloads }}/bookdrop:/books
         # Download client mount - path must match your torrent/usenet client's volume exactly
         - {{ .paths.downloads }}:{{ .paths.downloads }}
 

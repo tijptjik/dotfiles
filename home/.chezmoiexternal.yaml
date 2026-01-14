@@ -12,13 +12,6 @@
   stripComponents: 1
   encrypted: true
   format: tar.zst
-.fonts:
-  type: archive
-  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.fonts.tar.zst.age"
-  exact: true
-  stripComponents: 1
-  encrypted: true
-  format: tar.zst
 .local/share/icons:
   type: archive
   url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.local/share/icons.tar.zst.age"
@@ -89,6 +82,13 @@
 .config/waybar/crypto:
   type: git-repo
   url: "git@github.com:tijptjik/waybar-crypto.git"
+.var/app/rocks.koreader.KOReader/config/koreader:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.var/app/rocks.koreader.KOReader/config/koreader.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
 {{ end -}}
 {{ if .isDesktop }}
 .config/unity3d:

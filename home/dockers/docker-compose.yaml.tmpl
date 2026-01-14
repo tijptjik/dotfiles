@@ -102,6 +102,21 @@ services:
     ports:
       - {{ .ports.ephemera }}:{{ .ports.ephemera }}
 
+  shelfmark:
+    container_name: shelfmark
+    image: ghcr.io/calibrain/shelfmark:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    ports:
+     - {{ .ports.shelfmark }}:{{ .ports.shelfmark }}
+    volumes:
+        - {{ .paths.appData }}/shelfmark:/config # App configuration
+        - {{ .paths.publicRoot }}/library:/books # Book destination directory
+        - {{ .paths.downloads }}/bookdrop:{{ .paths.downloads }}/bookdrop
+        # Download client mount - path must match your torrent/usenet client's volume exactly
+        - {{ .paths.downloads }}:{{ .paths.downloads }}
+
   transmission:
     container_name: transmission
     image: linuxserver/transmission:latest

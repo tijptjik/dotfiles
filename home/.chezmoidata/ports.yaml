@@ -4,6 +4,7 @@ ports:
   booklore: 6060
   radarr: 7878
   calibre: 8083
+  shelfmark: 8084
   tautulli: 8181
   byparr: 8191
   flaresolverr: 8192

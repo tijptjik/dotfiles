@@ -113,6 +113,7 @@ services:
     volumes:
         - {{ .paths.appData }}/shelfmark:/config # App configuration
         - {{ .paths.downloads }}/bookdrop:/books
+        - {{ .paths.downloads }}/absdrop:/audiobooks
         # Download client mount - path must match your torrent/usenet client's volume exactly
         - {{ .paths.downloads }}:{{ .paths.downloads }}
 

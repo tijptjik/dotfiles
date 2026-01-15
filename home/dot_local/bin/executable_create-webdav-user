@@ -50,6 +50,15 @@ sudo mkdir -p "$USER_DIR"
 sudo chmod 750 "$USER_DIR"
 sudo chown nginx:media "$USER_DIR"  # Adjust nginx user if different
 
+# Provision service-specific subdirectories
+set -l services annotations
+for service in $services
+    set service_dir "$USER_DIR/$service"
+    sudo mkdir -p "$service_dir"
+    sudo chmod 750 "$service_dir"
+    sudo chown nginx:media "$service_dir"
+end
+
 echo "User $USER created with directory:"
 set_color blue
 echo "$USER_DIR"

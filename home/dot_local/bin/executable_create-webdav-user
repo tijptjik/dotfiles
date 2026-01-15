@@ -19,13 +19,28 @@ end
 
 set USER_DIR "$BASE_DIR/$USER"
 
+# Check if user directory already exists
+if test -d "$USER_DIR"
+    echo "Error: User directory already exists:"
+    echo
+    set_color blue
+    echo "    $USER_DIR"
+    set_color normal
+    echo
+    echo "Username already taken."
+    exit 1
+end
+
+# Create .htpasswd entry first (will prompt for password)
+if not sudo htpasswd /etc/nginx/.htpasswd "$USER"
+    echo "Failed to set password. User creation aborted."
+    exit 1
+end
+
 # Create directory
 sudo mkdir -p "$USER_DIR"
 sudo chmod 750 "$USER_DIR"
 sudo chown nginx:media "$USER_DIR"  # Adjust nginx user if different
-
-# Create .htpasswd entry (will prompt for password)
-sudo htpasswd /etc/nginx/.htpasswd "$USER"
 
 echo "User $USER created with directory:"
 set_color blue

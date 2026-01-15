@@ -1,6 +1,14 @@
 #!/usr/bin/env fish
 # Create a webdav user and directory
 
+if test (count $argv) -eq 0; or string match -q "$argv[1]" "--help" "-h"
+    echo "Usage: create-webdav-user <username>"
+    echo ""
+    echo "Creates a WebDAV user with a dedicated directory."
+    echo "You will be prompted to enter a password securely."
+    exit 0
+end
+
 set USER $argv[1]
 set BASE_DIR "/mnt/storage/meta/appData/webdav"
 
@@ -16,7 +24,10 @@ sudo mkdir -p "$USER_DIR"
 sudo chmod 750 "$USER_DIR"
 sudo chown nginx:media "$USER_DIR"  # Adjust nginx user if different
 
-# Create .htpasswd entry
-sudo htpasswd -b /etc/nginx/.htpasswd "$USER" "$argv[2]"
+# Create .htpasswd entry (will prompt for password)
+sudo htpasswd /etc/nginx/.htpasswd "$USER"
 
-echo "User $USER created with directory:\n$USER_DIR"
+echo "User $USER created with directory:"
+set_color blue
+echo "$USER_DIR"
+set_color normal

@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 # Create a webdav user and directory
 
-if test (count $argv) -eq 0; or string match -q "$argv[1]" "--help" "-h"
+if test (count $argv) -eq 0; or string match -qr "^(-h|--help)$" $argv[1]
     echo "Usage: create-webdav-user <username>"
     echo ""
     echo "Creates a WebDAV user with a dedicated directory."

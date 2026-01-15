@@ -3,7 +3,8 @@
     "allow": [
       "Bash(chmod:*)",
       "Bash(pkill:*)",
-      "Bash(journalctl:*)"
+      "Bash(journalctl:*)",
+      "mcp__acp__Edit"
     ],
     "deny": [],
     "ask": [

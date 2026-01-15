@@ -1,5 +1,8 @@
 #!/usr/bin/env fish
 
+# Run common prune and cleanup tasks
+# Cleans : DNF, Flatpak, Docker
+
 echo "Cleaning up Docker images..."
 if command -v docker &> /dev/null
     sudo docker image prune -af

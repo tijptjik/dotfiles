@@ -1,5 +1,7 @@
 #!/usr/bin/env fish
 
+# Wrapper function to open markdown files in glow, else fallback to bat
+
 set file $argv[1]
 
 if string match -q "*.md" -- $file

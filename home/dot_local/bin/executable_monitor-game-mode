@@ -24,7 +24,7 @@ if test -f $override_file
     systemctl --user start hypridle.service
 
     echo "Reverted to normal monitor profile."
-    notify-send "[DISPLAY] Normal profile"
+    notify-send "🖥️ DEFAULT"
 else
     # Switch to Game monitor profile
 
@@ -61,5 +61,5 @@ else
     systemctl --user start dim-screen.timer
 
     echo "Switched to Game monitor profile."
-    notify-send "[DISPLAY] Game profile"
+    notify-send "🖥️ GAME MODE"
 end

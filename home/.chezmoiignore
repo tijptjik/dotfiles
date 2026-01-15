@@ -7,6 +7,7 @@
 downloads
 dockers
 storage
+.local/bin/create-webdav-user
 {{ end -}}
 {{ if .isServer -}}
 .config/claude

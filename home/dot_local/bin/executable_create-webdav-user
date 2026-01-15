@@ -1,0 +1,22 @@
+#!/usr/bin/env fish
+# Create a webdav user and directory
+
+set USER $argv[1]
+set BASE_DIR "/mnt/storage/meta/appData/webdav"
+
+if not string match -qr '^[a-zA-Z0-9_-]+$' $USER
+    echo "Invalid username"
+    exit 1
+end
+
+set USER_DIR "$BASE_DIR/$USER"
+
+# Create directory
+mkdir -p "$USER_DIR"
+chmod 750 "$USER_DIR"
+chown nginx:media "$USER_DIR"  # Adjust nginx user if different
+
+# Create .htpasswd entry
+htpasswd -b /etc/nginx/.htpasswd "$USER" "$argv[2]"
+
+echo "User $USER created with directory:\n$USER_DIR"

@@ -1,40 +1,65 @@
 #!/usr/bin/env fish
 
-# Switch to Game monitor profile
+# Toggle Game monitor profile
 
-# Set monitors for gaming
-# DP-1: Main ultrawide (for audio passthrough)
-# DP-2: Side monitor (disabled)
-# HDMI-A-1: TV (main display for gaming)
-hyprctl --batch "\
-    keyword monitorv2[DP-2]:disabled 1;\
-    keyword monitorv2[HDMI-A-1]:disabled 0;\
-    keyword monitorv2[HDMI-A-1]:mode 3840x2160@60;\
-    keyword monitorv2[HDMI-A-1]:position auto-center-left;\
-    keyword monitorv2[HDMI-A-1]:scale 1"
-
-# Override hypridle configuration for gaming
 set override_dir (path resolve ~/.config/systemd/user/hypridle.service.d)
 set override_file $override_dir/override.conf
-mkdir -p $override_dir
-# Clear existing ExecStart and set the new one for game mode.
-# The '%h' is interpreted by systemd as the user's home directory.
-echo -e "[Service]\nExecStart=\nExecStart=hypridle -c %h/.config/hypr/hypridle_game.conf" > $override_file
 
-# Reload systemd user daemon configuration
-systemctl --user daemon-reload
+# Check if we're already in game mode
+if test -f $override_file
+    # Revert to normal profile
+    hyprctl reload
 
-# Stop the default idle service to prevent conflicts
-systemctl --user stop hypridle.service
+    # Remove the override file
+    rm $override_file
 
-# Ensure no old listeners are running
-/bin/pkill -f game-mode-listener || true
+    # Reload systemd user daemon configuration
+    systemctl --user daemon-reload
 
-# Start the new activity listener in the background
-game-mode-listener &
+    # Stop game mode specific services
+    systemctl --user stop dim-screen.timer
+    /bin/pkill -f game-mode-listener || true
 
-# Start the screen dimming timer
-systemctl --user start dim-screen.timer
+    # Restart normal hypridle
+    systemctl --user start hypridle.service
 
-echo "Switched to Game monitor profile."
-notify-send "[DISPLAY] Game profile"
+    echo "Reverted to normal monitor profile."
+    notify-send "[DISPLAY] Normal profile"
+else
+    # Switch to Game monitor profile
+
+    # Set monitors for gaming
+    # DP-1: Main ultrawide (for audio passthrough)
+    # DP-2: Side monitor (disabled)
+    # HDMI-A-1: TV (main display for gaming)
+    hyprctl --batch "\
+        keyword monitorv2[DP-2]:disabled 1;\
+        keyword monitorv2[HDMI-A-1]:disabled 0;\
+        keyword monitorv2[HDMI-A-1]:mode 3840x2160@60;\
+        keyword monitorv2[HDMI-A-1]:position auto-center-left;\
+        keyword monitorv2[HDMI-A-1]:scale 1"
+
+    # Override hypridle configuration for gaming
+    mkdir -p $override_dir
+    # Clear existing ExecStart and set the new one for game mode.
+    # The '%h' is interpreted by systemd as the user's home directory.
+    echo -e "[Service]\nExecStart=\nExecStart=hypridle -c %h/.config/hypr/hypridle_game.conf" > $override_file
+
+    # Reload systemd user daemon configuration
+    systemctl --user daemon-reload
+
+    # Stop the default idle service to prevent conflicts
+    systemctl --user stop hypridle.service
+
+    # Ensure no old listeners are running
+    /bin/pkill -f game-mode-listener || true
+
+    # Start the new activity listener in the background
+    game-mode-listener &
+
+    # Start the screen dimming timer
+    systemctl --user start dim-screen.timer
+
+    echo "Switched to Game monitor profile."
+    notify-send "[DISPLAY] Game profile"
+end

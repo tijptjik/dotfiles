@@ -7,7 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-    "buffer_font_family": "FuraCode Nerd Font",
+    "buffer_font_family": "Monaspace Argon NF",
     "format_on_save": "off",
     "code_actions_on_format": {
         "source.organizeImports.biome": true,
@@ -87,11 +87,20 @@
             }
         }
     },
+    "features" : {
+      "edit_prediction_provider": "supermaven",
+    },
     "icon_theme": "JetBrains New UI Icons (Dark)",
     "vim_mode": false,
     "base_keymap": "Cursor",
-    "ui_font_size": 16,
+    // "ui_font_family": "Geologica",
+    // "ui_font_weight": 400, // Font weight in standard CSS units from 100 to 900.
+    // "ui_font_size": 16,
     "buffer_font_size": 15,
+    "buffer_font_features": {
+      "calt": true,
+      "ss13" : true
+    },
     "theme": {
         "mode": "system",
         "light": "One Dark",

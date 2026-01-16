@@ -2,7 +2,7 @@
   "apps": {
     "terminal": "kitty",
     "terminalArgs" : "--class=floating.terminal",
-    "shell": "fish"
+    "shell": "/bin/fish"
   },
   "imageBrowser": {
     "useSystemFileDialog": false

@@ -23,7 +23,7 @@
 
 * {
   font-size: 14px;
-  font-family: "IBM Plex Mono";
+  font-family: "Monaspace Argon NF";
   color: @fx-white;
   background: none;
 }
@@ -100,6 +100,7 @@ tooltip {
 
 #custom-crypto {
   font-family: "cryptofont";
+  font-size: 16px;
   margin-right: 12px;
   border-radius: 10px;
 }

@@ -39,7 +39,7 @@ symbol = "  "
 symbol = " "
 
 [bun]
-symbol = "🍔 "
+symbol = "\uef82 "
 version_format = '${raw}'
 style = "bold #C1DC1F"
 
@@ -62,13 +62,13 @@ read_only = " "
 symbol = " "
 
 [elixir]
-symbol = " "
+symbol = "\ue62d "
 
 [elm]
 symbol = " "
 
 [git_branch]
-symbol = " "
+symbol = "\ue725 "
 
 [git_status]
 ignore_submodules = true
@@ -93,7 +93,7 @@ disabled = true
 symbol = " "
 
 [java]
-symbol = " "
+symbol = "\ue738 "
 
 [julia]
 disabled = true
@@ -116,7 +116,7 @@ symbol = " "
 symbol = " "
 
 [nodejs]
-symbol = " "
+symbol = "\ue718 "
 version_format = "${raw}"
 detect_folders=[]
 detect_files = ['package.json', '.node-version', '!bunfig.toml', '!bun.lockb']
@@ -127,7 +127,7 @@ symbol = " "
 disabled = true
 
 [python]
-symbol = " "
+symbol = "\ued1b "
 version_format = "${raw}"
 detect_files = ['.python-version', 'uv.lock']
 python_binary = [["uv", "run", "--no-python-downloads", "--no-project", "python"]]
@@ -140,7 +140,7 @@ symbol = "ﳒ "
 symbol = " "
 
 [rust]
-symbol = " "
+symbol = "\ue7a8 "
 
 [scala]
 symbol = " "

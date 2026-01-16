@@ -25,13 +25,15 @@
       "on-scroll-up": "hyprctl dispatch workspace e+1",
       "on-scroll-down": "hyprctl dispatch workspace e-1",
       "format-icons": {
-        "focused": "",
-        "default": ""
+        "default": "\uf10c",
+        "active": "\uf111",
+        "9": "\uf1b6",
+        "10": "\udb83\ude36"
       },
       "sort-by": "number"
     },
     "custom/spotify": {
-      "format": " {0}",
+      "format": "{0}",
       "escape": false,
       "return-type": "json",
       "max-length": 60,
@@ -136,8 +138,8 @@
     },
     "custom/quit": {
       "format": " ",
-      "tooltip": "uptime",
-      "on-click": "swaynag -f 'IBM Plex Mono'  -t warning -m 'Shall we shut it down?' -b 'Yes, Hyprbye' 'sudo shutdown -h now'"
+      "tooltip": "uptime -p",
+      "on-click-middle": "sudo shutdown -h now"
     }
   },
   {
@@ -164,8 +166,10 @@
       "on-scroll-up": "hyprctl dispatch workspace e+1",
       "on-scroll-down": "hyprctl dispatch workspace e-1",
       "format-icons": {
-        "focused": "",
-        "default": ""
+        "default": "\uf10c",
+        "active": "\uf111",
+        "19": "\uf1ff",
+        "20": ""
       },
       "sort-by": "number"
     }

@@ -23,7 +23,8 @@
 
 * {
   font-size: 14px;
-  font-family: "Monaspace Argon NF";
+  /* Defined in /home/io/.config/fontconfig/fonts.conf */
+  font-family: "tijpset";
   color: @fx-white;
   background: none;
 }
@@ -92,15 +93,13 @@ tooltip {
 
 #custom-spotify {
   padding: 0 5px;
-  padding-right: 12px;
+  padding-right: 14px;
   border-radius: 10px;
 }
 
 /* Custom : Crypto */
 
 #custom-crypto {
-  font-family: "cryptofont";
-  font-size: 16px;
   margin-right: 12px;
   border-radius: 10px;
 }

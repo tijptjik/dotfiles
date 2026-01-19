@@ -7,7 +7,6 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-    "buffer_font_family": "tijpset",
     "format_on_save": "off",
     "code_actions_on_format": {
         "source.organizeImports.biome": true,
@@ -24,6 +23,7 @@
             }
         }
     },
+    "lsp_document_colors": "background",
     "file_types": {
       "JSONC": ["**/.zed/**/*.json", "**/zed/**/*.json", "**/Zed/**/*.json", "**/.vscode/**/*.json","*.json.tmpl"],
       "YAML": ["**/waybar/config.tmpl"],
@@ -96,6 +96,8 @@
     // "ui_font_family": "Geologica",
     // "ui_font_weight": 400, // Font weight in standard CSS units from 100 to 900.
     // "ui_font_size": 16,
+    "buffer_font_family": "Monaspace Argon Var",
+    "buffer_font_weight": 400,
     "buffer_font_size": 15,
     "buffer_font_features": {
       "calt": true,

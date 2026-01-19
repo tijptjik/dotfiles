@@ -259,6 +259,7 @@ services:
 ########################
 
   audiobookshelf:
+    container_name: audiobookshelf
     image: ghcr.io/advplyr/audiobookshelf:latest
     restart: unless-stopped
     environment:
@@ -282,6 +283,7 @@ services:
 ####################
 
   navidrome:
+    container_name: navidrome
     image: deluan/navidrome:latest
     user: 1000:950
     restart: unless-stopped

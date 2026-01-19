@@ -261,6 +261,8 @@ services:
   audiobookshelf:
     image: ghcr.io/advplyr/audiobookshelf:latest
     restart: unless-stopped
+    environment:
+      <<: *common-env
     ports:
       - {{ .ports.audiobookshelf }}:80
     volumes:
@@ -269,17 +271,15 @@ services:
       - {{ .paths.publicRoot }}/podcasts:/podcasts
       - {{ .paths.appData }}/audiobookshelf:/config
       - {{ .paths.appCache }}/audiobookshelf:/metadata
-    environment:
-      <<: *common-env
 
 ###############
 ###  MUSIC  ###
 ###############
 
-#######################
-###  NAVIDROME      ###
-###  dance.type.hk  ###
-#######################
+####################
+###  NAVIDROME   ###
+###  dj.type.hk  ###
+####################
 
   navidrome:
     image: deluan/navidrome:latest
@@ -288,13 +288,17 @@ services:
     environment:
       ND_LOGLEVEL: info
       ND_BASEURL: https://dj.type.hk
-
     ports:
       - {{ .ports.navidrome }}:{{ .ports.navidrome }}
     volumes:
       - {{ .paths.appData }}/navidrome:/data
       - {{ .paths.publicRoot }}/music:/music:ro
 
+#######################
+###  FEISHIN        ###
+###  dance.type.hk  ###
+#######################
+#
   feishin:
     container_name: feishin
     image: 'ghcr.io/jeffvli/feishin:latest'

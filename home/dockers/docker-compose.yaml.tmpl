@@ -206,7 +206,7 @@ services:
     restart: unless-stopped
     depends_on:
       mariadb:
-      condition: service_healthy
+        condition: service_healthy
     healthcheck:
       test: wget -q -O - http://localhost:{{ .ports.booklore }}/api/v1/healthcheck
       interval: 60s
@@ -285,11 +285,29 @@ services:
     image: deluan/navidrome:latest
     user: 1000:950
     restart: unless-stopped
+    environment:
+      ND_LOGLEVEL: info
+      ND_BASEURL: https://dj.type.hk
+
     ports:
       - {{ .ports.navidrome }}:{{ .ports.navidrome }}
     volumes:
       - {{ .paths.appData }}/navidrome:/data
       - {{ .paths.publicRoot }}/music:/music:ro
+
+  feishin:
+    container_name: feishin
+    image: 'ghcr.io/jeffvli/feishin:latest'
+    restart: unless-stopped
+    environment:
+      SERVER_NAME=Si # pre-defined server name
+      SERVER_LOCK=true # When true AND name/type/url are set, only username/password can be toggled
+      SERVER_TYPE=navidrome # the allowed types are: jellyfin, navidrome, subsonic. These values are case insensitive
+      SERVER_URL=http://navidrome:{{ .ports.navidrome }} # the URL to tp://address:port or https://address:port
+      LEGACY_AUTHENTICATION=false # When SERVER_LOCK is true, sets the legacy (plaintext) authentication flag for Subsonic/OpenSubsonic servers
+      ANALYTICS_DISABLED=false # Set to true to disable Umami analytics tracking
+    ports:
+       - 9180:9180
 
 ####################
 ###  AA - TOOLS  ###

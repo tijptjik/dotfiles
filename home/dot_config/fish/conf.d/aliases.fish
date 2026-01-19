@@ -87,6 +87,7 @@ alias yc='sudo dnf clean packages -y'       # clean packages
 # Printers
 alias cat='bat --paging=never'
 alias b='bat'
+alias icat='kitten icat'
 
 # Highlighting --help messages
 abbr -a --position anywhere -- --help '--help | bat -plhelp'

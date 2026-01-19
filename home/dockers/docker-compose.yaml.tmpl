@@ -6,6 +6,20 @@ x-common-env: &common-env
   TZ: Asia/Hong_Kong
 
 services:
+
+##################################
+###  AA - ACQUISTION SERVICES  ###
+##################################
+
+########################
+###  MOVIES / SHOWS  ###
+########################
+
+########################
+###  RADARR          ###
+###  movies.type.hk  ###
+########################
+
   radarr:
     container_name: radarr
     image: linuxserver/radarr:latest
@@ -15,14 +29,19 @@ services:
         condition: service_healthy
     logging:
       driver: json-file
-    ports:
-      - {{ .ports.radarr }}:{{ .ports.radarr }}
     environment:
       <<: *common-env
+    ports:
+      - {{ .ports.radarr }}:{{ .ports.radarr }}
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /mnt/storage/meta/appData/radarr:/config
+      - {{ .paths.appData }}/radarr:/config
       - /mnt/storage:/data
+      - /etc/localtime:/etc/localtime:ro
+
+#######################
+###  SONARR         ###
+###  shows.type.hk  ###
+#######################
 
   sonarr:
     container_name: sonarr
@@ -33,34 +52,89 @@ services:
         condition: service_healthy
     logging:
       driver: json-file
-    ports:
-      - {{ .ports.sonarr }}:{{ .ports.sonarr }}
     environment:
       <<: *common-env
+    ports:
+      - {{ .ports.sonarr }}:{{ .ports.sonarr }}
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - {{ .paths.appData }}/sonarr:/config
       - /mnt/storage:/data
+      - /etc/localtime:/etc/localtime:ro
+
+####################################
+###  BOOKS / MAGAZINES / COMICS  ###
+####################################
+
+#######################
+###  READARR        ###
+###  books.type.hk  ###
+#######################
 
   bookshelf:
     container_name: bookshelf
-    image: ghcr.io/pennydreadful/bookshelf:hardcover-v0.4.20.91
+    image: ghcr.io/pennydreadful/bookshelf:hardcover
     restart: unless-stopped
     depends_on:
       transmission:
         condition: service_healthy
     environment:
       <<: *common-env
+    ports:
+      - {{ .ports.bookshelf }}:{{ .ports.bookshelf }}
     volumes:
       - {{ .paths.appData }}/bookshelf:/config
-      # Change this to whatever folder your calibre library is in - important: if youwant to use the calibre content server for ingesting books, the internal and external mount names must be the same
       - {{ .paths.publicRoot }}/books:{{ .paths.publicRoot }}/books
-      # change this to the folder your downloader adds files to
       - {{ .paths.publicRoot }}/library:{{ .paths.publicRoot }}/library
       - {{ .paths.downloads }}:{{ .paths.downloads }}
       - /opt:/opt
+
+######################
+###  EPHEMERA      ###
+###  anna.type.hk  ###
+######################
+
+  ephemera:
+    container_name: ephemera
+    image: ghcr.io/orwellianepilogue/ephemera:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      # FlareSolverr URL (for slow download fallback)
+      FLARESOLVERR_URL: http://flaresolverr:{{ .ports.byparr }}
+      AA_BASE_URL: https://annas-archive.li/
+      ALLOWED_ORIGINS: https://ephemera.type.hk
     ports:
-      - {{ .ports.bookshelf }}:{{ .ports.bookshelf }}
+      - {{ .ports.ephemera }}:{{ .ports.ephemera }}
+    volumes:
+      - {{ .paths.appData }}/ephemera:/app/data
+      - {{ .paths.downloads }}/ephemera:{{ .paths.downloads }}/ephemera
+      - {{ .paths.downloads }}/bookdrop:{{ .paths.downloads }}/bookdrop
+      - {{ .paths.publicRoot }}/library:{{ .paths.publicRoot }}/library
+
+######################
+###  SHELFMARK     ###
+###  mark.type.hk  ###
+######################
+
+  shelfmark:
+    container_name: shelfmark
+    image: ghcr.io/calibrain/shelfmark:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    ports:
+     - {{ .ports.shelfmark }}:{{ .ports.shelfmark }}
+    volumes:
+      - {{ .paths.appData }}/shelfmark:/config # App configuration
+      - {{ .paths.downloads }}/bookdrop:/books
+      - {{ .paths.downloads }}/absdrop:/audiobooks
+      # Download client mount - path must match your torrent/usenet client's volume exactly
+      - {{ .paths.downloads }}:{{ .paths.downloads }}
+
+########################
+###  LAZY LIBRARIAN  ###
+###  liz.type.hk     ###
+########################
 
   lazylibrarian:
     container_name: lazylibrarian
@@ -72,50 +146,221 @@ services:
     environment:
       <<: *common-env
       DOCKER_MODS: linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg
+    ports:
+      - {{ .ports.lazylibrarian }}:{{ .ports.lazylibrarian }}
     volumes:
       - {{ .paths.appData }}/lazylibrarian:/config
       - {{ .paths.downloads }}:/downloads
       - {{ .paths.downloads }}:{{ .paths.downloads }}
       - {{ .paths.publicRoot }}/library:/books
       - {{ .paths.publicRoot }}/library:{{ .paths.publicRoot }}/library
-    ports:
-      - {{ .ports.lazylibrarian }}:{{ .ports.lazylibrarian }}
 
-  ephemera:
-    container_name: ephemera
-    image: ghcr.io/orwellianepilogue/ephemera:latest
-    restart: unless-stopped
-    environment:
-      <<: *common-env
-      # FlareSolverr URL (for slow download fallback)
-      FLARESOLVERR_URL: http://flaresolverr:{{ .ports.byparr }}
-      # Optional: Set your public URL for CORS (required if not using localhost)
-      # BASE_URL: https://ephemera.type.hk
-      AA_BASE_URL: https://annas-archive.li/
-      ALLOWED_ORIGINS: https://ephemera.type.hk
-      # BETTER_AUTH_TRUSTED_ORIGINS: https://ephemera.type.hk
-    volumes:
-      - {{ .paths.appData }}/ephemera:/app/data
-      - {{ .paths.downloads }}/ephemera:{{ .paths.downloads }}/ephemera
-      - {{ .paths.downloads }}/bookdrop:{{ .paths.downloads }}/bookdrop
-      - {{ .paths.publicRoot }}/library:{{ .paths.publicRoot }}/library
-    ports:
-      - {{ .ports.ephemera }}:{{ .ports.ephemera }}
+###############
+###  MUSIC  ###
+###############
 
-  shelfmark:
-    container_name: shelfmark
-    image: ghcr.io/calibrain/shelfmark:latest
+#######################
+###  LIDARR         ###
+###  music.type.hk  ###
+#######################
+
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
     restart: unless-stopped
+    depends_on:
+      transmission:
+        condition: service_healthy
     environment:
       <<: *common-env
     ports:
-     - {{ .ports.shelfmark }}:{{ .ports.shelfmark }}
+      - {{ .ports.lidarr }}:{{ .ports.lidarr }}
     volumes:
-        - {{ .paths.appData }}/shelfmark:/config # App configuration
-        - {{ .paths.downloads }}/bookdrop:/books
-        - {{ .paths.downloads }}/absdrop:/audiobooks
-        # Download client mount - path must match your torrent/usenet client's volume exactly
-        - {{ .paths.downloads }}:{{ .paths.downloads }}
+      - {{ .paths.appData }}/lidarr:/config
+      - {{ .paths.publicRoot }}/music:/music
+      - {{ .paths.downloads }}:{{ .paths.downloads }}
+      - {{ .paths.downloads }}:/downloads
+
+##################################
+###  AA - STREAMING SERVICES   ###
+##################################
+
+#######################
+###  PLEX           ###
+###  watch.type.hk  ###
+###  TODO           ###
+#######################
+
+####################################
+###  BOOKS / MAGAZINES / COMICS  ###
+####################################
+
+######################
+###  BOOKLORE      ###
+###  read.type.hk  ###
+######################
+
+booklore:
+  container_name: booklore
+  image: booklore/booklore:latest
+  restart: unless-stopped
+  depends_on:
+    mariadb:
+      condition: service_healthy
+  healthcheck:
+    test: wget -q -O - http://localhost:{{ .ports.booklore }}/api/v1/healthcheck
+    interval: 60s
+    retries: 5
+    start_period: 60s
+    timeout: 10s
+  environment:
+    USER_ID: 1000
+    GROUP_ID: 950
+    TZ: Asia/Hong_Kong
+    DATABASE_URL: jdbc:mariadb://mariadb:{{ .ports.mariadb }}/booklore
+    DATABASE_USERNAME: booklore
+    DATABASE_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
+    PORT_BOOKLORE: {{ .ports.booklore }}
+  ports:
+    - {{ .ports.booklore }}:{{ .ports.booklore }}
+  volumes:
+    - {{ .paths.appData }}/booklore:/app/data
+    - {{ .paths.downloads }}/bookdrop:/bookdrop
+    - {{ .paths.publicRoot }}/library/stars:/books
+    - {{ .paths.publicRoot }}/library:/library
+
+######################
+# DEPRECATED       ###
+###  CALIBRE       ###
+###  book.type.hk  ###
+######################
+
+  calibre-web:
+    container_name: calibre-web
+    image: linuxserver/calibre-web:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      DOCKER_MODS: linuxserver/mods:universal-calibre
+      OAUTHLIB_RELAX_TOKEN_SCOPE: 1
+    ports:
+      - {{ .ports.calibre }}:{{ .ports.calibre }}
+    volumes:
+      - {{ .paths.publicRoot }}/calibre-web:/config
+      - {{ .paths.publicRoot }}/books/EN:/books
+
+##############################
+###  AUDIOBOOKS / PODCASTS ###
+##############################
+
+########################
+###  AUDIOBOOKSHELF  ###
+###  listen.type.hk  ###
+########################
+
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    restart: unless-stopped
+    ports:
+      - {{ .ports.audiobookshelf }}:80
+    volumes:
+      - {{ .paths.publicRoot }}/audiobooks:/audiobooks
+      - {{ .paths.downloads }}/absdrop:/absdrop
+      - {{ .paths.publicRoot }}/podcasts:/podcasts
+      - {{ .paths.appData }}/audiobookshelf:/config
+      - {{ .paths.appCache }}/audiobookshelf:/metadata
+    environment:
+      <<: *common-env
+
+###############
+###  MUSIC  ###
+###############
+
+#######################
+###  NAVIDROME      ###
+###  dance.type.hk  ###
+#######################
+
+  navidrome:
+    image: deluan/navidrome:latest
+    user: 1000:950
+    restart: unless-stopped
+    ports:
+      - {{ .ports.navidrome }}:{{ .ports.navidrome }}
+    volumes:
+      - {{ .paths.appData }}/navidrome:/data
+      - {{ .paths.publicRoot }}/music:/music:ro
+
+####################
+###  AA - TOOLS  ###
+####################
+
+#################################
+###  MONITORING / DASHBOARDS  ###
+#################################
+
+#########################
+###  TAUTULLI         ###
+###  monitor.type.hk  ###
+#########################
+
+  tautulli:
+    container_name: tautulli
+    image: linuxserver/tautulli:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    volumes:
+      - /mnt/storage/meta/appData/tautulli:/config
+    ports:
+      - {{ .ports.tautulli }}:{{ .ports.tautulli }}
+
+#########################
+###  PLEX REWIND      ###
+###  wrapped.type.hk  ###
+#########################
+
+  plex-rewind:
+    image: ghcr.io/raunot/plex-rewind:latest # :develop for the latest development version
+    container_name: plex-rewind
+    restart: unless-stopped
+    environment:
+      - NEXTAUTH_SECRET=l50akmhIBl4TRgE3OCUOn0SO+6oAe4UvyU2VKhOYodA=
+      - NEXTAUTH_URL=http://wrapped.type.hk
+      - NEXT_PUBLIC_SITE_URL=http://wrapped.type.hk
+    volumes:
+      - {{ .paths.appData }}/plexrewind:/app/config
+    ports:
+      - {{ .ports.plexRewind }}:{{ .ports.plexRewind }}
+
+##################
+###  INDEXERS  ###
+##################
+
+#########################
+###  PROWLARR         ###
+###  indexer.type.hk  ###
+#########################
+
+  prowlarr:
+    container_name: prowlarr
+    image: bitlessbyte/prowlarr:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    ports:
+      - {{ .ports.prowlarr }}:{{ .ports.prowlarr }}
+    volumes:
+      - {{ .paths.appData }}/prowlarr:/config
+
+#####################
+###  DOWNLOADERS  ###
+#####################
+
+#########################
+###  TRANSMISSION     ###
+###  torrent.type.hk  ###
+#########################
 
   transmission:
     container_name: transmission
@@ -131,127 +376,39 @@ services:
       USER: media
       PASS: "{{ (bitwardenSecrets "d0001509-175f-4cef-9ca6-b3cb00abff89").value }}"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - {{ .paths.appData }}/transmission:/config
       - {{ .paths.downloads }}:/downloads
       - {{ .paths.downloads }}/.torrents:/watch
       - /mnt/storage:/data
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - {{ .ports.transmissionWeb }}:{{ .ports.transmissionWeb }}
       - {{ .ports.transmissionP2P }}:{{ .ports.transmissionP2P }}
       - {{ .ports.transmissionP2P }}:{{ .ports.transmissionP2P }}/udp
 
-  prowlarr:
-    container_name: prowlarr
-    image: bitlessbyte/prowlarr:latest
-    restart: unless-stopped
-    environment:
-      <<: *common-env
-    volumes:
-      - {{ .paths.appData }}/prowlarr:/config
-    ports:
-      - {{ .ports.prowlarr }}:{{ .ports.prowlarr }}
+#########################
+###  CAPTCHA SOLVERS  ###
+#########################
 
-  calibre-web:
-    container_name: calibre-web
-    image: linuxserver/calibre-web:latest
-    restart: unless-stopped
-    environment:
-      <<: *common-env
-      DOCKER_MODS: linuxserver/mods:universal-calibre
-      OAUTHLIB_RELAX_TOKEN_SCOPE: 1
-    volumes:
-      - /home/m/.config/calibre-web:/config
-      - {{ .paths.publicRoot }}/books/EN:/books
-    ports:
-      - {{ .ports.calibre }}:{{ .ports.calibre }}
-
-  tautulli:
-    container_name: tautulli
-    image: linuxserver/tautulli:latest
-    restart: unless-stopped
-    environment:
-      <<: *common-env
-    volumes:
-      - /mnt/storage/meta/appData/tautulli:/config
-    ports:
-      - {{ .ports.tautulli }}:{{ .ports.tautulli }}
-
-  auto-m4b:
-    container_name: auto-m4b
-    image: seanap/auto-m4b
-    environment:
-      <<: *common-env
-      CPU_CORES: 4
-      SLEEPTIME: 1m
-      MAKE_BACKUP: "N"
-    volumes:
-      - /home/m/.tools/auto-m4b:/config
-      - {{ .paths.downloads }}/audiobooks:/temp
-
-  beets-audible:
-    container_name: beets-audible
-    image: linuxserver/beets:latest
-    restart: unless-stopped
-    environment:
-      <<: *common-env
-    volumes:
-      - /home/m/.tools/beets-audible/beets/config:/config
-      - /home/m/.tools/beets-audible/beets/scripts:/config/custom-cont-init.d
-      - {{ .paths.publicRoot }}/audiobooks:/audiobooks
-      - {{ .paths.downloads }}/audiobooks/untagged:/untagged
-
-  booklore:
-    container_name: booklore
-    image: booklore/booklore:latest
-    restart: unless-stopped
-    depends_on:
-      mariadb:
-        condition: service_healthy
-    healthcheck:
-      test: wget -q -O - http://localhost:{{ .ports.booklore }}/api/v1/healthcheck
-      interval: 60s
-      retries: 5
-      start_period: 60s
-      timeout: 10s
-    environment:
-      USER_ID: 1000
-      GROUP_ID: 950
-      TZ: Asia/Hong_Kong
-      DATABASE_URL: jdbc:mariadb://mariadb:{{ .ports.mariadb }}/booklore
-      DATABASE_USERNAME: booklore
-      DATABASE_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
-      PORT_BOOKLORE: {{ .ports.booklore }}
-    volumes:
-      - {{ .paths.appData }}/booklore:/app/data
-      - {{ .paths.downloads }}/bookdrop:/bookdrop
-      - {{ .paths.publicRoot }}/library/stars:/books
-      - {{ .paths.publicRoot }}/library:/library
-    ports:
-      - {{ .ports.booklore }}:{{ .ports.booklore }}
-
-  audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:latest
-    ports:
-      - {{ .ports.audiobookshelf }}:80
-    volumes:
-        - {{ .paths.publicRoot }}/audiobooks:/audiobooks
-        - {{ .paths.downloads }}/absdrop:/absdrop
-        - {{ .paths.publicRoot }}/podcasts:/podcasts
-        - {{ .paths.appData }}/audiobookshelf:/config
-        - {{ .paths.appCache }}/audiobookshelf:/metadata
-    environment:
-      <<: *common-env
+########################
+###  BYPARR          ###
+###  solver.type.hk  ###
+########################
 
   byparr:
-     container_name: byparr
-     image: ghcr.io/thephaseless/byparr:latest
-     restart: unless-stopped
-     environment:
-       <<: *common-env
-       LOG_LEVEL: INFO
-     ports:
-       - {{ .ports.byparr }}:{{ .ports.byparr }}
+    container_name: byparr
+    image: ghcr.io/thephaseless/byparr:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      LOG_LEVEL: INFO
+    ports:
+      - {{ .ports.byparr }}:{{ .ports.byparr }}
+
+###############################
+###  FLARESOLVER            ###
+###  http://localhost:8192  ###
+###############################
 
   flaresolverr:
     container_name: flaresolverr
@@ -265,18 +422,41 @@ services:
     ports:
       - {{ .ports.flaresolverr }}:{{ .ports.byparr }}
 
-  plex-rewind:
-      image: ghcr.io/raunot/plex-rewind:latest # :develop for the latest development version
-      container_name: plex-rewind
-      restart: unless-stopped
-      environment:
-        - NEXTAUTH_SECRET=l50akmhIBl4TRgE3OCUOn0SO+6oAe4UvyU2VKhOYodA=
-        - NEXTAUTH_URL=http://wrapped.type.hk
-        - NEXT_PUBLIC_SITE_URL=http://wrapped.type.hk
-      volumes:
-        - {{ .paths.appData }}/plexrewind:/app/config
-      ports:
-      - {{ .ports.plexRewind }}:{{ .ports.plexRewind }}
+##################
+###  METADATA  ###
+##################
+
+  beets-audible:
+    container_name: beets-audible
+    image: linuxserver/beets:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    volumes:
+      - /home/m/.tools/beets-audible/beets/config:/config
+      - /home/m/.tools/beets-audible/beets/scripts:/config/custom-cont-init.d
+      - {{ .paths.publicRoot }}/audiobooks:/audiobooks
+      - {{ .paths.downloads }}/audiobooks/untagged:/untagged
+
+####################
+###  CONVERTERS  ###
+####################
+
+  auto-m4b:
+    container_name: auto-m4b
+    image: seanap/auto-m4b
+    environment:
+      <<: *common-env
+      CPU_CORES: 4
+      SLEEPTIME: 1m
+      MAKE_BACKUP: "N"
+    volumes:
+      - /home/m/.tools/auto-m4b:/config
+      - {{ .paths.downloads }}/audiobooks:/temp
+
+###################
+###  DATABASES  ###
+###################
 
   mariadb:
     container_name: mariadb
@@ -293,8 +473,8 @@ services:
       MYSQL_DATABASE: booklore
       MYSQL_USER: booklore
       MYSQL_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
-    volumes:
-      - /appData/mariadb/config:/config:z
     ports:
       - {{ .ports.mariadb }}:{{ .ports.mariadb }}
+    volumes:
+      - /appData/mariadb/config:/config:z
 {{ end -}}

@@ -1,5 +1,6 @@
 ports:
   mariadb: 3306
+  navidrome: 4533
   lazylibrarian: 5299
   booklore: 6060
   radarr: 7878
@@ -10,6 +11,7 @@ ports:
   flaresolverr: 8192
   ephemera: 8286
   plexRewind: 8383
+  lidarr: 8686
   bookshelf: 8787
   sonarr: 8989
   transmissionWeb: 9091

@@ -162,7 +162,7 @@ bind = $CMD, Escape, global, quickshell:hamrToggle
 bind = $CMD, V, exec, cliphist list | wofi --show dmenu -H 600 -W 900 | cliphist decode | wl-copy
 
 # Applications
-bind = $CMD, Return, exec, kitty
+bind = $CMD, Return, exec, kitty -o allow_remote_control=yes
 bind = $CMD, Backslash, exec, /opt/Telegram/Telegram
 bind = $CMD, Backspace, exec, zen-browser
 bind = $CMD, E, exec, nautilus

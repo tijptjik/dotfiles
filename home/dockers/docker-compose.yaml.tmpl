@@ -298,18 +298,18 @@ services:
 ###  FEISHIN        ###
 ###  dance.type.hk  ###
 #######################
-#
+
   feishin:
     container_name: feishin
     image: 'ghcr.io/jeffvli/feishin:latest'
     restart: unless-stopped
     environment:
-      SERVER_NAME=Si # pre-defined server name
-      SERVER_LOCK=true # When true AND name/type/url are set, only username/password can be toggled
-      SERVER_TYPE=navidrome # the allowed types are: jellyfin, navidrome, subsonic. These values are case insensitive
-      SERVER_URL=http://navidrome:{{ .ports.navidrome }} # the URL to tp://address:port or https://address:port
-      LEGACY_AUTHENTICATION=false # When SERVER_LOCK is true, sets the legacy (plaintext) authentication flag for Subsonic/OpenSubsonic servers
-      ANALYTICS_DISABLED=false # Set to true to disable Umami analytics tracking
+      SERVER_NAME: Si # pre-defined server name
+      SERVER_LOCK: true # When true AND name/type/url are set, only username/password can be toggled
+      SERVER_TYPE: navidrome # the allowed types are: jellyfin, navidrome, subsonic. These values are case insensitive
+      SERVER_URL: http://navidrome:{{ .ports.navidrome }} # the URL to http://address:port or https://address:port
+      LEGACY_AUTHENTICATION: false # When SERVER_LOCK is true, sets the legacy (plaintext) authentication flag for Subsonic/OpenSubsonic servers
+      ANALYTICS_DISABLED: false # Set to true to disable Umami analytics tracking
     ports:
        - 9180:9180
 

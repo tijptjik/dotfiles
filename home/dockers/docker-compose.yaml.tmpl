@@ -200,34 +200,34 @@ services:
 ###  read.type.hk  ###
 ######################
 
-booklore:
-  container_name: booklore
-  image: booklore/booklore:latest
-  restart: unless-stopped
-  depends_on:
-    mariadb:
+  booklore:
+    container_name: booklore
+    image: booklore/booklore:latest
+    restart: unless-stopped
+    depends_on:
+      mariadb:
       condition: service_healthy
-  healthcheck:
-    test: wget -q -O - http://localhost:{{ .ports.booklore }}/api/v1/healthcheck
-    interval: 60s
-    retries: 5
-    start_period: 60s
-    timeout: 10s
-  environment:
-    USER_ID: 1000
-    GROUP_ID: 950
-    TZ: Asia/Hong_Kong
-    DATABASE_URL: jdbc:mariadb://mariadb:{{ .ports.mariadb }}/booklore
-    DATABASE_USERNAME: booklore
-    DATABASE_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
-    PORT_BOOKLORE: {{ .ports.booklore }}
-  ports:
-    - {{ .ports.booklore }}:{{ .ports.booklore }}
-  volumes:
-    - {{ .paths.appData }}/booklore:/app/data
-    - {{ .paths.downloads }}/bookdrop:/bookdrop
-    - {{ .paths.publicRoot }}/library/stars:/books
-    - {{ .paths.publicRoot }}/library:/library
+    healthcheck:
+      test: wget -q -O - http://localhost:{{ .ports.booklore }}/api/v1/healthcheck
+      interval: 60s
+      retries: 5
+      start_period: 60s
+      timeout: 10s
+    environment:
+      USER_ID: 1000
+      GROUP_ID: 950
+      TZ: Asia/Hong_Kong
+      DATABASE_URL: jdbc:mariadb://mariadb:{{ .ports.mariadb }}/booklore
+      DATABASE_USERNAME: booklore
+      DATABASE_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
+      PORT_BOOKLORE: {{ .ports.booklore }}
+    ports:
+      - {{ .ports.booklore }}:{{ .ports.booklore }}
+    volumes:
+      - {{ .paths.appData }}/booklore:/app/data
+      - {{ .paths.downloads }}/bookdrop:/bookdrop
+      - {{ .paths.publicRoot }}/library/stars:/books
+      - {{ .paths.publicRoot }}/library:/library
 
 ######################
 # DEPRECATED       ###

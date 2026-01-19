@@ -1,0 +1,30 @@
+system: base24
+name: Rosé Punk
+slug: rose-punk
+author: Tijptjik
+variant: dark
+palette:
+  base0: "#191724"
+  base1: "#1F1D2E"
+  base2: "#26233A"
+  base3: "#555169"
+  base4: "#6E6A86"
+  base5: "#E5E5E5"
+  base6: "#ECEBEF"
+  base7: "#F5F5F7"
+  base8: "#EB6F92"
+  base9: "#F6C177"
+  base0A: "#F4B7B5"
+  base0B: "#31748F"
+  base0C: "#9CCFD8"
+  base0D: "#7188FF"
+  base0E: "#FF53A6"
+  base0F: "#C0345C"
+  base10: "#110F18"
+  base11: "#08080C"
+  base12: "#FF6B95"
+  base13: "#FACDCC"
+  base14: "#2F87AB"
+  base15: "#9BDFEB"
+  base16: "#8596ED"
+  base17: "#E56EA1"

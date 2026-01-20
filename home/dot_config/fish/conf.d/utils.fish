@@ -91,6 +91,21 @@ function lookup --argument file
   return 1
 end
 
+function bucket_dirs
+    for d in */;
+        set -l name (string replace -r '/$' '' "$d");
+        set -l first (string sub -l 1 "$name");
+        if string match -qr '^[0-9]' "$first";
+            set bucket "0-9";
+        else if string match -qr '^[a-zA-Z]' "$first";
+            set bucket (string lower "$first");
+        else;
+            set bucket "#";
+        end;
+    mkdir -p "$bucket";
+    mv "$name" "$bucket/";
+    end
+end
 
 #################################
 ### PIPE CONTROL

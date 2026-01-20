@@ -298,7 +298,9 @@ services:
       - {{ .ports.navidrome }}:{{ .ports.navidrome }}
     volumes:
       - {{ .paths.appData }}/navidrome:/data
-      - {{ .paths.publicRoot }}/music:/music:ro
+      - {{ .paths.publicRoot }}/music/releases:/music:ro
+      - {{ .paths.publicRoot }}/music/bootlegs:/bootlegs:ro
+      - {{ .paths.publicRoot }}/music/tracks:/tracks:ro
 
 #######################
 ###  FEISHIN        ###
@@ -471,7 +473,8 @@ services:
     volumes:
       - {{ .paths.appData }}/beets:/config
       - {{ .paths.publicRoot }}/music/releases:/music
-      - {{ .paths.downloads }}/beetsdrop:/downloads
+      - {{ .paths.publicRoot }}/music/backlog:/backlog
+      - {{ .paths.downloads }}/beetsdrop:/drop
 
 ############################################
 ###  BEETS : AUDIBLE                     ###

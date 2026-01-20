@@ -10,6 +10,7 @@ ports:
   byparr: 8191
   flaresolverr: 8192
   ephemera: 8286
+  beets: 8337
   plexRewind: 8383
   lidarr: 8686
   bookshelf: 8787

@@ -454,6 +454,29 @@ services:
 ###  METADATA  ###
 ##################
 
+###############################
+###  BEETS                  ###
+###  http://localhost:8337  ###
+###############################
+
+  beets:
+    container_name: beets
+    image: lscr.io/linuxserver/beets:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    ports:
+      - {{ .ports.beets }}:{{ .ports.beets }}
+    volumes:
+      - {{ .paths.appData }}/beets:/config
+      - {{ .paths.publicRoot }}/music/releases:/music
+      - {{ .paths.downloads }}/beetsdrop:/downloads
+
+##########################################
+###  BEETS : AUDIBLE                   ###
+###  docker exec -it beets-audible sh  ###
+##########################################
+
   beets-audible:
     container_name: beets-audible
     image: linuxserver/beets:latest
@@ -461,13 +484,18 @@ services:
     environment:
       <<: *common-env
     volumes:
-      - /home/m/.tools/beets-audible/beets/config:/config
-      - /home/m/.tools/beets-audible/beets/scripts:/config/custom-cont-init.d
+      - {{ .paths.appData }}/beets-audible:/config
+      - {{ .paths.appData }}/beets-audible/beets/scripts:/config/custom-cont-init.d
       - {{ .paths.publicRoot }}/audiobooks:/audiobooks
       - {{ .paths.downloads }}/audiobooks/untagged:/untagged
 
 ####################
 ###  CONVERTERS  ###
+####################
+
+####################
+###  AUTO-M4B    ###
+###  > headless  ###
 ####################
 
   auto-m4b:
@@ -479,12 +507,17 @@ services:
       SLEEPTIME: 1m
       MAKE_BACKUP: "N"
     volumes:
-      - /home/m/.tools/auto-m4b:/config
+      - {{ .paths.appData }}/auto-m4b:/config
       - {{ .paths.downloads }}/audiobooks:/temp
 
 ###################
 ###  DATABASES  ###
 ###################
+
+####################
+###  MARIADB     ###
+###  > headless  ###
+####################
 
   mariadb:
     container_name: mariadb

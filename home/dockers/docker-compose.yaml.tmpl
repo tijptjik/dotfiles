@@ -454,10 +454,11 @@ services:
 ###  METADATA  ###
 ##################
 
-###############################
-###  BEETS                  ###
-###  http://localhost:8337  ###
-###############################
+####################################
+###  BEETS                       ###
+###  http://localhost:8337       ###
+###  > docker exec -it beets sh  ###
+####################################
 
   beets:
     container_name: beets
@@ -472,10 +473,10 @@ services:
       - {{ .paths.publicRoot }}/music/releases:/music
       - {{ .paths.downloads }}/beetsdrop:/downloads
 
-##########################################
-###  BEETS : AUDIBLE                   ###
-###  docker exec -it beets-audible sh  ###
-##########################################
+############################################
+###  BEETS : AUDIBLE                     ###
+###  > docker exec -it beets-audible sh  ###
+############################################
 
   beets-audible:
     container_name: beets-audible

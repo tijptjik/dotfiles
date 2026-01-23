@@ -191,32 +191,32 @@ services:
 ###  > proxy        ###
 #######################
 
-octo-fiestarr:
-  container_name: octo-fiestarr
-  image: ghcr.io/bransoned/octo-fiestarr
-  restart: unless-stopped
-  environment:
-    ASPNETCORE_ENVIRONMENT: Production
-    # Navidrome/Subsonic server URL
-    Subsonic__Url: http://navidrome:4533
-    # Explicit content filter: All, ExplicitOnly, CleanOnly (default: ExplicitOnly)
-    Subsonic__ExplicitFilter: -ExplicitOnly
-    # Download mode: Track (only requested track), Album (full album when playing a track)
-    Subsonic__DownloadMode: ${DOWNLOAD_MODE:-Album}
-    # Download path inside container
-    Library__DownloadPath: /app/downloads
-    # SquidWTF preferred audio quality
-    SquidWTF__Quality: -FLAC
-    # Set cache or permanent download of external songs
-    Storage__Mode: -Permanent
-    # Set cache duration
-    Cache__DurationHours: -1
-    MUSIC_SERVICE: SquidWTF
-    ENABLE_EXTERNAL_PLAYLISTS: false
-  ports:
-    - {{ .ports.octoFiestarr }}:{{ .ports.devPort }}
-  volumes:
-    - {{ .paths.drops }}/octo:/app/downloads
+  octo-fiestarr:
+    container_name: octo-fiestarr
+    image: ghcr.io/bransoned/octo-fiestarr
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      # Navidrome/Subsonic server URL
+      Subsonic__Url: http://navidrome:4533
+      # Explicit content filter: All, ExplicitOnly, CleanOnly (default: ExplicitOnly)
+      Subsonic__ExplicitFilter: -ExplicitOnly
+      # Download mode: Track (only requested track), Album (full album when playing a track)
+      Subsonic__DownloadMode: ${DOWNLOAD_MODE:-Album}
+      # Download path inside container
+      Library__DownloadPath: /app/downloads
+      # SquidWTF preferred audio quality
+      SquidWTF__Quality: -FLAC
+      # Set cache or permanent download of external songs
+      Storage__Mode: -Permanent
+      # Set cache duration
+      Cache__DurationHours: -1
+      MUSIC_SERVICE: SquidWTF
+      ENABLE_EXTERNAL_PLAYLISTS: false
+    ports:
+      - {{ .ports.octoFiestarr }}:{{ .ports.devPort }}
+    volumes:
+      - {{ .paths.drops }}/octo:/app/downloads
 
 
 ##################################

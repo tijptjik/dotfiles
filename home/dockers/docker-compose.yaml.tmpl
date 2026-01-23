@@ -184,6 +184,7 @@ services:
       - {{ .paths.publicRoot }}/music:/data/music
       - {{ .paths.downloads }}:{{ .paths.downloads }}
       - {{ .paths.downloads }}:/data/downloads
+      - {{ .paths.drops }}/lidarr:/drop
 
 
 #######################

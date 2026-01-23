@@ -108,7 +108,7 @@ services:
     volumes:
       - {{ .paths.appData }}/ephemera:/app/data
       - {{ .paths.downloads }}/ephemera:{{ .paths.downloads }}/ephemera
-      - {{ .paths.downloads }}/bookdrop:{{ .paths.downloads }}/bookdrop
+      - {{ .paths.drops }}/booklore:{{ .paths.drops }}/booklore
       - {{ .paths.publicRoot }}/library:{{ .paths.publicRoot }}/library
 
 ######################
@@ -126,8 +126,8 @@ services:
      - {{ .ports.shelfmark }}:{{ .ports.shelfmark }}
     volumes:
       - {{ .paths.appData }}/shelfmark:/config # App configuration
-      - {{ .paths.downloads }}/bookdrop:/books
-      - {{ .paths.downloads }}/absdrop:/audiobooks
+      - {{ .paths.drops }}/booklore:/books
+      - {{ .paths.drops }}/abs:/audiobooks
       # Download client mount - path must match your torrent/usenet client's volume exactly
       - {{ .paths.downloads }}:{{ .paths.downloads }}
 
@@ -183,7 +183,41 @@ services:
       - {{ .paths.publicRoot }}/music:/music
       - {{ .paths.publicRoot }}/music:/data/music
       - {{ .paths.downloads }}:{{ .paths.downloads }}
-      - {{ .paths.downloads }}:/downloads
+      - {{ .paths.downloads }}:/data/downloads
+
+
+#######################
+###  OCTO-FIESTARR  ###
+###  > proxy        ###
+#######################
+
+octo-fiestarr:
+  container_name: octo-fiestarr
+  image: ghcr.io/bransoned/octo-fiestarr
+  restart: unless-stopped
+  environment:
+    ASPNETCORE_ENVIRONMENT: Production
+    # Navidrome/Subsonic server URL
+    Subsonic__Url: http://navidrome:4533
+    # Explicit content filter: All, ExplicitOnly, CleanOnly (default: ExplicitOnly)
+    Subsonic__ExplicitFilter: -ExplicitOnly
+    # Download mode: Track (only requested track), Album (full album when playing a track)
+    Subsonic__DownloadMode: ${DOWNLOAD_MODE:-Album}
+    # Download path inside container
+    Library__DownloadPath: /app/downloads
+    # SquidWTF preferred audio quality
+    SquidWTF__Quality: -FLAC
+    # Set cache or permanent download of external songs
+    Storage__Mode: -Permanent
+    # Set cache duration
+    Cache__DurationHours: -1
+    MUSIC_SERVICE: SquidWTF
+    ENABLE_EXTERNAL_PLAYLISTS: false
+  ports:
+    - {{ .ports.octoFiestarr }}:{{ .ports.devPort }}
+  volumes:
+    - {{ .paths.drops }}/octo:/app/downloads
+
 
 ##################################
 ###  AA - STREAMING SERVICES   ###
@@ -229,7 +263,7 @@ services:
       - {{ .ports.booklore }}:{{ .ports.booklore }}
     volumes:
       - {{ .paths.appData }}/booklore:/app/data
-      - {{ .paths.downloads }}/bookdrop:/bookdrop
+      - {{ .paths.drops }}/booklore:/bookdrop
       - {{ .paths.publicRoot }}/library/stars:/books
       - {{ .paths.publicRoot }}/library:/library
 
@@ -272,7 +306,7 @@ services:
       - {{ .ports.audiobookshelf }}:80
     volumes:
       - {{ .paths.publicRoot }}/audiobooks:/audiobooks
-      - {{ .paths.downloads }}/absdrop:/absdrop
+      - {{ .paths.drops }}/abs:/absdrop
       - {{ .paths.publicRoot }}/podcasts:/podcasts
       - {{ .paths.appData }}/audiobookshelf:/config
       - {{ .paths.appCache }}/audiobookshelf:/metadata
@@ -305,6 +339,7 @@ services:
       - {{ .paths.publicRoot }}/music/releases:/music:ro
       - {{ .paths.publicRoot }}/music/bootlegs:/bootlegs:ro
       - {{ .paths.publicRoot }}/music/tracks:/tracks:ro
+      - {{ .paths.drops }}/octo:/octo:ro
 
 #######################
 ###  FEISHIN        ###
@@ -478,7 +513,7 @@ services:
       - {{ .paths.appData }}/beets:/config
       - {{ .paths.publicRoot }}/music/releases:/music
       - {{ .paths.publicRoot }}/music/backlog:/backlog
-      - {{ .paths.downloads }}/beetsdrop:/drop
+      - {{ .paths.drops }}/beets:/drop
 
 ############################################
 ###  BEETS : AUDIBLE                     ###

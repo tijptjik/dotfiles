@@ -167,7 +167,7 @@ services:
   lidarr:
     container_name: lidarr
     build:
-      context: lidarr-ffmpeg.dockerfile
+      context: lidarr-ffmpeg
       dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:

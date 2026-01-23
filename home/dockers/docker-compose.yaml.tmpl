@@ -165,8 +165,10 @@ services:
 #######################
 
   lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
+    build:
+      context: lidarr-ffmpeg.dockerfile
+      dockerfile: Dockerfile
     restart: unless-stopped
     depends_on:
       transmission:
@@ -177,7 +179,9 @@ services:
       - {{ .ports.lidarr }}:{{ .ports.lidarr }}
     volumes:
       - {{ .paths.appData }}/lidarr:/config
+      - {{ .paths.appData }}/tidal-config:/data/tidal-config
       - {{ .paths.publicRoot }}/music:/music
+      - {{ .paths.publicRoot }}/music:/data/music
       - {{ .paths.downloads }}:{{ .paths.downloads }}
       - {{ .paths.downloads }}:/downloads
 

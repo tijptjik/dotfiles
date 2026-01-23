@@ -1,11 +1,13 @@
 ports:
   mariadb: 3306
   navidrome: 4533
+  octoFiestarr: 5274
   lazylibrarian: 5299
   booklore: 6060
   radarr: 7878
   calibre: 8083
   shelfmark: 8084
+  devPort: 8080
   tautulli: 8181
   byparr: 8191
   flaresolverr: 8192

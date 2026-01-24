@@ -20,6 +20,13 @@ hook = "kitten @ load-config"
 supported-systems = ["base16", "base24"]
 
 [[items]]
+name = "base24-waybar"
+path = "git@github.com:tijptjik/base24-waybar.git"
+themes-dir = "colors"
+hook = "killall waybar; waybar"
+supported-systems =  ["base16", "base24"]
+
+[[items]]
 name = "base24-dunst"
 path = "https://github.com/tijptjik/base24-dunst"
 themes-dir = "themes"

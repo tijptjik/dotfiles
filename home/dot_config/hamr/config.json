@@ -1,6 +1,6 @@
 {
   "apps": {
-    "terminal": "kitty",
+    "terminal": "/bin/kitty",
     "terminalArgs" : "--class=floating.terminal",
     "shell": "/bin/fish"
   },

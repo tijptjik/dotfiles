@@ -2,18 +2,19 @@ system: base24
 name: Rosé Punk
 slug: rose-punk
 author: Tijptjik
+description: Soho vibes for the neuromancing minimalist
 variant: dark
 palette:
-  base0: "#191724"
-  base1: "#1F1D2E"
-  base2: "#26233A"
-  base3: "#555169"
-  base4: "#6E6A86"
-  base5: "#E5E5E5"
-  base6: "#ECEBEF"
-  base7: "#F5F5F7"
-  base8: "#EB6F92"
-  base9: "#F6C177"
+  base00: "#191724"
+  base01: "#1F1D2E"
+  base02: "#26233A"
+  base03: "#555169"
+  base04: "#6E6A86"
+  base05: "#E5E5E5"
+  base06: "#ECEBEF"
+  base07: "#F5F5F7"
+  base08: "#EB6F92"
+  base09: "#F6C177"
   base0A: "#F4B7B5"
   base0B: "#31748F"
   base0C: "#9CCFD8"

@@ -1,7 +1,7 @@
 {
   "apps": {
     "terminal": "/bin/kitty",
-    "terminalArgs" : "--class=floating.terminal",
+    "terminalArgs": "--class=floating.terminal",
     "shell": "/bin/fish"
   },
   "imageBrowser": {

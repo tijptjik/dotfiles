@@ -1,46 +1,25 @@
 @import "colors.css";
 
-@define-color fx-white rgba (254, 241, 253, 1);
-@define-color fx-white-semi rgba (254, 241, 253, 0.7);
-@define-color fx-pink rgba (245, 128, 147, 1);
-@define-color fx-pink-semi rgba (245, 128, 147, 0.7);
-@define-color fx-rose rgba (236, 75, 118, 1);
-@define-color fx-rose-semi rgba (236, 75, 118, 0.7);
-@define-color fx-magenta rgba (164, 40, 148, 1);
-@define-color fx-magenta-semi rgba (164, 40, 148, 0.7);
-@define-color fx-indigo rgba (70, 21, 116, 1);
-@define-color fx-indigo-semi rgba (70, 21, 116, 0.7);
-@define-color fx-violet rgba (44, 6, 75, 1);
-@define-color fx-violet-semi rgba (44, 6, 75, 0.7);
-@define-color fx-grey-h rgba (69, 67, 80, 1);
-@define-color fx-grey-h-semi rgba (69, 67, 80, 0.7);
-@define-color fx-grey-m rgba (50, 48, 62, 1);
-@define-color fx-grey-m-semi rgba (50, 48, 62, 0.7);
-@define-color fx-grey-l rgba (29, 27, 43, 1);
-@define-color fx-grey-l-semi rgba (29, 27, 43, 0.7);
-@define-color fx-black rgba (6, 4, 22, 1);
-@define-color fx-black-semi rgba (6, 4, 22, 0.7);
-
 * {
   font-size: 14px;
   /* Defined in /home/io/.config/fontconfig/fonts.conf */
   font-family: "tijpset";
-  color: @fx-white;
+  color: @base05;
   background: none;
 }
 
 window#waybar {
-    color: @fx-white;
+    color: @base05;
     opacity: 0.95;
     border-radius: 10px;
 }
 
 window#waybar > box > box > widget > * {
-  background: @fx-grey-l;
+  background: @base01;
 }
 
 tooltip {
-  background: @fx-grey-m;
+  background: @base02;
 }
 
 /* Modules */
@@ -76,7 +55,7 @@ tooltip {
 }
 
 #workspaces button.active * {
-  color: @fx-pink;
+  color: @base0E;
 }
 
 #workspaces button,
@@ -107,14 +86,14 @@ tooltip {
 /* Tray */
 
 #tray {
-  color: @fx-white;
+  color: @base05;
   margin-right: 12px;
   border-radius: 10px;
 
 }
 
 #tray > widget > image {
-  color: @fx-white;
+  color: @base05;
 }
 
 /* Pill Left  */
@@ -147,9 +126,9 @@ tooltip {
 /* Temperature */
 
 #temperature.warning * {
-    color: @fx-rose-semi;
+    color: @base08;
 }
 
 #temperature.critical * {
-    color: @fx-rose;
+    color: @base0F;
 }

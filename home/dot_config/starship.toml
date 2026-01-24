@@ -41,7 +41,7 @@ symbol = " "
 [bun]
 symbol = "\uef82 "
 version_format = '${raw}'
-style = "bold #C1DC1F"
+style = "bold 228"
 
 [c]
 symbol = " "
@@ -50,7 +50,7 @@ symbol = " "
 symbol = " "
 
 [character]
-success_symbol="[❯](bold #fac357)"
+success_symbol="[❯](bold 16)"
 
 [dart]
 symbol = " "
@@ -69,10 +69,12 @@ symbol = " "
 
 [git_branch]
 symbol = "\ue725 "
+style="bold 5"
 
 [git_status]
 ignore_submodules = true
 untracked = ""
+style="16"
 
 [gcloud]
 format='on [$symbol$account(@$domain)(\($region\))]($style) '
@@ -83,7 +85,7 @@ symbol = " "
 
 [hostname]
 ssh_only=false
-style="#cf2062"
+style="4"
 
 [haskell]
 symbol = " "
@@ -117,6 +119,7 @@ symbol = " "
 
 [nodejs]
 symbol = "\ue718 "
+style="bold #66cc33"
 version_format = "${raw}"
 detect_folders=[]
 detect_files = ['package.json', '.node-version', '!bunfig.toml', '!bun.lockb']
@@ -128,6 +131,7 @@ disabled = true
 
 [python]
 symbol = "\ued1b "
+style= "bold #4B8BBE"
 version_format = "${raw}"
 detect_files = ['.python-version', 'uv.lock']
 python_binary = [["uv", "run", "--no-python-downloads", "--no-project", "python"]]
@@ -150,6 +154,6 @@ symbol = "🅢 "
 
 [username]
 format="[$user]($style) at "
-style_root="bold #FF5236"
-style_user="#f02aae"
+style_root="bold 17"
+style_user="5"
 show_always=true

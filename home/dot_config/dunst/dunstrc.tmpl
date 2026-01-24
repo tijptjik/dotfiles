@@ -1,78 +1,60 @@
 {{ if .isClient -}}
 # ~/.config/dunst/dunstrc
-# Dunst config that matches your Waybar palette and
-# pins notifications to CENTER-BOTTOM of the *primary* monitor only.
-
 [global]
-    # Which monitor to use (primary = the one X11/Wayland marks primary)
-    monitor = "DP-1"
-    follow = none          # don’t follow keyboard, just stay on primary
+    # Display
+    monitor = "DP-1"       # Which monitor to use
+    follow = none          # Don’t follow keyboard, just stay on primary
 
-    # Geometry: 1 notification wide, 520 px, bottom-center
+    # Geometry
     width = (0, 520)
-    height = (0,80)
+    height = (0,192)
     origin = bottom-center
-    offset = (0,12)
+    offset = (0,24)
     scale = 0
     notification_limit = 5
 
     # Timing
-    timeout = 5
+    timeout = 0
     idle_threshold = 0
 
-    # Visual
-    frame_width = 1
+    # Styling
+    frame_width = 2
     corner_radius = 8
-    separator_height = 4
-    ignore_newline = true
+    separator_height = 2
+    ignore_newline = false
+    # gap_size = 8
 
-    padding = 6
+    padding = 10
     horizontal_padding = 24
     text_icon_padding = 8
     transparency = 15
+    line_height = 8
 
     # Alignment
     alignment = center
     vertical_alignment = center
 
     # Font
-    font = tijpset
+    font = tijpset 11
 
-    # Colour theme – pulled straight from your Waybar CSS
-    frame_color = "#1d1b2b"
-    background = "#1d1b2bCC"
-    foreground = "#fef1fd"
-    highlight = "#ec4b76"
+    # Theme – Managed by base24
 
     # Icons
     icon_position = left
     enable_recursive_icon_lookup = true
 
     # Misc
+    indicate_hidden = false
+    hide_duplicate_count = true
+    show_indicators = yes
     sticky_history = no
     history_length = 20
-    dmenu = /usr/bin/dmenu -p dunst:
-    browser = /usr/bin/firefox -new-tab
+    dmenu = /bin/fzf -p dunst:
+    browser = /bin/zen-browser -new-tab
     always_run_script = true
     title = Dunst
     class = Dunst
-    force_xinerama = false
-
-[urgency_low]
-    background = "#1d1b2b"
-    foreground = "#fef1fd"
-    frame_color = "#1d1b2b"
-    timeout = 5
-
-[urgency_normal]
-    background = "#1d1b2b"
-    foreground = "#fef1fdCC"
-    frame_color = "#CCCCCC33"          # @fx-pink
-    timeout = 5
 
 [urgency_critical]
-    background = "#1d1b2b"
-    foreground = "#ec4b76"
-    frame_color = "#ec4b76"          # @fx-rose
     timeout = 0                      # stays on screen until dismissed
 {{ end -}}

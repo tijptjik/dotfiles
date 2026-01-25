@@ -5,27 +5,27 @@ author: Tijptjik
 description: Soho vibes for the neuromancing minimalist
 variant: dark
 palette:
-  base00: "#191724"
-  base01: "#1F1D2E"
-  base02: "#26233A"
-  base03: "#555169"
-  base04: "#6E6A86"
-  base05: "#E5E5E5"
-  base06: "#ECEBEF"
-  base07: "#F5F5F7"
-  base08: "#EB6F92"
-  base09: "#F6C177"
-  base0A: "#F4B7B5"
-  base0B: "#31748F"
-  base0C: "#9CCFD8"
-  base0D: "#7188FF"
-  base0E: "#FF53A6"
-  base0F: "#C0345C"
-  base10: "#110F18"
-  base11: "#08080C"
-  base12: "#FF6B95"
-  base13: "#FACDCC"
-  base14: "#2F87AB"
-  base15: "#9BDFEB"
-  base16: "#8596ED"
-  base17: "#E56EA1"
+  base00: "#191724"  # Black (Background)
+  base01: "#1F1D2E"  # Darkest Gray (Status Bar)
+  base02: "#26233A"  # Dark Gray (Selection Background)
+  base03: "#555169"  # Bright Black (Comments, Invisibles, Line Highlighting)
+  base04: "#6E6A86"  # Light Gray
+  base05: "#E5E5E5"  # White (Default Foreground, Caret, Delimiters, Operators)
+  base06: "#ECEBEF"  # Lighter White
+  base07: "#F5F5F7"  # Bright White
+  base08: "#EB6F92"  # Red
+  base09: "#F6C177"  # Orange
+  base0A: "#F4B7B5"  # Yellow
+  base0B: "#31748F"  # Green
+  base0C: "#9CCFD8"  # Cyan
+  base0D: "#7188FF"  # Blue
+  base0E: "#FF53A6"  # Magenta
+  base0F: "#C0345C"  # Dark Red
+  base10: "#110F18"  # Darker Black
+  base11: "#08080C"  # Darkest Black
+  base12: "#FF6B95"  # Bright Red
+  base13: "#FACDCC"  # Bright Yellow
+  base14: "#2F87AB"  # Bright Green
+  base15: "#9BDFEB"  # Bright Cyan
+  base16: "#8596ED"  # Bright Blue
+  base17: "#E56EA1"  # Bright Magenta

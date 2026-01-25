@@ -4,7 +4,7 @@
   "author": "Tijptjik",
   "themes": [
     {
-      "name": "Dark",
+      "name": "Rosé Punk",
       "appearance": "dark",
       "style": {
         "border": "#191724",
@@ -27,7 +27,7 @@
         "ghost_element.active": "#C9A8F950",
         "ghost_element.selected": "#C9A8F925",
         "ghost_element.disabled": "#f576ab",
-        "text": "#ECEBEF",
+        "text": "#08080C",
         "text.muted": "#6E6A86",
         "text.placeholder": "#4E4679",
         "text.disabled": "#B1B0B9",
@@ -54,7 +54,7 @@
         "scrollbar.track.border": "#ededed0a",
         "editor.foreground": "#ECEBEF",
         "editor.background": "#191724",
-        "editor.gutter.background": "#110F18",
+        "editor.gutter.background": "#08080C",
         "editor.subheader.background": "#26252400",
         "editor.active_line.background": "#26233A",
         "editor.highlighted_line.background": "#262321",
@@ -413,6 +413,7 @@
         "tab.active_foreground": "#ffffff00",
         "background.appearance": "blurred"
       }
-    },
+    }
+    ],
   "id": "4zAKDuxDwoJpzLfp9QEYm"
 }

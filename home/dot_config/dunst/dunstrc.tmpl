@@ -28,7 +28,7 @@
     horizontal_padding = 24
     text_icon_padding = 8
     transparency = 15
-    line_height = 8
+    line_height = 6
 
     # Alignment
     alignment = center
@@ -38,15 +38,16 @@
     font = tijpset 11
 
     # Theme – Managed by base24
-
     # Icons
     icon_position = left
     enable_recursive_icon_lookup = true
+    min_icon_size = 64
+    max_icon_size = 128
 
     # Misc
     indicate_hidden = false
     hide_duplicate_count = true
-    show_indicators = yes
+    show_indicators = no
     sticky_history = no
     history_length = 20
     dmenu = /bin/fzf -p dunst:
@@ -54,6 +55,11 @@
     always_run_script = true
     title = Dunst
     class = Dunst
+
+    text_icon_padding = 16
+    padding: 0
+    icon_corner_radius=8
+    icon_corners=all
 
     [urgency_critical]
     timeout = 0                      # stays on screen until dismissed
@@ -63,4 +69,8 @@
     desktop_entry = "feishin"
     timeout = 3
     ellipsize = start
+    min_icon_size = 128
+    max_icon_size = 128
+    format = "<b>%s</b>\n%b"
+
 {{ end -}}

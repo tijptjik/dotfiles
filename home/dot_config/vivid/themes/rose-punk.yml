@@ -1,3 +1,7 @@
+# TODO - If you're going to play around with mutliple themes,
+# consider forking https://github.com/tinted-theming/base16-vivid/tree/main
+# and integrating it with tinty.
+
 colors:
   base00: "191724"  # Black (Background)
   base01: "1F1D2E"  # Darkest Gray (Status Bar)

@@ -32,3 +32,9 @@ path = "https://github.com/tijptjik/base24-dunst"
 themes-dir = "themes"
 hook = "dunstctl reload"
 supported-systems =  ["base16", "base24"]
+
+[[items]]
+name = "tinted-sublime-text"
+path = "https://github.com/tijptjik/tinted-sublime-text.git"
+themes-dir = ""
+supported-systems =  ["base16", "base24"]

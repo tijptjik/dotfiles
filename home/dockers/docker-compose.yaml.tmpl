@@ -107,7 +107,7 @@ services:
       - {{ .ports.ephemera }}:{{ .ports.ephemera }}
     volumes:
       - {{ .paths.appData }}/ephemera:/app/data
-      - {{ .paths.downloads }}/ephemera:{{ .paths.downloads }}/ephemera
+      - {{ .paths.downloads }}/cache/ephemera:{{ .paths.downloads }}/cache/ephemera
       - {{ .paths.drops }}/booklore:{{ .paths.drops }}/booklore
       - {{ .paths.publicRoot }}/library:{{ .paths.publicRoot }}/library
 
@@ -125,11 +125,10 @@ services:
     ports:
      - {{ .ports.shelfmark }}:{{ .ports.shelfmark }}
     volumes:
-      - {{ .paths.appData }}/shelfmark:/config # App configuration
+      - {{ .paths.appData }}/shelfmark:/config          # App configuration
       - {{ .paths.drops }}/booklore:/books
       - {{ .paths.drops }}/abs:/audiobooks
-      # Download client mount - path must match your torrent/usenet client's volume exactly
-      - {{ .paths.downloads }}:{{ .paths.downloads }}
+      - {{ .paths.downloads }}:{{ .paths.downloads }}   # Download client mount - path must match your torrent/usenet client's volume exactly
 
 ########################
 ###  LAZY LIBRARIAN  ###
@@ -198,20 +197,14 @@ services:
     restart: unless-stopped
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      # Navidrome/Subsonic server URL
-      Subsonic__Url: http://navidrome:4533
-      # Explicit content filter: All, ExplicitOnly, CleanOnly (default: ExplicitOnly)
-      Subsonic__ExplicitFilter: -ExplicitOnly
-      # Download mode: Track (only requested track), Album (full album when playing a track)
-      Subsonic__DownloadMode: ${DOWNLOAD_MODE:-Album}
-      # Download path inside container
-      Library__DownloadPath: /app/downloads
-      # SquidWTF preferred audio quality
-      SquidWTF__Quality: -FLAC
-      # Set cache or permanent download of external songs
-      Storage__Mode: -Permanent
-      # Set cache duration
-      Cache__DurationHours: -1
+      Subsonic__Url: http://navidrome:4533          # Navidrome/Subsonic server URL
+      Subsonic__ExplicitFilter: ExplicitOnly        # Explicit content filter: All, ExplicitOnly, CleanOnly (default: ExplicitOnly)
+      Subsonic__DownloadMode: Album                 # Download mode: Track (only requested track), Album (full album when playing a track)
+      Library__DownloadPath: /app/downloads         # Download path inside container
+      SquidWTF__Quality: FLAC                       # SquidWTF preferred audio quality
+      Storage__Mode: Permanent                      # Set cache or permanent download of external songs
+      Cache__DurationHours: 1                       # Set cache duration
+      Cache__DurationHours: 1
       MUSIC_SERVICE: SquidWTF
       ENABLE_EXTERNAL_PLAYLISTS: false
     ports:
@@ -352,12 +345,12 @@ services:
     image: 'ghcr.io/jeffvli/feishin:latest'
     restart: unless-stopped
     environment:
-      SERVER_NAME: Spotillite # pre-defined server name
-      SERVER_LOCK: true # When true AND name/type/url are set, only username/password can be toggled
-      SERVER_TYPE: navidrome # the allowed types are: jellyfin, navidrome, subsonic. These values are case insensitive
-      SERVER_URL: https://lp.type.hk # the URL to http://address:port or https://address:port
-      LEGACY_AUTHENTICATION: false # When SERVER_LOCK is true, sets the legacy (plaintext) authentication flag for Subsonic/OpenSubsonic servers
-      ANALYTICS_DISABLED: false # Set to true to disable Umami analytics tracking
+      SERVER_NAME: Spotillite           # pre-defined server name
+      SERVER_LOCK: true                 # When true AND name/type/url are set, only username/password can be toggled
+      SERVER_TYPE: subsonic             # the allowed types are: jellyfin, navidrome, subsonic. These values are case insensitive
+      SERVER_URL: https://lp.type.hk    # the URL to http://address:port or https://address:port
+      LEGACY_AUTHENTICATION: false      # When SERVER_LOCK is true, sets the legacy (plaintext) authentication flag for Subsonic/OpenSubsonic servers
+      ANALYTICS_DISABLED: false         # Set to true to disable Umami analytics tracking
     ports:
       - {{ .ports.feishin }}:{{ .ports.feishin }}
 
@@ -506,6 +499,7 @@ services:
     container_name: beets
     image: lscr.io/linuxserver/beets:latest
     restart: unless-stopped
+    user: "1000:950"
     environment:
       <<: *common-env
     ports:

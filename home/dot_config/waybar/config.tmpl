@@ -17,7 +17,7 @@
     "modules-right": [
       // Choose the order of the modules
       "hyprland/workspaces",
-      "custom/spotify"
+      "custom/mediaplayer"
     ],
     "hyprland/workspaces": {
       "format": "{icon} {name}",
@@ -31,18 +31,18 @@
       },
       "sort-by": "number"
     },
-    "custom/spotify": {
+    "custom/mediaplayer": {
       "format": "{0}",
       "escape": false,
       "return-type": "json",
       "max-length": 60,
-      "on-click": "playerctl -p spotify play-pause",
-      "on-click-right": "killall spotify",
+      "on-click": "playerctl -p Feishin play-pause",
+      "on-click-right": "killall Feishin",
       "smooth-scrolling-threshold": 2,
-      "on-scroll-down": "playerctl -p spotify next",
-      "on-scroll-up": "playerctl -p spotify previous",
+      "on-scroll-down": "playerctl -p Feishin next",
+      "on-scroll-up": "playerctl -p Feishin previous",
       "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
-      "exec-if": "pgrep spotify"
+      "exec-if": "pgrep Feishin"
     }
   },
   {

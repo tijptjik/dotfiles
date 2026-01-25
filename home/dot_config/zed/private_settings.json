@@ -7,7 +7,8 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-    "format_on_save": "off",
+    "buffer_line_height": "comfortable",
+    "format_on_save": "on",
     "code_actions_on_format": {
         "source.organizeImports.biome": true,
         "source.fixAll.biome": true
@@ -96,9 +97,9 @@
     // "ui_font_family": "Geologica",
     // "ui_font_weight": 400, // Font weight in standard CSS units from 100 to 900.
     // "ui_font_size": 16,
-    "buffer_font_family": "Monaspace Argon Var",
-    "buffer_font_weight": 400,
-    "buffer_font_size": 15,
+    "buffer_font_family": "tijpset",
+    "buffer_font_weight": 400.0,
+    "buffer_font_size": 15.0,
     "buffer_font_features": {
       "calt": true,
       "ss13" : true
@@ -106,7 +107,7 @@
     "theme": {
         "mode": "system",
         "light": "One Dark",
-        "dark": "One Dark"
+        "dark": "Rosé Punk"
     },
     "language_models": {
         "anthropic": {

@@ -1,76 +1,77 @@
 {{ if .isClient -}}
 # ~/.config/dunst/dunstrc
 [global]
-    # Display
-    monitor = "DP-1"       # Which monitor to use
-    follow = none          # Don’t follow keyboard, just stay on primary
+# Display
+monitor = "DP-1"       # Which monitor to use
+follow = none          # Don’t follow keyboard, just stay on primary
 
-    # Geometry
-    width = (0, 520)
-    height = (0,192)
-    origin = bottom-center
-    offset = (0,24)
-    scale = 0
-    notification_limit = 5
+# Geometry
+width = (0,520)
+height = (0,192)
+origin = bottom-center
+offset = (0,24)
+scale = 0
+notification_limit = 5
 
-    # Timing
-    timeout = 8
-    idle_threshold = 0
+# Timing
+timeout = 8
+idle_threshold = 0
 
-    # Styling
-    frame_width = 2
-    corner_radius = 8
-    separator_height = 2
-    ignore_newline = false
-    # gap_size = 8
+# Theme – Managed by base24
 
-    padding = 10
-    horizontal_padding = 24
-    text_icon_padding = 8
-    transparency = 15
-    line_height = 6
+# Styling
+frame_width = 2
+corner_radius = 12
+separator_height = 2
+ignore_newline = false
+gap_size = 4
 
-    # Alignment
-    alignment = center
-    vertical_alignment = center
+padding = 12
+horizontal_padding = 12
+text_icon_padding = 8
+transparency = 15
+line_height = 6
 
-    # Font
-    font = tijpset 11
+# Text
+font = tijpset 11
+alignment = center
+vertical_alignment = center
 
-    # Theme – Managed by base24
-    # Icons
-    icon_position = left
-    enable_recursive_icon_lookup = true
-    min_icon_size = 64
-    max_icon_size = 128
+# Icon
+icon_size = 32
+text_icon_padding = 16
+icon_corners = all
+icon_corner_radius = 8
+default_icon = "~/.config/dunst/icons/lorc/vintage-robot.png"
 
-    # Misc
-    indicate_hidden = false
-    hide_duplicate_count = true
-    show_indicators = no
-    sticky_history = no
-    history_length = 20
-    dmenu = /bin/fzf -p dunst:
-    browser = /bin/zen-browser -new-tab
-    always_run_script = true
-    title = Dunst
-    class = Dunst
+# Icons
+icon_position = left
+enable_recursive_icon_lookup = true
+min_icon_size = 32
+max_icon_size = 64
 
-    text_icon_padding = 16
-    padding: 0
-    icon_corner_radius=8
-    icon_corners=all
+# Misc
+indicate_hidden = false
+hide_duplicate_count = true
+show_indicators = no
+sticky_history = no
+history_length = 20
+browser = /bin/zen-browser -new-tab
+always_run_script = true
+title = Dunst
+class = Dunst
 
-    [urgency_critical]
-    timeout = 0                      # stays on screen until dismissed
+[urgency_critical]
+timeout = 0                      # stays on screen until dismissed
 
-    [feishin-updates]
-    appname = "feishin"
-    desktop_entry = "feishin"
-    timeout = 3
-    ellipsize = start
-    min_icon_size = 128
-    max_icon_size = 128
-    format = "<b>%s</b>\n%b"
-
+[feishin-updates]
+appname = "feishin"
+desktop_entry = "feishin"
+timeout = 3
+ellipsize = start
+min_icon_size = 128
+max_icon_size = 128
+frame_color = "#1F1D2E"
+background = "#1F1D2E"
+foreground = "#555169"
 {{ end -}}

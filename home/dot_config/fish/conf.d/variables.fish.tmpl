@@ -14,10 +14,15 @@ set -x LC_ALL en_US.UTF-8
 set -x LC_CTYPE en_US.UTF-8
 
 #################################
-### QT
+### THEMES (QT, LS_COLORS)
 #################################
 
 set -x QT_QPA_PLATFORMTHEME qt6ct
+
+# https://github.com/romkat/vivid is a generator for the LS_COLORS environment
+# variable. It is used to generate a color schat controls the colorized output
+# of of ls, tree, fd, bfs, dust and many other tools.
+set -gx LS_COLORS "$(vivid generate molokai)"
 
 #################################
 ### COMMON VARIABLES

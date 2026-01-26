@@ -8,7 +8,7 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
     "buffer_line_height": "comfortable",
-    "format_on_save": "on",
+    "format_on_save": "off",
     "code_actions_on_format": {
         "source.organizeImports.biome": true,
         "source.fixAll.biome": true

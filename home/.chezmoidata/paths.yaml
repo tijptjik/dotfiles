@@ -3,4 +3,5 @@ paths:
   appCache: /mnt/storage/meta/appCache
   downloads: /mnt/storage/meta/downloads
   drops: /mnt/storage/meta/downloads/drops
+  dlCache: /mnt/storage/meta/downloads/cache
   publicRoot: /mnt/storage/public

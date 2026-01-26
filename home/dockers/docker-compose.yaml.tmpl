@@ -107,8 +107,8 @@ services:
       - {{ .ports.ephemera }}:{{ .ports.ephemera }}
     volumes:
       - {{ .paths.appData }}/ephemera:/app/data
-      - {{ .paths.downloads }}/cache/ephemera:{{ .paths.downloads }}/cache/ephemera
-      - {{ .paths.drops }}/booklore:{{ .paths.drops }}/booklore
+      - {{ .paths.dlCache }}/ephemera:/downloads
+      - {{ .paths.drops }}/booklore:/ingest
       - {{ .paths.publicRoot }}/library:{{ .paths.publicRoot }}/library
 
 ######################

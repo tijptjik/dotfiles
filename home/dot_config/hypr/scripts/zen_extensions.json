@@ -1,0 +1,12 @@
+{
+  "bitwarden": {
+    "regex": "*(Bitwarden Password Manager) - Bitwarden*",
+    "x": 800,
+    "y": 800
+  },
+  "authenticator": {
+    "regex": "*(Authenticator) - Authenticator*",
+    "x": 335,
+    "y": 525
+  }
+}

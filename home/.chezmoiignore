@@ -20,6 +20,7 @@ storage
 .config/quickshell
 .config/solaar
 .config/systemd/user/hyprfloat.service
+.config/systemd/user/hyprlock-login.service
 .config/systemd/user/hyprvoice.service
 .config/transmission
 .config/xdg-desktop-portal

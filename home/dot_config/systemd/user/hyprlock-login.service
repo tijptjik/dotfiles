@@ -1,0 +1,21 @@
+[Unit]
+Description=Lock screen on autologin with hyprlock
+Documentation=man:hyprlock(1)
+# Ensure the graphical session is fully initialized before locking
+After=graphical-session.target
+Wants=graphical-session.target
+
+[Service]
+Type=simple
+# Small delay to prevent race conditions with the compositor initializing
+ExecStartPre=/bin/sleep 1
+ExecStart=/usr/bin/hyprlock
+Restart=on-failure
+RestartSec=5s
+# Lock down the environment for security
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+
+[Install]
+WantedBy=graphical-session.target

@@ -260,26 +260,6 @@ services:
       - {{ .paths.publicRoot }}/library/stars:/books
       - {{ .paths.publicRoot }}/library:/library
 
-######################
-# DEPRECATED       ###
-###  CALIBRE       ###
-###  book.type.hk  ###
-######################
-
-  calibre-web:
-    container_name: calibre-web
-    image: linuxserver/calibre-web:latest
-    restart: unless-stopped
-    environment:
-      <<: *common-env
-      DOCKER_MODS: linuxserver/mods:universal-calibre
-      OAUTHLIB_RELAX_TOKEN_SCOPE: 1
-    ports:
-      - {{ .ports.calibre }}:{{ .ports.calibre }}
-    volumes:
-      - {{ .paths.publicRoot }}/calibre-web:/config
-      - {{ .paths.publicRoot }}/books/EN:/books
-
 ##############################
 ###  AUDIOBOOKS / PODCASTS ###
 ##############################

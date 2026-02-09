@@ -88,7 +88,7 @@
         "mcp-server-context7": {
             "enabled": true,
             "settings": {
-                "context7_api_key": "ctx7sk-82f791ce-c3f5-40b3-9144-58830aa53195"
+                "context7_api_key": {{ (bitwardenSecrets "22a5479c-f2de-43e1-9547-b3ec001d508b").value | quote}}
             }
         }
     },

@@ -302,9 +302,9 @@ services:
       ND_LOGLEVEL: info
       ND_BASEURL: https://dj.type.hk
       ND_LASTFM_APIKEY: 82389b3a3f3c3aabae41a323c9982491
-      ND_LASTFM_SECRET: "{{ (bitwardenSecrets "bf38b38f-73de-4da1-bf89-b3d70089f4af").value }}"
+      ND_LASTFM_SECRET: {{ (bitwardenSecrets "bf38b38f-73de-4da1-bf89-b3d70089f4af").value | quote}}
       ND_SPOTIFY_ID: b39517108586443382efc09fcf0fd0a7
-      ND_SPOTIFY_SECRET: "{{ (bitwardenSecrets "29598444-cf58-448d-a7bf-b3d7008a937f").value }}"
+      ND_SPOTIFY_SECRET: {{ (bitwardenSecrets "29598444-cf58-448d-a7bf-b3d7008a937f").value | quote}}
     ports:
       - {{ .ports.navidrome }}:{{ .ports.navidrome }}
     volumes:
@@ -416,7 +416,7 @@ services:
     environment:
       <<: *common-env
       USER: media
-      PASS: "{{ (bitwardenSecrets "d0001509-175f-4cef-9ca6-b3cb00abff89").value }}"
+      PASS: {{ (bitwardenSecrets "d0001509-175f-4cef-9ca6-b3cb00abff89").value | quote }}
     volumes:
       - {{ .paths.appData }}/transmission:/config
       - {{ .paths.downloads }}:/downloads

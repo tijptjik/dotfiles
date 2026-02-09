@@ -43,5 +43,10 @@
     "bindings": {
       "ctrl-shift-l": "editor::SplitSelectionIntoLines"
     }
+  },
+  {
+    "bindings": {
+      "ctrl-q": null
+    }
   }
 ]

@@ -7,6 +7,10 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+    "edit_predictions": {
+        "provider": "supermaven"
+    },
+    "ui_font_size": 19.0,
     "buffer_line_height": "comfortable",
     "format_on_save": "off",
     "code_actions_on_format": {
@@ -16,7 +20,7 @@
     "lsp": {
         "biome": {
             "binary": {
-                "path": "/home/io/overturist/node_modules/@biomejs/biome/bin/biome",
+                "path": "/home/io/.bun/bin/biome",
                 "arguments": ["lsp-proxy"]
             },
             "settings": {
@@ -37,7 +41,7 @@
             "formatter": { "language_server": { "name": "biome" } },
             "code_actions_on_format": {
                 "source.fixAll.biome": true,
-                "source.organizeImports.biome": true
+                "source.organizeImports.biome": false
             }
         },
         "TypeScript": {
@@ -65,7 +69,7 @@
         "hide_gitignore": false
     },
     "git_panel": {
-        "sort_by_path": true
+        "sort_by_path": false
     },
     "agent": {
         "always_allow_tool_actions": true,
@@ -84,22 +88,16 @@
         "mcp-server-context7": {
             "enabled": true,
             "settings": {
-                "context7_api_key": {{ (bitwardenSecrets "22a5479c-f2de-43e1-9547-b3ec001d508b").value | quote}}
+                "context7_api_key": "ctx7sk-82f791ce-c3f5-40b3-9144-58830aa53195"
             }
         }
-    },
-    "features" : {
-      "edit_prediction_provider": "supermaven",
     },
     "icon_theme": "JetBrains New UI Icons (Dark)",
     "vim_mode": false,
     "base_keymap": "Cursor",
-    // "ui_font_family": "Geologica",
-    // "ui_font_weight": 400, // Font weight in standard CSS units from 100 to 900.
-    // "ui_font_size": 16,
-    "buffer_font_family": "tijpset",
+    "buffer_font_family": ".ZedMono",
     "buffer_font_weight": 400.0,
-    "buffer_font_size": 15.0,
+    "buffer_font_size": 18.0,
     "buffer_font_features": {
       "calt": true,
       "ss13" : true

@@ -37,6 +37,9 @@
       "Fish" : ["*.fish.tmpl", "*.yaml.tmpl", "*.yml.tmpl", "*.conf", "*.conf.tmpl","private_sshd_config"]
     },
     "languages": {
+        "Markdown": {
+            "show_edit_predictions": false
+        },
         "JavaScript": {
             "formatter": { "language_server": { "name": "biome" } },
             "code_actions_on_format": {
@@ -72,10 +75,13 @@
         "sort_by_path": false
     },
     "agent": {
+        "show_turn_stats": true,
+        "use_modifier_to_send": true,
+        "play_sound_when_agent_done": true,
         "always_allow_tool_actions": true,
         "default_model": {
             "provider": "google",
-            "model": "gemini-2.5-flash"
+            "model": "gemini-3-flash-preview"
         },
         "model_parameters": []
     },

@@ -2,9 +2,9 @@
 set HV /home/io/.local/bin/hyprvoice
 set FLAG /tmp/hyprvoice_music_paused
 
-set status ( $HV status 2>/dev/null )
-if test $status
-    if string match -q '*status=idle*' -- $status
+set hv_status ( $HV status 2>/dev/null )
+if test $hv_status
+    if string match -q '*status=idle*' -- $hv_status
         if test (playerctl status 2>/dev/null) = Playing
             playerctl pause
             touch $FLAG
@@ -15,16 +15,16 @@ if test $status
         if test -f $FLAG
             function __hyprvoice_resume --argument-names hv flag
                 for _ in (seq 1 50)
-                    set status ( $hv status 2>/dev/null )
-                    if not string match -q '*status=idle*' -- $status
+                    set hv_status ( $hv status 2>/dev/null )
+                    if not string match -q '*status=idle*' -- $hv_status
                         break
                     end
                     sleep 0.1
                 end
 
                 while true
-                    set status ( $hv status 2>/dev/null )
-                    if string match -q '*status=idle*' -- $status
+                    set hv_status ( $hv status 2>/dev/null )
+                    if string match -q '*status=idle*' -- $hv_status
                         break
                     end
                     sleep 0.2

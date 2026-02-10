@@ -15,7 +15,7 @@
 # Speech Transcription Configuration
 [transcription]
   provider = "openai"          # Transcription service: "openai", "groq-transcription", or "groq-translation"
-  api_key = "REPLACE_WITH_BITWARDEN_SETUP" # API key (or set OPENAI_API_KEY/GROQ_API_KEY environment variable)
+  api_key = {{ (bitwardenSecrets "28591652-db58-45f2-ac32-b3b00075a4fc").value | quote }} # API key (or set OPENAI_API_KEY/GROQ_API_KEY environment variable)
   language = ""                # Language code (empty for auto-detect, "en", "it", "es", "fr", etc.)
   model = "whisper-1"          # Model: OpenAI="whisper-1", Groq="whisper-large-v3" or "whisper-large-v3-turbo"
 

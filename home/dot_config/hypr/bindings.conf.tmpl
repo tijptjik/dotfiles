@@ -156,7 +156,7 @@ $KITTYLAUNCER = [float;size 60% 60%;center;pin;noanim] kitty --class=launcher
 
 # Desktop Launcher
 # bind = $CMD, Escape, exec, $KITTYLAUNCER $TOOLS/sway-launcher-desktop/sway-launcher-desktop.sh
-bind = $CMD, Escape, global, quickshell:hamrToggle
+bind = $CMD, Escape, exec, hamr toggle
 
 # Clipboard history
 bind = $CMD, V, exec, cliphist list | wofi --show dmenu -H 600 -W 900 | cliphist decode | wl-copy

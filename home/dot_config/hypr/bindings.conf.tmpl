@@ -109,7 +109,10 @@ bind = $CMD SHIFT, 0, movetoworkspacesilent, r~10
 bind = $CMD, mouse_down, workspace, e+1
 bind = $CMD, mouse_up, workspace, e-1
 
-
+{{- if .isDesktop }}
+# Workspace Layout
+bind = $CMD, K, exec, ~/.config/hypr/scripts/layout_zen_hypehk_mobile.sh
+{{ end }}
 # #######################
 # KEY BINDINGS : MEDIA
 # #######################

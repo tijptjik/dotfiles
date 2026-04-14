@@ -7,13 +7,13 @@
     gesture2-params, haptic-level, haptic-play, sidetone, equalizer, adc_power_management]
   _battery: 4096
   _modelId: B020407BC08A
-  _sensitive: {hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore}
+  _sensitive: {change-host: true, dpi: false, hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore, lowres-scroll-mode: false}
   _serial: 60F0A17A
   _unitId: 20D598A1
   _wpid: 407B
   change-host: null
   divert-keys: {82: 0, 83: 0, 86: 0, 253: 0}
-  dpi: 1600
+  dpi: 2400
   lowres-scroll-mode: false
   persistent-remappable-keys: null
   reprogrammable-keys: {80: 80, 81: 81, 82: 82, 83: 83, 86: 86, 253: 253}

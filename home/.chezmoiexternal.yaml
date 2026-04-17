@@ -19,6 +19,13 @@
   stripComponents: 1
   encrypted: true
   format: tar.zst
+.fonts:
+  type: archive
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.fonts.tar.zst.age"
+  exact: true
+  stripComponents: 1
+  encrypted: true
+  format: tar.zst
 {{ if .isClient }}
 .obsidian:
   type: git-repo

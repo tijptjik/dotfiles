@@ -64,19 +64,19 @@ windowrule {
 
 windowrule {
   name = telegram
-  workspace = special:chat silent
   no_initial_focus = on
-  float = on
   {{ if .isDesktop -}}
+  workspace = special:chat silent
+  float = on
   size = 944 1338
   move = (1248) (24)
-  {{ else if .isLaptop -}}
-  size = 944 1338
-  move = (1248) (24)
+  {{ else if .isLaptop }}
+  workspace = 4
   {{ end -}}
   match:class = ^(org.telegram.desktop.*)
 }
 
+{{- if .isDesktop }}
 windowrule {
   name = telegram-media-viewer
   workspace = special:chat silent
@@ -90,40 +90,43 @@ windowrule {
   {{ end -}}
   match:title = ^(Media viewer)$
 }
+{{- end }}
 
 windowrule {
   name = whatsapp
-  workspace = special:chat silent
   no_initial_focus = on
-  float = on
   {{ if .isDesktop -}}
+  workspace = special:chat silent
+  float = on
   size = 1112 1338
   move = (112) (24)
-  {{ else if .isLaptop -}}
-  size = 1112 1338
-  move = (112) (24)
+ {{ else if .isLaptop -}}
+  workspace = 4
   {{ end -}}
   match:class = com.rtosta.zapzap
 }
 
 windowrule {
   name = signal
-  workspace = special:chat silent
   no_initial_focus = on
-  float = on
   {{ if .isDesktop -}}
+  workspace = special:chat silent
+  float = on
   size = 1112 1338
   move = (2218) (24)
   {{ else if .isLaptop -}}
-  size = 1112 1338
-  move = (2218) (24)
+  workspace = 8
   {{ end -}}
   match:class = org.signal.Signal
 }
 
 windowrule {
   name = discord
+  {{ if .isDesktop -}}
   workspace = 19 silent
+  {{ else if .isLaptop -}}
+  workspace = 8 silent
+  {{ end -}}
   no_initial_focus = on
   match:class = discord
 }
@@ -143,7 +146,11 @@ windowrule {
 
 windowrule {
   name = feishin
+  {{ if .isDesktop -}}
   workspace = 20 silent
+  {{ else if .isLaptop -}}
+  workspace = 10 silent
+  {{ end -}}
   no_initial_focus = on
   match:class = ^(feishin)$
 }

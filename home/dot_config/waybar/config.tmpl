@@ -1,25 +1,30 @@
 [
-  // Bar 1 — left side (workspaces + media)
+  // Bar for eDP-1 (laptop) - full layout, overlay mode
   {
     "output": "eDP-1",
-    "id": "1",
     "ipc": true,
-    "mode": "dock",
+    "mode": "hide",
     "layer": "top",
     "position": "bottom",
     "height": 40,
-    "width": 400,
-    "margin-bottom": 20,
-    "margin-left": 20,
-    "passthrough": true,
+    "margin-bottom": 10,
     "spacing": 12,
-    "fixed-center": false,
     "modules-left": [
-      "hyprland/workspaces",
+      "custom/crypto",
       "custom/mediaplayer"
     ],
-    "modules-center": [],
-    "modules-right": [],
+    "modules-center": [
+      "hyprland/workspaces"
+    ],
+    "modules-right": [
+      "tray",
+      "temperature",
+      "network",
+      "custom/vpn",
+      "pulseaudio",
+      "clock",
+      "custom/quit"
+    ],
     "hyprland/workspaces": {
       "format": "{icon} {name}",
       "on-click": "activate",
@@ -44,36 +49,7 @@
       "on-scroll-up": "playerctl -p Feishin previous",
       "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null",
       "exec-if": "pgrep Feishin"
-    }
-  },
-
-  // Bar 2 — right side (system modules)
-  {
-    "output": "eDP-1",
-    "id": "2",
-    "ipc": true,
-    "mode": "dock",
-    "layer": "top",
-    "position": "bottom",
-    "height": 40,
-    "width": 600,
-    "margin-bottom": 20,
-    "margin-right": 20,
-    "passthrough": false,
-    "spacing": 0,
-    "fixed-center": false,
-    "modules-left": [
-      "custom/crypto",
-      "tray",
-      "temperature",
-      "network",
-      "custom/vpn",
-      "pulseaudio",
-      "clock",
-      "custom/quit"
-    ],
-    "modules-center": [],
-    "modules-right": [],
+    },
     "custom/crypto": {
       "format": "{}",
       "interval": 600,
@@ -140,6 +116,32 @@
       "format": " ",
       "tooltip": "uptime -p",
       "on-click-middle": "sudo shutdown -h now"
+    }
+  },
+
+  // Bar for DP-4 (external) - workspaces only, overlay mode
+  {
+    "output": "DP-4",
+    "ipc": true,
+    "mode": "hide",
+    "layer": "top",
+    "position": "bottom",
+    "height": 40,
+    "spacing": 12,
+    "modules-center": [
+      "hyprland/workspaces"
+    ],
+    "hyprland/workspaces": {
+      "format": "{icon} {name}",
+      "on-click": "activate",
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "format-icons": {
+        "default": "\uf10c",
+        "active": "\uf111",
+        "10": "\uf11b"
+      },
+      "sort-by": "number"
     }
   }
 ]

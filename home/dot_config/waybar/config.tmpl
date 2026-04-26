@@ -1,24 +1,25 @@
 [
+  // Bar 1 — left side (workspaces + media)
   {
-    "output": "DP-1",
+    "output": "eDP-1",
     "id": "1",
     "ipc": true,
-    "mode": "hide",
-    "on-sigusr1": "hide",
-    "on-sigusr2": "show",
-    "layer": "top", // Waybar at top layer
-    "position": "bottom", // Waybar position (top|bottom|left|right)
-    "margin-right": 2604,
+    "mode": "dock",
+    "layer": "top",
+    "position": "bottom",
+    "height": 40,
+    "width": 400,
     "margin-bottom": 20,
+    "margin-left": 20,
     "passthrough": true,
-    "spacing": 12, // Gaps between modules (4px)
+    "spacing": 12,
     "fixed-center": false,
-    "modifier-reset": "release",
-    "modules-right": [
-      // Choose the order of the modules
+    "modules-left": [
       "hyprland/workspaces",
       "custom/mediaplayer"
     ],
+    "modules-center": [],
+    "modules-right": [],
     "hyprland/workspaces": {
       "format": "{icon} {name}",
       "on-click": "activate",
@@ -41,26 +42,26 @@
       "smooth-scrolling-threshold": 2,
       "on-scroll-down": "playerctl -p Feishin next",
       "on-scroll-up": "playerctl -p Feishin previous",
-      "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
+      "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null",
       "exec-if": "pgrep Feishin"
     }
   },
+
+  // Bar 2 — right side (system modules)
   {
-    "output": "DP-1",
+    "output": "eDP-1",
     "id": "2",
     "ipc": true,
-    "on-sigusr1": "hide",
-    "on-sigusr2": "show",
-    "mode": "hide",
-    "layer": "top", // Waybar at top layer
-    "position": "bottom", // Waybar position (top|bottom|left|right)
-    "margin-left": 2304,
+    "mode": "dock",
+    "layer": "top",
+    "position": "bottom",
+    "height": 40,
+    "width": 600,
     "margin-bottom": 20,
+    "margin-right": 20,
     "passthrough": false,
-    "spacing": 0, // Gaps between modules (4px)
-    "fixed-center": true,
-    "modifier-reset": "release",
-    // Choose the order of the modules
+    "spacing": 0,
+    "fixed-center": false,
     "modules-left": [
       "custom/crypto",
       "tray",
@@ -95,8 +96,8 @@
     },
     "network": {
       "format": "{ifname}",
-      "format-wifi": " {essid}",
-      "format-ethernet": " {ifname}",
+      "format-wifi": " {essid}",
+      "format-ethernet": " {ifname}",
       "format-disconnected": "",
       "tooltip-format": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes}",
       "tooltip-format-wifi": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes} @ {signalStrength}%",
@@ -121,56 +122,24 @@
     },
     "pulseaudio": {
       "format": "{icon} {volume}%",
-      "format-bluetooth": "{icon} {volume}%",
-      "format-muted": "",
+      "format-bluetooth": "{icon} {volume}%",
+      "format-muted": "",
       "format-icons": {
-        "headphone": "",
-        "hands-free": "",
-        "headset": "",
-        "phone": "",
-        "portable": "",
-        "car": "",
-        "default": ["", ""]
+        "headphone": "",
+        "hands-free": "",
+        "headset": "",
+        "phone": "",
+        "portable": "",
+        "car": "",
+        "default": ["", ""]
       },
       "scroll-step": 4,
       "on-click": "pavucontrol"
     },
     "custom/quit": {
-      "format": " ",
+      "format": " ",
       "tooltip": "uptime -p",
       "on-click-middle": "sudo shutdown -h now"
-    }
-  },
-  {
-    "output": "DP-2",
-    "id": "3",
-    "ipc": true ,
-    "on-sigusr1": "hide",
-    "on-sigusr2": "show",
-    "mode": "hide",
-    "layer": "top", // Waybar at top layer
-    "position": "bottom", // Waybar position (top|bottom|left|right)
-    "margin-right": 1300,
-    "margin-bottom": 20,
-    "passthrough": true,
-    "spacing": 12, // Gaps between modules (4px)
-    "fixed-center": true,
-    "modifier-reset": "release",
-    "modules-right": [
-      "hyprland/workspaces"
-    ],
-    "hyprland/workspaces": {
-      "format": "{icon} {name}",
-      "on-click": "activate",
-      "on-scroll-up": "hyprctl dispatch workspace e+1",
-      "on-scroll-down": "hyprctl dispatch workspace e-1",
-      "format-icons": {
-        "default": "\uf10c",
-        "active": "\uf111",
-        "19": "\uf1ff",
-        "20": "\uf144"
-      },
-      "sort-by": "number"
     }
   }
 ]

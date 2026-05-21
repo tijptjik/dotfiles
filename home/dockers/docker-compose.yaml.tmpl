@@ -227,19 +227,20 @@ services:
 ####################################
 
 ######################
-###  BOOKLORE      ###
+###  GRIMMORY      ###
 ###  read.type.hk  ###
+###  FKA Booklore  ###
 ######################
 
-  booklore:
-    container_name: booklore
-    image: booklore/booklore:latest
+  grimmory:
+    container_name: grimmory
+    image: grimmory/grimmory:latest
     restart: unless-stopped
     depends_on:
       mariadb:
         condition: service_healthy
     healthcheck:
-      test: wget -q -O - http://localhost:{{ .ports.booklore }}/api/v1/healthcheck
+      test: wget -q -O - http://localhost:{{ .ports.grimmory }}/api/v1/healthcheck
       interval: 60s
       retries: 5
       start_period: 60s
@@ -251,12 +252,12 @@ services:
       DATABASE_URL: jdbc:mariadb://mariadb:{{ .ports.mariadb }}/booklore
       DATABASE_USERNAME: booklore
       DATABASE_PASSWORD: {{ (bitwardenSecrets "3346efb5-9036-417a-a4ae-b3cb00a7011c").value | quote }}
-      PORT_BOOKLORE: {{ .ports.booklore }}
+      PORT_BOOKLORE: {{ .ports.grimmory }}
     ports:
-      - {{ .ports.booklore }}:{{ .ports.booklore }}
+      - {{ .ports.grimmory }}:{{ .ports.grimmory }}
     volumes:
-      - {{ .paths.appData }}/booklore:/app/data
-      - {{ .paths.drops }}/booklore:/bookdrop
+      - {{ .paths.appData }}/grimmory:/app/data
+      - {{ .paths.drops }}/grimmory:/bookdrop
       - {{ .paths.publicRoot }}/library/stars:/books
       - {{ .paths.publicRoot }}/library:/library
 

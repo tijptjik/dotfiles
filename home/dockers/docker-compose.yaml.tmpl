@@ -101,7 +101,7 @@ services:
       <<: *common-env
       # FlareSolverr URL (for slow download fallback)
       FLARESOLVERR_URL: http://flaresolverr:{{ .ports.byparr }}
-      AA_BASE_URL: https://annas-archive.li/
+      AA_BASE_URL: https://annas-archive.gl/
       ALLOWED_ORIGINS: https://ephemera.type.hk
     ports:
       - {{ .ports.ephemera }}:{{ .ports.ephemera }}

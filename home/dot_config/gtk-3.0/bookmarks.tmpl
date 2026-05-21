@@ -1,8 +1,11 @@
 {{ if .isClient -}}
-file:///home/io/downloads Downloads
-file:///home/io/code/hype HYPE
-file:///home/io/.obsidian/core Obsidian
+file://{{ .chezmoi.homeDir }}/downloads Downloads
+file://{{ .chezmoi.homeDir }}/code/hype HYPE
+file://{{ .chezmoi.homeDir }}/.obsidian/core Obsidian
 {{ end -}}
 {{ if .isDesktop -}}
-file:///home/io/.config/Steam/userdata/109933432/760/remote/1086940/screenshots BG3
+file://{{ .chezmoi.homeDir }}/.config/Steam/userdata/109933432/760/remote/1086940/screenshots BG3
+{{ end -}}
+{{ if .isServer -}}
+file://{{ .chezmoi.homeDir }}/downloads Downloads
 {{ end -}}

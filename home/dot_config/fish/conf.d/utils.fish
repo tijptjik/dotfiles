@@ -107,6 +107,32 @@ function bucket_dirs
     end
 end
 
+
+function unrar_all --description "Extract all RAR files in subdirectories and clean up parts"
+    for dir in */
+        set dir (string trim --right --chars=/ $dir)
+
+        for rar in $dir/*.rar
+            if test -f "$rar"
+                echo "Extracting: $rar"
+
+                unrar x -o+ "$rar" "$dir/"
+
+                if test $status -eq 0
+                    echo "  ✓ Success — cleaning up RAR parts..."
+
+                    # Use find to avoid glob failures when some patterns don't match
+                    find $dir -maxdepth 1 -type f \( -name "*.rar" -o -name "*.r[0-9][0-9]" -o -name "*.r[1-9][0-9][0-9]" \) -delete
+
+                    echo "  ✓ Cleaned up"
+                else
+                    echo "  ✗ Failed — keeping files"
+                end
+            end
+        end
+    end
+end
+
 #################################
 ### PIPE CONTROL
 #################################

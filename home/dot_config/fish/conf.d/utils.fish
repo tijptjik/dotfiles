@@ -134,6 +134,117 @@ function unrar_all --description "Extract all RAR files in subdirectories and cl
 end
 
 #################################
+### ENCRYPTION
+#################################
+
+# We de
+
+function age-encrypt
+    set infile $argv[1]
+
+    if not set -q argv[1]
+        echo "Usage: age-encrypt <file>"
+        return 1
+    end
+
+    if not test -f $infile
+        echo "Error: File not found: $infile"
+        return 1
+    end
+
+    # Find all age identity files in ~/.keys
+    set identities (find ~/.keys -name "*.txt" -exec grep -l "AGE-SECRET-KEY-" {} \; 2>/dev/null)
+
+    if test (count $identities) -eq 0
+        echo "No age identity files found in ~/.keys"
+        return 1
+    end
+
+    # If only one identity, use it automatically
+    if test (count $identities) -eq 1
+        set identity $identities[1]
+        echo "Using identity: "(basename $identity)
+    else
+        # Multiple identities: show menu
+        echo "Available identities:"
+        for i in (seq (count $identities))
+            set pubkey (sed -n 's/# public key: //p' $identities[$i])
+            echo "  $i) "(basename $identities[$i])" ($pubkey)"
+        end
+
+        read -P "Select identity (1-"(count $identities)"): " choice
+
+        if not string match -qr '^[0-9]+$' $choice; or test $choice -lt 1; or test $choice -gt (count $identities)
+            echo "Invalid selection"
+            return 1
+        end
+
+        set identity $identities[$choice]
+    end
+
+    set outfile "$infile.age"
+    set pubkey (sed -n 's/# public key: //p' $identity)
+    age -r $pubkey -o $outfile $infile
+    echo "Encrypted to $outfile using "(basename $identity)
+end
+
+function age-decrypt
+    set infile $argv[1]
+
+    if not set -q argv[1]
+        echo "Usage: age-decrypt <file.age>"
+        return 1
+    end
+
+    if not test -f $infile
+        echo "Error: File not found: $infile"
+        return 1
+    end
+
+    # Find all age identity files in ~/.keys
+    set identities (find ~/.keys -name "*.txt" -exec grep -l "AGE-SECRET-KEY-" {} \; 2>/dev/null)
+
+    if test (count $identities) -eq 0
+        echo "No age identity files found in ~/.keys"
+        return 1
+    end
+
+    # If only one identity, use it automatically
+    if test (count $identities) -eq 1
+        set identity $identities[1]
+        echo "Using identity: "(basename $identity)
+    else
+        # Multiple identities: show menu
+        echo "Available identities:"
+        for i in (seq (count $identities))
+            set pubkey (sed -n 's/# public key: //p' $identities[$i])
+            echo "  $i) "(basename $identities[$i])" ($pubkey)"
+        end
+
+        read -P "Select identity (1-"(count $identities)"): " choice
+
+        if not string match -qr '^[0-9]+$' $choice; or test $choice -lt 1; or test $choice -gt (count $identities)
+            echo "Invalid selection"
+            return 1
+        end
+
+        set identity $identities[$choice]
+    end
+
+    set outfile (string replace -r '\.age$' '' $infile)
+    age -d -i $identity -o $outfile $infile
+    echo "Decrypted to $outfile using "(basename $identity)
+end
+
+function gpg-encrypt --description "Encrypt a file using gpg"
+  gpg --symmetric --cipher-algo AES256 $argv
+end
+
+function gpg-decrypt --description "Decrypt a file using gpg"
+  gpg --decrypt $argv
+end
+
+#################################
 ### PIPE CONTROL
 #################################
 

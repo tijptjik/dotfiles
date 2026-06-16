@@ -53,6 +53,7 @@ fish_add_path $TOOLS/swayrec
 fish_add_path $TOOLS/peco
 fish_add_path $TOOLS/yt-dlp
 fish_add_path $TOOLS/lokalise
+fish_add_path $TOOLS/tennis
 
 # Code
 fish_add_path $HOME/code/foodworks/bin

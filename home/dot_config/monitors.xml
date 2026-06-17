@@ -2,9 +2,23 @@
   <configuration>
     <layoutmode>logical</layoutmode>
     <logicalmonitor>
-      <x>5360</x>
-      <y>360</y>
+      <x>0</x>
+      <y>0</y>
       <scale>1</scale>
+      <primary>yes</primary>
+      <monitor>
+        <monitorspec>
+          <connector>DP-1</connector>
+          <vendor>SAM</vendor>
+          <product>Odyssey G85SB</product>
+          <serial>H1AK500000</serial>
+        </monitorspec>
+        <mode>
+          <width>1920</width>
+          <height>1080</height>
+          <rate>174.918</rate>
+        </mode>
+      </monitor>
       <monitor>
         <monitorspec>
           <connector>DP-2</connector>
@@ -18,11 +32,6 @@
           <rate>74.973</rate>
         </mode>
       </monitor>
-    </logicalmonitor>
-    <logicalmonitor>
-      <x>0</x>
-      <y>360</y>
-      <scale>2</scale>
       <monitor>
         <monitorspec>
           <connector>HDMI-1</connector>
@@ -31,31 +40,12 @@
           <serial>0x01010101</serial>
         </monitorspec>
         <mode>
-          <width>3840</width>
-          <height>2160</height>
+          <width>1920</width>
+          <height>1080</height>
           <rate>120.000</rate>
         </mode>
         <underscanning>yes</underscanning>
         <colormode>bt2100</colormode>
-      </monitor>
-    </logicalmonitor>
-    <logicalmonitor>
-      <x>1920</x>
-      <y>0</y>
-      <scale>1</scale>
-      <primary>yes</primary>
-      <monitor>
-        <monitorspec>
-          <connector>DP-1</connector>
-          <vendor>SAM</vendor>
-          <product>Odyssey G85SB</product>
-          <serial>H1AK500000</serial>
-        </monitorspec>
-        <mode>
-          <width>3440</width>
-          <height>1440</height>
-          <rate>119.961</rate>
-        </mode>
       </monitor>
     </logicalmonitor>
   </configuration>

@@ -6,7 +6,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=%h/.local/bin/uvx codex-lb
+ExecStart=/bin/sh -c 'exec uvx codex-lb'
 Restart=on-failure
 RestartSec=5
 

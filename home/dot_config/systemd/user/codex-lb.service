@@ -1,0 +1,14 @@
+# ~/.config/systemd/user/codex-lb.service
+[Unit]
+Description=Codex Load Balancer (uvx)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/uvx codex-lb
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

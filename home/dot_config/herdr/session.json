@@ -6,11 +6,11 @@
       "custom_name": "hype",
       "identity_cwd": "/home/io/code/hype",
       "public_pane_numbers": {
-        "2": 1,
-        "3": 2,
-        "4": 3,
         "5": 4,
-        "1": 5
+        "4": 3,
+        "3": 2,
+        "1": 5,
+        "2": 1
       },
       "next_public_pane_number": 6,
       "public_tab_numbers": [
@@ -93,7 +93,7 @@
           "root_pane": 5
         }
       ],
-      "active_tab": 0
+      "active_tab": 1
     },
     {
       "id": "w1",

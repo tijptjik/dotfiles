@@ -1,0 +1,19 @@
+[Desktop Entry]
+Type=Application
+Version=1.4
+Name=Monochrome Music
+Comment=A minimalist music streaming application
+Keywords=;
+Categories=GTK;Amusement;Audio;AudioVideo;
+Icon=FFPWA-01KFA5CCJHYYD2WY97911P3XG7
+Exec=/usr/bin/firefoxpwa site launch 01KFA5CCJHYYD2WY97911P3XG7 --protocol %u
+Actions=0;
+MimeType=
+Terminal=false
+StartupNotify=true
+StartupWMClass=FFPWA-01KFA5CCJHYYD2WY97911P3XG7
+
+[Desktop Action 0]
+Name=Search
+Icon=FFPWA-01KFA5CCJHYYD2WY97911P3XG7-0
+Exec=/usr/bin/firefoxpwa site launch 01KFA5CCJHYYD2WY97911P3XG7 --url "https://monochrome.tf/#search"

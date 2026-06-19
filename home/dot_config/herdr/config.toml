@@ -2,3 +2,6 @@ onboarding = false
 
 [ui]
 agent_panel_scope = "all"
+
+[experimental]
+kitty_graphics = true

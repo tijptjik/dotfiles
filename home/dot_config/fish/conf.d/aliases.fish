@@ -233,6 +233,23 @@ alias hrcb='chezmoi edit $HOME/.config/waybar/config'
 alias zrc='chezmoi edit $HOME/.zshrc; and source ~/.zshrc'
 alias brc='chezmoi edit $HOME/.bashrc; and source ~/.bashrc'
 
+#################################
+### HERDR ALIASES
+#################################
+
+## HYPE
+alias h1='bun update && bun outdated'
+alias h2='bun run dev'
+alias h3='bun run dev:asset-service:local'
+alias h4='bun run db:studio:local'
+alias h5='lazygit'
+
+## SAANSEOI
+alias s1='bun run update && bun run outdated'
+alias s2='bun run dev'
+alias s3='bun run db:studio:meta'
+alias s4='lazygit'
+
 ################################
 ###  ANDROID
 ################################

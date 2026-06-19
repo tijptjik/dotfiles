@@ -10,5 +10,5 @@ Exec=/usr/bin/firefoxpwa site launch 01KCGW1793YX2BA145Z4NWQ2XY --protocol %u
 Actions=
 MimeType=
 Terminal=false
-StartupNotify=true
+StartupNotify=false
 StartupWMClass=FFPWA-01KCGW1793YX2BA145Z4NWQ2XY

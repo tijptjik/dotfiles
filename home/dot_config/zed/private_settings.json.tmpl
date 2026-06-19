@@ -8,7 +8,11 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "cli_default_open_behavior": "new_window",
+  {{ if .isDesktop -}}
+  "diff_view_style": "split",
+  {{ else if .isLaptop -}}
   "diff_view_style": "unified",
+  {{ end -}}
   "outline_panel": {
     "dock": "left"
   },

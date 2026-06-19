@@ -59,10 +59,30 @@ windowrule {
 
 windowrule {
   name = zed
+  border_size = 0
+  match:class = ^(dev.zed.Zed)$
+}
+
+windowrule {
+  name = zed@hype
   workspace = 2 silent
   no_initial_focus = on
   match:class = ^(dev.zed.Zed)$
   match:title = ^(hype ~)$
+}
+
+windowrule {
+  name = codex-lb
+  workspace = 15 silent
+  no_initial_focus = on
+  match:class = FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N
+}
+
+windowrule {
+  name = drizzle-studio
+  workspace = 14 silent
+  no_initial_focus = on
+  match:class = FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD
 }
 
 windowrule {
@@ -72,11 +92,7 @@ windowrule {
   suppress_event = maximize, fullscreen
 }
 
-windowrule {
-  name = zed
-  border_size = 0
-  match:class = dev.zed.Zed
-}
+
 
 windowrule {
   name = telegram

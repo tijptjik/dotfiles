@@ -2,15 +2,45 @@
   "version": 3,
   "workspaces": [
     {
+      "id": "w3",
+      "custom_name": null,
+      "identity_cwd": "/home/io",
+      "public_pane_numbers": {
+        "12": 1
+      },
+      "next_public_pane_number": 2,
+      "public_tab_numbers": [
+        1
+      ],
+      "next_public_tab_number": 2,
+      "tabs": [
+        {
+          "custom_name": "ctrl",
+          "layout": {
+            "Pane": 12
+          },
+          "panes": {
+            "12": {
+              "cwd": "/home/io"
+            }
+          },
+          "zoomed": false,
+          "focused": 12,
+          "root_pane": 12
+        }
+      ],
+      "active_tab": 0
+    },
+    {
       "id": "w6547ea41e1f0d1",
       "custom_name": "hype",
-      "identity_cwd": "/home/io/code/hype",
+      "identity_cwd": "/home/io/code/saanseoi",
       "public_pane_numbers": {
-        "5": 4,
-        "4": 3,
+        "2": 1,
         "3": 2,
+        "4": 3,
         "1": 5,
-        "2": 1
+        "5": 4
       },
       "next_public_pane_number": 6,
       "public_tab_numbers": [
@@ -29,7 +59,7 @@
           },
           "panes": {
             "1": {
-              "cwd": "/home/io/code/hype"
+              "cwd": "/home/io/code/saanseoi"
             }
           },
           "zoomed": false,
@@ -93,20 +123,100 @@
           "root_pane": 5
         }
       ],
-      "active_tab": 1
+      "active_tab": 2
+    },
+    {
+      "id": "w2",
+      "custom_name": null,
+      "identity_cwd": "/home/io/code/saanseoi",
+      "public_pane_numbers": {
+        "8": 2,
+        "9": 3,
+        "7": 1,
+        "10": 4
+      },
+      "next_public_pane_number": 5,
+      "public_tab_numbers": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "next_public_tab_number": 5,
+      "tabs": [
+        {
+          "custom_name": "ctrl",
+          "layout": {
+            "Pane": 7
+          },
+          "panes": {
+            "7": {
+              "cwd": "/home/io/code/saanseoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 7,
+          "root_pane": 7
+        },
+        {
+          "custom_name": "dev",
+          "layout": {
+            "Pane": 8
+          },
+          "panes": {
+            "8": {
+              "cwd": "/home/io/code/saanseoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 8,
+          "root_pane": 8
+        },
+        {
+          "custom_name": "studio",
+          "layout": {
+            "Pane": 9
+          },
+          "panes": {
+            "9": {
+              "cwd": "/home/io/code/saanseoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 9,
+          "root_pane": 9
+        },
+        {
+          "custom_name": "git",
+          "layout": {
+            "Pane": 10
+          },
+          "panes": {
+            "10": {
+              "cwd": "/home/io/code/saanseoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 10,
+          "root_pane": 10
+        }
+      ],
+      "active_tab": 0
     },
     {
       "id": "w1",
       "custom_name": "overturist",
       "identity_cwd": "/home/io/code/overturist",
       "public_pane_numbers": {
+        "11": 2,
         "6": 1
       },
-      "next_public_pane_number": 2,
+      "next_public_pane_number": 3,
       "public_tab_numbers": [
-        1
+        1,
+        2
       ],
-      "next_public_tab_number": 2,
+      "next_public_tab_number": 3,
       "tabs": [
         {
           "custom_name": "ctrl",
@@ -121,9 +231,23 @@
           "zoomed": false,
           "focused": 6,
           "root_pane": 6
+        },
+        {
+          "custom_name": "git",
+          "layout": {
+            "Pane": 11
+          },
+          "panes": {
+            "11": {
+              "cwd": "/home/io/code/overturist"
+            }
+          },
+          "zoomed": false,
+          "focused": 11,
+          "root_pane": 11
         }
       ],
-      "active_tab": 0
+      "active_tab": 1
     }
   ],
   "active": 0,

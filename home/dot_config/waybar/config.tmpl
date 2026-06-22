@@ -20,6 +20,7 @@
     "modules-right": [
       "tray",
       "temperature",
+      "custom/codex",
       "network",
       "custom/vpn",
       "pulseaudio",
@@ -57,6 +58,13 @@
       "return-type": "json",
       "exec": "$HOME/.config/waybar/crypto/waybar_crypto.py",
       "exec-if": "ping pro-api.coinmarketcap.com -c1"
+    },
+    "custom/codex": {
+      "format": "{}",
+      "interval": 30,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/codex.py",
+      "exec-if": "test -f $HOME/.codex-lb/store.db"
     },
     "tray": {
       "icon-size": 21,
@@ -211,6 +219,7 @@
     // Choose the order of the modules
     "modules-left": [
       "custom/crypto",
+      "custom/codex",
       "tray",
       "network",
       "pulseaudio",
@@ -222,6 +231,13 @@
       "return-type": "json",
       "exec": "$HOME/.config/waybar/crypto/waybar_crypto.py",
       "exec-if": "ping pro-api.coinmarketcap.com -c1"
+    },
+    "custom/codex": {
+      "format": "{}",
+      "interval": 30,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/codex.py",
+      "exec-if": "test -f $HOME/.codex-lb/store.db"
     },
     "tray": {
       "icon-size": 21,

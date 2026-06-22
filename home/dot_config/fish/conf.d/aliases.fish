@@ -237,6 +237,8 @@ alias brc='chezmoi edit $HOME/.bashrc; and source ~/.bashrc'
 ### HERDR ALIASES
 #################################
 
+alias h='herdr'
+
 ## HYPE
 alias h1='bun update && bun outdated'
 alias h2='bun run dev'

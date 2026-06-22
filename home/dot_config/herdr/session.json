@@ -6,7 +6,7 @@
       "custom_name": null,
       "identity_cwd": "/home/io",
       "public_pane_numbers": {
-        "12": 1
+        "1": 1
       },
       "next_public_pane_number": 2,
       "public_tab_numbers": [
@@ -17,16 +17,16 @@
         {
           "custom_name": "ctrl",
           "layout": {
-            "Pane": 12
+            "Pane": 1
           },
           "panes": {
-            "12": {
+            "1": {
               "cwd": "/home/io"
             }
           },
           "zoomed": false,
-          "focused": 12,
-          "root_pane": 12
+          "focused": 1,
+          "root_pane": 1
         }
       ],
       "active_tab": 0
@@ -34,40 +34,30 @@
     {
       "id": "w6547ea41e1f0d1",
       "custom_name": "hype",
-      "identity_cwd": "/home/io/code/saanseoi",
+      "identity_cwd": "/home/io/code/hype",
       "public_pane_numbers": {
-        "2": 1,
-        "3": 2,
-        "4": 3,
-        "1": 5,
-        "5": 4
+        "3": 1,
+        "7": 4,
+        "2": 5,
+        "5": 3,
+        "6": 6,
+        "8": 7,
+        "4": 2
       },
-      "next_public_pane_number": 6,
+      "next_public_pane_number": 8,
       "public_tab_numbers": [
         5,
         1,
         2,
         3,
-        4
+        6,
+        4,
+        7
       ],
-      "next_public_tab_number": 6,
+      "next_public_tab_number": 8,
       "tabs": [
         {
           "custom_name": "ctrl",
-          "layout": {
-            "Pane": 1
-          },
-          "panes": {
-            "1": {
-              "cwd": "/home/io/code/saanseoi"
-            }
-          },
-          "zoomed": false,
-          "focused": 1,
-          "root_pane": 1
-        },
-        {
-          "custom_name": "dev",
           "layout": {
             "Pane": 2
           },
@@ -81,7 +71,7 @@
           "root_pane": 2
         },
         {
-          "custom_name": "asset",
+          "custom_name": "dev",
           "layout": {
             "Pane": 3
           },
@@ -95,7 +85,7 @@
           "root_pane": 3
         },
         {
-          "custom_name": "studio",
+          "custom_name": "asset",
           "layout": {
             "Pane": 4
           },
@@ -109,7 +99,7 @@
           "root_pane": 4
         },
         {
-          "custom_name": "git",
+          "custom_name": "studio",
           "layout": {
             "Pane": 5
           },
@@ -121,19 +111,61 @@
           "zoomed": false,
           "focused": 5,
           "root_pane": 5
+        },
+        {
+          "custom_name": "cr",
+          "layout": {
+            "Pane": 6
+          },
+          "panes": {
+            "6": {
+              "cwd": "/home/io/code/hype"
+            }
+          },
+          "zoomed": false,
+          "focused": 6,
+          "root_pane": 6
+        },
+        {
+          "custom_name": "git",
+          "layout": {
+            "Pane": 7
+          },
+          "panes": {
+            "7": {
+              "cwd": "/home/io/code/hype"
+            }
+          },
+          "zoomed": false,
+          "focused": 7,
+          "root_pane": 7
+        },
+        {
+          "custom_name": "tasks",
+          "layout": {
+            "Pane": 8
+          },
+          "panes": {
+            "8": {
+              "cwd": "/home/io/code/hype"
+            }
+          },
+          "zoomed": false,
+          "focused": 8,
+          "root_pane": 8
         }
       ],
-      "active_tab": 2
+      "active_tab": 6
     },
     {
       "id": "w2",
       "custom_name": null,
       "identity_cwd": "/home/io/code/saanseoi",
       "public_pane_numbers": {
-        "8": 2,
-        "9": 3,
-        "7": 1,
-        "10": 4
+        "10": 2,
+        "11": 3,
+        "12": 4,
+        "9": 1
       },
       "next_public_pane_number": 5,
       "public_tab_numbers": [
@@ -147,34 +179,6 @@
         {
           "custom_name": "ctrl",
           "layout": {
-            "Pane": 7
-          },
-          "panes": {
-            "7": {
-              "cwd": "/home/io/code/saanseoi"
-            }
-          },
-          "zoomed": false,
-          "focused": 7,
-          "root_pane": 7
-        },
-        {
-          "custom_name": "dev",
-          "layout": {
-            "Pane": 8
-          },
-          "panes": {
-            "8": {
-              "cwd": "/home/io/code/saanseoi"
-            }
-          },
-          "zoomed": false,
-          "focused": 8,
-          "root_pane": 8
-        },
-        {
-          "custom_name": "studio",
-          "layout": {
             "Pane": 9
           },
           "panes": {
@@ -187,7 +191,7 @@
           "root_pane": 9
         },
         {
-          "custom_name": "git",
+          "custom_name": "dev",
           "layout": {
             "Pane": 10
           },
@@ -199,17 +203,45 @@
           "zoomed": false,
           "focused": 10,
           "root_pane": 10
+        },
+        {
+          "custom_name": "studio",
+          "layout": {
+            "Pane": 11
+          },
+          "panes": {
+            "11": {
+              "cwd": "/home/io/code/saanseoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 11,
+          "root_pane": 11
+        },
+        {
+          "custom_name": "git",
+          "layout": {
+            "Pane": 12
+          },
+          "panes": {
+            "12": {
+              "cwd": "/home/io/code/saanseoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 12,
+          "root_pane": 12
         }
       ],
-      "active_tab": 0
+      "active_tab": 3
     },
     {
       "id": "w1",
       "custom_name": "overturist",
       "identity_cwd": "/home/io/code/overturist",
       "public_pane_numbers": {
-        "11": 2,
-        "6": 1
+        "14": 2,
+        "13": 1
       },
       "next_public_pane_number": 3,
       "public_tab_numbers": [
@@ -221,33 +253,33 @@
         {
           "custom_name": "ctrl",
           "layout": {
-            "Pane": 6
+            "Pane": 13
           },
           "panes": {
-            "6": {
+            "13": {
               "cwd": "/home/io/code/overturist"
             }
           },
           "zoomed": false,
-          "focused": 6,
-          "root_pane": 6
+          "focused": 13,
+          "root_pane": 13
         },
         {
           "custom_name": "git",
           "layout": {
-            "Pane": 11
+            "Pane": 14
           },
           "panes": {
-            "11": {
+            "14": {
               "cwd": "/home/io/code/overturist"
             }
           },
           "zoomed": false,
-          "focused": 11,
-          "root_pane": 11
+          "focused": 14,
+          "root_pane": 14
         }
       ],
-      "active_tab": 1
+      "active_tab": 0
     }
   ],
   "active": 0,

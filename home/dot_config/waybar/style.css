@@ -147,6 +147,14 @@ window#waybar.desktop-status #pulseaudio {
   border-bottom-right-radius: 0;
 }
 
+window#waybar.desktop-status #clock {
+  margin-right: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 window#waybar.desktop-status #custom-quit {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;

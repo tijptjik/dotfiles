@@ -223,6 +223,7 @@
       "tray",
       "network",
       "pulseaudio",
+      "clock",
       "custom/quit"
     ],
     "custom/crypto": {
@@ -267,6 +268,11 @@
       "scroll-step": 4,
       "on-click": "pavucontrol",
       "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    },
+    "clock": {
+      "format": "{:%H:%M}",
+      "format-alt": "{:%a %b %d}",
+      "tooltip": true
     },
     "custom/quit": {
       "format": " ",

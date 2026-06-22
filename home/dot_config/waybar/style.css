@@ -22,6 +22,10 @@ tooltip {
   background: @base02;
 }
 
+tooltip label {
+  font-family: "Noto Sans Mono";
+}
+
 /* Modules */
 
 .modules-left {
@@ -82,11 +86,12 @@ tooltip {
   border-radius: 10px;
 }
 
+/* Custom : Codex */
+
 #custom-codex {
   margin-right: 12px;
   border-radius: 10px;
 }
-
 
 /* Tray */
 

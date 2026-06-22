@@ -1,6 +1,6 @@
+// -*- mode: jsonc; tab-width: 2; indent-tabs-mode: nil; -*-
 [
 {{ if .isLaptop -}}
-  // Bar for eDP-1 (laptop) - full layout, overlay mode
   {
     "output": "eDP-1",
     "ipc": true,
@@ -111,7 +111,8 @@
         "default": ["", ""]
       },
       "scroll-step": 4,
-      "on-click": "pavucontrol"
+      "on-click": "pavucontrol",
+      "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
     },
     "custom/quit": {
       "format": " ",
@@ -119,8 +120,6 @@
       "on-click-middle": "sudo shutdown -h now"
     }
   },
-
-  // Bar for DP-4 (external) - workspaces only, overlay mode
   {
     "output": "DP-4",
     "ipc": true,
@@ -145,8 +144,7 @@
       "sort-by": "number"
     }
   }
-{{ end -}}
-{{- if .isDesktop }}
+{{- else if .isDesktop }}
   {
     "output": "DP-1",
     "id": "1",
@@ -165,20 +163,39 @@
     "modules-right": [
       // Choose the order of the modules
       "hyprland/workspaces",
-      "custom/mediaplayer"
+      "custom/spotify"
     ],
     "hyprland/workspaces": {
       "format": "{icon} {name}",
       "on-click": "activate",
-      "on-scroll-down": "playerctl -p Feishin next",
-      "on-scroll-up": "playerctl -p Feishin previous",
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "format-icons": {
+        "default": "\uf10c",
+        "active": "\uf111",
+        "19": "\uf1ff",
+        "20": "\uf144"
+      },
+      "sort-by": "number"
+    },
+    "custom/spotify": {
+      "format": "{0}",
+      "escape": false,
+      "return-type": "json",
+      "max-length": 60,
+      "on-click": "playerctl -p spotify play-pause",
+      "on-click-right": "killall spotify",
+      "smooth-scrolling-threshold": 2,
+      "on-scroll-down": "playerctl -p spotify next",
+      "on-scroll-up": "playerctl -p spotify previous",
       "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
-      "exec-if": "pgrep Feishin"
+      "exec-if": "pgrep spotify"
     }
   },
   {
     "output": "DP-1",
     "id": "2",
+    "name": "desktop-status",
     "ipc": true,
     "on-sigusr1": "hide",
     "on-sigusr2": "show",
@@ -195,13 +212,29 @@
     "modules-left": [
       "custom/crypto",
       "tray",
+      "network",
+      "pulseaudio",
+      "custom/quit"
+    ],
+    "custom/crypto": {
+      "format": "{}",
+      "interval": 600,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/crypto/waybar_crypto.py",
+      "exec-if": "ping pro-api.coinmarketcap.com -c1"
+    },
+    "tray": {
+      "icon-size": 21,
+      "spacing": 10
+    },
     "network": {
       "format": "{ifname}",
       "format-wifi": " {essid}",
       "format-ethernet": " {ifname}",
       "format-disconnected": "",
       "tooltip-format": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes}",
-      "tooltip-format-wifi": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes} @ {signalStrength}%",
+      "tooltip-format-wifi": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes} @ {signalStrength}%"
+    },
     "pulseaudio": {
       "format": "{icon} {volume}%",
       "format-bluetooth": "{icon} {volume}%",
@@ -216,7 +249,8 @@
         "default": ["", ""]
       },
       "scroll-step": 4,
-      "on-click": "pavucontrol"
+      "on-click": "pavucontrol",
+      "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
     },
     "custom/quit": {
       "format": " ",
@@ -251,7 +285,7 @@
         "default": "\uf10c",
         "active": "\uf111",
         "19": "\uf1ff",
-        "20": "\uf144"
+        "20": ""
       },
       "sort-by": "number"
     }

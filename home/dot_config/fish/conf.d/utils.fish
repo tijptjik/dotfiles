@@ -137,8 +137,6 @@ end
 ### ENCRYPTION
 #################################
 
-# We de
-
 function age-encrypt
     set infile $argv[1]
 
@@ -336,6 +334,78 @@ end
 
 function pretty-csv
     column -t -s, $argv | less -F -S -X -K
+end
+
+function extractCol --description "Extract a CSV column by header name and copy it to the clipboard"
+    if test (count $argv) -lt 1
+        echo "Usage: extractCol <column_name> [csv_file]"
+        echo "  If no CSV file is provided, reads from stdin"
+        return 1
+    end
+
+    set -l col_name $argv[1]
+    set -l csv_file
+
+    if test (count $argv) -ge 2
+        set csv_file $argv[2]
+    end
+
+    set -l awk_script '
+BEGIN { FPAT = "([^,]*)|(\"[^\"]*\")"; col_idx = -1 }
+NR == 1 {
+    for (i = 1; i <= NF; i++) {
+        gsub(/^\"|\"$/, "", $i)
+        if ($i == col_name) {
+            col_idx = i
+            break
+        }
+    }
+    if (col_idx == -1) {
+        print "Error: Column \047" col_name "\047 not found in CSV header" > "/dev/stderr"
+        exit 1
+    }
+    next
+}
+{
+    if (col_idx <= NF) {
+        val = $col_idx
+        gsub(/^\"|\"$/, "", val)
+        print val
+    }
+}
+'
+
+    set -l result
+    if test -n "$csv_file"
+        if not test -f "$csv_file"
+            echo "Error: File '$csv_file' not found" >&2
+            return 1
+        end
+        set result (awk -v col_name="$col_name" "$awk_script" "$csv_file")
+    else
+        set result (awk -v col_name="$col_name" "$awk_script")
+    end
+
+    if test $status -ne 0
+        return 1
+    end
+
+    if type -q wl-copy
+        printf "%s\n" $result | wl-copy
+    else if type -q xclip
+        printf "%s\n" $result | xclip -selection clipboard
+    else if type -q xsel
+        printf "%s\n" $result | xsel --clipboard --input
+    else if type -q pbcopy
+        printf "%s\n" $result | pbcopy
+    else
+        echo "Error: No clipboard tool found (tried: wl-copy, xclip, xsel, pbcopy)" >&2
+        echo "Install one or pipe output manually: extractCol status < file.csv" >&2
+        printf "%s\n" $result
+        return 1
+    end
+
+    echo "Copied "(count $result)" value(s) from column '$col_name' to clipboard"
 end
 
 # function db-head

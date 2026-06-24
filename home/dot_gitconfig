@@ -11,7 +11,7 @@
 	gpgsign=true
 [pull]
 	default = simple
-	rebase = false
+	rebase = true
 [push]
 	default = current
 [git-up "bundler"]

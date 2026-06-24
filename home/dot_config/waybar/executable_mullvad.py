@@ -75,13 +75,22 @@ def account():
 
 def status():
     cmd = subprocess.Popen('mullvad status', text=True, shell=True, stdout=subprocess.PIPE)
-    # country = mullvad.data['country']
-    lines = list(cmd.stdout)
-    if 'disconnected' in lines[0].lower():
-      return "👀"
-    else:
-        country = lines[-1].split(':')[1].strip().split(',')[0]
-        return SERVER_COUNTRY_FLAGS.get(country.strip(),"🇺🇳")
+    lines = [line.strip() for line in cmd.stdout if line.strip()]
+    if not lines:
+        return "👀"
+
+    if any('disconnected' in line.lower() for line in lines):
+        return "👀"
+
+    location_line = next((line for line in reversed(lines) if ':' in line), None)
+    if not location_line:
+        return "👀"
+
+    country = location_line.split(':', 1)[1].strip().split(',')[0].strip()
+    if not country or country.lower() == 'null':
+        return "👀"
+
+    return SERVER_COUNTRY_FLAGS.get(country, "🇺🇳")
 
 
 if __name__ == '__main__':

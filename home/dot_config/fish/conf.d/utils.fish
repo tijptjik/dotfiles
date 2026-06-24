@@ -354,7 +354,7 @@ function extractCol --description "Extract a CSV column by header name and copy 
 BEGIN { FPAT = "([^,]*)|(\"[^\"]*\")"; col_idx = -1 }
 NR == 1 {
     for (i = 1; i <= NF; i++) {
-        gsub(/^\"|\"$/, "", $i)
+        gsub(/^"|"$/, "", $i)
         if ($i == col_name) {
             col_idx = i
             break
@@ -369,7 +369,7 @@ NR == 1 {
 {
     if (col_idx <= NF) {
         val = $col_idx
-        gsub(/^\"|\"$/, "", val)
+        gsub(/^"|"$/, "", val)
         print val
     }
 }

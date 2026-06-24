@@ -222,6 +222,7 @@
       "custom/codex",
       "tray",
       "network",
+      "custom/vpn",
       "pulseaudio",
       "clock",
       "custom/quit"
@@ -251,6 +252,17 @@
       "format-disconnected": "",
       "tooltip-format": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes}",
       "tooltip-format-wifi": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes} @ {signalStrength}%"
+    },
+    "custom/vpn": {
+      "format": "{}",
+      "interval": 10,
+      "on-click": "/opt/Mullvad\\ VPN/mullvad-gui",
+      "on-click-right": "mullvad connect",
+      "on-click-middle": "mullvad disconnect",
+      "return-type": "json",
+      "min-length": 3,
+      "max-length": 3,
+      "exec": "$HOME/.config/waybar/mullvad.py 2> /dev/null"
     },
     "pulseaudio": {
       "format": "{icon} {volume}%",

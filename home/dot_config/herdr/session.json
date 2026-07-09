@@ -36,13 +36,13 @@
       "custom_name": "hype",
       "identity_cwd": "/home/io/code/hype",
       "public_pane_numbers": {
-        "3": 1,
         "7": 4,
+        "3": 1,
+        "4": 2,
+        "6": 6,
         "2": 5,
         "5": 3,
-        "6": 6,
-        "8": 7,
-        "4": 2
+        "8": 7
       },
       "next_public_pane_number": 8,
       "public_tab_numbers": [
@@ -155,26 +155,36 @@
           "root_pane": 8
         }
       ],
-      "active_tab": 6
+      "active_tab": 1
     },
     {
       "id": "w2",
       "custom_name": null,
       "identity_cwd": "/home/io/code/saanseoi",
       "public_pane_numbers": {
+        "9": 13,
         "10": 2,
-        "11": 3,
+        "13": 6,
         "12": 4,
-        "9": 1
+        "11": 3,
+        "14": 14,
+        "16": 12,
+        "17": 15,
+        "15": 10
       },
-      "next_public_pane_number": 5,
+      "next_public_pane_number": 16,
       "public_tab_numbers": [
         1,
         2,
         3,
-        4
+        4,
+        6,
+        5,
+        7,
+        8,
+        9
       ],
-      "next_public_tab_number": 5,
+      "next_public_tab_number": 10,
       "tabs": [
         {
           "custom_name": "ctrl",
@@ -231,17 +241,87 @@
           "zoomed": false,
           "focused": 12,
           "root_pane": 12
+        },
+        {
+          "custom_name": "test",
+          "layout": {
+            "Pane": 13
+          },
+          "panes": {
+            "13": {
+              "cwd": "/home/io/code/saanseoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 13,
+          "root_pane": 13
+        },
+        {
+          "custom_name": "local",
+          "layout": {
+            "Pane": 14
+          },
+          "panes": {
+            "14": {
+              "cwd": "/home/io/code/saanseoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 14,
+          "root_pane": 14
+        },
+        {
+          "custom_name": "preview",
+          "layout": {
+            "Pane": 15
+          },
+          "panes": {
+            "15": {
+              "cwd": "/home/io/code/saanseoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 15,
+          "root_pane": 15
+        },
+        {
+          "custom_name": "top",
+          "layout": {
+            "Pane": 16
+          },
+          "panes": {
+            "16": {
+              "cwd": "/home/io/code/saanseoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 16,
+          "root_pane": 16
+        },
+        {
+          "custom_name": "docs",
+          "layout": {
+            "Pane": 17
+          },
+          "panes": {
+            "17": {
+              "cwd": "/home/io/code/saanseoi/data/hkgov/2026-01-01.0"
+            }
+          },
+          "zoomed": false,
+          "focused": 17,
+          "root_pane": 17
         }
       ],
-      "active_tab": 3
+      "active_tab": 1
     },
     {
       "id": "w1",
       "custom_name": "overturist",
-      "identity_cwd": "/home/io/code/overturist",
+      "identity_cwd": "/home/io/code/overturist/data/2026-06-17.0/divisions/China/Hong Kong",
       "public_pane_numbers": {
-        "14": 2,
-        "13": 1
+        "18": 1,
+        "19": 2
       },
       "next_public_pane_number": 3,
       "public_tab_numbers": [
@@ -253,39 +333,100 @@
         {
           "custom_name": "ctrl",
           "layout": {
-            "Pane": 13
+            "Pane": 18
           },
           "panes": {
-            "13": {
-              "cwd": "/home/io/code/overturist"
+            "18": {
+              "cwd": "/home/io/code/overturist/data/2026-06-17.0/divisions/China/Hong Kong"
             }
           },
           "zoomed": false,
-          "focused": 13,
-          "root_pane": 13
+          "focused": 18,
+          "root_pane": 18
         },
         {
           "custom_name": "git",
           "layout": {
-            "Pane": 14
+            "Pane": 19
           },
           "panes": {
-            "14": {
+            "19": {
               "cwd": "/home/io/code/overturist"
             }
           },
           "zoomed": false,
-          "focused": 14,
-          "root_pane": 14
+          "focused": 19,
+          "root_pane": 19
+        }
+      ],
+      "active_tab": 0
+    },
+    {
+      "id": "w4",
+      "custom_name": "Chez",
+      "identity_cwd": "/home/io/.local/share/chezmoi",
+      "public_pane_numbers": {
+        "21": 2,
+        "20": 1,
+        "22": 3
+      },
+      "next_public_pane_number": 4,
+      "public_tab_numbers": [
+        1,
+        2,
+        3
+      ],
+      "next_public_tab_number": 4,
+      "tabs": [
+        {
+          "custom_name": "Dot",
+          "layout": {
+            "Pane": 20
+          },
+          "panes": {
+            "20": {
+              "cwd": "/home/io/.local/share/chezmoi"
+            }
+          },
+          "zoomed": false,
+          "focused": 20,
+          "root_pane": 20
+        },
+        {
+          "custom_name": "Etc",
+          "layout": {
+            "Pane": 21
+          },
+          "panes": {
+            "21": {
+              "cwd": "/home/io/.local/share/chezetc"
+            }
+          },
+          "zoomed": false,
+          "focused": 21,
+          "root_pane": 21
+        },
+        {
+          "custom_name": "CTRL",
+          "layout": {
+            "Pane": 22
+          },
+          "panes": {
+            "22": {
+              "cwd": "/home/io"
+            }
+          },
+          "zoomed": false,
+          "focused": 22,
+          "root_pane": 22
         }
       ],
       "active_tab": 0
     }
   ],
-  "active": 0,
-  "selected": 0,
-  "agent_panel_scope": "AllWorkspaces",
-  "sidebar_width": 26,
+  "active": 4,
+  "selected": 4,
+  "sidebar_width": 24,
   "sidebar_section_split": 0.5,
   "collapsed_space_keys": []
 }

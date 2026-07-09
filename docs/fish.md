@@ -4,12 +4,12 @@
 
 ### Fish Shell Configuration
 - **Main config**: `~/.config/fish/config.fish`
-- **Environment**: `~/.config/fish/conf.d/export.fish`
+- **Environment**: `~/.config/fish/conf.d/variables.fish`
 - **Secrets**: `~/.config/fish/conf.d/secrets.fish`
 - **Aliases**: `~/.config/fish/conf.d/aliases.fish`
 - **Utilities**: `~/.config/fish/conf.d/utils.fish`
 - **Plugins**: `~/.config/fish/fish_plugins`
-- **Update Script**: `~/.local/bin/fisher-manage`
+- **Update Script**: `~/.local/bin/fisher-update`
 
 ### Fisher Plugin Management
 - **Automatic installation**: Fisher installs itself on first shell startup
@@ -46,7 +46,7 @@ fisher update  # Should be up-to-date
 
 ```bash
 # Run the Fisher management script manually
-~/.local/bin/fisher-manage
+~/.local/bin/fisher-update
 ```
 
 

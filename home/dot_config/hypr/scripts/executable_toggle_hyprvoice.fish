@@ -1,5 +1,5 @@
 #!/usr/bin/env fish
-set HV /home/io/.local/bin/hyprvoice
+set HV "$HOME/.local/bin/hyprvoice"
 set FLAG /tmp/hyprvoice_music_paused
 
 set hv_status ( $HV status 2>/dev/null )

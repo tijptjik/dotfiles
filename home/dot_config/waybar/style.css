@@ -2,7 +2,7 @@
 
 * {
   font-size: 14px;
-  /* Defined in /home/io/.config/fontconfig/fonts.conf */
+  /* Defined in ~/.config/fontconfig/fonts.conf */
   font-family: "tijpset";
   color: @base05;
   background: none;

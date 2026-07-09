@@ -85,13 +85,13 @@ for key in $keys
     set -l tmp_stdout (mktemp)
     # stdbuf ensures the progress bar (stderr) is not buffered by the parent shell
     stdbuf -o0 "$R2UPLOAD_SCRIPT" $cmd_args "$HOME/$key" > $tmp_stdout
-    # $status is automatically set by the previous command. Do not set it.
+    set -l upload_status $status
     set -l output (cat $tmp_stdout)
     rm $tmp_stdout
 
     printf "%s\n" $output
 
-    if test $status -ne 0
+    if test $upload_status -ne 0
         set failed_count (math $failed_count + 1)
     else if string match -q "*Skipping archive and upload*" -- $output
         set skipped_count (math $skipped_count + 1)

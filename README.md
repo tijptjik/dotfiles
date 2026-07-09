@@ -47,7 +47,7 @@ A beginning is the time for taking the most delicate care that the balances are 
 
 1. **First we name her**
 ```bash
-`hostnamectl set-hostname "NAME"``
+hostnamectl set-hostname "NAME"
 ```
 
 The system-level setup is managed by [chezetc](https://github.com/tijptjik/etcfiles).

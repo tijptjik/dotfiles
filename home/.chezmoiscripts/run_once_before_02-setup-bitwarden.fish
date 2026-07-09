@@ -25,6 +25,7 @@ set -l bws_config_dir "$HOME/.config/bws"
 set -l bws_config_file "$bws_config_dir/environment"
 set -l chezmoi_key_file "$HOME/.keys/chezmoi.txt"
 set -l keys_dir "$HOME/.keys"
+umask 077
 
 # --- Handle Bitwarden Access Token ---
 if test -f "$bws_config_file"
@@ -68,6 +69,7 @@ else
     # Persist the token for subsequent runs and for the wrapper script.
     mkdir -p "$bws_config_dir"
     echo "BWS_ACCESS_TOKEN=$DECRYPTED_TOKEN" > "$bws_config_file"
+    chmod 600 "$bws_config_file"
     echo "Persisted BWS_ACCESS_TOKEN to $bws_config_file"
 end
 
@@ -88,5 +90,6 @@ if not test -f "$chezmoi_key_file"
         exit 1
     end
     printf '%s\n' (string unescape $CHEZMOI_KEY) > "$chezmoi_key_file"
+    chmod 600 "$chezmoi_key_file"
     echo "chezmoi key successfully written to $chezmoi_key_file"
 end

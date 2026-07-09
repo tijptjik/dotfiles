@@ -192,7 +192,7 @@ alias p='python'
 
 # Pelican
 # alias ghpup="source activate drostehk; and ghp-import output; and gco master; and  git merge gh-pages; and git push --all; and gco source"
-# alias dup="source activate drostehk; and cd /home/io/code/drostehk.github.io/output; and xdg-open http://localhost:8000/; and python -m pelican.server"
+# alias dup="source activate drostehk; and cd $HOME/code/drostehk.github.io/output; and xdg-open http://localhost:8000/; and python -m pelican.server"
 
 ################################
 ###  JAVASCRIPT

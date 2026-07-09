@@ -6,7 +6,7 @@ Wants=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=/home/io/.local/bin/hyprfloat
+ExecStart=%h/.local/bin/hyprfloat
 Restart=on-failure
 RestartSec=5
 

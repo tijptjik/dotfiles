@@ -1,4 +1,4 @@
-!/usr/bin/env fish
+#!/usr/bin/env fish
 
 set -l torrent_dir "$TR_TORRENT_DIR"
 set -l torrent_name "$TR_TORRENT_NAME"

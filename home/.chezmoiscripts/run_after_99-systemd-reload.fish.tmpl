@@ -4,12 +4,14 @@
 # It ensures that systemd user services and timers are reloaded and enabled.
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
+echo
+
 function configure_common_user_units
     systemctl --user daemon-reload
     systemctl --user enable --now backup-packages.timer
 end
 
-stage "common systemd user units" CONFIG "Common systemd user units" configure_common_user_units
+stage "Systemd User Units [Common]" CONFIG "Systemd User Units [Common]" configure_common_user_units
 
 {{ if .isClient -}}
 
@@ -21,6 +23,6 @@ function configure_client_user_units
     end
 end
 
-stage "client systemd user units" CONFIG "Client systemd user units" configure_client_user_units $client_services
+stage "Systemd User Units [Clients]" CONFIG "Systemd User Units [Clients]" configure_client_user_units $client_services
 
 {{- end }}

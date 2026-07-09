@@ -5,6 +5,7 @@ __stage_color() {
     INSTALL) printf '10' ;;
     SYNC) printf '12' ;;
     CONFIG) printf '14' ;;
+    CHECK) printf '13' ;;
     SKIP) printf '8' ;;
     FAILED) printf '9' ;;
     *) printf '15' ;;
@@ -27,7 +28,7 @@ __stage_label() {
     printf ' '
     gum style --foreground 15 "$subject"
   else
-    printf '%s %s %s\n' "$stage" "$icon" "$subject"
+    printf '%s %s %s\n' "$padded_stage" "$icon" "$subject"
   fi
 }
 

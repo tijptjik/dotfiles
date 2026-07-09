@@ -6,6 +6,8 @@ function __stage_color --argument-names verb
             echo 12
         case CONFIG
             echo 14
+        case CHECK
+            echo 13
         case SKIP
             echo 8
         case FAILED

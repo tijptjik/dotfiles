@@ -1,0 +1,26 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+function check_command --argument-names subject command_name
+    if command -v "$command_name" >/dev/null 2>&1
+        __stage_result CHECK "$subject"
+    else
+        __stage_label SKIP "-" "$subject"
+    end
+end
+
+function check_file --argument-names subject path
+    if test -f "$path"
+        __stage_result CHECK "$subject"
+        __stage_label SKIP "-" "$subject"
+    end
+end
+
+check_command "Bitwarden Secrets Manager CLI" bws
+check_file "Bitwarden Access Token" "$HOME/.config/bws/environment"
+check_file "Chezmoi Decryption Key" "$HOME/.keys/chezmoi.txt"
+check_command "Gum" gum
+check_command "Fish" fish
+check_command "Bun" bun
+check_command "FNM" fnm
+check_command "Herdr" herdr

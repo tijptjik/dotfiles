@@ -15,11 +15,13 @@ __stage_label() {
   local stage="$1"
   local icon="$2"
   local subject="$3"
+  local padded_stage
   local color
   color="$(__stage_color "$stage")"
+  printf -v padded_stage '%-7s' "$stage"
 
   if command -v gum >/dev/null 2>&1 && [ -t 1 ]; then
-    gum style --foreground "$color" --bold "$stage" | tr -d '\n'
+    gum style --foreground "$color" --bold "$padded_stage" | tr -d '\n'
     printf ' '
     gum style --foreground 10 "$icon" | tr -d '\n'
     printf ' '
@@ -32,17 +34,19 @@ __stage_label() {
 __stage_spin_title() {
   local stage="$1"
   local subject="$2"
+  local padded_stage
   local color
   color="$(__stage_color "$stage")"
+  printf -v padded_stage '%-7s' "$stage"
 
   if command -v gum >/dev/null 2>&1 && [ -t 1 ]; then
     {
-      gum style --foreground "$color" --bold "$stage" | tr -d '\n'
+      gum style --foreground "$color" --bold "$padded_stage" | tr -d '\n'
       printf ' '
       gum style --foreground 15 "$subject" | tr -d '\n'
     }
   else
-    printf '%s ... %s' "$stage" "$subject"
+    printf '%s ... %s' "$padded_stage" "$subject"
   fi
 }
 

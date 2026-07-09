@@ -17,26 +17,28 @@ end
 
 function __stage_label --argument-names stage_name icon subject
     set -l color (__stage_color "$stage_name")
+    set -l padded_stage (printf "%-7s" "$stage_name")
 
     if command -v gum >/dev/null 2>&1; and isatty stdout
-        set -l styled_stage (gum style --foreground $color --bold "$stage_name")
+        set -l styled_stage (gum style --foreground $color --bold "$padded_stage")
         set -l styled_icon (gum style --foreground 10 "$icon")
         printf "%s %s " "$styled_stage" "$styled_icon"
         gum style --foreground 15 "$subject"
     else
-        echo "$stage_name $icon $subject"
+        echo "$padded_stage $icon $subject"
     end
 end
 
 function __stage_spin_title --argument-names stage_name subject
     set -l color (__stage_color "$stage_name")
+    set -l padded_stage (printf "%-7s" "$stage_name")
 
     if command -v gum >/dev/null 2>&1; and isatty stdout
-        set -l styled_stage (gum style --foreground $color --bold "$stage_name")
+        set -l styled_stage (gum style --foreground $color --bold "$padded_stage")
         set -l styled_subject (gum style --foreground 15 "$subject")
         printf "%s %s" "$styled_stage" "$styled_subject"
     else
-        printf "%s ... %s" "$stage_name" "$subject"
+        printf "%s ... %s" "$padded_stage" "$subject"
     end
 end
 

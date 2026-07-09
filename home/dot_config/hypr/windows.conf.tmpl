@@ -79,6 +79,18 @@ windowrule {
 }
 
 windowrule {
+  name = codex-desktop
+  workspace = special:codex silent
+  no_initial_focus = on
+  float = on
+  {{ if .isDesktop -}}
+  size = 2219 1338
+  move = (1155) (24)
+  {{ end -}}
+  match:class = codex-desktop
+}
+
+windowrule {
   name = drizzle-studio
   workspace = 14 silent
   no_initial_focus = on

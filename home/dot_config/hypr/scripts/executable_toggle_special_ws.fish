@@ -4,6 +4,10 @@
 set TARGET_MONITOR "DP-1"
 set SPECIAL_WS "chat"
 
+if test -n "$argv[1]"; and string match -qr '^[[:alnum:]_-]+$' -- "$argv[1]"
+    set SPECIAL_WS "$argv[1]"
+end
+
 set CURRENT_WIN (hyprctl activewindow -j | jq -r '.address')
 set CURRENT_MON (hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')
 

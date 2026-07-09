@@ -141,6 +141,8 @@
         "hide_gitignore": false
     },
     "git_panel": {
+        "group_by": "none",
+        "sort_by": "path",
         "show_count_badge": true,
         "diff_stats": true,
         "folder_icons": false,
@@ -150,16 +152,17 @@
         "sort_by_path": false
     },
     "agent": {
+        "commit_message_instructions": "Use the Conventional Commits format: <type>(<scope>): <description>.",
         "commit_message_model": {
-          "provider": "google",
-          "model": "gemini-2.0-flash"
+          "provider": "openrouter",
+          "model": "z-ai/glm-5.2"
         },
         "sidebar_side": "right",
         "dock": "right",
         "inline_assistant_model": {
-            "provider": "google",
-            "model": "gemini-3.1-pro-preview",
-            "enable_thinking": false
+           "provider": "openrouter",
+           "model": "z-ai/glm-5.2",
+           "enable_thinking": false
         },
         "tool_permissions": {
             "default": "allow"
@@ -168,20 +171,37 @@
         "use_modifier_to_send": true,
         "play_sound_when_agent_done": "always",
         "default_model": {
-          "provider": "google",
-          "model": "gemini-2.0-flash"
+          "enable_thinking": true,
+          "provider": "openrouter",
+          "model": "z-ai/glm-5.2"
         },
         "model_parameters": []
     },
     "agent_servers": {
+    "pi-acp": {
+      "type": "registry"
+    },
     "gemini": {
       "type": "registry"
     },
     "codex-acp": {
+      "favorite_config_option_values": {
+        "reasoning_effort": [
+          "medium"
+        ],
+        "model": [
+          "gpt-5.5"
+        ],
+        "mode": [
+          "agent",
+          "agent-full-access"
+        ]
+      },
       "default_config_options": {
+        "fast-mode": false,
         "reasoning_effort": "medium",
-        "model": "gpt-5.4",
-        "mode": "full-access"
+        "model": "gpt-5.5",
+        "mode": "agent-full-access"
       },
       "type": "registry"
     }

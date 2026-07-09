@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+# Check if bun binary is available, install if not
+if not command -v bun >/dev/null 2>&1
+    stage "Bun" INSTALL "Bun" bash -c 'curl -fsSL https://bun.com/install | bash'
+else
+    __stage_result INSTALL "Bun"
+end

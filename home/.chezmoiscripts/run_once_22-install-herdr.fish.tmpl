@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+# Check if herdr binary is available, install if not
+if not command -v herdr >/dev/null 2>&1
+    stage "Herdr" INSTALL "Herdr" sh -c 'curl -fsSL https://herdr.dev/install.sh | sh'
+else
+    __stage_result INSTALL "Herdr"
+end

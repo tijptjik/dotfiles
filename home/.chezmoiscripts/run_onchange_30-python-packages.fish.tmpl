@@ -1,12 +1,12 @@
 #!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 # pyproject.toml hash: {{ include "pyproject.toml.tmpl" | sha256sum }}
 
-# Create a virtual environment
-uv venv --clear
+function sync_python_environment
+    uv venv --clear
+    source .venv/bin/activate.fish
+    uv sync
+end
 
-# Activate the virtual environment
-source .venv/bin/activate.fish
-
-# Sync based on pyproject.toml
-uv sync
+stage "Python environment" SYNC "Python environment" sync_python_environment

@@ -1,4 +1,5 @@
 #!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 {{ if .isLaptop }}
 
@@ -43,13 +44,11 @@ end
 
 # Check if this is the target machine
 if test (get_product_name) != "$PRODUCT_NAME"
-    echo "This is not a $PRODUCT_NAME. Skipping device-specific setup."
+    __stage_result CONFIG "Lenovo $PRODUCT_NAME setup"
     exit 0
 end
 
-# Install multimedia packages
-if not packages_installed
-    echo "Installing multimedia packages and drivers for $PRODUCT_NAME..."
+function install_lenovo_multimedia_packages
     sudo dnf groupinstall -y multimedia
     sudo dnf install -y \
         intel-media-driver \
@@ -62,33 +61,35 @@ if not packages_installed
         mesa-dri-drivers \
         mpv
 
-    echo "Swapping ffmpeg-free with the full ffmpeg package..."
     sudo dnf swap -y ffmpeg-free ffmpeg --allowerasing
-else
-    echo "Multimedia packages are already installed."
 end
 
-# Configure i915 graphics
-if test ! -f "$I915_CONF_PATH"
-    echo "Creating i915 graphics configuration..."
-    set -l i915_conf "options i915 enable_guc=3\noptions i915 enable_fbc=1"
-    echo -e $i915_conf | sudo tee "$I915_CONF_PATH" >/dev/null
-else
-    echo "i915 configuration already exists."
+function configure_i915_graphics --argument-names i915_conf_path
+    if test ! -f "$i915_conf_path"
+        set -l i915_conf "options i915 enable_guc=3\noptions i915 enable_fbc=1"
+        echo -e $i915_conf | sudo tee "$i915_conf_path" >/dev/null
+    end
 end
 
-# Configure sound driver
-if test ! -f "$SND_CONF_PATH"
-    echo "Creating sound driver configuration..."
-    set -l snd_conf "options snd_intel_dspcfg dsp_driver=1\noptions snd_hda_intel model=alc287-yoga9-bass-spk-pin"
-    echo -e $snd_conf | sudo tee "$SND_CONF_PATH" >/dev/null
-else
-    echo "Sound driver configuration already exists."
+function configure_lenovo_sound --argument-names snd_conf_path
+    if test ! -f "$snd_conf_path"
+        set -l snd_conf "options snd_intel_dspcfg dsp_driver=1\noptions snd_hda_intel model=alc287-yoga9-bass-spk-pin"
+        echo -e $snd_conf | sudo tee "$snd_conf_path" >/dev/null
+    end
 end
 
-echo "Removing rhgb from kernel command line..."
-sudo grubby --remove-args="rhgb" --update-kernel=/boot/vmlinuz-****.fc**.x86_64
+function remove_rhgb_kernel_arg
+    sudo grubby --remove-args="rhgb" --update-kernel=/boot/vmlinuz-****.fc**.x86_64
+end
 
-echo "Lenovo $PRODUCT_NAME setup complete."
+if not packages_installed
+    stage "Lenovo $PRODUCT_NAME multimedia packages" INSTALL "Lenovo $PRODUCT_NAME multimedia packages" install_lenovo_multimedia_packages
+else
+    __stage_result INSTALL "Lenovo $PRODUCT_NAME multimedia packages"
+end
+
+stage "Lenovo $PRODUCT_NAME graphics configuration" CONFIG "Lenovo $PRODUCT_NAME graphics" configure_i915_graphics "$I915_CONF_PATH"
+stage "Lenovo $PRODUCT_NAME sound configuration" CONFIG "Lenovo $PRODUCT_NAME sound" configure_lenovo_sound "$SND_CONF_PATH"
+stage "kernel command line" CONFIG "Kernel command line" remove_rhgb_kernel_arg
 
 {{ end }}

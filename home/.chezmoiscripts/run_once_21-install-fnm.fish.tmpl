@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+# Check if fnm binary is available, install if not
+if not command -v fnm >/dev/null 2>&1
+    stage "FNM" INSTALL "FNM" bash -c 'curl -fsSL https://fnm.vercel.app/install | bash'
+else
+    __stage_result INSTALL "FNM"
+end

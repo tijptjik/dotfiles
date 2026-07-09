@@ -1,0 +1,14 @@
+#!/bin/bash
+# Essential packages installer for chezmoi initialization
+# This script installs the basic packages needed for dotfiles management
+
+set -euo pipefail
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.sh"
+
+sudo -v
+
+# Update package manager
+stage "system package updates" "SYNC" "System packages" sudo dnf update -y
+
+# Install essential packages
+stage "essential packages" "INSTALL" "Essential packages" sudo dnf install -y sudo kitty fish git chezmoi age gum

@@ -1,10 +1,9 @@
 #!/usr/bin/env fish
-
-echo "[CONFIG] Default Shell..."
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 # Check if fish is installed
 if not command -v -q fish
-    echo "fish shell not found. Skipping shell change."
+    __stage_result CONFIG "Default shell"
     exit 0
 end
 
@@ -13,16 +12,16 @@ set -l fish_path (which fish)
 
 # Check if the user's shell is already fish
 if string match -q -- "$fish_path" "$SHELL"
-    echo "Default shell is already set to fish."
+    __stage_result CONFIG "Default shell"
     exit 0
 end
 
-# Add fish to /etc/shells if it's not already there
-if not grep -q "^$fish_path\$" /etc/shells
-    echo "Adding fish to /etc/shells..."
-    echo $fish_path | sudo tee -a /etc/shells > /dev/null
+function configure_default_fish_shell --argument-names fish_path username
+    if not grep -q "^$fish_path\$" /etc/shells
+        echo $fish_path | sudo tee -a /etc/shells >/dev/null
+    end
+
+    sudo chsh -s $fish_path $username
 end
 
-# Change the shell
-echo "Changing default shell to fish for user {{ .chezmoi.username }}."
-sudo chsh -s $fish_path {{ .chezmoi.username }}
+stage "default shell" CONFIG "Default shell" configure_default_fish_shell "$fish_path" "{{ .chezmoi.username }}"

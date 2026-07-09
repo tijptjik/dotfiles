@@ -1,0 +1,5 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+# Use find to avoid an error if the glob doesn't match any files.
+stage "symbolic link icon cleanup" CONFIG "Symbolic link icon" sudo find /usr/share/icons -name "emblem-symbolic-link.png" -delete

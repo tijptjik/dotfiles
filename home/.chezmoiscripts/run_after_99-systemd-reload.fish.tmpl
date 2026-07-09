@@ -2,25 +2,25 @@
 #
 # This script is run by chezmoi on `chezmoi apply`.
 # It ensures that systemd user services and timers are reloaded and enabled.
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
-echo "Running systemd unit configuration..."
-systemctl --user daemon-reload
+function configure_common_user_units
+    systemctl --user daemon-reload
+    systemctl --user enable --now backup-packages.timer
+end
 
-# Enable and start the backup timer.
-# --now ensures it starts immediately if not already active.
-systemctl --user enable --now backup-packages.timer
-echo "Common services enabled and started:"
-echo "- backup-packages.timer"
+stage "common systemd user units" CONFIG "Common systemd user units" configure_common_user_units
 
 {{ if .isClient -}}
 
 set client_services "hyprpolkitagent.service" "hypridle.service" "hyprsunset.service" "hyprpaper.service" "hyprvoice.service"
 
-echo
-echo "Client services enabled and started:"
-for service in $client_services
-    systemctl --user enable --now $service
-    echo "- $service"
+function configure_client_user_units
+    for service in $argv
+        systemctl --user enable --now $service
+    end
 end
+
+stage "client systemd user units" CONFIG "Client systemd user units" configure_client_user_units $client_services
 
 {{- end }}

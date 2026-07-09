@@ -65,7 +65,7 @@ $HOME/.tools/chezetc/chezetc apply
 3. **Install required software:**
 ```bash
 # Fedora/CentOS/RHEL
-sudo dnf install kitty fish curl git chezmoi
+sudo dnf install kitty fish curl git chezmoi gum
 ```
 
 4. **Pull in dotfiles**

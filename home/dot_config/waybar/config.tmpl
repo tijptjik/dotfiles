@@ -25,7 +25,7 @@
       "custom/vpn",
       "pulseaudio",
       "clock",
-      "custom/quit"
+      "custom/powerbutton"
     ],
     "hyprland/workspaces": {
       "format": "{icon} {name}",
@@ -122,10 +122,14 @@
       "on-click": "pavucontrol",
       "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
     },
-    "custom/quit": {
-      "format": " ",
-      "tooltip": "uptime -p",
-      "on-click-middle": "sudo shutdown -h now"
+    "custom/powerbutton": {
+      "format": "{}",
+      "interval": 1,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/powerbutton.fish",
+      "on-click": "$HOME/.config/waybar/powerbutton.fish toggle-idle",
+      "on-click-middle": "$HOME/.config/waybar/powerbutton.fish shutdown",
+      "on-click-right": "$HOME/.config/waybar/powerbutton.fish toggle-filter"
     }
   },
   {
@@ -225,7 +229,7 @@
       "custom/vpn",
       "pulseaudio",
       "clock",
-      "custom/quit"
+      "custom/powerbutton"
     ],
     "custom/crypto": {
       "format": "{}",
@@ -286,10 +290,14 @@
       "format-alt": "{:%a %b %d}",
       "tooltip": true
     },
-    "custom/quit": {
-      "format": " ",
-      "tooltip": "uptime -p",
-      "on-click-middle": "sudo shutdown -h now"
+    "custom/powerbutton": {
+      "format": "{}",
+      "interval": 1,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/powerbutton.fish",
+      "on-click": "$HOME/.config/waybar/powerbutton.fish toggle-idle",
+      "on-click-middle": "$HOME/.config/waybar/powerbutton.fish shutdown",
+      "on-click-right": "$HOME/.config/waybar/powerbutton.fish toggle-filter"
     }
   },
   {

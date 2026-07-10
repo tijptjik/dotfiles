@@ -12,6 +12,7 @@ end
 function check_file --argument-names subject path
     if test -f "$path"
         __stage_result CHECK "$subject"
+    else
         __stage_label SKIP "-" "$subject"
     end
 end

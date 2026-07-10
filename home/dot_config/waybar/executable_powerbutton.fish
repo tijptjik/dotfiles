@@ -11,8 +11,6 @@ end
 function toggle_filter
     if command pgrep -x hyprsunset >/dev/null
         command pkill -x hyprsunset
-        # Restore the normal gamma after disabling the night filter.
-        hyprctl hyprsunset gamma 1.0 >/dev/null 2>&1
     else
         hyprsunset >/dev/null 2>&1 &
     end
@@ -44,5 +42,5 @@ if command pgrep -x hyprsunset >/dev/null
     set filter_class night
 end
 
-printf '{"text":"%s %s","class":["%s","%s"],"tooltip":"Left: toggle caffeine mode | Middle: shut down | Right: toggle night filter"}\n' \
+printf '{"text":"%s  %s","class":["%s","%s"],"tooltip":"L : hypridle | M : shutdown | R : hyprsunset"}\n' \
     "$idle_icon" "$filter_icon" "$idle_class" "$filter_class"

@@ -156,5 +156,7 @@ ecosystem {
 # #######################
 
 quirks {
-    prefer_hdr = 1
+    # Do not advertise HDR as preferred to Chromium/Electron clients.
+    # This prevents them from incorrectly treating the display as HDR.
+    prefer_hdr = 0
 }

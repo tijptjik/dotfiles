@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+exec /usr/bin/google-chrome-canary \
+    --disable-features=WaylandWpColorManagerV1 \
+    --force-color-profile=sRGB \
+    "$@"

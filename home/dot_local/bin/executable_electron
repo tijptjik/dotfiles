@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+exec /usr/local/bin/electron \
+    --disable-features=WaylandWpColorManagerV1 \
+    --force-color-profile=sRGB \
+    "$@"

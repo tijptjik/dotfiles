@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Brave Web Browser
-Exec=/usr/bin/brave-browser-stable --disable-features=WaylandWpColorManagerV1 %U
+Exec=/usr/bin/brave-browser-stable --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB %U
 Icon=brave-browser
 Terminal=false
 Type=Application
@@ -9,8 +9,8 @@ Actions=new-window;new-private-window;
 
 [Desktop Action new-window]
 Name=New Window
-Exec=/usr/bin/brave-browser-stable --disable-features=WaylandWpColorManagerV1
+Exec=/usr/bin/brave-browser-stable --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB
 
 [Desktop Action new-private-window]
 Name=New Incognito Window
-Exec=/usr/bin/brave-browser-stable --disable-features=WaylandWpColorManagerV1 --incognito
+Exec=/usr/bin/brave-browser-stable --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB --incognito

@@ -25,6 +25,7 @@
       "custom/vpn",
       "pulseaudio",
       "clock",
+      "custom/notifications",
       "custom/powerbutton"
     ],
     "hyprland/workspaces": {
@@ -121,6 +122,13 @@
       "scroll-step": 4,
       "on-click": "pavucontrol",
       "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    },
+    "custom/notifications": {
+      "format": "{}",
+      "interval": 1,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/notifications.fish",
+      "on-click": "$HOME/.config/waybar/notifications.fish toggle"
     },
     "custom/powerbutton": {
       "format": "{}",
@@ -229,6 +237,7 @@
       "custom/vpn",
       "pulseaudio",
       "clock",
+      "custom/notifications",
       "custom/powerbutton"
     ],
     "custom/crypto": {
@@ -289,6 +298,13 @@
       "format": "{:%H:%M}",
       "format-alt": "{:%a %b %d}",
       "tooltip": true
+    },
+    "custom/notifications": {
+      "format": "{}",
+      "interval": 1,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/notifications.fish",
+      "on-click": "$HOME/.config/waybar/notifications.fish toggle"
     },
     "custom/powerbutton": {
       "format": "{}",

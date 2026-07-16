@@ -128,6 +128,23 @@ tooltip label {
   border-radius: 10px;
 }
 
+#custom-notifications {
+  margin-right: 0;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#clock {
+  margin-right: 12px;
+  border-radius: 10px;
+}
+
+#custom-notifications.paused * {
+  color: @base03;
+}
+
 #custom-powerbutton {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -160,11 +177,8 @@ window#waybar.desktop-status #pulseaudio {
 }
 
 window#waybar.desktop-status #clock {
-  margin-right: 0;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  margin-right: 12px;
+  border-radius: 10px;
 }
 
 window#waybar.desktop-status #custom-quit {

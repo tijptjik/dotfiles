@@ -15,9 +15,10 @@ set -l SND_CONF_PATH "/etc/modprobe.d/snd.conf"
 
 function get_product_name
     if test -f /sys/class/dmi/id/product_name
-        return (cat /sys/class/dmi/id/product_name)
+        string trim < /sys/class/dmi/id/product_name
+        return 0
     end
-    return "Unknown"
+    echo "Unknown"
 end
 
 function packages_installed
@@ -79,7 +80,7 @@ function configure_lenovo_sound --argument-names snd_conf_path
 end
 
 function remove_rhgb_kernel_arg
-    sudo grubby --remove-args="rhgb" --update-kernel=/boot/vmlinuz-****.fc**.x86_64
+    sudo grubby --remove-args="rhgb" --update-kernel=ALL
 end
 
 if not packages_installed

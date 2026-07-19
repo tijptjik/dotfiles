@@ -62,8 +62,13 @@ stage() {
   status_file="$(mktemp)"
 
   (
+    # Do not let the caller's `set -e` terminate this subshell before we
+    # record the command status.  `stage` needs that status to display the
+    # command output and return the original failure code.
+    set +e
     "$@" >"$log_file" 2>&1
-    printf '%s\n' "$?" >"$status_file"
+    code="$?"
+    printf '%s\n' "$code" >"$status_file"
   ) &
   pid="$!"
 

@@ -4,9 +4,10 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 # pyproject.toml hash: {{ include "pyproject.toml.tmpl" | sha256sum }}
 
 function sync_python_environment
-    uv venv --clear
-    source .venv/bin/activate.fish
-    uv sync
+    # Chezmoi runs scripts from a temporary directory.  Point uv at the
+    # managed project explicitly so it reads $HOME/pyproject.toml and creates
+    # $HOME/.venv instead of a transient virtual environment.
+    uv sync --project "$HOME"
 end
 
 stage "Python environment" SYNC "Python environment" sync_python_environment

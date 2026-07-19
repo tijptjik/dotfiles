@@ -7,8 +7,10 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.sh"
 
 sudo -v
 
-# Update package manager
-stage "system package updates" "SYNC" "System packages" sudo dnf update -y
+# Update what is currently available.  A repository can occasionally advertise
+# an RPM that has disappeared from every mirror; continue with the rest of the
+# transaction and report the unavailable package in DNF's output.
+stage "system package updates" "SYNC" "System packages" sudo dnf update --refresh --skip-unavailable -y
 
 # Install essential packages
 stage "essential packages" "INSTALL" "Essential packages" sudo dnf install -y sudo kitty fish git chezmoi age gum

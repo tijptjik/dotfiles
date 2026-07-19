@@ -3,6 +3,7 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 # pyproject.toml hash: {{ include "pyproject.toml.tmpl" | sha256sum }}
 
+{{ if .isClient -}}
 function sync_python_environment
     # Chezmoi runs scripts from a temporary directory.  Point uv at the
     # managed project explicitly so it reads $HOME/pyproject.toml and creates
@@ -11,3 +12,6 @@ function sync_python_environment
 end
 
 stage "Python environment" SYNC "Python environment" sync_python_environment
+{{ else -}}
+__stage_label SKIP "-" "Python environment (client only)"
+{{ end -}}

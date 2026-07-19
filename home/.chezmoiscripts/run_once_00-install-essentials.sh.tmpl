@@ -7,10 +7,61 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.sh"
 
 sudo -v
 
-# Update what is currently available.  A repository can occasionally advertise
-# an RPM that has disappeared from every mirror; continue with the rest of the
-# transaction and report the unavailable package in DNF's output.
-stage "system package updates" "SYNC" "System packages" sudo dnf update --refresh --skip-unavailable -y
+update_system_packages() {
+  local log_file nevra package attempt=0
+  local -a excludes=() dnf_args=() failed_nevras=()
+
+  # `--skip-unavailable` covers packages absent from repository metadata, but
+  # not an RPM that metadata advertises and every mirror fails to serve. Retry
+  # the update without each such package so the remaining updates can finish.
+  while (( attempt < 10 )); do
+    dnf_args=(update --skip-unavailable -y)
+    if (( attempt == 0 )); then
+      dnf_args+=(--refresh)
+    fi
+    for package in "${excludes[@]}"; do
+      dnf_args+=(--exclude "$package")
+    done
+
+    log_file="$(mktemp)"
+    if sudo dnf "${dnf_args[@]}" >"$log_file" 2>&1; then
+      if (( ${#excludes[@]} )); then
+        printf 'Skipped unavailable update packages: %s\n' "${excludes[*]}"
+      fi
+      rm -f "$log_file"
+      return 0
+    fi
+
+    mapfile -t failed_nevras < <(
+      sed -n 's#.*Cannot download RPMS/\([^/]*\)\.rpm:.*#\1#p' "$log_file" | sort -u
+    )
+    if (( ${#failed_nevras[@]} == 0 )); then
+      cat "$log_file"
+      rm -f "$log_file"
+      return 1
+    fi
+
+    for nevra in "${failed_nevras[@]}"; do
+      package="$(dnf repoquery --qf '%{name}' "$nevra" 2>/dev/null | head -n 1 || true)"
+      # If the now-stale metadata can no longer resolve the NEVRA, derive the
+      # name from the conventional name-version-release.arch RPM filename.
+      if [ -z "$package" ]; then
+        package="$(sed -E 's/-[0-9][^-]*-.*$//' <<<"$nevra")"
+      fi
+      if [[ " ${excludes[*]} " != *" $package "* ]]; then
+        excludes+=("$package")
+      fi
+    done
+
+    rm -f "$log_file"
+    ((attempt += 1))
+  done
+
+  printf 'Unable to complete package update after excluding: %s\n' "${excludes[*]}" >&2
+  return 1
+}
+
+stage "system package updates" "SYNC" "System packages (best effort)" update_system_packages
 
 # Install essential packages
 stage "essential packages" "INSTALL" "Essential packages" sudo dnf install -y sudo kitty fish git chezmoi age gum

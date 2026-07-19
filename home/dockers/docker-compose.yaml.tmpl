@@ -420,6 +420,7 @@ services:
       PASS: {{ (bitwardenSecrets "d0001509-175f-4cef-9ca6-b3cb00abff89").value | quote }}
     volumes:
       - {{ .paths.appData }}/transmission:/config
+      - {{ .chezmoi.homeDir }}/.config/transmission/extract.fish:/usr/local/bin/extract-sonarr-archives:ro
       - {{ .paths.downloads }}:/downloads
       - {{ .paths.downloads }}/.torrents:/watch
       - /mnt/storage:/data

@@ -41,6 +41,10 @@ Readmes are available in `/docs/{topic}.md`
 - [`zapzap`](https://github.com/rafatosta/zapzap)
 - [`zed`](https://zed.dev/)
 
+### Server media
+
+- [Extracting archived Sonarr releases](docs/media-archive-extraction.md)
+
 ## Sample Run
 
 <img width="891" height="609" alt="image" src="https://github.com/user-attachments/assets/f9c2f315-c573-47bc-b30d-b0d6dbff79b6" />

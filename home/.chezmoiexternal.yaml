@@ -21,10 +21,10 @@
   format: tar.zst
 .local/share/backgrounds:
   type: archive
-  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.local/share/backgrounds.tar.zst.age"
+  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.local/share/backgrounds.tar.zst"
   exact: true
   stripComponents: 1
-  encrypted: true
+  encrypted: false
   format: tar.zst
 .fonts:
   type: archive

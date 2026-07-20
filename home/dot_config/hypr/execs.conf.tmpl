@@ -33,7 +33,9 @@ exec-once = /bin/codex-desktop
 # Zen // PWA Sites
 exec-once = /bin/zen-browser
 exec-once = /usr/bin/firefoxpwa site launch 01KVFQER39ASXCZ26D7724G54G # Codex LB
+{{- if .isDesktop }}
 exec-once = /usr/bin/firefoxpwa site launch 01KVFS96FMVBM4QZ9NKX2J01VD # Drizzle Studio
+{{- end }}
 
 # Terminal
 exec-once = /bin/kitty --title "herdr ~" herdr

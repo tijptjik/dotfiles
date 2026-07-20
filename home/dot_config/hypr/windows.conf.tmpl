@@ -51,7 +51,11 @@ windowrule {
 
 windowrule {
   name = herdr
+  {{ if .isDesktop -}}
   workspace = 12 silent
+  {{ else if .isLaptop -}}
+  workspace = 2 silent
+  {{ end -}}
   no_initial_focus = on
   match:class = kitty
   match:title = ^(herdr ~)$
@@ -92,7 +96,11 @@ windowrule {
 
 windowrule {
   name = drizzle-studio
+  {{ if .isDesktop -}}
   workspace = 14 silent
+  {{ else if .isLaptop -}}
+  workspace = 3 silent
+  {{ end -}}
   no_initial_focus = on
   match:class = FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD
 }

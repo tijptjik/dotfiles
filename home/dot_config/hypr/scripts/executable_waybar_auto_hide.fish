@@ -1,25 +1,25 @@
 #!/usr/bin/env fish
 
-# Toggle Waybar when the pointer reaches/leaves a screen edge. Hyprland reports
-# monitor dimensions in physical pixels but cursor coordinates in logical pixels,
-# so account for the output scale before comparing them.
+# Show and hide Waybar when the pointer reaches/leaves a screen edge. Hyprland
+# reports monitor dimensions in physical pixels but cursor coordinates in logical
+# pixels, so account for the output scale before comparing them.
 argparse 's/side=' -- $argv; or exit 2
 set -l side $_flag_side
 set -q side[1]; or set side bottom
 # The interaction zone is the bar height plus twice its vertical margin:
-# 40px + (2 * 10px) for the current laptop Waybar configuration.
-set -l safe_zone 60
+# 36px + (2 * 10px) for the current laptop Waybar configuration.
+set -l safe_zone 56
 
 # Waybar starts visible in this setup. Keep that state while it is absent so
 # the first off-edge check hides a newly created bar.
-set -l hidden false
+set -l visible true
 
 while true
     set -l cursor (hyprctl cursorpos -j 2>/dev/null | jq -r '[.x, .y] | @tsv' | string split \t)
     set -l monitor (hyprctl monitors -j 2>/dev/null | jq -r '.[0] | [.width, .height, .scale] | @tsv' | string split \t)
 
     if test (count $cursor) -ne 2; or test (count $monitor) -ne 3; or not command pgrep -x waybar >/dev/null
-        set hidden false
+        set visible true
         sleep 0.1
         continue
     end
@@ -49,12 +49,12 @@ while true
             exit 2
     end
 
-    if test $at_reveal_edge -eq 1; and test "$hidden" = true
+    if test $at_reveal_edge -eq 1; and test "$visible" != true
+        command pkill -USR2 -x waybar
+        set visible true
+    else if test $in_safe_zone -eq 0; and test "$visible" = true
         command pkill -USR1 -x waybar
-        set hidden false
-    else if test $in_safe_zone -eq 0; and test "$hidden" != true
-        command pkill -USR1 -x waybar
-        set hidden true
+        set visible false
     end
 
     sleep 0.1

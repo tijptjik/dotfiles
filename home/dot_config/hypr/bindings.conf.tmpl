@@ -21,10 +21,10 @@ bind = $CMD, Q, killactive
 
 # Lock
 {{- if .isLaptop }}
-bind = $CMD, L, exec, hyprlock --config $CONFIG/hypr/hyprlock.conf --grace 5 --immediate-render
-bindl = , XF86ScreenSaver, exec, hyprlock --config $CONFIG/hypr/hyprlock.conf --grace 5 --immediate-render
+bind = $CMD, L, exec, hyprlock --config $CONFIG/hypr/hyprlock.conf --grace 5
+bindl = , XF86ScreenSaver, exec, hyprlock --config $CONFIG/hypr/hyprlock.conf --grace 5
 {{- else if .isDesktop }}
-bind = $CMD, L, exec, hyprlock --grace 5 --immediate-render
+bind = $CMD, L, exec, hyprlock --grace 5
 {{- end }}
 
 # Exit

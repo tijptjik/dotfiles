@@ -124,6 +124,7 @@ bind = $CMD, K, exec, ~/.config/hypr/scripts/layout_zen_hypehk_mobile.sh
 bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
 bindel = , XF86AudioLowerVolume, exec, wpctl set-volume -l 0 @DEFAULT_AUDIO_SINK@ 5%-
 bindl = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindl = , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 
 # Media Controls
 bindl = , XF86AudioPlay, exec, playerctl play-pause
@@ -134,8 +135,8 @@ bindl = , XF86AudioNext, exec, playerctl next
 # KEY BINDINGS : HYPRSUNSET
 # #######################
 
-bindel = ,XF86MonBrightnessDown, exec, hyprctl hyprsunset gamma -10
-bindel = ,XF86MonBrightnessUp, exec, hyprctl hyprsunset gamma +10
+bindel = ,XF86MonBrightnessDown, exec, brightnessctl set 5%-
+bindel = ,XF86MonBrightnessUp, exec, brightnessctl set 5%+
 
 # #######################
 # KEY BINDINGS : WAYBAR

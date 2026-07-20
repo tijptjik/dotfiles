@@ -22,7 +22,9 @@ listener {
 
 listener {
     timeout = 180
-    on-timeout = hyprlock --config ~/.config/hypr/hyprlock.conf
+    # Delegate to lock_cmd so every lock takes the same guarded path.  Starting
+    # hyprlock here directly can race a concurrent session-lock request.
+    on-timeout = loginctl lock-session
 }
 
 listener {

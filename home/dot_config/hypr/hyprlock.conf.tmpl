@@ -23,25 +23,25 @@ background {
 label {
     text = cmd[update:1000] echo "$(date +"%-H:%M")"
     color = $fx-white
-    font_size = 264
+    font_size = 510
     font_family = ETBembo
-    position = -500, 120
+    position = 0, 230
     halign = center
     valign = center
 }
 
 label {
-    text = <span line_height="1.22" allow_breaks="true" font_weight="light">Whatever you dream you can, begin it.<br/>Boldness has genius, power and magic in it!</span>
+    text = <span line_height="1.22" allow_breaks="true" font_weight="light">Everything transitory is but an image.</span>
     color = $fx-magenta
-    font_size = 36
-    font_family = Gotham
-    position = 420, 104
+    font_size = 78
+    font_family = ETBembo
+    position = 0, -260
     halign = center
     valign = center
 }
 
 input-field {
-    size = 420, 64
+    size = 630, 96
     outline_thickness = 0
     dots_size = 0.24
     dots_spacing = 0.5
@@ -49,13 +49,16 @@ input-field {
     font_color = $fx-white
     outer_color = rgba(fef1fd33)
     inner_color = rgba(32303e00)
-    check_color = $fx-black
-    fail_color = $fx-magenta
+    # Keep the input visually continuous while authentication is checked or fails.
+    check_color = rgb(555169)
+    fail_color = rgb(555169)
     fade_on_empty = false
-    font_family = Gotham
+    font_family = ETBembo
+    fail_text = <i></i>
     placeholder_text = <span allow_breaks="true" font_weight="bold" foreground="##fef1fdaa">●   ●   ●</span>
     hide_input = false
-    position = 420, -170
+    # Lift the field slightly from its lower placement.
+    position = 0, -600
     halign = center
     valign = center
 }
@@ -121,8 +124,8 @@ input-field {
     font_color = $fx-white
     outer_color = rgba(fef1fd33)
     inner_color = rgba(32303e00)
-    check_color = $fx-black
-    fail_color = $fx-magenta
+    check_color = rgb(555169)
+    fail_color = rgb(555169)
     fade_on_empty = false
     font_family = tijpset
     placeholder_text = <span allow_breaks="true" font_weight="bold" foreground="##fef1fdaa">●   ●   ●</span>

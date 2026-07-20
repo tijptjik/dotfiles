@@ -7,8 +7,8 @@ argparse 's/side=' -- $argv; or exit 2
 set -l side $_flag_side
 set -q side[1]; or set side bottom
 # The interaction zone is the bar height plus twice its vertical margin:
-# 36px + (2 * 24px) for the current laptop Waybar configuration.
-set -l safe_zone 84
+# 36px + (2 * 16px) for the current laptop Waybar configuration.
+set -l safe_zone 68
 
 # Waybar starts visible in this setup. Keep that state while it is absent so
 # the first off-edge check hides a newly created bar.

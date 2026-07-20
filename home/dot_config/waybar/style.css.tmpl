@@ -70,13 +70,14 @@ window#waybar.laptop #workspaces {
 /* Keep the Wi-Fi name and Mullvad indicator as one compact island. */
 window#waybar.laptop #network {
   margin-right: 0;
-  padding-left: 8px;
+  padding-left: 12px;
   padding-right: 8px;
 }
 
-/* Keep the enlarged power button exclusive to the laptop bar. */
+/* Keep the notification controls aligned at the laptop bar's compact scale. */
 window#waybar.laptop #custom-powerbutton {
-  font-size: 23px;
+  margin-left: -3px;
+  font-size: 14px;
 }
 
 #workspaces button {
@@ -175,7 +176,7 @@ window#waybar.laptop #custom-powerbutton {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 {{- if .isLaptop }}
-  font-size: 23px;
+  font-size: 14px;
 {{- else if .isDesktop }}
   font-size: 14px;
 {{- end }}

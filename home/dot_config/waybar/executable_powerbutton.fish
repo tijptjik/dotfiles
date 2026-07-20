@@ -42,5 +42,5 @@ if command pgrep -x hyprsunset >/dev/null
     set filter_class night
 end
 
-printf '{"text":"%s  %s","class":["%s","%s"],"tooltip":"L : hypridle | M : shutdown | R : hyprsunset"}\n' \
+printf '{"text":"%s %s","class":["%s","%s"],"tooltip":"L : hypridle | M : shutdown | R : hyprsunset"}\n' \
     "$idle_icon" "$filter_icon" "$idle_class" "$filter_class"

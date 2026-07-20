@@ -15,10 +15,13 @@ ExecStartPre=/usr/bin/sh -c 'until /usr/bin/systemctl --user show-environment | 
 ExecStart=/usr/bin/hyprlock --immediate-render
 Restart=on-failure
 RestartSec=2s
-# Keep filesystem hardening enabled.  Do not set NoNewPrivileges here:
-# pam_unix invokes unix_chkpwd, which must be able to read the shadow database.
-ProtectSystem=strict
-ProtectHome=read-only
+# PAM authentication must run outside a private filesystem namespace.  In
+# particular, pam_unix delegates the password check to the setuid
+# unix_chkpwd helper; running hyprlock in the service's ProtectSystem/
+# ProtectHome sandbox produces authentication failures even though the same
+# PAM stack succeeds when hyprlock is launched directly by Hyprland.
+# Do not add NoNewPrivileges= either: it would prevent unix_chkpwd from
+# acquiring the privilege required to read the shadow database.
 
 [Install]
 WantedBy=graphical-session.target

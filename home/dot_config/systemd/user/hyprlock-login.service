@@ -1,19 +1,22 @@
 [Unit]
 Description=Lock screen on autologin with hyprlock
 Documentation=man:hyprlock(1)
-# Ensure the graphical session is fully initialized before locking
+# Start with the graphical session and stop if that session ends.
+PartOf=graphical-session.target
 After=graphical-session.target
 Wants=graphical-session.target
 
 [Service]
 Type=simple
-# Small delay to prevent race conditions with the compositor initializing
-ExecStartPre=/bin/sleep 1
-ExecStart=/usr/bin/hyprlock
+# graphical-session.target is reached before Hyprland imports its Wayland
+# socket into the user manager.  Wait for that import so the lock is not lost
+# to a compositor-startup race.
+ExecStartPre=/usr/bin/sh -c 'until /usr/bin/systemctl --user show-environment | /usr/bin/grep -q "^WAYLAND_DISPLAY=."; do /usr/bin/sleep 0.2; done'
+ExecStart=/usr/bin/hyprlock --immediate-render
 Restart=on-failure
-RestartSec=5s
-# Lock down the environment for security
-NoNewPrivileges=true
+RestartSec=2s
+# Keep filesystem hardening enabled.  Do not set NoNewPrivileges here:
+# pam_unix invokes unix_chkpwd, which must be able to read the shadow database.
 ProtectSystem=strict
 ProtectHome=read-only
 

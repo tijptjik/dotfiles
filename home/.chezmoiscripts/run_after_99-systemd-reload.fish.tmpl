@@ -15,7 +15,7 @@ stage "Systemd User Units [Common]" CONFIG "Systemd User Units [Common]" configu
 
 {{ if .isClient -}}
 
-set client_services "hyprpolkitagent.service" "hypridle.service" "hyprsunset.service" "hyprpaper.service" "hyprvoice.service"
+set client_services "hyprpolkitagent.service" "hypridle.service" "hyprlock-login.service" "hyprsunset.service" "hyprpaper.service" "hyprvoice.service"
 
 function configure_client_user_units
     for service in $argv

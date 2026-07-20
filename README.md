@@ -13,30 +13,42 @@ The system setup (repos, packages) is managed by [Chezetc](https://github.com/ti
 
 Readmes are available in `/docs/{topic}.md`
 
+- [`bat`](https://github.com/sharkdp/bat)
 - [`bottom`](https://github.com/ClementTsang/bottom)
-- `claude`
+- [`codex`](https://openai.com/codex/)
 - [`direnv`](https://direnv.net/)
 - [`dunst`](https://github.com/dunst-project/dunst)
 - [`fish`](https://fishshell.com/)
   - [`fisher`](https://github.com/jorgebucaran/fisher) - Plugin manager with automatic updates
-- `gtk`
-- [Hypr](https://wiki.hypr.land/)
-  - `hyprland`
-  - `hypridle`
-  - `hyprlock`
-  - `hyperpaper`
-  - `hyprfloat`
-  - `hyprpicker`
-  - `hyprsunset`
-  - `hyprvoice`
+- [`fnm`](https://github.com/Schniz/fnm)
+- [`fzf`](https://github.com/junegunn/fzf)
+- [`glow`](https://github.com/charmbracelet/glow)
+- [GTK](https://www.gtk.org/)
+- [`herdr`](https://github.com/ogulcancelik/herdr)
+- [Hyprland](https://github.com/hyprwm/Hyprland)
+  - [`hyprfloat`](https://github.com/nevimmu/hyprfloat)
+  - [`hypridle`](https://github.com/hyprwm/hypridle)
+  - [`hyprlock`](https://github.com/hyprwm/hyprlock)
+  - [`hyprpaper`](https://github.com/hyprwm/hyprpaper)
+  - [`hyprpicker`](https://github.com/hyprwm/hyprpicker)
+  - [`hyprsunset`](https://github.com/hyprwm/hyprsunset)
+  - [`hyprvoice`](https://github.com/leonardotrapani/hyprvoice)
 - [`kitty`](https://sw.kovidgoyal.net/kitty/)
 - [`lazygit`](https://github.com/jesseduffield/lazygit)
+- [`lsd`](https://github.com/lsd-rs/lsd)
+- [`matugen`](https://github.com/InioX/matugen)
 - [`micro`](https://micro-editor.github.io/)
 - [`mullvad`](https://mullvad.net/)
 - [`python`](https://www.python.org/)
+- [`quickshell`](https://github.com/quickshell-mirror/quickshell)
+- [`rclone`](https://github.com/rclone/rclone)
 - [`solaar`](https://github.com/pwr-Solaar/Solaar)
-- `systemd`
-- [`tmux`](https://github.com/tmux/tmux)
+- [`starship`](https://github.com/starship/starship)
+- [systemd](https://systemd.io/)
+- [`tinty`](https://github.com/tinted-theming/tinty)
+- [`transmission`](https://github.com/transmission/transmission)
+- [`uv`](https://github.com/astral-sh/uv)
+- [`vivid`](https://github.com/sharkdp/vivid)
 - [`waybar`](https://github.com/Alexays/Waybar)
 - [`zapzap`](https://github.com/rafatosta/zapzap)
 - [`zed`](https://zed.dev/)

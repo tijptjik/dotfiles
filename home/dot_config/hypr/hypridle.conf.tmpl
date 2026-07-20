@@ -4,7 +4,11 @@
 # leaving any attached external monitor under its own desktop policy.
 general {
     lock_cmd = pidof hyprlock || hyprlock --config ~/.config/hypr/hyprlock.conf
-    before_sleep_cmd = loginctl lock-session
+    # The 10-minute listener normally has already blanked the panel and the
+    # 30-second listener the keyboard.  Repeat both at the actual sleep
+    # transition, though: locking or another inhibitor can run resume actions
+    # in between and otherwise leave the keyboard LEDs on.
+    before_sleep_cmd = loginctl lock-session; brightnessctl -sd rgb:kbd_backlight set 0; hyprctl dispatch dpms off eDP-1
     after_sleep_cmd = hyprctl dispatch dpms on eDP-1
 }
 

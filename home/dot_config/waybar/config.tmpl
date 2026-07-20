@@ -11,11 +11,8 @@
     "margin-bottom": 10,
     "spacing": 12,
     "modules-left": [
-      "custom/crypto",
+      "hyprland/workspaces",
       "custom/mediaplayer"
-    ],
-    "modules-center": [
-      "hyprland/workspaces"
     ],
     "modules-right": [
       "tray",
@@ -52,13 +49,6 @@
       "on-scroll-up": "playerctl -p Feishin previous",
       "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null",
       "exec-if": "pgrep Feishin"
-    },
-    "custom/crypto": {
-      "format": "{}",
-      "interval": 600,
-      "return-type": "json",
-      "exec": "$HOME/.config/waybar/crypto/waybar_crypto.py",
-      "exec-if": "ping pro-api.coinmarketcap.com -c1"
     },
     "custom/codex": {
       "format": "{}",

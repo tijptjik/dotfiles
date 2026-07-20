@@ -1,0 +1,28 @@
+/*
+ * Fallback palette: Rosé Punk (base16 & base24).
+ * Tinty replaces this file whenever the active theme changes.
+ */
+@define-color base00 #191724;
+@define-color base01 #1f1d2e;
+@define-color base02 #26233a;
+@define-color base03 #555169;
+@define-color base04 #6e6a86;
+@define-color base05 #e5e5e5;
+@define-color base06 #ecebef;
+@define-color base07 #f5f5f7;
+@define-color base08 #eb6f92;
+@define-color base09 #f6c177;
+@define-color base0A #f4b7b5;
+@define-color base0B #31748f;
+@define-color base0C #9ccfd8;
+@define-color base0D #7188ff;
+@define-color base0E #ff53a6;
+@define-color base0F #c0345c;
+@define-color base10 #110f18;
+@define-color base11 #08080c;
+@define-color base12 #ff6b95;
+@define-color base13 #facdcc;
+@define-color base14 #2f87ab;
+@define-color base15 #9bdfeb;
+@define-color base16 #8596ed;
+@define-color base17 #e56ea1;

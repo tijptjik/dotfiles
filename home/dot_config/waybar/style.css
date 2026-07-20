@@ -47,11 +47,24 @@ tooltip label {
   padding: 6px 12px;
 }
 
+/* Laptop islands are intentionally more compact than the desktop layout. */
+window#waybar.laptop .modules-right > widget > *,
+window#waybar.laptop .modules-center > widget > *,
+window#waybar.laptop .modules-left > widget > * {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
 /* Workspaces */
 
 #workspaces {
   padding: 5px 7px 5px 7px;
   border-radius: 10px;
+}
+
+window#waybar.laptop #workspaces {
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 #workspaces button {
@@ -146,8 +159,10 @@ tooltip label {
 }
 
 #custom-powerbutton {
+  margin-left: -12px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  font-size: 18px;
 }
 
 /* Desktop status bar grouping */

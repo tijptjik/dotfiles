@@ -82,7 +82,7 @@ bind = $CMD CTRL, Space, movetoworkspace, special:chat
 bind = SHIFT CTRL, Space, exec, $CONFIG/hypr/scripts/toggle_float.fish
 
 ## Special : Codex
-bind = ALT, Space, exec, $CONFIG/hypr/scripts/toggle_special_ws.fish codex
+bind = $CMD, Space, exec, $CONFIG/hypr/scripts/toggle_special_ws.fish codex
 
 bind = CTRL ALT, Space, togglespecialworkspace
 bind = $CMD CTRL ALT, Space, movetoworkspace, special
@@ -147,7 +147,6 @@ bindel = ,XF86MonBrightnessUp, exec, brightnessctl set 5%+
 # KEY BINDINGS : WAYBAR
 # #######################
 
-bind = $CMD, Space, exec, killall waybar || waybar
 
 # #######################
 # KEY BINDINGS : HYPRVOICE

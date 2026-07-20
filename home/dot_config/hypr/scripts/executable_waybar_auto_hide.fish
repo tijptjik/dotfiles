@@ -6,6 +6,9 @@
 argparse 's/side=' -- $argv; or exit 2
 set -l side $_flag_side
 set -q side[1]; or set side bottom
+# The interaction zone is the bar height plus twice its vertical margin:
+# 40px + (2 * 10px) for the current laptop Waybar configuration.
+set -l safe_zone 60
 
 # Waybar starts visible in this setup. Keep that state while it is absent so
 # the first off-edge check hides a newly created bar.
@@ -25,26 +28,31 @@ while true
     set -l y $cursor[2]
     set -l width (math "$monitor[1] / $monitor[3]")
     set -l height (math "$monitor[2] / $monitor[3]")
-    set -l at_edge 0
+    set -l at_reveal_edge 0
+    set -l in_safe_zone 0
 
     switch $side
         case top
-            test $y -le 2; and set at_edge 1
+            test $y -le 2; and set at_reveal_edge 1
+            test $y -le $safe_zone; and set in_safe_zone 1
         case bottom
-            test $y -ge (math "$height - 2"); and set at_edge 1
+            test $y -ge (math "$height - 2"); and set at_reveal_edge 1
+            test $y -ge (math "$height - $safe_zone"); and set in_safe_zone 1
         case left
-            test $x -le 2; and set at_edge 1
+            test $x -le 2; and set at_reveal_edge 1
+            test $x -le $safe_zone; and set in_safe_zone 1
         case right
-            test $x -ge (math "$width - 2"); and set at_edge 1
+            test $x -ge (math "$width - 2"); and set at_reveal_edge 1
+            test $x -ge (math "$width - $safe_zone"); and set in_safe_zone 1
         case '*'
             echo "waybar_auto_hide: unsupported side '$side'" >&2
             exit 2
     end
 
-    if test $at_edge -eq 1; and test "$hidden" = true
+    if test $at_reveal_edge -eq 1; and test "$hidden" = true
         command pkill -USR1 -x waybar
         set hidden false
-    else if test $at_edge -eq 0; and test "$hidden" != true
+    else if test $in_safe_zone -eq 0; and test "$hidden" != true
         command pkill -USR1 -x waybar
         set hidden true
     end

@@ -20,7 +20,12 @@ bind = $CMD, R, pass, ^(com\.obsproject\.Studio)$
 bind = $CMD, Q, killactive
 
 # Lock
+{{- if .isLaptop }}
+bind = $CMD, L, exec, hyprlock --config $CONFIG/hypr/hyprlock.conf --grace 5 --immediate-render
+bindl = , XF86ScreenSaver, exec, hyprlock --config $CONFIG/hypr/hyprlock.conf --grace 5 --immediate-render
+{{- else if .isDesktop }}
 bind = $CMD, L, exec, hyprlock --grace 5 --immediate-render
+{{- end }}
 
 # Exit
 bind = $CMD SHIFT, Q, exit
@@ -122,7 +127,7 @@ bind = $CMD, K, exec, ~/.config/hypr/scripts/layout_zen_hypehk_mobile.sh
 
 # Volume
 bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
-bindel = , XF86AudioLowerVolume, exec, wpctl set-volume -l 0 @DEFAULT_AUDIO_SINK@ 5%-
+bindel = , XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bindl = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 bindl = , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 

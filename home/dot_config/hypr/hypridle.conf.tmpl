@@ -1,0 +1,73 @@
+# ~/.config/hypr/hypridle.conf
+{{- if .isLaptop }}
+# Laptop-only power policy.  It affects the internal panel and keyboard only,
+# leaving any attached external monitor under its own desktop policy.
+general {
+    lock_cmd = pidof hyprlock || hyprlock --config ~/.config/hypr/hyprlock.conf
+    before_sleep_cmd = loginctl lock-session
+    after_sleep_cmd = hyprctl dispatch dpms on eDP-1
+}
+
+listener {
+    timeout = 60
+    on-timeout = brightnessctl -s set 10%
+    on-resume = brightnessctl -r
+}
+
+listener {
+    timeout = 30
+    on-timeout = brightnessctl -sd rgb:kbd_backlight set 0
+    on-resume = brightnessctl -rd rgb:kbd_backlight
+}
+
+listener {
+    timeout = 180
+    on-timeout = hyprlock --config ~/.config/hypr/hyprlock.conf --immediate-render
+}
+
+listener {
+    timeout = 600
+    on-timeout = hyprctl dispatch dpms off eDP-1
+    on-resume = hyprctl dispatch dpms on eDP-1; brightnessctl -r
+}
+
+listener {
+    timeout = 1800
+    on-timeout = systemctl suspend
+}
+{{- else if .isDesktop }}
+# Preserve the existing desktop policy and its multi-monitor behavior.
+general {
+    lock_cmd = pidof hyprlock || hyprlock
+    before_sleep_cmd = loginctl lock-session
+    after_sleep_cmd = hyprctl dispatch dpms on
+}
+
+listener {
+    timeout = 60
+    on-timeout = hyprsunset --gamma 0.10
+    on-resume = hyprsunset --gamma 1.0
+}
+
+listener {
+    timeout = 30
+    on-timeout = brightnessctl -sd rgb:kbd_backlight set 0
+    on-resume = brightnessctl -rd rgb:kbd_backlight
+}
+
+listener {
+    timeout = 180
+    on-timeout = loginctl lock-session
+}
+
+listener {
+    timeout = 600
+    on-timeout = hyprctl dispatch dpms off && sleep 0.2 && hyprctl dispatch dpms off
+    on-resume = hyprctl dispatch dpms on && hyprsunset gamma 1.0
+}
+
+listener {
+    timeout = 1800
+    on-timeout = systemctl suspend
+}
+{{- end }}

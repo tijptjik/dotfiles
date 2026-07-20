@@ -69,9 +69,15 @@ window#waybar.laptop #workspaces {
 
 /* Keep the Wi-Fi name and Mullvad indicator as one compact island. */
 window#waybar.laptop #network {
-  margin-right: -12px;
+  margin-right: 0;
   padding-left: 8px;
   padding-right: 8px;
+}
+
+/* Match the laptop status icons to the power button without affecting desktop bars. */
+window#waybar.laptop #pulseaudio,
+window#waybar.laptop #custom-powerbutton {
+  font-size: 23px;
 }
 
 #workspaces button {

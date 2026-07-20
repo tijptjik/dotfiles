@@ -15,7 +15,7 @@ stage "Systemd User Units [Common]" CONFIG "Systemd User Units [Common]" configu
 
 {{ if .isClient -}}
 
-set client_services "hyprpolkitagent.service" "hypridle.service" "hyprlock-login.service" "hyprsunset.service" "hyprpaper.service" "hyprvoice.service"
+set client_services "hyprpolkitagent.service" "hypridle.service" "hyprsunset.service" "hyprpaper.service" "hyprvoice.service"
 
 function configure_client_user_units
     for service in $argv
@@ -24,5 +24,14 @@ function configure_client_user_units
 end
 
 stage "Systemd User Units [Clients]" CONFIG "Systemd User Units [Clients]" configure_client_user_units $client_services
+
+# This unit is deliberately enabled without --now: starting it during a
+# chezmoi apply would lock the currently active graphical session.  systemd
+# starts it automatically with graphical-session.target on the next login.
+function configure_hyprlock_login_unit
+    systemctl --user enable hyprlock-login.service
+end
+
+stage "Systemd User Unit [Hyprlock Login]" CONFIG "Systemd User Unit [Hyprlock Login]" configure_hyprlock_login_unit
 
 {{- end }}

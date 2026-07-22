@@ -16,18 +16,32 @@ set -l visible true
 
 while true
     set -l cursor (hyprctl cursorpos -j 2>/dev/null | jq -r '[.x, .y] | @tsv' | string split \t)
-    set -l monitor (hyprctl monitors -j 2>/dev/null | jq -r '.[0] | [.width, .height, .scale] | @tsv' | string split \t)
+    set -l monitor
 
-    if test (count $cursor) -ne 2; or test (count $monitor) -ne 3; or not command pgrep -x waybar >/dev/null
+    if test (count $cursor) -eq 2
+        # Pick the monitor containing the cursor. Do not use monitor array
+        # order: Hyprland may list a secondary output before the primary one.
+        set monitor (hyprctl monitors -j 2>/dev/null | jq -r \
+            --argjson cursor_x "$cursor[1]" \
+            --argjson cursor_y "$cursor[2]" \
+            '.[] | select(
+                ($cursor_x >= .x) and
+                ($cursor_x < (.x + (.width / .scale))) and
+                ($cursor_y >= .y) and
+                ($cursor_y < (.y + (.height / .scale)))
+            ) | [.x, .y, .width, .height, .scale] | @tsv' | string split \t)
+    end
+
+    if test (count $cursor) -ne 2; or test (count $monitor) -ne 5; or not command pgrep -x waybar >/dev/null
         set visible true
         sleep 0.1
         continue
     end
 
-    set -l x $cursor[1]
-    set -l y $cursor[2]
-    set -l width (math "$monitor[1] / $monitor[3]")
-    set -l height (math "$monitor[2] / $monitor[3]")
+    set -l x (math "$cursor[1] - $monitor[1]")
+    set -l y (math "$cursor[2] - $monitor[2]")
+    set -l width (math "$monitor[3] / $monitor[5]")
+    set -l height (math "$monitor[4] / $monitor[5]")
     set -l at_reveal_edge 0
     set -l in_safe_zone 0
 

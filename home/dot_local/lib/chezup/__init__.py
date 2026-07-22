@@ -84,6 +84,10 @@ def show_diff(path: Path, before: str, after: str) -> None:
 
 
 def stage_label(repo: Path, verb: str, icon: str, subject: str, note: str | None = None) -> None:
+    if note:
+        note = note.strip()
+        if note.startswith("(") and note.endswith(")"):
+            note = note[1:-1]
     helper = repo / "home/.chezmoihelpers/status.fish"
     fish = shutil.which("fish")
     if fish and helper.is_file() and sys.stdout.isatty():
@@ -102,8 +106,13 @@ def stage_label(repo: Path, verb: str, icon: str, subject: str, note: str | None
         )
         if result.returncode == 0:
             return
-    suffix = f" {note}" if note else ""
-    print(f"{verb:<7} {icon} {subject}{suffix}")
+    if note:
+        prefix_length = 10
+        note_column = 72
+        padding = max(2, note_column - prefix_length - len(subject) - len(note))
+        print(f"{verb:<7} {icon} {subject}{' ' * padding}{note}")
+    else:
+        print(f"{verb:<7} {icon} {subject}")
 
 
 def stage_result(repo: Path, verb: str, subject: str, note: str | None = None) -> None:
@@ -184,9 +193,12 @@ def run_checks(repo: Path) -> None:
         ("FNM", shutil.which("fnm") is not None),
         ("Herdr", shutil.which("herdr") is not None),
     ]
+    optional_checks = {"Bitwarden Access Token", "Chezmoi Decryption Key"}
     for subject, available in checks:
         if available:
             stage_result(repo, "CHECK", subject)
+        elif subject in optional_checks:
+            stage_skip_ok(repo, subject)
         else:
             stage_skip(repo, subject)
 
@@ -222,7 +234,7 @@ def git_dirty_paths(repo: Path) -> list[str]:
 
 def warn_dirty_files(status_repo: Path, repo: Path, label: str) -> None:
     for path in git_dirty_paths(repo):
-        stage_label(status_repo, "WARN", "!", f"{label}: {path} (left untouched)")
+        stage_label(status_repo, "WARN", "!", f"{label}: {path}", "left untouched")
 
 
 def changed_line_count(before: str, after: str) -> int:
@@ -242,7 +254,7 @@ def pull_dotfiles(repo: Path) -> None:
         raise
     after = git_ref(repo, "@{u}")
     changes = git_changed_file_count(repo, before, after)
-    note = f"({changes:02d} changes)" if changes else "(no changes)"
+    note = f"{changes:02d} changes" if changes else "no changes"
     stage_result(repo, "PULL", "Chezmoi", note)
 
 
@@ -298,7 +310,7 @@ def chezmoi_config_needs_init(repo: Path) -> bool:
 def push_committed_chezetc(status_repo: Path) -> None:
     ahead = git_ahead_count(CHEZETC_REPO)
     if not ahead:
-        stage_skip_ok(status_repo, "Chezetc", "(no local commits)")
+        stage_skip_ok(status_repo, "Chezetc", "no local commits")
         return
     run_stage(status_repo, "PUSH", "Chezetc", ["git", "push"], CHEZETC_REPO)
 
@@ -351,9 +363,9 @@ def main() -> int:
         for propagator in propagators:
             if propagator.name in changed_names:
                 changes = sync_changes[propagator.name]
-                stage_result(repo, "SYNC", propagator.name.capitalize(), f"({changes:02d} changes)")
+                stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes:02d} changes")
             elif not args.quiet:
-                stage_skip_ok(repo, propagator.name.capitalize(), "(no changes)")
+                stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
         print("dry-run complete")
         return 0
 
@@ -361,23 +373,23 @@ def main() -> int:
         for propagator in propagators:
             if propagator.name in changed_names:
                 changes = sync_changes[propagator.name]
-                stage_result(repo, "SYNC", propagator.name.capitalize(), f"({changes:02d} changes)")
+                stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes:02d} changes")
             else:
-                stage_skip_ok(repo, propagator.name.capitalize(), "(no changes)")
+                stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
         section("Git")
 
     pull_dotfiles(repo)
     changed_names = changed_propagator_names(repo, propagators)
     if changed_names:
-        stage_skip(repo, "Templates", "(local changes not committed)")
+        stage_skip(repo, "Templates", "local changes not committed")
     else:
-        stage_skip_ok(repo, "Templates", "(no changes)")
+        stage_skip_ok(repo, "Templates", "no changes")
     warn_dirty_files(repo, repo, "Dirty file")
     ahead = git_ahead_count(repo)
     if ahead:
         run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo)
     else:
-        stage_skip_ok(repo, "Dotfiles", "(no changes)")
+        stage_skip_ok(repo, "Dotfiles", "no changes")
     if chezmoi_config_needs_init(repo):
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
         return 0

@@ -18,6 +18,7 @@ from chezup.core import Propagator, UpdateError
 
 COMMIT_MESSAGE = "fix: latest zed and herdr"
 CHEZETC_REPO = Path.home() / ".local/share/chezetc"
+GUM = shutil.which("gum")
 
 
 def run(
@@ -82,34 +83,35 @@ def show_diff(path: Path, before: str, after: str) -> None:
     )
 
 
-def stage_label(repo: Path, verb: str, icon: str, subject: str) -> None:
+def stage_label(repo: Path, verb: str, icon: str, subject: str, note: str | None = None) -> None:
     helper = repo / "home/.chezmoihelpers/status.fish"
     fish = shutil.which("fish")
     if fish and helper.is_file() and sys.stdout.isatty():
+        function = "__stage_label_note" if note else "__stage_label"
+        arguments = [verb, icon, subject] + ([note] if note else [])
         result = subprocess.run(
             [
                 fish,
                 "-c",
-                'source $argv[1]; __stage_label $argv[2] $argv[3] $argv[4]',
+                f"source $argv[1]; {function} $argv[2] $argv[3] $argv[4]" + (" $argv[5]" if note else ""),
                 "--",
                 str(helper),
-                verb,
-                icon,
-                subject,
+                *arguments,
             ],
             check=False,
         )
         if result.returncode == 0:
             return
-    print(f"{verb:<7} {icon} {subject}")
+    suffix = f" {note}" if note else ""
+    print(f"{verb:<7} {icon} {subject}{suffix}")
 
 
-def stage_result(repo: Path, verb: str, subject: str) -> None:
-    stage_label(repo, verb, "✓", subject)
+def stage_result(repo: Path, verb: str, subject: str, note: str | None = None) -> None:
+    stage_label(repo, verb, "✓", subject, note)
 
 
-def stage_skip(repo: Path, subject: str) -> None:
-    stage_label(repo, "SKIP", "-", subject)
+def stage_skip(repo: Path, subject: str, note: str | None = None) -> None:
+    stage_label(repo, "SKIP", "-", subject, note)
 
 
 def run_stage(repo: Path, verb: str, subject: str, command: list[str], cwd: Path) -> None:
@@ -119,6 +121,15 @@ def run_stage(repo: Path, verb: str, subject: str, command: list[str], cwd: Path
         stage_label(repo, "FAILED", "✗", subject)
         raise
     stage_result(repo, verb, subject)
+
+
+def section(title: str) -> None:
+    print()
+    if GUM and sys.stdout.isatty():
+        run([GUM, "style", "--foreground", "14", "--bold", title])
+    else:
+        print(title)
+    print()
 
 
 def run_stream(command: list[str], cwd: Path, *, env: dict[str, str] | None = None) -> None:
@@ -152,6 +163,45 @@ def run_checks(repo: Path) -> None:
             stage_skip(repo, subject)
 
 
+def git_ref(repo: Path, ref: str) -> str | None:
+    result = subprocess.run(["git", "rev-parse", "--verify", ref], cwd=repo, text=True, capture_output=True, check=False)
+    if result.returncode:
+        return None
+    return result.stdout.strip()
+
+
+def git_changed_file_count(repo: Path, before: str | None, after: str | None) -> int:
+    if not before or not after or before == after:
+        return 0
+    result = subprocess.run(["git", "diff", "--name-only", before, after], cwd=repo, text=True, capture_output=True, check=False)
+    if result.returncode:
+        return 0
+    return len({line for line in result.stdout.splitlines() if line})
+
+
+def pull_dotfiles(repo: Path) -> None:
+    before = git_ref(repo, "@{u}")
+    try:
+        run(["git", "pull", "--rebase", "--autostash"], repo, capture_output=True)
+    except UpdateError:
+        stage_label(repo, "FAILED", "✗", "Chezmoi")
+        raise
+    after = git_ref(repo, "@{u}")
+    changes = git_changed_file_count(repo, before, after)
+    stage_result(repo, "PULL", "Chezmoi", f"({changes:02d} changes)")
+
+
+def changed_propagator_names(repo: Path, propagators: list[Propagator]) -> list[str]:
+    paths = [str(propagator.source) for propagator in propagators]
+    result = subprocess.run(["git", "diff", "--name-only", "HEAD", "--", *paths], cwd=repo, text=True, capture_output=True, check=False)
+    changed_paths = set(result.stdout.splitlines()) if result.returncode == 0 else set()
+    return [propagator.name for propagator in propagators if str(propagator.source) in changed_paths]
+
+
+def propagator_subject(names: list[str]) -> str:
+    return " / ".join(name.capitalize() for name in names)
+
+
 def update_chezetc(status_repo: Path) -> None:
     if not (CHEZETC_REPO / ".git").is_dir():
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
@@ -169,7 +219,9 @@ def main() -> int:
     repo = find_repo()
     if not args.quiet:
         print_header(repo)
+        section("Prerequisites")
         run_checks(repo)
+        section("Template Sync")
     propagators = discover_propagators()
     resolved = [(propagator, repo / propagator.source, Path.home() / propagator.target) for propagator in propagators]
     for propagator, source, target in resolved:
@@ -196,24 +248,33 @@ def main() -> int:
                 source.write_text(after)
 
     if args.dry_run:
+        for propagator in propagators:
+            if propagator.name in changed_names:
+                stage_result(repo, "SYNC", propagator.name.capitalize())
+            elif not args.quiet:
+                stage_skip(repo, propagator.name.capitalize())
         print("dry-run complete")
         return 0
 
-    for propagator in propagators:
-        if propagator.name in changed_names:
-            stage_result(repo, "SYNC", propagator.name.capitalize())
-        elif not args.quiet:
-            stage_skip(repo, propagator.name.capitalize())
+    if not args.quiet:
+        for propagator in propagators:
+            if propagator.name in changed_names:
+                stage_result(repo, "SYNC", propagator.name.capitalize())
+            else:
+                stage_skip(repo, propagator.name.capitalize())
+        section("Git")
 
-    run_stage(repo, "UPDATE", "Chezmoi", ["git", "pull", "--rebase", "--autostash"], repo)
+    pull_dotfiles(repo)
     source_paths = [str(propagator.source) for propagator in propagators]
-    has_changes = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", *source_paths], cwd=repo, check=False).returncode != 0
+    changed_names = changed_propagator_names(repo, propagators)
+    has_changes = bool(changed_names)
+    subject = propagator_subject(changed_names or [propagator.name for propagator in propagators])
     if has_changes:
-        run_stage(repo, "COMMIT", "Templates", ["git", "commit", "--only", "-m", COMMIT_MESSAGE, "--", *source_paths], repo)
+        run_stage(repo, "COMMIT", subject, ["git", "commit", "--only", "-m", COMMIT_MESSAGE, "--", *source_paths], repo)
         run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo)
     else:
-        stage_skip(repo, "Templates")
-        stage_skip(repo, "Dotfiles")
+        stage_skip(repo, subject, "(no changes)")
+        stage_skip(repo, "Dotfiles", "(no changes)")
     if changed_names:
         auto_targets = [
             str(Path.home() / propagator.target)
@@ -230,6 +291,8 @@ def main() -> int:
         repo,
         env={**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
     )
+    if not args.quiet:
+        section("Chezetc")
     update_chezetc(repo)
     return 0
 

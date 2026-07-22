@@ -47,7 +47,8 @@ class HerdrPropagator(Propagator):
     def propagate(self, source_path: Path, target_path: Path, output_path: Path) -> None:
         source_text = source_path.read_text()
         source = json.loads(source_text)
-        target = load_jsonc(target_path)
+        target_text = target_path.read_text()
+        target = json.loads(target_text)
 
         actions = [action.group(0) for action in TEMPLATE_ACTION.finditer(source_text)]
         control_actions = [action for action in actions if re.search(r"\b(if|else|end|range|with)\b", action)]
@@ -57,7 +58,10 @@ class HerdrPropagator(Propagator):
         home_action = next(iter(HOME_ACTION.finditer(source_text)), None)
         expression = home_action.group(0) if home_action else "{{ .chezmoi.homeDir }}"
         updated = preserve_template_strings(target, source, str(Path.home()), expression)
-        output_path.write_text(json.dumps(updated, indent=2, ensure_ascii=False) + "\n")
+        serialized = json.dumps(updated, indent=2, ensure_ascii=False)
+        if target_text.endswith("\n"):
+            serialized += "\n"
+        output_path.write_text(serialized)
 
 
 PROPAGATOR = HerdrPropagator()

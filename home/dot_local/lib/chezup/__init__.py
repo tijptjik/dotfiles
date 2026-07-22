@@ -197,7 +197,8 @@ def pull_dotfiles(repo: Path) -> None:
         raise
     after = git_ref(repo, "@{u}")
     changes = git_changed_file_count(repo, before, after)
-    stage_result(repo, "PULL", "Chezmoi", f"({changes:02d} changes)")
+    note = f"({changes:02d} changes)" if changes else "(no changes)"
+    stage_result(repo, "PULL", "Chezmoi", note)
 
 
 def changed_propagator_names(repo: Path, propagators: list[Propagator]) -> list[str]:

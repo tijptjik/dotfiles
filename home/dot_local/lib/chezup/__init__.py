@@ -127,13 +127,20 @@ def stage_skip_ok(repo: Path, subject: str, note: str | None = None) -> None:
     stage_label(repo, "SKIP", "✓", subject, note)
 
 
-def run_stage(repo: Path, verb: str, subject: str, command: list[str], cwd: Path) -> None:
+def run_stage(
+    repo: Path,
+    verb: str,
+    subject: str,
+    command: list[str],
+    cwd: Path,
+    note: str | None = None,
+) -> None:
     try:
         run(command, cwd, capture_output=True)
     except UpdateError:
         stage_label(repo, "FAILED", "✗", subject)
         raise
-    stage_result(repo, verb, subject)
+    stage_result(repo, verb, subject, note)
 
 
 def section(title: str, *, leading: bool = True) -> None:
@@ -320,7 +327,7 @@ def push_committed_chezetc(status_repo: Path) -> None:
     if not ahead:
         stage_skip_ok(status_repo, "Chezetc", "no local commits")
         return
-    run_stage(status_repo, "PUSH", "Chezetc", ["git", "push"], CHEZETC_REPO)
+    run_stage(status_repo, "PUSH", "Chezetc", ["git", "push"], CHEZETC_REPO, "pushed")
 
 
 def apply_chezetc() -> None:
@@ -395,7 +402,7 @@ def main() -> int:
     warn_dirty_files(repo, repo)
     ahead = git_ahead_count(repo)
     if ahead:
-        run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo)
+        run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo, "pushed")
     else:
         stage_skip_ok(repo, "Dotfiles", "no changes")
     if chezmoi_config_needs_init(repo):

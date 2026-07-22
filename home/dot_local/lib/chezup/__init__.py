@@ -207,11 +207,14 @@ def changed_propagator_names(repo: Path, propagators: list[Propagator]) -> list[
     return [propagator.name for propagator in propagators if str(propagator.source) in changed_paths]
 
 
-def update_chezetc(status_repo: Path) -> None:
+def pull_chezetc() -> None:
     if not (CHEZETC_REPO / ".git").is_dir():
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
+    run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO, capture_output=True)
+
+
+def apply_chezetc() -> None:
     chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
-    run_stage(status_repo, "UPDATE", "Chezetc", ["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO)
     run_stream([chezetc, "apply"], CHEZETC_REPO)
 
 
@@ -299,9 +302,8 @@ def main() -> int:
         repo,
         env={**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
     )
-    if not args.quiet:
-        section("Chezetc")
-    update_chezetc(repo)
+    pull_chezetc()
+    apply_chezetc()
     return 0
 
 

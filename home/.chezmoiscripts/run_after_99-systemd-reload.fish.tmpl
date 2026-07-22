@@ -4,6 +4,11 @@
 # It ensures that systemd user services and timers are reloaded and enabled.
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
+if command -q gum; and isatty stdout
+    gum style --foreground 14 --bold "Systemd User Units"
+else
+    echo "Systemd User Units"
+end
 echo
 
 function configure_common_user_units
@@ -11,7 +16,7 @@ function configure_common_user_units
     systemctl --user enable --now backup-packages.timer
 end
 
-stage "Systemd User Units [Common]" CONFIG "Systemd User Units [Common]" configure_common_user_units
+stage "Systemd User Units [Common]" CONFIG "Common Units" configure_common_user_units
 
 {{ if .isClient -}}
 
@@ -23,7 +28,7 @@ function configure_client_user_units
     end
 end
 
-stage "Systemd User Units [Clients]" CONFIG "Systemd User Units [Clients]" configure_client_user_units $client_services
+stage "Systemd User Units [Clients]" CONFIG "Clients Units" configure_client_user_units $client_services
 
 # This unit is deliberately enabled without --now: starting it during a
 # chezmoi apply would lock the currently active graphical session.  systemd
@@ -32,6 +37,6 @@ function configure_hyprlock_login_unit
     systemctl --user enable hyprlock-login.service
 end
 
-stage "Systemd User Unit [Hyprlock Login]" CONFIG "Systemd User Unit [Hyprlock Login]" configure_hyprlock_login_unit
+stage "Systemd User Unit [Hyprlock Login]" CONFIG "Hyprlock Login" configure_hyprlock_login_unit
 
 {{- end }}

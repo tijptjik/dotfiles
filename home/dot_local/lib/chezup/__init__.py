@@ -13,24 +13,29 @@ import sys
 import tempfile
 from pathlib import Path
 
-from chezupdate.core import Propagator, UpdateError
+from chezup.core import Propagator, UpdateError
 
 
 COMMIT_MESSAGE = "fix: latest zed and herdr"
 CHEZETC_REPO = Path.home() / ".local/share/chezetc"
+GUM = shutil.which("gum")
 
 
-def run(command: list[str], cwd: Path | None = None) -> None:
+def run(command: list[str], cwd: Path | None = None, *, capture_output: bool = False) -> None:
     try:
-        result = subprocess.run(command, cwd=cwd, text=True, check=False)
+        result = subprocess.run(command, cwd=cwd, text=True, capture_output=capture_output, check=False)
     except OSError as error:
         raise UpdateError(f"could not run {' '.join(command)}: {error}") from error
     if result.returncode:
+        if capture_output:
+            output = (result.stdout or "") + (result.stderr or "")
+            if output:
+                print(output, file=sys.stderr, end="")
         raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
 
 
 def discover_propagators() -> list[Propagator]:
-    package_name = "chezupdate.propagators"
+    package_name = "chezup.propagators"
     package = importlib.import_module(package_name)
     propagators: list[Propagator] = []
     for module_info in sorted(pkgutil.iter_modules(package.__path__), key=lambda item: item.name):
@@ -47,7 +52,7 @@ def discover_propagators() -> list[Propagator]:
 
 
 def find_repo() -> Path:
-    configured = os.environ.get("CHEZUPDATE_REPO")
+    configured = os.environ.get("CHEZUP_REPO") or os.environ.get("CHEZUPDATE_REPO")
     if configured:
         return Path(configured).expanduser().resolve()
     fallback = Path.home() / ".local/share/chezmoi"
@@ -72,12 +77,29 @@ def show_diff(path: Path, before: str, after: str) -> None:
     )
 
 
+def report(message: str) -> None:
+    if GUM and sys.stdout.isatty():
+        run([GUM, "style", "--foreground", "42", "--bold", message])
+    else:
+        print(message)
+
+
+def run_step(title: str, command: list[str], cwd: Path) -> None:
+    if GUM and sys.stdout.isatty():
+        run([GUM, "spin", "--show-error", "--title", title, "--", *command], cwd)
+        report(f"OK   {title}")
+    else:
+        report(f"RUN  {title}")
+        run(command, cwd, capture_output=True)
+        report(f"OK   {title}")
+
+
 def update_chezetc() -> None:
     if not (CHEZETC_REPO / ".git").is_dir():
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
     chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
-    run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO)
-    run([chezetc, "apply"], CHEZETC_REPO)
+    run_step("Rebasing chezetc", ["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO)
+    run_step("Applying chezetc", [chezetc, "apply"], CHEZETC_REPO)
 
 
 def main() -> int:
@@ -95,18 +117,20 @@ def main() -> int:
         if not target.is_file():
             raise UpdateError(f"{propagator.name}: missing live config: {target}")
 
-    with tempfile.TemporaryDirectory(prefix="chezupdate-") as temp_dir:
+    with tempfile.TemporaryDirectory(prefix="chezup-") as temp_dir:
         temp = Path(temp_dir)
+        changed_names: list[str] = []
         for propagator, source, target in resolved:
             before = source.read_text()
             output = temp / f"{propagator.name}.template"
             propagator.propagate(source, target, output)
             after = output.read_text()
             if before != after:
-                if not args.quiet:
+                changed_names.append(propagator.name)
+                if args.dry_run and not args.quiet:
                     show_diff(source, before, after)
-            elif not args.quiet:
-                print(f"unchanged: {source}")
+            elif args.dry_run and not args.quiet:
+                print(f"unchanged: {propagator.name}")
             if not args.dry_run:
                 source.write_text(after)
 
@@ -114,15 +138,20 @@ def main() -> int:
         print("dry-run complete")
         return 0
 
-    run(["git", "pull", "--rebase", "--autostash"], repo)
+    if changed_names and not args.quiet:
+        report("Updated templates: " + ", ".join(changed_names))
+    elif not args.quiet:
+        report("Templates already current")
+
+    run_step("Rebasing dotfiles", ["git", "pull", "--rebase", "--autostash"], repo)
     source_paths = [str(propagator.source) for propagator in propagators]
     has_changes = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", *source_paths], cwd=repo, check=False).returncode != 0
     if has_changes:
-        run(["git", "commit", "--only", "-m", COMMIT_MESSAGE, "--", *source_paths], repo)
+        run_step("Committing dotfiles", ["git", "commit", "--only", "-m", COMMIT_MESSAGE, "--", *source_paths], repo)
     elif not args.quiet:
-        print("no propagator changes to commit")
-    run(["git", "push"], repo)
-    run(["chezmoi", "apply"], repo)
+        report("No propagator changes to commit")
+    run_step("Pushing dotfiles", ["git", "push"], repo)
+    run_step("Applying chezmoi", ["chezmoi", "apply"], repo)
     update_chezetc()
     return 0
 
@@ -131,5 +160,5 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except UpdateError as error:
-        print(f"chezupdate: {error}", file=sys.stderr)
+        print(f"chezup: {error}", file=sys.stderr)
         raise SystemExit(1)

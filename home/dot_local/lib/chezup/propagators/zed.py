@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from chezupdate.core import (
+from chezup.core import (
     TEMPLATE_ACTION,
     JsonSpanParser,
     Propagator,

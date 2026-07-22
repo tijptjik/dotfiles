@@ -4,6 +4,10 @@ function __stage_color --argument-names verb
             echo 10
         case SYNC
             echo 12
+        case PULL
+            echo 14
+        case REMOVE
+            echo 9
         case CONFIG
             echo 14
         case CHECK
@@ -17,6 +21,18 @@ function __stage_color --argument-names verb
     end
 end
 
+function __stage_styled_subject --argument-names subject
+    set -l qualifier (string match -r -o '\[[^]]+\]$' -- "$subject")
+    if test (count $qualifier) -gt 0
+        set -l base (string replace -- "$qualifier" "" "$subject" | string trim)
+        set -l styled_base (gum style --foreground 15 "$base")
+        set -l styled_qualifier (gum style --foreground 8 "$qualifier")
+        printf "%s %s" "$styled_base" "$styled_qualifier"
+    else
+        gum style --foreground 15 "$subject"
+    end
+end
+
 function __stage_label --argument-names stage_name icon subject
     set -l color (__stage_color "$stage_name")
     set -l padded_stage (printf "%-7s" "$stage_name")
@@ -25,7 +41,7 @@ function __stage_label --argument-names stage_name icon subject
         set -l styled_stage (gum style --foreground $color --bold "$padded_stage")
         set -l styled_icon (gum style --foreground 10 "$icon")
         printf "%s %s " "$styled_stage" "$styled_icon"
-        gum style --foreground 15 "$subject"
+        __stage_styled_subject "$subject"
     else
         echo "$padded_stage $icon $subject"
     end
@@ -38,7 +54,7 @@ function __stage_label_note --argument-names stage_name icon subject note
     if command -v gum >/dev/null 2>&1; and isatty stdout
         set -l styled_stage (gum style --foreground $color --bold "$padded_stage")
         set -l styled_icon (gum style --foreground 10 "$icon")
-        set -l styled_subject (gum style --foreground 15 "$subject")
+        set -l styled_subject (__stage_styled_subject "$subject")
         set -l styled_note (gum style --foreground 8 "$note")
         printf "%s %s %s %s\n" "$styled_stage" "$styled_icon" "$styled_subject" "$styled_note"
     else
@@ -52,7 +68,7 @@ function __stage_spin_title --argument-names stage_name subject
 
     if command -v gum >/dev/null 2>&1; and isatty stdout
         set -l styled_stage (gum style --foreground $color --bold "$padded_stage")
-        set -l styled_subject (gum style --foreground 15 "$subject")
+        set -l styled_subject (__stage_styled_subject "$subject")
         printf "%s %s" "$styled_stage" "$styled_subject"
     else
         printf "%s ... %s" "$padded_stage" "$subject"

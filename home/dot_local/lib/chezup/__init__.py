@@ -18,6 +18,7 @@ from chezup.core import Propagator, UpdateError
 
 CHEZETC_REPO = Path.home() / ".local/share/chezetc"
 GUM = shutil.which("gum")
+CHEZMOI_CONFIG_WARNING = "chezmoi: warning: config file template has changed, run chezmoi init to regenerate config file"
 
 
 def run(
@@ -113,6 +114,10 @@ def stage_skip(repo: Path, subject: str, note: str | None = None) -> None:
     stage_label(repo, "SKIP", "-", subject, note)
 
 
+def stage_skip_ok(repo: Path, subject: str, note: str | None = None) -> None:
+    stage_label(repo, "SKIP", "✓", subject, note)
+
+
 def run_stage(repo: Path, verb: str, subject: str, command: list[str], cwd: Path) -> None:
     try:
         run(command, cwd, capture_output=True)
@@ -139,6 +144,29 @@ def run_stream(command: list[str], cwd: Path, *, env: dict[str, str] | None = No
         raise UpdateError(f"could not run {' '.join(command)}: {error}") from error
     if result.returncode:
         raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
+
+
+def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bool:
+    try:
+        result = subprocess.run(command, cwd=repo, env=env, text=True, capture_output=True, check=False)
+    except OSError as error:
+        raise UpdateError(f"could not run {' '.join(command)}: {error}") from error
+
+    output = (result.stdout or "") + (result.stderr or "")
+    if CHEZMOI_CONFIG_WARNING in output:
+        remaining = output.replace(CHEZMOI_CONFIG_WARNING, "").strip()
+        if remaining:
+            print(remaining)
+        stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
+        return False
+
+    if result.stdout:
+        sys.stdout.write(result.stdout)
+    if result.stderr:
+        sys.stderr.write(result.stderr)
+    if result.returncode:
+        raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
+    return True
 
 
 def print_header(repo: Path) -> None:
@@ -247,10 +275,30 @@ def git_ahead_count(repo: Path) -> int | None:
         return None
 
 
+def chezmoi_config_needs_init(repo: Path) -> bool:
+    source = repo / "home/.chezmoi.toml.tmpl"
+    config_root = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
+    target = config_root / "chezmoi/chezmoi.toml"
+    if not source.is_file() or not target.is_file():
+        return False
+    try:
+        result = subprocess.run(
+            ["chezmoi", "execute-template"],
+            cwd=repo,
+            input=source.read_text(),
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    except OSError:
+        return False
+    return result.returncode == 0 and result.stdout != target.read_text()
+
+
 def push_committed_chezetc(status_repo: Path) -> None:
     ahead = git_ahead_count(CHEZETC_REPO)
     if not ahead:
-        stage_skip(status_repo, "Chezetc", "(no local commits)")
+        stage_skip_ok(status_repo, "Chezetc", "(no local commits)")
         return
     run_stage(status_repo, "PUSH", "Chezetc", ["git", "push"], CHEZETC_REPO)
 
@@ -305,7 +353,7 @@ def main() -> int:
                 changes = sync_changes[propagator.name]
                 stage_result(repo, "SYNC", propagator.name.capitalize(), f"({changes:02d} changes)")
             elif not args.quiet:
-                stage_skip(repo, propagator.name.capitalize(), "(no changes)")
+                stage_skip_ok(repo, propagator.name.capitalize(), "(no changes)")
         print("dry-run complete")
         return 0
 
@@ -315,7 +363,7 @@ def main() -> int:
                 changes = sync_changes[propagator.name]
                 stage_result(repo, "SYNC", propagator.name.capitalize(), f"({changes:02d} changes)")
             else:
-                stage_skip(repo, propagator.name.capitalize(), "(no changes)")
+                stage_skip_ok(repo, propagator.name.capitalize(), "(no changes)")
         section("Git")
 
     pull_dotfiles(repo)
@@ -323,29 +371,34 @@ def main() -> int:
     if changed_names:
         stage_skip(repo, "Templates", "(local changes not committed)")
     else:
-        stage_skip(repo, "Templates", "(no changes)")
+        stage_skip_ok(repo, "Templates", "(no changes)")
     warn_dirty_files(repo, repo, "Dirty file")
     ahead = git_ahead_count(repo)
     if ahead:
         run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo)
     else:
-        stage_skip(repo, "Dotfiles", "(no changes)")
+        stage_skip_ok(repo, "Dotfiles", "(no changes)")
+    if chezmoi_config_needs_init(repo):
+        stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
+        return 0
     if changed_names:
         auto_targets = [
             str(Path.home() / propagator.target)
             for propagator in propagators
             if propagator.name in changed_names
         ]
-        run_stream(
-            ["chezmoi", "apply", "--force", *auto_targets],
+        if not run_chezmoi_apply(
             repo,
-            env={**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
-        )
-    run_stream(
-        ["chezmoi", "apply"],
+            ["chezmoi", "apply", "--force", *auto_targets],
+            {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
+        ):
+            return 0
+    if not run_chezmoi_apply(
         repo,
-        env={**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
-    )
+        ["chezmoi", "apply"],
+        {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
+    ):
+        return 0
     pull_chezetc()
     push_committed_chezetc(repo)
     apply_chezetc()

@@ -214,6 +214,30 @@ def pull_chezetc() -> None:
     run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO, capture_output=True)
 
 
+def git_ahead_count(repo: Path) -> int | None:
+    result = subprocess.run(
+        ["git", "rev-list", "--count", "@{u}..HEAD"],
+        cwd=repo,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode:
+        return None
+    try:
+        return int(result.stdout.strip())
+    except ValueError:
+        return None
+
+
+def push_committed_chezetc(status_repo: Path) -> None:
+    ahead = git_ahead_count(CHEZETC_REPO)
+    if not ahead:
+        stage_skip(status_repo, "Chezetc", "(no local commits)")
+        return
+    run_stage(status_repo, "PUSH", "Chezetc", ["git", "push"], CHEZETC_REPO)
+
+
 def apply_chezetc() -> None:
     chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
     run_stream([chezetc, "apply"], CHEZETC_REPO)
@@ -304,6 +328,7 @@ def main() -> int:
         env={**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
     )
     pull_chezetc()
+    push_committed_chezetc(repo)
     apply_chezetc()
     return 0
 

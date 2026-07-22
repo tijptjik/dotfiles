@@ -93,12 +93,13 @@ function __stage_failure --argument-names message
     __stage_label FAILED "✗" "$message"
 end
 
-function stage
+function __stage_run
     set -l title $argv[1]
     set -l stage_name $argv[2]
     set -l subject $argv[3]
-    set -l command $argv[4]
-    set -l args $argv[5..-1]
+    set -l note $argv[4]
+    set -l command $argv[5]
+    set -l args $argv[6..-1]
     set -l log_file (mktemp)
     set -l status_file (mktemp)
 
@@ -118,7 +119,11 @@ function stage
     set -l code (cat $status_file)
 
     if test "$code" -eq 0
-        __stage_result "$stage_name" "$subject"
+        if test -n "$note"
+            __stage_label_note "$stage_name" "✓" "$subject" "$note"
+        else
+            __stage_result "$stage_name" "$subject"
+        end
     else
         __stage_failure "$title"
         cat $log_file
@@ -127,6 +132,14 @@ function stage
     end
 
     rm -f $log_file $status_file
+end
+
+function stage
+    __stage_run $argv[1] $argv[2] $argv[3] "" $argv[4..-1]
+end
+
+function stage_note
+    __stage_run $argv[1] $argv[2] $argv[3] $argv[4] $argv[5..-1]
 end
 
 function interactive_stage

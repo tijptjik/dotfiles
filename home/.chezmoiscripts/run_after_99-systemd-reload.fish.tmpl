@@ -16,7 +16,7 @@ function configure_common_user_units
     systemctl --user enable --now backup-packages.timer
 end
 
-stage "Systemd User Units [Common]" CONFIG "Common Units" configure_common_user_units
+stage_note "Systemd User Units [Common]" CONFIG "Common Units" configured configure_common_user_units
 
 {{ if .isClient -}}
 
@@ -28,7 +28,7 @@ function configure_client_user_units
     end
 end
 
-stage "Systemd User Units [Clients]" CONFIG "Clients Units" configure_client_user_units $client_services
+stage_note "Systemd User Units [Clients]" CONFIG "Clients Units" configured configure_client_user_units $client_services
 
 # This unit is deliberately enabled without --now: starting it during a
 # chezmoi apply would lock the currently active graphical session.  systemd
@@ -37,6 +37,6 @@ function configure_hyprlock_login_unit
     systemctl --user enable hyprlock-login.service
 end
 
-stage "Systemd User Unit [Hyprlock Login]" CONFIG "Hyprlock Login" configure_hyprlock_login_unit
+stage_note "Systemd User Unit [Hyprlock Login]" CONFIG "Hyprlock Login" configured configure_hyprlock_login_unit
 
 {{- end }}

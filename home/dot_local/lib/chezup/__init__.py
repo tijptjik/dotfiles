@@ -156,6 +156,10 @@ def run_stream(command: list[str], cwd: Path, *, env: dict[str, str] | None = No
 
 
 def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bool:
+    if sys.stdout.isatty():
+        run_stream(command, repo, env=env)
+        return True
+
     try:
         result = subprocess.run(command, cwd=repo, env=env, text=True, capture_output=True, check=False)
     except OSError as error:
@@ -196,9 +200,9 @@ def run_checks(repo: Path) -> None:
     optional_checks = {"Bitwarden Access Token", "Chezmoi Decryption Key"}
     for subject, available in checks:
         if available:
-            stage_result(repo, "CHECK", subject)
+            stage_result(repo, "CHECK", subject, "available")
         elif subject in optional_checks:
-            stage_skip_ok(repo, subject)
+            stage_skip_ok(repo, subject, "not configured")
         else:
             stage_skip(repo, subject)
 
@@ -232,9 +236,10 @@ def git_dirty_paths(repo: Path) -> list[str]:
     return [line[3:] for line in result.stdout.splitlines() if len(line) >= 4]
 
 
-def warn_dirty_files(status_repo: Path, repo: Path, label: str) -> None:
-    for path in git_dirty_paths(repo):
-        stage_label(status_repo, "WARN", "!", f"{label}: {path}", "left untouched")
+def warn_dirty_files(status_repo: Path, repo: Path) -> None:
+    paths = git_dirty_paths(repo)
+    if paths:
+        stage_label(status_repo, "WARN", "!", f"{len(paths)} Dirty Files", "unchanged")
 
 
 def changed_line_count(before: str, after: str) -> int:
@@ -246,15 +251,14 @@ def changed_line_count(before: str, after: str) -> int:
 
 
 def pull_dotfiles(repo: Path) -> None:
-    before = git_ref(repo, "@{u}")
+    before = git_ref(repo, "HEAD")
     try:
         run(["git", "pull", "--rebase", "--autostash"], repo, capture_output=True)
     except UpdateError:
         stage_label(repo, "FAILED", "✗", "Chezmoi")
         raise
-    after = git_ref(repo, "@{u}")
-    changes = git_changed_file_count(repo, before, after)
-    note = f"{changes:02d} changes" if changes else "no changes"
+    after = git_ref(repo, "HEAD")
+    note = "rebases" if before and after and before != after else "no changes"
     stage_result(repo, "PULL", "Chezmoi", note)
 
 
@@ -265,10 +269,14 @@ def changed_propagator_names(repo: Path, propagators: list[Propagator]) -> list[
     return [propagator.name for propagator in propagators if str(propagator.source) in changed_paths]
 
 
-def pull_chezetc() -> None:
+def pull_chezetc(status_repo: Path) -> None:
     if not (CHEZETC_REPO / ".git").is_dir():
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
+    before = git_ref(CHEZETC_REPO, "HEAD")
     run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO, capture_output=True)
+    after = git_ref(CHEZETC_REPO, "HEAD")
+    note = "rebases" if before and after and before != after else "no changes"
+    stage_result(status_repo, "PULL", "Chezetc", note)
 
 
 def git_ahead_count(repo: Path) -> int | None:
@@ -384,7 +392,7 @@ def main() -> int:
         stage_skip(repo, "Templates", "local changes not committed")
     else:
         stage_skip_ok(repo, "Templates", "no changes")
-    warn_dirty_files(repo, repo, "Dirty file")
+    warn_dirty_files(repo, repo)
     ahead = git_ahead_count(repo)
     if ahead:
         run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo)
@@ -411,7 +419,7 @@ def main() -> int:
         {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
     ):
         return 0
-    pull_chezetc()
+    pull_chezetc(repo)
     push_committed_chezetc(repo)
     apply_chezetc()
     return 0

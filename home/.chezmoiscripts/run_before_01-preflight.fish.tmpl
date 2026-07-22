@@ -7,17 +7,17 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 function check_command --argument-names subject command_name
     if command -v "$command_name" >/dev/null 2>&1
-        __stage_result CHECK "$subject"
+        __stage_label_note CHECK "✓" "$subject" "available"
     else
-        __stage_label SKIP "-" "$subject"
+        __stage_label_note SKIP "-" "$subject" "available"
     end
 end
 
 function check_file --argument-names subject path
     if test -f "$path"
-        __stage_result CHECK "$subject"
+        __stage_label_note CHECK "✓" "$subject" "available"
     else
-        __stage_label SKIP "✓" "$subject"
+        __stage_label_note SKIP "✓" "$subject" "not configured"
     end
 end
 

@@ -8,6 +8,7 @@ __stage_color() {
     CHECK) printf '13' ;;
     SKIP) printf '8' ;;
     FAILED) printf '9' ;;
+    WARN) printf '11' ;;
     *) printf '15' ;;
   esac
 }

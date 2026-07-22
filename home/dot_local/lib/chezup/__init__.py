@@ -16,7 +16,6 @@ from pathlib import Path
 from chezup.core import Propagator, UpdateError
 
 
-COMMIT_MESSAGE = "fix: latest zed and herdr"
 CHEZETC_REPO = Path.home() / ".local/share/chezetc"
 GUM = shutil.which("gum")
 
@@ -180,6 +179,24 @@ def git_changed_file_count(repo: Path, before: str | None, after: str | None) ->
     return len({line for line in result.stdout.splitlines() if line})
 
 
+def git_dirty_paths(repo: Path) -> list[str]:
+    result = subprocess.run(
+        ["git", "status", "--porcelain=v1", "--untracked-files=all"],
+        cwd=repo,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode:
+        return []
+    return [line[3:] for line in result.stdout.splitlines() if len(line) >= 4]
+
+
+def warn_dirty_files(status_repo: Path, repo: Path, label: str) -> None:
+    for path in git_dirty_paths(repo):
+        stage_label(status_repo, "WARN", "!", f"{label}: {path} (left untouched)")
+
+
 def changed_line_count(before: str, after: str) -> int:
     before_lines = before.splitlines()
     after_lines = after.splitlines()
@@ -302,14 +319,16 @@ def main() -> int:
         section("Git")
 
     pull_dotfiles(repo)
-    source_paths = [str(propagator.source) for propagator in propagators]
     changed_names = changed_propagator_names(repo, propagators)
-    has_changes = bool(changed_names)
-    if has_changes:
-        run_stage(repo, "COMMIT", "Templates", ["git", "commit", "--only", "-m", COMMIT_MESSAGE, "--", *source_paths], repo)
-        run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo)
+    if changed_names:
+        stage_skip(repo, "Templates", "(local changes not committed)")
     else:
         stage_skip(repo, "Templates", "(no changes)")
+    warn_dirty_files(repo, repo, "Dirty file")
+    ahead = git_ahead_count(repo)
+    if ahead:
+        run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo)
+    else:
         stage_skip(repo, "Dotfiles", "(no changes)")
     if changed_names:
         auto_targets = [

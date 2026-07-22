@@ -16,6 +16,8 @@ function __stage_color --argument-names verb
             echo 8
         case FAILED
             echo 9
+        case WARN
+            echo 11
         case '*'
             echo 15
     end

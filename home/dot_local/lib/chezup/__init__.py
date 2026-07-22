@@ -18,12 +18,17 @@ from chezup.core import Propagator, UpdateError
 
 COMMIT_MESSAGE = "fix: latest zed and herdr"
 CHEZETC_REPO = Path.home() / ".local/share/chezetc"
-GUM = shutil.which("gum")
 
 
-def run(command: list[str], cwd: Path | None = None, *, capture_output: bool = False) -> None:
+def run(
+    command: list[str],
+    cwd: Path | None = None,
+    *,
+    capture_output: bool = False,
+    env: dict[str, str] | None = None,
+) -> None:
     try:
-        result = subprocess.run(command, cwd=cwd, text=True, capture_output=capture_output, check=False)
+        result = subprocess.run(command, cwd=cwd, env=env, text=True, capture_output=capture_output, check=False)
     except OSError as error:
         raise UpdateError(f"could not run {' '.join(command)}: {error}") from error
     if result.returncode:
@@ -48,7 +53,7 @@ def discover_propagators() -> list[Propagator]:
         propagators.append(propagator)
     if not propagators:
         raise UpdateError("no propagators found")
-    return propagators
+    return sorted(propagators, key=lambda propagator: (getattr(propagator, "order", 100), propagator.name))
 
 
 def find_repo() -> Path:
@@ -77,29 +82,82 @@ def show_diff(path: Path, before: str, after: str) -> None:
     )
 
 
-def report(message: str) -> None:
-    if GUM and sys.stdout.isatty():
-        run([GUM, "style", "--foreground", "42", "--bold", message])
-    else:
-        print(message)
+def stage_label(repo: Path, verb: str, icon: str, subject: str) -> None:
+    helper = repo / "home/.chezmoihelpers/status.fish"
+    fish = shutil.which("fish")
+    if fish and helper.is_file() and sys.stdout.isatty():
+        result = subprocess.run(
+            [
+                fish,
+                "-c",
+                'source $argv[1]; __stage_label $argv[2] $argv[3] $argv[4]',
+                "--",
+                str(helper),
+                verb,
+                icon,
+                subject,
+            ],
+            check=False,
+        )
+        if result.returncode == 0:
+            return
+    print(f"{verb:<7} {icon} {subject}")
 
 
-def run_step(title: str, command: list[str], cwd: Path) -> None:
-    if GUM and sys.stdout.isatty():
-        run([GUM, "spin", "--show-error", "--title", title, "--", *command], cwd)
-        report(f"OK   {title}")
-    else:
-        report(f"RUN  {title}")
+def stage_result(repo: Path, verb: str, subject: str) -> None:
+    stage_label(repo, verb, "✓", subject)
+
+
+def stage_skip(repo: Path, subject: str) -> None:
+    stage_label(repo, "SKIP", "-", subject)
+
+
+def run_stage(repo: Path, verb: str, subject: str, command: list[str], cwd: Path) -> None:
+    try:
         run(command, cwd, capture_output=True)
-        report(f"OK   {title}")
+    except UpdateError:
+        stage_label(repo, "FAILED", "✗", subject)
+        raise
+    stage_result(repo, verb, subject)
 
 
-def update_chezetc() -> None:
+def run_stream(command: list[str], cwd: Path, *, env: dict[str, str] | None = None) -> None:
+    try:
+        result = subprocess.run(command, cwd=cwd, env=env, check=False)
+    except OSError as error:
+        raise UpdateError(f"could not run {' '.join(command)}: {error}") from error
+    if result.returncode:
+        raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
+
+
+def print_header(repo: Path) -> None:
+    run_stream(["bash", str(repo / "home/.chezmoiscripts/run_before_00-print-header.sh")], repo)
+
+
+def run_checks(repo: Path) -> None:
+    checks = [
+        ("Bitwarden Secrets Manager CLI", shutil.which("bws") is not None),
+        ("Bitwarden Access Token", (Path.home() / ".config/bws/environment").is_file()),
+        ("Chezmoi Decryption Key", (Path.home() / ".keys/chezmoi.txt").is_file()),
+        ("Gum", shutil.which("gum") is not None),
+        ("Fish", shutil.which("fish") is not None),
+        ("Bun", shutil.which("bun") is not None),
+        ("FNM", shutil.which("fnm") is not None),
+        ("Herdr", shutil.which("herdr") is not None),
+    ]
+    for subject, available in checks:
+        if available:
+            stage_result(repo, "CHECK", subject)
+        else:
+            stage_skip(repo, subject)
+
+
+def update_chezetc(status_repo: Path) -> None:
     if not (CHEZETC_REPO / ".git").is_dir():
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
     chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
-    run_step("Rebasing chezetc", ["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO)
-    run_step("Applying chezetc", [chezetc, "apply"], CHEZETC_REPO)
+    run_stage(status_repo, "UPDATE", "Chezetc", ["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO)
+    run_stream([chezetc, "apply"], CHEZETC_REPO)
 
 
 def main() -> int:
@@ -109,6 +167,9 @@ def main() -> int:
     args = arguments.parse_args()
 
     repo = find_repo()
+    if not args.quiet:
+        print_header(repo)
+        run_checks(repo)
     propagators = discover_propagators()
     resolved = [(propagator, repo / propagator.source, Path.home() / propagator.target) for propagator in propagators]
     for propagator, source, target in resolved:
@@ -138,21 +199,38 @@ def main() -> int:
         print("dry-run complete")
         return 0
 
-    if changed_names and not args.quiet:
-        report("Updated templates: " + ", ".join(changed_names))
-    elif not args.quiet:
-        report("Templates already current")
+    for propagator in propagators:
+        if propagator.name in changed_names:
+            stage_result(repo, "SYNC", propagator.name.capitalize())
+        elif not args.quiet:
+            stage_skip(repo, propagator.name.capitalize())
 
-    run_step("Rebasing dotfiles", ["git", "pull", "--rebase", "--autostash"], repo)
+    run_stage(repo, "UPDATE", "Chezmoi", ["git", "pull", "--rebase", "--autostash"], repo)
     source_paths = [str(propagator.source) for propagator in propagators]
     has_changes = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", *source_paths], cwd=repo, check=False).returncode != 0
     if has_changes:
-        run_step("Committing dotfiles", ["git", "commit", "--only", "-m", COMMIT_MESSAGE, "--", *source_paths], repo)
-    elif not args.quiet:
-        report("No propagator changes to commit")
-    run_step("Pushing dotfiles", ["git", "push"], repo)
-    run_step("Applying chezmoi", ["chezmoi", "apply"], repo)
-    update_chezetc()
+        run_stage(repo, "COMMIT", "Templates", ["git", "commit", "--only", "-m", COMMIT_MESSAGE, "--", *source_paths], repo)
+        run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo)
+    else:
+        stage_skip(repo, "Templates")
+        stage_skip(repo, "Dotfiles")
+    if changed_names:
+        auto_targets = [
+            str(Path.home() / propagator.target)
+            for propagator in propagators
+            if propagator.name in changed_names
+        ]
+        run_stream(
+            ["chezmoi", "apply", "--force", *auto_targets],
+            repo,
+            env={**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
+        )
+    run_stream(
+        ["chezmoi", "apply"],
+        repo,
+        env={**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
+    )
+    update_chezetc(repo)
     return 0
 
 

@@ -1,4 +1,8 @@
 #!/usr/bin/env fish
+if test "$CHEZUP_SKIP_PREFLIGHT" = "1"
+    exit 0
+end
+
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 function check_command --argument-names subject command_name

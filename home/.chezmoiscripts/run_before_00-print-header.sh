@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "${CHEZMOI_SKIP_SPLASH:-0}" = "1" ]; then
+  exit 0
+fi
+
 if command -v gum >/dev/null 2>&1 && [ -t 1 ]; then
   echo
   gum style --bold --foreground 13 "Tijpfiles"

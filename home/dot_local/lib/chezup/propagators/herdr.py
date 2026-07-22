@@ -40,6 +40,7 @@ def preserve_template_strings(value: Any, source_value: Any, home_dir: str, expr
 
 class HerdrPropagator(Propagator):
     name = "herdr"
+    order = 20
     source = Path("home/dot_config/herdr/session.json.tmpl")
     target = Path(".config/herdr/session.json")
 

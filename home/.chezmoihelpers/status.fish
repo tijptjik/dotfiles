@@ -22,7 +22,7 @@ function __stage_color --argument-names verb
 end
 
 function __stage_styled_subject --argument-names subject
-    set -l qualifier (string match -r -o '\[[^]]+\]$' -- "$subject")
+    set -l qualifier (string match -r '\[[^]]+\]$' -- "$subject")
     if test (count $qualifier) -gt 0
         set -l base (string replace -- "$qualifier" "" "$subject" | string trim)
         set -l styled_base (gum style --foreground 15 "$base")

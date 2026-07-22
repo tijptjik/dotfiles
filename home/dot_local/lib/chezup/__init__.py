@@ -123,8 +123,9 @@ def run_stage(repo: Path, verb: str, subject: str, command: list[str], cwd: Path
     stage_result(repo, verb, subject)
 
 
-def section(title: str) -> None:
-    print()
+def section(title: str, *, leading: bool = True) -> None:
+    if leading:
+        print()
     if GUM and sys.stdout.isatty():
         run([GUM, "style", "--foreground", "14", "--bold", title])
     else:
@@ -179,6 +180,14 @@ def git_changed_file_count(repo: Path, before: str | None, after: str | None) ->
     return len({line for line in result.stdout.splitlines() if line})
 
 
+def changed_line_count(before: str, after: str) -> int:
+    before_lines = before.splitlines()
+    after_lines = after.splitlines()
+    matcher = difflib.SequenceMatcher(a=before_lines, b=after_lines)
+    changes = sum((i2 - i1) + (j2 - j1) for tag, i1, i2, j1, j2 in matcher.get_opcodes() if tag != "equal")
+    return changes or 1
+
+
 def pull_dotfiles(repo: Path) -> None:
     before = git_ref(repo, "@{u}")
     try:
@@ -198,10 +207,6 @@ def changed_propagator_names(repo: Path, propagators: list[Propagator]) -> list[
     return [propagator.name for propagator in propagators if str(propagator.source) in changed_paths]
 
 
-def propagator_subject(names: list[str]) -> str:
-    return " / ".join(name.capitalize() for name in names)
-
-
 def update_chezetc(status_repo: Path) -> None:
     if not (CHEZETC_REPO / ".git").is_dir():
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
@@ -219,7 +224,7 @@ def main() -> int:
     repo = find_repo()
     if not args.quiet:
         print_header(repo)
-        section("Prerequisites")
+        section("Prerequisites", leading=False)
         run_checks(repo)
         section("Template Sync")
     propagators = discover_propagators()
@@ -233,6 +238,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory(prefix="chezup-") as temp_dir:
         temp = Path(temp_dir)
         changed_names: list[str] = []
+        sync_changes: dict[str, int] = {}
         for propagator, source, target in resolved:
             before = source.read_text()
             output = temp / f"{propagator.name}.template"
@@ -240,6 +246,7 @@ def main() -> int:
             after = output.read_text()
             if before != after:
                 changed_names.append(propagator.name)
+                sync_changes[propagator.name] = changed_line_count(before, after)
                 if args.dry_run and not args.quiet:
                     show_diff(source, before, after)
             elif args.dry_run and not args.quiet:
@@ -250,30 +257,31 @@ def main() -> int:
     if args.dry_run:
         for propagator in propagators:
             if propagator.name in changed_names:
-                stage_result(repo, "SYNC", propagator.name.capitalize())
+                changes = sync_changes[propagator.name]
+                stage_result(repo, "SYNC", propagator.name.capitalize(), f"({changes:02d} changes)")
             elif not args.quiet:
-                stage_skip(repo, propagator.name.capitalize())
+                stage_skip(repo, propagator.name.capitalize(), "(no changes)")
         print("dry-run complete")
         return 0
 
     if not args.quiet:
         for propagator in propagators:
             if propagator.name in changed_names:
-                stage_result(repo, "SYNC", propagator.name.capitalize())
+                changes = sync_changes[propagator.name]
+                stage_result(repo, "SYNC", propagator.name.capitalize(), f"({changes:02d} changes)")
             else:
-                stage_skip(repo, propagator.name.capitalize())
+                stage_skip(repo, propagator.name.capitalize(), "(no changes)")
         section("Git")
 
     pull_dotfiles(repo)
     source_paths = [str(propagator.source) for propagator in propagators]
     changed_names = changed_propagator_names(repo, propagators)
     has_changes = bool(changed_names)
-    subject = propagator_subject(changed_names or [propagator.name for propagator in propagators])
     if has_changes:
-        run_stage(repo, "COMMIT", subject, ["git", "commit", "--only", "-m", COMMIT_MESSAGE, "--", *source_paths], repo)
+        run_stage(repo, "COMMIT", "Templates", ["git", "commit", "--only", "-m", COMMIT_MESSAGE, "--", *source_paths], repo)
         run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo)
     else:
-        stage_skip(repo, subject, "(no changes)")
+        stage_skip(repo, "Templates", "(no changes)")
         stage_skip(repo, "Dotfiles", "(no changes)")
     if changed_names:
         auto_targets = [

@@ -7,6 +7,7 @@ import difflib
 import importlib
 import os
 import pkgutil
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -16,6 +17,7 @@ from chezupdate.core import Propagator, UpdateError
 
 
 COMMIT_MESSAGE = "fix: latest zed and herdr"
+CHEZETC_REPO = Path.home() / ".local/share/chezetc"
 
 
 def run(command: list[str], cwd: Path | None = None) -> None:
@@ -70,6 +72,14 @@ def show_diff(path: Path, before: str, after: str) -> None:
     )
 
 
+def update_chezetc() -> None:
+    if not (CHEZETC_REPO / ".git").is_dir():
+        raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
+    chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
+    run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO)
+    run([chezetc, "apply"], CHEZETC_REPO)
+
+
 def main() -> int:
     arguments = argparse.ArgumentParser(description=__doc__)
     arguments.add_argument("--dry-run", action="store_true", help="show template changes without git or chezmoi mutations")
@@ -113,6 +123,7 @@ def main() -> int:
         print("no propagator changes to commit")
     run(["git", "push"], repo)
     run(["chezmoi", "apply"], repo)
+    update_chezetc()
     return 0
 
 

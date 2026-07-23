@@ -276,6 +276,39 @@ def changed_propagator_names(repo: Path, propagators: list[Propagator]) -> list[
     return [propagator.name for propagator in propagators if str(propagator.source) in changed_paths]
 
 
+def commit_templates(status_repo: Path, repo: Path, propagators: list[Propagator]) -> list[str]:
+    changed_names = changed_propagator_names(repo, propagators)
+    if not changed_names:
+        stage_skip_ok(status_repo, "Templates", "no changes")
+        return []
+
+    changed_paths = [
+        str(propagator.source)
+        for propagator in propagators
+        if propagator.name in changed_names
+    ]
+    try:
+        run(["git", "add", "--", *changed_paths], repo, capture_output=True)
+        run(
+            [
+                "git",
+                "commit",
+                "--only",
+                "-m",
+                "sync: update templates",
+                "--",
+                *changed_paths,
+            ],
+            repo,
+            capture_output=True,
+        )
+    except UpdateError:
+        stage_label(status_repo, "FAILED", "✗", "Templates")
+        raise
+    stage_result(status_repo, "COMMIT", "Templates", f"{len(changed_names)} files")
+    return changed_names
+
+
 def pull_chezetc(status_repo: Path) -> None:
     if not (CHEZETC_REPO / ".git").is_dir():
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
@@ -393,12 +426,8 @@ def main() -> int:
                 stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
         section("Git")
 
+    changed_names = commit_templates(repo, repo, propagators)
     pull_dotfiles(repo)
-    changed_names = changed_propagator_names(repo, propagators)
-    if changed_names:
-        stage_skip(repo, "Templates", "local changes not committed")
-    else:
-        stage_skip_ok(repo, "Templates", "no changes")
     warn_dirty_files(repo, repo)
     ahead = git_ahead_count(repo)
     if ahead:

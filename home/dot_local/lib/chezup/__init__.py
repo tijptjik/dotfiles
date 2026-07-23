@@ -411,7 +411,7 @@ def main() -> int:
         for propagator in propagators:
             if propagator.name in changed_names:
                 changes = sync_changes[propagator.name]
-                stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes:02d} changes")
+                stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
             elif not args.quiet:
                 stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
         print("dry-run complete")
@@ -421,7 +421,7 @@ def main() -> int:
         for propagator in propagators:
             if propagator.name in changed_names:
                 changes = sync_changes[propagator.name]
-                stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes:02d} changes")
+                stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
             else:
                 stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
         section("Git")

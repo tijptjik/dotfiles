@@ -2,14 +2,10 @@
 
 __stage_color() {
   case "$1" in
-    INSTALL) printf '10' ;;
-    SYNC) printf '12' ;;
-    CONFIG) printf '14' ;;
-    CHECK) printf '13' ;;
     SKIP) printf '8' ;;
-    FAILED) printf '9' ;;
-    WARN) printf '11' ;;
-    *) printf '15' ;;
+    CHECK|WARN) printf '14' ;;
+    INSTALL|SYNC|PULL|REMOVE|CONFIG|COMMIT|PUSH|FAILED) printf '9' ;;
+    *) printf '14' ;;
   esac
 }
 

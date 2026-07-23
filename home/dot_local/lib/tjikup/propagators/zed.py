@@ -56,7 +56,7 @@ def update_template(source_path: Path, target_path: Path, output_path: Path) -> 
 
     if structural_paths:
         paths = ", ".join(".".join(map(str, path)) for path in structural_paths[:5])
-        raise UpdateError(f"Zed has structural changes that need a manual template merge: {paths}")
+        raise UpdateError(f"structural changes require a manual template merge: {paths}")
 
     updated = source
     for start, end, replacement in sorted(replacements, reverse=True):

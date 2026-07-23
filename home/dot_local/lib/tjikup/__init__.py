@@ -393,7 +393,11 @@ def main() -> int:
         for propagator, source, target in resolved:
             before = source.read_text()
             output = temp / f"{propagator.name}.template"
-            propagator.propagate(source, target, output)
+            try:
+                propagator.propagate(source, target, output)
+            except UpdateError as error:
+                stage_label(repo, "SYNC", "✗", propagator.name.capitalize(), str(error))
+                return 1
             after = output.read_text()
             if before != after:
                 changed_names.append(propagator.name)

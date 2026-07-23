@@ -7,42 +7,36 @@ import time
 from pathlib import Path
 
 DB_PATH = Path.home() / ".codex-lb" / "store.db"
-WINDOWS = ("primary", "secondary")
-SUMMARY_LABELS = {
-    "primary": "󱑂",
-    "secondary": "󰃭",
-}
+WEEKLY_WINDOW = "secondary"
+SUMMARY_LABEL = "󰃭"
+TJK_WEIGHT = 20
 TOOLTIP_HEADERS = {
-    "primary_percent": "5h%",
-    "primary_time": "5h↻",
-    "secondary_percent": "1w%",
-    "secondary_time": "1w↻",
+    "percent": "1w%",
+    "time": "1w↻",
 }
 QUERY = """
 WITH latest_usage AS (
   SELECT
     a.id AS account_id,
     COALESCE(NULLIF(a.alias, ''), a.email) AS label,
-    COALESCE(uh.window, 'primary') AS window_name,
     100.0 - uh.used_percent AS remaining_percent,
     uh.reset_at,
     ROW_NUMBER() OVER (
-      PARTITION BY a.id, COALESCE(uh.window, 'primary')
+      PARTITION BY a.id
       ORDER BY uh.recorded_at DESC, uh.id DESC
     ) AS rn
   FROM accounts a
   JOIN usage_history uh ON uh.account_id = a.id
-  WHERE a.status = 'active'
+  WHERE a.status = 'active' AND uh.window = ?
 )
 SELECT
   account_id,
   label,
-  window_name,
   remaining_percent,
   reset_at
 FROM latest_usage
 WHERE rn = 1
-ORDER BY label, window_name;
+ORDER BY label;
 """
 
 
@@ -74,7 +68,7 @@ def load_rows() -> list[sqlite3.Row]:
     connection = sqlite3.connect(DB_PATH)
     connection.row_factory = sqlite3.Row
     try:
-        return connection.execute(QUERY).fetchall()
+        return connection.execute(QUERY, (WEEKLY_WINDOW,)).fetchall()
     finally:
         connection.close()
 
@@ -82,41 +76,32 @@ def load_rows() -> list[sqlite3.Row]:
 def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
     accounts: dict[str, dict[str, object]] = {}
     for row in rows:
-        entry = accounts.setdefault(
-            row["label"],
-            {
-                "primary": None,
-                "secondary": None,
-                "primary_reset_at": None,
-                "secondary_reset_at": None,
-            },
-        )
-        entry[row["window_name"]] = row["remaining_percent"]
-        entry[f"{row['window_name']}_reset_at"] = row["reset_at"]
+        accounts[row["label"]] = {
+            "weekly": row["remaining_percent"],
+            "weekly_reset_at": row["reset_at"],
+        }
 
-    averages = {}
-    for window_name in WINDOWS:
-        values = [
-            account[window_name]
-            for account in accounts.values()
-            if account[window_name] is not None
-        ]
-        averages[window_name] = sum(values) / len(values) if values else None
-
-    text = " ".join(
-        f"{SUMMARY_LABELS[window_name]} {format_percent(averages[window_name])}"
-        for window_name in WINDOWS
+    weighted_values = [
+        (account["weekly"], TJK_WEIGHT if label.casefold() == "tjk" else 1)
+        for label, account in accounts.items()
+        if account["weekly"] is not None
+    ]
+    total_weight = sum(weight for _, weight in weighted_values)
+    weekly_average = (
+        sum(value * weight for value, weight in weighted_values) / total_weight
+        if total_weight
+        else None
     )
+
+    text = f"{SUMMARY_LABEL} {format_percent(weekly_average)}"
 
     now = int(time.time())
     label_width = max((len(label) for label in accounts), default=5)
     header = "  ".join(
         [
             "acct".ljust(label_width),
-            TOOLTIP_HEADERS["primary_percent"].rjust(4),
-            TOOLTIP_HEADERS["primary_time"].rjust(4),
-            TOOLTIP_HEADERS["secondary_percent"].rjust(5),
-            TOOLTIP_HEADERS["secondary_time"].rjust(4),
+            TOOLTIP_HEADERS["percent"].rjust(4),
+            TOOLTIP_HEADERS["time"].rjust(4),
         ]
     )
     lines = [header]
@@ -126,10 +111,8 @@ def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
             "  ".join(
                 [
                     label.ljust(label_width),
-                    format_percent(values["primary"], 1).rjust(5),
-                    format_time_until_reset(values["primary_reset_at"], now).rjust(5),
-                    format_percent(values["secondary"], 1).rjust(5),
-                    format_time_until_reset(values["secondary_reset_at"], now).rjust(4),
+                    format_percent(values["weekly"], 1).rjust(5),
+                    format_time_until_reset(values["weekly_reset_at"], now).rjust(5),
                 ]
             )
         )
@@ -145,7 +128,7 @@ def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
 def main() -> None:
     if not DB_PATH.exists():
         payload = {
-            "text": "󱑂 - 󰃭 -",
+            "text": "󰃭 -",
             "tooltip": f"Missing database: {DB_PATH}",
             "alt": "codex-missing",
             "class": "custom-codex",
@@ -155,7 +138,7 @@ def main() -> None:
             payload = build_payload(load_rows())
         except Exception as error:
             payload = {
-                "text": "󱑂 - 󰃭 -",
+                "text": "󰃭 -",
                 "tooltip": f"Codex usage error: {error}",
                 "alt": "codex-error",
                 "class": "custom-codex",

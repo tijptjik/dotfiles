@@ -1,7 +1,7 @@
 #!/bin/bash
 if command -v gum >/dev/null 2>&1 && [ -t 1 ]; then
   echo
-  gum style --bold --foreground 11 "RESOLVE CONFLICTS"
+  gum style --bold --foreground 13 "RESOLVE CONFLICTS"
   echo
   exit 0
 fi

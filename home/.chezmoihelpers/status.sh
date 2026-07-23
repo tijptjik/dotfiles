@@ -3,9 +3,9 @@
 __stage_color() {
   case "$1" in
     SKIP) printf '8' ;;
-    CHECK|WARN) printf '14' ;;
+    CHECK|WARN) printf '12' ;;
     INSTALL|SYNC|PULL|REMOVE|CONFIG|COMMIT|PUSH|FAILED) printf '9' ;;
-    *) printf '14' ;;
+    *) printf '12' ;;
   esac
 }
 

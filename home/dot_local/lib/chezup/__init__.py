@@ -147,7 +147,7 @@ def section(title: str, *, leading: bool = True) -> None:
     if leading:
         print()
     if GUM and sys.stdout.isatty():
-        run([GUM, "style", "--foreground", "14", "--bold", title])
+        run([GUM, "style", "--foreground", "12", "--bold", title])
     else:
         print(title)
     print()

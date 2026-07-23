@@ -431,7 +431,7 @@ def main() -> int:
     warn_dirty_files(repo, repo)
     ahead = git_ahead_count(repo)
     if ahead:
-        run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo, "pushed")
+        run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo, f"{ahead} commits pushed")
     else:
         stage_skip_ok(repo, "Dotfiles", "no changes")
     if chezmoi_config_needs_init(repo):

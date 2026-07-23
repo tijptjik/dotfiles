@@ -39,6 +39,9 @@ end
 
 function __stage_label_note --argument-names stage_name icon subject note
     set -l color (__stage_color "$stage_name")
+    if test "$stage_name" = PULL; and test "$note" = "no changes"
+        set color 14
+    end
     set -l padded_stage (printf "%-7s" "$stage_name")
     set -l note_column 72
     set -l prefix_length 10

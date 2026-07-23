@@ -371,15 +371,13 @@ def apply_chezetc() -> None:
 def main() -> int:
     arguments = argparse.ArgumentParser(description=__doc__)
     arguments.add_argument("--dry-run", action="store_true", help="show template changes without git or chezmoi mutations")
-    arguments.add_argument("--quiet", action="store_true", help="suppress unchanged-file and diff output")
     args = arguments.parse_args()
 
     repo = find_repo()
-    if not args.quiet:
-        print_header(repo)
-        section("Prerequisites", leading=False)
-        run_checks(repo)
-        section("Template Sync")
+    print_header(repo)
+    section("Prerequisites", leading=False)
+    run_checks(repo)
+    section("Template Sync")
     propagators = discover_propagators()
     resolved = [(propagator, repo / propagator.source, Path.home() / propagator.target) for propagator in propagators]
     for propagator, source, target in resolved:
@@ -400,10 +398,8 @@ def main() -> int:
             if before != after:
                 changed_names.append(propagator.name)
                 sync_changes[propagator.name] = changed_line_count(before, after)
-                if args.dry_run and not args.quiet:
+                if args.dry_run:
                     show_diff(source, before, after)
-            elif args.dry_run and not args.quiet:
-                print(f"unchanged: {propagator.name}")
             if not args.dry_run:
                 source.write_text(after)
 
@@ -412,19 +408,18 @@ def main() -> int:
             if propagator.name in changed_names:
                 changes = sync_changes[propagator.name]
                 stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
-            elif not args.quiet:
+            else:
                 stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
         print("dry-run complete")
         return 0
 
-    if not args.quiet:
-        for propagator in propagators:
-            if propagator.name in changed_names:
-                changes = sync_changes[propagator.name]
-                stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
-            else:
-                stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
-        section("Git")
+    for propagator in propagators:
+        if propagator.name in changed_names:
+            changes = sync_changes[propagator.name]
+            stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
+        else:
+            stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
+    section("Git")
 
     changed_names = commit_templates(repo, repo, propagators)
     pull_dotfiles(repo)

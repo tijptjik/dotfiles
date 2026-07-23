@@ -1,4 +1,5 @@
 # Tijpfiles
+
 Dotfiles managed by [Chezmoi](https://www.chezmoi.io/).
 
 The system setup (repos, packages) is managed by [Chezetc](https://github.com/tijptjik/etcfiles) which needs to be setup **BEFORE** using Chezmoi.
@@ -6,7 +7,7 @@ The system setup (repos, packages) is managed by [Chezetc](https://github.com/ti
 ## Supported Devices
 
 - `fi` - Desktop (client)
-- `li` - Laptop (client)  
+- `li` - Laptop (client)
 - `si` - Server
 
 ## Supported Software
@@ -63,9 +64,10 @@ Readmes are available in `/docs/{topic}.md`
 
 ## Installation on New Machine
 
-A beginning is the time for taking the most delicate care that the balances are correct. 
+A beginning is the time for taking the most delicate care that the balances are correct.
 
 1. **First we name her**
+
 ```bash
 hostnamectl set-hostname "NAME"
 ```
@@ -73,6 +75,7 @@ hostnamectl set-hostname "NAME"
 The system-level setup is managed by [chezetc](https://github.com/tijptjik/etcfiles).
 
 2. **Install Repos and Packages**
+
 ```bash
 # Clone the chezetc repo
 git clone git@github.com:tijptjik/etcfiles.git $HOME/.local/share/chezetc
@@ -83,12 +86,14 @@ $HOME/.tools/chezetc/chezetc apply
 ```
 
 3. **Install required software:**
+
 ```bash
 # Fedora/CentOS/RHEL
 sudo dnf install kitty fish curl git chezmoi gum
 ```
 
 4. **Pull in dotfiles**
+
 ```bash
 # Initialize and apply dotfiles in one step
 chezmoi init --apply tijptjik
@@ -100,43 +105,48 @@ Before making any changes, it is recommended to pull the latest version of the d
 
 ### Updating
 
-1. **Pull latest changes:**
+#### `tjikup`
+
+`tjikup` synchronizes supported live configuration changes back into their Chezmoi templates. It then commits the updated templates, pulls and pushes the dotfiles repository, applies the changes with Chezmoi, and updates the Chezetc repository when available.
+
+Run it after changing supported live configuration files:
+
 ```bash
-chezmoi update
+tjikup
 ```
 
-2. **Apply changes:**
-```bash
-chezmoi apply
-```
+Use `tjikup --dry-run` to preview template changes without modifying Git or applying Chezmoi changes.
 
 ### Editing
 
 1. **Edit a file:**
+
 ```bash
 chezmoi edit $PATH_TO_FILE
 ```
 
 2. **Apply changes:**
+
 ```bash
 chezmoi apply
 ```
 
-
 ## TODO
 
 ### Config
+
 - [DirEnv for UV](https://github.com/direnv/direnv/issues/1250)
 - Telegram
 - Once zed implements [modelines support](https://github.com/zed-industries/zed/issues/4762), update the `tmpl` files with proper syntax hints
 
 ### Laptop
+
 - `fstab`
 
 ### Packages Not Backed Up
+
 - .zen/
 - .config/BraveSoftware
 - .config/Steam
 - .config/uv
-- .config/zed
 - .local/share/firefoxpwa

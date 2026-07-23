@@ -5,7 +5,7 @@
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 if command -q gum; and isatty stdout
-    gum style --foreground 12 --bold "Systemd User Units"
+    gum style --foreground 14 --bold "Systemd User Units"
 else
     echo "Systemd User Units"
 end

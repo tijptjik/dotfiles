@@ -49,7 +49,7 @@ end
 
 {{ if .isClient -}}
 
-set client_services "hyprpolkitagent.service" "hypridle.service" "hyprsunset.service" "hyprpaper.service" "hyprvoice.service"
+set client_services "hyprpolkitagent.service" "hypridle.service" "hyprpaper.service" "hyprvoice.service"
 
 function configure_client_user_units
     for service in $argv

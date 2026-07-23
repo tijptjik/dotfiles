@@ -7,7 +7,8 @@ import time
 from pathlib import Path
 
 DB_PATH = Path.home() / ".codex-lb" / "store.db"
-WEEKLY_WINDOW = "secondary"
+# Codex now exposes the desired weekly stats through the primary window.
+WEEKLY_WINDOW = "primary"
 SUMMARY_LABEL = "󰃭"
 TJK_WEIGHT = 20
 TOOLTIP_HEADERS = {

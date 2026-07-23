@@ -190,7 +190,7 @@ def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bo
 
 
 def print_header(repo: Path) -> None:
-    run_stream(["bash", str(repo / "home/.chezmoiscripts/run_before_00-print-header.sh")], repo)
+    run_stream(["bash", str(repo / "home/.chezmoiscripts/run_before_00-print-header.sh"), "tjikup"], repo)
 
 
 def run_checks(repo: Path) -> None:

@@ -23,19 +23,6 @@
     "diagnostics": false,
     "metrics": false
   },
-  "language_models": {
-    "openai": {
-      "available_models": [
-        {
-          "name": "gpt-5.6-luna",
-          "display_name": "GPT-5.6 Luna",
-          "reasoning_effort": "none",
-          "max_tokens": 1050000,
-          "max_completion_tokens": 128000
-        }
-      ]
-    }
-  },
   "prettier": {
     "allowed": true
   },
@@ -168,8 +155,9 @@
     "agent": {
         "commit_message_instructions": "Use the Conventional Commits format: <type>(<scope>): <description>. Strip markdown backticks and trim.",
         "commit_message_model": {
-          "provider": "openai",
-          "model": "gpt-5.6-luna"
+          "provider": "openai-subscribed",
+          "model": "gpt-5.6-terra",
+          "enable_thinking": false
         },
         "sidebar_side": "right",
         "dock": "right",

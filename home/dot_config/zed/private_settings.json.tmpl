@@ -155,15 +155,16 @@
     "agent": {
         "commit_message_instructions": "Use the Conventional Commits format: <type>(<scope>): <description>. Strip markdown backticks and trim.",
         "commit_message_model": {
-          "provider": "openrouter",
-          "model": "deepseek/deepseek-v4-flash"
+          "provider": "openai",
+          "model": "gpt-5.6-luna",
+          "enable_thinking": false
         },
         "sidebar_side": "right",
         "dock": "right",
         "inline_assistant_model": {
-           "provider": "openrouter",
-           "model": "deepseek/deepseek-v4-flash",
-           "enable_thinking": false
+          "provider": "openai",
+          "model": "gpt-5.6-luna",
+          "enable_thinking": false
         },
         "tool_permissions": {
             "default": "allow"
@@ -172,9 +173,9 @@
         "use_modifier_to_send": true,
         "play_sound_when_agent_done": "always",
         "default_model": {
-          "enable_thinking": true,
-          "provider": "openrouter",
-          "model": "deepseek/deepseek-v4-flash"
+          "provider": "openai",
+          "model": "gpt-5.6-luna",
+          "enable_thinking": true
         },
         "model_parameters": []
     },
@@ -229,21 +230,5 @@
         "mode": "system",
         "light": "One Dark",
         "dark": "Rosé Punk"
-    },
-    "language_models": {
-        "anthropic": {
-            "available_models": [
-                {
-                    "name": "kimi-k2-0905-preview",
-                    "display_name": "Kimi K2 (0905)",
-                    "max_tokens": 256000
-                },
-                {
-                    "name": "kimi-k2-turbo-preview",
-                    "display_name": "Kimi K2 (Turbo)",
-                    "max_tokens": 256000
-                }
-            ]
-        }
     }
 }

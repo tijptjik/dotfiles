@@ -1,4 +1,4 @@
-"""Shared primitives for chezup propagators."""
+"""Shared primitives for tjikup propagators."""
 
 from __future__ import annotations
 

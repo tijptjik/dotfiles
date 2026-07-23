@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from chezup.core import Propagator
+from tjikup.core import Propagator
 
 
 class SolaarPropagator(Propagator):

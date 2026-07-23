@@ -13,7 +13,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from chezup.core import Propagator, UpdateError
+from tjikup.core import Propagator, UpdateError
 
 
 CHEZETC_REPO = Path.home() / ".local/share/chezetc"
@@ -41,7 +41,7 @@ def run(
 
 
 def discover_propagators() -> list[Propagator]:
-    package_name = "chezup.propagators"
+    package_name = "tjikup.propagators"
     package = importlib.import_module(package_name)
     propagators: list[Propagator] = []
     for module_info in sorted(pkgutil.iter_modules(package.__path__), key=lambda item: item.name):
@@ -58,7 +58,7 @@ def discover_propagators() -> list[Propagator]:
 
 
 def find_repo() -> Path:
-    configured = os.environ.get("CHEZUP_REPO") or os.environ.get("CHEZUPDATE_REPO")
+    configured = os.environ.get("TJIKUP_REPO") or os.environ.get("TJIKUPDATE_REPO")
     if configured:
         return Path(configured).expanduser().resolve()
     fallback = Path.home() / ".local/share/chezmoi"
@@ -388,7 +388,7 @@ def main() -> int:
         if not target.is_file():
             raise UpdateError(f"{propagator.name}: missing live config: {target}")
 
-    with tempfile.TemporaryDirectory(prefix="chezup-") as temp_dir:
+    with tempfile.TemporaryDirectory(prefix="tjikup-") as temp_dir:
         temp = Path(temp_dir)
         changed_names: list[str] = []
         sync_changes: dict[str, int] = {}
@@ -446,13 +446,13 @@ def main() -> int:
         if not run_chezmoi_apply(
             repo,
             ["chezmoi", "apply", "--force", *auto_targets],
-            {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
+            {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"},
         ):
             return 0
     if not run_chezmoi_apply(
         repo,
         ["chezmoi", "apply"],
-        {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "CHEZUP_SKIP_PREFLIGHT": "1"},
+        {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"},
     ):
         return 0
     pull_chezetc(repo)
@@ -465,5 +465,5 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except UpdateError as error:
-        print(f"chezup: {error}", file=sys.stderr)
+        print(f"tjikup: {error}", file=sys.stderr)
         raise SystemExit(1)

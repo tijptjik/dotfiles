@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from chezup.core import (
+from tjikup.core import (
     TEMPLATE_ACTION,
     JsonSpanParser,
     Propagator,

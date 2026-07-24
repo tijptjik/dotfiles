@@ -1,0 +1,47 @@
+-- Base24 - Rosé Punk
+
+local colors = {
+    base11 = "rgb(08080C)", -- Darkest Black (The Darkest Background)
+    base10 = "rgb(110F18)", -- Darker Black (Darker Background)
+    base00 = "rgb(191724)", -- Black (Background)
+    base01 = "rgb(1F1D2E)", -- Darkest Gray (Status Bar)
+    base02 = "rgb(26233A)", -- Dark Gray (Selection Background)
+    base03 = "rgb(555169)", -- Bright Black (Comments, Invisibles, Line Highlighting)
+    base04 = "rgb(6E6A86)", -- Light Gray (Status bars)
+    base05 = "rgb(E5E5E5)", -- White (Default Foreground, Caret, Delimiters, Operators)
+    base06 = "rgb(ECEBEF)", -- Lighter White (Not often used)
+    base07 = "rgb(F5F5F7)", -- Bright White (Not often used)
+
+    base0F = "rgb(D75959)", -- Dark Red (Deprecated Highlighting)
+    base08 = "rgb(EB6F92)", -- Red (Variables, Elements, Markup Link Text, Markup Lists, Diff Deleted)
+    base12 = "rgb(FF6B95)", -- Bright Red
+
+    base09 = "rgb(F6C177)", -- Orange (Integers, Boolean, Constants, XML Attributes, Markup Link Url0
+
+    base0A = "rgb(F4B7B5)", -- Yellow (Classes, Markup Bold, Search Text Background)
+    base13 = "rgb(FACDCC)", -- Bright Yellow
+
+    base0B = "rgb(31748F)", -- Green (Strings, Inherited Class, Markup Code, Diff Inserted)
+    base14 = "rgb(2F87AB)", -- Bright Green
+
+    base0C = "rgb(9CCFD8)", -- Cyan (Support, Regular Expressions, Escape Characters, Markup Quotes)
+    base15 = "rgb(9BDFEB)", -- Bright Cyan
+
+    base0D = "rgb(7188FF)", -- Blue (Functions, Methods, Attribute IDs, Headings)
+    base16 = "rgb(8596ED)", -- Bright Blue
+
+    base0E = "rgb(FF53A6)", -- Magenta (Keywords, Storage, Selector, Markup Italic, Diff Changed)
+    base17 = "rgb(E56EA1)", -- Bright Magenta
+}
+
+-- Aliases
+
+colors.fx_black = colors.base11
+colors.fx_white = colors.base05
+
+colors.fx_magenta = colors.base0E
+
+colors.fx_active = colors.base01
+colors.fx_inactive = "rgba(26233Aaa)"
+
+return colors

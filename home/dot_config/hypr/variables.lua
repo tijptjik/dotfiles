@@ -73,6 +73,9 @@ hl.animation({ leaf = "windowsMove", enabled = true, speed = 3, bezier = "cubicB
 hl.animation({ leaf = "windowsOut", enabled = true, speed = 7, bezier = "default", style = "popin 90%" })
 hl.animation({ leaf = "border", enabled = true, speed = 10, bezier = "default" })
 hl.animation({ leaf = "fade", enabled = true, speed = 7, bezier = "default" })
+-- Layer-shell clients, including Waybar, use this fade instead of a slide.
+hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 5, bezier = "cubicBezier" })
+hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 5, bezier = "cubicBezier" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 4, bezier = "cubicBezier" })
 
 -- #######################

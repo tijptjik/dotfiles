@@ -1,0 +1,67 @@
+-- -*- mode: lua; -*-
+-- Sourced in ~/.config/hypr/hyprland.lua
+-- #######################
+-- HYPRLAND :: STARTUP
+-- #######################
+
+-- Author : Mart van de Ven
+-- Contact : https://type.hk
+
+local helpers = require("helpers")
+local startup = {}
+
+startup.subscription = hl.on("hyprland.start", function()
+    -- Ensure Environment Variables Are Available
+    -- hyprlock requires $WAYLAND_DISPLAY to be set in the systemd user environment.
+    -- GDM doesn't always propagate this automatically to systemd.
+    -- Import these before starting Waybar so its tray can activate the portal.
+    hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY")
+
+    -- WM
+    hl.exec_cmd("waybar")
+    hl.exec_cmd("qs -c hamr")
+    helpers.start_waybar_auto_hide("bottom")
+
+    hl.exec_cmd("dconf load /org/gnome/desktop/interface/ < ~/.config/dconf/interface.conf")
+
+    -- VPN
+    hl.exec_cmd("mullvad connect")
+
+    -- Night filter
+    hl.exec_cmd("hyprsunset")
+
+    -- Clipboard Management
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
+
+    -- Terminal
+    hl.exec_cmd('/bin/kitty --title "herdr ~" herdr')
+
+    -- Chat
+    hl.exec_cmd("/opt/Telegram/Telegram")
+    hl.exec_cmd("/bin/zapzap")
+    hl.exec_cmd("flatpak run org.signal.Signal")
+    hl.exec_cmd("/bin/codex-desktop")
+
+    -- IDE
+    hl.exec_cmd("$HOME/.local/bin/zed $HOME/code/saanseoi")
+
+    -- Zen Extensions Auto-Float
+    helpers.start_zen_extensions()
+
+{{- if .isDesktop }}
+
+    -- Zen // PWA Sites
+    hl.exec_cmd("/bin/zen-browser")
+
+    -- Codex LB
+    hl.exec_cmd("/usr/bin/firefoxpwa site launch 01KVFQER39ASXCZ26D7724G54G")
+
+    -- Drizzle Studio
+    hl.exec_cmd("/usr/bin/firefoxpwa site launch 01KVFS96FMVBM4QZ9NKX2J01VD")
+
+{{- end }}
+
+end)
+
+return startup

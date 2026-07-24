@@ -4,7 +4,6 @@
   {
     "output": "eDP-1",
     "name": "laptop",
-    "ipc": true,
     "mode": "hide",
     "on-sigusr1": "hide",
     "on-sigusr2": "show",
@@ -31,9 +30,8 @@
     ],
     "hyprland/workspaces": {
       "format": "{icon} {name}",
-      "on-click": "activate",
-      "on-scroll-up": "hyprctl dispatch workspace e+1",
-      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
+      "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
       "format-icons": {
         "default": "\uf10c",
         "active": "\uf111",
@@ -128,7 +126,6 @@
   },
   {
     "output": "DP-4",
-    "ipc": true,
     "mode": "hide",
     "layer": "top",
     "position": "bottom",
@@ -139,9 +136,8 @@
     ],
     "hyprland/workspaces": {
       "format": "{icon} {name}",
-      "on-click": "activate",
-      "on-scroll-up": "hyprctl dispatch workspace e+1",
-      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
+      "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
       "format-icons": {
         "default": "\uf10c",
         "active": "\uf111",
@@ -154,7 +150,6 @@
   {
     "output": "DP-1",
     "id": "1",
-    "ipc": true,
     "mode": "hide",
     "on-sigusr1": "hide",
     "on-sigusr2": "show",
@@ -162,7 +157,7 @@
     "position": "bottom", // Waybar position (top|bottom|left|right)
     "margin-right": 2604,
     "margin-bottom": 20,
-    "passthrough": true,
+    "passthrough": false,
     "spacing": 12, // Gaps between modules (4px)
     "fixed-center": false,
     "modifier-reset": "release",
@@ -173,9 +168,8 @@
     ],
     "hyprland/workspaces": {
       "format": "{icon} {name}",
-      "on-click": "activate",
-      "on-scroll-up": "hyprctl dispatch workspace e+1",
-      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
+      "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
       "format-icons": {
         "default": "\uf10c",
         "active": "\uf111",
@@ -202,7 +196,6 @@
     "output": "DP-1",
     "id": "2",
     "name": "desktop-status",
-    "ipc": true,
     "on-sigusr1": "hide",
     "on-sigusr2": "show",
     "mode": "hide",
@@ -305,7 +298,6 @@
   {
     "output": "DP-2",
     "id": "3",
-    "ipc": true ,
     "on-sigusr1": "hide",
     "on-sigusr2": "show",
     "mode": "hide",
@@ -313,7 +305,7 @@
     "position": "bottom", // Waybar position (top|bottom|left|right)
     "margin-right": 1300,
     "margin-bottom": 20,
-    "passthrough": true,
+    "passthrough": false,
     "spacing": 12, // Gaps between modules (4px)
     "fixed-center": true,
     "modifier-reset": "release",
@@ -322,9 +314,8 @@
     ],
     "hyprland/workspaces": {
       "format": "{icon} {name}",
-      "on-click": "activate",
-      "on-scroll-up": "hyprctl dispatch workspace e+1",
-      "on-scroll-down": "hyprctl dispatch workspace e-1",
+      "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
+      "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
       "format-icons": {
         "default": "\uf10c",
         "active": "\uf111",

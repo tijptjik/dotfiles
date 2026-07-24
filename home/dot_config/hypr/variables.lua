@@ -76,7 +76,9 @@ hl.animation({ leaf = "fade", enabled = true, speed = 7, bezier = "default" })
 -- Layer-shell clients, including Waybar, use this fade instead of a slide.
 hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 5, bezier = "cubicBezier" })
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 5, bezier = "cubicBezier" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 4, bezier = "cubicBezier" })
+hl.animation({ leaf = "workspaces", enabled = true, speed = 4, bezier = "cubicBezier", style = "fade" })
+-- Special workspaces should appear in place, without the default slide transition.
+hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 4, bezier = "cubicBezier", style = "fade" })
 
 -- #######################
 -- INPUT

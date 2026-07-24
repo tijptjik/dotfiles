@@ -21,7 +21,7 @@ startup.subscription = hl.on("hyprland.start", function()
     hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY")
 
     -- WM
-    hl.exec_cmd("waybar")
+    hl.exec_cmd("$HOME/.local/bin/waybar-lua")
     hl.exec_cmd("qs -c hamr")
     helpers.start_waybar_auto_hide("bottom")
 

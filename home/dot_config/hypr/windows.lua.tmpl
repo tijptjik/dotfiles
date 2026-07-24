@@ -1,0 +1,276 @@
+-- -*- mode: lua; -*-
+-- Sourced in ~/.config/hypr/hyprland.lua
+-- #######################
+-- HYPRLAND :: WINDOWS
+-- #######################
+
+-- Author : Mart van de Ven
+-- Contact : https://type.hk
+
+-- See https://wiki.hypr.land/Configuring/Basics/Window-Rules/
+
+-- #######################
+-- GENERAL
+-- #######################
+
+-- SMART GAPS
+hl.window_rule({
+    name = "smart-gaps",
+    border_size = 0,
+    rounding = 0,
+    match = { float = false, workspace = "w[tv1]" },
+})
+
+hl.window_rule({
+    name = "smart-gaps-fs",
+    border_size = 0,
+    rounding = 0,
+    match = { float = false, workspace = "f[1]" },
+})
+
+-- FULL SCREEN
+hl.window_rule({
+    name = "fullscreen",
+    fullscreen = true,
+    idle_inhibit = "focus",
+    match = { fullscreen = true },
+})
+
+-- #######################
+-- APPS
+-- #######################
+
+hl.window_rule({
+    name = "kitty",
+    -- no_anim = true,
+    match = { class = "kitty" },
+})
+
+hl.window_rule({
+    name = "herdr",
+{{- if .isDesktop }}
+    workspace = "12 silent",
+{{- else if .isLaptop }}
+    workspace = "2 silent",
+{{- end }}
+    no_initial_focus = true,
+    match = { class = "kitty", title = "^(herdr ~)$" },
+})
+
+hl.window_rule({
+    name = "zed",
+    border_size = 0,
+    -- Keep Zed in SDR when monitor-level AutoHDR is enabled.
+    no_auto_hdr = true,
+    match = { class = "^(dev.zed.Zed)$" },
+})
+
+hl.window_rule({
+    name = "zed@hype",
+    workspace = "2 silent",
+    no_initial_focus = true,
+    match = { class = "^(dev.zed.Zed)$", title = "^(hype ~)$" },
+})
+
+hl.window_rule({
+    name = "codex-lb",
+    workspace = "15 silent",
+    no_initial_focus = true,
+    match = { class = "FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N" },
+})
+
+hl.window_rule({
+    name = "codex-desktop",
+    workspace = "special:codex silent",
+    no_initial_focus = true,
+    float = true,
+{{- if .isDesktop }}
+    size = { 2219, 1338 },
+    move = { "(1155)", "(24)" },
+{{- end }}
+    match = { class = "codex-desktop" },
+})
+
+hl.window_rule({
+    name = "drizzle-studio",
+{{- if .isDesktop }}
+    workspace = "14 silent",
+{{- else if .isLaptop }}
+    workspace = "3 silent",
+{{- end }}
+    no_initial_focus = true,
+    match = { class = "FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD" },
+})
+
+hl.window_rule({
+    name = "zen",
+    border_size = 0,
+    match = { class = "zen" },
+    suppress_event = "maximize fullscreen",
+})
+
+hl.window_rule({
+    name = "telegram",
+    no_initial_focus = true,
+{{- if .isDesktop }}
+    workspace = "special:chat silent",
+    float = true,
+    size = { 944, 1338 },
+    move = { "(1248)", "(24)" },
+{{- else if .isLaptop }}
+    workspace = "4",
+{{- end }}
+    match = { class = "^(org.telegram.desktop.*)" },
+})
+
+{{- if .isDesktop }}
+hl.window_rule({
+    name = "telegram-media-viewer",
+    workspace = "special:chat silent",
+    float = true,
+    size = { 3228, 1338 },
+    move = { "(112)", "(24)" },
+    match = { title = "^(Media viewer)$" },
+})
+{{- end }}
+
+hl.window_rule({
+    name = "whatsapp",
+    no_initial_focus = true,
+{{- if .isDesktop }}
+    workspace = "special:chat silent",
+    float = true,
+    size = { 1112, 1338 },
+    move = { "(112)", "(24)" },
+{{- else if .isLaptop }}
+    workspace = "4",
+{{- end }}
+    match = { class = "com.rtosta.zapzap" },
+})
+
+hl.window_rule({
+    name = "signal",
+    no_initial_focus = true,
+{{- if .isDesktop }}
+    workspace = "special:chat silent",
+    float = true,
+    size = { 1112, 1338 },
+    move = { "(2218)", "(24)" },
+{{- else if .isLaptop }}
+    workspace = "8",
+{{- end }}
+    match = { class = "org.signal.Signal" },
+})
+
+hl.window_rule({
+    name = "discord",
+{{- if .isDesktop }}
+    workspace = "19 silent",
+{{- else if .isLaptop }}
+    workspace = "8 silent",
+{{- end }}
+    no_initial_focus = true,
+    match = { class = "discord" },
+})
+
+hl.window_rule({
+    name = "obsidian",
+    workspace = "3",
+    match = { class = "obsidian" },
+})
+
+hl.window_rule({
+    name = "steam",
+    workspace = "9 silent",
+    no_initial_focus = true,
+    match = { class = "steam" },
+})
+
+hl.window_rule({
+    name = "feishin",
+{{- if .isDesktop }}
+    workspace = "20 silent",
+{{- else if .isLaptop }}
+    workspace = "10 silent",
+{{- end }}
+    no_initial_focus = true,
+    match = { class = "^(feishin)$" },
+})
+
+hl.window_rule({
+    name = "plex",
+    workspace = "8",
+    fullscreen = true,
+    monitor = "0",
+    match = { title = "^(Plex*)" },
+})
+
+-- #######################
+-- CONTROL PANELS
+-- #######################
+
+hl.window_rule({
+    name = "pavucontrol",
+    float = true,
+    size = { 720, 800 },
+{{- if .isDesktop }}
+    move = { "(2682)", "(574)" },
+{{- else if .isLaptop }}
+    move = { "(1245)", "(600)" },
+{{- end }}
+    match = { class = "org.pulseaudio.pavucontrol" },
+})
+
+hl.window_rule({
+    name = "mullvad",
+    animation = "fade",
+{{- if .isDesktop }}
+    move = { "(2846)", "(803)" },
+{{- else if .isLaptop }}
+    move = { "(4390)", "(816)" },
+{{- end }}
+    match = { title = "^(Mullvad VPN)$" },
+})
+
+-- #######################
+-- GAMES
+-- #######################
+
+-- Steam Games / Gamescope
+hl.window_rule({
+    name = "steam-games",
+    fullscreen = true,
+    monitor = "0",
+    workspace = "10",
+    border_size = 0,
+    no_anim = true,
+    match = { class = "^steam_app\\d+|gamescope$" },
+})
+
+-- Nintendo Switch / Yuzu / Yakuza0
+hl.window_rule({
+    name = "console-games",
+    monitor = "HDMI-A-1",
+    workspace = "21",
+    tag = "+game",
+    match = { class = "yakuza0.exe|org.yuzu_emu.yuzu" },
+})
+
+-- #######################
+-- GENERIC MODALS
+-- #######################
+
+-- Float as many modals as possible :)
+hl.window_rule({
+    name = "float-generic-class",
+    float = true,
+    border_size = 0,
+    match = { class = "file_progress|confirm|dialog|download|notification|error|splash|confirmreset" },
+})
+
+hl.window_rule({
+    name = "float-title",
+    float = true,
+    border_size = 0,
+    match = { title = "Open File|Open Folder|branchdialog|file-roller|DevTools|^(Media viewer)$|^(Picture-in-Picture)$|^(File Operation Progress)$|^(Confirm to replace files)$|^(Sign in to Steam)$" },
+})

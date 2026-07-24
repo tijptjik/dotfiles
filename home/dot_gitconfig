@@ -40,3 +40,9 @@
 	whitespace = red reverse
 [coderabbit]
 	machineId = cli/a52a9bc1960a4f84a5675b44d9c5ca32
+[credential "https://github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential

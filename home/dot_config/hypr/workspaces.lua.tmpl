@@ -1,0 +1,45 @@
+-- -*- mode: lua; -*-
+-- Sourced in ~/.config/hypr/hyprland.lua
+-- #######################
+-- HYPRLAND :: WORKSPACES
+-- #######################
+
+-- Author : Mart van de Ven
+-- Contact : https://type.hk
+
+-- See https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/
+
+-- "Smart gaps" / "No gaps when only"
+hl.workspace_rule({ workspace = "w[tv1]", gaps_out = 0, gaps_in = 0 })
+hl.workspace_rule({ workspace = "f[1]", gaps_out = 0, gaps_in = 0 })
+
+local workspace_groups = {
+{{- if .isDesktop }}
+    -- Primary
+    { first = 1, last = 10, monitor = "DP-1" },
+    -- Secondary
+    { first = 11, last = 20, monitor = "DP-2" },
+    -- TV
+    { first = 21, last = 22, monitor = "HDMI-A-1" },
+{{- else if .isLaptop }}
+    -- Primary
+    { first = 1, last = 10, monitor = "eDP-1" },
+    -- Secondary
+    { first = 11, last = 20, monitor = "DP-2" },
+{{- end }}
+}
+
+for _, group in ipairs(workspace_groups) do
+    for workspace = group.first, group.last do
+        hl.workspace_rule({
+            workspace = tostring(workspace),
+            monitor = group.monitor,
+            default = workspace == group.first,
+        })
+    end
+end
+
+{{- if .isDesktop }}
+-- Special
+hl.workspace_rule({ workspace = "special:codex", monitor = "DP-1" })
+{{ end }}

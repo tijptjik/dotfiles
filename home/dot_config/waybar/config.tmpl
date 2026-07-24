@@ -227,8 +227,7 @@
       "smooth-scrolling-threshold": 2,
       "on-scroll-down": "playerctl -p spotify next",
       "on-scroll-up": "playerctl -p spotify previous",
-      "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
-      "exec-if": "pgrep spotify"
+      "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Keep watching for Spotify even if it starts after Waybar.
     }
   },
   {

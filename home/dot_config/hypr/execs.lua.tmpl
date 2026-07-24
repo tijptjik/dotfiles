@@ -10,6 +10,9 @@
 local helpers = require("helpers")
 local startup = {}
 
+-- Register this immediately so it also takes effect after a config reload.
+helpers.start_zen_extensions()
+
 startup.subscription = hl.on("hyprland.start", function()
     -- Ensure Environment Variables Are Available
     -- hyprlock requires $WAYLAND_DISPLAY to be set in the systemd user environment.
@@ -45,9 +48,6 @@ startup.subscription = hl.on("hyprland.start", function()
 
     -- IDE
     hl.exec_cmd("$HOME/.local/bin/zed $HOME/code/saanseoi")
-
-    -- Zen Extensions Auto-Float
-    helpers.start_zen_extensions()
 
 {{- if .isDesktop }}
 

@@ -345,4 +345,123 @@ function helpers.start_zen_extensions()
     return zen_extensions_subscription
 end
 
+-- Persist Zen windows' workspaces during a session and use that snapshot to
+-- place the browser windows that Zen restores after the next Hyprland start.
+-- Application state (tabs, profiles, etc.) remains Zen's responsibility; this
+-- only restores the Hyprland workspace assignment.
+function helpers.start_zen_workspace_restore()
+    local state_home = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
+    local state_directory = state_home .. "/hypr"
+    local state_path = state_directory .. "/zen-workspaces.lua"
+    local state_tmp_path = state_path .. ".tmp"
+    local extension_titles = {
+        "(Bitwarden Password Manager) - Bitwarden",
+        "(Authenticator) - Authenticator",
+    }
+
+    local function is_extension(window)
+        if window == nil or window.title == nil then
+            return false
+        end
+
+        for _, title in ipairs(extension_titles) do
+            if window.title:find(title, 1, true) ~= nil then
+                return true
+            end
+        end
+
+        return false
+    end
+
+    local function is_zen_window(window)
+        return window ~= nil and window.class == "zen" and not is_extension(window)
+    end
+
+    local function load_snapshot()
+        local chunk = loadfile(state_path)
+        if chunk == nil then
+            return {}
+        end
+
+        local ok, snapshot = pcall(chunk)
+        if not ok or type(snapshot) ~= "table" then
+            return {}
+        end
+
+        local windows = {}
+        for _, window in ipairs(snapshot) do
+            if type(window) == "table" and type(window.workspace) == "string" then
+                windows[#windows + 1] = window
+            end
+        end
+        return windows
+    end
+
+    local function save_snapshot()
+        local windows = {}
+        for _, window in ipairs(hl.get_windows()) do
+            if is_zen_window(window) and window.workspace ~= nil and window.workspace.name ~= nil then
+                windows[#windows + 1] = {
+                    title = window.title or "",
+                    workspace = window.workspace.name,
+                }
+            end
+        end
+
+        local contents = { "return {\n" }
+        for _, window in ipairs(windows) do
+            contents[#contents + 1] = string.format(
+                "  { title = %q, workspace = %q },\n",
+                window.title,
+                window.workspace
+            )
+        end
+        contents[#contents + 1] = "}\n"
+
+        os.execute("mkdir -p -- " .. string.format("%q", state_directory))
+        local file = io.open(state_tmp_path, "w")
+        if file == nil then
+            return
+        end
+
+        file:write(table.concat(contents))
+        file:close()
+        os.rename(state_tmp_path, state_path)
+    end
+
+    local remaining = load_snapshot()
+    local restoring = #remaining > 0
+
+    if restoring then
+        hl.on("window.title", function(window)
+            if not is_zen_window(window) or window.title == nil or window.title == "" or window.title == "Zen Browser" then
+                return
+            end
+
+            -- Prefer an exact previous title so a different browser-window
+            -- creation order does not scramble the restored workspaces.
+            local index = 1
+            for candidate, saved in ipairs(remaining) do
+                if saved.title == window.title then
+                    index = candidate
+                    break
+                end
+            end
+
+            local saved = table.remove(remaining, index)
+            hl.dispatch(hl.dsp.window.move({ workspace = saved.workspace, follow = false, window = window }))
+            restoring = #remaining > 0
+        end)
+    end
+
+    -- Do not overwrite a prior snapshot until every expected Zen window has
+    -- returned. If Zen fails to restore a window, the last good snapshot is
+    -- preserved for the next launch instead of being silently lost.
+    hl.timer(function()
+        if not restoring then
+            save_snapshot()
+        end
+    end, { timeout = 1000, type = "repeat" })
+end
+
 return helpers

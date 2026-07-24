@@ -20,6 +20,10 @@ startup.subscription = hl.on("hyprland.start", function()
     -- Import these before starting Waybar so its tray can activate the portal.
     hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY")
 
+    -- Restore each Zen Browser window to the workspace it occupied in the
+    -- previous Hyprland session. This must be registered before Zen starts.
+    helpers.start_zen_workspace_restore()
+
     -- WM
     hl.exec_cmd("waybar")
     hl.exec_cmd("qs -c hamr")

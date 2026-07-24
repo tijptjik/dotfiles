@@ -316,10 +316,6 @@ function cd --description "auto ls for each cd"
   end
 end
 
-function pkill --description "pkill a process interactively"
-  _fzf_search_processes | xargs kill
-end
-
 function ppkill --description "kill -9 a process interactively"
   _fzf_search_processes | xargs kill -KILL
 end

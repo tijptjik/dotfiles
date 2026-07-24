@@ -5,8 +5,8 @@
     "output": "eDP-1",
     "name": "laptop",
     "mode": "hide",
-    "on-sigusr1": "hide",
-    "on-sigusr2": "show",
+    "on-sigusr1": "HIDE",
+    "on-sigusr2": "SHOW",
     "layer": "top",
     "position": "bottom",
     "height": 36,
@@ -136,8 +136,8 @@
   {
     "output": "DP-4",
     "mode": "hide",
-    "on-sigusr1": "hide",
-    "on-sigusr2": "show",
+    "on-sigusr1": "HIDE",
+    "on-sigusr2": "SHOW",
     "layer": "top",
     "position": "bottom",
     "height": 40,
@@ -171,8 +171,8 @@
     "output": "DP-1",
     "id": "1",
     "mode": "hide",
-    "on-sigusr1": "hide",
-    "on-sigusr2": "show",
+    "on-sigusr1": "HIDE",
+    "on-sigusr2": "SHOW",
     "layer": "top", // Waybar at top layer
     "position": "bottom", // Waybar position (top|bottom|left|right)
     "margin-right": 2604,
@@ -225,8 +225,8 @@
     "output": "DP-1",
     "id": "2",
     "name": "desktop-status",
-    "on-sigusr1": "hide",
-    "on-sigusr2": "show",
+    "on-sigusr1": "HIDE",
+    "on-sigusr2": "SHOW",
     "mode": "hide",
     "layer": "top", // Waybar at top layer
     "position": "bottom", // Waybar position (top|bottom|left|right)
@@ -239,12 +239,12 @@
     // Choose the order of the modules
     "modules-left": [
       "custom/crypto",
-      "custom/codex",
       "tray",
       "network",
       "custom/vpn",
       "pulseaudio",
       "clock",
+      "custom/codex",
       "custom/notifications",
       "custom/powerbutton"
     ],
@@ -327,8 +327,8 @@
   {
     "output": "DP-2",
     "id": "3",
-    "on-sigusr1": "hide",
-    "on-sigusr2": "show",
+    "on-sigusr1": "HIDE",
+    "on-sigusr2": "SHOW",
     "mode": "hide",
     "layer": "top", // Waybar at top layer
     "position": "bottom", // Waybar position (top|bottom|left|right)

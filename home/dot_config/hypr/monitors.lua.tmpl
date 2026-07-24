@@ -1,0 +1,87 @@
+-- -*- mode: lua; -*-
+-- Sourced in ~/.config/hypr/hyprland.lua
+-- #######################
+-- HYPRLAND :: MONITORS
+-- #######################
+
+-- Author : Mart van de Ven
+-- Contact : https://type.hk
+
+-- See https://wiki.hypr.land/Configuring/Basics/Monitors/
+{{ if .isDesktop -}}
+
+-- Primary
+
+-- Samsung Odyssey G8
+hl.monitor({
+    output = "DP-1",
+    mode = "3440x1440@119.960999",
+    position = "0x0",
+    scale = 1,
+    bitdepth = 10,
+    cm = "auto",
+    supports_wide_color = 1,
+    supports_hdr = 1,
+})
+
+-- Secondary
+
+-- HP23
+hl.monitor({
+    output = "DP-2",
+    mode = "1920x1080@74.97",
+    position = "3440x720",
+    scale = 1,
+    bitdepth = 8,
+    cm = "srgb",
+})
+
+-- HP23 - Disabled
+-- hl.monitor({
+--     output = "DP-2",
+--     disabled = true,
+-- })
+
+-- Tertiary
+
+-- LG TV - 4K
+-- hl.monitor({
+--     output = "HDMI-A-1",
+--     mode = "3840x2160@60.00",
+--     position = "auto-center-left",
+--     scale = 1,
+-- })
+
+-- LG TV - 1080p
+-- hl.monitor({
+--     output = "HDMI-A-1",
+--     mode = "1920x1080@60.00",
+--     position = "auto-center-left",
+--     scale = 1,
+-- })
+
+-- LG TV - disabled
+hl.monitor({
+    output = "HDMI-A-1",
+    disabled = true,
+})
+
+{{ else if .isLaptop -}}
+
+-- Primary
+hl.monitor({
+    output = "eDP-1",
+    mode = "3840x2400@60.00",
+    position = "0x0",
+    scale = 2,
+})
+
+-- Secondary
+hl.monitor({
+    output = "DP-2",
+    mode = "1920x1080@60.00",
+    position = "auto-right",
+    scale = 1,
+})
+
+{{- end }}

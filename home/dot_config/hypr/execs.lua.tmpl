@@ -25,7 +25,7 @@ startup.subscription = hl.on("hyprland.start", function()
     helpers.start_zen_workspace_restore()
 
     -- WM
-    hl.exec_cmd("waybar")
+    hl.exec_cmd("$HOME/.local/bin/waybar")
     hl.exec_cmd("qs -c hamr")
     helpers.start_waybar_auto_hide("bottom")
 

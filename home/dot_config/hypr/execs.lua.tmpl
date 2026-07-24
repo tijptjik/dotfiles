@@ -12,6 +12,7 @@ local startup = {}
 
 -- Register this immediately so it also takes effect after a config reload.
 helpers.start_zen_extensions()
+helpers.start_zen_workspace_restore()
 
 startup.subscription = hl.on("hyprland.start", function()
     -- Ensure Environment Variables Are Available
@@ -19,10 +20,6 @@ startup.subscription = hl.on("hyprland.start", function()
     -- GDM doesn't always propagate this automatically to systemd.
     -- Import these before starting Waybar so its tray can activate the portal.
     hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY")
-
-    -- Restore each Zen Browser window to the workspace it occupied in the
-    -- previous Hyprland session. This must be registered before Zen starts.
-    helpers.start_zen_workspace_restore()
 
     -- WM
     hl.exec_cmd("$HOME/.local/bin/waybar")

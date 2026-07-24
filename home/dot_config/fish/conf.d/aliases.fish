@@ -23,7 +23,10 @@ alias bootlog='journalctl --boot'
 alias syslog='journalctl -f'
 alias top='btm'
 
-alias zzz='sudo systemctl suspend && uwsm stop'
+# Suspending must leave the Wayland session alive.  Stopping UWSM after wake
+# tears down Hyprland (and any active Hyprlock), returning to GDM instead of
+# the locked session.
+alias zzz='systemctl suspend'
 
 #################################
 ### LIST

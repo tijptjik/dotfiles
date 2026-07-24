@@ -3,6 +3,7 @@ local waybar_auto_hide_timer
 local zen_extensions_subscription
 local zen_extension_title_subscription
 local staged_zen_windows = {}
+local zen_workspace_snapshot_timer
 
 local function command_output(command)
     local process = io.popen(command .. " 2>/dev/null")
@@ -429,8 +430,41 @@ function helpers.start_zen_workspace_restore()
         os.rename(state_tmp_path, state_path)
     end
 
+    local existing_zen_window = false
+    for _, window in ipairs(hl.get_windows()) do
+        if is_zen_window(window) then
+            existing_zen_window = true
+            break
+        end
+    end
+
     local remaining = load_snapshot()
-    local restoring = #remaining > 0
+    -- A config reload while Zen is already running must re-baseline the
+    -- current layout, not try to replay an old snapshot into live windows.
+    local restoring = #remaining > 0 and not existing_zen_window
+    local assigned = {}
+
+    local function restore_window(window)
+        if not is_zen_window(window) or window.address == nil or assigned[window.address] or #remaining == 0 then
+            return false
+        end
+
+        -- Prefer an exact previous title so a different browser-window
+        -- creation order does not scramble the restored workspaces.
+        local index = 1
+        for candidate, saved in ipairs(remaining) do
+            if saved.title == window.title then
+                index = candidate
+                break
+            end
+        end
+
+        local saved = table.remove(remaining, index)
+        assigned[window.address] = true
+        hl.dispatch(hl.dsp.window.move({ workspace = saved.workspace, follow = false, window = window }))
+        restoring = #remaining > 0
+        return true
+    end
 
     if restoring then
         hl.on("window.title", function(window)
@@ -438,26 +472,31 @@ function helpers.start_zen_workspace_restore()
                 return
             end
 
-            -- Prefer an exact previous title so a different browser-window
-            -- creation order does not scramble the restored workspaces.
-            local index = 1
-            for candidate, saved in ipairs(remaining) do
-                if saved.title == window.title then
-                    index = candidate
-                    break
-                end
+            restore_window(window)
+        end)
+
+        hl.on("window.open_early", function(window)
+            if window == nil or window.class ~= "zen" or window.address == nil then
+                return
             end
 
-            local saved = table.remove(remaining, index)
-            hl.dispatch(hl.dsp.window.move({ workspace = saved.workspace, follow = false, window = window }))
-            restoring = #remaining > 0
+            -- Restored blank/new-tab windows commonly retain Zen's generic
+            -- title.  Give extension popups time to identify themselves, then
+            -- assign any still-generic browser window in its creation order.
+            hl.timer(function()
+                restore_window(window)
+            end, { timeout = 3000, type = "oneshot" })
         end)
     end
 
     -- Do not overwrite a prior snapshot until every expected Zen window has
     -- returned. If Zen fails to restore a window, the last good snapshot is
     -- preserved for the next launch instead of being silently lost.
-    hl.timer(function()
+    if zen_workspace_snapshot_timer ~= nil then
+        zen_workspace_snapshot_timer:set_enabled(false)
+    end
+
+    zen_workspace_snapshot_timer = hl.timer(function()
         if not restoring then
             save_snapshot()
         end

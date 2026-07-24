@@ -40,6 +40,15 @@ hl.window_rule({
 -- APPS
 -- #######################
 
+-- Solaar needs either its tray icon or an open window to remain running.
+-- Keep the window alive off-screen while omitting the tray icon.
+hl.window_rule({
+    name = "solaar",
+    workspace = "special:solaar silent",
+    no_initial_focus = true,
+    match = { class = "^io\\.github\\.pwr_solaar\\.solaar$" },
+})
+
 hl.window_rule({
     name = "kitty",
     -- no_anim = true,

@@ -10,7 +10,7 @@
     headset_led_control, headset-onboard-effect, headset_per_zone_lighting, headset-signature-startup, headset-signature-shutdown, headset-signature-passive,
     logivoice-nr-state, logivoice-ng-state, logivoice-comp-state, logivoice-deesser-state, logivoice-depopper-state, logivoice-limiter-state, logivoice-hpf-state]
   _battery: 4096
-  _config_cookie: [241, 186]
+  _config_cookie: [155, 123]
   _modelId: B020407BC08A
   _sensitive: {change-host: true, dpi: false, hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore, lowres-scroll-mode: false}
   _serial: 60F0A17A

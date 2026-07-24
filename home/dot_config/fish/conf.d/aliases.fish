@@ -224,7 +224,7 @@ alias frcs='fish_config_edit shell'
 alias frcv='fish_config_edit variables'
 
 # Hyprland
-alias hrc='chezmoi edit $HOME/.config/hypr/hyprland.conf'
+alias hrc='chezmoi edit $HOME/.config/hypr/hyprland.lua'
 alias hrcl='chezmoi edit $HOME/.config/hypr/hyprlock.conf'
 alias hrcp='chezmoi edit $HOME/.config/hypr/hyprpaper.conf'
 alias hrcb='chezmoi edit $HOME/.config/waybar/config'

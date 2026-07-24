@@ -45,7 +45,7 @@ hl.bind(super("R"), hl.dsp.pass({ window = "class:^(com\\.obsproject\\.Studio)$"
 -- #######################
 
 -- Close
-hl.bind(super("Q"), hl.dsp.window.kill())
+hl.bind(super("Q"), hl.dsp.window.close())
 
 -- Lock
 hl.bind(super("L"), hl.dsp.exec_cmd("hyprlock --grace 5"))

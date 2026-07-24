@@ -13,6 +13,7 @@ local startup = {}
 -- Register this immediately so it also takes effect after a config reload.
 helpers.start_zen_extensions()
 helpers.start_zen_workspace_restore()
+helpers.start_waybar_auto_hide("bottom")
 
 startup.subscription = hl.on("hyprland.start", function()
     -- Ensure Environment Variables Are Available
@@ -24,7 +25,6 @@ startup.subscription = hl.on("hyprland.start", function()
     -- WM
     hl.exec_cmd("$HOME/.local/bin/waybar")
     hl.exec_cmd("qs -c hamr")
-    helpers.start_waybar_auto_hide("bottom")
 
     hl.exec_cmd("dconf load /org/gnome/desktop/interface/ < ~/.config/dconf/interface.conf")
 

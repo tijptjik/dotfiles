@@ -16,11 +16,6 @@ local function command_output(command)
     return output
 end
 
-local function command_succeeds(command)
-    local status = os.execute(command)
-    return status == true or status == 0
-end
-
 local function is_idle(hyprvoice_status)
     return hyprvoice_status:find("status=idle", 1, true) ~= nil
 end
@@ -194,7 +189,7 @@ function helpers.start_waybar_auto_hide(side)
         local cursor = hl.get_cursor_pos()
         local monitor = hl.get_monitor_at_cursor()
 
-        if cursor == nil or monitor == nil or not command_succeeds("pgrep -x waybar >/dev/null") then
+        if cursor == nil or monitor == nil then
             visible = true
             return
         end
@@ -223,13 +218,14 @@ function helpers.start_waybar_auto_hide(side)
         end
 
         if at_reveal_edge and not visible then
-            os.execute("pkill -USR2 -x waybar")
+            hl.exec_cmd("pkill -USR2 -x waybar")
             visible = true
         elseif not in_safe_zone and visible then
-            os.execute("pkill -USR1 -x waybar")
+            hl.exec_cmd("pkill -USR1 -x waybar")
             visible = false
         end
     end, { timeout = 100, type = "repeat" })
+    waybar_auto_hide_timer:set_enabled(true)
 
     return waybar_auto_hide_timer
 end

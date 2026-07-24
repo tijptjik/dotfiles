@@ -265,7 +265,7 @@ def pull_dotfiles(repo: Path) -> None:
         stage_label(repo, "FAILED", "✗", "Chezmoi")
         raise
     after = git_ref(repo, "HEAD")
-    note = "rebases" if before and after and before != after else "no changes"
+    note = "rebased" if before and after and before != after else "no changes"
     stage_result(repo, "PULL", "Chezmoi", note)
 
 
@@ -315,7 +315,7 @@ def pull_chezetc(status_repo: Path) -> None:
     before = git_ref(CHEZETC_REPO, "HEAD")
     run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO, capture_output=True)
     after = git_ref(CHEZETC_REPO, "HEAD")
-    note = "rebases" if before and after and before != after else "no changes"
+    note = "rebased" if before and after and before != after else "no changes"
     stage_result(status_repo, "PULL", "Chezetc", note)
 
 

@@ -26,7 +26,8 @@
       "pulseaudio",
       "clock",
       "custom/notifications",
-      "custom/powerbutton"
+      "custom/caffeine",
+      "custom/nightlight"
     ],
     "hyprland/workspaces": {
       "format": "{icon} {name}",
@@ -123,14 +124,21 @@
       "exec": "$HOME/.config/waybar/notifications.fish",
       "on-click": "$HOME/.config/waybar/notifications.fish toggle"
     },
-    "custom/powerbutton": {
+    "custom/caffeine": {
       "format": "{}",
       "interval": 1,
       "return-type": "json",
-      "exec": "$HOME/.config/waybar/powerbutton.fish",
+      "exec": "$HOME/.config/waybar/powerbutton.fish caffeine",
       "on-click": "$HOME/.config/waybar/powerbutton.fish toggle-idle",
-      "on-click-middle": "$HOME/.config/waybar/powerbutton.fish shutdown",
-      "on-click-right": "$HOME/.config/waybar/powerbutton.fish toggle-filter"
+      "on-click-middle": "systemctl suspend"
+    },
+    "custom/nightlight": {
+      "format": "{}",
+      "interval": 1,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/powerbutton.fish nightlight",
+      "on-click": "$HOME/.config/waybar/powerbutton.fish toggle-filter",
+      "on-click-middle": "systemctl poweroff"
     }
   },
   {
@@ -246,7 +254,8 @@
       "clock",
       "custom/codex",
       "custom/notifications",
-      "custom/powerbutton"
+      "custom/caffeine",
+      "custom/nightlight"
     ],
     "custom/crypto": {
       "format": "{}",
@@ -314,14 +323,21 @@
       "exec": "$HOME/.config/waybar/notifications.fish",
       "on-click": "$HOME/.config/waybar/notifications.fish toggle"
     },
-    "custom/powerbutton": {
+    "custom/caffeine": {
       "format": "{}",
       "interval": 1,
       "return-type": "json",
-      "exec": "$HOME/.config/waybar/powerbutton.fish",
+      "exec": "$HOME/.config/waybar/powerbutton.fish caffeine",
       "on-click": "$HOME/.config/waybar/powerbutton.fish toggle-idle",
-      "on-click-middle": "$HOME/.config/waybar/powerbutton.fish shutdown",
-      "on-click-right": "$HOME/.config/waybar/powerbutton.fish toggle-filter"
+      "on-click-middle": "systemctl suspend"
+    },
+    "custom/nightlight": {
+      "format": "{}",
+      "interval": 1,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/powerbutton.fish nightlight",
+      "on-click": "$HOME/.config/waybar/powerbutton.fish toggle-filter",
+      "on-click-middle": "systemctl poweroff"
     }
   },
   {

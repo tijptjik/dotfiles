@@ -75,8 +75,8 @@ window#waybar.laptop #network {
 }
 
 /* Keep the notification controls aligned at the laptop bar's compact scale. */
-window#waybar.laptop #custom-powerbutton {
-  margin-left: -3px;
+window#waybar.laptop #custom-caffeine,
+window#waybar.laptop #custom-nightlight {
   font-size: 23px;
 }
 
@@ -171,15 +171,15 @@ window#waybar.laptop #custom-powerbutton {
   color: @base03;
 }
 
-#custom-powerbutton {
-  margin-left: -12px;
+#custom-caffeine {
+  margin: 0;
+  border-radius: 0;
+}
+
+#custom-nightlight {
+  margin: 0;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-{{- if .isLaptop }}
-  font-size: 23px;
-{{- else if .isDesktop }}
-  font-size: 14px;
-{{- end }}
 }
 
 /* Desktop status bar grouping */

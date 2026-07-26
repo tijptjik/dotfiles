@@ -10,7 +10,7 @@ DB_PATH = Path.home() / ".codex-lb" / "store.db"
 # Codex now exposes the desired weekly stats through the primary window.
 WEEKLY_WINDOW = "primary"
 SUMMARY_LABEL = "󰃭"
-TJK_WEIGHT = 20
+TPK_WEIGHT = 20
 TOOLTIP_HEADERS = {
     "percent": "1w%",
     "time": "1w↻",
@@ -83,7 +83,7 @@ def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
         }
 
     weighted_values = [
-        (account["weekly"], TJK_WEIGHT if label.casefold() == "tjk" else 1)
+        (account["weekly"], TPK_WEIGHT if label.casefold() == "tpk" else 1)
         for label, account in accounts.items()
         if account["weekly"] is not None
     ]

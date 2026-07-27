@@ -3,7 +3,10 @@
 name = "pytjik"
 version = "0.1.0"
 description = "Tijp Client Environment"
-requires-python = ">=3.14"
+# PaddlePaddle does not yet provide CPython 3.14 wheels.  Keep this project's
+# runtime on the newest supported Python rather than constraining the system
+# Python used by other tools.
+requires-python = ">=3.13,<3.14"
 dependencies = [
     "click>=8.3.1",
     "duckdb>=1.4.1",
@@ -20,6 +23,11 @@ dependencies = [
     "tomli-w>=1.2.0",
     "tqdm>=4.67.1",
 ]
+
+[tool.uv]
+# Client machines run Linux; avoid attempting to produce a universal lock for
+# unsupported targets such as Windows.
+environments = ["sys_platform == 'linux'"]
 
 [tool.uv.workspace]
 members = [

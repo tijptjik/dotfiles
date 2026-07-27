@@ -1,0 +1,18 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+{{ if .isClient -}}
+function sync_python_environment
+    # This is an after script so chezmoi has already deployed $HOME/pyproject.toml
+    # before uv reads it. Chezmoi otherwise reaches .chezmoiscripts before the
+    # project file during its normal traversal.
+    #
+    # PaddlePaddle supports CPython through 3.13. Request it explicitly so an
+    # installed system Python 3.14 does not make the sync unsatisfiable.
+    uv sync --project "$HOME" --python 3.13
+end
+
+stage "Python environment" SYNC "Python environment" sync_python_environment
+{{ else -}}
+__stage_label SKIP "-" "Python environment (client only)"
+{{ end -}}

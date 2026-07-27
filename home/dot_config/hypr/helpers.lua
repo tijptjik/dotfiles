@@ -247,7 +247,7 @@ function helpers.start_zen_extensions()
         return staged_zen_windows[window.address]
     end
 
-    local function restore_staged_window(window)
+    local function restore_staged_window(window, tile)
         local staged = staged_window(window)
 
         if staged == nil then
@@ -259,6 +259,11 @@ function helpers.start_zen_extensions()
         end
 
         staged_zen_windows[window.address] = nil
+        -- Clear a transient floating state while this window is still hidden,
+        -- so normal Zen windows arrive at their destination as tiles.
+        if tile then
+            hl.dispatch(hl.dsp.window.float({ action = "unset", window = window }))
+        end
         hl.dispatch(hl.dsp.window.move({ workspace = staged.workspace, follow = false, window = window }))
         return true
     end
@@ -312,7 +317,7 @@ function helpers.start_zen_extensions()
 
         local timer
         timer = hl.timer(function()
-            restore_staged_window(window)
+            restore_staged_window(window, true)
         end, { timeout = 750, type = "oneshot" })
         if staged_zen_windows[window.address] == staged then
             staged.timer = timer
@@ -331,7 +336,7 @@ function helpers.start_zen_extensions()
         -- Zen first reports a generic title. Keep it hidden until a meaningful
         -- title arrives, or until the short timer above releases it.
         if staged ~= nil and window.title ~= nil and window.title ~= "" and window.title ~= "Zen Browser" then
-            restore_staged_window(window)
+            restore_staged_window(window, true)
         end
     end)
 

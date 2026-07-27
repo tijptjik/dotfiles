@@ -4,6 +4,7 @@ local zen_extensions_subscription
 local zen_extension_title_subscription
 local staged_zen_windows = {}
 local zen_workspace_snapshot_timer
+local zen_workspace_restore_pending = false
 
 local function command_output(command)
     local process = io.popen(command .. " 2>/dev/null")
@@ -268,6 +269,42 @@ function helpers.start_zen_extensions()
         return true
     end
 
+    local function discard_staged_window(window)
+        local staged = staged_window(window)
+
+        if staged == nil then
+            return false
+        end
+
+        if staged.timer ~= nil then
+            staged.timer:set_enabled(false)
+        end
+
+        staged_zen_windows[window.address] = nil
+        return true
+    end
+
+    local function release_staged_window(window, staged, timeout)
+        local timer
+        timer = hl.timer(function()
+            if staged_zen_windows[window.address] ~= staged then
+                return
+            end
+
+            -- Restored blank/new-tab windows receive their destination only
+            -- after the workspace restorer's fallback timer. Keep them hidden
+            -- until that handoff has completed rather than releasing them to
+            -- the launch workspace first.
+            if zen_workspace_restore_pending then
+                release_staged_window(window, staged, 250)
+                return
+            end
+
+            restore_staged_window(window, true)
+        end, { timeout = timeout, type = "oneshot" })
+        staged.timer = timer
+    end
+
     local function float_extension(window)
         if window == nil or window.title == nil or window.class ~= "zen" then
             return false
@@ -315,15 +352,7 @@ function helpers.start_zen_extensions()
         staged_zen_windows[window.address] = staged
         hl.dispatch(hl.dsp.window.move({ workspace = staging_workspace, follow = false, window = window }))
 
-        local timer
-        timer = hl.timer(function()
-            restore_staged_window(window, true)
-        end, { timeout = 750, type = "oneshot" })
-        if staged_zen_windows[window.address] == staged then
-            staged.timer = timer
-        else
-            timer:set_enabled(false)
-        end
+        release_staged_window(window, staged, 750)
     end)
 
     zen_extension_title_subscription = hl.on("window.title", function(window)
@@ -332,6 +361,13 @@ function helpers.start_zen_extensions()
         end
 
         local staged = staged_window(window)
+
+        -- The workspace restorer has already moved this regular Zen window
+        -- directly from staging to its saved destination.
+        if staged ~= nil and staged.restored then
+            discard_staged_window(window)
+            return
+        end
 
         -- Zen first reports a generic title. Keep it hidden until a meaningful
         -- title arrives, or until the short timer above releases it.
@@ -443,6 +479,7 @@ function helpers.start_zen_workspace_restore()
     -- A config reload while Zen is already running must re-baseline the
     -- current layout, not try to replay an old snapshot into live windows.
     local restoring = #remaining > 0 and not existing_zen_window
+    zen_workspace_restore_pending = restoring
     local assigned = {}
 
     local function restore_window(window)
@@ -462,8 +499,24 @@ function helpers.start_zen_workspace_restore()
 
         local saved = table.remove(remaining, index)
         assigned[window.address] = true
+        local staged = staged_zen_windows[window.address]
+
+        -- This callback is registered before the staging callback. Mark the
+        -- handoff so that callback only cleans up the staging record instead
+        -- of bouncing the window through its original workspace.
+        if staged ~= nil then
+            staged.restored = true
+            if staged.timer ~= nil then
+                staged.timer:set_enabled(false)
+            end
+        end
+
+        -- Apply the tiled state before the workspace transfer: Hyprland then
+        -- maps the window directly into the destination layout.
+        hl.dispatch(hl.dsp.window.float({ action = "unset", window = window }))
         hl.dispatch(hl.dsp.window.move({ workspace = saved.workspace, follow = false, window = window }))
         restoring = #remaining > 0
+        zen_workspace_restore_pending = restoring
         return true
     end
 

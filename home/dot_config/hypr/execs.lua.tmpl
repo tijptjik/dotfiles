@@ -11,8 +11,8 @@ local helpers = require("helpers")
 local startup = {}
 
 -- Register this immediately so it also takes effect after a config reload.
-helpers.start_zen_extensions()
 helpers.start_zen_workspace_restore()
+helpers.start_zen_extensions()
 helpers.start_waybar_auto_hide("bottom")
 
 startup.subscription = hl.on("hyprland.start", function()

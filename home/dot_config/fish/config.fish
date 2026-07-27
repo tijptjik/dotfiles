@@ -40,8 +40,8 @@ source "$FISHCONFIG/utils.fish"
 # Shell initialisations | FRCS
 source "$FISHCONFIG/shell.fish"
 
-# Node.js version manager
-fnm env --use-on-cd --shell fish | source
-
 # Activate UV Shell - see utils.fish
 workon
+
+# Node.js version manager
+fnm env --use-on-cd --shell fish | source

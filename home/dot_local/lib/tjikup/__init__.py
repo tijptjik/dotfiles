@@ -380,17 +380,24 @@ def main() -> int:
     section("Template Sync")
     propagators = discover_propagators()
     resolved = [(propagator, repo / propagator.source, Path.home() / propagator.target) for propagator in propagators]
+    active_propagators: list[Propagator] = []
+    active_resolved: list[tuple[Propagator, Path, Path]] = []
     for propagator, source, target in resolved:
         if not source.is_file():
             raise UpdateError(f"{propagator.name}: missing chezmoi template: {source}")
         if not target.is_file():
+            if propagator.optional:
+                stage_skip_ok(repo, propagator.name.capitalize(), "not installed")
+                continue
             raise UpdateError(f"{propagator.name}: missing live config: {target}")
+        active_propagators.append(propagator)
+        active_resolved.append((propagator, source, target))
 
     with tempfile.TemporaryDirectory(prefix="tjikup-") as temp_dir:
         temp = Path(temp_dir)
         changed_names: list[str] = []
         sync_changes: dict[str, int] = {}
-        for propagator, source, target in resolved:
+        for propagator, source, target in active_resolved:
             before = source.read_text()
             output = temp / f"{propagator.name}.template"
             try:
@@ -408,7 +415,7 @@ def main() -> int:
                 source.write_text(after)
 
     if args.dry_run:
-        for propagator in propagators:
+        for propagator in active_propagators:
             if propagator.name in changed_names:
                 changes = sync_changes[propagator.name]
                 stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
@@ -417,7 +424,7 @@ def main() -> int:
         print("dry-run complete")
         return 0
 
-    for propagator in propagators:
+    for propagator in active_propagators:
         if propagator.name in changed_names:
             changes = sync_changes[propagator.name]
             stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
@@ -425,7 +432,7 @@ def main() -> int:
             stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
     section("Git")
 
-    changed_names = commit_templates(repo, repo, propagators)
+    changed_names = commit_templates(repo, repo, active_propagators)
     pull_dotfiles(repo)
     warn_dirty_files(repo, repo)
     ahead = git_ahead_count(repo)
@@ -439,7 +446,7 @@ def main() -> int:
     if changed_names:
         auto_targets = [
             str(Path.home() / propagator.target)
-            for propagator in propagators
+            for propagator in active_propagators
             if propagator.name in changed_names
         ]
         if not run_chezmoi_apply(

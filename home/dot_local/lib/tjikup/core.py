@@ -22,6 +22,7 @@ class Propagator(ABC):
     name: str
     source: Path
     target: Path
+    optional = False
 
     @abstractmethod
     def propagate(self, source_path: Path, target_path: Path, output_path: Path) -> None:

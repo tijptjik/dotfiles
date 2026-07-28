@@ -67,6 +67,7 @@ def update_template(source_path: Path, target_path: Path, output_path: Path) -> 
 class ZedPropagator(Propagator):
     name = "zed"
     order = 10
+    optional = True
     source = Path("home/dot_config/zed/private_settings.json.tmpl")
     target = Path(".config/zed/settings.json")
 

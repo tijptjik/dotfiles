@@ -20,6 +20,12 @@ from tjikup.core import Propagator, UpdateError
 CHEZETC_REPO = Path.home() / ".local/share/chezetc"
 GUM = shutil.which("gum")
 CHEZMOI_CONFIG_WARNING = "chezmoi: warning: config file template has changed, run chezmoi init to regenerate config file"
+SPLASH = """
+                        _   _        ____  ____  ____
+                     __| | / |  ____|_  _||   _||_   |
+                    |__  || |__|____|/  \\ |  |_   || |
+                       |_| \\___|    |_ /\\_||____|  \\__/
+"""
 
 
 def run(
@@ -244,6 +250,21 @@ def repo_header(repo: Path, title: str, url: str) -> None:
     print(url)
 
 
+def splash() -> None:
+    """Print Tjikup's startup splash once, before repository output begins."""
+    if not sys.stdout.isatty():
+        return
+    colors = (196, 208, 226, 46, 39, 129)
+    color_index = 0
+    for character in SPLASH:
+        if character in {" ", "\n"}:
+            sys.stdout.write(character)
+            continue
+        sys.stdout.write(f"\033[1;38;5;{colors[color_index]}m{character}")
+        color_index = (color_index + 1) % len(colors)
+    sys.stdout.write("\033[0m\n")
+
+
 def run_checks(repo: Path) -> None:
     grouped_checks = [
         (
@@ -441,7 +462,8 @@ def push_committed_chezetc(status_repo: Path) -> None:
 def apply_chezetc(repo: Path) -> None:
     chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
     config = Path.home() / ".config/chezmoi/chezetc/chezmoi.toml"
-    environment = {**os.environ, "TJIKUP_SKIP_PREFLIGHT": "1"}
+    repo_header(repo, "Tijpcetera", "https://github.com/tijptjik/etcfiles")
+    environment = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"}
     before = config.read_bytes() if config.is_file() else None
     try:
         run_stream([chezetc, "apply"], CHEZETC_REPO, env=environment)
@@ -521,6 +543,7 @@ def main() -> int:
     repo = find_repo()
     report_file = create_report_file()
     os.environ["TJIKUP_REPORT_FILE"] = str(report_file)
+    splash()
     repo_header(repo, "Tijpfiles", "https://github.com/tijptjik/dotfiles")
     section_header(repo, "Prerequisites")
     run_checks(repo)

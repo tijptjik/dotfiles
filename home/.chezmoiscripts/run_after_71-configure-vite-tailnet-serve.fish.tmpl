@@ -24,19 +24,19 @@ function vite_tailnet_route_is_ready
 end
 
 if not command -q tailscale
-    __stage_label WARN "!" "Vite tailnet route [Tailscale unavailable]"
+    __stage_label WARN "!" "Vite Bridge [Tailscale unavailable]"
     exit 0
 end
 
 if vite_tailnet_route_is_ready
-    __stage_label_note SKIP "✓" "Vite tailnet route" "ready at :8443"
+    __stage_label_note SKIP "✓" "Vite Bridge" "ready at :8443"
     exit 0
 end
 
 set restore_tailnet false
 if not tailnet_running
     if not command timeout 15s tailscale up >/dev/null 2>&1
-        tailnet_warning "Vite tailnet route"
+        tailnet_warning "Vite Bridge"
         exit 0
     end
     set restore_tailnet true
@@ -45,9 +45,9 @@ end
 # The Vite development server on fi binds IPv6 loopback only. `localhost`
 # preserves that resolution while avoiding a Tailscale IPv6-literal proxy bug.
 if command tailscale serve --https=8443 --bg --yes http://localhost:5173 >/dev/null
-    __stage_label_note CONFIG "✓" "Vite tailnet route" "ready at :8443"
+    __stage_label_note CONFIG "✓" "Vite Bridge" "ready at :8443"
 else
-    __stage_failure "Vite tailnet route"
+    __stage_failure "Vite Bridge"
     if $restore_tailnet
         command tailscale down >/dev/null 2>&1
     end

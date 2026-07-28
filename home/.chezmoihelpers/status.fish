@@ -18,6 +18,13 @@ function __stage_event --argument-names stage_name icon subject note
         return
     end
 
+    # Reporting is optional.  A report file supplied by a caller can belong to
+    # a different user or be mounted read-only; do not let that obscure the
+    # actual stage result with a Fish redirection warning.
+    if test -e "$TJIKUP_REPORT_FILE"; and not test -w "$TJIKUP_REPORT_FILE"
+        return
+    end
+
     printf '%s\t%s\t%s\t%s\n' "$stage_name" "$icon" "$subject" "$note" >> "$TJIKUP_REPORT_FILE"
 end
 

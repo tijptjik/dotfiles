@@ -47,7 +47,7 @@ if not command -q tailscale
 end
 
 if collie_bridge_is_ready
-    __stage_label_note SKIP "✓" "Collie bridge" "ready at :443"
+    __stage_label_note SKIP "✓" "Collie Bridge" "ready at :443"
     exit 0
 end
 
@@ -77,9 +77,9 @@ if not sudo loginctl enable-linger "$USER"
 end
 
 if command herdr plugin action invoke restart --plugin herdr.collie >/dev/null
-    __stage_label_note CONFIG "✓" "Collie bridge" "ready at :443"
+    __stage_label_note CONFIG "✓" "Collie Bridge" "ready at :443"
 else
-    __stage_failure "Collie bridge"
+    __stage_failure "Collie Bridge"
     restore_tailnet_if_needed $restore_tailnet
     exit 1
 end

@@ -399,7 +399,7 @@ def chezmoi_config_needs_init(repo: Path) -> bool:
 def push_committed_chezetc(status_repo: Path) -> None:
     ahead = git_ahead_count(CHEZETC_REPO)
     if not ahead:
-        stage_unchanged(status_repo, "Tjipcetera", "no local commits")
+        stage_unchanged(status_repo, "Tjipcetera", "no changes")
         return
     run_stage(status_repo, "PUSH", "Tjipcetera", ["git", "push"], CHEZETC_REPO, "pushed")
 

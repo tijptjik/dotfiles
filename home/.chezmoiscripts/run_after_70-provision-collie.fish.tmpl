@@ -1,0 +1,66 @@
+#!/usr/bin/env fish
+{{ if .isDesktop -}}
+
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+function tailnet_running
+    command tailscale status --json 2>/dev/null | command jq -e '.BackendState == "Running"' >/dev/null 2>&1
+end
+
+function restore_tailnet_if_needed --argument-names should_restore
+    if test "$should_restore" = true
+        command tailscale down >/dev/null 2>&1
+    end
+end
+
+if not command -q herdr
+    __stage_label WARN "!" "Collie [Herdr unavailable]"
+    exit 0
+end
+
+if not test -S "$HOME/.config/herdr/herdr.sock"
+    __stage_label WARN "!" "Collie [start Herdr, then rerun tjiktup]"
+    exit 0
+end
+
+if not command -q tailscale
+    __stage_label WARN "!" "Collie [Tailscale unavailable]"
+    exit 0
+end
+
+set restore_tailnet false
+if not tailnet_running
+    if not command tailscale up --timeout=15s >/dev/null 2>&1
+        __stage_label WARN "!" "Collie [Tailscale login required]"
+        exit 0
+    end
+    set restore_tailnet true
+end
+
+if not command herdr plugin list --json | command jq -e '.result.plugins[]? | select(.plugin_id == "herdr.collie")' >/dev/null 2>&1
+    __stage_label CONFIG "..." "Collie plugin"
+    if not command herdr plugin install AltanS/collie --yes
+        __stage_failure "Collie plugin"
+        restore_tailnet_if_needed $restore_tailnet
+        exit 1
+    end
+    __stage_result CONFIG "Collie plugin"
+end
+
+if not sudo loginctl enable-linger "$USER"
+    __stage_failure "Collie reboot persistence"
+    restore_tailnet_if_needed $restore_tailnet
+    exit 1
+end
+
+__stage_label CONFIG "..." "Collie bridge"
+if command herdr plugin action invoke restart --plugin herdr.collie >/dev/null
+    __stage_result CONFIG "Collie bridge"
+else
+    __stage_failure "Collie bridge"
+    restore_tailnet_if_needed $restore_tailnet
+    exit 1
+end
+
+restore_tailnet_if_needed $restore_tailnet
+{{ end -}}

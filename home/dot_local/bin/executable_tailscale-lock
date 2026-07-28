@@ -1,0 +1,20 @@
+#!/usr/bin/env fish
+
+# Keep fi disconnected from the tailnet while its desktop is in use.  Start
+# the lock screen first, then attach the node; disconnect again on every exit
+# path (including a failed or cancelled unlock).
+command hyprlock $argv &
+set lock_pid $last_pid
+
+if command -q tailscale
+    command tailscale up --timeout=15s >/dev/null 2>&1
+end
+
+wait $lock_pid
+set lock_status $status
+
+if command -q tailscale
+    command tailscale down >/dev/null 2>&1
+end
+
+exit $lock_status

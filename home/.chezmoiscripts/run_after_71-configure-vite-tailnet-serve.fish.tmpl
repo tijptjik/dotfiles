@@ -1,0 +1,40 @@
+#!/usr/bin/env fish
+{{ if .isDesktop -}}
+
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+function tailnet_running
+    command tailscale status --json 2>/dev/null | command jq -e '.BackendState == "Running"' >/dev/null 2>&1
+end
+
+if not command -q tailscale
+    __stage_label WARN "!" "Vite tailnet route [Tailscale unavailable]"
+    exit 0
+end
+
+set restore_tailnet false
+if not tailnet_running
+    if not command tailscale up --timeout=15s >/dev/null 2>&1
+        __stage_label WARN "!" "Vite tailnet route [Tailscale login required]"
+        exit 0
+    end
+    set restore_tailnet true
+end
+
+__stage_label CONFIG "..." "Vite tailnet route [:8443 → :5173]"
+# The Vite development server on fi binds IPv6 loopback only. `localhost`
+# preserves that resolution while avoiding a Tailscale IPv6-literal proxy bug.
+if command tailscale serve --https=8443 --bg --yes http://localhost:5173 >/dev/null
+    __stage_result CONFIG "Vite tailnet route [:8443 → :5173]"
+else
+    __stage_failure "Vite tailnet route"
+    if $restore_tailnet
+        command tailscale down >/dev/null 2>&1
+    end
+    exit 1
+end
+
+if $restore_tailnet
+    command tailscale down >/dev/null 2>&1
+end
+{{ end -}}

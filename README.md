@@ -46,6 +46,7 @@ Readmes are available in `/docs/{topic}.md`
 - [`solaar`](https://github.com/pwr-Solaar/Solaar)
 - [`starship`](https://github.com/starship/starship)
 - [systemd](https://systemd.io/)
+- [`Tailscale`](https://tailscale.com/)
 - [`tinty`](https://github.com/tinted-theming/tinty)
 - [`transmission`](https://github.com/transmission/transmission)
 - [`uv`](https://github.com/astral-sh/uv)
@@ -98,6 +99,23 @@ sudo dnf install kitty fish curl git chezmoi gum
 # Initialize and apply dotfiles in one step
 chezmoi init --apply tijptjik
 ```
+
+### Tailscale and Collie on a new device
+
+`chezetc apply` installs Tailscale, enables `tailscaled`, configures the local
+user as its operator, and keeps the daemon outside Mullvad on client hosts.
+Tailscale membership is deliberately not versioned: join each Linux device
+interactively after applying Chezetc.
+
+```bash
+tailscale up
+```
+
+Install the Tailscale Android app and sign in to the same tailnet. On `fi`, a
+subsequent `tjikup` installs/configures Collie for the local Herdr
+session and reserves the tailnet-only Vite route on HTTPS port 8443. Collie is
+reachable only while `fi` is locked; its Hyprlock wrapper brings the node up
+after locking and takes it down again on unlock.
 
 ## Usage
 

@@ -188,15 +188,14 @@ def chezmoi_apply_counts(repo: Path, command: list[str], env: dict[str, str]) ->
     return len(actions), actions.count("M")
 
 
-def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> tuple[bool, tuple[int, int] | None]:
-    apply_counts = chezmoi_apply_counts(repo, command, env)
+def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bool:
     if sys.stdout.isatty():
         try:
             run_stream(command, repo, env=env)
         except UpdateError:
             stage_label(repo, "FAILED", "✗", "Dotfiles apply")
             raise
-        return True, apply_counts
+        return True
 
     try:
         result = subprocess.run(command, cwd=repo, env=env, text=True, capture_output=True, check=False)
@@ -209,7 +208,7 @@ def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> tu
         if remaining:
             print(remaining)
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
-        return False, None
+        return False
 
     if result.stdout:
         sys.stdout.write(result.stdout)
@@ -218,7 +217,7 @@ def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> tu
     if result.returncode:
         stage_label(repo, "FAILED", "✗", "Dotfiles apply")
         raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
-    return True, apply_counts
+    return True
 
 
 def print_header(repo: Path) -> None:
@@ -580,53 +579,40 @@ def main() -> int:
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
         report_summary(repo, report_file)
         return 0
-    applied_changes = 0
-    replaced_files = 0
-    apply_counts_available = True
+    apply_env = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"}
+    apply_counts = chezmoi_apply_counts(repo, ["chezmoi", "apply"], apply_env)
+    if apply_counts is None:
+        stage_result(repo, "APPLY", "Dotfiles", "changes pending")
+    elif apply_counts[0]:
+        replaced_files = apply_counts[1]
+        if replaced_files:
+            noun = "file" if replaced_files == 1 else "files"
+            note = f"{replaced_files} {noun} replaced"
+        else:
+            note = "no files replaced"
+        stage_result(repo, "APPLY", "Dotfiles", note)
+    else:
+        stage_unchanged(repo, "Dotfiles")
     if changed_names:
         auto_targets = [
             str(Path.home() / propagator.target)
             for propagator in active_propagators
             if propagator.name in changed_names
         ]
-        applied, apply_counts = run_chezmoi_apply(
+        if not run_chezmoi_apply(
             repo,
             ["chezmoi", "apply", "--force", *auto_targets],
-            {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"},
-        )
-        if not applied:
+            apply_env,
+        ):
             report_summary(repo, report_file)
             return 0
-        if apply_counts is None:
-            apply_counts_available = False
-        else:
-            applied_changes += apply_counts[0]
-            replaced_files += apply_counts[1]
-    applied, apply_counts = run_chezmoi_apply(
+    if not run_chezmoi_apply(
         repo,
         ["chezmoi", "apply"],
-        {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"},
-    )
-    if not applied:
+        apply_env,
+    ):
         report_summary(repo, report_file)
         return 0
-    if apply_counts is None:
-        apply_counts_available = False
-    else:
-        applied_changes += apply_counts[0]
-        replaced_files += apply_counts[1]
-    if apply_counts_available:
-        if applied_changes:
-            if replaced_files:
-                noun = "file" if replaced_files == 1 else "files"
-                note = f"{replaced_files} {noun} replaced"
-            else:
-                note = "no files replaced"
-            stage_result(repo, "APPLY", "Dotfiles", note)
-        else:
-            stage_unchanged(repo, "Dotfiles")
-    else:
-        stage_result(repo, "APPLY", "Dotfiles", "applied")
     apply_chezetc(repo)
     report_summary(repo, report_file)
     return 0

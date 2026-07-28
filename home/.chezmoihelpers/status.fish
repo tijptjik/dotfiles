@@ -93,7 +93,7 @@ function __systems_go --argument-names message
                 set_color normal
             end
         end
-        sleep 0.08
+        sleep 0.32
     end
     echo
 end

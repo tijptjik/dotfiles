@@ -63,7 +63,10 @@ function __systems_go --argument-names message
         return 0
     end
 
-    set -l colors 9 11 10 14 12 13
+    # `set_color` takes a colour name or RGB value, not an ANSI palette index
+    # (unlike gum's --foreground). Keep the wave palette explicit so it works
+    # consistently across Fish/terminal versions.
+    set -l colors FF5F5F FFAF00 5FFF87 5FD7FF 5F87FF D787FF
     set -l message_length (string length -- "$message")
     for wave in (seq 0 5)
         printf "\r"

@@ -57,6 +57,32 @@ function __stage_styled_subject --argument-names subject
     end
 end
 
+function __systems_go --argument-names message
+    if not command -q gum; or not isatty stdout
+        echo "$message"
+        return 0
+    end
+
+    set -l colors 9 11 10 14 12 13
+    set -l message_length (string length -- "$message")
+    for wave in (seq 0 5)
+        printf "\r"
+        for index in (seq $message_length)
+            set -l character (string sub -s $index -l 1 -- "$message")
+            if test "$character" = " "
+                printf " "
+            else
+                set -l color_index (math "mod($index + $wave - 1, 6) + 1")
+                set_color --bold $colors[$color_index]
+                printf "%s" "$character"
+                set_color normal
+            end
+        end
+        sleep 0.08
+    end
+    echo
+end
+
 function __stage_label --argument-names stage_name icon subject
     __stage_event "$stage_name" "$icon" "$subject" ""
     set -l color (__stage_color "$stage_name")
@@ -78,7 +104,7 @@ function __stage_label_note --argument-names stage_name icon subject note
     if test "$stage_name" = PULL; and test "$note" = "no changes"
         set color 14
     end
-    if test "$stage_name" = SYNC; and string match -q '*no updates' -- "$note"
+    if test "$stage_name" = SYNC; and contains -- "$note" "no changes" latest "no updates"
         set color 6
     end
     set -l padded_stage (printf "%-7s" "$stage_name")

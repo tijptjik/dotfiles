@@ -432,20 +432,46 @@ def create_report_file() -> Path:
     return path
 
 
+def print_systems_go(repo: Path, message: str) -> None:
+    helper = repo / "home/.chezmoihelpers/status.fish"
+    fish = shutil.which("fish")
+    if fish and helper.is_file() and sys.stdout.isatty():
+        result = subprocess.run(
+            [fish, "-c", "source $argv[1]; __systems_go $argv[2]", "--", str(helper), message],
+            check=False,
+        )
+        if result.returncode == 0:
+            return
+    print(message)
+
+
 def report_summary(repo: Path, report_file: Path, *, dry_run: bool = False) -> None:
-    warnings = 0
+    issues: list[tuple[str, str, str, str]] = []
     try:
         for line in report_file.read_text().splitlines():
             fields = line.split("\t", 3)
-            if len(fields) >= 2 and fields[1] == "!":
-                warnings += 1
+            if len(fields) == 4 and fields[1] in {"!", "✗"}:
+                issue = (fields[0], fields[1], fields[2], fields[3])
+                if issue not in issues:
+                    issues.append(issue)
     except OSError:
         stage_label(repo, "WARN", "!", "Run summary", "report unavailable")
         return
 
-    warning_note = "no warnings" if warnings == 0 else f"{warnings} warning{'s' if warnings != 1 else ''}"
-    note = f"dry run; {warning_note}" if dry_run else warning_note
-    stage_result(repo, "COMPLETE", "Tjikup", note)
+    print()
+    print_systems_go(repo, "SOME SYSTEMS GO?!" if issues else "ALL SYSTEMS GO")
+    if not issues:
+        return
+
+    print()
+    section_title = "Dry-run issues" if dry_run else "Issues"
+    if GUM and sys.stdout.isatty():
+        run([GUM, "style", "--foreground", "11", "--bold", section_title])
+    else:
+        print(section_title)
+    print()
+    for stage_name, icon, subject, note in issues:
+        stage_label(repo, stage_name, icon, subject, note or None)
 
 
 def has_python_modules(*modules: str) -> bool:

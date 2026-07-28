@@ -203,6 +203,7 @@ def run_checks(repo: Path) -> None:
         ("Bun", shutil.which("bun") is not None),
         ("FNM", shutil.which("fnm") is not None),
         ("Herdr", shutil.which("herdr") is not None),
+        ("UV", shutil.which("uv") is not None),
     ]
     optional_checks = {"Bitwarden Access Token", "Chezmoi Decryption Key"}
     for subject, available in checks:
@@ -363,9 +364,15 @@ def push_committed_chezetc(status_repo: Path) -> None:
     run_stage(status_repo, "PUSH", "Chezetc", ["git", "push"], CHEZETC_REPO, "pushed")
 
 
-def apply_chezetc() -> None:
+def apply_chezetc(repo: Path) -> None:
     chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
+    config = Path.home() / ".config/chezmoi/chezetc/chezmoi.toml"
+    before = config.read_bytes() if config.is_file() else None
     run_stream([chezetc, "apply"], CHEZETC_REPO)
+    after = config.read_bytes() if config.is_file() else None
+    if before != after:
+        stage_result(repo, "RETRY", "Chezetc", "configuration refreshed")
+        run_stream([chezetc, "apply"], CHEZETC_REPO)
 
 
 def has_python_modules(*modules: str) -> bool:
@@ -378,11 +385,15 @@ def has_python_modules(*modules: str) -> bool:
     return result.returncode == 0
 
 
-def ensure_chezetc_toml_modules(repo: Path) -> None:
+def ensure_chezetc_toml_modules(repo: Path, *, install: bool = True) -> None:
     """Install chezetc's config-merging dependencies for the active Python."""
     modules = ("tomli", "tomli_w")
     if has_python_modules(*modules):
         stage_skip_ok(repo, "Chezetc TOML modules", "available")
+        return
+
+    if not install:
+        stage_skip(repo, "Chezetc TOML modules", "missing (dry run)")
         return
 
     uv = shutil.which("uv")
@@ -415,6 +426,7 @@ def main() -> int:
     print_header(repo)
     section("Prerequisites", leading=False)
     run_checks(repo)
+    ensure_chezetc_toml_modules(repo, install=not args.dry_run)
     section("Template Sync")
     propagators = discover_propagators()
     resolved = [(propagator, repo / propagator.source, Path.home() / propagator.target) for propagator in propagators]
@@ -501,8 +513,7 @@ def main() -> int:
         return 0
     pull_chezetc(repo)
     push_committed_chezetc(repo)
-    ensure_chezetc_toml_modules(repo)
-    apply_chezetc()
+    apply_chezetc(repo)
     return 0
 
 

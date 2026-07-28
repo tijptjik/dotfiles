@@ -33,7 +33,7 @@ end
 # The Vite development server on fi binds IPv6 loopback only. `localhost`
 # preserves that resolution while avoiding a Tailscale IPv6-literal proxy bug.
 if command tailscale serve --https=8443 --bg --yes http://localhost:5173 >/dev/null
-    __stage_label_note CONFIG "✓" "Vite tailnet route" ":8443 → :5173"
+    __stage_label_note CONFIG "✓" "Vite tailnet route" "ready when connected (:8443 → :5173)"
 else
     __stage_failure "Vite tailnet route"
     if $restore_tailnet

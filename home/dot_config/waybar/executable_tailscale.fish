@@ -14,7 +14,9 @@ if test "$argv[1]" = toggle
     exit $status
 end
 
-set icon ''
+# Material Symbols Rounded renders this VPN-lock ligature much more clearly
+# than Tailscale's dense nine-dot brand mark at Waybar's small status size.
+set icon 'vpn_lock'
 set state inactive
 set tooltip 'Tailscale disconnected'
 set status_json (tailnet_state)

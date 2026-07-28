@@ -4,11 +4,21 @@ function __stage_color --argument-names verb
             echo 8
         case CHECK WARN
             echo 14
+        case COMPLETE
+            echo 10
         case INSTALL SYNC PULL REMOVE CONFIG COMMIT PUSH FAILED
             echo 9
         case '*'
             echo 14
     end
+end
+
+function __stage_event --argument-names stage_name icon subject note
+    if not set -q TJIKUP_REPORT_FILE; or test -z "$TJIKUP_REPORT_FILE"; or test "$icon" = "..."
+        return
+    end
+
+    printf '%s\t%s\t%s\t%s\n' "$stage_name" "$icon" "$subject" "$note" >> "$TJIKUP_REPORT_FILE"
 end
 
 function __stage_styled_subject --argument-names subject
@@ -24,6 +34,7 @@ function __stage_styled_subject --argument-names subject
 end
 
 function __stage_label --argument-names stage_name icon subject
+    __stage_event "$stage_name" "$icon" "$subject" ""
     set -l color (__stage_color "$stage_name")
     set -l padded_stage (printf "%-7s" "$stage_name")
 
@@ -38,6 +49,7 @@ function __stage_label --argument-names stage_name icon subject
 end
 
 function __stage_label_note --argument-names stage_name icon subject note
+    __stage_event "$stage_name" "$icon" "$subject" "$note"
     set -l color (__stage_color "$stage_name")
     if test "$stage_name" = PULL; and test "$note" = "no changes"
         set color 14

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import atexit
 import difflib
 import importlib
 import os
@@ -106,6 +107,10 @@ def stage_label(repo: Path, verb: str, icon: str, subject: str, note: str | None
         )
         if result.returncode == 0:
             return
+    report_file = os.environ.get("TJIKUP_REPORT_FILE")
+    if report_file:
+        with Path(report_file).open("a") as report:
+            report.write(f"{verb}\t{icon}\t{subject}\t{note or ''}\n")
     if note:
         prefix_length = 10
         note_column = 72
@@ -123,7 +128,15 @@ def stage_skip(repo: Path, subject: str, note: str | None = None) -> None:
     stage_label(repo, "SKIP", "-", subject, note)
 
 
-def stage_skip_ok(repo: Path, subject: str, note: str | None = None) -> None:
+def stage_unchanged(repo: Path, subject: str, note: str = "no changes") -> None:
+    stage_label(repo, "SKIP", "✓", subject, note)
+
+
+def stage_not_configured(repo: Path, subject: str) -> None:
+    stage_label(repo, "SKIP", "✓", subject, "not configured")
+
+
+def stage_expected(repo: Path, subject: str, note: str) -> None:
     stage_label(repo, "SKIP", "✓", subject, note)
 
 
@@ -164,7 +177,11 @@ def run_stream(command: list[str], cwd: Path, *, env: dict[str, str] | None = No
 
 def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bool:
     if sys.stdout.isatty():
-        run_stream(command, repo, env=env)
+        try:
+            run_stream(command, repo, env=env)
+        except UpdateError:
+            stage_label(repo, "FAILED", "✗", "Dotfiles apply")
+            raise
         return True
 
     try:
@@ -185,6 +202,7 @@ def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bo
     if result.stderr:
         sys.stderr.write(result.stderr)
     if result.returncode:
+        stage_label(repo, "FAILED", "✗", "Dotfiles apply")
         raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
     return True
 
@@ -210,7 +228,7 @@ def run_checks(repo: Path) -> None:
         if available:
             stage_result(repo, "CHECK", subject, "available")
         elif subject in optional_checks:
-            stage_skip_ok(repo, subject, "not configured")
+            stage_not_configured(repo, subject)
         else:
             stage_skip(repo, subject)
 
@@ -280,7 +298,7 @@ def changed_propagator_names(repo: Path, propagators: list[Propagator]) -> list[
 def commit_templates(status_repo: Path, repo: Path, propagators: list[Propagator]) -> list[str]:
     changed_names = changed_propagator_names(repo, propagators)
     if not changed_names:
-        stage_skip_ok(status_repo, "Templates", "no changes")
+        stage_unchanged(status_repo, "Templates")
         return []
 
     changed_paths = [
@@ -312,9 +330,14 @@ def commit_templates(status_repo: Path, repo: Path, propagators: list[Propagator
 
 def pull_chezetc(status_repo: Path) -> None:
     if not (CHEZETC_REPO / ".git").is_dir():
+        stage_label(status_repo, "FAILED", "✗", "Chezetc")
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
     before = git_ref(CHEZETC_REPO, "HEAD")
-    run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO, capture_output=True)
+    try:
+        run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO, capture_output=True)
+    except UpdateError:
+        stage_label(status_repo, "FAILED", "✗", "Chezetc")
+        raise
     after = git_ref(CHEZETC_REPO, "HEAD")
     note = "rebased" if before and after and before != after else "no changes"
     stage_result(status_repo, "PULL", "Chezetc", note)
@@ -359,7 +382,7 @@ def chezmoi_config_needs_init(repo: Path) -> bool:
 def push_committed_chezetc(status_repo: Path) -> None:
     ahead = git_ahead_count(CHEZETC_REPO)
     if not ahead:
-        stage_skip_ok(status_repo, "Chezetc", "no local commits")
+        stage_unchanged(status_repo, "Chezetc", "no local commits")
         return
     run_stage(status_repo, "PUSH", "Chezetc", ["git", "push"], CHEZETC_REPO, "pushed")
 
@@ -368,11 +391,43 @@ def apply_chezetc(repo: Path) -> None:
     chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
     config = Path.home() / ".config/chezmoi/chezetc/chezmoi.toml"
     before = config.read_bytes() if config.is_file() else None
-    run_stream([chezetc, "apply"], CHEZETC_REPO)
+    try:
+        run_stream([chezetc, "apply"], CHEZETC_REPO)
+    except UpdateError:
+        stage_label(repo, "FAILED", "✗", "Chezetc apply")
+        raise
     after = config.read_bytes() if config.is_file() else None
     if before != after:
         stage_result(repo, "RETRY", "Chezetc", "configuration refreshed")
-        run_stream([chezetc, "apply"], CHEZETC_REPO)
+        try:
+            run_stream([chezetc, "apply"], CHEZETC_REPO)
+        except UpdateError:
+            stage_label(repo, "FAILED", "✗", "Chezetc apply retry")
+            raise
+
+
+def create_report_file() -> Path:
+    descriptor, filename = tempfile.mkstemp(prefix="tjikup-report-", suffix=".tsv")
+    os.close(descriptor)
+    path = Path(filename)
+    atexit.register(path.unlink, missing_ok=True)
+    return path
+
+
+def report_summary(repo: Path, report_file: Path, *, dry_run: bool = False) -> None:
+    warnings = 0
+    try:
+        for line in report_file.read_text().splitlines():
+            fields = line.split("\t", 3)
+            if len(fields) >= 2 and fields[0] == "WARN" and fields[1] == "!":
+                warnings += 1
+    except OSError:
+        stage_label(repo, "WARN", "!", "Run summary", "report unavailable")
+        return
+
+    warning_note = "no warnings" if warnings == 0 else f"{warnings} warning{'s' if warnings != 1 else ''}"
+    note = f"dry run; {warning_note}" if dry_run else warning_note
+    stage_result(repo, "COMPLETE", "Tjikup", note)
 
 
 def has_python_modules(*modules: str) -> bool:
@@ -423,6 +478,8 @@ def main() -> int:
     args = arguments.parse_args()
 
     repo = find_repo()
+    report_file = create_report_file()
+    os.environ["TJIKUP_REPORT_FILE"] = str(report_file)
     print_header(repo)
     section("Prerequisites", leading=False)
     run_checks(repo)
@@ -437,7 +494,7 @@ def main() -> int:
             raise UpdateError(f"{propagator.name}: missing chezmoi template: {source}")
         if not target.is_file():
             if propagator.optional:
-                stage_skip_ok(repo, propagator.name.capitalize(), "not installed")
+                stage_expected(repo, propagator.name.capitalize(), "not installed")
                 continue
             raise UpdateError(f"{propagator.name}: missing live config: {target}")
         active_propagators.append(propagator)
@@ -470,8 +527,8 @@ def main() -> int:
                 changes = sync_changes[propagator.name]
                 stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
             else:
-                stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
-        print("dry-run complete")
+                stage_unchanged(repo, propagator.name.capitalize())
+        report_summary(repo, report_file, dry_run=True)
         return 0
 
     for propagator in active_propagators:
@@ -479,7 +536,7 @@ def main() -> int:
             changes = sync_changes[propagator.name]
             stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
         else:
-            stage_skip_ok(repo, propagator.name.capitalize(), "no changes")
+            stage_unchanged(repo, propagator.name.capitalize())
     section("Git")
 
     changed_names = commit_templates(repo, repo, active_propagators)
@@ -489,9 +546,10 @@ def main() -> int:
     if ahead:
         run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo, f"{ahead} commits pushed")
     else:
-        stage_skip_ok(repo, "Dotfiles", "no changes")
+        stage_unchanged(repo, "Dotfiles")
     if chezmoi_config_needs_init(repo):
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
+        report_summary(repo, report_file)
         return 0
     if changed_names:
         auto_targets = [
@@ -504,16 +562,19 @@ def main() -> int:
             ["chezmoi", "apply", "--force", *auto_targets],
             {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"},
         ):
+            report_summary(repo, report_file)
             return 0
     if not run_chezmoi_apply(
         repo,
         ["chezmoi", "apply"],
         {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"},
     ):
+        report_summary(repo, report_file)
         return 0
     pull_chezetc(repo)
     push_committed_chezetc(repo)
     apply_chezetc(repo)
+    report_summary(repo, report_file)
     return 0
 
 

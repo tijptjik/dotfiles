@@ -113,14 +113,10 @@ function __systems_go --argument-names message
     # consistently across Fish/terminal versions.
     set -l colors FF5F5F FFAF00 5FFF87 5FD7FF 5F87FF D787FF
     set -l message_length (string length -- "$message")
-    set -l terminal_columns $COLUMNS
-    if not string match -qr '^[0-9]+$' -- "$terminal_columns"
-        set terminal_columns (command tput cols 2>/dev/null)
-    end
-    if string match -qr '^[0-9]+$' -- "$terminal_columns"
-        set -l padding (math "max(0, ($terminal_columns - $message_length) / 2)")
-        printf "%s" (string repeat -n $padding " ")
-    end
+    # Stage notes align to column 72, which defines the report width.
+    set -l report_width 72
+    set -l padding (math "max(0, ($report_width - $message_length) / 2)")
+    printf "%s" (string repeat -n $padding " ")
 
     for index in (seq $message_length)
         set -l character (string sub -s $index -l 1 -- "$message")

@@ -160,12 +160,12 @@ def run_stage(
     stage_result(repo, verb, subject, note)
 
 
-def section_header(repo: Path, title: str) -> None:
+def section_header(repo: Path, title: str, *, color: str = "12") -> None:
     helper = repo / "home/.chezmoihelpers/status.fish"
     fish = shutil.which("fish")
     if fish and helper.is_file() and sys.stdout.isatty():
         result = subprocess.run(
-            [fish, "-c", "source $argv[1]; section_header $argv[2]", "--", str(helper), title],
+            [fish, "-c", "source $argv[1]; section_header $argv[2] $argv[3]", "--", str(helper), title, color],
             check=False,
         )
         if result.returncode == 0:
@@ -229,8 +229,19 @@ def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bo
     return True
 
 
-def print_header(repo: Path) -> None:
-    run_stream(["bash", str(repo / "home/.chezmoiscripts/run_before_00-print-header.sh"), "tjikup"], repo)
+def repo_header(repo: Path, title: str, url: str) -> None:
+    helper = repo / "home/.chezmoihelpers/status.fish"
+    fish = shutil.which("fish")
+    if fish and helper.is_file() and sys.stdout.isatty():
+        result = subprocess.run(
+            [fish, "-c", "source $argv[1]; repo_header $argv[2] $argv[3]", "--", str(helper), title, url],
+            check=False,
+        )
+        if result.returncode == 0:
+            return
+    print()
+    print(title)
+    print(url)
 
 
 def run_checks(repo: Path) -> None:
@@ -486,13 +497,8 @@ def report_summary(repo: Path, report_file: Path, *, dry_run: bool = False) -> N
     if not issues:
         return
 
-    print()
     section_title = "Dry-run issues" if dry_run else "Issues"
-    if GUM and sys.stdout.isatty():
-        run([GUM, "style", "--foreground", "11", "--bold", section_title])
-    else:
-        print(section_title)
-    print()
+    section_header(repo, section_title, color="11")
     for stage_name, icon, subject, note in issues:
         stage_label(repo, stage_name, icon, subject, note or None)
 
@@ -515,7 +521,7 @@ def main() -> int:
     repo = find_repo()
     report_file = create_report_file()
     os.environ["TJIKUP_REPORT_FILE"] = str(report_file)
-    print_header(repo)
+    repo_header(repo, "Tijpfiles", "https://github.com/tijptjik/dotfiles")
     section_header(repo, "Prerequisites")
     run_checks(repo)
     section_header(repo, "Commit Local Changes")

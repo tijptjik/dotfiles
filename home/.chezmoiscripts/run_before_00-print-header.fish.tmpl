@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+if test "$CHEZMOI_SKIP_SPLASH" = "1"
+    exit 0
+end
+
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+repo_header "Tijpfiles" "https://github.com/tijptjik/dotfiles"

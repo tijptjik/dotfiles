@@ -6,8 +6,10 @@ function __stage_color --argument-names verb
             echo 14
         case COMPLETE
             echo 10
-        case INSTALL SYNC PULL REMOVE CONFIG COMMIT PUSH FAILED
+        case UPDATE INSTALL PULL REMOVE IMPORT ADD CONFIG BUILD RELOAD STOP FAILED LOG COMMIT PUSH
             echo 9
+        case SYNC
+            echo 6
         case '*'
             echo 14
     end
@@ -46,7 +48,17 @@ function __stage_icon_color --argument-names icon
 end
 
 function __stage_styled_subject --argument-names subject
-    set -l qualifier (string match -r '\[[^]]+\]$' -- "$subject")
+    set -l tailscale_operator (string match -r '^Tailscale operator for (.+)$' -- "$subject")
+    if test (count $tailscale_operator) -gt 1
+        gum style --foreground 15 "Tailscale operator for" | tr -d '\n'
+        printf " "
+        gum style --foreground 6 "$tailscale_operator[2]"
+        return
+    end
+
+    # Do not use a capture group here: Fish emits captures as additional values
+    # and those values make printf repeat the formatted subject.
+    set -l qualifier (string match -r '\[[^]]+\]$|\([^)]*\)$' -- "$subject")
     if test (count $qualifier) -gt 0
         set -l base (string replace -- "$qualifier" "" "$subject" | string trim)
         set -l styled_base (gum style --foreground 15 "$base")
@@ -60,12 +72,33 @@ end
 # Public presentation API.  All setup sections use this rather than printing
 # headings or spacing themselves, so adjacent scripts compose predictably.
 function section_header --argument-names title
+    set -l color 12
+    if test (count $argv) -gt 1
+        set color $argv[2]
+    end
     echo
     if command -q gum; and isatty stdout
-        gum style --foreground 12 --bold "$title"
+        gum style --foreground "$color" --bold "$title"
     else
         echo "$title"
     end
+    echo
+end
+
+# A repository banner leaves one visual line before the title; the following
+# section header supplies the single separator after the URL.
+function repo_header --argument-names title url
+    echo
+    if command -q gum; and isatty stdout
+        gum style --foreground 13 --bold "$title"
+        gum style --foreground 8 "$url"
+    else
+        echo "$title"
+        echo "$url"
+    end
+end
+
+function output_gap
     echo
 end
 
@@ -80,20 +113,16 @@ function __systems_go --argument-names message
     # consistently across Fish/terminal versions.
     set -l colors FF5F5F FFAF00 5FFF87 5FD7FF 5F87FF D787FF
     set -l message_length (string length -- "$message")
-    for wave in (seq 0 5)
-        printf "\r"
-        for index in (seq $message_length)
-            set -l character (string sub -s $index -l 1 -- "$message")
-            if test "$character" = " "
-                printf " "
-            else
-                set -l color_index (math "($index + $wave - 1) % 6 + 1")
-                set_color --bold $colors[$color_index]
-                printf "%s" "$character"
-                set_color normal
-            end
+    for index in (seq $message_length)
+        set -l character (string sub -s $index -l 1 -- "$message")
+        if test "$character" = " "
+            printf " "
+        else
+            set -l color_index (math "($index - 1) % 6 + 1")
+            set_color --bold $colors[$color_index]
+            printf "%s" "$character"
+            set_color normal
         end
-        sleep 0.32
     end
     echo
 end
@@ -116,12 +145,11 @@ end
 function __stage_label_note --argument-names stage_name icon subject note
     __stage_event "$stage_name" "$icon" "$subject" "$note"
     set -l color (__stage_color "$stage_name")
-    if test "$stage_name" = PULL; and test "$note" = "no changes"
+    if test (count $argv) -ge 5
+        set color (__stage_color "$argv[5]")
+    else if test "$stage_name" = PULL; and test "$note" = "no changes"
         set color 14
-    end
-    if test "$stage_name" = SYNC; and string match -q -- '*no changes*' "$note"
-        set color 6
-    else if test "$stage_name" = SYNC; and string match -q -- '*no updates*' "$note"
+    else if test "$stage_name" = SYNC; and contains -- "$note" "no changes" "no updates"
         set color 6
     end
     set -l padded_stage (printf "%-7s" "$stage_name")

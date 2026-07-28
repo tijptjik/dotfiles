@@ -231,79 +231,20 @@ function helpers.start_waybar_auto_hide(side)
     return waybar_auto_hide_timer
 end
 
--- Stage new Zen windows off-screen until their title identifies them. This prevents
--- extension popups from briefly joining the active layout before they are floated.
+-- Only float Zen's known extension popups. Regular browser windows must stay in
+-- their original workspace so Hyprland can tile them as soon as they map.
 function helpers.start_zen_extensions()
+    if zen_extensions_subscription ~= nil then
+        zen_extensions_subscription:remove()
+    end
+    if zen_extension_title_subscription ~= nil then
+        zen_extension_title_subscription:remove()
+    end
+
     local extensions = {
         { title = "(Bitwarden Password Manager) - Bitwarden", width = 800, height = 800 },
         { title = "(Authenticator) - Authenticator", width = 335, height = 525 },
     }
-    local staging_workspace = "special:staging"
-
-    local function staged_window(window)
-        if window == nil or window.address == nil then
-            return nil
-        end
-
-        return staged_zen_windows[window.address]
-    end
-
-    local function restore_staged_window(window, tile)
-        local staged = staged_window(window)
-
-        if staged == nil then
-            return false
-        end
-
-        if staged.timer ~= nil then
-            staged.timer:set_enabled(false)
-        end
-
-        staged_zen_windows[window.address] = nil
-        -- Clear a transient floating state while this window is still hidden,
-        -- so normal Zen windows arrive at their destination as tiles.
-        if tile then
-            hl.dispatch(hl.dsp.window.float({ action = "unset", window = window }))
-        end
-        hl.dispatch(hl.dsp.window.move({ workspace = staged.workspace, follow = false, window = window }))
-        return true
-    end
-
-    local function discard_staged_window(window)
-        local staged = staged_window(window)
-
-        if staged == nil then
-            return false
-        end
-
-        if staged.timer ~= nil then
-            staged.timer:set_enabled(false)
-        end
-
-        staged_zen_windows[window.address] = nil
-        return true
-    end
-
-    local function release_staged_window(window, staged, timeout)
-        local timer
-        timer = hl.timer(function()
-            if staged_zen_windows[window.address] ~= staged then
-                return
-            end
-
-            -- Restored blank/new-tab windows receive their destination only
-            -- after the workspace restorer's fallback timer. Keep them hidden
-            -- until that handoff has completed rather than releasing them to
-            -- the launch workspace first.
-            if zen_workspace_restore_pending then
-                release_staged_window(window, staged, 250)
-                return
-            end
-
-            restore_staged_window(window, true)
-        end, { timeout = timeout, type = "oneshot" })
-        staged.timer = timer
-    end
 
     local function float_extension(window)
         if window == nil or window.title == nil or window.class ~= "zen" then
@@ -312,7 +253,6 @@ function helpers.start_zen_extensions()
 
         for _, extension in ipairs(extensions) do
             if window.title:find(extension.title, 1, true) ~= nil then
-                restore_staged_window(window)
                 local monitor = window.monitor
 
                 if monitor == nil then
@@ -337,50 +277,15 @@ function helpers.start_zen_extensions()
         return false
     end
 
-    zen_extensions_subscription = hl.on("window.open_early", function(window)
-        if window == nil or window.class ~= "zen" or window.address == nil then
-            return
-        end
-
-        local workspace = window.workspace or hl.get_active_workspace()
-
-        if workspace == nil or workspace.name == staging_workspace then
-            return
-        end
-
-        local staged = { workspace = workspace }
-        staged_zen_windows[window.address] = staged
-        hl.dispatch(hl.dsp.window.move({ workspace = staging_workspace, follow = false, window = window }))
-
-        release_staged_window(window, staged, 750)
-    end)
-
     zen_extension_title_subscription = hl.on("window.title", function(window)
-        if float_extension(window) then
-            return
-        end
-
-        local staged = staged_window(window)
-
-        -- The workspace restorer has already moved this regular Zen window
-        -- directly from staging to its saved destination.
-        if staged ~= nil and staged.restored then
-            discard_staged_window(window)
-            return
-        end
-
-        -- Zen first reports a generic title. Keep it hidden until a meaningful
-        -- title arrives, or until the short timer above releases it.
-        if staged ~= nil and window.title ~= nil and window.title ~= "" and window.title ~= "Zen Browser" then
-            restore_staged_window(window, true)
-        end
+        float_extension(window)
     end)
 
     for _, window in ipairs(hl.get_windows()) do
         float_extension(window)
     end
 
-    return zen_extensions_subscription
+    return zen_extension_title_subscription
 end
 
 -- Persist Zen windows' workspaces during a session and use that snapshot to

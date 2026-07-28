@@ -25,7 +25,9 @@ function __stage_event --argument-names stage_name icon subject note
         return
     end
 
-    printf '%s\t%s\t%s\t%s\n' "$stage_name" "$icon" "$subject" "$note" >> "$TJIKUP_REPORT_FILE"
+    # Report collection is best effort.  Use tee so an inaccessible report
+    # target cannot produce a Fish redirection warning in stage output.
+    printf '%s\t%s\t%s\t%s\n' "$stage_name" "$icon" "$subject" "$note" | command tee -a "$TJIKUP_REPORT_FILE" >/dev/null 2>&1
 end
 
 function __stage_icon_color --argument-names icon

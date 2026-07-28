@@ -42,6 +42,9 @@ function __stage_label_note --argument-names stage_name icon subject note
     if test "$stage_name" = PULL; and test "$note" = "no changes"
         set color 14
     end
+    if test "$stage_name" = SYNC; and string match -q '*no updates' -- "$note"
+        set color 6
+    end
     set -l padded_stage (printf "%-7s" "$stage_name")
     set -l note_column 72
     set -l prefix_length 10
@@ -110,6 +113,11 @@ function __stage_run
     set -l code (cat $status_file)
 
     if test "$code" -eq 0
+        if test "$note" = "__dynamic__"
+            set -l note_marker (string match -r '^__stage_note__:.+$' < $log_file | tail -n 1)
+            set note (string replace '__stage_note__:' '' -- "$note_marker")
+        end
+
         if test -n "$note"
             __stage_label_note "$stage_name" "✓" "$subject" "$note"
         else
@@ -131,6 +139,10 @@ end
 
 function stage_note
     __stage_run $argv[1] $argv[2] $argv[3] $argv[4] $argv[5..-1]
+end
+
+function stage_dynamic_note
+    __stage_run $argv[1] $argv[2] $argv[3] "__dynamic__" $argv[4..-1]
 end
 
 function interactive_stage

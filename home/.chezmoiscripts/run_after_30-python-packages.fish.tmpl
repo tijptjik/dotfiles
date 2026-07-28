@@ -10,9 +10,12 @@ function sync_python_environment
     # PaddlePaddle supports CPython through 3.13. Request it explicitly so an
     # installed system Python 3.14 does not make the sync unsatisfiable.
     uv sync --project "$HOME" --python 3.13
+
+    set -l package_count (uv pip list --python "$HOME/.venv/bin/python" --format=json | string match -ra '"name":' | count)
+    printf '__stage_note__:%s pkgs; no updates\n' "$package_count"
 end
 
-stage "Python environment" SYNC "Python environment" sync_python_environment
+stage_dynamic_note "Python environment" SYNC "Python" sync_python_environment
 {{ else -}}
-__stage_label_note SKIP "-" "Python environment" "client only"
+__stage_label_note SKIP "-" "Python" "client only"
 {{ end -}}

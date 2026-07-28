@@ -1,0 +1,62 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+if command -q gum; and isatty stdout
+    gum style --foreground 12 --bold "Packages"
+else
+    echo "Packages"
+end
+echo
+
+set rust_packages rtk serie dysk
+
+function cargo_install_record --argument-names package
+    cargo install --list | string match -r "^$package v.*"
+end
+
+function rtk_codex_is_configured
+    test -f "$HOME/.codex/RTK.md"; and \
+        test -f "$HOME/.codex/AGENTS.md"; and \
+        string match -q "*RTK.md*" < "$HOME/.codex/AGENTS.md"
+end
+
+function sync_rust_packages
+    if not command -q cargo
+        printf 'cargo is not installed\n' >&2
+        return 1
+    end
+
+    set -l before_records
+    for package in $rust_packages
+        set -a before_records "$(cargo_install_record $package)"
+    end
+
+    cargo install --git https://github.com/rtk-ai/rtk --branch master rtk
+
+    if not rtk_codex_is_configured
+        rtk init --global --codex
+    end
+
+    cargo install serie
+    cargo install dysk
+
+    set -l update_count 0
+    for index in (seq (count $rust_packages))
+        set -l after_record "$(cargo_install_record $rust_packages[$index])"
+        if test "$before_records[$index]" != "$after_record"
+            set update_count (math "$update_count + 1")
+        end
+    end
+
+    set -l package_count (count $rust_packages)
+    set -l note "$package_count pkgs"
+    if test $update_count -gt 0
+        set note "$note; $update_count updated"
+    else
+        set note "$note; no updates"
+    end
+
+    printf '__stage_note__:%s\n' "$note"
+end
+
+stage_dynamic_note "Rust packages" SYNC "Rust" sync_rust_packages

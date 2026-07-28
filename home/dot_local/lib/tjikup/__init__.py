@@ -175,14 +175,28 @@ def run_stream(command: list[str], cwd: Path, *, env: dict[str, str] | None = No
         raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
 
 
-def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bool:
+def chezmoi_apply_counts(repo: Path, command: list[str], env: dict[str, str]) -> tuple[int, int] | None:
+    status_command = [argument for argument in command if argument != "--force"]
+    status_command[1] = "status"
+    try:
+        result = subprocess.run(status_command, cwd=repo, env=env, text=True, capture_output=True, check=False)
+    except OSError:
+        return None
+    if result.returncode:
+        return None
+    actions = [line[1] for line in result.stdout.splitlines() if len(line) >= 2 and line[1] in "ADMR"]
+    return len(actions), actions.count("M")
+
+
+def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> tuple[bool, tuple[int, int] | None]:
+    apply_counts = chezmoi_apply_counts(repo, command, env)
     if sys.stdout.isatty():
         try:
             run_stream(command, repo, env=env)
         except UpdateError:
             stage_label(repo, "FAILED", "✗", "Dotfiles apply")
             raise
-        return True
+        return True, apply_counts
 
     try:
         result = subprocess.run(command, cwd=repo, env=env, text=True, capture_output=True, check=False)
@@ -195,7 +209,7 @@ def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bo
         if remaining:
             print(remaining)
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
-        return False
+        return False, None
 
     if result.stdout:
         sys.stdout.write(result.stdout)
@@ -204,7 +218,7 @@ def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bo
     if result.returncode:
         stage_label(repo, "FAILED", "✗", "Dotfiles apply")
         raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
-    return True
+    return True, apply_counts
 
 
 def print_header(repo: Path) -> None:
@@ -566,26 +580,49 @@ def main() -> int:
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
         report_summary(repo, report_file)
         return 0
+    applied_changes = 0
+    replaced_files = 0
+    apply_counts_available = True
     if changed_names:
         auto_targets = [
             str(Path.home() / propagator.target)
             for propagator in active_propagators
             if propagator.name in changed_names
         ]
-        if not run_chezmoi_apply(
+        applied, apply_counts = run_chezmoi_apply(
             repo,
             ["chezmoi", "apply", "--force", *auto_targets],
             {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"},
-        ):
+        )
+        if not applied:
             report_summary(repo, report_file)
             return 0
-    if not run_chezmoi_apply(
+        if apply_counts is None:
+            apply_counts_available = False
+        else:
+            applied_changes += apply_counts[0]
+            replaced_files += apply_counts[1]
+    applied, apply_counts = run_chezmoi_apply(
         repo,
         ["chezmoi", "apply"],
         {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"},
-    ):
+    )
+    if not applied:
         report_summary(repo, report_file)
         return 0
+    if apply_counts is None:
+        apply_counts_available = False
+    else:
+        applied_changes += apply_counts[0]
+        replaced_files += apply_counts[1]
+    if apply_counts_available:
+        if applied_changes:
+            noun = "file" if replaced_files == 1 else "files"
+            stage_result(repo, "APPLY", "Dotfiles", f"{replaced_files} {noun} replaced")
+        else:
+            stage_unchanged(repo, "Dotfiles")
+    else:
+        stage_result(repo, "APPLY", "Dotfiles", "applied")
     apply_chezetc(repo)
     report_summary(repo, report_file)
     return 0

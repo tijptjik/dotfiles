@@ -389,7 +389,7 @@ def ensure_chezetc_toml_modules(repo: Path, *, install: bool = True) -> None:
     """Install chezetc's config-merging dependencies for the active Python."""
     modules = ("tomli", "tomli_w")
     if has_python_modules(*modules):
-        stage_skip_ok(repo, "Chezetc TOML modules", "available")
+        stage_result(repo, "CHECK", "TOML modules", "available")
         return
 
     if not install:

@@ -347,17 +347,17 @@ def commit_templates(status_repo: Path, repo: Path, propagators: list[Propagator
 
 def pull_chezetc(status_repo: Path) -> None:
     if not (CHEZETC_REPO / ".git").is_dir():
-        stage_label(status_repo, "FAILED", "✗", "Tjipcetera")
+        stage_label(status_repo, "FAILED", "✗", "Tijpcetera")
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
     before = git_ref(CHEZETC_REPO, "HEAD")
     try:
         run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO, capture_output=True)
     except UpdateError:
-        stage_label(status_repo, "FAILED", "✗", "Tjipcetera")
+        stage_label(status_repo, "FAILED", "✗", "Tijpcetera")
         raise
     after = git_ref(CHEZETC_REPO, "HEAD")
     note = "rebased" if before and after and before != after else "no changes"
-    stage_result(status_repo, "PULL", "Tjipcetera", note)
+    stage_result(status_repo, "PULL", "Tijpcetera", note)
 
 
 def git_ahead_count(repo: Path) -> int | None:
@@ -399,9 +399,9 @@ def chezmoi_config_needs_init(repo: Path) -> bool:
 def push_committed_chezetc(status_repo: Path) -> None:
     ahead = git_ahead_count(CHEZETC_REPO)
     if not ahead:
-        stage_unchanged(status_repo, "Tjipcetera", "no changes")
+        stage_unchanged(status_repo, "Tijpcetera", "no changes")
         return
-    run_stage(status_repo, "PUSH", "Tjipcetera", ["git", "push"], CHEZETC_REPO, "pushed")
+    run_stage(status_repo, "PUSH", "Tijpcetera", ["git", "push"], CHEZETC_REPO, f"{ahead} commits")
 
 
 def apply_chezetc(repo: Path) -> None:

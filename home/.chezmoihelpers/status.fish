@@ -72,7 +72,7 @@ function __systems_go --argument-names message
             if test "$character" = " "
                 printf " "
             else
-                set -l color_index (math "mod($index + $wave - 1, 6) + 1")
+                set -l color_index (math "($index + $wave - 1) % 6 + 1")
                 set_color --bold $colors[$color_index]
                 printf "%s" "$character"
                 set_color normal
@@ -104,7 +104,9 @@ function __stage_label_note --argument-names stage_name icon subject note
     if test "$stage_name" = PULL; and test "$note" = "no changes"
         set color 14
     end
-    if test "$stage_name" = SYNC; and contains -- "$note" "no changes" latest "no updates"
+    if test "$stage_name" = SYNC; and string match -q -- '*no changes*' "$note"
+        set color 6
+    else if test "$stage_name" = SYNC; and string match -q -- '*no updates*' "$note"
         set color 6
     end
     set -l padded_stage (printf "%-7s" "$stage_name")

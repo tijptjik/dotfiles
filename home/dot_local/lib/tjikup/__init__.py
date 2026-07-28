@@ -282,7 +282,8 @@ def git_dirty_paths(repo: Path) -> list[str]:
 def warn_dirty_files(status_repo: Path, repo: Path) -> None:
     paths = git_dirty_paths(repo)
     if paths:
-        stage_label(status_repo, "WARN", "!", f"{len(paths)} Dirty Files", "no changes")
+        count = len(paths)
+        stage_label(status_repo, "WARN", "!", "Dirty State", f"{count} {'file' if count == 1 else 'files'}")
 
 
 def changed_line_count(before: str, after: str) -> int:
@@ -560,6 +561,7 @@ def main() -> int:
         stage_unchanged(repo, "Tjipfiles")
     pull_chezetc(repo)
     push_committed_chezetc(repo)
+    section("Dotfiles Apply")
     if chezmoi_config_needs_init(repo):
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
         report_summary(repo, report_file)

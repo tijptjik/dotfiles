@@ -617,8 +617,12 @@ def main() -> int:
         replaced_files += apply_counts[1]
     if apply_counts_available:
         if applied_changes:
-            noun = "file" if replaced_files == 1 else "files"
-            stage_result(repo, "APPLY", "Dotfiles", f"{replaced_files} {noun} replaced")
+            if replaced_files:
+                noun = "file" if replaced_files == 1 else "files"
+                note = f"{replaced_files} {noun} replaced"
+            else:
+                note = "no files replaced"
+            stage_result(repo, "APPLY", "Dotfiles", note)
         else:
             stage_unchanged(repo, "Dotfiles")
     else:

@@ -57,6 +57,18 @@ function __stage_styled_subject --argument-names subject
     end
 end
 
+# Public presentation API.  All setup sections use this rather than printing
+# headings or spacing themselves, so adjacent scripts compose predictably.
+function section_header --argument-names title
+    echo
+    if command -q gum; and isatty stdout
+        gum style --foreground 12 --bold "$title"
+    else
+        echo "$title"
+    end
+    echo
+end
+
 function __systems_go --argument-names message
     if not command -q gum; or not isatty stdout
         echo "$message"
@@ -130,6 +142,25 @@ function __stage_label_note --argument-names stage_name icon subject note
         printf "%s %s %s%s%s\n" "$styled_stage" "$styled_icon" "$styled_subject" (string repeat -n $padding " ") "$styled_note"
     else
         printf "%s %s %s%s%s\n" "$padded_stage" "$icon" "$subject" (string repeat -n $padding " ") "$note"
+    end
+end
+
+# Public status-row API.  The optional fifth argument selects the display
+# colour stage while retaining the recorded stage in reports.
+function status_msg
+    set -l stage_name $argv[1]
+    set -l icon $argv[2]
+    set -l subject $argv[3]
+
+    if test (count $argv) -ge 4
+        set -l note $argv[4]
+        if test (count $argv) -ge 5
+            __stage_label_note "$stage_name" "$icon" "$subject" "$note" "$argv[5]"
+        else
+            __stage_label_note "$stage_name" "$icon" "$subject" "$note"
+        end
+    else
+        __stage_label "$stage_name" "$icon" "$subject"
     end
 end
 

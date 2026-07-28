@@ -10,6 +10,7 @@ from tjikup.core import Propagator
 class SolaarPropagator(Propagator):
     name = "solaar"
     order = 30
+    optional = True
     source = Path("home/dot_config/solaar/config.yaml")
     target = Path(".config/solaar/config.yaml")
 

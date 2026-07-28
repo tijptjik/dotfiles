@@ -14,5 +14,5 @@ end
 
 stage "Python environment" SYNC "Python environment" sync_python_environment
 {{ else -}}
-__stage_label SKIP "-" "Python environment (client only)"
+__stage_label_note SKIP "-" "Python environment" "client only"
 {{ end -}}

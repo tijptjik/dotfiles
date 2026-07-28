@@ -1,6 +1,7 @@
 #!/usr/bin/env fish
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
+echo
 if command -q gum; and isatty stdout
     gum style --foreground 12 --bold "Packages"
 else
@@ -53,7 +54,7 @@ function sync_rust_packages
     if test $update_count -gt 0
         set note "$note; $update_count updated"
     else
-        set note "$note; no updates"
+        set note "$note; no changes"
     end
 
     printf '__stage_note__:%s\n' "$note"

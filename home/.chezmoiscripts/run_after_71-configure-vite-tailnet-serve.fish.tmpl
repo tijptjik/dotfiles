@@ -16,8 +16,20 @@ function tailnet_warning --argument-names subject
     end
 end
 
+function vite_tailnet_route_is_ready
+    command tailscale serve status --json 2>/dev/null | command jq -e '
+        (.TCP["8443"].HTTPS == true) and
+        any(.Web[]?; .Handlers["/"].Proxy == "http://localhost:5173")
+    ' >/dev/null 2>&1
+end
+
 if not command -q tailscale
     __stage_label WARN "!" "Vite tailnet route [Tailscale unavailable]"
+    exit 0
+end
+
+if vite_tailnet_route_is_ready
+    __stage_label_note SKIP "✓" "Vite tailnet route" "ready at :8443"
     exit 0
 end
 

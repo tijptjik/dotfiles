@@ -212,24 +212,40 @@ def print_header(repo: Path) -> None:
 
 
 def run_checks(repo: Path) -> None:
-    checks = [
-        ("Bitwarden Secrets Manager CLI", shutil.which("bws") is not None),
-        ("Bitwarden Access Token", (Path.home() / ".config/bws/environment").is_file()),
-        ("Chezmoi Decryption Key", (Path.home() / ".keys/chezmoi.txt").is_file()),
-        ("Chezmoi TOML modules", has_python_modules("tomli", "tomli_w")),
+    grouped_checks = [
+        (
+            "Bitwarden",
+            [
+                ("Secrets Manager CLI", shutil.which("bws") is not None),
+                ("Access Token", (Path.home() / ".config/bws/environment").is_file()),
+            ],
+        ),
+        (
+            "Chezmoi",
+            [
+                ("Decryption Key", (Path.home() / ".keys/chezmoi.txt").is_file()),
+                ("TOML modules", has_python_modules("tomli", "tomli_w")),
+            ],
+        ),
+    ]
+    command_checks = [
         ("Fish", shutil.which("fish") is not None),
-        ("Herdr", shutil.which("herdr") is not None),
         ("UV", shutil.which("uv") is not None),
         ("FNM", shutil.which("fnm") is not None),
         ("Gum", shutil.which("gum") is not None),
         ("Bun", shutil.which("bun") is not None),
     ]
-    optional_checks = {"Bitwarden Access Token", "Chezmoi Decryption Key"}
-    for subject, available in checks:
+
+    for subject, requirements in grouped_checks:
+        missing = [name for name, available in requirements if not available]
+        if missing:
+            stage_label(repo, "CHECK", "!", subject, f"missing: {', '.join(missing)}")
+        else:
+            stage_result(repo, "CHECK", subject, "available")
+
+    for subject, available in command_checks:
         if available:
             stage_result(repo, "CHECK", subject, "available")
-        elif subject in optional_checks:
-            stage_not_configured(repo, subject)
         else:
             stage_skip(repo, subject)
 
@@ -331,17 +347,17 @@ def commit_templates(status_repo: Path, repo: Path, propagators: list[Propagator
 
 def pull_chezetc(status_repo: Path) -> None:
     if not (CHEZETC_REPO / ".git").is_dir():
-        stage_label(status_repo, "FAILED", "✗", "Chezetc")
+        stage_label(status_repo, "FAILED", "✗", "Tjipcetera")
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
     before = git_ref(CHEZETC_REPO, "HEAD")
     try:
         run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO, capture_output=True)
     except UpdateError:
-        stage_label(status_repo, "FAILED", "✗", "Chezetc")
+        stage_label(status_repo, "FAILED", "✗", "Tjipcetera")
         raise
     after = git_ref(CHEZETC_REPO, "HEAD")
     note = "rebased" if before and after and before != after else "no changes"
-    stage_result(status_repo, "PULL", "Chezetc", note)
+    stage_result(status_repo, "PULL", "Tjipcetera", note)
 
 
 def git_ahead_count(repo: Path) -> int | None:
@@ -383,9 +399,9 @@ def chezmoi_config_needs_init(repo: Path) -> bool:
 def push_committed_chezetc(status_repo: Path) -> None:
     ahead = git_ahead_count(CHEZETC_REPO)
     if not ahead:
-        stage_unchanged(status_repo, "Chezetc", "no local commits")
+        stage_unchanged(status_repo, "Tjipcetera", "no local commits")
         return
-    run_stage(status_repo, "PUSH", "Chezetc", ["git", "push"], CHEZETC_REPO, "pushed")
+    run_stage(status_repo, "PUSH", "Tjipcetera", ["git", "push"], CHEZETC_REPO, "pushed")
 
 
 def apply_chezetc(repo: Path) -> None:
@@ -421,7 +437,7 @@ def report_summary(repo: Path, report_file: Path, *, dry_run: bool = False) -> N
     try:
         for line in report_file.read_text().splitlines():
             fields = line.split("\t", 3)
-            if len(fields) >= 2 and fields[0] == "WARN" and fields[1] == "!":
+            if len(fields) >= 2 and fields[1] == "!":
                 warnings += 1
     except OSError:
         stage_label(repo, "WARN", "!", "Run summary", "report unavailable")
@@ -516,6 +532,8 @@ def main() -> int:
         run_stage(repo, "PUSH", "Tjipfiles", ["git", "push"], repo, f"{ahead} commits")
     else:
         stage_unchanged(repo, "Tjipfiles")
+    pull_chezetc(repo)
+    push_committed_chezetc(repo)
     if chezmoi_config_needs_init(repo):
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
         report_summary(repo, report_file)
@@ -540,8 +558,6 @@ def main() -> int:
     ):
         report_summary(repo, report_file)
         return 0
-    pull_chezetc(repo)
-    push_committed_chezetc(repo)
     apply_chezetc(repo)
     report_summary(repo, report_file)
     return 0

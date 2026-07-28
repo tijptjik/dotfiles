@@ -21,6 +21,21 @@ function __stage_event --argument-names stage_name icon subject note
     printf '%s\t%s\t%s\t%s\n' "$stage_name" "$icon" "$subject" "$note" >> "$TJIKUP_REPORT_FILE"
 end
 
+function __stage_icon_color --argument-names icon
+    switch "$icon"
+        case '✓'
+            echo 10
+        case '!'
+            echo 11
+        case '✗'
+            echo 9
+        case '-'
+            echo 8
+        case '*'
+            echo 14
+    end
+end
+
 function __stage_styled_subject --argument-names subject
     set -l qualifier (string match -r '\[[^]]+\]$' -- "$subject")
     if test (count $qualifier) -gt 0
@@ -40,7 +55,7 @@ function __stage_label --argument-names stage_name icon subject
 
     if command -v gum >/dev/null 2>&1; and isatty stdout
         set -l styled_stage (gum style --foreground $color --bold "$padded_stage")
-        set -l styled_icon (gum style --foreground 10 "$icon")
+        set -l styled_icon (gum style --foreground (__stage_icon_color "$icon") "$icon")
         printf "%s %s " "$styled_stage" "$styled_icon"
         __stage_styled_subject "$subject"
     else
@@ -69,7 +84,7 @@ function __stage_label_note --argument-names stage_name icon subject note
 
     if command -v gum >/dev/null 2>&1; and isatty stdout
         set -l styled_stage (gum style --foreground $color --bold "$padded_stage")
-        set -l styled_icon (gum style --foreground 10 "$icon")
+        set -l styled_icon (gum style --foreground (__stage_icon_color "$icon") "$icon")
         set -l styled_subject (__stage_styled_subject "$subject")
         set -l styled_note (gum style --foreground 8 "$note")
         printf "%s %s %s%s%s\n" "$styled_stage" "$styled_icon" "$styled_subject" (string repeat -n $padding " ") "$styled_note"

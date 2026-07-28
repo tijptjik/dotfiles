@@ -22,6 +22,15 @@ function tailnet_warning --argument-names subject
     end
 end
 
+function collie_bridge_is_ready
+    systemctl --user is-active --quiet collie
+    or return 1
+
+    command tailscale serve status --json 2>/dev/null | command jq -e '
+        any(.Web[]?; .Handlers["/"].Proxy == "http://127.0.0.1:18787")
+    ' >/dev/null 2>&1
+end
+
 if not command -q herdr
     __stage_label WARN "!" "Collie [Herdr unavailable]"
     exit 0
@@ -34,6 +43,11 @@ end
 
 if not command -q tailscale
     __stage_label WARN "!" "Collie [Tailscale unavailable]"
+    exit 0
+end
+
+if collie_bridge_is_ready
+    __stage_label_note SKIP "✓" "Collie bridge" "ready at :443"
     exit 0
 end
 

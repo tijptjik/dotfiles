@@ -7,6 +7,15 @@ function tailnet_running
     command tailscale status --json 2>/dev/null | command jq -e '.BackendState == "Running"' >/dev/null 2>&1
 end
 
+function tailnet_warning --argument-names subject
+    set backend (command tailscale status --json 2>/dev/null | command jq -r '.BackendState // "Unavailable"')
+    if test "$backend" = NeedsLogin
+        __stage_label_note WARN "!" "$subject" "Tailscale login required"
+    else
+        __stage_label_note WARN "!" "$subject" "tailscale is $backend"
+    end
+end
+
 if not command -q tailscale
     __stage_label WARN "!" "Vite tailnet route [Tailscale unavailable]"
     exit 0
@@ -14,8 +23,8 @@ end
 
 set restore_tailnet false
 if not tailnet_running
-    if not command tailscale up --timeout=15s >/dev/null 2>&1
-        __stage_label WARN "!" "Vite tailnet route [Tailscale login required]"
+    if not command timeout 15s tailscale up >/dev/null 2>&1
+        tailnet_warning "Vite tailnet route"
         exit 0
     end
     set restore_tailnet true

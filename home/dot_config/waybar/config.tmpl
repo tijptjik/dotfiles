@@ -23,6 +23,7 @@
       "temperature",
       "network",
       "custom/vpn",
+      "custom/tailscale",
       "pulseaudio",
       "clock",
       "custom/notifications",
@@ -94,6 +95,13 @@
       "min-length": 3,
       "max-length": 3,
       "exec": "$HOME/.config/waybar/mullvad.py 2> /dev/null"
+    },
+    "custom/tailscale": {
+      "format": "{}",
+      "interval": 5,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/tailscale.fish",
+      "on-click": "$HOME/.config/waybar/tailscale.fish toggle"
     },
     "clock": {
       "format": "{:%H:%M}",
@@ -251,6 +259,7 @@
       "tray",
       "network",
       "custom/vpn",
+      "custom/tailscale",
       "pulseaudio",
       "clock",
       "custom/codex",
@@ -294,6 +303,13 @@
       "min-length": 3,
       "max-length": 3,
       "exec": "$HOME/.config/waybar/mullvad.py 2> /dev/null"
+    },
+    "custom/tailscale": {
+      "format": "{}",
+      "interval": 5,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/tailscale.fish",
+      "on-click": "$HOME/.config/waybar/tailscale.fish toggle"
     },
     "pulseaudio": {
       "format": "{icon} {volume}%",

@@ -247,7 +247,7 @@ def git_dirty_paths(repo: Path) -> list[str]:
 def warn_dirty_files(status_repo: Path, repo: Path) -> None:
     paths = git_dirty_paths(repo)
     if paths:
-        stage_label(status_repo, "WARN", "!", f"{len(paths)} Dirty Files", "unchanged")
+        stage_label(status_repo, "WARN", "!", f"{len(paths)} Dirty Files", "no changes")
 
 
 def changed_line_count(before: str, after: str) -> int:

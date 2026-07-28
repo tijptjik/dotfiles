@@ -7,7 +7,7 @@ command hyprlock $argv &
 set lock_pid $last_pid
 
 if command -q tailscale
-    command tailscale up --timeout=15s >/dev/null 2>&1
+    command timeout 15s tailscale up >/dev/null 2>&1
 end
 
 wait $lock_pid

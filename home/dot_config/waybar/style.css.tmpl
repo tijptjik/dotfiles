@@ -142,10 +142,23 @@ window#waybar.laptop #custom-nightlight {
 
 /* Pill Right  */
 #custom-vpn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-left: -12px;
+  margin-right: 0;
+}
+
+#custom-tailscale {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   margin-left: -12px;
   margin-right: 12px;
+  font-family: "iconfyra-brands-solid";
+  font-size: 16px;
+}
+
+#custom-tailscale.inactive * {
+  color: @base03;
 }
 
 #temperature,
@@ -205,11 +218,11 @@ window#waybar.desktop-status #network {
 
 window#waybar.desktop-status #custom-vpn {
   margin-left: -12px;
-  margin-right: 12px;
+  margin-right: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 window#waybar.desktop-status #pulseaudio {

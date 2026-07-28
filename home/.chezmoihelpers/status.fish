@@ -116,6 +116,7 @@ function __systems_go --argument-names message
     # Stage notes align to column 72, which defines the report width.
     set -l report_width 72
     set -l padding (math "max(0, ($report_width - $message_length) / 2)")
+    set -l padding (math "max(0, floor(($report_width - $message_length) / 2))")
     printf "%s" (string repeat -n $padding " ")
 
     for index in (seq $message_length)

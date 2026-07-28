@@ -62,9 +62,8 @@ if not sudo loginctl enable-linger "$USER"
     exit 1
 end
 
-__stage_label CONFIG "..." "Collie bridge"
 if command herdr plugin action invoke restart --plugin herdr.collie >/dev/null
-    __stage_result CONFIG "Collie bridge"
+    __stage_label_note CONFIG "✓" "Collie bridge" ":443 → :18787"
 else
     __stage_failure "Collie bridge"
     restore_tailnet_if_needed $restore_tailnet

@@ -4,6 +4,7 @@
 # It ensures that systemd user services and timers are reloaded and enabled.
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
+echo
 if command -q gum; and isatty stdout
     gum style --foreground 12 --bold "Systemd User Units"
 else

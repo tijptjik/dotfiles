@@ -7,7 +7,7 @@ if not command -v bws >/dev/null 2>&1
     if test -f "$BWS_EXECUTABLE"
         set -gx PATH "$HOME/.tools/bws" $PATH
     else
-        __stage_failure "Bitwarden Secrets Manager CLI"
+        status_msg FAILED "✗" "Bitwarden Secrets Manager CLI"
         echo "Bitwarden Secrets Manager CLI (bws) not found."
         exit 1
     end
@@ -40,7 +40,7 @@ if test -f "$bws_config_file"
             end
         end
     end
-    __stage_result CONFIG "Bitwarden access token"
+    status_msg CONFIG "✓" "Bitwarden access token"
 else
     interactive_stage "Bitwarden access token" CONFIG "Bitwarden access token" fish -c '
         set encrypted_token_file (mktemp)
@@ -75,7 +75,7 @@ end
 if not test -f "$chezmoi_key_file"
     # Check if we have the access token before proceeding
     if test -z "$BWS_ACCESS_TOKEN"
-        __stage_failure "chezmoi decryption key"
+        status_msg FAILED "✗" "chezmoi decryption key"
         echo "BWS_ACCESS_TOKEN is not set. Cannot fetch chezmoi key."
         exit 1
     end
@@ -90,5 +90,5 @@ if not test -f "$chezmoi_key_file"
         chmod 600 "$argv[3]"
     ' "$CHEZMOI_KEY_SECRET_ID" "$keys_dir" "$chezmoi_key_file"
 else
-    __stage_result CONFIG "chezmoi decryption key"
+    status_msg CONFIG "✓" "chezmoi decryption key"
 end

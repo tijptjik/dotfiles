@@ -3,13 +3,7 @@
 
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
-echo
-if command -q gum; and isatty stdout
-    gum style --foreground 12 --bold "Tailscale Apps"
-else
-    echo "Tailscale Apps"
-end
-echo
+section_header "Tailscale Apps"
 
 function tailnet_running
     command tailscale status --json 2>/dev/null | command jq -e '.BackendState == "Running"' >/dev/null 2>&1
@@ -24,9 +18,9 @@ end
 function tailnet_warning --argument-names subject
     set backend (command tailscale status --json 2>/dev/null | command jq -r '.BackendState // "Unavailable"')
     if test "$backend" = NeedsLogin
-        __stage_label_note WARN "!" "$subject" "Tailscale login required"
+        status_msg WARN "!" "$subject" "Tailscale login required"
     else
-        __stage_label_note WARN "!" "$subject" "tailscale is $backend"
+        status_msg WARN "!" "$subject" "tailscale is $backend"
     end
 end
 
@@ -40,22 +34,22 @@ function collie_bridge_is_ready
 end
 
 if not command -q herdr
-    __stage_label WARN "!" "Collie [Herdr unavailable]"
+    status_msg WARN "!" "Collie [Herdr unavailable]"
     exit 0
 end
 
 if not test -S "$HOME/.config/herdr/herdr.sock"
-    __stage_label WARN "!" "Collie [start Herdr, then rerun tjiktup]"
+    status_msg WARN "!" "Collie [start Herdr, then rerun tjiktup]"
     exit 0
 end
 
 if not command -q tailscale
-    __stage_label WARN "!" "Collie [Tailscale unavailable]"
+    status_msg WARN "!" "Collie [Tailscale unavailable]"
     exit 0
 end
 
 if collie_bridge_is_ready
-    __stage_label_note SKIP "✓" "Collie Bridge" "ready at :443"
+    status_msg SKIP "✓" "Collie Bridge" "ready at :443"
     exit 0
 end
 
@@ -69,25 +63,25 @@ if not tailnet_running
 end
 
 if not command herdr plugin list --json | command jq -e '.result.plugins[]? | select(.plugin_id == "herdr.collie")' >/dev/null 2>&1
-    __stage_label CONFIG "..." "Collie plugin"
+    status_msg CONFIG "..." "Collie plugin"
     if not command herdr plugin install AltanS/collie --yes
-        __stage_failure "Collie plugin"
+        status_msg FAILED "✗" "Collie plugin"
         restore_tailnet_if_needed $restore_tailnet
         exit 1
     end
-    __stage_result CONFIG "Collie plugin"
+    status_msg CONFIG "✓" "Collie plugin"
 end
 
 if not sudo loginctl enable-linger "$USER"
-    __stage_failure "Collie reboot persistence"
+    status_msg FAILED "✗" "Collie reboot persistence"
     restore_tailnet_if_needed $restore_tailnet
     exit 1
 end
 
 if command herdr plugin action invoke restart --plugin herdr.collie >/dev/null
-    __stage_label_note CONFIG "✓" "Collie Bridge" "ready at :443"
+    status_msg CONFIG "✓" "Collie Bridge" "ready at :443"
 else
-    __stage_failure "Collie Bridge"
+    status_msg FAILED "✗" "Collie Bridge"
     restore_tailnet_if_needed $restore_tailnet
     exit 1
 end

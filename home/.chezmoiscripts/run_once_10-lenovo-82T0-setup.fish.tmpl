@@ -45,7 +45,7 @@ end
 
 # Check if this is the target machine
 if test (get_product_name) != "$PRODUCT_NAME"
-    __stage_result CONFIG "Lenovo $PRODUCT_NAME setup"
+    status_msg CONFIG "✓" "Lenovo $PRODUCT_NAME setup"
     exit 0
 end
 
@@ -86,7 +86,7 @@ end
 if not packages_installed
     stage "Lenovo $PRODUCT_NAME multimedia packages" INSTALL "Lenovo $PRODUCT_NAME multimedia packages" install_lenovo_multimedia_packages
 else
-    __stage_result INSTALL "Lenovo $PRODUCT_NAME multimedia packages"
+    status_msg INSTALL "✓" "Lenovo $PRODUCT_NAME multimedia packages"
 end
 
 stage "Lenovo $PRODUCT_NAME graphics configuration" CONFIG "Lenovo $PRODUCT_NAME graphics" configure_i915_graphics "$I915_CONF_PATH"

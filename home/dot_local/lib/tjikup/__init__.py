@@ -84,7 +84,7 @@ def show_diff(path: Path, before: str, after: str) -> None:
     )
 
 
-def stage_label(repo: Path, verb: str, icon: str, subject: str, note: str | None = None) -> None:
+def status_msg(repo: Path, verb: str, icon: str, subject: str, note: str | None = None) -> None:
     if note:
         note = note.strip()
         if note.startswith("(") and note.endswith(")"):
@@ -92,13 +92,12 @@ def stage_label(repo: Path, verb: str, icon: str, subject: str, note: str | None
     helper = repo / "home/.chezmoihelpers/status.fish"
     fish = shutil.which("fish")
     if fish and helper.is_file() and sys.stdout.isatty():
-        function = "__stage_label_note" if note else "__stage_label"
         arguments = [verb, icon, subject] + ([note] if note else [])
         result = subprocess.run(
             [
                 fish,
                 "-c",
-                f"source $argv[1]; {function} $argv[2] $argv[3] $argv[4]" + (" $argv[5]" if note else ""),
+                "source $argv[1]; status_msg $argv[2] $argv[3] $argv[4]" + (" $argv[5]" if note else ""),
                 "--",
                 str(helper),
                 *arguments,
@@ -118,6 +117,11 @@ def stage_label(repo: Path, verb: str, icon: str, subject: str, note: str | None
         print(f"{verb:<7} {icon} {subject}{' ' * padding}{note}")
     else:
         print(f"{verb:<7} {icon} {subject}")
+
+
+def stage_label(repo: Path, verb: str, icon: str, subject: str, note: str | None = None) -> None:
+    """Backward-compatible alias for the canonical status presenter."""
+    status_msg(repo, verb, icon, subject, note)
 
 
 def stage_result(repo: Path, verb: str, subject: str, note: str | None = None) -> None:
@@ -156,13 +160,18 @@ def run_stage(
     stage_result(repo, verb, subject, note)
 
 
-def section(title: str, *, leading: bool = True) -> None:
-    if leading:
-        print()
-    if GUM and sys.stdout.isatty():
-        run([GUM, "style", "--foreground", "12", "--bold", title])
-    else:
-        print(title)
+def section_header(repo: Path, title: str) -> None:
+    helper = repo / "home/.chezmoihelpers/status.fish"
+    fish = shutil.which("fish")
+    if fish and helper.is_file() and sys.stdout.isatty():
+        result = subprocess.run(
+            [fish, "-c", "source $argv[1]; section_header $argv[2]", "--", str(helper), title],
+            check=False,
+        )
+        if result.returncode == 0:
+            return
+    print()
+    print(title)
     print()
 
 
@@ -507,9 +516,9 @@ def main() -> int:
     report_file = create_report_file()
     os.environ["TJIKUP_REPORT_FILE"] = str(report_file)
     print_header(repo)
-    section("Prerequisites", leading=False)
+    section_header(repo, "Prerequisites")
     run_checks(repo)
-    section("Commit Local Changes")
+    section_header(repo, "Commit Local Changes")
     propagators = discover_propagators()
     resolved = [(propagator, repo / propagator.source, Path.home() / propagator.target) for propagator in propagators]
     active_propagators: list[Propagator] = []
@@ -562,7 +571,7 @@ def main() -> int:
             stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
         else:
             stage_unchanged(repo, propagator.name.capitalize())
-    section("Dotfiles Repository")
+    section_header(repo, "Dotfiles Repository")
 
     changed_names = commit_templates(repo, repo, active_propagators)
     pull_dotfiles(repo)
@@ -574,7 +583,7 @@ def main() -> int:
         stage_unchanged(repo, "Tjipfiles")
     pull_chezetc(repo)
     push_committed_chezetc(repo)
-    section("Dotfiles Apply")
+    section_header(repo, "Dotfiles Apply")
     if chezmoi_config_needs_init(repo):
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
         report_summary(repo, report_file)

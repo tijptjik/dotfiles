@@ -9,7 +9,7 @@ if test -f "$BWS_EXECUTABLE"
     if not contains "$BWS_DIR" $fish_user_paths
         set -Ua fish_user_paths "$BWS_DIR"
     end
-    __stage_result INSTALL "Bitwarden Secrets Manager CLI"
+    status_msg INSTALL "✓" "Bitwarden Secrets Manager CLI"
     exit 0
 end
 

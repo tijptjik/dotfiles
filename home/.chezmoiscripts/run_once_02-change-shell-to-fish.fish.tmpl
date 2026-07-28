@@ -3,7 +3,7 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 # Check if fish is installed
 if not command -v -q fish
-    __stage_result CONFIG "Default shell"
+    status_msg CONFIG "✓" "Default shell"
     exit 0
 end
 
@@ -12,7 +12,7 @@ set -l fish_path (which fish)
 
 # Check if the user's shell is already fish
 if string match -q -- "$fish_path" "$SHELL"
-    __stage_result CONFIG "Default shell"
+    status_msg CONFIG "✓" "Default shell"
     exit 0
 end
 

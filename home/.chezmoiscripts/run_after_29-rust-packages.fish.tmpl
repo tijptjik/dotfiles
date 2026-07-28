@@ -1,13 +1,7 @@
 #!/usr/bin/env fish
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
-echo
-if command -q gum; and isatty stdout
-    gum style --foreground 12 --bold "Packages"
-else
-    echo "Packages"
-end
-echo
+section_header "Packages"
 
 set rust_packages rtk serie dysk
 

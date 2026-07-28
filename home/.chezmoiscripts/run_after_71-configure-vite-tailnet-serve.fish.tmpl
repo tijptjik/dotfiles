@@ -10,9 +10,9 @@ end
 function tailnet_warning --argument-names subject
     set backend (command tailscale status --json 2>/dev/null | command jq -r '.BackendState // "Unavailable"')
     if test "$backend" = NeedsLogin
-        __stage_label_note WARN "!" "$subject" "Tailscale login required"
+        status_msg WARN "!" "$subject" "Tailscale login required"
     else
-        __stage_label_note WARN "!" "$subject" "tailscale is $backend"
+        status_msg WARN "!" "$subject" "tailscale is $backend"
     end
 end
 
@@ -24,12 +24,12 @@ function vite_tailnet_route_is_ready
 end
 
 if not command -q tailscale
-    __stage_label WARN "!" "Vite Bridge [Tailscale unavailable]"
+    status_msg WARN "!" "Vite Bridge [Tailscale unavailable]"
     exit 0
 end
 
 if vite_tailnet_route_is_ready
-    __stage_label_note SKIP "✓" "Vite Bridge" "ready at :8443"
+    status_msg SKIP "✓" "Vite Bridge" "ready at :8443"
     exit 0
 end
 
@@ -45,9 +45,9 @@ end
 # The Vite development server on fi binds IPv6 loopback only. `localhost`
 # preserves that resolution while avoiding a Tailscale IPv6-literal proxy bug.
 if command tailscale serve --https=8443 --bg --yes http://localhost:5173 >/dev/null
-    __stage_label_note CONFIG "✓" "Vite Bridge" "ready at :8443"
+    status_msg CONFIG "✓" "Vite Bridge" "ready at :8443"
 else
-    __stage_failure "Vite Bridge"
+    status_msg FAILED "✗" "Vite Bridge"
     if $restore_tailnet
         command tailscale down >/dev/null 2>&1
     end

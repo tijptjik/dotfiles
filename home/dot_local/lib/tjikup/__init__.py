@@ -368,6 +368,44 @@ def apply_chezetc() -> None:
     run_stream([chezetc, "apply"], CHEZETC_REPO)
 
 
+def has_python_modules(*modules: str) -> bool:
+    result = subprocess.run(
+        [sys.executable, "-c", "; ".join(f"import {module}" for module in modules)],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    return result.returncode == 0
+
+
+def ensure_chezetc_toml_modules(repo: Path) -> None:
+    """Install chezetc's config-merging dependencies for the active Python."""
+    modules = ("tomli", "tomli_w")
+    if has_python_modules(*modules):
+        stage_skip_ok(repo, "Chezetc TOML modules", "available")
+        return
+
+    uv = shutil.which("uv")
+    if not uv:
+        raise UpdateError("chezetc needs tomli and tomli_w, but uv is not available to install them")
+
+    command = [uv, "pip", "install", "--python", sys.executable]
+    # Keep dependencies out of a system-managed Python, while still supporting
+    # tjikup when it is launched from a virtual environment.
+    if sys.prefix == sys.base_prefix:
+        command.append("--user")
+    command.extend(("tomli", "tomli-w"))
+    try:
+        run(command, repo, capture_output=True)
+    except UpdateError:
+        stage_label(repo, "FAILED", "✗", "Chezetc TOML modules")
+        raise
+
+    if not has_python_modules(*modules):
+        raise UpdateError("tomli and tomli_w were installed but are unavailable to the active Python")
+    stage_result(repo, "INSTALL", "Chezetc TOML modules")
+
+
 def main() -> int:
     arguments = argparse.ArgumentParser(description=__doc__)
     arguments.add_argument("--dry-run", action="store_true", help="show template changes without git or chezmoi mutations")
@@ -463,6 +501,7 @@ def main() -> int:
         return 0
     pull_chezetc(repo)
     push_committed_chezetc(repo)
+    ensure_chezetc_toml_modules(repo)
     apply_chezetc()
     return 0
 

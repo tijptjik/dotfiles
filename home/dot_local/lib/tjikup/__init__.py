@@ -216,12 +216,13 @@ def run_checks(repo: Path) -> None:
         ("Bitwarden Secrets Manager CLI", shutil.which("bws") is not None),
         ("Bitwarden Access Token", (Path.home() / ".config/bws/environment").is_file()),
         ("Chezmoi Decryption Key", (Path.home() / ".keys/chezmoi.txt").is_file()),
-        ("Gum", shutil.which("gum") is not None),
+        ("Chezmoi TOML modules", has_python_modules("tomli", "tomli_w")),
         ("Fish", shutil.which("fish") is not None),
-        ("Bun", shutil.which("bun") is not None),
-        ("FNM", shutil.which("fnm") is not None),
         ("Herdr", shutil.which("herdr") is not None),
         ("UV", shutil.which("uv") is not None),
+        ("FNM", shutil.which("fnm") is not None),
+        ("Gum", shutil.which("gum") is not None),
+        ("Bun", shutil.which("bun") is not None),
     ]
     optional_checks = {"Bitwarden Access Token", "Chezmoi Decryption Key"}
     for subject, available in checks:
@@ -281,11 +282,11 @@ def pull_dotfiles(repo: Path) -> None:
     try:
         run(["git", "pull", "--rebase", "--autostash"], repo, capture_output=True)
     except UpdateError:
-        stage_label(repo, "FAILED", "✗", "Chezmoi")
+        stage_label(repo, "FAILED", "✗", "Tjipfiles")
         raise
     after = git_ref(repo, "HEAD")
     note = "rebased" if before and after and before != after else "no changes"
-    stage_result(repo, "PULL", "Chezmoi", note)
+    stage_result(repo, "PULL", "Tjipfiles", note)
 
 
 def changed_propagator_names(repo: Path, propagators: list[Propagator]) -> list[str]:
@@ -298,7 +299,7 @@ def changed_propagator_names(repo: Path, propagators: list[Propagator]) -> list[
 def commit_templates(status_repo: Path, repo: Path, propagators: list[Propagator]) -> list[str]:
     changed_names = changed_propagator_names(repo, propagators)
     if not changed_names:
-        stage_unchanged(status_repo, "Templates")
+        stage_unchanged(status_repo, "Local Changes")
         return []
 
     changed_paths = [
@@ -390,9 +391,10 @@ def push_committed_chezetc(status_repo: Path) -> None:
 def apply_chezetc(repo: Path) -> None:
     chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
     config = Path.home() / ".config/chezmoi/chezetc/chezmoi.toml"
+    environment = {**os.environ, "TJIKUP_SKIP_PREFLIGHT": "1"}
     before = config.read_bytes() if config.is_file() else None
     try:
-        run_stream([chezetc, "apply"], CHEZETC_REPO)
+        run_stream([chezetc, "apply"], CHEZETC_REPO, env=environment)
     except UpdateError:
         stage_label(repo, "FAILED", "✗", "Chezetc apply")
         raise
@@ -400,7 +402,7 @@ def apply_chezetc(repo: Path) -> None:
     if before != after:
         stage_result(repo, "RETRY", "Chezetc", "configuration refreshed")
         try:
-            run_stream([chezetc, "apply"], CHEZETC_REPO)
+            run_stream([chezetc, "apply"], CHEZETC_REPO, env=environment)
         except UpdateError:
             stage_label(repo, "FAILED", "✗", "Chezetc apply retry")
             raise
@@ -440,38 +442,6 @@ def has_python_modules(*modules: str) -> bool:
     return result.returncode == 0
 
 
-def ensure_chezetc_toml_modules(repo: Path, *, install: bool = True) -> None:
-    """Install chezetc's config-merging dependencies for the active Python."""
-    modules = ("tomli", "tomli_w")
-    if has_python_modules(*modules):
-        stage_result(repo, "CHECK", "TOML modules", "available")
-        return
-
-    if not install:
-        stage_skip(repo, "Chezetc TOML modules", "missing (dry run)")
-        return
-
-    uv = shutil.which("uv")
-    if not uv:
-        raise UpdateError("chezetc needs tomli and tomli_w, but uv is not available to install them")
-
-    command = [uv, "pip", "install", "--python", sys.executable]
-    # Keep dependencies out of a system-managed Python, while still supporting
-    # tjikup when it is launched from a virtual environment.
-    if sys.prefix == sys.base_prefix:
-        command.append("--user")
-    command.extend(("tomli", "tomli-w"))
-    try:
-        run(command, repo, capture_output=True)
-    except UpdateError:
-        stage_label(repo, "FAILED", "✗", "Chezetc TOML modules")
-        raise
-
-    if not has_python_modules(*modules):
-        raise UpdateError("tomli and tomli_w were installed but are unavailable to the active Python")
-    stage_result(repo, "INSTALL", "Chezetc TOML modules")
-
-
 def main() -> int:
     arguments = argparse.ArgumentParser(description=__doc__)
     arguments.add_argument("--dry-run", action="store_true", help="show template changes without git or chezmoi mutations")
@@ -483,8 +453,7 @@ def main() -> int:
     print_header(repo)
     section("Prerequisites", leading=False)
     run_checks(repo)
-    ensure_chezetc_toml_modules(repo, install=not args.dry_run)
-    section("Template Sync")
+    section("Commit Local Changes")
     propagators = discover_propagators()
     resolved = [(propagator, repo / propagator.source, Path.home() / propagator.target) for propagator in propagators]
     active_propagators: list[Propagator] = []
@@ -537,16 +506,16 @@ def main() -> int:
             stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
         else:
             stage_unchanged(repo, propagator.name.capitalize())
-    section("Git")
+    section("Dotfiles Repository")
 
     changed_names = commit_templates(repo, repo, active_propagators)
     pull_dotfiles(repo)
     warn_dirty_files(repo, repo)
     ahead = git_ahead_count(repo)
     if ahead:
-        run_stage(repo, "PUSH", "Dotfiles", ["git", "push"], repo, f"{ahead} commits pushed")
+        run_stage(repo, "PUSH", "Tjipfiles", ["git", "push"], repo, f"{ahead} commits")
     else:
-        stage_unchanged(repo, "Dotfiles")
+        stage_unchanged(repo, "Tjipfiles")
     if chezmoi_config_needs_init(repo):
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
         report_summary(repo, report_file)

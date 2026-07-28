@@ -21,9 +21,9 @@ function check_file --argument-names subject path
     end
 end
 
-check_command "Bitwarden Secrets Manager CLI" bws
-check_file "Bitwarden Access Token" "$HOME/.config/bws/environment"
-check_file "Chezmoi Decryption Key" "$HOME/.keys/chezmoi.txt"
+check_command "Bitwarden - Secrets Manager CLI" bws
+check_file "Bitwarden - Access Token" "$HOME/.config/bws/environment"
+check_file "Chezmoi - Decryption Key" "$HOME/.keys/chezmoi.txt"
 check_command "Gum" gum
 check_command "Fish" fish
 check_command "Bun" bun

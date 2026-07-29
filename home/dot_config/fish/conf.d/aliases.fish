@@ -303,7 +303,7 @@ function hup -d "Reset Herdr, apply the workspace layout, and attach"
     # Delete the stopped default session so no workspaces or panes are restored.
     command herdr session delete default >/dev/null 2>&1
 
-    command herdr server >/dev/null 2>&1 &
+    herdr server >/dev/null 2>&1 &
 
     for _ in (seq 1 50)
         sleep 0.1

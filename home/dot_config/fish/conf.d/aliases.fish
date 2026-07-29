@@ -242,6 +242,24 @@ alias brc='chezmoi edit $HOME/.bashrc; and source ~/.bashrc'
 
 alias h='herdr'
 
+# Herdr plugins keep their executables in a versioned directory rather than $PATH.
+# Expose Spreader as a command and point it at its managed configuration directory.
+function herdr-spreader -d "Run the installed Herdr Spreader plugin"
+    set -l plugin_root (command herdr plugin list --json | command jq -r \
+        '.result.plugins[] | select(.plugin_id == "herdr-spreader") | .plugin_root')
+
+    if test -z "$plugin_root"; or not test -x "$plugin_root/target/release/herdr-spreader"
+        echo "herdr-spreader: Herdr Spreader plugin is not installed" >&2
+        return 127
+    end
+
+    env HERDR_PLUGIN_CONFIG_DIR="$HOME/.config/herdr/plugins/config/herdr-spreader" \
+        command "$plugin_root/target/release/herdr-spreader" $argv
+end
+
+alias hup='herdr-spreader apply'
+alias cup='codex resume --all'
+
 ## HYPE
 alias h1='bun update && bun outdated'
 alias h2='bun run dev'

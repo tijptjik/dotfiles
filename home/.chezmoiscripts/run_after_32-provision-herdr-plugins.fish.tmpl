@@ -1,0 +1,42 @@
+#!/usr/bin/env fish
+{{ if .isDesktop -}}
+
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+function herdr_plugin_is_installed --argument-names plugin_id
+    command herdr plugin list --json | command jq -e \
+        ".result.plugins[]? | select(.plugin_id == \"$plugin_id\")" >/dev/null 2>&1
+end
+
+function provision_herdr_plugin --argument-names source plugin_id label
+    if herdr_plugin_is_installed "$plugin_id"
+        status_msg SKIP "✓" "$label Herdr plugin"
+        return 0
+    end
+
+    status_msg CONFIG "..." "$label Herdr plugin"
+    if command herdr plugin install "$source" --yes
+        status_msg CONFIG "✓" "$label Herdr plugin"
+    else
+        status_msg FAILED "✗" "$label Herdr plugin"
+        return 1
+    end
+end
+
+if not command -q herdr
+    status_msg WARN "!" "Herdr plugins [Herdr unavailable]"
+    exit 0
+end
+
+if not test -S "$HOME/.config/herdr/herdr.sock"
+    status_msg WARN "!" "Herdr plugins [start Herdr, then rerun tjiktup]"
+    exit 0
+end
+
+provision_herdr_plugin smarzban/herdr-file-viewer herdr-file-viewer "File viewer"
+or exit 1
+provision_herdr_plugin thanhdat77/herdr-navigator herdr-navigator "Navigator"
+or exit 1
+provision_herdr_plugin yuk1ty/herdr-spreader herdr-spreader "Spreader"
+or exit 1
+{{ end -}}

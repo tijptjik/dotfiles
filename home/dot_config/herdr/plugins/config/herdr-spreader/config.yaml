@@ -1,0 +1,69 @@
+# Canonical Herdr layout. `herdup` applies this file.
+workspaces:
+  # Herdr-spreader requires workspace names; this names the current unnamed home workspace.
+  - name: home
+    root: "~"
+    focus: true
+    tabs:
+      - label: "~"
+        panes: [{}]
+
+  - name: hype
+    root: ~/code/hype
+    tabs:
+      - label: hype
+        panes: [{}]
+      - label: dev
+        panes: [{}]
+      - label: asset
+        panes: [{}]
+      - label: studio
+        panes: [{}]
+      - label: git
+        panes: [{}]
+
+  - name: saanseoi
+    root: ~/code/saanseoi
+    tabs:
+      - label: saanseoi
+        panes: [{}]
+      - label: 山
+        panes: [{}]
+      - label: 水
+        panes: [{}]
+      - label: dev
+        panes:
+          - command: bun run dev
+      - label: test
+        panes:
+          - command: turbo run test:watch
+      - label: studio
+        panes:
+          - command: fnm exec --using=25.2.1 bun run db:studio:source:2025
+      - label: db
+        panes: [{}]
+      - label: docs
+        panes: [{}]
+      - label: git
+        panes: [{}]
+
+  - name: overturist
+    root: ~/code/overturist
+    tabs:
+      - label: overturist
+        panes: [{}]
+      - label: git
+        panes: [{}]
+
+  - name: tjikup
+    root: ~/.local/share/chezmoi
+    tabs:
+      - label: tjikup
+        panes: [{}]
+      - label: Etc
+        cwd: ../chezetc
+        panes: [{}]
+      - label: CTRL
+        panes: [{}]
+      - label: git
+        panes: [{}]

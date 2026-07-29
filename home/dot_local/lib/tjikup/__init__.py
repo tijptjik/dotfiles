@@ -20,6 +20,7 @@ from tjikup.core import Propagator, UpdateError
 CHEZETC_REPO = Path.home() / ".local/share/chezetc"
 GUM = shutil.which("gum")
 CHEZMOI_CONFIG_WARNING = "chezmoi: warning: config file template has changed, run chezmoi init to regenerate config file"
+COMMAND_TIMEOUT_SECONDS = 300
 SPLASH = """
                         _   _        ____  ____  ____
                      __| | / |  ____|_  _||   _||_   |
@@ -36,7 +37,19 @@ def run(
     env: dict[str, str] | None = None,
 ) -> None:
     try:
-        result = subprocess.run(command, cwd=cwd, env=env, text=True, capture_output=capture_output, check=False)
+        result = subprocess.run(
+            command,
+            cwd=cwd,
+            env=env,
+            text=True,
+            capture_output=capture_output,
+            check=False,
+            timeout=COMMAND_TIMEOUT_SECONDS,
+        )
+    except subprocess.TimeoutExpired as error:
+        raise UpdateError(
+            f"command timed out after {COMMAND_TIMEOUT_SECONDS}s: {' '.join(command)}"
+        ) from error
     except OSError as error:
         raise UpdateError(f"could not run {' '.join(command)}: {error}") from error
     if result.returncode:
@@ -134,6 +147,10 @@ def stage_result(repo: Path, verb: str, subject: str, note: str | None = None) -
     stage_label(repo, verb, "✓", subject, note)
 
 
+def stage_started(repo: Path, verb: str, subject: str) -> None:
+    stage_label(repo, verb, "…", subject)
+
+
 def stage_skip(repo: Path, subject: str, note: str | None = None) -> None:
     stage_label(repo, "SKIP", "-", subject, note)
 
@@ -158,6 +175,7 @@ def run_stage(
     cwd: Path,
     note: str | None = None,
 ) -> None:
+    stage_started(repo, verb, subject)
     try:
         run(command, cwd, capture_output=True)
     except UpdateError:
@@ -183,7 +201,11 @@ def section_header(repo: Path, title: str, *, color: str = "12") -> None:
 
 def run_stream(command: list[str], cwd: Path, *, env: dict[str, str] | None = None) -> None:
     try:
-        result = subprocess.run(command, cwd=cwd, env=env, check=False)
+        result = subprocess.run(command, cwd=cwd, env=env, check=False, timeout=COMMAND_TIMEOUT_SECONDS)
+    except subprocess.TimeoutExpired as error:
+        raise UpdateError(
+            f"command timed out after {COMMAND_TIMEOUT_SECONDS}s: {' '.join(command)}"
+        ) from error
     except OSError as error:
         raise UpdateError(f"could not run {' '.join(command)}: {error}") from error
     if result.returncode:
@@ -204,6 +226,7 @@ def chezmoi_apply_counts(repo: Path, command: list[str], env: dict[str, str]) ->
 
 
 def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bool:
+    stage_started(repo, "APPLY", "Dotfiles")
     if sys.stdout.isatty():
         try:
             run_stream(command, repo, env=env)
@@ -213,7 +236,20 @@ def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bo
         return True
 
     try:
-        result = subprocess.run(command, cwd=repo, env=env, text=True, capture_output=True, check=False)
+        result = subprocess.run(
+            command,
+            cwd=repo,
+            env=env,
+            text=True,
+            capture_output=True,
+            check=False,
+            timeout=COMMAND_TIMEOUT_SECONDS,
+        )
+    except subprocess.TimeoutExpired as error:
+        stage_label(repo, "FAILED", "✗", "Dotfiles apply")
+        raise UpdateError(
+            f"command timed out after {COMMAND_TIMEOUT_SECONDS}s: {' '.join(command)}"
+        ) from error
     except OSError as error:
         raise UpdateError(f"could not run {' '.join(command)}: {error}") from error
 
@@ -350,6 +386,7 @@ def changed_line_count(before: str, after: str) -> int:
 
 def pull_dotfiles(repo: Path) -> None:
     before = git_ref(repo, "HEAD")
+    stage_started(repo, "PULL", "Tjipfiles")
     try:
         run(["git", "pull", "--rebase", "--autostash"], repo, capture_output=True)
     except UpdateError:
@@ -378,6 +415,7 @@ def commit_templates(status_repo: Path, repo: Path, propagators: list[Propagator
         for propagator in propagators
         if propagator.name in changed_names
     ]
+    stage_started(status_repo, "COMMIT", "Templates")
     try:
         run(["git", "add", "--", *changed_paths], repo, capture_output=True)
         run(
@@ -405,6 +443,7 @@ def pull_chezetc(status_repo: Path) -> None:
         stage_label(status_repo, "FAILED", "✗", "Tijpcetera")
         raise UpdateError(f"missing chezetc repository: {CHEZETC_REPO}")
     before = git_ref(CHEZETC_REPO, "HEAD")
+    stage_started(status_repo, "PULL", "Tijpcetera")
     try:
         run(["git", "pull", "--rebase", "--autostash"], CHEZETC_REPO, capture_output=True)
     except UpdateError:
@@ -465,6 +504,7 @@ def apply_chezetc(repo: Path) -> None:
     repo_header(repo, "Tijpcetera", "https://github.com/tijptjik/etcfiles")
     environment = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"}
     before = config.read_bytes() if config.is_file() else None
+    stage_started(repo, "APPLY", "Chezetc")
     try:
         run_stream([chezetc, "apply"], CHEZETC_REPO, env=environment)
     except UpdateError:
@@ -474,6 +514,7 @@ def apply_chezetc(repo: Path) -> None:
     if before != after:
         stage_result(repo, "RETRY", "Chezetc", "configuration refreshed")
         try:
+            stage_started(repo, "APPLY", "Chezetc")
             run_stream([chezetc, "apply"], CHEZETC_REPO, env=environment)
         except UpdateError:
             stage_label(repo, "FAILED", "✗", "Chezetc apply retry")

@@ -3,15 +3,27 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 section_header "Packages"
 
-set rust_packages llmtrim serie dysk
+set rust_packages serie dysk
 
 function cargo_install_record --argument-names package
     cargo install --list | string match -r "^$package v.*"
 end
 
-function llmtrim_is_configured
-    test -f "$HOME/.llmtrim/ca.pem"
+function install_llmtrim
+    if not command -q cargo
+        printf 'cargo is not installed\n' >&2
+        return 1
+    end
+
+    cargo install --locked llmtrim
 end
+
+stage "llmtrim installation" SYNC "llmtrim" install_llmtrim
+
+# `stage_dynamic_note` captures command output while it displays a spinner.
+# Keep llmtrim setup outside it: setup is idempotent but can ask an interactive
+# configuration question, which must remain connected to the user's terminal.
+interactive_stage "llmtrim setup" CONFIG "llmtrim" llmtrim setup
 
 function sync_rust_packages
     if not command -q cargo
@@ -22,14 +34,6 @@ function sync_rust_packages
     set -l before_records
     for package in $rust_packages
         set -a before_records "$(cargo_install_record $package)"
-    end
-
-    cargo install --locked llmtrim
-
-    if not llmtrim_is_configured
-        llmtrim setup
-    else
-        llmtrim ensure
     end
 
     cargo install serie

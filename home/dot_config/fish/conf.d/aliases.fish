@@ -301,7 +301,7 @@ function hup -d "Reset Herdr, apply the workspace layout, and attach"
 
         # `server stop` requests shutdown asynchronously. Do not remove the
         # saved session or start another server until the old one is gone.
-        for _ in (seq 1 50)
+        for attempt in (seq 1 50)
             sleep 0.1
             set server_status (command timeout 2s herdr status server --json 2>/dev/null)
             if not string match -q '*"running":true*' -- "$server_status"
@@ -323,7 +323,7 @@ function hup -d "Reset Herdr, apply the workspace layout, and attach"
 
     herdr server >/dev/null 2>&1 &
 
-    for _ in (seq 1 50)
+    for attempt in (seq 1 50)
         sleep 0.1
         set server_status (command timeout 2s herdr status server --json 2>/dev/null)
         if string match -q '*"running":true*' -- "$server_status"

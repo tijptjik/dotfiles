@@ -1,7 +1,6 @@
 # Canonical Herdr layout. `herdup` applies this file.
 workspaces:
-  # Herdr-spreader requires workspace names; this names the current unnamed home workspace.
-  - name: home
+  - name: ~
     root: "~"
     focus: true
     tabs:
@@ -36,7 +35,7 @@ workspaces:
           - command: bun run dev
       - label: test
         panes:
-          - command: turbo run test:watch
+          - command: bun run test:watch
       - label: studio
         panes:
           - command: fnm exec --using=25.2.1 bun run db:studio:source:2025

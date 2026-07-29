@@ -3,6 +3,32 @@
 
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
+section_header "Herdr"
+
+function install_llmtrim
+    if not command -q cargo
+        printf 'cargo is not installed\n' >&2
+        return 1
+    end
+
+    cargo install --locked llmtrim
+end
+
+stage "llmtrim installation" SYNC "llmtrim" install_llmtrim
+
+# Generate the local CA without modifying a shell profile. Routing is opt-in:
+# the `herdr` Fish function supplies this environment only to Herdr and its panes.
+function configure_llmtrim
+    llmtrim setup --env >/dev/null
+    and llmtrim start
+end
+
+if test -f "$HOME/.llmtrim/ca.pem"
+    status_msg SKIP "✓" "llmtrim" "configured"
+else
+    interactive_stage "llmtrim setup" CONFIG "llmtrim" configure_llmtrim
+end
+
 # The upstream plugin runs `llmtrim setup` whenever a workspace is created.
 # That mutates Fish's global environment, so use the scoped `herdr` launcher
 # instead and keep the plugin absent.

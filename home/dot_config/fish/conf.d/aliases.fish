@@ -330,7 +330,9 @@ function hup -d "Reset Herdr and apply the workspace layout"
     command rm -f "$HOME/.config/herdr/session.json"
 
     echo "hup: starting Herdr..."
-    herdr server >/dev/null 2>&1 &
+    # Launch the daemon directly. Backgrounding the Fish `herdr` wrapper makes
+    # Fish wait on the wrapper job even after the server has become ready.
+    command herdr server >/dev/null 2>&1 &
 
     for attempt in (seq 1 50)
         sleep 0.1

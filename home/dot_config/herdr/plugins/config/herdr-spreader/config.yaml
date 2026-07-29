@@ -32,8 +32,7 @@ workspaces:
     tabs:
       - label: saanseoi
         panes:
-          - command: clear
-            focus: true
+          - focus: true
       - label: 山
         panes:
           - command: clear

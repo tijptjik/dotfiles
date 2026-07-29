@@ -47,12 +47,41 @@ function __stage_icon_color --argument-names icon
     end
 end
 
+function __stage_fish_color --argument-names color
+    switch "$color"
+        case 6
+            echo cyan
+        case 8
+            echo brblack
+        case 9
+            echo brred
+        case 10
+            echo brgreen
+        case 11
+            echo bryellow
+        case 12
+            echo brblue
+        case 13
+            echo brmagenta
+        case 14
+            echo brcyan
+        case 15
+            echo brwhite
+        case '*'
+            echo "$color"
+    end
+end
+
 function __stage_styled_subject --argument-names subject
     set -l tailscale_operator (string match -r '^Tailscale operator for (.+)$' -- "$subject")
     if test (count $tailscale_operator) -gt 1
-        gum style --foreground 15 "Tailscale operator for" | tr -d '\n'
+        set_color (__stage_fish_color 15)
+        printf "%s" "Tailscale operator for"
+        set_color normal
         printf " "
-        gum style --foreground 6 "$tailscale_operator[2]"
+        set_color (__stage_fish_color 6)
+        printf "%s" "$tailscale_operator[2]"
+        set_color normal
         return
     end
 
@@ -61,11 +90,17 @@ function __stage_styled_subject --argument-names subject
     set -l qualifier (string match -r '\[[^]]+\]$|\([^)]*\)$' -- "$subject")
     if test (count $qualifier) -gt 0
         set -l base (string replace -- "$qualifier" "" "$subject" | string trim)
-        set -l styled_base (gum style --foreground 15 "$base")
-        set -l styled_qualifier (gum style --foreground 8 "$qualifier")
-        printf "%s %s\n" "$styled_base" "$styled_qualifier"
+        set_color (__stage_fish_color 15)
+        printf "%s" "$base"
+        set_color normal
+        printf " "
+        set_color (__stage_fish_color 8)
+        printf "%s" "$qualifier"
+        set_color normal
     else
-        gum style --foreground 15 "$subject"
+        set_color (__stage_fish_color 15)
+        printf "%s" "$subject"
+        set_color normal
     end
 end
 
@@ -77,8 +112,10 @@ function section_header --argument-names title
         set color $argv[2]
     end
     echo
-    if command -q gum; and isatty stdout
-        gum style --foreground "$color" --bold "$title"
+    if isatty stdout
+        set_color --bold (__stage_fish_color "$color")
+        printf "%s\n" "$title"
+        set_color normal
     else
         echo "$title"
     end
@@ -89,9 +126,13 @@ end
 # section header supplies the single separator after the URL.
 function repo_header --argument-names title url
     echo
-    if command -q gum; and isatty stdout
-        gum style --foreground 13 --bold "$title"
-        gum style --foreground 8 "$url"
+    if isatty stdout
+        set_color --bold (__stage_fish_color 13)
+        printf "%s\n" "$title"
+        set_color normal
+        set_color (__stage_fish_color 8)
+        printf "%s\n" "$url"
+        set_color normal
     else
         echo "$title"
         echo "$url"
@@ -103,7 +144,7 @@ function output_gap
 end
 
 function __systems_go --argument-names message
-    if not command -q gum; or not isatty stdout
+    if not isatty stdout
         echo "$message"
         return 0
     end
@@ -138,11 +179,17 @@ function __stage_label --argument-names stage_name icon subject
     set -l color (__stage_color "$stage_name")
     set -l padded_stage (printf "%-7s" "$stage_name")
 
-    if command -v gum >/dev/null 2>&1; and isatty stdout
-        set -l styled_stage (gum style --foreground $color --bold "$padded_stage")
-        set -l styled_icon (gum style --foreground (__stage_icon_color "$icon") "$icon")
-        printf "%s %s " "$styled_stage" "$styled_icon"
+    if isatty stdout
+        set_color --bold (__stage_fish_color "$color")
+        printf "%s" "$padded_stage"
+        set_color normal
+        printf " "
+        set_color (__stage_fish_color (__stage_icon_color "$icon"))
+        printf "%s" "$icon"
+        set_color normal
+        printf " "
         __stage_styled_subject "$subject"
+        printf "\n"
     else
         echo "$padded_stage $icon $subject"
     end
@@ -168,12 +215,20 @@ function __stage_label_note --argument-names stage_name icon subject note
         set padding 2
     end
 
-    if command -v gum >/dev/null 2>&1; and isatty stdout
-        set -l styled_stage (gum style --foreground $color --bold "$padded_stage")
-        set -l styled_icon (gum style --foreground (__stage_icon_color "$icon") "$icon")
-        set -l styled_subject (__stage_styled_subject "$subject")
-        set -l styled_note (gum style --foreground 8 "$note")
-        printf "%s %s %s%s%s\n" "$styled_stage" "$styled_icon" "$styled_subject" (string repeat -n $padding " ") "$styled_note"
+    if isatty stdout
+        set_color --bold (__stage_fish_color "$color")
+        printf "%s" "$padded_stage"
+        set_color normal
+        printf " "
+        set_color (__stage_fish_color (__stage_icon_color "$icon"))
+        printf "%s" "$icon"
+        set_color normal
+        printf " "
+        __stage_styled_subject "$subject"
+        printf "%s" (string repeat -n $padding " ")
+        set_color (__stage_fish_color 8)
+        printf "%s\n" "$note"
+        set_color normal
     else
         printf "%s %s %s%s%s\n" "$padded_stage" "$icon" "$subject" (string repeat -n $padding " ") "$note"
     end
@@ -202,10 +257,12 @@ function __stage_spin_title --argument-names stage_name subject
     set -l color (__stage_color "$stage_name")
     set -l padded_stage (printf "%-7s" "$stage_name")
 
-    if command -v gum >/dev/null 2>&1; and isatty stdout
-        set -l styled_stage (gum style --foreground $color --bold "$padded_stage")
-        set -l styled_subject (__stage_styled_subject "$subject")
-        printf "%s %s" "$styled_stage" "$styled_subject"
+    if isatty stdout
+        set_color --bold (__stage_fish_color "$color")
+        printf "%s" "$padded_stage"
+        set_color normal
+        printf " "
+        __stage_styled_subject "$subject"
     else
         printf "%s ... %s" "$padded_stage" "$subject"
     end

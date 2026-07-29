@@ -287,27 +287,45 @@ function herdr-spreader -d "Run the installed Herdr Spreader plugin"
         command "$plugin_root/target/release/herdr-spreader" $argv
 end
 
-# Reset the default Herdr session, apply the canonical layout, then attach.
-# Named sessions are intentionally left untouched.
+# Reset Herdr's unnamed persistent session, apply the canonical layout, then
+# attach. Named sessions are intentionally left untouched.
 function hup -d "Reset Herdr, apply the workspace layout, and attach"
-    set -l server_status (command herdr status server --json 2>/dev/null)
+    set -l server_status (command timeout 2s herdr status server --json 2>/dev/null)
 
     if string match -q '*"running":true*' -- "$server_status"
-        command herdr server stop
+        command timeout 10s herdr server stop
         if test $status -ne 0
             echo "hup: failed to stop the Herdr server" >&2
             return 1
         end
+
+        # `server stop` requests shutdown asynchronously. Do not remove the
+        # saved session or start another server until the old one is gone.
+        for _ in (seq 1 50)
+            sleep 0.1
+            set server_status (command timeout 2s herdr status server --json 2>/dev/null)
+            if not string match -q '*"running":true*' -- "$server_status"
+                break
+            end
+        end
+
+        if string match -q '*"running":true*' -- "$server_status"
+            echo "hup: Herdr server did not stop" >&2
+            return 1
+        end
     end
 
-    # Delete the stopped default session so no workspaces or panes are restored.
-    command herdr session delete default >/dev/null 2>&1
+    # Headless Herdr's normal (unnamed) session is saved here. `session delete`
+    # manages named sessions, so it cannot remove this state; leaving it in
+    # place restores every old workspace and pane before Spreader can apply the
+    # canonical layout.
+    command rm -f "$HOME/.config/herdr/session.json"
 
     herdr server >/dev/null 2>&1 &
 
     for _ in (seq 1 50)
         sleep 0.1
-        set server_status (command herdr status server --json 2>/dev/null)
+        set server_status (command timeout 2s herdr status server --json 2>/dev/null)
         if string match -q '*"running":true*' -- "$server_status"
             break
         end

@@ -20,13 +20,17 @@ end
 
 stage "llmtrim installation" SYNC "llmtrim" install_llmtrim
 
-# `stage_dynamic_note` captures command output while it displays a spinner.
-# Keep llmtrim setup outside it: setup is idempotent but can ask an interactive
-# configuration question, which must remain connected to the user's terminal.
-if test "$HTTPS_PROXY" = 'http://127.0.0.1:43117'
+# Generate the local CA without modifying a shell profile. Routing is opt-in:
+# the `herdr` Fish function supplies this environment only to Herdr and its panes.
+function configure_llmtrim
+    llmtrim setup --env >/dev/null
+    and llmtrim start
+end
+
+if test -f "$HOME/.llmtrim/ca.pem"
     status_msg SKIP "✓" "llmtrim" "configured"
 else
-    interactive_stage "llmtrim setup" CONFIG "llmtrim" llmtrim setup
+    interactive_stage "llmtrim setup" CONFIG "llmtrim" configure_llmtrim
 end
 
 function sync_rust_packages

@@ -1,0 +1,32 @@
+#!/usr/bin/env fish
+{{ if .isDesktop -}}
+
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+# The upstream plugin runs `llmtrim setup` whenever a workspace is created.
+# That mutates Fish's global environment, so use the scoped `herdr` launcher
+# instead and keep the plugin absent.
+if not command -q herdr
+    status_msg WARN "!" "llmtrim Herdr plugin [Herdr unavailable]"
+    exit 0
+end
+
+if not test -S "$HOME/.config/herdr/herdr.sock"
+    status_msg WARN "!" "llmtrim Herdr plugin [start Herdr, then rerun tjiktup]"
+    exit 0
+end
+
+if not command herdr plugin list --json | command jq -e \
+    '.result.plugins[]? | select(.plugin_id == "llmtrim.proxy")' >/dev/null 2>&1
+    status_msg SKIP "✓" "llmtrim Herdr plugin" "not installed"
+    exit 0
+end
+
+status_msg CONFIG "..." "llmtrim Herdr plugin" "removing global integration"
+if command herdr plugin uninstall llmtrim.proxy
+    status_msg CONFIG "✓" "llmtrim Herdr plugin" "removed"
+else
+    status_msg FAILED "✗" "llmtrim Herdr plugin" "removal failed"
+    exit 1
+end
+{{ end -}}

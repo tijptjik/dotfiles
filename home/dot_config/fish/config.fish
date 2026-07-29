@@ -45,20 +45,3 @@ workon
 
 # Node.js version manager
 fnm env --use-on-cd --shell fish | source
-
-# #######################
-# LLMTRIM
-# #######################
-
-# >>> llmtrim >>>
-if command -q llmtrim; and llmtrim _alive 2>/dev/null
-    set -gx HTTPS_PROXY 'http://127.0.0.1:43117'
-    set -gx HTTP_PROXY 'http://127.0.0.1:43117'
-    set -gx NO_PROXY 'localhost,127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,169.254.0.0/16,fd00::/8,*.local'
-    set -gx no_proxy 'localhost,127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,169.254.0.0/16,fd00::/8,*.local'
-    set -gx NODE_EXTRA_CA_CERTS '/home/io/.llmtrim/ca.pem'
-    set -gx NODE_USE_ENV_PROXY '1'
-    set -gx SSL_CERT_FILE '/home/io/.llmtrim/ca-bundle.pem'
-    set -gx CURL_CA_BUNDLE '/home/io/.llmtrim/ca-bundle.pem'
-end
-# <<< llmtrim <<<

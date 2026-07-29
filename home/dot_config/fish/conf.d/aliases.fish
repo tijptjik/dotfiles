@@ -240,6 +240,36 @@ alias brc='chezmoi edit $HOME/.bashrc; and source ~/.bashrc'
 ### HERDR ALIASES
 #################################
 
+function herdr -d "Run Herdr with LLMTrim enabled only for its server and panes"
+    if not command -q llmtrim
+        command herdr $argv
+        return
+    end
+
+    if not llmtrim _alive 2>/dev/null
+        command llmtrim start >/dev/null 2>&1
+    end
+
+    if not llmtrim _alive 2>/dev/null
+        echo "herdr: llmtrim is unavailable; starting without the LLM proxy" >&2
+        command herdr $argv
+        return
+    end
+
+    # Herdr's server passes its environment to every pane. Keep LLMTrim's
+    # intercepting proxy inside that boundary rather than exporting it from Fish.
+    set -lx HERDR_LLMTRIM 1
+    set -lx HTTPS_PROXY 'http://127.0.0.1:43117'
+    set -lx HTTP_PROXY 'http://127.0.0.1:43117'
+    set -lx NO_PROXY 'localhost,127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,169.254.0.0/16,fd00::/8,*.local'
+    set -lx no_proxy 'localhost,127.0.0.1,::1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,169.254.0.0/16,fd00::/8,*.local'
+    set -lx NODE_EXTRA_CA_CERTS "$HOME/.llmtrim/ca.pem"
+    set -lx NODE_USE_ENV_PROXY 1
+    set -lx SSL_CERT_FILE "$HOME/.llmtrim/ca-bundle.pem"
+    set -lx CURL_CA_BUNDLE "$HOME/.llmtrim/ca-bundle.pem"
+    command herdr $argv
+end
+
 alias h='herdr'
 
 # Herdr plugins keep their executables in a versioned directory rather than $PATH.
@@ -257,7 +287,30 @@ function herdr-spreader -d "Run the installed Herdr Spreader plugin"
         command "$plugin_root/target/release/herdr-spreader" $argv
 end
 
-alias hup='herdr-spreader apply'
+# Start the persistent Herdr server when necessary, apply the canonical layout,
+# then attach to the resulting workspace.
+function hup -d "Start Herdr, apply the workspace layout, and attach"
+    set -l server_status (command herdr status server --json 2>/dev/null)
+
+    if not string match -q '*"running":true*' -- "$server_status"
+        command herdr server >/dev/null 2>&1 &
+
+        for _ in (seq 1 50)
+            sleep 0.1
+            set server_status (command herdr status server --json 2>/dev/null)
+            if string match -q '*"running":true*' -- "$server_status"
+                break
+            end
+        end
+
+        if not string match -q '*"running":true*' -- "$server_status"
+            echo "hup: Herdr server did not start" >&2
+            return 1
+        end
+    end
+
+    herdr-spreader apply $argv; and command herdr
+end
 alias cup='codex resume --all'
 
 ## HYPE

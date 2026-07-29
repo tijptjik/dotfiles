@@ -3,16 +3,14 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 section_header "Packages"
 
-set rust_packages rtk serie dysk
+set rust_packages llmtrim serie dysk
 
 function cargo_install_record --argument-names package
     cargo install --list | string match -r "^$package v.*"
 end
 
-function rtk_codex_is_configured
-    test -f "$HOME/.codex/RTK.md"; and \
-        test -f "$HOME/.codex/AGENTS.md"; and \
-        string match -q "*RTK.md*" < "$HOME/.codex/AGENTS.md"
+function llmtrim_is_configured
+    test -f "$HOME/.llmtrim/ca.pem"
 end
 
 function sync_rust_packages
@@ -26,10 +24,12 @@ function sync_rust_packages
         set -a before_records "$(cargo_install_record $package)"
     end
 
-    cargo install --git https://github.com/rtk-ai/rtk --branch master rtk
+    cargo install --locked llmtrim
 
-    if not rtk_codex_is_configured
-        rtk init --global --codex
+    if not llmtrim_is_configured
+        llmtrim setup
+    else
+        llmtrim ensure
     end
 
     cargo install serie

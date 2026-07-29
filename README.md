@@ -36,6 +36,8 @@ Readmes are available in `/docs/{topic}.md`
   - [`hyprvoice`](https://github.com/leonardotrapani/hyprvoice)
 - [`kitty`](https://sw.kovidgoyal.net/kitty/)
 - [`lazygit`](https://github.com/jesseduffield/lazygit)
+- [`llmtrim`](https://github.com/fkiene/llmtrim)
+  - [`llmtrim-herdr`](https://github.com/fkiene/llmtrim-herdr)
 - [`lsd`](https://github.com/lsd-rs/lsd)
 - [`matugen`](https://github.com/InioX/matugen)
 - [`micro`](https://micro-editor.github.io/)

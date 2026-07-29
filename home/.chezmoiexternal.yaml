@@ -37,13 +37,6 @@
 .obsidian:
   type: git-repo
   url: "git@github.com:tijptjik/obsidian.git"
-.claude:
-  type: archive
-  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.claude.tar.zst.age"
-  exact: true
-  stripComponents: 1
-  encrypted: true
-  format: tar.zst
 .duckdb:
   type: archive
   url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.duckdb.tar.zst.age"

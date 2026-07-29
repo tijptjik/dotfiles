@@ -242,19 +242,6 @@ def run_stream(command: list[str], cwd: Path, *, env: dict[str, str] | None = No
         raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
 
 
-def chezmoi_apply_counts(repo: Path, command: list[str], env: dict[str, str]) -> tuple[int, int] | None:
-    status_command = [argument for argument in command if argument != "--force"]
-    status_command[1] = "status"
-    try:
-        result = subprocess.run(status_command, cwd=repo, env=env, text=True, capture_output=True, check=False)
-    except OSError:
-        return None
-    if result.returncode:
-        return None
-    actions = [line[1] for line in result.stdout.splitlines() if len(line) >= 2 and line[1] in "ADMR"]
-    return len(actions), actions.count("M")
-
-
 def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bool:
     if sys.stdout.isatty():
         try:
@@ -686,32 +673,6 @@ def main() -> int:
         report_summary(repo, report_file)
         return 0
     apply_env = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"}
-    apply_counts = chezmoi_apply_counts(repo, ["chezmoi", "apply"], apply_env)
-    if apply_counts is None:
-        stage_result(repo, "APPLY", "Dotfiles", "changes pending")
-    elif apply_counts[0]:
-        replaced_files = apply_counts[1]
-        if replaced_files:
-            noun = "file" if replaced_files == 1 else "files"
-            note = f"{replaced_files} {noun} replaced"
-        else:
-            note = "no files replaced"
-        stage_result(repo, "APPLY", "Dotfiles", note)
-    else:
-        stage_unchanged(repo, "Dotfiles")
-    if changed_names:
-        auto_targets = [
-            str(Path.home() / propagator.target)
-            for propagator in active_propagators
-            if propagator.name in changed_names
-        ]
-        if not run_chezmoi_apply(
-            repo,
-            ["chezmoi", "apply", "--force", *auto_targets],
-            apply_env,
-        ):
-            report_summary(repo, report_file)
-            return 0
     if not run_chezmoi_apply(
         repo,
         ["chezmoi", "apply"],

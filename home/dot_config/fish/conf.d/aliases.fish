@@ -275,7 +275,13 @@ alias h='herdr'
 # Herdr plugins keep their executables in a versioned directory rather than $PATH.
 # Expose Spreader as a command and point it at its managed configuration directory.
 function herdr-spreader -d "Run the installed Herdr Spreader plugin"
-    set -l plugin_root (command herdr plugin list --json | command jq -r \
+    set -l plugins_json (command timeout 5s herdr plugin list --json)
+    if test $status -eq 124
+        echo "herdr-spreader: timed out while locating the plugin" >&2
+        return 124
+    end
+
+    set -l plugin_root (string join \n -- $plugins_json | command jq -r \
         '.result.plugins[] | select(.plugin_id == "herdr-spreader") | .plugin_root')
 
     if test -z "$plugin_root"; or not test -x "$plugin_root/target/release/herdr-spreader"
@@ -283,8 +289,8 @@ function herdr-spreader -d "Run the installed Herdr Spreader plugin"
         return 127
     end
 
-    env HERDR_PLUGIN_CONFIG_DIR="$HOME/.config/herdr/plugins/config/herdr-spreader" \
-        command "$plugin_root/target/release/herdr-spreader" $argv
+    command timeout 30s env HERDR_PLUGIN_CONFIG_DIR="$HOME/.config/herdr/plugins/config/herdr-spreader" \
+        "$plugin_root/target/release/herdr-spreader" $argv
 end
 
 # Reset Herdr's unnamed persistent session and apply the canonical layout.
@@ -293,6 +299,7 @@ function hup -d "Reset Herdr and apply the workspace layout"
     set -l server_status (command timeout 2s herdr status server --json 2>/dev/null)
 
     if string match -q '*"running":true*' -- "$server_status"
+        echo "hup: stopping Herdr..."
         command timeout 10s herdr server stop
         if test $status -ne 0
             echo "hup: failed to stop the Herdr server" >&2
@@ -319,8 +326,10 @@ function hup -d "Reset Herdr and apply the workspace layout"
     # manages named sessions, so it cannot remove this state; leaving it in
     # place restores every old workspace and pane before Spreader can apply the
     # canonical layout.
+    echo "hup: clearing the previous layout..."
     command rm -f "$HOME/.config/herdr/session.json"
 
+    echo "hup: starting Herdr..."
     herdr server >/dev/null 2>&1 &
 
     for attempt in (seq 1 50)
@@ -336,7 +345,19 @@ function hup -d "Reset Herdr and apply the workspace layout"
         return 1
     end
 
+    echo "hup: applying the workspace layout..."
     herdr-spreader apply $argv
+    if test $status -eq 124
+        echo "hup: layout application timed out after 30 seconds" >&2
+        return 124
+    end
+
+    if test $status -ne 0
+        echo "hup: failed to apply the workspace layout" >&2
+        return 1
+    end
+
+    echo "hup: ready"
 end
 alias cup='codex resume --all'
 

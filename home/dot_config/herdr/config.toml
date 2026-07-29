@@ -3,8 +3,14 @@ onboarding = false
 [experimental]
 kitty_graphics = true
 
+[ui]
+show_agent_labels_on_pane_borders = true
+
 [ui.sidebar.spaces]
 row_gap = 1
+
+[ui.toast]
+delivery = "system"
 
 [[keys.command]]
 key = "prefix+f"

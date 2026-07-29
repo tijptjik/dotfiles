@@ -5,6 +5,7 @@ kitty_graphics = true
 
 [ui]
 show_agent_labels_on_pane_borders = true
+sidebar_start_collapsed = true
 
 [ui.sidebar.spaces]
 row_gap = 1

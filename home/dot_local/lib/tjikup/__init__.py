@@ -21,6 +21,7 @@ CHEZETC_REPO = Path.home() / ".local/share/chezetc"
 GUM = shutil.which("gum")
 CHEZMOI_CONFIG_WARNING = "chezmoi: warning: config file template has changed, run chezmoi init to regenerate config file"
 COMMAND_TIMEOUT_SECONDS = 300
+ACTIVE_STAGE = False
 SPLASH = """
                         _   _        ____  ____  ____
                      __| | / |  ____|_  _||   _||_   |
@@ -140,6 +141,11 @@ def status_msg(repo: Path, verb: str, icon: str, subject: str, note: str | None 
 
 def stage_label(repo: Path, verb: str, icon: str, subject: str, note: str | None = None) -> None:
     """Backward-compatible alias for the canonical status presenter."""
+    global ACTIVE_STAGE
+    if ACTIVE_STAGE and sys.stdout.isatty():
+        sys.stdout.write("\r\033[2K")
+        sys.stdout.flush()
+    ACTIVE_STAGE = False
     status_msg(repo, verb, icon, subject, note)
 
 
@@ -148,7 +154,31 @@ def stage_result(repo: Path, verb: str, subject: str, note: str | None = None) -
 
 
 def stage_started(repo: Path, verb: str, subject: str) -> None:
-    stage_label(repo, verb, "…", subject)
+    """Show a transient stage title which its result replaces in a TTY."""
+    global ACTIVE_STAGE
+    if not sys.stdout.isatty():
+        return
+    if ACTIVE_STAGE:
+        sys.stdout.write("\r\033[2K")
+    helper = repo / "home/.chezmoihelpers/status.fish"
+    fish = shutil.which("fish")
+    if fish and helper.is_file():
+        subprocess.run(
+            [
+                fish,
+                "-c",
+                "source $argv[1]; __stage_spin_title $argv[2] $argv[3]",
+                "--",
+                str(helper),
+                verb,
+                subject,
+            ],
+            check=False,
+        )
+    else:
+        sys.stdout.write(f"{verb:<7} … {subject}")
+    sys.stdout.flush()
+    ACTIVE_STAGE = True
 
 
 def stage_skip(repo: Path, subject: str, note: str | None = None) -> None:
@@ -226,7 +256,6 @@ def chezmoi_apply_counts(repo: Path, command: list[str], env: dict[str, str]) ->
 
 
 def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bool:
-    stage_started(repo, "APPLY", "Dotfiles")
     if sys.stdout.isatty():
         try:
             run_stream(command, repo, env=env)
@@ -504,7 +533,6 @@ def apply_chezetc(repo: Path) -> None:
     repo_header(repo, "Tijpcetera", "https://github.com/tijptjik/etcfiles")
     environment = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"}
     before = config.read_bytes() if config.is_file() else None
-    stage_started(repo, "APPLY", "Chezetc")
     try:
         run_stream([chezetc, "apply"], CHEZETC_REPO, env=environment)
     except UpdateError:
@@ -514,7 +542,6 @@ def apply_chezetc(repo: Path) -> None:
     if before != after:
         stage_result(repo, "RETRY", "Chezetc", "configuration refreshed")
         try:
-            stage_started(repo, "APPLY", "Chezetc")
             run_stream([chezetc, "apply"], CHEZETC_REPO, env=environment)
         except UpdateError:
             stage_label(repo, "FAILED", "✗", "Chezetc apply retry")

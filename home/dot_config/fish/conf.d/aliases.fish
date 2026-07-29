@@ -287,9 +287,9 @@ function herdr-spreader -d "Run the installed Herdr Spreader plugin"
         command "$plugin_root/target/release/herdr-spreader" $argv
 end
 
-# Reset Herdr's unnamed persistent session, apply the canonical layout, then
-# attach. Named sessions are intentionally left untouched.
-function hup -d "Reset Herdr, apply the workspace layout, and attach"
+# Reset Herdr's unnamed persistent session and apply the canonical layout.
+# Named sessions are intentionally left untouched.
+function hup -d "Reset Herdr and apply the workspace layout"
     set -l server_status (command timeout 2s herdr status server --json 2>/dev/null)
 
     if string match -q '*"running":true*' -- "$server_status"
@@ -336,7 +336,7 @@ function hup -d "Reset Herdr, apply the workspace layout, and attach"
         return 1
     end
 
-    herdr-spreader apply $argv; and command herdr
+    herdr-spreader apply $argv
 end
 alias cup='codex resume --all'
 

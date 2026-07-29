@@ -10,15 +10,15 @@ end
 
 function provision_herdr_plugin --argument-names source plugin_id label
     if herdr_plugin_is_installed "$plugin_id"
-        status_msg SKIP "✓" "$label Herdr plugin"
+        status_msg SKIP "✓" "Plugin : $label" "available"
         return 0
     end
 
-    status_msg CONFIG "..." "$label Herdr plugin"
+    status_msg CONFIG "..." "Plugin : $label"
     if command herdr plugin install "$source" --yes
-        status_msg CONFIG "✓" "$label Herdr plugin"
+        status_msg CONFIG "✓" "Plugin : $label" "available"
     else
-        status_msg FAILED "✗" "$label Herdr plugin"
+        status_msg FAILED "✗" "Plugin : $label" "installation failed"
         return 1
     end
 end

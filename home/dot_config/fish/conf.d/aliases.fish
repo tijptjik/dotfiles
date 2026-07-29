@@ -287,26 +287,35 @@ function herdr-spreader -d "Run the installed Herdr Spreader plugin"
         command "$plugin_root/target/release/herdr-spreader" $argv
 end
 
-# Start the persistent Herdr server when necessary, apply the canonical layout,
-# then attach to the resulting workspace.
-function hup -d "Start Herdr, apply the workspace layout, and attach"
+# Reset the default Herdr session, apply the canonical layout, then attach.
+# Named sessions are intentionally left untouched.
+function hup -d "Reset Herdr, apply the workspace layout, and attach"
     set -l server_status (command herdr status server --json 2>/dev/null)
 
-    if not string match -q '*"running":true*' -- "$server_status"
-        command herdr server >/dev/null 2>&1 &
-
-        for _ in (seq 1 50)
-            sleep 0.1
-            set server_status (command herdr status server --json 2>/dev/null)
-            if string match -q '*"running":true*' -- "$server_status"
-                break
-            end
-        end
-
-        if not string match -q '*"running":true*' -- "$server_status"
-            echo "hup: Herdr server did not start" >&2
+    if string match -q '*"running":true*' -- "$server_status"
+        command herdr server stop
+        if test $status -ne 0
+            echo "hup: failed to stop the Herdr server" >&2
             return 1
         end
+    end
+
+    # Delete the stopped default session so no workspaces or panes are restored.
+    command herdr session delete default >/dev/null 2>&1
+
+    command herdr server >/dev/null 2>&1 &
+
+    for _ in (seq 1 50)
+        sleep 0.1
+        set server_status (command herdr status server --json 2>/dev/null)
+        if string match -q '*"running":true*' -- "$server_status"
+            break
+        end
+    end
+
+    if not string match -q '*"running":true*' -- "$server_status"
+        echo "hup: Herdr server did not start" >&2
+        return 1
     end
 
     herdr-spreader apply $argv; and command herdr

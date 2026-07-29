@@ -2,67 +2,86 @@
 workspaces:
   - name: ~
     root: "~"
-    focus: true
     tabs:
       - label: "~"
-        panes: [{}]
+        panes:
+          - command: clear
 
   - name: hype
     root: ~/code/hype
     tabs:
       - label: hype
-        panes: [{}]
+        panes:
+          - command: clear
       - label: dev
-        panes: [{}]
+        panes:
+          - command: clear
       - label: asset
-        panes: [{}]
+        panes:
+          - command: clear
       - label: studio
-        panes: [{}]
+        panes:
+          - command: clear
       - label: git
-        panes: [{}]
+        panes:
+          - command: clear
 
   - name: saanseoi
     root: ~/code/saanseoi
+    focus: true
     tabs:
       - label: saanseoi
-        panes: [{}]
+        panes:
+          - command: clear
+            focus: true
       - label: 山
-        panes: [{}]
+        panes:
+          - command: clear
       - label: 水
-        panes: [{}]
+        panes:
+          - command: clear
       - label: dev
         panes:
-          - command: bun run dev
+          - command: clear; bun run dev
       - label: test
         panes:
-          - command: bun run test:watch
+          - command: clear; bun run test:watch
       - label: studio
         panes:
-          - command: fnm exec --using=25.2.1 bun run db:studio:source:2025
+          - command: clear; fnm exec --using=25.2.1 bun run db:studio:source:2025
       - label: db
-        panes: [{}]
+        panes:
+          - command: clear
       - label: docs
-        panes: [{}]
+        panes:
+          - command: clear
       - label: git
-        panes: [{}]
+        panes:
+          - command: clear
 
   - name: overturist
     root: ~/code/overturist
     tabs:
       - label: overturist
-        panes: [{}]
+        panes:
+          - command: clear
       - label: git
-        panes: [{}]
+        panes:
+          - command: clear
 
   - name: tjikup
     root: ~/.local/share/chezmoi
     tabs:
       - label: tjikup
-        panes: [{}]
+        panes:
+          - command: clear
       - label: Etc
         cwd: ../chezetc
-        panes: [{}]
+        panes:
+          - command: clear
       - label: CTRL
-        panes: [{}]
+        panes:
+          - command: clear
       - label: git
-        panes: [{}]
+        panes:
+          - command: clear

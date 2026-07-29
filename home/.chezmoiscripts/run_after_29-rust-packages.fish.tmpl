@@ -23,7 +23,11 @@ stage "llmtrim installation" SYNC "llmtrim" install_llmtrim
 # `stage_dynamic_note` captures command output while it displays a spinner.
 # Keep llmtrim setup outside it: setup is idempotent but can ask an interactive
 # configuration question, which must remain connected to the user's terminal.
-interactive_stage "llmtrim setup" CONFIG "llmtrim" llmtrim setup
+if test "$HTTPS_PROXY" = 'http://127.0.0.1:43117'
+    status_msg SKIP "✓" "llmtrim" "configured"
+else
+    interactive_stage "llmtrim setup" CONFIG "llmtrim" llmtrim setup
+end
 
 function sync_rust_packages
     if not command -q cargo

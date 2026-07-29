@@ -45,3 +45,13 @@ workon
 
 # Node.js version manager
 fnm env --use-on-cd --shell fish | source
+
+# LLMTrim is scoped to Herdr. Remove only its stale inherited environment from
+# ordinary shells; Herdr's launcher marks its panes so their proxy stays intact.
+if not set -q HERDR_LLMTRIM
+    if test "$HTTPS_PROXY" = 'http://127.0.0.1:43117'; or test "$HTTP_PROXY" = 'http://127.0.0.1:43117'
+        set -e HTTPS_PROXY HTTP_PROXY ALL_PROXY https_proxy http_proxy all_proxy
+        set -e NO_PROXY no_proxy
+        set -e NODE_EXTRA_CA_CERTS NODE_USE_ENV_PROXY SSL_CERT_FILE CURL_CA_BUNDLE
+    end
+end

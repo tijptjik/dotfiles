@@ -44,13 +44,6 @@
   stripComponents: 1
   encrypted: true
   format: tar.zst
-.gemini:
-  type: archive
-  url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.gemini.tar.zst.age"
-  exact: true
-  stripComponents: 1
-  encrypted: true
-  format: tar.zst
 .mozilla:
   type: archive
   url: "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/.mozilla.tar.zst.age"

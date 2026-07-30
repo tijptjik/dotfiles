@@ -88,7 +88,8 @@ hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 4, bezier = "c
 
 hl.config({
     input = {
-        follow_mouse = 2,
+        -- Keep pointer and keyboard focus in sync; hovering a window focuses it.
+        follow_mouse = 1,
         float_switch_override_focus = 2,
         special_fallthrough = true,
         off_window_axis_events = 3,

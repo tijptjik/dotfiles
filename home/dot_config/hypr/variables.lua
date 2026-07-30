@@ -165,6 +165,8 @@ hl.config({
         hide_on_key_press = true,
         -- in seconds, after how many seconds of cursor’s inactivity to hide it. Set to 0 for never.in
         inactive_timeout = 10,
+        -- Let keyboard and IPC window-focus actions warp the cursor to the target.
+        no_warps = false,
         persistent_warps = true,
         warp_on_change_workspace = 1,
         warp_on_toggle_special = 1,

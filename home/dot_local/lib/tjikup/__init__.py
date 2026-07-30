@@ -561,7 +561,7 @@ def report_summary(repo: Path, report_file: Path, *, dry_run: bool = False) -> N
     try:
         for line in report_file.read_text().splitlines():
             fields = line.split("\t", 3)
-            if len(fields) == 4 and fields[1] in {"!", "✗"}:
+            if len(fields) == 4 and fields[1] in {"!", "✗", "X"}:
                 issue = (fields[0], fields[1], fields[2], fields[3])
                 if issue not in issues:
                     issues.append(issue)

@@ -1,16 +1,21 @@
 [Desktop Entry]
-Name=Zed
-Comment=A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.
-Exec={{ .chezmoi.homeDir }}/.local/zed.app/bin/zed %U
-Icon={{ .chezmoi.homeDir }}/.local/zed.app/share/icons/hicolor/1024x1024/apps/zed.png
-Terminal=false
+Version=1.0
 Type=Application
-Categories=Development;IDE;TextEditor;
+Name=Zed
+GenericName=Text Editor
+Comment=A high-performance, multiplayer code editor.
+TryExec={{ .chezmoi.homeDir }}/.local/zed.app/bin/zed
 StartupNotify=true
-StartupWMClass=Zed
-Keywords=Text;Editor;Development;IDE;
-Actions=new-window;
+Exec={{ .chezmoi.homeDir }}/.local/zed.app/bin/zed %U
+Icon={{ .chezmoi.homeDir }}/.local/zed.app/share/icons/hicolor/512x512/apps/zed.png
+Categories=Utility;TextEditor;Development;IDE;
+Keywords=zed;
+# To add Zed to "Open Folder With..." context menu, add `inode/directory` to the MimeType field (semicolon separated)
+# Arch linux users have reported this setting Zed as default file browser. See https://github.com/zed-industries/zed/pull/39076 and related issues.
+# If this happens to you, an unconfirmed fix may be to install Arch's `gnome-defaults-list` package.
+MimeType=text/plain;application/x-zerosize;x-scheme-handler/zed;
+Actions=NewWorkspace;
 
-[Desktop Action new-window]
-Name=New Window
-Exec={{ .chezmoi.homeDir }}/.local/zed.app/bin/zed -n
+[Desktop Action NewWorkspace]
+Exec={{ .chezmoi.homeDir }}/.local/zed.app/bin/zed --new %U
+Name=Open a new workspace

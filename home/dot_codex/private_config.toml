@@ -1,0 +1,88 @@
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+model_provider = "codex-lb"
+approvals_reviewer = "auto_review"
+
+[projects."/home/io/.codex"]
+trust_level = "trusted"
+
+[projects."/home/io/code/saanseoi"]
+trust_level = "trusted"
+
+[projects."/home/io"]
+trust_level = "trusted"
+
+[projects."/home/io/documents/Codex/2026-07-23/are-codex-coding-requests-and-chatgpt"]
+trust_level = "trusted"
+
+[projects."/home/io/documents/Codex/2026-07-23/arew"]
+trust_level = "trusted"
+
+[projects."/home/io/projects/Atlas of Urban Semiotics"]
+trust_level = "trusted"
+
+[projects."/home/io/documents/Codex/2026-07-26/wha"]
+trust_level = "trusted"
+
+[projects."/home/io/projects/FTX Claim"]
+trust_level = "trusted"
+
+[projects."/home/io/documents/Codex/2026-07-31/wha"]
+trust_level = "trusted"
+
+[tui]
+resume_cwd = "session"
+
+[tui.model_availability_nux]
+"gpt-5.6-sol" = 4
+
+[desktop]
+followUpQueueMode = "queue"
+
+[marketplaces.openai-bundled]
+last_updated = "2026-08-02T19:57:42Z"
+source_type = "local"
+source = "/home/io/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[features]
+js_repl = false
+
+[mcp_servers.node_repl]
+args = []
+command = "/opt/codex-desktop/resources/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = ""
+NODE_REPL_NODE_PATH = "/opt/codex-desktop/resources/node-runtime/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/home/io/.codex"
+CODEX_HOME = "/home/io/.codex"
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "97669f77b3ca7114a2df05d55646416ea34b28100c07213ef9f643803449ef2f,7f048ce1f607f7a30641b78a84597721d61e5fe3b0dad56f2b1504c0c703131d,972a52377f9264eb8179dc8deb6c3432e836d70f467b542d23e1da1f1d5f1fa0"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.623.141536"
+
+[mcp_servers.node_repl.tools]
+
+[mcp_servers.node_repl.tools.js]
+approval_mode = "approve"
+
+[mcp_servers.chrome-devtools]
+command = "npx"
+args = ["-y", "chrome-devtools-mcp@latest", "--channel", "canary"]
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+
+[model_providers.codex-lb]
+name = "openai"  # required — enables remote /responses/compact. Lowercase since Codex 2026-05-23; older "OpenAI" stops resolving gpt-5.5
+base_url = "http://127.0.0.1:2455/backend-api/codex"
+wire_api = "responses"
+supports_websockets = true
+requires_openai_auth = true # required for codex app

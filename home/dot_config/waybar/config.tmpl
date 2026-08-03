@@ -263,6 +263,7 @@
       "pulseaudio",
       "clock",
       "custom/codex",
+      "custom/openrouter",
       "custom/notifications",
       "custom/caffeine",
       "custom/nightlight"
@@ -280,6 +281,13 @@
       "return-type": "json",
       "exec": "$HOME/.config/waybar/codex.py",
       "exec-if": "test -f $HOME/.codex-lb/store.db"
+    },
+    "custom/openrouter": {
+      "format": "{}",
+      "interval": 600,
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/openrouter.py",
+      "exec-if": "test -n \"$OPENROUTER_API_KEY\""
     },
     "tray": {
       "icon-size": 21,

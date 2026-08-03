@@ -23,7 +23,10 @@ startup.subscription = hl.on("hyprland.start", function()
     hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY")
 
     -- WM
-    hl.exec_cmd("$HOME/.local/bin/waybar")
+    -- Waybar is launched outside an interactive terminal. Start it through
+    -- Fish so the managed conf.d secrets (including OPENROUTER_API_KEY) are
+    -- available to its custom modules.
+    hl.exec_cmd("fish -lc '$HOME/.local/bin/waybar'")
     hl.exec_cmd("qs -c hamr")
 
     hl.exec_cmd("dconf load /org/gnome/desktop/interface/ < ~/.config/dconf/interface.conf")

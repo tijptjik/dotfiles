@@ -22,6 +22,8 @@ GUM = shutil.which("gum")
 CHEZMOI_CONFIG_WARNING = "chezmoi: warning: config file template has changed, run chezmoi init to regenerate config file"
 COMMAND_TIMEOUT_SECONDS = 300
 ACTIVE_STAGE = False
+ACTIVE_REPO: Path | None = None
+ACTIVE_REPORT_FILE: Path | None = None
 SPLASH = """
                         _   _        ____  ____  ____
                      __| | / |  ____|_  _||   _||_   |
@@ -111,6 +113,16 @@ def status_msg(repo: Path, verb: str, icon: str, subject: str, note: str | None 
             note = note[1:-1]
     helper = repo / "home/.chezmoihelpers/status.fish"
     fish = shutil.which("fish")
+    report_file = os.environ.get("TJIKUP_REPORT_FILE")
+    report_recorded = False
+    if icon in {"!", "✗", "X"}:
+        if report_file:
+            try:
+                with Path(report_file).open("a") as report:
+                    report.write(f"{verb}\t{icon}\t{subject}\t{note or ''}\n")
+                report_recorded = True
+            except OSError:
+                pass
     if fish and helper.is_file() and sys.stdout.isatty():
         arguments = [verb, icon, subject] + ([note] if note else [])
         result = subprocess.run(
@@ -126,8 +138,7 @@ def status_msg(repo: Path, verb: str, icon: str, subject: str, note: str | None 
         )
         if result.returncode == 0:
             return
-    report_file = os.environ.get("TJIKUP_REPORT_FILE")
-    if report_file:
+    if not report_recorded and report_file:
         with Path(report_file).open("a") as report:
             report.write(f"{verb}\t{icon}\t{subject}\t{note or ''}\n")
     if note:
@@ -591,12 +602,15 @@ def has_python_modules(*modules: str) -> bool:
 
 
 def main() -> int:
+    global ACTIVE_REPO, ACTIVE_REPORT_FILE
     arguments = argparse.ArgumentParser(description=__doc__)
     arguments.add_argument("--dry-run", action="store_true", help="show template changes without git or chezmoi mutations")
     args = arguments.parse_args()
 
     repo = find_repo()
     report_file = create_report_file()
+    ACTIVE_REPO = repo
+    ACTIVE_REPORT_FILE = report_file
     os.environ["TJIKUP_REPORT_FILE"] = str(report_file)
     splash()
     repo_header(repo, "Tijpfiles", "https://github.com/tijptjik/dotfiles")
@@ -689,5 +703,8 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except UpdateError as error:
+        if ACTIVE_REPO is not None and ACTIVE_REPORT_FILE is not None:
+            status_msg(ACTIVE_REPO, "FAILED", "✗", "Tjikup", str(error))
+            report_summary(ACTIVE_REPO, ACTIVE_REPORT_FILE)
         print(f"tjikup: {error}", file=sys.stderr)
         raise SystemExit(1)

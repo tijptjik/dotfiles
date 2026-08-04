@@ -1,5 +1,6 @@
 local helpers = {}
 local waybar_auto_hide_timer
+local waybar_auto_hide_override = false
 local zen_extensions_subscription
 local zen_extension_title_subscription
 local staged_zen_windows = {}
@@ -218,6 +219,20 @@ function helpers.start_waybar_auto_hide(side)
             error("waybar_auto_hide: unsupported side '" .. side .. "'")
         end
 
+        -- Super+M pins Waybar open until it is pressed again or the pointer
+        -- reaches Waybar's reveal edge.
+        if waybar_auto_hide_override then
+            if at_reveal_edge then
+                waybar_auto_hide_override = false
+            else
+                if not visible then
+                    hl.exec_cmd("pkill -USR2 -x waybar")
+                    visible = true
+                end
+                return
+            end
+        end
+
         if at_reveal_edge and not visible then
             hl.exec_cmd("pkill -USR2 -x waybar")
             visible = true
@@ -229,6 +244,16 @@ function helpers.start_waybar_auto_hide(side)
     waybar_auto_hide_timer:set_enabled(true)
 
     return waybar_auto_hide_timer
+end
+
+-- Pin Waybar open, bypassing auto-hide until toggled again or the pointer
+-- touches its reveal edge.
+function helpers.toggle_waybar_auto_hide()
+    waybar_auto_hide_override = not waybar_auto_hide_override
+
+    if waybar_auto_hide_override then
+        hl.exec_cmd("pkill -USR2 -x waybar")
+    end
 end
 
 -- Only float Zen's known extension popups. Regular browser windows must stay in

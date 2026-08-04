@@ -200,6 +200,12 @@ hl.bind(super("grave", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice can
 -- Hamr Launcher
 hl.bind(super("Escape"), hl.dsp.exec_cmd("$HOME/.local/bin/hamr toggle"))
 
+-- Keep Waybar visible until this is pressed again or the pointer touches its
+-- bottom reveal edge.
+hl.bind(super("M"), function()
+    helpers.toggle_waybar_auto_hide()
+end)
+
 -- Clipboard history
 hl.bind(super("V"), hl.dsp.exec_cmd("$HOME/.local/bin/hamr plugin clipboard"))
 

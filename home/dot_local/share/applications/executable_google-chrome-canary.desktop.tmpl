@@ -1,0 +1,19 @@
+[Desktop Entry]
+Name=Google Chrome (canary)
+# Keep the legacy desktop ID in sync with com.google.Chrome.canary.desktop:
+# Chrome's Wayland colour-management protocol currently produces washed-out
+# SDR colours on Hyprland HDR/wide-colour outputs.
+Exec=/usr/bin/google-chrome-canary --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB %U
+Icon=google-chrome
+Terminal=false
+Type=Application
+Categories=Network;WebBrowser;
+Actions=new-window;new-private-window;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=/usr/bin/google-chrome-canary --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB
+
+[Desktop Action new-private-window]
+Name=New Incognito Window
+Exec=/usr/bin/google-chrome-canary --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB --incognito

@@ -39,6 +39,9 @@ trust_level = "trusted"
 [projects."/home/io/documents/Codex/2026-08-05/gin-brand-prince-chart"]
 trust_level = "trusted"
 
+[projects."/home/io/documents/Codex/2026-08-07/g"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 

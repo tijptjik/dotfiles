@@ -45,6 +45,24 @@ trust_level = "trusted"
 [projects."/home/io/documents/Codex/2026-08-07/com"]
 trust_level = "trusted"
 
+[projects."/home/io/documents/Codex/2026-08-07/lin"]
+trust_level = "trusted"
+
+[projects."/home/io/documents/Codex/2026-08-07/tra"]
+trust_level = "trusted"
+
+[projects."/home/io/documents/Codex/2026-08-08/lin"]
+trust_level = "trusted"
+
+[projects."/home/io/documents/Codex/2026-08-09/what"]
+trust_level = "trusted"
+
+[projects."/home/io/documents/Codex/2026-08-09/i"]
+trust_level = "trusted"
+
+[projects."/home/io/documents/Codex/2026-08-09/can"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 
@@ -55,7 +73,7 @@ resume_cwd = "session"
 followUpQueueMode = "queue"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-08-06T08:50:42Z"
+last_updated = "2026-08-07T19:02:21Z"
 source_type = "local"
 source = "/home/io/.codex/.tmp/bundled-marketplaces/openai-bundled"
 

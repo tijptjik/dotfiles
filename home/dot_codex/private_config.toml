@@ -63,6 +63,9 @@ trust_level = "trusted"
 [projects."/home/io/documents/Codex/2026-08-09/can"]
 trust_level = "trusted"
 
+[projects."/home/io/documents/Codex/2026-08-10/is"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 

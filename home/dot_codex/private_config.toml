@@ -75,6 +75,9 @@ trust_level = "trusted"
 [projects."/home/io/documents/Codex/2026-08-11/is"]
 trust_level = "trusted"
 
+[projects."/home/io/saanseoi-project-codex"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 

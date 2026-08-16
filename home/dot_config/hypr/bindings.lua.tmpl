@@ -188,10 +188,10 @@ hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locke
 -- KEY BINDINGS : HYPRVOICE
 -- #######################
 
-hl.bind(super("grave"), function()
+hl.bind(super("CAPS"), function()
     helpers.toggle_hyprvoice()
 end)
-hl.bind(super("grave", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"))
+hl.bind(super("CAPS", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"))
 
 -- #######################
 -- KEY BINDINGS : LAUNCH

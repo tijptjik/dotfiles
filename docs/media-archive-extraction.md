@@ -5,6 +5,9 @@ download client instead, so the extracted video is present before Sonarr's
 completed-download handling scans the release. This repository installs
 `~/.config/transmission/extract.fish` and mounts it into the LinuxServer
 Transmission container as `/usr/local/bin/extract-sonarr-archives`.
+It also installs a LinuxServer custom-init script that enables the completion
+hook in the container's persistent `/config/settings.json` before
+`transmission-daemon` starts.
 
 The hook supports RAR (including `part01.rar` sets), ZIP, 7z (including
 `.7z.001` sets), and tar archives. It extracts into the release directory,
@@ -14,47 +17,27 @@ are logged as failures and left untouched.
 
 ## Enable the Transmission completion hook
 
-1. Apply this repository so that the hook file and compose mount exist:
+1. Apply this repository so that the hook scripts and compose mounts exist:
 
    ```bash
    chezmoi apply
    ```
 
-2. Stop Transmission before editing its live settings file. In this compose
-   configuration it is at
-   `/mnt/storage/meta/appData/transmission/settings.json`.
-   Add or change these keys (the path is inside the container):
-
-   ```json
-   "script-torrent-done-enabled": true,
-   "script-torrent-done-filename": "/usr/local/bin/extract-sonarr-archives",
-   "script-torrent-done-seeding-enabled": false
-   ```
-
-   For example:
-
-   ```bash
-   docker compose stop transmission
-   $EDITOR /mnt/storage/meta/appData/transmission/settings.json
-   docker compose up -d transmission
-   ```
-
-   Transmission rewrites `settings.json` on shutdown, hence the stop-before-
-   edit order. If those keys already exist, change their values instead of
-   adding duplicate JSON keys.
-
-3. Start Transmission from the directory containing the rendered compose file.
-   `--force-recreate` applies the new hook mount. The LinuxServer Transmission
-   image already supplies `unrar`, `7z`, and `tar`; no custom image is needed.
+2. Start Transmission from the directory containing the rendered compose file.
+   `--force-recreate` applies the hook and custom-init mounts. On every container
+   start, the init script updates the live settings under `/config`; no manual
+   edit of `/mnt/storage/meta/appData/transmission/settings.json` is required.
+   The LinuxServer Transmission image already supplies `jq`, `unrar`, `7z`, and
+   `tar`; no custom image is needed.
 
    ```bash
    docker compose up -d --force-recreate transmission
    ```
 
-4. Verify it with a completed release, then inspect the container log:
+3. Verify startup configuration and then test it with a completed release:
 
    ```bash
-   docker logs transmission 2>&1 | grep extract-archives
+   docker logs transmission 2>&1 | grep -E 'configure-archive-hook|extract-archives'
    ```
 
 The hook uses the `TR_TORRENT_DIR` and `TR_TORRENT_NAME` values supplied by

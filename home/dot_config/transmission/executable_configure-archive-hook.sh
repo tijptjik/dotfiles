@@ -6,6 +6,7 @@ set -eu
 
 settings_file=${TRANSMISSION_SETTINGS_FILE:-/config/settings.json}
 hook_path=${TRANSMISSION_ARCHIVE_HOOK:-/usr/local/bin/extract-sonarr-archives}
+download_dir=${TRANSMISSION_DOWNLOAD_DIR:-/data/meta/downloads}
 
 if [ ! -f "$settings_file" ]; then
     printf '%s ERROR: settings file does not exist: %s\n' '[configure-archive-hook]' "$settings_file" >&2
@@ -19,11 +20,14 @@ fi
 
 # Capture jq's output before truncating the original file. Writing back to the
 # existing inode preserves the ownership and mode expected by Transmission.
-updated_settings=$(jq --arg hook_path "$hook_path" '
+updated_settings=$(jq --arg hook_path "$hook_path" --arg download_dir "$download_dir" '
     .["script-torrent-done-enabled"] = true
     | .["script-torrent-done-filename"] = $hook_path
     | .["script-torrent-done-seeding-enabled"] = false
+    | .["download-dir"] = $download_dir
+    | .["incomplete-dir"] = $download_dir
 ' "$settings_file")
 
 printf '%s\n' "$updated_settings" > "$settings_file"
 printf '%s Enabled archive extraction via %s\n' '[configure-archive-hook]' "$hook_path"
+printf '%s Set download directory to %s\n' '[configure-archive-hook]' "$download_dir"

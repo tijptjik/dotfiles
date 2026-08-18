@@ -21,6 +21,7 @@ CHEZETC_REPO = Path.home() / ".local/share/chezetc"
 GUM = shutil.which("gum")
 CHEZMOI_CONFIG_WARNING = "chezmoi: warning: config file template has changed, run chezmoi init to regenerate config file"
 COMMAND_TIMEOUT_SECONDS = 300
+CHEZETC_TIMEOUT_SECONDS = 1800
 ACTIVE_STAGE = False
 ACTIVE_REPO: Path | None = None
 ACTIVE_REPORT_FILE: Path | None = None
@@ -240,12 +241,18 @@ def section_header(repo: Path, title: str, *, color: str = "12") -> None:
     print()
 
 
-def run_stream(command: list[str], cwd: Path, *, env: dict[str, str] | None = None) -> None:
+def run_stream(
+    command: list[str],
+    cwd: Path,
+    *,
+    env: dict[str, str] | None = None,
+    timeout: int = COMMAND_TIMEOUT_SECONDS,
+) -> None:
     try:
-        result = subprocess.run(command, cwd=cwd, env=env, check=False, timeout=COMMAND_TIMEOUT_SECONDS)
+        result = subprocess.run(command, cwd=cwd, env=env, check=False, timeout=timeout)
     except subprocess.TimeoutExpired as error:
         raise UpdateError(
-            f"command timed out after {COMMAND_TIMEOUT_SECONDS}s: {' '.join(command)}"
+            f"command timed out after {timeout}s: {' '.join(command)}"
         ) from error
     except OSError as error:
         raise UpdateError(f"could not run {' '.join(command)}: {error}") from error
@@ -532,7 +539,12 @@ def apply_chezetc(repo: Path) -> None:
     environment = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"}
     before = config.read_bytes() if config.is_file() else None
     try:
-        run_stream([chezetc, "apply"], CHEZETC_REPO, env=environment)
+        run_stream(
+            [chezetc, "apply"],
+            CHEZETC_REPO,
+            env=environment,
+            timeout=CHEZETC_TIMEOUT_SECONDS,
+        )
     except UpdateError:
         stage_label(repo, "FAILED", "✗", "Chezetc apply")
         raise
@@ -540,7 +552,12 @@ def apply_chezetc(repo: Path) -> None:
     if before != after:
         stage_result(repo, "RETRY", "Chezetc", "configuration refreshed")
         try:
-            run_stream([chezetc, "apply"], CHEZETC_REPO, env=environment)
+            run_stream(
+                [chezetc, "apply"],
+                CHEZETC_REPO,
+                env=environment,
+                timeout=CHEZETC_TIMEOUT_SECONDS,
+            )
         except UpdateError:
             stage_label(repo, "FAILED", "✗", "Chezetc apply retry")
             raise

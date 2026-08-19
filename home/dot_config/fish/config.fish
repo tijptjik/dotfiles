@@ -46,6 +46,10 @@ workon
 # Node.js version manager
 fnm env --use-on-cd --shell fish | source
 
+# `workon` and fnm can restore an inherited PATH after paths.fish has run.
+# Apply its worktree-bin cleanup once shell initialisation is complete.
+source "$FISHCONFIG/paths.fish"
+
 # LLMTrim is scoped to Herdr. Remove only its stale inherited environment from
 # ordinary shells; Herdr's launcher marks its panes so their proxy stays intact.
 if not set -q HERDR_LLMTRIM

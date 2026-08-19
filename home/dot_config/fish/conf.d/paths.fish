@@ -65,5 +65,42 @@ fish_add_path $HOME/code/foodworks/bin
 # Local Bins
 fish_add_path $HOME/.local/bin
 
-# Respect local bins
-fish_add_path ./bin
+# Project bins are local to the active Git worktree. They must not be added to
+# `fish_user_paths`, which is universal and otherwise makes old worktrees win
+# command lookup in unrelated shells.
+function __fish_is_project_bin --argument-names candidate
+    test -d "$candidate"; or return 1
+
+    set -l root (command git -C (path dirname "$candidate") rev-parse --show-toplevel 2>/dev/null)
+    test -n "$root"; and test (path resolve "$candidate") = (path resolve "$root/bin")
+end
+
+function __fish_prune_project_bins
+    set -l cleaned_user_paths
+    for path_entry in $fish_user_paths
+        __fish_is_project_bin "$path_entry"; or set -a cleaned_user_paths $path_entry
+    end
+    set -U fish_user_paths $cleaned_user_paths
+
+    set -l cleaned_path
+    for path_entry in $PATH
+        __fish_is_project_bin "$path_entry"; or set -a cleaned_path $path_entry
+    end
+    set -gx PATH $cleaned_path
+end
+
+function __fish_sync_project_bin --on-variable PWD
+    if set -q __fish_project_bin
+        set -gx PATH (string match -v -- "$__fish_project_bin" $PATH)
+        set -e --global __fish_project_bin
+    end
+
+    set -l root (command git -C "$PWD" rev-parse --show-toplevel 2>/dev/null)
+    if test -n "$root"; and test -d "$root/bin"
+        set -gx __fish_project_bin "$root/bin"
+        set -gx PATH "$__fish_project_bin" $PATH
+    end
+end
+
+__fish_prune_project_bins
+__fish_sync_project_bin

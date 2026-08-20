@@ -55,13 +55,16 @@ hl.window_rule({
     match = { class = "kitty" },
 })
 
--- Playwright's headed Chrome Canary windows must not interrupt the active
+-- Playwright's headed Chrome windows must not interrupt the active
 -- workspace. Workspace 10 is assigned to the primary monitor in workspaces.lua.
 hl.window_rule({
-    name = "playwright-chrome-canary",
+    name = "playwright-chrome",
     workspace = "10 silent",
     no_initial_focus = true,
-    match = { class = "^google-chrome-canary$" },
+    match = {
+        initial_class = "^google-chrome$",
+        initial_title = "^about:blank %- Google Chrome$",
+    },
 })
 
 hl.window_rule({

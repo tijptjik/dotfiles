@@ -151,7 +151,7 @@ diffRemoved = "#908caa"
 skill = "#c4a7e7"
 
 [marketplaces.openai-bundled]
-last_updated = "2026-08-19T05:02:17Z"
+last_updated = "2026-08-20T12:00:02Z"
 source_type = "local"
 source = "/home/io/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
@@ -161,12 +161,6 @@ source_type = "local"
 source = "/home/io/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [plugins."visualize@openai-bundled"]
-enabled = true
-
-[plugins."sites@openai-bundled"]
-enabled = true
-
-[plugins."browser@openai-bundled"]
 enabled = true
 
 [plugins."documents@openai-primary-runtime"]
@@ -185,6 +179,12 @@ enabled = true
 enabled = true
 
 [plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
 enabled = true
 
 [features]

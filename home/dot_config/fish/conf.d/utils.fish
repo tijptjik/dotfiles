@@ -12,6 +12,10 @@
 
 # Customize fish greeting message
 function fish_greeting
+  if not isatty stdin
+    return
+  end
+
   fortune | xargs -0 docker run --rm mpepping/ponysay:latest
 end
 

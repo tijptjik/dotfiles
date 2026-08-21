@@ -15,6 +15,9 @@ function fish_greeting
   if not isatty stdin
     return
   end
+  if not isatty stdout
+    return
+  end
 
   fortune | xargs -0 docker run --rm mpepping/ponysay:latest
 end

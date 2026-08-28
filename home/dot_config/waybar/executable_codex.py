@@ -7,15 +7,12 @@ import time
 from pathlib import Path
 
 DB_PATH = Path.home() / ".codex-lb" / "store.db"
-WINDOWS = ("five_hour", "weekly")
+WINDOWS = ("weekly",)
 SUMMARY_LABELS = {
-    "five_hour": "󱑂",
     "weekly": "󰃭",
 }
 TPK_WEIGHT = 20
 TOOLTIP_HEADERS = {
-    "five_hour_percent": "5h%",
-    "five_hour_time": "5h↻",
     "weekly_percent": "1w%",
     "weekly_time": "1w↻",
 }
@@ -59,7 +56,7 @@ SELECT
   remaining_percent,
   reset_at
 FROM latest_usage
-WHERE rn = 1
+WHERE rn = 1 AND window_name = 'weekly'
 ORDER BY label, window_name;
 """
 
@@ -103,9 +100,7 @@ def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
         account = accounts.setdefault(
             row["label"],
             {
-                "five_hour": None,
                 "weekly": None,
-                "five_hour_reset_at": None,
                 "weekly_reset_at": None,
             },
         )
@@ -140,8 +135,6 @@ def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
     header = "  ".join(
         [
             "acct".ljust(label_width),
-            TOOLTIP_HEADERS["five_hour_percent"].rjust(4),
-            TOOLTIP_HEADERS["five_hour_time"].rjust(4),
             TOOLTIP_HEADERS["weekly_percent"].rjust(5),
             TOOLTIP_HEADERS["weekly_time"].rjust(4),
         ]
@@ -153,8 +146,6 @@ def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
             "  ".join(
                 [
                     label.ljust(label_width),
-                    format_percent(values["five_hour"], 1).rjust(5),
-                    format_time_until_reset(values["five_hour_reset_at"], now).rjust(5),
                     format_percent(values["weekly"], 1).rjust(5),
                     format_time_until_reset(values["weekly_reset_at"], now).rjust(4),
                 ]
@@ -172,7 +163,7 @@ def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
 def main() -> None:
     if not DB_PATH.exists():
         payload = {
-            "text": "󱑂 - 󰃭 -",
+            "text": "󰃭 -",
             "tooltip": f"Missing database: {DB_PATH}",
             "alt": "codex-missing",
             "class": "custom-codex",
@@ -182,7 +173,7 @@ def main() -> None:
             payload = build_payload(load_rows())
         except Exception as error:
             payload = {
-                "text": "󱑂 - 󰃭 -",
+                "text": "󰃭 -",
                 "tooltip": f"Codex usage error: {error}",
                 "alt": "codex-error",
                 "class": "custom-codex",

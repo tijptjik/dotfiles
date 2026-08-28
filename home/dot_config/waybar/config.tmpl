@@ -266,7 +266,8 @@
       "custom/openrouter",
       "custom/notifications",
       "custom/caffeine",
-      "custom/nightlight"
+      "custom/nightlight",
+      "custom/display-mode"
     ],
     "custom/crypto": {
       "format": "{}",
@@ -365,6 +366,13 @@
       "exec": "$HOME/.config/waybar/powerbutton.fish nightlight",
       "on-click": "$HOME/.config/waybar/powerbutton.fish toggle-filter",
       "on-click-middle": "systemctl poweroff"
+    },
+    "custom/display-mode": {
+      "format": "{}",
+      "interval": 2,
+      "return-type": "json",
+      "exec": "$HOME/.local/bin/monitor-game-mode status",
+      "on-click": "$HOME/.local/bin/monitor-game-mode toggle"
     }
   },
   {

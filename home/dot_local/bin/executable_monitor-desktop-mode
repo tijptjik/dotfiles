@@ -1,30 +1,19 @@
 #!/usr/bin/env fish
 
-# Switch to Desktop monitor profile
+# Restore the configured desktop monitor layout. In particular, this disables
+# HDMI-A-1 and restores DP-1 and DP-2 from ~/.config/hypr/monitors.lua.
+set -l state_home "$HOME/.local/state"
 
-# Set monitors for desktop use
-# DP-1: Main ultrawide
-# DP-2: Side monitor
-# HDMI-A-1: TV (disabled)
-hyprctl reload
-
-# Restore default hypridle configuration by removing any overrides
-set override_dir (path resolve ~/.config/systemd/user/hypridle.service.d)
-if test -d $override_dir
-    rm -rf $override_dir
-    systemctl --user daemon-reload
+if set -q XDG_STATE_HOME; and test -n "$XDG_STATE_HOME"
+    set state_home "$XDG_STATE_HOME"
 end
 
-# Kill the game-mode activity listener
-/bin/pkill -f game-mode-listener || true
+set -l state_file "$state_home/hypr/display-mode"
+command rm -f "$state_file"
 
-# Stop the game-mode timer
-systemctl --user stop dim-screen.timer
+if not command hyprctl reload
+    notify-send 'Display mode' 'Could not restore the desktop monitor layout.'
+    exit 1
+end
 
-# Ensure screen is back to full brightness
-hyprsunset --gamma 1.0
-
-# Restart the default idle service
-systemctl --user start hypridle.service
-
-notify-send "[DISPLAY] Desktop profile"
+notify-send 'Display mode' 'Desktop mode: TV disabled.'

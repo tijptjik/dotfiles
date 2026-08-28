@@ -44,27 +44,33 @@ hl.monitor({
 
 -- Tertiary
 
--- LG TV - 4K
--- hl.monitor({
---     output = "HDMI-A-1",
---     mode = "3840x2160@60.00",
---     position = "auto-center-left",
---     scale = 1,
--- })
+-- The display-mode commands write this file before reloading Hyprland. Keep
+-- it outside the managed configuration so the selected display mode survives
+-- a compositor restart without becoming a chezmoi source change.
+local state_home = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
+local mode_file = io.open(state_home .. "/hypr/display-mode", "r")
+local game_mode = false
 
--- LG TV - 1080p
--- hl.monitor({
---     output = "HDMI-A-1",
---     mode = "1920x1080@60.00",
---     position = "auto-center-left",
---     scale = 1,
--- })
+if mode_file ~= nil then
+    game_mode = mode_file:read("*l") == "game"
+    mode_file:close()
+end
 
--- LG TV - disabled
-hl.monitor({
-    output = "HDMI-A-1",
-    disabled = true,
-})
+if game_mode then
+    -- LG TV - 4K, centered on the left edge of the primary display.
+    hl.monitor({
+        output = "HDMI-A-1",
+        mode = "3840x2160@60.00",
+        position = "auto-center-left",
+        scale = 1,
+    })
+else
+    -- Desktop mode leaves the TV out of the layout.
+    hl.monitor({
+        output = "HDMI-A-1",
+        disabled = true,
+    })
+end
 
 {{ else if .isLaptop -}}
 

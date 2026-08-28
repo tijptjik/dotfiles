@@ -1,65 +1,75 @@
 #!/usr/bin/env fish
 
-# Toggle Game monitor profile
+# Toggle the LG TV while retaining the normal desktop monitor layout.
+#
+# Game mode adds HDMI-A-1 as a 4K display to the left of the primary DP-1
+# monitor. Desktop mode is the configured Hyprland layout (DP-1 and DP-2,
+# with the TV disabled). Keep the state derived from Hyprland rather than a
+# marker file so the command also works after a reload or reconnect.
 
-set override_dir (path resolve ~/.config/systemd/user/hypridle.service.d)
-set override_file $override_dir/override.conf
+set -l tv_output HDMI-A-1
+set -l state_home "$HOME/.local/state"
 
-# Check if we're already in game mode
-if test -f $override_file
-    # Revert to normal profile
-    hyprctl reload
+if set -q XDG_STATE_HOME; and test -n "$XDG_STATE_HOME"
+    set state_home "$XDG_STATE_HOME"
+end
 
-    # Remove the override file
-    rm $override_file
+set -l state_file "$state_home/hypr/display-mode"
 
-    # Reload systemd user daemon configuration
-    systemctl --user daemon-reload
+function tv_is_active --argument-names output
+    command hyprctl -j monitors 2>/dev/null \
+        | command jq -e --arg output "$output" 'any(.[]; .name == $output and (.disabled | not))' \
+        >/dev/null
+end
 
-    # Stop game mode specific services
-    systemctl --user stop dim-screen.timer
-    /bin/pkill -f game-mode-listener || true
+function report_status --argument-names output
+    set -l icon ''
+    set -l state desktop
+    set -l tooltip 'Desktop mode — TV disabled'
 
-    # Restart normal hypridle
-    systemctl --user start hypridle.service
+    if tv_is_active "$output"
+        set icon ''
+        set state game
+        set tooltip 'Game mode — TV is left of the primary display'
+    end
 
-    echo "Reverted to normal monitor profile."
-    notify-send "🖥️ DEFAULT"
-else
-    # Switch to Game monitor profile
+    printf '{"text":"%s","class":"%s","tooltip":"%s"}\n' "$icon" "$state" "$tooltip"
+end
 
-    # Set monitors for gaming
-    # DP-1: Main ultrawide (for audio passthrough)
-    # DP-2: Side monitor (disabled)
-    # HDMI-A-1: TV (main display for gaming)
-    hyprctl --batch "\
-        keyword monitorv2[DP-2]:disabled 1;\
-        keyword monitorv2[HDMI-A-1]:disabled 0;\
-        keyword monitorv2[HDMI-A-1]:mode 3840x2160@60;\
-        keyword monitorv2[HDMI-A-1]:position auto-center-left;\
-        keyword monitorv2[HDMI-A-1]:scale 1"
+switch "$argv[1]"
+    case status
+        report_status "$tv_output"
+    case toggle
+        if tv_is_active "$tv_output"
+            exec "$HOME/.local/bin/monitor-desktop-mode"
+        end
 
-    # Override hypridle configuration for gaming
-    mkdir -p $override_dir
-    # Clear existing ExecStart and set the new one for game mode.
-    # The '%h' is interpreted by systemd as the user's home directory.
-    echo -e "[Service]\nExecStart=\nExecStart=hypridle -c %h/.config/hypr/hypridle_game.conf" > $override_file
+        command mkdir -p (path dirname "$state_file")
+        or begin
+            notify-send 'Display mode' 'Could not save the game-mode state.'
+            exit 1
+        end
+        printf 'game\n' > "$state_file"
 
-    # Reload systemd user daemon configuration
-    systemctl --user daemon-reload
+        if not command hyprctl reload
+            command rm -f "$state_file"
+            command hyprctl reload
+            notify-send 'Display mode' 'Could not enable the TV output.'
+            exit 1
+        end
 
-    # Stop the default idle service to prevent conflicts
-    systemctl --user stop hypridle.service
+        if not tv_is_active "$tv_output"
+            command rm -f "$state_file"
+            command hyprctl reload
+            notify-send 'Display mode' 'The TV output did not become active.'
+            exit 1
+        end
 
-    # Ensure no old listeners are running
-    /bin/pkill -f game-mode-listener || true
-
-    # Start the new activity listener in the background
-    game-mode-listener &
-
-    # Start the screen dimming timer
-    systemctl --user start dim-screen.timer
-
-    echo "Switched to Game monitor profile."
-    notify-send "🖥️ GAME MODE"
+        notify-send 'Display mode' 'Game mode: TV enabled to the left of the primary display.'
+    case ''
+        # Preserve the former `modeGame` toggle behaviour for interactive use.
+        exec "$HOME/.local/bin/monitor-game-mode" toggle
+    case '*'
+        echo "Usage: monitor-game-mode [status|toggle]" >&2
+        exit 2
 end

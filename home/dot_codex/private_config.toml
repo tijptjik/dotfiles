@@ -115,6 +115,9 @@ trust_level = "trusted"
 [projects."/home/io/Documents/Codex/2026-08-26/curl-60-ssl-certificate-problem-unable"]
 trust_level = "trusted"
 
+[projects."/home/io/Documents/Codex/2026-08-27/upd"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 
@@ -167,7 +170,6 @@ source_type = "local"
 source = "/home/io/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-08-20T04:03:47Z"
 source_type = "local"
 source = "/home/io/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 

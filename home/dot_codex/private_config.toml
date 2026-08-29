@@ -118,6 +118,9 @@ trust_level = "trusted"
 [projects."/home/io/Documents/Codex/2026-08-27/upd"]
 trust_level = "trusted"
 
+[projects."/home/io/Documents/Codex/2026-08-28/come-x20"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 

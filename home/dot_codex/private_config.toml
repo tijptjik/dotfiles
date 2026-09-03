@@ -259,3 +259,8 @@ network_access = true
 
 [shell_environment_policy.set]
 NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "9230e2bd8b24b7ac7a0ba6774c64bf0d78ecdabbdd91d0ed627b02a587bae2df"
+
+[hooks.state]
+
+[hooks.state."browser@openai-bundled:plugin.json#hooks[0]:stop:0:0"]
+trusted_hash = "sha256:317a07045dfc95aef2e80c55428a2f817e2768be867e3b1ef29a73da8636ae7f"

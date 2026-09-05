@@ -11,7 +11,19 @@ WINDOWS = ("weekly",)
 SUMMARY_LABELS = {
     "weekly": "󰃭",
 }
-TPK_WEIGHT = 20
+# These are codex-lb's weekly (secondary-window) capacities.  Weighting the
+# remaining percentages by capacity gives the combined remaining quota rather
+# than treating an account with a larger plan as one ordinary account.
+WEEKLY_CAPACITY_BY_PLAN = {
+    "free": 1134.0,
+    "plus": 7560.0,
+    "business": 7560.0,
+    "team": 7560.0,
+    "edu": 7560.0,
+    "pro": 50400.0,
+    "prolite": 37800.0,
+    "enterprise": 50400.0,
+}
 TOOLTIP_HEADERS = {
     "weekly_percent": "1w%",
     "weekly_time": "1w↻",
@@ -21,6 +33,7 @@ WITH classified_usage AS (
   SELECT
     a.id AS account_id,
     COALESCE(NULLIF(a.alias, ''), a.email) AS label,
+    LOWER(a.plan_type) AS plan_type,
     CASE
       WHEN uh.window_minutes = 300 THEN 'five_hour'
       WHEN uh.window_minutes = 10080 THEN 'weekly'
@@ -39,6 +52,7 @@ WITH classified_usage AS (
   SELECT
     account_id,
     label,
+    plan_type,
     remaining_percent,
     window_name,
     reset_at,
@@ -52,6 +66,7 @@ WITH classified_usage AS (
 SELECT
   account_id,
   label,
+  plan_type,
   window_name,
   remaining_percent,
   reset_at
@@ -102,6 +117,7 @@ def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
             {
                 "weekly": None,
                 "weekly_reset_at": None,
+                "plan_type": row["plan_type"],
             },
         )
         window_name = row["window_name"]
@@ -110,14 +126,14 @@ def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
 
     averages = {}
     for window_name in WINDOWS:
-        weighted_values = [
-            (
-                account[window_name],
-                TPK_WEIGHT if label.casefold() == "tpk" else 1,
-            )
-            for label, account in accounts.items()
-            if account[window_name] is not None
-        ]
+        weighted_values = []
+        for account in accounts.values():
+            value = account[window_name]
+            if value is None:
+                continue
+            plan_type = str(account["plan_type"] or "").casefold()
+            weight = WEEKLY_CAPACITY_BY_PLAN.get(plan_type, 1.0)
+            weighted_values.append((value, weight))
         total_weight = sum(weight for _, weight in weighted_values)
         averages[window_name] = (
             sum(value * weight for value, weight in weighted_values) / total_weight

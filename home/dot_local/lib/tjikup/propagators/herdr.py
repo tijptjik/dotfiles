@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from tjikup.core import TEMPLATE_ACTION, Propagator, UpdateError, load_jsonc
+from tjikup.core import TEMPLATE_ACTION, Propagator, UpdateError
 
 
 HOME_ACTION = re.compile(r"{{\s*\.chezmoi\.homeDir\s*}}")

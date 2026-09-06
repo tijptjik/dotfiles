@@ -293,6 +293,9 @@ def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bo
         if remaining:
             print(remaining)
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")
+        if result.returncode:
+            stage_label(repo, "FAILED", "✗", "Dotfiles apply")
+            raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
         return False
 
     if result.stdout:
@@ -653,6 +656,7 @@ def main() -> int:
         temp = Path(temp_dir)
         changed_names: list[str] = []
         sync_changes: dict[str, int] = {}
+        pending_writes: list[tuple[Path, str]] = []
         for propagator, source, target in active_resolved:
             before = source.read_text()
             output = temp / f"{propagator.name}.template"
@@ -667,8 +671,12 @@ def main() -> int:
                 sync_changes[propagator.name] = changed_line_count(before, after)
                 if args.dry_run:
                     show_diff(source, before, after)
-            if not args.dry_run:
-                source.write_text(after)
+                if not args.dry_run:
+                    pending_writes.append((source, after))
+
+        # Validate every propagator before changing any source templates.
+        for source, after in pending_writes:
+            source.write_text(after)
 
     if args.dry_run:
         for propagator in active_propagators:

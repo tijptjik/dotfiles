@@ -1,27 +1,156 @@
 #!/usr/bin/env fish
 
-# Run common prune and cleanup tasks
-# Cleans : DNF, Flatpak, Docker
+# Run as your normal user; only system cleanup commands use sudo.
+# Package caches are downloaded again when needed. Installed packages,
+# project node_modules, and Python virtual environments are not cache targets.
+
+argparse 'n/dry-run' 'clipboard-history' 'h/help' -- $argv; or exit 2
+if set -q _flag_help
+    echo 'Usage: reclaim-diskspace [--dry-run|-n] [--clipboard-history]'
+    echo 'Clean Docker images, old kernels, unused packages, package/browser caches, and thumbnails.'
+    echo '--clipboard-history permanently deletes saved clipboard text and images.'
+    echo 'Running browsers are skipped. Playwright browsers and Codex data are retained.'
+    echo 'Run without sudo so package caches belong to your normal user.'
+    exit 0
+end
+if test (count $argv) -gt 0
+    echo "Unexpected arguments: $argv" >&2
+    exit 2
+end
+
+set -g cleanup_dry_run 0
+set -q _flag_dry_run; and set -g cleanup_dry_run 1
+set -g cleanup_failures 0
+
+function cleanup_run
+    if test $cleanup_dry_run -eq 1
+        printf '[dry-run] %s\n' (string join ' ' -- (string escape -- $argv))
+        return 0
+    end
+    command $argv
+    or begin
+        echo "Cleanup failed: $argv" >&2
+        set -g cleanup_failures (math $cleanup_failures + 1)
+    end
+end
+
+function cleanup_cache --argument-names label executable
+    if command -q $executable
+        echo "Cleaning $label cache..."
+        cleanup_run $argv[2..-1]
+    else
+        echo "$label not found, skipping."
+    end
+end
+
+cleanup_cache Bun bun pm cache rm
+cleanup_cache npm npm cache clean --force
+cleanup_cache uv uv cache clean
+cleanup_cache pnpm pnpm store prune
+cleanup_cache Go go clean -cache
+
+# Only target disposable cache directories, never browser profiles or all of .cache.
+set -l cache_root "$HOME/.cache"
+if set -q XDG_CACHE_HOME; and test -n "$XDG_CACHE_HOME"
+    set cache_root "$XDG_CACHE_HOME"
+end
+set cache_root (realpath -m -- "$cache_root")
+if test "$cache_root" = /; or test "$cache_root" = "$HOME"; or test -z "$cache_root"
+    echo 'Unsafe cache directory; refusing filesystem cache cleanup.' >&2
+    set -g cleanup_failures (math $cleanup_failures + 1)
+else
+    if test -d "$cache_root/thumbnails"; and not test -L "$cache_root/thumbnails"
+        echo 'Cleaning thumbnails...'
+        cleanup_run rm -rf -- "$cache_root/thumbnails"
+    end
+
+    # Match process names conservatively: any Chrome process also skips Canary.
+    for browser in mozilla zen google-chrome google-chrome-canary BraveSoftware
+        set -l process_pattern
+        switch $browser
+            case mozilla
+                set process_pattern '^(firefox|firefox-bin)$'
+            case zen
+                set process_pattern '^(zen|zen-bin)$'
+            case google-chrome google-chrome-canary
+                set process_pattern '^(chrome|chromium|chromium-browse)$'
+            case BraveSoftware
+                set process_pattern '^(brave|brave-browser|chrome)$'
+        end
+        if not command -q pgrep
+            echo "Cannot check running browsers; skipping $browser."
+            continue
+        end
+        command pgrep -u (id -u) -x "$process_pattern" >/dev/null
+        set -l browser_status $status
+        if test $browser_status -ne 1
+            echo "$browser is running or its status is unknown; skipping its cache."
+            continue
+        end
+        if test -d "$cache_root/$browser"; and not test -L "$cache_root/$browser"
+            echo "Cleaning $browser cache..."
+            for cache_dir in (find "$cache_root/$browser" -type d \( -name cache2 -o -name Cache -o -name 'Code Cache' -o -name startupCache -o -name thumbnails \) -prune -print0 | string split0)
+                cleanup_run rm -rf -- "$cache_dir"
+            end
+        end
+    end
+end
+
+if set -q _flag_clipboard_history
+    cleanup_cache 'clipboard history (permanent)' cliphist wipe
+else
+    echo 'Keeping clipboard history; use --clipboard-history to erase it.'
+end
+
+# Probe pip independently: the active Python environment may not include it.
+if command -q python3; and python3 -m pip --version >/dev/null 2>&1
+    echo 'Cleaning pip cache...'
+    cleanup_run python3 -m pip cache purge
+else if command -q pip
+    cleanup_run pip cache purge
+else
+    echo 'pip not found, skipping.'
+end
 
 echo "Cleaning up Docker images..."
 if command -v docker &> /dev/null
-    sudo docker image prune -af
+    cleanup_run sudo docker image prune -af
 else
     echo "Docker not found, skipping."
 end
 
-echo "Removing old kernels..."
-sudo dnf remove -y (dnf repoquery --installonly --latest-limit=-3 -q)
-
-echo "Removing unused dependencies..."
-sudo dnf autoremove -y
+if command -q dnf
+    echo "Finding old kernels (keeping the latest three)..."
+    set -l old_kernels (dnf repoquery --installonly --latest-limit=-3 -q)
+    if test $status -ne 0
+        echo 'Kernel query failed; skipping kernel removal.' >&2
+        set -g cleanup_failures (math $cleanup_failures + 1)
+    else if test (count $old_kernels) -gt 0
+        cleanup_run sudo dnf remove -y $old_kernels
+    else
+        echo 'No old kernels to remove.'
+    end
+    echo "Removing unused dependencies..."
+    cleanup_run sudo dnf autoremove -y
+    cleanup_cache DNF sudo dnf clean all
+else
+    echo 'DNF not found, skipping.'
+end
 
 echo "Cleaning up Flatpak dependencies..."
 if command -v flatpak &> /dev/null
-    sudo flatpak uninstall --unused -y
-    sudo flatpak repair
+    cleanup_run sudo flatpak uninstall --unused -y
+    cleanup_run sudo flatpak repair
 else
     echo "Flatpak not found, skipping."
 end
 
-echo "Cleanup finished!"
+if test $cleanup_failures -gt 0
+    echo "Cleanup finished with $cleanup_failures failed step(s)." >&2
+    exit 1
+end
+if test $cleanup_dry_run -eq 1
+    echo 'Preview finished; no cleanup commands were run.'
+else
+    echo "Cleanup finished!"
+end

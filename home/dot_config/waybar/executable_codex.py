@@ -94,7 +94,7 @@ def format_time_until_reset(reset_at: int | None, now: int) -> str:
     hours, minutes = divmod(minutes, 60)
 
     if days > 0:
-        return f"{days}d{hours}h"
+        return f"{days}d{hours:02d}h"
     if hours > 0:
         return f"{hours}h{minutes}m"
     return f"{minutes}m"

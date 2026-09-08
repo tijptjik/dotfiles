@@ -14,6 +14,7 @@ hl.layer_rule({
 
 hl.layer_rule({
     name = "network-widget-fade",
-    animation = "fade",
+    -- QML mirrors fadeLayersIn/Out; geometry must follow the pointer immediately.
+    no_anim = true,
     match = { namespace = "^network-widget$" },
 })

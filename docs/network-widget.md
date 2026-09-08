@@ -5,7 +5,7 @@ module, with a 12px gap from the bar's actual top edge. The panel centers on the
 network label using GTK accessibility bounds, with the click position as a
 fallback, and stays within the monitor edges. The offline label stays visible so Wi-Fi can be switched back
 on. Hover previews close when the pointer leaves both the module and panel, with
-a short delay to cross the gap. Clicking pins the panel; click the module again,
+a 100ms delay matching Waybar's hide check. Clicking pins the panel; click the module again,
 press Escape while over the panel, or use Close to dismiss it. Waybar's old tooltip
 is disabled. The process stays
 resident and polls NetworkManager every ten seconds only while open.
@@ -23,6 +23,11 @@ inactive Ethernet follow. Only the nearby Wi-Fi list scrolls; connection details
 Wi-Fi controls, and Ethernet stay visible. Icon buttons use Material Symbols
 Rounded with accessible names, no focus outlines, and no tooltips.
 Refresh progress replaces the Wi-Fi list temporarily without moving other sections.
+The scan message waits 1000ms; faster scans keep the existing list visible.
+The panel mirrors Hyprland's Waybar layer fade durations and curves. Compositor
+geometry animation is disabled for this panel; dragging follows absolute pointer
+coordinates at up to 120Hz, preserving the grab point across monitors. Hover
+observation returns to its slower polling interval after dragging ends.
 
 Requirements: Quickshell 0.3+, Qt Quick Controls, Python 3, NetworkManager's
 `nmcli`, and `flock` (util-linux). The existing desktop polkit agent handles

@@ -4,6 +4,8 @@ import json
 import os
 from pathlib import Path
 import socket
+import select
+import sys
 import time
 
 from network import module_bounds
@@ -33,6 +35,20 @@ def logical_monitors(monitors):
     return result
 
 
+def fade_settings(animations):
+    settings, curves = animations
+    by_name = {entry["name"]: entry for entry in settings}
+    by_curve = {entry["name"]: entry for entry in curves}
+    result = {}
+    for direction in ("In", "Out"):
+        config = next((by_name[name] for name in ("fadeLayers" + direction, "fadeLayers", "fade", "global")
+                       if by_name.get(name, {}).get("overridden")), {})
+        curve = by_curve.get(config.get("bezier"), dict(X0=0.22, Y0=1, X1=0.36, Y1=1))
+        result[direction.lower()] = dict(duration=round(config.get("speed", 5) * 100) if config.get("enabled", True) else 0,
+                                        curve=[curve["X0"], curve["Y0"], curve["X1"], curve["Y1"], 1, 1])
+    return result
+
+
 def hover_anchor(cursor, monitors, layers, locate_module):
     for monitor in monitors:
         for level in layers.get(monitor["name"], {}).get("levels", {}).values():
@@ -51,7 +67,10 @@ def hover_anchor(cursor, monitors, layers, locate_module):
 
 
 def watch():
-    monitors, layers, previous, refreshed = [], {}, None, 0
+    monitors, layers, previous, refreshed, fades = [], {}, None, 0, {}
+    dragging = False
+    control_open = True
+    control_buffer = ""
     cache = {}
 
     def locate(bar):
@@ -67,10 +86,11 @@ def watch():
             if time.monotonic() - refreshed >= 1:
                 monitors = logical_monitors(hyprland("monitors"))
                 layers = hyprland("layers")
+                fades = fade_settings(hyprland("animations"))
                 refreshed = time.monotonic()
             cursor = hyprland("cursorpos")
-            current = dict(cursor=cursor, monitors=monitors,
-                           anchor=hover_anchor(cursor, monitors, layers, locate))
+            current = dict(cursor=cursor, monitors=monitors, fades=fades,
+                           anchor=None if dragging else hover_anchor(cursor, monitors, layers, locate))
             if current != previous:
                 print(json.dumps(current), flush=True)
                 previous = current
@@ -79,7 +99,19 @@ def watch():
                 print(json.dumps(dict(cursor=None, monitors=[], anchor=None)), flush=True)
                 previous = None
             time.sleep(1)
-        time.sleep(0.06)
+        interval = 1 / 120 if dragging else 0.06
+        if control_open:
+            if select.select([sys.stdin], [], [], interval)[0]:
+                chunk = os.read(sys.stdin.fileno(), 4096).decode()
+                control_open = bool(chunk)
+                control_buffer += chunk
+                while "\n" in control_buffer:
+                    command, control_buffer = control_buffer.split("\n", 1)
+                    dragging = command == "drag-start"
+                if not control_open:
+                    dragging = False
+        else:
+            time.sleep(interval)
 
 
 if __name__ == "__main__":

@@ -9,6 +9,16 @@ import pointer
 
 
 class PointerTests(unittest.TestCase):
+    def test_fades_match_hyprland_duration_and_curve(self):
+        settings = [dict(name="fadeLayersOut", overridden=True, speed=5, enabled=True, bezier="ease"),
+                    dict(name="fade", overridden=True, speed=7, enabled=True, bezier="ease")]
+        curves = [dict(name="ease", X0=.22, Y0=1, X1=.36, Y1=1)]
+        fades = pointer.fade_settings([settings, curves])
+        self.assertEqual(fades["out"], dict(duration=500, curve=[.22, 1, .36, 1, 1, 1]))
+        self.assertEqual(fades["in"]["duration"], 700)
+        settings[0]["enabled"] = False
+        self.assertEqual(pointer.fade_settings([settings, curves])["out"]["duration"], 0)
+
     def test_hover_is_limited_to_network_module(self):
         monitors = [dict(name="DP-2", x=3440, y=720, width=1920, height=1080)]
         layers = {"DP-2": {"levels": {"1": [dict(namespace="desktop-status", pid=123,

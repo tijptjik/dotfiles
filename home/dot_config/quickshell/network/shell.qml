@@ -17,11 +17,17 @@ ShellRoot {
     property bool dragged: false
     property real desktopX: 0
     property real desktopY: 0
+    property real grabX: 0
+    property real grabY: 0
     readonly property var currentMonitor: pointerState.monitors.find(monitor => monitor.name === targetScreen?.name) || ({x: 0, y: 0})
     property bool busy: false
     property bool hasState: false
     property string operation: "status"
-    readonly property bool showProgress: busy && (operation !== "status" || !hasState)
+    property bool scanMessageReady: false
+    readonly property bool showProgress: busy && (operation === "scan" ? scanMessageReady : operation !== "status" || !hasState)
+    onBusyChanged: {
+        if (!busy) { scanMessageDelay.stop(); scanMessageReady = false; }
+    }
     property var state: ({ enabled: false, devices: [], networks: [] })
     property var traffic: ({})
     property var selected: null
@@ -62,6 +68,7 @@ ShellRoot {
 
     function pointerChanged(value) {
         pointerState = value;
+        if (dragging && value.cursor) movePanel(value.cursor);
         barHovered = !!value.anchor;
         if (!barHovered) suppressHover = false;
         if (barHovered && !pinned && !suppressHover) {
@@ -74,10 +81,9 @@ ShellRoot {
         } else if (opened && !pinned && !panelHover.hovered && !dragging && !autoHide.running) autoHide.start();
     }
 
-    function movePanel(delta) {
-        desktopX += delta.x;
-        desktopY += delta.y;
-        const cursor = pointerState.cursor;
+    function movePanel(cursor) {
+        desktopX = cursor.x - grabX;
+        desktopY = cursor.y - grabY;
         const monitor = cursor && pointerState.monitors.find(item => cursor.x >= item.x && cursor.x < item.x + item.width && cursor.y >= item.y && cursor.y < item.y + item.height);
         if (monitor && monitor.name !== targetScreen?.name)
             targetScreen = Quickshell.screens.find(screen => screen.name === monitor.name) || targetScreen;
@@ -85,13 +91,15 @@ ShellRoot {
 
     Timer {
         id: autoHide
-        interval: 350
+        interval: 100
         onTriggered: { if (!root.pinned && !root.barHovered && !panelHover.hovered && !root.dragging) root.hide(); }
     }
 
     Process {
+        id: pointerObserver
         command: ["python3", Qt.resolvedUrl("pointer.py").toString().replace("file://", "")]
         running: true
+        stdinEnabled: true
         stdout: SplitParser {
             onRead: line => {
                 try { root.pointerChanged(JSON.parse(line)); }
@@ -102,12 +110,20 @@ ShellRoot {
 
     function run(request) {
         if (busy) return;
-        busy = true;
         operation = request.action;
+        scanMessageReady = false;
+        busy = true;
+        if (operation === "scan") scanMessageDelay.restart();
         if (request.action !== "status") message = "";
         pending = JSON.stringify(request);
         backend.stdinEnabled = true;
         backend.running = true;
+    }
+
+    Timer {
+        id: scanMessageDelay
+        interval: 1000
+        onTriggered: { if (root.busy && root.operation === "scan") root.scanMessageReady = true; }
     }
 
     function connectSelected() {
@@ -187,7 +203,7 @@ ShellRoot {
 
     PanelWindow {
         id: panel
-        visible: root.opened
+        visible: root.opened || card.opacity > 0
         screen: root.targetScreen
         anchors { top: true; left: true }
         implicitWidth: Math.min(420, (screen?.width || 420) - 24)
@@ -200,14 +216,22 @@ ShellRoot {
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "network-widget"
         WlrLayershell.layer: WlrLayer.Overlay
-        WlrLayershell.keyboardFocus: panelHover.hovered ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
-        mask: Region { item: card; radius: card.radius }
+        WlrLayershell.keyboardFocus: root.opened && panelHover.hovered ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+        mask: Region { width: root.opened ? panel.width : 0; height: root.opened ? panel.height : 0; radius: card.radius }
 
         Shortcut { sequence: "Escape"; onActivated: root.hide() }
 
         Rectangle {
             id: card
             anchors.fill: parent
+            opacity: root.opened ? 1 : 0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: (root.opened ? root.pointerState.fades?.in : root.pointerState.fades?.out)?.duration ?? 500
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: (root.opened ? root.pointerState.fades?.in : root.pointerState.fades?.out)?.curve || [0.22, 1, 0.36, 1, 1, 1]
+                }
+            }
             radius: 12
             color: theme.background
             border.color: theme.border
@@ -245,12 +269,14 @@ ShellRoot {
                                 root.dragging = active;
                                 if (active) {
                                     root.pinned = true;
+                                    root.grabX = centroid.scenePressPosition.x;
+                                    root.grabY = centroid.scenePressPosition.y;
                                     root.desktopX = root.currentMonitor.x + panel.margins.left;
                                     root.desktopY = root.currentMonitor.y + panel.margins.top;
                                     root.dragged = true;
                                 }
+                                pointerObserver.write(active ? "drag-start\n" : "drag-stop\n");
                             }
-                            onTranslationChanged: delta => { if (active) root.movePanel(delta); }
                         }
                     }
                     NetworkButton { theme: root.theme; symbol: "close"; text: "Close"; onClicked: root.hide() }

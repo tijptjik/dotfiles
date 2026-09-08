@@ -269,7 +269,11 @@ def run_stream(
     timeout: int = COMMAND_TIMEOUT_SECONDS,
     skip_conflicts: bool = False,
 ) -> None:
-    stream_env = {**(os.environ if env is None else env), "TJIKUP_COLOR": "1" if sys.stdout.isatty() else "0"}
+    stream_env = {
+        **(os.environ if env is None else env),
+        "TJIKUP_COLOR": "1" if sys.stdout.isatty() else "0",
+        "TJIKUP_NO_SPIN": "1",
+    }
     try:
         with apply_conflict_policy(command, skip_conflicts) as (apply_command, stdin):
             # Gum 2 probes the terminal even when its spinner cannot read the

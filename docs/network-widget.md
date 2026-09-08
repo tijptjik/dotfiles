@@ -28,6 +28,10 @@ The panel mirrors Hyprland's Waybar layer fade durations and curves. Compositor
 geometry animation is disabled for this panel; dragging follows absolute pointer
 coordinates at up to 120Hz, preserving the grab point across monitors. Hover
 observation returns to its slower polling interval after dragging ends.
+During a drag, an input-transparent image follows the pointer while the original
+surface retains its mouse grab and focus mode. Releasing the button moves the real
+panel to the destination output immediately. This avoids losing the release event
+when replacing a Wayland surface across outputs; no global mouse binding is used.
 
 Requirements: Quickshell 0.3+, Qt Quick Controls, Python 3, NetworkManager's
 `nmcli`, and `flock` (util-linux). The existing desktop polkit agent handles
@@ -37,6 +41,14 @@ Exact label centering additionally uses Python GObject and the Atspi 2.0 typelib
 Hover previews require those accessibility bounds so other modules never open
 the network panel. A small observer reads Hyprland's pointer socket and caches
 bar/monitor geometry; it does not grab input or access stored network credentials.
+Hover also requires the auto-hide helper's `$XDG_RUNTIME_DIR/waybar-visible` state:
+Waybar retains layer and accessibility bounds even while hidden. Missing state
+disables hover previews, but clicking still works.
+
+Workspace buttons use `ext/workspaces` with native Wayland activation, since the
+installed Waybar's Hyprland module still sends legacy dispatch commands that Lua
+Hyprland rejects. Workspace names, icons, and scroll switching are retained;
+Hyprland-specific window-title tooltips are not available in this native module.
 
 Select a Wi-Fi network to connect or disconnect. Leave the password blank to use
 a saved connection. Passwords travel over stdin, never shell commands or process

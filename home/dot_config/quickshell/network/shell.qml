@@ -14,6 +14,13 @@ ShellRoot {
     property bool suppressHover: false
     property var pointerState: ({ cursor: null, monitors: [], anchor: null })
     property bool dragging: false
+    property var dragImage: null
+    property var dragScreen: null
+    property real dragOriginX: 0
+    property real dragOriginY: 0
+    property real dragWidth: 420
+    property real dragHeight: 414
+    property int dragGeneration: 0
     property bool dragged: false
     property real desktopX: 0
     property real desktopY: 0
@@ -50,6 +57,7 @@ ShellRoot {
     }
 
     function hide() {
+        stopDrag();
         opened = false;
         pinned = false;
         suppressHover = barHovered;
@@ -85,8 +93,19 @@ ShellRoot {
         desktopX = cursor.x - grabX;
         desktopY = cursor.y - grabY;
         const monitor = cursor && pointerState.monitors.find(item => cursor.x >= item.x && cursor.x < item.x + item.width && cursor.y >= item.y && cursor.y < item.y + item.height);
-        if (monitor && monitor.name !== targetScreen?.name)
-            targetScreen = Quickshell.screens.find(screen => screen.name === monitor.name) || targetScreen;
+        if (monitor && monitor.name !== dragScreen?.name)
+            dragScreen = Quickshell.screens.find(screen => screen.name === monitor.name) || targetScreen;
+    }
+
+    function stopDrag(cursor) {
+        if (dragging && cursor) movePanel(cursor);
+        if (dragging) {
+            targetScreen = dragScreen || targetScreen;
+            dragged = true;
+        }
+        dragging = false;
+        dragImage = null;
+        pointerObserver.write("drag-stop\n");
     }
 
     Timer {
@@ -149,7 +168,8 @@ ShellRoot {
             return JSON.stringify({ screen: root.targetScreen?.name, x: panel.margins.left, y: panel.margins.top,
                 width: panel.width, height: panel.height, anchorX: root.anchorX, barTop: root.anchorBottom,
                 hovered: panelHover.hovered, keyboardFocus: panel.WlrLayershell.keyboardFocus,
-                pinned: root.pinned, barHovered: root.barHovered, opened: root.opened });
+                pinned: root.pinned, barHovered: root.barHovered, opened: root.opened, dragging: root.dragging,
+                dragScreen: root.dragScreen?.name, desktopX: root.desktopX, desktopY: root.desktopY });
         }
     }
 
@@ -201,22 +221,42 @@ ShellRoot {
         }
     }
 
+    // Keep the real surface and its implicit mouse grab on the original output.
+    // Only this non-interactive image crosses outputs until the button releases.
+    PanelWindow {
+        visible: root.dragging && root.dragImage !== null
+        screen: root.dragScreen
+        anchors { top: true; left: true }
+        implicitWidth: panel.width
+        implicitHeight: panel.height
+        readonly property var monitor: root.pointerState.monitors.find(item => item.name === screen?.name) || ({x: 0, y: 0})
+        margins.left: Math.max(12, Math.min((screen?.width || 420) - width - 12, root.desktopX - monitor.x))
+        margins.top: Math.max(12, Math.min((screen?.height || 720) - height - 12, root.desktopY - monitor.y))
+        color: "transparent"
+        exclusionMode: ExclusionMode.Ignore
+        WlrLayershell.namespace: "network-widget"
+        WlrLayershell.layer: WlrLayer.Overlay
+        WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+        mask: Region {}
+        Image { anchors.fill: parent; source: root.dragImage ? root.dragImage.url : "" }
+    }
+
     PanelWindow {
         id: panel
         visible: root.opened || card.opacity > 0
         screen: root.targetScreen
         anchors { top: true; left: true }
-        implicitWidth: Math.min(420, (screen?.width || 420) - 24)
-        implicitHeight: Math.min(panelContent.implicitHeight + 24, (screen?.height || 720) - 24)
+        implicitWidth: root.dragging ? root.dragWidth : Math.min(420, (screen?.width || 420) - 24)
+        implicitHeight: root.dragging ? root.dragHeight : Math.min(panelContent.implicitHeight + 24, (screen?.height || 720) - 24)
         margins {
-            left: Math.max(12, Math.min((panel.screen?.width || 420) - panel.width - 12, root.dragged ? root.desktopX - root.currentMonitor.x : root.anchorX - panel.width / 2))
-            top: Math.max(12, Math.min((panel.screen?.height || 720) - panel.height - 12, root.dragged ? root.desktopY - root.currentMonitor.y : root.anchorBottom - panel.height - 12))
+            left: root.dragging ? root.dragOriginX : Math.max(12, Math.min((panel.screen?.width || 420) - panel.width - 12, root.dragged ? root.desktopX - root.currentMonitor.x : root.anchorX - panel.width / 2))
+            top: root.dragging ? root.dragOriginY : Math.max(12, Math.min((panel.screen?.height || 720) - panel.height - 12, root.dragged ? root.desktopY - root.currentMonitor.y : root.anchorBottom - panel.height - 12))
         }
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "network-widget"
         WlrLayershell.layer: WlrLayer.Overlay
-        WlrLayershell.keyboardFocus: root.opened && panelHover.hovered ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+        WlrLayershell.keyboardFocus: root.opened && (root.dragging || panelHover.hovered) ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
         mask: Region { width: root.opened ? panel.width : 0; height: root.opened ? panel.height : 0; radius: card.radius }
 
         Shortcut { sequence: "Escape"; onActivated: root.hide() }
@@ -224,8 +264,9 @@ ShellRoot {
         Rectangle {
             id: card
             anchors.fill: parent
-            opacity: root.opened ? 1 : 0
+            opacity: root.dragging && root.dragImage ? 0 : root.opened ? 1 : 0
             Behavior on opacity {
+                enabled: !root.dragging && root.dragImage === null
                 NumberAnimation {
                     duration: (root.opened ? root.pointerState.fades?.in : root.pointerState.fades?.out)?.duration ?? 500
                     easing.type: Easing.BezierSpline
@@ -265,17 +306,28 @@ ShellRoot {
                         Layout.fillWidth: true
                         DragHandler {
                             target: null
+                            acceptedButtons: Qt.LeftButton
                             onActiveChanged: {
-                                root.dragging = active;
                                 if (active) {
+                                    root.dragOriginX = panel.margins.left;
+                                    root.dragOriginY = panel.margins.top;
+                                    root.dragWidth = panel.width;
+                                    root.dragHeight = panel.height;
+                                    root.dragScreen = root.targetScreen;
+                                    const generation = ++root.dragGeneration;
+                                    root.dragging = true;
                                     root.pinned = true;
                                     root.grabX = centroid.scenePressPosition.x;
                                     root.grabY = centroid.scenePressPosition.y;
                                     root.desktopX = root.currentMonitor.x + panel.margins.left;
                                     root.desktopY = root.currentMonitor.y + panel.margins.top;
-                                    root.dragged = true;
+                                    card.grabToImage(result => {
+                                        if (root.dragging && root.dragGeneration === generation) root.dragImage = result;
+                                    });
+                                    pointerObserver.write("drag-start\n");
                                 }
-                                pointerObserver.write(active ? "drag-start\n" : "drag-stop\n");
+                                else root.stopDrag({x: root.currentMonitor.x + panel.margins.left + centroid.scenePosition.x,
+                                                    y: root.currentMonitor.y + panel.margins.top + centroid.scenePosition.y});
                             }
                         }
                     }

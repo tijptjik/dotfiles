@@ -15,7 +15,7 @@
     "margin-bottom": 16,
     "spacing": 3,
     "modules-left": [
-      "hyprland/workspaces",
+      "ext/workspaces",
       "custom/mediaplayer"
     ],
     "modules-right": [
@@ -30,17 +30,9 @@
       "custom/caffeine",
       "custom/nightlight"
     ],
-    "hyprland/workspaces": {
+    "ext/workspaces": {
       "format": "{icon} {name}",
-      "tooltip": true,
-      "tooltips": {
-        "default": "{windows}",
-        "empty": ""
-      },
-      "format-window-separator": "\n",
-      "window-rewrite": {
-        "title<.*>": "{title}"
-      },
+      "on-click": "activate",
       "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
       "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
       "format-icons": {
@@ -48,7 +40,7 @@
         "active": "\uf111",
         "10": "\uf11b"
       },
-      "sort-by": "number"
+      "sort-by-name": true
     },
     "custom/mediaplayer": {
       "format": "{0}",
@@ -162,19 +154,11 @@
     "height": 40,
     "spacing": 12,
     "modules-center": [
-      "hyprland/workspaces"
+      "ext/workspaces"
     ],
-    "hyprland/workspaces": {
+    "ext/workspaces": {
       "format": "{icon} {name}",
-      "tooltip": true,
-      "tooltips": {
-        "default": "{windows}",
-        "empty": ""
-      },
-      "format-window-separator": "\n",
-      "window-rewrite": {
-        "title<.*>": "{title}"
-      },
+      "on-click": "activate",
       "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
       "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
       "format-icons": {
@@ -182,7 +166,7 @@
         "active": "\uf111",
         "10": "\uf11b"
       },
-      "sort-by": "number"
+      "sort-by-name": true
     }
   }
 {{- else if .isDesktop }}
@@ -202,20 +186,12 @@
     "modifier-reset": "release",
     "modules-right": [
       // Choose the order of the modules
-      "hyprland/workspaces",
+      "ext/workspaces",
       "custom/spotify"
     ],
-    "hyprland/workspaces": {
+    "ext/workspaces": {
       "format": "{icon} {name}",
-      "tooltip": true,
-      "tooltips": {
-        "default": "{windows}",
-        "empty": ""
-      },
-      "format-window-separator": "\n",
-      "window-rewrite": {
-        "title<.*>": "{title}"
-      },
+      "on-click": "activate",
       "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
       "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
       "format-icons": {
@@ -224,7 +200,7 @@
         "19": "\uf1ff",
         "20": "\uf144"
       },
-      "sort-by": "number"
+      "sort-by-name": true
     },
     "custom/spotify": {
       "format": "{0}",
@@ -392,19 +368,11 @@
     "fixed-center": true,
     "modifier-reset": "release",
     "modules-right": [
-      "hyprland/workspaces"
+      "ext/workspaces"
     ],
-    "hyprland/workspaces": {
+    "ext/workspaces": {
       "format": "{icon} {name}",
-      "tooltip": true,
-      "tooltips": {
-        "default": "{windows}",
-        "empty": ""
-      },
-      "format-window-separator": "\n",
-      "window-rewrite": {
-        "title<.*>": "{title}"
-      },
+      "on-click": "activate",
       "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
       "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
       "format-icons": {
@@ -413,7 +381,7 @@
         "19": "\uf1ff",
         "20": ""
       },
-      "sort-by": "number"
+      "sort-by-name": true
     }
   }
 {{ end -}}

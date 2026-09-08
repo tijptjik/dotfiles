@@ -49,7 +49,17 @@ def fade_settings(animations):
     return result
 
 
-def hover_anchor(cursor, monitors, layers, locate_module):
+def waybar_visible():
+    """Fail closed if the auto-hide controller has not published visibility."""
+    try:
+        return (Path(os.environ["XDG_RUNTIME_DIR"]) / "waybar-visible").read_text() == "visible"
+    except (OSError, KeyError):
+        return False
+
+
+def hover_anchor(cursor, monitors, layers, locate_module, visible=True):
+    if not visible:
+        return None
     for monitor in monitors:
         for level in layers.get(monitor["name"], {}).get("levels", {}).values():
             for bar in level:
@@ -90,7 +100,7 @@ def watch():
                 refreshed = time.monotonic()
             cursor = hyprland("cursorpos")
             current = dict(cursor=cursor, monitors=monitors, fades=fades,
-                           anchor=None if dragging else hover_anchor(cursor, monitors, layers, locate))
+                           anchor=None if dragging else hover_anchor(cursor, monitors, layers, locate, waybar_visible()))
             if current != previous:
                 print(json.dumps(current), flush=True)
                 previous = current

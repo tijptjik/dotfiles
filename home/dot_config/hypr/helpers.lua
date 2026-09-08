@@ -1,6 +1,19 @@
 local helpers = {}
 local waybar_auto_hide_timer
 local waybar_auto_hide_override = false
+
+local function waybar_visibility(visible)
+    -- Waybar hides client-side: layer bounds and AT-SPI SHOWING stay present.
+    local runtime = os.getenv("XDG_RUNTIME_DIR")
+    if runtime then
+        local file = io.open(runtime .. "/waybar-visible", "w")
+        if file then
+            file:write(visible and "visible" or "hidden")
+            file:close()
+        end
+    end
+end
+
 local zen_extensions_subscription
 local zen_extension_title_subscription
 local staged_zen_windows = {}
@@ -181,7 +194,9 @@ end
 function helpers.start_waybar_auto_hide(side)
     side = side or "bottom"
     local safe_zone = 68
-    local visible = true
+    local visible = false
+    waybar_visibility(false)
+    hl.exec_cmd("pkill -USR1 -x waybar")
 
     if waybar_auto_hide_timer ~= nil then
         waybar_auto_hide_timer:set_enabled(false)
@@ -192,7 +207,6 @@ function helpers.start_waybar_auto_hide(side)
         local monitor = hl.get_monitor_at_cursor()
 
         if cursor == nil or monitor == nil then
-            visible = true
             return
         end
 
@@ -228,6 +242,7 @@ function helpers.start_waybar_auto_hide(side)
                 if not visible then
                     hl.exec_cmd("pkill -USR2 -x waybar")
                     visible = true
+                    waybar_visibility(true)
                 end
                 return
             end
@@ -236,9 +251,11 @@ function helpers.start_waybar_auto_hide(side)
         if at_reveal_edge and not visible then
             hl.exec_cmd("pkill -USR2 -x waybar")
             visible = true
+            waybar_visibility(true)
         elseif not in_safe_zone and visible then
             hl.exec_cmd("pkill -USR1 -x waybar")
             visible = false
+            waybar_visibility(false)
         end
     end, { timeout = 100, type = "repeat" })
     waybar_auto_hide_timer:set_enabled(true)
@@ -253,6 +270,7 @@ function helpers.toggle_waybar_auto_hide()
 
     if waybar_auto_hide_override then
         hl.exec_cmd("pkill -USR2 -x waybar")
+        waybar_visibility(true)
     end
 end
 

@@ -30,7 +30,8 @@ coordinates at up to 120Hz, preserving the grab point across monitors. Hover
 observation returns to its slower polling interval after dragging ends.
 During a drag, an input-transparent image follows the pointer while the original
 surface retains its mouse grab and focus mode. Releasing the button moves the real
-panel to the destination output immediately. This avoids losing the release event
+panel to the destination output immediately. The preview remains until the real
+panel has submitted replacement frames, avoiding a blank frame on drop. This avoids losing the release event
 when replacing a Wayland surface across outputs; no global mouse binding is used.
 
 Requirements: Quickshell 0.3+, Qt Quick Controls, Python 3, NetworkManager's

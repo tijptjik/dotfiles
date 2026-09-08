@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
@@ -14,6 +15,9 @@ ShellRoot {
     property bool suppressHover: false
     property var pointerState: ({ cursor: null, monitors: [], anchor: null })
     property bool dragging: false
+    property bool dropping: false
+    property bool dropFrameReady: false
+    property int dropFrames: 0
     property var dragImage: null
     property var dragScreen: null
     property real dragOriginX: 0
@@ -58,6 +62,7 @@ ShellRoot {
 
     function hide() {
         stopDrag();
+        finishDrop();
         opened = false;
         pinned = false;
         suppressHover = barHovered;
@@ -98,14 +103,29 @@ ShellRoot {
     }
 
     function stopDrag(cursor) {
+        if (!dragging) return;
         if (dragging && cursor) movePanel(cursor);
+        dropping = dragImage !== null;
+        dropFrameReady = false;
+        dropFrames = 0;
         if (dragging) {
             targetScreen = dragScreen || targetScreen;
             dragged = true;
         }
         dragging = false;
-        dragImage = null;
         pointerObserver.write("drag-stop\n");
+        const generation = dragGeneration;
+        Qt.callLater(() => {
+            if (!dropping || dragging || dragGeneration !== generation) return;
+            dropFrameReady = true;
+            card.Window.window?.update();
+        });
+    }
+
+    function finishDrop() {
+        dropping = false;
+        dropFrameReady = false;
+        dragImage = null;
     }
 
     Timer {
@@ -169,7 +189,8 @@ ShellRoot {
                 width: panel.width, height: panel.height, anchorX: root.anchorX, barTop: root.anchorBottom,
                 hovered: panelHover.hovered, keyboardFocus: panel.WlrLayershell.keyboardFocus,
                 pinned: root.pinned, barHovered: root.barHovered, opened: root.opened, dragging: root.dragging,
-                dragScreen: root.dragScreen?.name, desktopX: root.desktopX, desktopY: root.desktopY });
+                dragScreen: root.dragScreen?.name, desktopX: root.desktopX, desktopY: root.desktopY,
+                dropping: root.dropping, dropFrames: root.dropFrames, previewVisible: dragPreview.visible });
         }
     }
 
@@ -222,13 +243,14 @@ ShellRoot {
     }
 
     // Keep the real surface and its implicit mouse grab on the original output.
-    // Only this non-interactive image crosses outputs until the button releases.
+    // Keep the image until the destination has submitted its replacement frames.
     PanelWindow {
-        visible: root.dragging && root.dragImage !== null
+        id: dragPreview
+        visible: (root.dragging || root.dropping) && root.dragImage !== null
         screen: root.dragScreen
         anchors { top: true; left: true }
-        implicitWidth: panel.width
-        implicitHeight: panel.height
+        implicitWidth: root.dragWidth
+        implicitHeight: root.dragHeight
         readonly property var monitor: root.pointerState.monitors.find(item => item.name === screen?.name) || ({x: 0, y: 0})
         margins.left: Math.max(12, Math.min((screen?.width || 420) - width - 12, root.desktopX - monitor.x))
         margins.top: Math.max(12, Math.min((screen?.height || 720) - height - 12, root.desktopY - monitor.y))
@@ -246,8 +268,8 @@ ShellRoot {
         visible: root.opened || card.opacity > 0
         screen: root.targetScreen
         anchors { top: true; left: true }
-        implicitWidth: root.dragging ? root.dragWidth : Math.min(420, (screen?.width || 420) - 24)
-        implicitHeight: root.dragging ? root.dragHeight : Math.min(panelContent.implicitHeight + 24, (screen?.height || 720) - 24)
+        implicitWidth: root.dragging || root.dropping ? root.dragWidth : Math.min(420, (screen?.width || 420) - 24)
+        implicitHeight: root.dragging || root.dropping ? root.dragHeight : Math.min(panelContent.implicitHeight + 24, (screen?.height || 720) - 24)
         margins {
             left: root.dragging ? root.dragOriginX : Math.max(12, Math.min((panel.screen?.width || 420) - panel.width - 12, root.dragged ? root.desktopX - root.currentMonitor.x : root.anchorX - panel.width / 2))
             top: root.dragging ? root.dragOriginY : Math.max(12, Math.min((panel.screen?.height || 720) - panel.height - 12, root.dragged ? root.desktopY - root.currentMonitor.y : root.anchorBottom - panel.height - 12))
@@ -260,6 +282,19 @@ ShellRoot {
         mask: Region { width: root.opened ? panel.width : 0; height: root.opened ? panel.height : 0; radius: card.radius }
 
         Shortcut { sequence: "Escape"; onActivated: root.hide() }
+
+        Connections {
+            target: card.Window.window
+            function onFrameSwapped() {
+                if (!root.dropping || !root.dropFrameReady || root.dragging
+                    || !panel.backingWindowVisible || card.opacity !== 1
+                    || card.Screen.name !== root.dragScreen?.name) return;
+                // The first queued swap can still belong to the pre-move frame.
+                // Explicitly request another frame before retiring the preview.
+                if (++root.dropFrames < 2) card.Window.window.update();
+                else root.finishDrop();
+            }
+        }
 
         Rectangle {
             id: card
@@ -305,6 +340,7 @@ ShellRoot {
                     acceptedButtons: Qt.LeftButton
                     onActiveChanged: {
                         if (active) {
+                            root.finishDrop();
                             root.dragOriginX = panel.margins.left;
                             root.dragOriginY = panel.margins.top;
                             root.dragWidth = panel.width;

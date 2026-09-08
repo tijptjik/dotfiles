@@ -11,3 +11,9 @@ hl.layer_rule({
     animation = "fade",
     match = { namespace = "^waybar$" },
 })
+
+hl.layer_rule({
+    name = "network-widget-fade",
+    animation = "fade",
+    match = { namespace = "^network-widget$" },
+})

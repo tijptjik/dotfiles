@@ -4,6 +4,7 @@ import contextlib
 import io
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -38,6 +39,57 @@ class ApplyTests(unittest.TestCase):
         for warning in (False, True):
             with self.subTest(warning=warning), self.assertRaises(UpdateError):
                 self.run_apply(1, warning=warning)
+
+
+@unittest.skipUnless(shutil.which("chezmoi"), "chezmoi is not installed")
+class ConflictIntegrationTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix="tjikup-conflicts-")
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name)
+        self.source = self.root / "source"
+        self.destination = self.root / "destination"
+        self.source.mkdir()
+        self.destination.mkdir()
+        config = self.root / "chezmoi.toml"
+        config.write_text("")
+        self.command = [
+            "chezmoi", "apply", "--config", str(config),
+            "--source", str(self.source), "--destination", str(self.destination),
+            "--persistent-state", str(self.root / "state.boltdb"),
+            "--cache", str(self.root / "cache"),
+        ]
+
+    def test_skips_multiple_conflicts_and_applies_clean_changes(self):
+        for name in ("a-conflict", "b-conflict", "z-clean"):
+            (self.source / name).write_text("original\n")
+        subprocess.run(self.command, check=True, capture_output=True, timeout=10)
+        for name in ("a-conflict", "b-conflict"):
+            (self.destination / name).write_text("local edits\n")
+
+        for tty in (False, True):
+            with self.subTest(tty=tty):
+                expected = f"updated {tty}\n"
+                for name in ("a-conflict", "b-conflict", "z-clean", "new-file"):
+                    (self.source / name).write_text(expected)
+                with contextlib.redirect_stdout(io.StringIO()), \
+                        patch.object(tjikup.sys.stdout, "isatty", return_value=tty):
+                    self.assertTrue(tjikup.run_chezmoi_apply(
+                        self.root, self.command, dict(os.environ), skip_conflicts=True,
+                    ))
+                for name in ("a-conflict", "b-conflict"):
+                    self.assertEqual((self.destination / name).read_text(), "local edits\n")
+                for name in ("z-clean", "new-file"):
+                    self.assertEqual((self.destination / name).read_text(), expected)
+
+    def test_other_apply_errors_still_fail(self):
+        (self.source / "broken.tmpl").write_text('{{ fail "intentional error" }}')
+        with contextlib.redirect_stdout(io.StringIO()), \
+                contextlib.redirect_stderr(io.StringIO()), \
+                self.assertRaises(UpdateError):
+            tjikup.run_chezmoi_apply(
+                self.root, self.command, dict(os.environ), skip_conflicts=True,
+            )
 
 
 class PropagationTests(unittest.TestCase):

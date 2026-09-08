@@ -286,6 +286,48 @@ ShellRoot {
             }
             TapHandler { onTapped: root.pinned = true }
 
+            // Include title whitespace and padding without grabbing the close button.
+            Item {
+                id: headerDragArea
+                width: card.width
+                height: panelContent.y + header.height + panelContent.spacing
+                containmentMask: QtObject {
+                    function contains(point: point): bool {
+                        const close = closeButton.mapFromItem(headerDragArea, point.x, point.y);
+                        return point.x >= 0 && point.x < headerDragArea.width
+                            && point.y >= 0 && point.y < headerDragArea.height
+                            && !(close.x >= 0 && close.x < closeButton.width
+                                 && close.y >= 0 && close.y < closeButton.height);
+                    }
+                }
+                DragHandler {
+                    target: null
+                    acceptedButtons: Qt.LeftButton
+                    onActiveChanged: {
+                        if (active) {
+                            root.dragOriginX = panel.margins.left;
+                            root.dragOriginY = panel.margins.top;
+                            root.dragWidth = panel.width;
+                            root.dragHeight = panel.height;
+                            root.dragScreen = root.targetScreen;
+                            const generation = ++root.dragGeneration;
+                            root.dragging = true;
+                            root.pinned = true;
+                            root.grabX = centroid.scenePressPosition.x;
+                            root.grabY = centroid.scenePressPosition.y;
+                            root.desktopX = root.currentMonitor.x + panel.margins.left;
+                            root.desktopY = root.currentMonitor.y + panel.margins.top;
+                            card.grabToImage(result => {
+                                if (root.dragging && root.dragGeneration === generation) root.dragImage = result;
+                            });
+                            pointerObserver.write("drag-start\n");
+                        }
+                        else root.stopDrag({x: root.currentMonitor.x + panel.margins.left + centroid.scenePosition.x,
+                                            y: root.currentMonitor.y + panel.margins.top + centroid.scenePosition.y});
+                    }
+                }
+            }
+
             ColumnLayout {
                 id: panelContent
                 x: 12
@@ -304,34 +346,8 @@ ShellRoot {
                         color: theme.text
                         font.family: theme.font
                         Layout.fillWidth: true
-                        DragHandler {
-                            target: null
-                            acceptedButtons: Qt.LeftButton
-                            onActiveChanged: {
-                                if (active) {
-                                    root.dragOriginX = panel.margins.left;
-                                    root.dragOriginY = panel.margins.top;
-                                    root.dragWidth = panel.width;
-                                    root.dragHeight = panel.height;
-                                    root.dragScreen = root.targetScreen;
-                                    const generation = ++root.dragGeneration;
-                                    root.dragging = true;
-                                    root.pinned = true;
-                                    root.grabX = centroid.scenePressPosition.x;
-                                    root.grabY = centroid.scenePressPosition.y;
-                                    root.desktopX = root.currentMonitor.x + panel.margins.left;
-                                    root.desktopY = root.currentMonitor.y + panel.margins.top;
-                                    card.grabToImage(result => {
-                                        if (root.dragging && root.dragGeneration === generation) root.dragImage = result;
-                                    });
-                                    pointerObserver.write("drag-start\n");
-                                }
-                                else root.stopDrag({x: root.currentMonitor.x + panel.margins.left + centroid.scenePosition.x,
-                                                    y: root.currentMonitor.y + panel.margins.top + centroid.scenePosition.y});
-                            }
-                        }
                     }
-                    NetworkButton { theme: root.theme; symbol: "close"; text: "Close"; onClicked: root.hide() }
+                    NetworkButton { id: closeButton; theme: root.theme; symbol: "close"; text: "Close"; onClicked: root.hide() }
                 }
 
                 Rectangle { Layout.fillWidth: true; height: 1; color: theme.surface }

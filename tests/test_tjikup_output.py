@@ -5,6 +5,7 @@ import io
 import os
 from pathlib import Path
 import pty
+import re
 import select
 import shutil
 import subprocess
@@ -20,6 +21,18 @@ from tjikup.core import UpdateError
 
 
 class StreamTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which("fish"), "Fish required")
+    def test_redirected_status_output_stays_plain(self):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            tjikup.run_stream([
+                "fish", "--no-config", "-c",
+                "source $argv[1]; section_header Packages; status_msg SYNC ✓ Test",
+                "--", str(REPO / "home/.chezmoihelpers/status.fish"),
+            ], REPO, env={**os.environ, "TERM": "xterm-256color", "TJIKUP_COLOR": "1"})
+        self.assertIn("SYNC    ✓ Test", output.getvalue())
+        self.assertNotIn("\x1b", output.getvalue())
+
     def test_partial_unicode_output_and_nonzero_exit(self):
         output = io.StringIO()
         command = [sys.executable, "-c", (
@@ -35,7 +48,7 @@ class StreamTests(unittest.TestCase):
             tjikup.run_stream([sys.executable, "-c", "import time; time.sleep(10)"], REPO, timeout=.1)
 
     @unittest.skipUnless(shutil.which("fish") and shutil.which("gum"), "Fish and Gum required")
-    def test_terminal_apply_uses_plain_status_output(self):
+    def test_terminal_apply_keeps_colours_without_terminal_probes(self):
         master, slave = pty.openpty()
         self.addCleanup(os.close, master)
         code = """
@@ -46,9 +59,10 @@ repo = Path(sys.argv[1])
 assert sys.stdout.isatty()
 tjikup.run_chezmoi_apply(repo, [
     'fish', '--no-config', '-c',
-    'source $argv[1]; stage test SYNC Test sleep 0.05',
+    'source $argv[1]; read -l answer; test "$answer" = skip; or exit 9; '
+    'section_header Packages; stage test SYNC Test sleep 0.05',
     '--', str(repo / 'home/.chezmoihelpers/status.fish'),
-], dict(__import__('os').environ))
+], dict(__import__('os').environ), skip_conflicts=True)
 tjikup.run_stream([sys.executable, '-c',
     'import sys; print("prompt-on-stderr", file=sys.stderr, flush=True); print(input())',
 ], repo)
@@ -56,7 +70,7 @@ tjikup.run_stream([sys.executable, '-c',
         with subprocess.Popen(
             [sys.executable, "-B", "-c", code, str(REPO)],
             stdin=slave, stdout=slave, stderr=slave,
-            env={**os.environ, "PYTHONPATH": str(REPO / "home/dot_local/lib")},
+            env={**os.environ, "TERM": "xterm-256color", "PYTHONPATH": str(REPO / "home/dot_local/lib")},
         ) as process:
             os.close(slave)
             output = b""
@@ -82,7 +96,10 @@ tjikup.run_stream([sys.executable, '-c',
                 if process.poll() is None:
                     process.kill()
                     process.wait()
-        self.assertIn("SYNC    ✓ Test".encode(), output)
+        plain_output = re.sub(rb"\x1b\[[0-9;]*m", b"", output)
+        self.assertIn("SYNC    ✓ Test".encode(), plain_output)
+        self.assertRegex(output, rb"\x1b\[[0-9;]+mPackages")
+        self.assertRegex(output, rb"\x1b\[[0-9;]+mSYNC")
         self.assertIn(b"confirmed", output)
         self.assertNotIn(b"\x1b[?2026", output)
         self.assertNotIn(b"\x1b[?2027", output)

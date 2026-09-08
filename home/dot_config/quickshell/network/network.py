@@ -5,6 +5,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 
 
 def nmcli(*args, password=None):
@@ -46,6 +47,38 @@ def rows(columns, *args):
     return [fields(line) for line in nmcli("-t", "-f", columns, *args).splitlines() if line]
 
 
+def parse_counters(output):
+    counters = {}
+    for line in output.splitlines():
+        interface, separator, values = line.rpartition(":")
+        columns = values.split()
+        if separator and len(columns) >= 16:
+            counters[interface.strip()] = dict(rx=int(columns[0]), tx=int(columns[8]))
+    return counters
+
+
+def traffic_sample(current, previous, elapsed):
+    result = {}
+    for interface, counters in current.items():
+        old = previous.get(interface)
+        valid = old is not None and elapsed > 0 and all(counters[key] >= old[key] for key in ("rx", "tx"))
+        result[interface] = dict(**counters,
+            rxRate=(counters["rx"] - old["rx"]) / elapsed if valid else None,
+            txRate=(counters["tx"] - old["tx"]) / elapsed if valid else None)
+    return result
+
+
+def watch_traffic():
+    previous, timestamp = {}, time.monotonic()
+    while True:
+        with open("/proc/net/dev", encoding="utf-8") as source:
+            current = parse_counters(source.read())
+        now = time.monotonic()
+        print(json.dumps(traffic_sample(current, previous, now - timestamp)), flush=True)
+        previous, timestamp = current, now
+        time.sleep(1)
+
+
 def address_details(output):
     devices, current = {}, None
     for line in output.splitlines():
@@ -69,6 +102,29 @@ def address_details(output):
                 if option == "dhcp_server_identifier":
                     current["dhcp"] = address
     return devices
+
+
+def default_dns_routes(links):
+    """Resolvers for names without a more-specific split-DNS route."""
+    routes = [link for link in links if link.get("servers")]
+    catch_all = [link for link in routes
+                 if any(domain.get("name") == "." for domain in link.get("searchDomains", []))]
+    selected = catch_all or [link for link in routes if link.get("defaultRoute") or not link.get("ifname")]
+    return list(dict.fromkeys(server["addressString"] for link in selected
+                             for server in link["servers"] if server.get("addressString")))
+
+
+def default_dns():
+    try:
+        result = subprocess.run(["resolvectl", "--json=short", "status"],
+                                capture_output=True, text=True, timeout=3)
+        if result.returncode == 0:
+            links = json.loads(result.stdout)
+            if isinstance(links, list):
+                return default_dns_routes(links)
+    except (OSError, ValueError, subprocess.TimeoutExpired):
+        pass
+    return []
 
 
 def module_bounds(bar):
@@ -164,7 +220,7 @@ def snapshot():
     details = address_details(nmcli("-t", "-f", "GENERAL.DEVICE,IP4.ADDRESS,IP4.GATEWAY,IP4.DNS,DHCP4.OPTION,IP6.ADDRESS", "device", "show"))
     for device in devices:
         device["addresses"] = details.get(device["interface"], {})
-    return dict(enabled=enabled, devices=devices,
+    return dict(enabled=enabled, devices=devices, defaultDns=default_dns(),
                 networks=sorted(networks.values(), key=lambda item: (not item["active"], -item["signal"], item["ssid"])))
 
 
@@ -210,5 +266,7 @@ def main():
 if __name__ == "__main__":
     if sys.argv[1:] == ["anchor"]:
         print(json.dumps(anchor()))
+    elif sys.argv[1:] == ["traffic"]:
+        watch_traffic()
     else:
         main()

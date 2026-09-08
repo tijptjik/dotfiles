@@ -6,21 +6,14 @@ ColumnLayout {
     id: stats
     required property QtObject theme
     required property var device
+    property var defaultDns: []
     readonly property var values: [
         ["Local IP", (device.addresses?.ip || []).join(", ") || "No IPv4 address"],
         ["Gateway", device.addresses?.gateway || "None"],
         ["DHCP server", device.addresses?.dhcp || "Not reported / static"],
-        ["DNS", (device.addresses?.dns || []).join(", ") || "None"]
+        [defaultDns.length ? "Default DNS" : "Link DNS", (defaultDns.length ? defaultDns : device.addresses?.dns || []).join(", ") || "None"]
     ]
-    spacing: 6
-    Label {
-        text: "Connection · " + stats.device.interface
-        textFormat: Text.PlainText
-        font.family: stats.theme.font
-        font.pixelSize: 12
-        color: stats.theme.text
-        opacity: 0.65
-    }
+    spacing: 4
     Repeater {
         model: stats.values
         delegate: RowLayout {

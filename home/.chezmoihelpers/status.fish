@@ -1,3 +1,9 @@
+# tjikup forwards piped output to its terminal to avoid Gum's terminal probes.
+# Colour support is independent of whether interactive spinners can run.
+function __stage_use_color
+    isatty stdout; or test "$TJIKUP_COLOR" = 1
+end
+
 function __stage_color --argument-names verb
     switch "$verb"
         case SKIP
@@ -112,7 +118,7 @@ function section_header --argument-names title
         set color $argv[2]
     end
     echo
-    if isatty stdout
+    if __stage_use_color
         set_color --bold (__stage_fish_color "$color")
         printf "%s\n" "$title"
         set_color normal
@@ -126,7 +132,7 @@ end
 # section header supplies the single separator after the URL.
 function repo_header --argument-names title url
     echo
-    if isatty stdout
+    if __stage_use_color
         set_color --bold (__stage_fish_color 13)
         printf "%s\n" "$title"
         set_color normal
@@ -144,7 +150,7 @@ function output_gap
 end
 
 function __systems_go --argument-names message
-    if not isatty stdout
+    if not __stage_use_color
         echo "$message"
         return 0
     end
@@ -179,7 +185,7 @@ function __stage_label --argument-names stage_name icon subject
     set -l color (__stage_color "$stage_name")
     set -l padded_stage (printf "%-7s" "$stage_name")
 
-    if isatty stdout
+    if __stage_use_color
         set_color --bold (__stage_fish_color "$color")
         printf "%s" "$padded_stage"
         set_color normal
@@ -215,7 +221,7 @@ function __stage_label_note --argument-names stage_name icon subject note
         set padding 2
     end
 
-    if isatty stdout
+    if __stage_use_color
         set_color --bold (__stage_fish_color "$color")
         printf "%s" "$padded_stage"
         set_color normal
@@ -257,7 +263,7 @@ function __stage_spin_title --argument-names stage_name subject
     set -l color (__stage_color "$stage_name")
     set -l padded_stage (printf "%-7s" "$stage_name")
 
-    if isatty stdout
+    if __stage_use_color
         set_color --bold (__stage_fish_color "$color")
         printf "%s" "$padded_stage"
         set_color normal

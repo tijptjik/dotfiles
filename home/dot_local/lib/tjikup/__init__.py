@@ -269,14 +269,16 @@ def run_stream(
     timeout: int = COMMAND_TIMEOUT_SECONDS,
     skip_conflicts: bool = False,
 ) -> None:
+    stream_env = {**(os.environ if env is None else env), "TJIKUP_COLOR": "1" if sys.stdout.isatty() else "0"}
     try:
         with apply_conflict_policy(command, skip_conflicts) as (apply_command, stdin):
             # Gum 2 probes the terminal even when its spinner cannot read the
             # replies (for example, with skip-conflicts feeding stdin). Give
-            # apply scripts a pipe so their helpers choose plain output. Keep
-            # stderr and stdin attached for prompts, and forward stdout live.
+            # apply scripts a pipe so their helpers avoid the spinner. Preserve
+            # status colours via TJIKUP_COLOR when forwarding to a terminal.
+            # Keep stderr and stdin attached for prompts, and forward stdout live.
             with subprocess.Popen(
-                apply_command, cwd=cwd, env=env, stdin=stdin, stdout=subprocess.PIPE,
+                apply_command, cwd=cwd, env=stream_env, stdin=stdin, stdout=subprocess.PIPE,
             ) as process:
                 deadline = time.monotonic() + timeout
                 decoder = codecs.getincrementaldecoder(sys.stdout.encoding or "utf-8")("replace")

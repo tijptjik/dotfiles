@@ -14,6 +14,7 @@ ShellRoot {
     property string operation: "status"
     readonly property bool showProgress: busy && (operation !== "status" || !hasState)
     property var state: ({ enabled: false, devices: [], networks: [] })
+    property var traffic: ({})
     property var selected: null
     property string message: ""
     property string pending: ""
@@ -79,8 +80,9 @@ ShellRoot {
         function close(): void { root.hide(); }
         function isOpen(): bool { return root.opened; }
         function geometry(): string {
-            return JSON.stringify({ screen: root.targetScreen?.name, x: card.x, y: card.y,
-                width: card.width, height: card.height, anchorX: root.anchorX, barTop: root.anchorBottom });
+            return JSON.stringify({ screen: root.targetScreen?.name, x: panel.margins.left, y: panel.margins.top,
+                width: panel.width, height: panel.height, anchorX: root.anchorX, barTop: root.anchorBottom,
+                hovered: panelHover.hovered, keyboardFocus: panel.WlrLayershell.keyboardFocus });
         }
     }
 
@@ -120,47 +122,60 @@ ShellRoot {
         onTriggered: root.run({ action: "status" })
     }
 
+    Process {
+        command: ["python3", Qt.resolvedUrl("network.py").toString().replace("file://", ""), "traffic"]
+        running: root.opened
+        stdout: SplitParser {
+            onRead: line => {
+                try { root.traffic = JSON.parse(line); }
+                catch (_) { root.traffic = ({}); }
+            }
+        }
+    }
+
     PanelWindow {
         id: panel
         visible: root.opened
         screen: root.targetScreen
-        anchors { top: true; bottom: true; left: true; right: true }
+        anchors { top: true; left: true }
+        implicitWidth: Math.min(420, (screen?.width || 420) - 24)
+        implicitHeight: Math.min(panelContent.implicitHeight + 24, (screen?.height || 720) - 24)
+        margins {
+            left: Math.max(12, Math.min((panel.screen?.width || 420) - panel.width - 12, root.anchorX - panel.width / 2 + root.dragX))
+            top: Math.max(12, Math.min((panel.screen?.height || 720) - panel.height - 12, root.anchorBottom - panel.height - 12 + root.dragY))
+        }
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.namespace: "network-widget"
         WlrLayershell.layer: WlrLayer.Overlay
-        WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
-        // Only the visible card receives pointer input, not the full-screen surface.
+        WlrLayershell.keyboardFocus: panelHover.hovered ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
         mask: Region { item: card; radius: card.radius }
 
         Shortcut { sequence: "Escape"; onActivated: root.hide() }
 
         Rectangle {
             id: card
-            width: Math.min(420, panel.width - 24)
-            height: Math.min(680, panel.height - 24,
-                160 + root.state.devices.filter(device => device.kind === "ethernet").length * 50
-                + Math.max(70, root.state.networks.length * 66)
-                + (root.showProgress || root.message !== "" ? 72 : 0)
-                + (root.selected !== null ? 150 : 0)
-                + root.connectedDevices.length * 150)
-            x: Math.max(12, Math.min(panel.width - width - 12, root.anchorX - width / 2 + root.dragX))
-            y: Math.max(12, Math.min(panel.height - height - 12, root.anchorBottom - height - 12 + root.dragY))
+            anchors.fill: parent
             radius: 12
-            color: Qt.alpha(theme.background, 0.95)
-            border.color: theme.surface
-            border.width: 2
+            color: theme.background
+            border.color: theme.border
+            border.width: 1
+            HoverHandler { id: panelHover }
 
             ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 16
-                spacing: 12
+                id: panelContent
+                x: 12
+                y: 12
+                width: parent.width - 24
+                height: parent.height - 24
+                spacing: 10
 
                 RowLayout {
+                    id: header
                     Layout.fillWidth: true
                     Label {
                         text: "Networking"
-                        font.pixelSize: 18
+                        font.pixelSize: 16
                         font.weight: Font.DemiBold
                         color: theme.text
                         font.family: theme.font
@@ -173,193 +188,258 @@ ShellRoot {
                             }
                         }
                     }
-                    NetworkButton { theme: root.theme; text: "Close"; onClicked: root.hide() }
+                    NetworkButton { theme: root.theme; symbol: "close"; text: "Close"; onClicked: root.hide() }
                 }
 
-                RowLayout {
-                    Layout.fillWidth: true
-                    Label {
-                        text: root.state.enabled ? "  Wi-Fi" : "  Wi-Fi off"
-                        font.family: theme.font
-                        font.pixelSize: 14
-                        color: root.state.enabled ? theme.accent : theme.text
-                        Layout.fillWidth: true
-                    }
-                    NetworkButton {
-                        theme: root.theme
-                        text: "Scan"
-                        enabled: !root.busy && root.state.enabled
-                        onClicked: root.run({ action: "scan" })
-                    }
-                    NetworkButton {
-                        theme: root.theme
-                        text: root.state.enabled ? "Turn off" : "Turn on"
-                        enabled: !root.busy
-                        onClicked: root.run({ action: "radio", enabled: !root.state.enabled })
-                    }
-                }
+                Rectangle { Layout.fillWidth: true; height: 1; color: theme.surface }
 
-                Repeater {
-                    model: root.state.devices.filter(device => device.kind === "ethernet")
-                    delegate: RowLayout {
-                        required property var modelData
-                        Layout.fillWidth: true
-                        Label {
-                            text: "Ethernet · " + modelData.interface + "\n" + (modelData.connection && modelData.connection !== "--" ? modelData.connection + " · " : "") + modelData.state
-                            textFormat: Text.PlainText
-                            font.family: theme.font
-                            font.pixelSize: 14
-                            color: theme.text
-                            elide: Text.ElideRight
-                            Layout.fillWidth: true
-                        }
-                        NetworkButton {
-                            theme: root.theme
-                            text: modelData.state === "connected" ? "Disconnect" : "Connect"
-                            enabled: !root.busy && !["unavailable", "unmanaged"].includes(modelData.state)
-                            onClicked: root.run({ action: modelData.state === "connected" ? "disconnect" : "ethernet", interface: modelData.interface })
-                        }
-                    }
-                }
-
-                Label {
-                    visible: root.showProgress || root.message !== ""
-                    text: root.showProgress ? "Working…" : root.message
-                    textFormat: Text.PlainText
-                    color: root.message !== "" && !root.showProgress ? theme.error : theme.text
-                    font.family: theme.font
-                    font.pixelSize: 13
-                    wrapMode: Text.Wrap
-                    maximumLineCount: 4
-                    elide: Text.ElideRight
-                    Layout.fillWidth: true
-                }
-
-                Repeater {
-                    model: root.connectedDevices
-                    delegate: NetworkStats {
-                        required property var modelData
-                        theme: root.theme
-                        device: modelData
-                        Layout.fillWidth: true
-                    }
-                }
-
-                ScrollView {
-                    id: networkScroll
+                ColumnLayout {
+                    id: body
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    Layout.preferredHeight: Math.max(70, root.state.networks.length * 66)
-                    Layout.minimumHeight: 70
-                    contentWidth: availableWidth
-                    clip: true
-                    ColumnLayout {
-                        id: networkList
-                        width: networkScroll.availableWidth
-                        spacing: 6
-                        Label {
-                            visible: root.state.networks.length === 0 && !root.busy
-                            text: !root.state.devices.some(device => device.kind === "wifi") ? "No Wi-Fi adapter found." : !root.state.enabled ? "Turn on Wi-Fi to find networks." : "No networks found. Try scanning again."
-                            color: theme.text
-                            font.family: theme.font
-                            font.pixelSize: 14
-                            wrapMode: Text.Wrap
+                    spacing: 12
+
+                    Label {
+                        visible: root.showProgress || root.message !== ""
+                        Layout.fillWidth: true
+                        text: root.showProgress ? "Working…" : root.message
+                        textFormat: Text.PlainText
+                        color: root.showProgress ? theme.text : theme.error
+                        font.family: theme.font
+                        font.pixelSize: 12
+                        wrapMode: Text.Wrap
+                    }
+
+                    Repeater {
+                        model: root.connectedDevices
+                        delegate: ConnectionCard {
+                            required property var modelData
                             Layout.fillWidth: true
+                            Layout.preferredHeight: implicitHeight
+                            theme: root.theme
+                            device: modelData
+                            networks: root.state.networks
+                            traffic: root.traffic[modelData.interface] || ({})
+                            defaultDns: root.state.defaultDns || []
+                            busy: root.busy
+                            onDisconnectRequested: root.run({ action: "disconnect", interface: modelData.interface })
                         }
-                        Repeater {
-                            model: root.state.networks
-                            delegate: Button {
-                                id: networkRow
-                                required property var modelData
+                    }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        spacing: 6
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Label {
+                                text: root.state.enabled ? "Wi-Fi networks" : "Wi-Fi is off"
+                                font.family: theme.font
+                                font.pixelSize: 13
+                                color: theme.text
                                 Layout.fillWidth: true
-                                padding: 12
-                                hoverEnabled: true
+                            }
+                            NetworkButton {
+                                theme: root.theme
+                                symbol: "refresh"
+                                text: "Scan for networks"
+                                enabled: !root.busy && root.state.enabled
+                                onClicked: root.run({ action: "scan" })
+                            }
+                            NetworkButton {
+                                theme: root.theme
+                                symbol: "power_settings_new"
+                                text: root.state.enabled ? "Turn Wi-Fi off" : "Turn Wi-Fi on"
+                                accented: root.state.enabled
                                 enabled: !root.busy
-                                background: Rectangle {
-                                    radius: 10
-                                    color: networkRow.hovered ? theme.surface : "transparent"
-                                    border.width: networkRow.activeFocus || root.selected?.bssid === networkRow.modelData.bssid ? 1 : 0
-                                    border.color: theme.accent
+                                onClicked: root.run({ action: "radio", enabled: !root.state.enabled })
+                            }
+                        }
+
+                        ScrollView {
+                            id: wifiScroll
+                            Layout.fillWidth: true
+                            Layout.rightMargin: -6
+                            Layout.fillHeight: true
+                            Layout.minimumHeight: 0
+                            Layout.preferredHeight: Math.min(wifiItems.implicitHeight, 260)
+                            contentWidth: availableWidth
+                            contentHeight: wifiItems.implicitHeight
+                            clip: true
+                            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                            ScrollBar.vertical: ScrollBar {
+                                id: wifiBar
+                                parent: wifiScroll
+                                x: wifiScroll.width - width
+                                y: 0
+                                height: wifiScroll.height
+                                width: 6
+                                padding: 0
+                                policy: ScrollBar.AsNeeded
+                                contentItem: Rectangle {
+                                    implicitWidth: 6
+                                    radius: 3
+                                    color: wifiBar.pressed ? "#555555" : wifiBar.hovered ? "#484848" : "#383838"
                                 }
-                                contentItem: ColumnLayout {
-                                    spacing: 4
-                                    Label {
-                                        text: (networkRow.modelData.active ? "●  " : "") + networkRow.modelData.ssid
-                                        textFormat: Text.PlainText
-                                        color: networkRow.modelData.active ? theme.accent : theme.text
-                                        font.family: theme.font
-                                        font.pixelSize: 14
-                                        elide: Text.ElideRight
-                                        Layout.fillWidth: true
-                                    }
-                                    Label {
-                                        text: (networkRow.modelData.active ? "Connected · " : "") + networkRow.modelData.signal + "% · " + (networkRow.modelData.security || "Open") + " · " + networkRow.modelData.interface
-                                        textFormat: Text.PlainText
-                                        color: theme.text
-                                        opacity: 0.65
-                                        font.family: theme.font
-                                        font.pixelSize: 12
-                                        elide: Text.ElideRight
-                                        Layout.fillWidth: true
-                                    }
+                                background: Item {}
+                            }
+
+                            Column {
+                                id: wifiItems
+                                width: wifiScroll.availableWidth - 12
+                                spacing: 6
+                                Label {
+                                    width: parent.width
+                                    visible: !root.state.networks.some(network => !network.active)
+                                    text: !root.state.devices.some(device => device.kind === "wifi")
+                                        ? "No Wi-Fi adapter found."
+                                        : !root.state.enabled ? "Turn on Wi-Fi to find networks."
+                                        : root.state.networks.length ? "No other networks nearby" : "No networks found · try scanning"
+                                    color: theme.text
+                                    opacity: 0.65
+                                    font.family: theme.font
+                                    font.pixelSize: 12
+                                    wrapMode: Text.Wrap
                                 }
-                                onClicked: {
-                                    root.selected = modelData;
-                                    password.text = "";
-                                    if (!modelData.active) password.forceActiveFocus();
+
+                                Repeater {
+                                    model: root.state.networks.filter(network => !network.active)
+                                    delegate: Button {
+                                        id: networkRow
+                                        required property var modelData
+                                        width: wifiItems.width
+                                        padding: 10
+                                        hoverEnabled: true
+                                        focusPolicy: Qt.NoFocus
+                                        enabled: !root.busy
+                                        Accessible.name: "Connect to " + modelData.ssid
+                                        background: Rectangle {
+                                            radius: 8
+                                            color: networkRow.hovered || root.selected?.bssid === networkRow.modelData.bssid ? theme.surface : "transparent"
+                                        }
+                                        contentItem: RowLayout {
+                                            ColumnLayout {
+                                                Layout.fillWidth: true
+                                                spacing: 2
+                                                Label {
+                                                    text: networkRow.modelData.ssid
+                                                    textFormat: Text.PlainText
+                                                    color: theme.text
+                                                    font.family: theme.font
+                                                    font.pixelSize: 13
+                                                    elide: Text.ElideRight
+                                                    Layout.fillWidth: true
+                                                }
+                                                Label {
+                                                    text: networkRow.modelData.signal + "% · " + (networkRow.modelData.security || "Open") + " · " + networkRow.modelData.interface
+                                                    textFormat: Text.PlainText
+                                                    color: theme.text
+                                                    opacity: 0.65
+                                                    font.family: theme.font
+                                                    font.pixelSize: 11
+                                                    elide: Text.ElideRight
+                                                    Layout.fillWidth: true
+                                                }
+                                            }
+                                            Label { text: "chevron_right"; font.family: "Material Symbols Rounded"; font.pixelSize: 18; color: theme.text }
+                                        }
+                                        onClicked: {
+                                            root.selected = modelData;
+                                            password.text = "";
+                                            password.forceActiveFocus();
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                ColumnLayout {
-                    visible: root.selected !== null
-                    Layout.fillWidth: true
-                    spacing: 8
-                    Label {
-                        text: root.selected?.ssid || ""
-                        textFormat: Text.PlainText
-                        color: theme.accent
-                        font.family: theme.font
-                        font.pixelSize: 14
-                        elide: Text.ElideRight
+                    Rectangle {
+                        visible: root.selected !== null
                         Layout.fillWidth: true
-                    }
-                    TextField {
-                        id: password
-                        visible: root.selected !== null && !root.selected.active && !!root.selected.security && root.selected.security !== "--"
-                        Layout.fillWidth: true
-                        placeholderText: "Password · leave blank for saved networks"
-                        echoMode: TextInput.Password
-                        color: theme.text
-                        placeholderTextColor: theme.muted
-                        selectionColor: theme.accent
-                        font.family: theme.font
-                        font.pixelSize: 13
-                        padding: 12
-                        enabled: !root.busy
-                        background: Rectangle { color: theme.surface; radius: 10; border.color: password.activeFocus ? theme.accent : theme.border }
-                        onAccepted: root.connectSelected()
-                    }
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Item { Layout.fillWidth: true }
-                        NetworkButton {
-                            theme: root.theme
-                            text: "Cancel"
-                            onClicked: { root.selected = null; password.text = ""; }
+                        implicitHeight: connectionForm.implicitHeight + 20
+                        Layout.minimumHeight: implicitHeight
+                        radius: 8
+                        color: theme.surface
+                        ColumnLayout {
+                            id: connectionForm
+                            x: 10
+                            y: 10
+                            width: parent.width - 20
+                            spacing: 8
+                            RowLayout {
+                                Layout.fillWidth: true
+                                Label {
+                                    text: root.selected?.ssid || ""
+                                    textFormat: Text.PlainText
+                                    color: theme.accent
+                                    font.family: theme.font
+                                    font.pixelSize: 13
+                                    elide: Text.ElideRight
+                                    Layout.fillWidth: true
+                                }
+                                NetworkButton {
+                                    theme: root.theme
+                                    symbol: "close"
+                                    text: "Cancel connection"
+                                    onClicked: { root.selected = null; password.text = ""; }
+                                }
+                                NetworkButton {
+                                    theme: root.theme
+                                    symbol: "check"
+                                    text: "Connect"
+                                    accented: true
+                                    enabled: !root.busy
+                                    onClicked: root.connectSelected()
+                                }
+                            }
+                            TextField {
+                                id: password
+                                visible: root.selected !== null && !!root.selected.security && root.selected.security !== "--"
+                                Layout.fillWidth: true
+                                placeholderText: "Password · blank uses saved credentials"
+                                echoMode: TextInput.Password
+                                color: theme.text
+                                placeholderTextColor: theme.muted
+                                selectionColor: theme.accent
+                                font.family: theme.font
+                                font.pixelSize: 12
+                                padding: 10
+                                enabled: !root.busy
+                                background: Rectangle { color: theme.background; radius: 8; border.color: password.activeFocus ? theme.accent : theme.border }
+                                onAccepted: root.connectSelected()
+                            }
                         }
-                        NetworkButton {
-                            theme: root.theme
-                            text: root.selected?.active ? "Disconnect" : "Connect"
-                            accented: true
-                            enabled: !root.busy
-                            onClicked: {
-                                if (root.selected.active) {
-                                    root.run({ action: "disconnect", interface: root.selected.interface });
-                                    root.selected = null;
-                                } else root.connectSelected();
+                    }
+
+                    Repeater {
+                        model: root.state.devices.filter(device => device.kind === "ethernet" && device.state !== "connected")
+                        delegate: Column {
+                            required property var modelData
+                            Layout.fillWidth: true
+                            spacing: 10
+                            Rectangle { width: parent.width; height: 1; color: theme.surface }
+                            RowLayout {
+                                width: parent.width
+                                spacing: 8
+                                Label { text: "lan"; font.family: "Material Symbols Rounded"; font.pixelSize: 20; color: theme.muted }
+                                Label {
+                                    text: "Ethernet · " + modelData.interface + " · " + modelData.state
+                                    textFormat: Text.PlainText
+                                    font.family: theme.font
+                                    font.pixelSize: 11
+                                    color: theme.text
+                                    opacity: 0.65
+                                    elide: Text.ElideRight
+                                    Layout.fillWidth: true
+                                }
+                                NetworkButton {
+                                    theme: root.theme
+                                    symbol: "link"
+                                    text: "Connect Ethernet"
+                                    enabled: !root.busy && !["unavailable", "unmanaged"].includes(modelData.state)
+                                    onClicked: root.run({ action: "ethernet", interface: modelData.interface })
+                                }
                             }
                         }
                     }

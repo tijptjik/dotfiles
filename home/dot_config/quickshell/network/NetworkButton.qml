@@ -4,22 +4,23 @@ import QtQuick.Controls
 Button {
     id: control
     required property QtObject theme
+    required property string symbol
     property bool accented: false
     hoverEnabled: true
-    padding: 10
-    leftPadding: 12
-    rightPadding: 12
-    font.family: theme.font
-    font.pixelSize: 14
+    focusPolicy: Qt.NoFocus
+    implicitWidth: 32
+    implicitHeight: 32
+    padding: 6
+    font.family: "Material Symbols Rounded"
+    font.pixelSize: 20
     opacity: enabled ? 1 : 0.45
+    Accessible.name: text
     background: Rectangle {
-        radius: 10
+        radius: 8
         color: control.hovered || control.down ? control.theme.border : control.theme.surface
-        border.width: control.activeFocus ? 1 : 0
-        border.color: control.theme.accent
     }
     contentItem: Text {
-        text: control.text
+        text: control.symbol
         font: control.font
         color: control.accented ? control.theme.accent : control.theme.text
         horizontalAlignment: Text.AlignHCenter

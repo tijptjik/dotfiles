@@ -15,6 +15,51 @@ SPEC.loader.exec_module(network)
 
 
 class NetworkingTests(unittest.TestCase):
+    def setUp(self):
+        resolver = patch.object(network, "default_dns", return_value=[])
+        resolver.start()
+        self.addCleanup(resolver.stop)
+
+    def test_vpn_catch_all_dns_takes_precedence_over_wifi(self):
+        wifi = dict(ifname="wlan0", defaultRoute=True, servers=[dict(addressString="192.168.1.1")])
+        vpn = dict(ifname="wg0-mullvad", defaultRoute=True,
+                   searchDomains=[dict(name=".", routeOnly=True)], servers=[dict(addressString="10.64.0.1")])
+        self.assertEqual(network.default_dns_routes([wifi, vpn]), ["10.64.0.1"])
+        self.assertEqual(network.default_dns_routes([wifi]), ["192.168.1.1"])
+
+    def test_specific_dns_domains_do_not_replace_default_dns(self):
+        wifi = dict(ifname="wlan0", defaultRoute=True, servers=[dict(addressString="192.168.1.1")])
+        vpn = dict(ifname="tailscale0", defaultRoute=False,
+                   searchDomains=[dict(name="internal.example", routeOnly=True)],
+                   servers=[dict(addressString="100.100.100.100")])
+        self.assertEqual(network.default_dns_routes([wifi, vpn]), ["192.168.1.1"])
+
+    def test_kernel_counters_keep_receive_and_transmit_separate(self):
+        counters = network.parse_counters(
+            "Inter-| Receive | Transmit\n"
+            " wlan0: 4096 10 0 0 0 0 0 0 1024 5 0 0 0 0 0 0\n"
+            " eno1: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n"
+        )
+        self.assertEqual(counters["wlan0"], dict(rx=4096, tx=1024))
+        self.assertEqual(counters["eno1"], dict(rx=0, tx=0))
+
+    def test_rates_use_measured_elapsed_time(self):
+        sample = network.traffic_sample({"wlan0": dict(rx=5000, tx=2000)},
+                                        {"wlan0": dict(rx=1000, tx=1000)}, 2)
+        self.assertEqual(sample["wlan0"], dict(rx=5000, tx=2000, rxRate=2000, txRate=500))
+
+    def test_first_sample_does_not_present_lifetime_total_as_speed(self):
+        sample = network.traffic_sample({"wlan0": dict(rx=5000, tx=2000)}, {}, 1)
+        self.assertIsNone(sample["wlan0"]["rxRate"])
+        self.assertEqual(sample["wlan0"]["rx"], 5000)
+
+    def test_counter_reset_and_zero_interval_do_not_generate_negative_rates(self):
+        for elapsed in (0, 1):
+            sample = network.traffic_sample({"wlan0": dict(rx=10, tx=20)},
+                                            {"wlan0": dict(rx=5000, tx=2000)}, elapsed)
+            self.assertIsNone(sample["wlan0"]["rxRate"])
+            self.assertIsNone(sample["wlan0"]["txRate"])
+
     def test_escaped_ssid_and_bssid(self):
         self.assertEqual(
             network.fields(r"*:Cafe\: A\\B:AA\:BB\:CC\:DD\:EE\:FF:80:WPA2:wlan0"),

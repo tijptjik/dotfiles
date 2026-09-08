@@ -4,14 +4,18 @@ from __future__ import annotations
 
 import argparse
 import atexit
+import codecs
+from contextlib import contextmanager
 import difflib
 import importlib
 import os
 import pkgutil
+import selectors
 import shutil
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 from tjikup.core import Propagator, UpdateError
@@ -241,44 +245,91 @@ def section_header(repo: Path, title: str, *, color: str = "12") -> None:
     print()
 
 
+@contextmanager
+def apply_conflict_policy(command: list[str], skip_conflicts: bool):
+    """Feed chezmoi's per-conflict skip response without requiring a TTY."""
+    if not skip_conflicts:
+        yield command, None
+        return
+    # chezmoi has no skip-all response. Keep supplying skip until apply exits.
+    with subprocess.Popen(["yes", "skip"], stdout=subprocess.PIPE) as answers:
+        try:
+            yield [*command, "--no-tty", "--interactive=false"], answers.stdout
+        finally:
+            answers.stdout.close()
+            answers.terminate()
+            answers.wait()
+
+
 def run_stream(
     command: list[str],
     cwd: Path,
     *,
     env: dict[str, str] | None = None,
     timeout: int = COMMAND_TIMEOUT_SECONDS,
+    skip_conflicts: bool = False,
 ) -> None:
     try:
-        result = subprocess.run(command, cwd=cwd, env=env, check=False, timeout=timeout)
+        with apply_conflict_policy(command, skip_conflicts) as (apply_command, stdin):
+            # Gum 2 probes the terminal even when its spinner cannot read the
+            # replies (for example, with skip-conflicts feeding stdin). Give
+            # apply scripts a pipe so their helpers choose plain output. Keep
+            # stderr and stdin attached for prompts, and forward stdout live.
+            with subprocess.Popen(
+                apply_command, cwd=cwd, env=env, stdin=stdin, stdout=subprocess.PIPE,
+            ) as process:
+                deadline = time.monotonic() + timeout
+                decoder = codecs.getincrementaldecoder(sys.stdout.encoding or "utf-8")("replace")
+                try:
+                    with selectors.DefaultSelector() as selector:
+                        selector.register(process.stdout, selectors.EVENT_READ)
+                        while True:
+                            remaining = deadline - time.monotonic()
+                            if remaining <= 0 or not selector.select(remaining):
+                                raise subprocess.TimeoutExpired(apply_command, timeout)
+                            chunk = process.stdout.read1(65536)
+                            sys.stdout.write(decoder.decode(chunk, final=not chunk))
+                            sys.stdout.flush()
+                            if not chunk:
+                                break
+                    returncode = process.wait(timeout=max(0, deadline - time.monotonic()))
+                except BaseException:
+                    process.kill()
+                    process.wait()
+                    raise
     except subprocess.TimeoutExpired as error:
         raise UpdateError(
             f"command timed out after {timeout}s: {' '.join(command)}"
         ) from error
     except OSError as error:
         raise UpdateError(f"could not run {' '.join(command)}: {error}") from error
-    if result.returncode:
-        raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
+    if returncode:
+        raise UpdateError(f"command failed ({returncode}): {' '.join(command)}")
 
 
-def run_chezmoi_apply(repo: Path, command: list[str], env: dict[str, str]) -> bool:
+def run_chezmoi_apply(
+    repo: Path, command: list[str], env: dict[str, str], *, skip_conflicts: bool = False,
+) -> bool:
     if sys.stdout.isatty():
         try:
-            run_stream(command, repo, env=env)
+            run_stream(command, repo, env=env, skip_conflicts=skip_conflicts)
         except UpdateError:
             stage_label(repo, "FAILED", "✗", "Dotfiles apply")
             raise
         return True
 
     try:
-        result = subprocess.run(
-            command,
-            cwd=repo,
-            env=env,
-            text=True,
-            capture_output=True,
-            check=False,
-            timeout=COMMAND_TIMEOUT_SECONDS,
-        )
+        with apply_conflict_policy(command, skip_conflicts) as (apply_command, stdin):
+            result = subprocess.run(
+                apply_command,
+                cwd=repo,
+                env=env,
+                stdin=stdin,
+                text=True,
+                capture_output=True,
+                check=False,
+                timeout=COMMAND_TIMEOUT_SECONDS,
+            )
     except subprocess.TimeoutExpired as error:
         stage_label(repo, "FAILED", "✗", "Dotfiles apply")
         raise UpdateError(
@@ -535,7 +586,7 @@ def push_committed_chezetc(status_repo: Path) -> None:
     run_stage(status_repo, "PUSH", "Tijpcetera", ["git", "push"], CHEZETC_REPO, f"{ahead} commits")
 
 
-def apply_chezetc(repo: Path) -> None:
+def apply_chezetc(repo: Path, *, skip_conflicts: bool = False) -> None:
     chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
     config = Path.home() / ".config/chezmoi/chezetc/chezmoi.toml"
     repo_header(repo, "Tijpcetera", "https://github.com/tijptjik/etcfiles")
@@ -547,6 +598,7 @@ def apply_chezetc(repo: Path) -> None:
             CHEZETC_REPO,
             env=environment,
             timeout=CHEZETC_TIMEOUT_SECONDS,
+            skip_conflicts=skip_conflicts,
         )
     except UpdateError:
         stage_label(repo, "FAILED", "✗", "Chezetc apply")
@@ -560,6 +612,7 @@ def apply_chezetc(repo: Path) -> None:
                 CHEZETC_REPO,
                 env=environment,
                 timeout=CHEZETC_TIMEOUT_SECONDS,
+                skip_conflicts=skip_conflicts,
             )
         except UpdateError:
             stage_label(repo, "FAILED", "✗", "Chezetc apply retry")
@@ -625,6 +678,7 @@ def main() -> int:
     global ACTIVE_REPO, ACTIVE_REPORT_FILE
     arguments = argparse.ArgumentParser(description=__doc__)
     arguments.add_argument("--dry-run", action="store_true", help="show template changes without git or chezmoi mutations")
+    arguments.add_argument("--skip-conflicts", action="store_true", help="skip conflicting files during Chezmoi and Chezetc apply")
     args = arguments.parse_args()
 
     repo = find_repo()
@@ -716,10 +770,11 @@ def main() -> int:
         repo,
         ["chezmoi", "apply"],
         apply_env,
+        skip_conflicts=args.skip_conflicts,
     ):
         report_summary(repo, report_file)
         return 0
-    apply_chezetc(repo)
+    apply_chezetc(repo, skip_conflicts=args.skip_conflicts)
     report_summary(repo, report_file)
     return 0
 

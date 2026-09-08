@@ -137,6 +137,10 @@ tjikup
 
 Use `tjikup --dry-run` to preview template changes without modifying Git or applying Chezmoi changes.
 
+Use `tjikup --skip-conflicts` to automatically skip conflicting files during Chezmoi and Chezetc apply, preserving their local contents while applying other changes. Other apply errors still fail the command.
+
+Apply stages stream plain output to avoid terminal capability replies leaking from Gum spinners. Interactive prompts remain available.
+
 ### Editing
 
 1. **Edit a file:**

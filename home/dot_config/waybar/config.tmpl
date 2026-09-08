@@ -82,8 +82,8 @@
       "format-ethernet": " {ifname}",
       "format-disconnected": "  Offline",
       "on-click": "$HOME/.config/waybar/toggle-network",
-      "tooltip-format": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes}",
-      "tooltip-format-wifi": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes} @ {signalStrength}%",
+      "tooltip": false,
+      "on-update": "$HOME/.config/waybar/toggle-network ensure",
       "max-length": 32
     },
     "custom/vpn": {
@@ -301,8 +301,8 @@
       "format-ethernet": " {ifname}",
       "format-disconnected": "  Offline",
       "on-click": "$HOME/.config/waybar/toggle-network",
-      "tooltip-format": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes}",
-      "tooltip-format-wifi": "▲ {bandwidthDownBytes} ▼ {bandwidthUpBytes} @ {signalStrength}%"
+      "tooltip": false,
+      "on-update": "$HOME/.config/waybar/toggle-network ensure"
     },
     "custom/vpn": {
       "format": "{}",

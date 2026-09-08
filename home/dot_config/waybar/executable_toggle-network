@@ -2,9 +2,22 @@
 set -euo pipefail
 
 # Serialize launch/toggle so rapid clicks cannot race a starting instance.
-config="${1:-${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/network}"
+mode="${1:-toggle}"
+if [[ "$mode" == ensure || "$mode" == toggle ]]; then
+    config="${2:-${XDG_CONFIG_HOME:-$HOME/.config}/quickshell/network}"
+else
+    config="$mode"
+    mode=toggle
+fi
 exec 9>"${XDG_RUNTIME_DIR:?}/waybar-network.lock"
 flock -x 9
+if [[ "$mode" == ensure ]]; then
+    if qs ipc -p "$config" call network isOpen >/dev/null 2>&1; then
+        exit 0
+    fi
+    NETWORK_WIDGET_MODE=ensure qs -d -n -p "$config" 9>&-
+    exit 0
+fi
 anchor="$(python3 "$config/network.py" anchor)"
 if qs ipc -p "$config" call network toggleAt "$anchor" >/dev/null 2>&1; then
     exit 0

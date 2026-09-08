@@ -62,6 +62,7 @@ ColumnLayout {
         color: traffic.theme.text
         opacity: 0.65
         wrapMode: Text.Wrap
+        horizontalAlignment: Text.AlignHCenter
         Layout.fillWidth: true
     }
 }

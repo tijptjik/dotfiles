@@ -8,7 +8,16 @@ import Quickshell.Hyprland
 
 ShellRoot {
     id: root
-    property bool opened: true
+    property bool opened: Quickshell.env("NETWORK_WIDGET_MODE") !== "ensure"
+    property bool pinned: Quickshell.env("NETWORK_WIDGET_MODE") !== "ensure"
+    property bool barHovered: false
+    property bool suppressHover: false
+    property var pointerState: ({ cursor: null, monitors: [], anchor: null })
+    property bool dragging: false
+    property bool dragged: false
+    property real desktopX: 0
+    property real desktopY: 0
+    readonly property var currentMonitor: pointerState.monitors.find(monitor => monitor.name === targetScreen?.name) || ({x: 0, y: 0})
     property bool busy: false
     property bool hasState: false
     property string operation: "status"
@@ -21,8 +30,6 @@ ShellRoot {
     property var targetScreen: null
     property real anchorX: 210
     property real anchorBottom: 700
-    property real dragX: 0
-    property real dragY: 0
     readonly property var connectedDevices: state.devices.filter(device => device.state === "connected")
 
     readonly property alias theme: widgetTheme
@@ -33,21 +40,64 @@ ShellRoot {
         targetScreen = Quickshell.screens.find(screen => screen.name === name) || Quickshell.screens[0];
         anchorX = anchor.x !== undefined ? anchor.x : (targetScreen ? targetScreen.width / 2 : 210);
         anchorBottom = anchor.bottom !== undefined ? anchor.bottom : (targetScreen ? targetScreen.height - 60 : 700);
-        dragX = 0;
-        dragY = 0;
+        dragged = false;
     }
 
     function hide() {
         opened = false;
+        pinned = false;
+        suppressHover = barHovered;
         selected = null;
         password.text = "";
     }
 
     function toggle(anchor) {
+        if (opened && !pinned) { pinned = true; return; }
         if (opened) { hide(); return; }
         chooseScreen(anchor || {});
         opened = true;
+        pinned = true;
         run({ action: "status" });
+    }
+
+    function pointerChanged(value) {
+        pointerState = value;
+        barHovered = !!value.anchor;
+        if (!barHovered) suppressHover = false;
+        if (barHovered && !pinned && !suppressHover) {
+            if (!opened) {
+                chooseScreen(value.anchor);
+                opened = true;
+                run({ action: "status" });
+            }
+            autoHide.stop();
+        } else if (opened && !pinned && !panelHover.hovered && !dragging && !autoHide.running) autoHide.start();
+    }
+
+    function movePanel(delta) {
+        desktopX += delta.x;
+        desktopY += delta.y;
+        const cursor = pointerState.cursor;
+        const monitor = cursor && pointerState.monitors.find(item => cursor.x >= item.x && cursor.x < item.x + item.width && cursor.y >= item.y && cursor.y < item.y + item.height);
+        if (monitor && monitor.name !== targetScreen?.name)
+            targetScreen = Quickshell.screens.find(screen => screen.name === monitor.name) || targetScreen;
+    }
+
+    Timer {
+        id: autoHide
+        interval: 350
+        onTriggered: { if (!root.pinned && !root.barHovered && !panelHover.hovered && !root.dragging) root.hide(); }
+    }
+
+    Process {
+        command: ["python3", Qt.resolvedUrl("pointer.py").toString().replace("file://", "")]
+        running: true
+        stdout: SplitParser {
+            onRead: line => {
+                try { root.pointerChanged(JSON.parse(line)); }
+                catch (_) {}
+            }
+        }
     }
 
     function run(request) {
@@ -70,7 +120,7 @@ ShellRoot {
     Component.onCompleted: {
         try { chooseScreen(JSON.parse(Quickshell.env("NETWORK_WIDGET_ANCHOR") || "{}")); }
         catch (_) { chooseScreen({}); }
-        run({ action: "status" });
+        if (opened) run({ action: "status" });
     }
 
     IpcHandler {
@@ -82,7 +132,8 @@ ShellRoot {
         function geometry(): string {
             return JSON.stringify({ screen: root.targetScreen?.name, x: panel.margins.left, y: panel.margins.top,
                 width: panel.width, height: panel.height, anchorX: root.anchorX, barTop: root.anchorBottom,
-                hovered: panelHover.hovered, keyboardFocus: panel.WlrLayershell.keyboardFocus });
+                hovered: panelHover.hovered, keyboardFocus: panel.WlrLayershell.keyboardFocus,
+                pinned: root.pinned, barHovered: root.barHovered, opened: root.opened });
         }
     }
 
@@ -141,8 +192,8 @@ ShellRoot {
         implicitWidth: Math.min(420, (screen?.width || 420) - 24)
         implicitHeight: Math.min(panelContent.implicitHeight + 24, (screen?.height || 720) - 24)
         margins {
-            left: Math.max(12, Math.min((panel.screen?.width || 420) - panel.width - 12, root.anchorX - panel.width / 2 + root.dragX))
-            top: Math.max(12, Math.min((panel.screen?.height || 720) - panel.height - 12, root.anchorBottom - panel.height - 12 + root.dragY))
+            left: Math.max(12, Math.min((panel.screen?.width || 420) - panel.width - 12, root.dragged ? root.desktopX - root.currentMonitor.x : root.anchorX - panel.width / 2))
+            top: Math.max(12, Math.min((panel.screen?.height || 720) - panel.height - 12, root.dragged ? root.desktopY - root.currentMonitor.y : root.anchorBottom - panel.height - 12))
         }
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
@@ -160,7 +211,14 @@ ShellRoot {
             color: theme.background
             border.color: theme.border
             border.width: 1
-            HoverHandler { id: panelHover }
+            HoverHandler {
+                id: panelHover
+                onHoveredChanged: {
+                    if (hovered) autoHide.stop();
+                    else if (!root.pinned && !root.barHovered) autoHide.restart();
+                }
+            }
+            TapHandler { onTapped: root.pinned = true }
 
             ColumnLayout {
                 id: panelContent
@@ -182,10 +240,16 @@ ShellRoot {
                         Layout.fillWidth: true
                         DragHandler {
                             target: null
-                            onTranslationChanged: delta => {
-                                root.dragX += delta.x;
-                                root.dragY += delta.y;
+                            onActiveChanged: {
+                                root.dragging = active;
+                                if (active) {
+                                    root.pinned = true;
+                                    root.desktopX = root.currentMonitor.x + panel.margins.left;
+                                    root.desktopY = root.currentMonitor.y + panel.margins.top;
+                                    root.dragged = true;
+                                }
                             }
+                            onTranslationChanged: delta => root.movePanel(delta)
                         }
                     }
                     NetworkButton { theme: root.theme; symbol: "close"; text: "Close"; onClicked: root.hide() }
@@ -198,17 +262,6 @@ ShellRoot {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     spacing: 12
-
-                    Label {
-                        visible: root.showProgress || root.message !== ""
-                        Layout.fillWidth: true
-                        text: root.showProgress ? "Working…" : root.message
-                        textFormat: Text.PlainText
-                        color: root.showProgress ? theme.text : theme.error
-                        font.family: theme.font
-                        font.pixelSize: 12
-                        wrapMode: Text.Wrap
-                    }
 
                     Repeater {
                         model: root.connectedDevices
@@ -262,7 +315,7 @@ ShellRoot {
                             Layout.rightMargin: -6
                             Layout.fillHeight: true
                             Layout.minimumHeight: 0
-                            Layout.preferredHeight: Math.min(wifiItems.implicitHeight, 260)
+                            Layout.preferredHeight: root.hasState ? Math.min(wifiItems.implicitHeight, 260) : 80
                             contentWidth: availableWidth
                             contentHeight: wifiItems.implicitHeight
                             clip: true
@@ -288,6 +341,8 @@ ShellRoot {
                                 id: wifiItems
                                 width: wifiScroll.availableWidth - 12
                                 spacing: 6
+                                opacity: root.showProgress || root.message !== "" ? 0 : 1
+                                enabled: !root.showProgress && root.message === ""
                                 Label {
                                     width: parent.width
                                     visible: !root.state.networks.some(network => !network.active)
@@ -350,6 +405,20 @@ ShellRoot {
                                         }
                                     }
                                 }
+                            }
+                            Label {
+                                parent: wifiScroll
+                                anchors.fill: parent
+                                anchors.margins: 10
+                                visible: root.showProgress || root.message !== ""
+                                text: root.message || (root.operation === "scan" ? "Scanning for networks…" : "Working…")
+                                textFormat: Text.PlainText
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
+                                wrapMode: Text.Wrap
+                                color: root.message ? theme.error : theme.muted
+                                font.family: theme.font
+                                font.pixelSize: 12
                             }
                         }
                     }

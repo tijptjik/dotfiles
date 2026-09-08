@@ -1,0 +1,20 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+{{ if .isClient -}}
+function sync_codex_lb
+    set -l runtime "$HOME/.codex-lb/runtime"
+    if not test -x "$runtime/bin/python"
+        uv venv --python 3.13 "$runtime"; or return $status
+    end
+
+    uv pip install --python "$runtime/bin/python" --upgrade-package codex-lb codex-lb; or return $status
+
+    # Restart manually between sessions: restarting this proxy interrupts
+    # active Codex requests, and startup may run database migrations.
+end
+
+stage "Codex LB runtime" UPDATE "Codex LB" sync_codex_lb
+{{ else -}}
+status_msg SKIP "-" "Codex LB" "client only"
+{{ end -}}

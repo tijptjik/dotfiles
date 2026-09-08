@@ -152,6 +152,7 @@ ShellRoot {
                     if (result.ok) {
                         root.state = result;
                         root.hasState = true;
+                        root.message = "";
                     }
                     else root.message = result.error;
                 } catch (_) {
@@ -249,7 +250,7 @@ ShellRoot {
                                     root.dragged = true;
                                 }
                             }
-                            onTranslationChanged: delta => root.movePanel(delta)
+                            onTranslationChanged: delta => { if (active) root.movePanel(delta); }
                         }
                     }
                     NetworkButton { theme: root.theme; symbol: "close"; text: "Close"; onClicked: root.hide() }

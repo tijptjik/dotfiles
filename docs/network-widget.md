@@ -1,15 +1,18 @@
 # Networking widget
 
-The Waybar network module toggles a standalone Quickshell panel above the clicked
+The Waybar network module previews a standalone Quickshell panel on hover above the
 module, with a 12px gap from the bar's actual top edge. The panel centers on the
 network label using GTK accessibility bounds, with the click position as a
 fallback, and stays within the monitor edges. The offline label stays visible so Wi-Fi can be switched back
-on. Click again, press Escape, or use Close to dismiss it. The process stays
+on. Hover previews close when the pointer leaves both the module and panel, with
+a short delay to cross the gap. Clicking pins the panel; click the module again,
+press Escape while over the panel, or use Close to dismiss it. Waybar's old tooltip
+is disabled. The process stays
 resident and polls NetworkManager every ten seconds only while open.
 
 The panel follows Waybar's live `colors.css` palette, including Tinty updates,
 with Rosé Punk fallbacks, the `tijpset` font, 10px controls, and Hyprland's 12px
-outer corners and fade. Drag the Networking header to reposition it; the next
+outer corners and fade. Drag the Networking header across monitors to reposition it; the next
 Waybar click that opens it restores the bar anchor. The surface accepts pointer
 input only within the rounded panel. The Wayland surface is sized to the panel,
 and keyboard focus is released when the pointer leaves it, so the rest of the
@@ -19,12 +22,16 @@ with traffic and addresses grouped in the same card; nearby Wi-Fi networks and
 inactive Ethernet follow. Only the nearby Wi-Fi list scrolls; connection details,
 Wi-Fi controls, and Ethernet stay visible. Icon buttons use Material Symbols
 Rounded with accessible names, no focus outlines, and no tooltips.
+Refresh progress replaces the Wi-Fi list temporarily without moving other sections.
 
 Requirements: Quickshell 0.3+, Qt Quick Controls, Python 3, NetworkManager's
 `nmcli`, and `flock` (util-linux). The existing desktop polkit agent handles
 privileged NetworkManager requests.
 Exact label centering additionally uses Python GObject and the Atspi 2.0 typelib
-(available on this Fedora desktop); it falls back to the click if unavailable.
+(available on this Fedora desktop); clicking falls back to the cursor if unavailable.
+Hover previews require those accessibility bounds so other modules never open
+the network panel. A small observer reads Hyprland's pointer socket and caches
+bar/monitor geometry; it does not grab input or access stored network credentials.
 
 Select a Wi-Fi network to connect or disconnect. Leave the password blank to use
 a saved connection. Passwords travel over stdin, never shell commands or process

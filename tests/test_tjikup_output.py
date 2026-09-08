@@ -22,6 +22,28 @@ from tjikup.core import UpdateError
 
 class StreamTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("fish"), "Fish required")
+    def test_progress_row_is_replaced_only_for_terminal_output(self):
+        helper = REPO / "home/.chezmoihelpers/status.fish"
+        script = (
+            "source $argv[1]; status_msg UPDATE ... 'Flatpak packages'; "
+            "status_msg UPDATE ✓ 'Flatpak packages' 'no changes'"
+        )
+        for terminal in ("0", "1"):
+            with self.subTest(terminal=terminal):
+                result = subprocess.run(
+                    ["fish", "--no-config", "-c", script, "--", str(helper)],
+                    env={**os.environ, "TJIKUP_COLOR": terminal, "TERM": "xterm-256color"},
+                    capture_output=True, check=True,
+                )
+                output = result.stdout.decode()
+                if terminal == "1":
+                    self.assertIn("\r\x1b[2K", output)
+                    self.assertEqual(output.count("\n"), 1)
+                else:
+                    self.assertNotIn("\x1b", output)
+                    self.assertEqual(output.count("\n"), 2)
+
+    @unittest.skipUnless(shutil.which("fish"), "Fish required")
     def test_redirected_status_output_stays_plain(self):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):

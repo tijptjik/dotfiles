@@ -180,7 +180,32 @@ function __systems_go --argument-names message
     echo
 end
 
-function __stage_label --argument-names stage_name icon subject
+function __stage_print_row --argument-names icon row
+    if isatty stdout; or test "$TJIKUP_COLOR" = 1
+        if set -q __stage_pending_row
+            printf '\r\033[2K'
+            set -e __stage_pending_row
+        end
+        if test "$icon" = "..."
+            printf '%s' "$row"
+            set -g __stage_pending_row 1
+            return
+        end
+    end
+    printf '%s\n' "$row"
+end
+
+function __stage_label
+    set -l row (__stage_render_label $argv)
+    __stage_print_row "$argv[2]" "$row"
+end
+
+function __stage_label_note
+    set -l row (__stage_render_label_note $argv)
+    __stage_print_row "$argv[2]" "$row"
+end
+
+function __stage_render_label --argument-names stage_name icon subject
     __stage_event "$stage_name" "$icon" "$subject" ""
     set -l color (__stage_color "$stage_name")
     set -l padded_stage (printf "%-7s" "$stage_name")
@@ -201,7 +226,7 @@ function __stage_label --argument-names stage_name icon subject
     end
 end
 
-function __stage_label_note --argument-names stage_name icon subject note
+function __stage_render_label_note --argument-names stage_name icon subject note
     __stage_event "$stage_name" "$icon" "$subject" "$note"
     set -l color (__stage_color "$stage_name")
     if test (count $argv) -ge 5

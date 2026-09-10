@@ -22,6 +22,35 @@ from tjikup.core import UpdateError
 
 class StreamTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("fish"), "Fish required")
+    def test_terminal_settled_rows_keep_colours(self):
+        master, slave = pty.openpty()
+        self.addCleanup(os.close, master)
+        helper = REPO / "home/.chezmoihelpers/status.fish"
+        command = [
+            "fish", "--no-config", "-c",
+            "source $argv[1]; status_msg SYNC ✓ Zed '2 changes'",
+            "--", str(helper),
+        ]
+        with subprocess.Popen(
+            command, stdin=slave, stdout=slave, stderr=slave,
+            env={**os.environ, "TERM": "xterm-256color"},
+        ) as process:
+            os.close(slave)
+            output = b""
+            deadline = time.monotonic() + 5
+            while time.monotonic() < deadline:
+                if select.select([master], [], [], .1)[0]:
+                    try:
+                        output += os.read(master, 65536)
+                    except OSError:
+                        break
+                if process.poll() is not None:
+                    break
+            self.assertEqual(process.wait(timeout=1), 0, output)
+        self.assertRegex(output, rb"\x1b\[[0-9;]+mSYNC")
+        self.assertRegex(output, rb"\x1b\[[0-9;]+m\xe2\x9c\x93")
+
+    @unittest.skipUnless(shutil.which("fish"), "Fish required")
     def test_progress_row_is_replaced_only_for_terminal_output(self):
         helper = REPO / "home/.chezmoihelpers/status.fish"
         script = (

@@ -196,21 +196,29 @@ function __stage_print_row --argument-names icon row
 end
 
 function __stage_label
-    set -l row (__stage_render_label $argv)
+    set -l use_color 0
+    if __stage_use_color
+        set use_color 1
+    end
+    set -l row (__stage_render_label $use_color $argv)
     __stage_print_row "$argv[2]" "$row"
 end
 
 function __stage_label_note
-    set -l row (__stage_render_label_note $argv)
+    set -l use_color 0
+    if __stage_use_color
+        set use_color 1
+    end
+    set -l row (__stage_render_label_note $use_color $argv)
     __stage_print_row "$argv[2]" "$row"
 end
 
-function __stage_render_label --argument-names stage_name icon subject
+function __stage_render_label --argument-names use_color stage_name icon subject
     __stage_event "$stage_name" "$icon" "$subject" ""
     set -l color (__stage_color "$stage_name")
     set -l padded_stage (printf "%-7s" "$stage_name")
 
-    if __stage_use_color
+    if test "$use_color" = 1
         set_color --bold (__stage_fish_color "$color")
         printf "%s" "$padded_stage"
         set_color normal
@@ -226,7 +234,7 @@ function __stage_render_label --argument-names stage_name icon subject
     end
 end
 
-function __stage_render_label_note --argument-names stage_name icon subject note
+function __stage_render_label_note --argument-names use_color stage_name icon subject note
     __stage_event "$stage_name" "$icon" "$subject" "$note"
     set -l color (__stage_color "$stage_name")
     if test (count $argv) -ge 5
@@ -246,7 +254,7 @@ function __stage_render_label_note --argument-names stage_name icon subject note
         set padding 2
     end
 
-    if __stage_use_color
+    if test "$use_color" = 1
         set_color --bold (__stage_fish_color "$color")
         printf "%s" "$padded_stage"
         set_color normal

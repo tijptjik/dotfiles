@@ -1,0 +1,31 @@
+diff --git a/src/modules/ext/workspace_manager.cpp b/src/modules/ext/workspace_manager.cpp
+index b4471c1..b91d0c8 100644
+--- a/src/modules/ext/workspace_manager.cpp
++++ b/src/modules/ext/workspace_manager.cpp
+@@ -176,9 +176,6 @@ void WorkspaceManager::sort_workspaces() {
+       std::all_of(workspaces_.begin(), workspaces_.end(),
+                   [&](const auto& w) { return is_numeric(w->workspace_id()); });
+ 
+-  auto sort_by_name_numerically = std::all_of(workspaces_.begin(), workspaces_.end(),
+-                                              [&](const auto& w) { return is_numeric(w->name()); });
+-
+   // sort based on configuration setting with sort-by-id as fallback
+ 
+   std::sort(workspaces_.begin(), workspaces_.end(), [&](const auto& w1, const auto& w2) {
+@@ -200,8 +197,14 @@ void WorkspaceManager::sort_workspaces() {
+       if (w1->name() == w2->name()) {
+         return w1->id() < w2->id();
+       }
+-      if (sort_by_name_numerically) {
+-        // see above about numeric sorting
++      // Hidden special workspaces must not force numbered names into lexical order.
++      // Keep numeric and named workspaces in separate groups for a transitive ordering.
++      const bool numeric1 = is_numeric(w1->name());
++      const bool numeric2 = is_numeric(w2->name());
++      if (numeric1 != numeric2) {
++        return numeric1;
++      }
++      if (numeric1) {
+         return w1->name().size() < w2->name().size() ||
+                (w1->name().size() == w2->name().size() && w1->name() < w2->name());
+       }

@@ -164,6 +164,7 @@ sansFontSize = 12
 appearanceDiffMarkerStyle = "color"
 open-local-url-in-target-preference = "external-browser"
 git-commit-instructions = "use conventional commit style"
+conversationDetailMode = "STEPS_PROSE"
 
 [desktop.open-in-target-preferences]
 global = "zed"
@@ -261,8 +262,8 @@ BROWSER_USE_TINYSKY_ENABLED = "1"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.908.40401"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/io/.codex/plugins/cache/openai-bundled/browser/26.908.40401/scripts/browser-service.mjs"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.908.40834"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/io/.codex/plugins/cache/openai-bundled/browser/26.908.40834/scripts/browser-service.mjs"}'
 CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
 
 [model_providers.codex-lb]

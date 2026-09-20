@@ -165,6 +165,7 @@ appearanceDiffMarkerStyle = "color"
 open-local-url-in-target-preference = "external-browser"
 git-commit-instructions = "use conventional commit style"
 conversationDetailMode = "STEPS_PROSE"
+keepRemoteControlAwakeWhilePluggedIn = true
 
 [desktop.open-in-target-preferences]
 global = "zed"
@@ -235,6 +236,9 @@ enabled = true
 [plugins."unified-computer-use@openai-bundled"]
 enabled = true
 
+[plugins."chrome@openai-bundled"]
+enabled = true
+
 [features]
 memories = true
 js_repl = false
@@ -262,8 +266,8 @@ BROWSER_USE_TINYSKY_ENABLED = "1"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.908.40834"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/io/.codex/plugins/cache/openai-bundled/browser/26.908.40834/scripts/browser-service.mjs"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.908.70816"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/io/.codex/plugins/cache/openai-bundled/browser/26.908.70816/scripts/browser-service.mjs"}'
 CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
 
 [model_providers.codex-lb]
@@ -276,9 +280,6 @@ requires_openai_auth = true # required for codex app
 [memories]
 generate_memories = true
 use_memories = true
-
-[sandbox_workspace_write]
-network_access = true
 
 [shell_environment_policy.set]
 NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "9230e2bd8b24b7ac7a0ba6774c64bf0d78ecdabbdd91d0ed627b02a587bae2df"

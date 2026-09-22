@@ -127,6 +127,9 @@ def default_dns():
     return []
 
 
+MODULE_KIND = "network"
+
+
 def module_bounds(bar):
     """GTK reports window-relative bounds even when Wayland hides global ones."""
     try:
@@ -136,7 +139,7 @@ def module_bounds(bar):
         Atspi.set_timeout(300, 500)
 
         def labels(node, depth=0):
-            if node.get_role_name() == "label" and node.get_name().startswith(("\uf1eb", "\uf6ff")):
+            if node.get_role_name() == "label" and (node.get_name().startswith(("\uf1eb", "\uf6ff")) if MODULE_KIND == "network" else (node.get_name().strip().startswith(("\uf026", "\uf027", "\uf028", "\uf025", "\uf590", "\uf095", "\uf1b9", "\U000f0581")) or node.get_name().strip().removesuffix("%").isdigit())):
                 rect = node.get_extents(Atspi.CoordType.WINDOW)
                 if rect.x >= 0 and rect.width > 0:
                     yield dict(x=rect.x, width=rect.width)

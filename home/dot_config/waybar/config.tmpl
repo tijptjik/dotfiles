@@ -101,6 +101,7 @@
       "tooltip-format": "{:%A, %d %B %Y}"
     },
     "pulseaudio": {
+      "tooltip": false,
       "format": "{icon} {volume}%",
       "format-bluetooth": "{icon} {volume}%",
       "format-muted": "<span size='17664'>󰖁</span>",
@@ -114,8 +115,11 @@
         "default": ["", ""]
       },
       "scroll-step": 4,
-      "on-click": "pavucontrol",
-      "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+      "on-scroll-up": "python3 $HOME/.config/quickshell/audio/audio.py master +4",
+      "on-scroll-down": "python3 $HOME/.config/quickshell/audio/audio.py master -4",
+      "on-click": "$HOME/.config/waybar/toggle-audio",
+      "on-update": "$HOME/.config/waybar/toggle-audio ensure",
+      "on-click-middle": "python3 $HOME/.config/quickshell/audio/audio.py master mute"
     },
     "custom/notifications": {
       "format": "{}",
@@ -296,6 +300,7 @@
       "on-click": "$HOME/.config/waybar/tailscale.fish toggle"
     },
     "pulseaudio": {
+      "tooltip": false,
       "format": "{icon} {volume}%",
       "format-bluetooth": "{icon} {volume}%",
       "format-muted": "",
@@ -309,8 +314,11 @@
         "default": ["", ""]
       },
       "scroll-step": 4,
-      "on-click": "pavucontrol",
-      "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+      "on-scroll-up": "python3 $HOME/.config/quickshell/audio/audio.py master +4",
+      "on-scroll-down": "python3 $HOME/.config/quickshell/audio/audio.py master -4",
+      "on-click": "$HOME/.config/waybar/toggle-audio",
+      "on-update": "$HOME/.config/waybar/toggle-audio ensure",
+      "on-click-middle": "python3 $HOME/.config/quickshell/audio/audio.py master mute"
     },
     "clock": {
       "format": "{:%H:%M}",

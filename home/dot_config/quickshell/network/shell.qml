@@ -269,7 +269,7 @@ ShellRoot {
         screen: root.targetScreen
         anchors { top: true; left: true }
         implicitWidth: root.dragging || root.dropping ? root.dragWidth : Math.min(420, (screen?.width || 420) - 24)
-        implicitHeight: root.dragging || root.dropping ? root.dragHeight : Math.min(panelContent.implicitHeight + 24, (screen?.height || 720) - 24)
+        implicitHeight: root.dragging || root.dropping ? root.dragHeight : Math.min(panelContent.implicitHeight + 32, (screen?.height || 720) - 24)
         margins {
             left: root.dragging ? root.dragOriginX : Math.max(12, Math.min((panel.screen?.width || 420) - panel.width - 12, root.dragged ? root.desktopX - root.currentMonitor.x : root.anchorX - panel.width / 2))
             top: root.dragging ? root.dragOriginY : Math.max(12, Math.min((panel.screen?.height || 720) - panel.height - 12, root.dragged ? root.desktopY - root.currentMonitor.y : root.anchorBottom - panel.height - 12))
@@ -366,10 +366,10 @@ ShellRoot {
 
             ColumnLayout {
                 id: panelContent
-                x: 12
-                y: 12
-                width: parent.width - 24
-                height: parent.height - 24
+                x: 16
+                y: 16
+                width: parent.width - 32
+                height: parent.height - 32
                 spacing: 10
 
                 RowLayout {
@@ -390,6 +390,7 @@ ShellRoot {
 
                 ColumnLayout {
                     id: body
+                    Layout.topMargin: 4
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     spacing: 12
@@ -415,6 +416,7 @@ ShellRoot {
                         Layout.fillHeight: true
                         spacing: 6
                         RowLayout {
+                            Layout.topMargin: 4
                             Layout.fillWidth: true
                             Label {
                                 text: root.state.enabled ? "Wi-Fi networks" : "Wi-Fi is off"
@@ -442,8 +444,8 @@ ShellRoot {
 
                         ScrollView {
                             id: wifiScroll
+                            padding: 0
                             Layout.fillWidth: true
-                            Layout.rightMargin: -6
                             Layout.fillHeight: true
                             Layout.minimumHeight: 0
                             Layout.preferredHeight: root.hasState ? Math.min(wifiItems.implicitHeight, 260) : 80
@@ -470,7 +472,7 @@ ShellRoot {
 
                             Column {
                                 id: wifiItems
-                                width: wifiScroll.availableWidth - 12
+                                width: wifiScroll.availableWidth - (wifiBar.visible ? 12 : 0)
                                 spacing: 6
                                 opacity: root.showProgress || root.message !== "" ? 0 : 1
                                 enabled: !root.showProgress && root.message === ""
@@ -494,7 +496,7 @@ ShellRoot {
                                         id: networkRow
                                         required property var modelData
                                         width: wifiItems.width
-                                        padding: 10
+                                        padding: 12
                                         hoverEnabled: true
                                         focusPolicy: Qt.NoFocus
                                         enabled: !root.busy
@@ -557,15 +559,15 @@ ShellRoot {
                     Rectangle {
                         visible: root.selected !== null
                         Layout.fillWidth: true
-                        implicitHeight: connectionForm.implicitHeight + 20
+                        implicitHeight: connectionForm.implicitHeight + 24
                         Layout.minimumHeight: implicitHeight
                         radius: 8
                         color: theme.surface
                         ColumnLayout {
                             id: connectionForm
-                            x: 10
-                            y: 10
-                            width: parent.width - 20
+                            x: 12
+                            y: 12
+                            width: parent.width - 24
                             spacing: 8
                             RowLayout {
                                 Layout.fillWidth: true

@@ -135,7 +135,12 @@ def module_bounds(bar):
     try:
         import gi
         gi.require_version("Atspi", "2.0")
-        from gi.repository import Atspi
+        from gi.repository import Atspi, GLib
+        # Process registry changes when Waybar or the accessibility bus restarts.
+        # This observer polls without running a GLib main loop.
+        context = GLib.MainContext.default()
+        while context.pending():
+            context.iteration(False)
         Atspi.set_timeout(300, 500)
 
         def labels(node, depth=0):

@@ -1,4 +1,4 @@
-"""Meter existing playback via buffered PulseAudio monitor streams, never microphones.
+"""Meter playback and the BRIO microphone via buffered PulseAudio streams.
 
 Only runs while the panel is open. Capture processes follow each playback stream's
 actual sink and are re-created on routing changes. No PipeWire graph parameters
@@ -55,16 +55,20 @@ def watch():
                             continue
                         sink = sinks.get(stream['sink'])
                         if sink:
-                            wanted[(stream['index'], sink['name'])] = (title, sink['monitor_source'])
+                            wanted[(stream['index'], sink['name'])] = (title, sink['monitor_source'], ['--monitor-stream=' + str(stream['index'])])
+                    for source in json.loads(query('-f', 'json', 'list', 'sources')):
+                        if source['name'].startswith('alsa_input.usb-046d_Logitech_BRIO_') and not source.get('mute'):
+                            wanted[('microphone', source['name'])] = ('__input', source['name'], [])
                     for key in list(captures):
                         if key not in wanted or captures[key]['process'].poll() is not None:
                             stop(key)
-                    for key, (title, monitor) in wanted.items():
+                    for key, (title, monitor, options) in wanted.items():
                         if key in captures:
                             continue
                         process = subprocess.Popen(['parec', '--raw', '--format=float32ne', '--rate=48000', '--channels=2',
                             '--latency-msec=100', '--process-time-msec=50', '--client-name=Audio panel levels',
-                            '--stream-name=Playback level', '--device=' + monitor, '--monitor-stream=' + str(key[0])],
+                            '--stream-name=' + ('Microphone level' if title == '__input' else 'Playback level'),
+                            '--device=' + monitor] + options,
                             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
                         os.set_blocking(process.stdout.fileno(), False)
                         captures[key] = dict(process=process, title=title, peak=0, tail=b'')

@@ -37,7 +37,7 @@ ShellRoot {
     property real anchorBottom: 700
     property string message: ""
     readonly property var outputs: Pipewire.nodes.values.filter(n => n.audio && !n.isStream && n.isSink && (n.description === "USB Audio Speakers" || n.description.startsWith("Navi 21/23 HDMI/DP")))
-    readonly property var inputs: Pipewire.nodes.values.filter(n => n.audio && !n.isStream && !n.isSink && n.description.startsWith("BRIO Ultra HD Webcam Analog Stereo"))
+    readonly property var inputs: Pipewire.nodes.values.filter(n => n.audio && !n.isStream && !n.isSink && n.name.startsWith("alsa_input.usb-046d_Logitech_BRIO_"))
     readonly property var clients: Pipewire.nodes.values.filter(n => n.audio && n.isStream && n.isSink && !((n.properties["application.name"] || "") + " " + n.name + " " + n.description).toLowerCase().includes("speech-dispatcher-dummy"))
     readonly property var clientGroups: {
         const groups = [];
@@ -354,6 +354,7 @@ ShellRoot {
                             Layout.fillWidth: true
                             theme: root.theme; title: "BRIO microphone"; nodes: root.inputs
                             microphone: true
+                            peak: root.levels.__input || 0
                             embedded: true
                             detail: (nodes.map(n => n.description || n.name).join(" · ") || "No devices available")
                         }

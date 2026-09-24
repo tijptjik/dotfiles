@@ -1,0 +1,8 @@
+{{ if .isDesktop -}}
+# Spotify underruns at 512 frames under desktop load. A 2048-frame floor
+# keeps playback stable (about 43 ms per cycle at 48 kHz).
+context.properties = {
+    default.clock.quantum = 2048
+    default.clock.min-quantum = 2048
+}
+{{ end -}}

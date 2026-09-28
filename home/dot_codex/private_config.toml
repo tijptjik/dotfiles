@@ -148,8 +148,12 @@ trust_level = "trusted"
 [projects."/home/io/documents/ChatGPT/Breadline"]
 trust_level = "trusted"
 
+[projects."/home/io/Documents/Codex/2026-09-24/referenced-chatgpt-conversation-this-is-an"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
+screen_reader_detection_done = true
 
 [tui.model_availability_nux]
 "gpt-5.6-sol" = 4

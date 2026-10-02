@@ -56,7 +56,7 @@ ShellRoot {
     PwObjectTracker { objects: Pipewire.nodes.values.filter(n => !!n.audio) }
     Process {
         id: routing
-        command: ["python3", Qt.resolvedUrl("audio.py").toString().replace("file://", ""), "route", root.headphones ? root.screenOutput?.name || "" : root.usb?.name || ""]
+        command: ["python3", Qt.resolvedUrl("audio.py").toString().replace("file://", ""), "toggle-output"]
         stdout: StdioCollector { onStreamFinished: root.message = text.trim() }
     }
 

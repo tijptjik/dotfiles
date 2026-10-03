@@ -178,7 +178,7 @@ alias sshsi='ssh -x m@ssh.type.hk'
 alias sshfi='ssh -x io@192.168.1.103'
 alias sshki='ssh -x io@192.168.1.101'
 
-alias sirun='waypipe ssh m@ssh.type.hk'
+alias sirun='mullvad-exclude waypipe ssh m@ssh.type.hk'
 
 ################################
 ###  PYTHON

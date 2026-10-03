@@ -174,7 +174,7 @@ alias cediff='chezmoi diff'
 alias sshs='sudo service sshd start'
 alias sshstatus='sudo service sshd status'
 
-alias sshsi='ssh -x m@ssh.type.hk'
+alias sshsi='mullvad-exclude ssh -x m@ssh.type.hk'
 alias sshfi='ssh -x io@192.168.1.103'
 alias sshki='ssh -x io@192.168.1.101'
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-exec /usr/local/bin/electron \
+exec /usr/bin/google-chrome-stable \
     --disable-features=WaylandWpColorManagerV1 \
     --force-color-profile=sRGB \
     --ozone-platform=wayland \

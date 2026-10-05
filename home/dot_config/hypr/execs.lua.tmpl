@@ -20,7 +20,10 @@ startup.subscription = hl.on("hyprland.start", function()
     -- hyprlock requires $WAYLAND_DISPLAY to be set in the systemd user environment.
     -- GDM doesn't always propagate this automatically to systemd.
     -- Import these before starting Waybar so its tray can activate the portal.
-    hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY")
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY XMODIFIERS QT_IM_MODULE SDL_IM_MODULE")
+
+    -- Input method: input-method-v2 surfaces stay outside the tiling layout.
+    hl.exec_cmd("fcitx5 -d")
 
     -- WM
     -- Waybar is launched outside an interactive terminal. Start it through

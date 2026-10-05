@@ -3,7 +3,7 @@ Name=Google Chrome (canary)
 # Keep the legacy desktop ID in sync with com.google.Chrome.canary.desktop:
 # Chrome's Wayland colour-management protocol currently produces washed-out
 # SDR colours on Hyprland HDR/wide-colour outputs.
-Exec=/usr/bin/google-chrome-canary --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB %U
+Exec=/usr/bin/google-chrome-canary --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3 %U
 Icon=google-chrome
 Terminal=false
 Type=Application
@@ -12,8 +12,8 @@ Actions=new-window;new-private-window;
 
 [Desktop Action new-window]
 Name=New Window
-Exec=/usr/bin/google-chrome-canary --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB
+Exec=/usr/bin/google-chrome-canary --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3
 
 [Desktop Action new-private-window]
 Name=New Incognito Window
-Exec=/usr/bin/google-chrome-canary --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB --incognito
+Exec=/usr/bin/google-chrome-canary --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3 --incognito

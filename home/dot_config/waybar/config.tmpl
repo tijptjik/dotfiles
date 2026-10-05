@@ -27,6 +27,7 @@
       "custom/audio-output",
       "pulseaudio",
       "clock",
+      "custom/input-method",
       "custom/notifications",
       "custom/caffeine",
       "custom/nightlight"
@@ -56,6 +57,7 @@
       "exec-if": "pgrep Feishin"
     },
     "tray": {
+      "ignore-list": ["Input Method"],
       "icon-size": 21,
       "spacing": 14
     },
@@ -88,6 +90,13 @@
       "min-length": 3,
       "max-length": 3,
       "exec": "$HOME/.config/waybar/mullvad.py 2> /dev/null"
+    },
+    "custom/input-method": {
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/input-method.py",
+      "interval": 1,
+      "on-click": "$HOME/.config/waybar/input-method.py cycle",
+      "on-click-right": "fcitx5-configtool"
     },
     "custom/tailscale": {
       "format": "{}",
@@ -244,8 +253,8 @@
       "custom/audio-output",
       "pulseaudio",
       "clock",
-      "custom/codex",
-      "custom/openrouter",
+      "custom/input-method",
+      "group/ai",
       "custom/notifications",
       "custom/caffeine",
       "custom/nightlight",
@@ -257,6 +266,10 @@
       "return-type": "json",
       "exec": "$HOME/.config/waybar/crypto.py",
       "exec-if": "ping pro-api.coinmarketcap.com -c1"
+    },
+    "group/ai": {
+      "orientation": "horizontal",
+      "modules": ["custom/codex", "custom/openrouter"]
     },
     "custom/codex": {
       "format": "{}",
@@ -273,6 +286,7 @@
       "exec-if": "test -n \"$OPENROUTER_API_KEY\""
     },
     "tray": {
+      "ignore-list": ["Input Method"],
       "icon-size": 21,
       "spacing": 14
     },
@@ -295,6 +309,13 @@
       "min-length": 3,
       "max-length": 3,
       "exec": "$HOME/.config/waybar/mullvad.py 2> /dev/null"
+    },
+    "custom/input-method": {
+      "return-type": "json",
+      "exec": "$HOME/.config/waybar/input-method.py",
+      "interval": 1,
+      "on-click": "$HOME/.config/waybar/input-method.py cycle",
+      "on-click-right": "fcitx5-configtool"
     },
     "custom/tailscale": {
       "format": "{}",

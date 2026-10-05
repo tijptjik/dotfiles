@@ -2,4 +2,7 @@
 exec /usr/bin/google-chrome-canary \
     --disable-features=WaylandWpColorManagerV1 \
     --force-color-profile=sRGB \
+    --ozone-platform=wayland \
+    --enable-wayland-ime \
+    --wayland-text-input-version=3 \
     "$@"

@@ -93,6 +93,8 @@ hl.config({
         float_switch_override_focus = 2,
         special_fallthrough = true,
         off_window_axis_events = 3,
+        kb_layout = "us",
+        kb_variant = "altgr-intl",
         kb_options = "caps:swapescape",
     },
 })

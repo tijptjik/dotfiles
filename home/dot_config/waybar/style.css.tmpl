@@ -206,8 +206,8 @@ window#waybar.laptop #custom-nightlight {
 }
 
 #clock {
-  margin-right: 12px;
-  border-radius: 10px;
+  margin-right: 0;
+  border-radius: 10px 0 0 10px;
 }
 
 #custom-notifications.paused * {
@@ -278,13 +278,33 @@ window#waybar.desktop-status #clock {
   border-radius: 0;
 }
 
-window#waybar.desktop-status #custom-codex {
-  margin-left: -3px;
+/* A real group keeps the AI pill rounded if either account is unavailable. */
+#ai {
   margin-right: 12px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  padding: 0;
+  border-radius: 10px;
+}
+
+#ai #custom-codex,
+#ai #custom-openrouter {
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 0;
+  background: transparent;
+}
+
+#custom-input-method {
+  margin-right: 12px;
+  border-radius: 0 10px 10px 0;
+}
+
+/* Laptop modules otherwise have a 3px inter-module gap. */
+window#waybar.laptop #custom-input-method {
+  margin-left: -3px;
+}
+
+#custom-input-method.unavailable {
+  color: @base03;
 }
 
 /* Temperature */

@@ -1,0 +1,43 @@
+[Groups/0]
+Name=Default
+Default Layout=us-altgr-intl
+DefaultIM=pinyin
+
+[Groups/0/Items/0]
+Name=keyboard-us-altgr-intl
+Layout=
+
+[Groups/0/Items/1]
+Name=pinyin
+Layout=
+
+[Groups/0/Items/2]
+Name=quick-classic
+Layout=
+
+[Groups/1]
+Name="Group 1"
+Default Layout=us
+DefaultIM=cantonese
+
+[Groups/1/Items/0]
+Name=keyboard-us
+
+[Groups/1/Items/1]
+Name=cantonese
+
+[Groups/1/Items/2]
+Name=quick3
+
+[Groups/2]
+Name="Group 2"
+Default Layout=gb
+DefaultIM=keyboard-gb
+
+[Groups/2/Items/0]
+Name=keyboard-gb
+
+[GroupOrder]
+0=Default
+1="Group 1"
+2="Group 2"

@@ -1,0 +1,19 @@
+[Hotkey]
+EnumerateWithTriggerKeys=True
+EnumerateSkipFirst=False
+
+[Hotkey/TriggerKeys]
+0=Control+space
+
+[Hotkey/EnumerateForwardKeys]
+0=Control+Shift+space
+
+[Behavior]
+ActiveByDefault=False
+ShareInputState=All
+PreeditEnabledByDefault=True
+ShowInputMethodInformation=True
+
+# Waybar provides the indicator and settings menu.
+[Behavior/DisabledAddons]
+0=notificationitem

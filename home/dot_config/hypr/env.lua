@@ -21,3 +21,9 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
 -- QT
 hl.env("QT_QPA_PLATFORM", "wayland")
+
+-- Fcitx: native Wayland text input for GTK/Kitty; modules for Qt and X11.
+-- Leave GTK_IM_MODULE unset so GTK Wayland uses cursor-anchored popups.
+hl.env("XMODIFIERS", "@im=fcitx")
+hl.env("QT_IM_MODULE", "fcitx")
+hl.env("SDL_IM_MODULE", "fcitx")

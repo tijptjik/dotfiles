@@ -12,7 +12,7 @@
     "limit_content_width": false
   },
   {{ if .isDesktop -}}
-  "diff_view_style": "split",
+  "diff_view_style": "unified",
   {{ else if .isLaptop -}}
   "diff_view_style": "unified",
   {{ end -}}
@@ -189,7 +189,9 @@
           "medium"
         ],
         "model": [
-          "gpt-6-luna"
+          "gpt-6-luna",
+          "gpt-6.1-sol",
+          "gpt-6-astra"
         ],
         "mode": [
           "agent",

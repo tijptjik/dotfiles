@@ -1,8 +1,7 @@
 {{ if .isDesktop -}}
-# Spotify underruns at 512 frames under desktop load. A 2048-frame floor
-# keeps playback stable (about 43 ms per cycle at 48 kHz).
+# Prefer a larger default buffer while allowing clients to negotiate smaller cycles.
+# A 2048-frame minimum can break small-buffer 44.1 kHz ALSA playback.
 context.properties = {
     default.clock.quantum = 2048
-    default.clock.min-quantum = 2048
 }
 {{ end -}}

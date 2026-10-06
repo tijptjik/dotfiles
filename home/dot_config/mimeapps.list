@@ -17,6 +17,7 @@ x-scheme-handler/mailto=Zen.desktop
 x-scheme-handler/tg=org.telegram.desktop
 x-scheme-handler/tonsite=org.telegram.desktop
 text/x-log=sublime_text.desktop
+x-scheme-handler/codex=chatgpt.desktop
 
 [Added Associations]
 font/ttf=org.gnome.font-viewer.desktop;

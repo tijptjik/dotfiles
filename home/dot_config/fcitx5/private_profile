@@ -1,43 +1,71 @@
 [Groups/0]
+# Group Name
 Name=Default
-Default Layout=us-altgr-intl
-DefaultIM=pinyin
+# Layout
+Default Layout=us
+# Default Input Method
+DefaultIM=quick-classic
 
 [Groups/0/Items/0]
-Name=keyboard-us-altgr-intl
-Layout=
+# Name
+Name=keyboard-us
+# Layout
+# Layout=
 
 [Groups/0/Items/1]
+# Name
 Name=pinyin
-Layout=
+# Layout
+# Layout=
 
 [Groups/0/Items/2]
+# Name
 Name=quick-classic
-Layout=
+# Layout
+# Layout=
 
 [Groups/1]
+# Group Name
 Name="Group 1"
+# Layout
 Default Layout=us
+# Default Input Method
 DefaultIM=cantonese
 
 [Groups/1/Items/0]
+# Name
 Name=keyboard-us
+# Layout
+# Layout=
 
 [Groups/1/Items/1]
+# Name
 Name=cantonese
+# Layout
+# Layout=
 
 [Groups/1/Items/2]
+# Name
 Name=quick3
+# Layout
+# Layout=
 
 [Groups/2]
+# Group Name
 Name="Group 2"
+# Layout
 Default Layout=gb
+# Default Input Method
 DefaultIM=keyboard-gb
 
 [Groups/2/Items/0]
+# Name
 Name=keyboard-gb
+# Layout
+# Layout=
 
 [GroupOrder]
 0=Default
 1="Group 1"
 2="Group 2"
+

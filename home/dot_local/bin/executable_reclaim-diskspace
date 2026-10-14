@@ -7,9 +7,10 @@
 argparse 'n/dry-run' 'clipboard-history' 'h/help' -- $argv; or exit 2
 if set -q _flag_help
     echo 'Usage: reclaim-diskspace [--dry-run|-n] [--clipboard-history]'
-    echo 'Clean Docker images, old kernels, unused packages, package/browser caches, and thumbnails.'
+    echo 'Clean Docker images, old kernels, unused packages, package/browser caches, Spotify media cache, and thumbnails.'
     echo '--clipboard-history permanently deletes saved clipboard text and images.'
     echo 'Running browsers are skipped. Playwright browsers and Codex data are retained.'
+    echo 'Spotify media cache is cleared only when Spotify is closed.'
     echo 'Run without sudo so package caches belong to your normal user.'
     exit 0
 end
@@ -92,6 +93,23 @@ else
             for cache_dir in (find "$cache_root/$browser" -type d \( -name cache2 -o -name Cache -o -name 'Code Cache' -o -name startupCache -o -name thumbnails \) -prune -print0 | string split0)
                 cleanup_run rm -rf -- "$cache_dir"
             end
+        end
+    end
+end
+
+# Flatpak Spotify stores its disposable audio cache outside XDG_CACHE_HOME.
+set -l spotify_cache "$HOME/.var/app/com.spotify.Client/cache/spotify/Data"
+if test -d "$spotify_cache"; and not test -L "$spotify_cache"
+    if not command -q pgrep
+        echo 'Cannot check running Spotify; skipping its media cache.'
+    else
+        command pgrep -u (id -u) -ix spotify >/dev/null
+        set -l spotify_status $status
+        if test $spotify_status -eq 1
+            echo 'Cleaning Spotify media cache...'
+            cleanup_run find "$spotify_cache" -mindepth 1 -maxdepth 1 -exec rm -rf -- '{}' +
+        else
+            echo 'Spotify is running or its status is unknown; skipping its media cache.'
         end
     end
 end

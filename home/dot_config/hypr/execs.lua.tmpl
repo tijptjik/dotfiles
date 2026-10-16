@@ -22,15 +22,16 @@ startup.subscription = hl.on("hyprland.start", function()
     -- Import these before starting Waybar so its tray can activate the portal.
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY XMODIFIERS QT_IM_MODULE SDL_IM_MODULE")
 
+    -- Keep application descendants out of the compositor service cgroup.
     -- Input method: input-method-v2 surfaces stay outside the tiling layout.
-    hl.exec_cmd("fcitx5 -d")
+    hl.exec_cmd("uwsm app -- fcitx5 -d")
 
     -- WM
     -- Waybar is launched outside an interactive terminal. Start it through
     -- Fish so the managed conf.d secrets (including OPENROUTER_API_KEY) are
     -- available to its custom modules.
-    hl.exec_cmd("fish -lc '$HOME/.local/bin/waybar'")
-    hl.exec_cmd("qs -c hamr")
+    hl.exec_cmd("uwsm app -- fish -lc '$HOME/.local/bin/waybar'")
+    hl.exec_cmd("uwsm app -- qs -c hamr")
 
     hl.exec_cmd("dconf load /org/gnome/desktop/interface/ < ~/.config/dconf/interface.conf")
 
@@ -38,34 +39,34 @@ startup.subscription = hl.on("hyprland.start", function()
     hl.exec_cmd("mullvad connect")
 
     -- Night filter
-    hl.exec_cmd("hyprsunset")
+    hl.exec_cmd("uwsm app -- hyprsunset")
 
     -- Clipboard Management
-    hl.exec_cmd("wl-paste --type text --watch cliphist store")
-    hl.exec_cmd("wl-paste --type image --watch cliphist store")
+    hl.exec_cmd("uwsm app -- wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("uwsm app -- wl-paste --type image --watch cliphist store")
 
     -- Terminal
-    hl.exec_cmd('/bin/kitty --title "herdr ~" herdr')
+    hl.exec_cmd('uwsm app -- /bin/kitty --title "herdr ~" herdr')
 
     -- Chat
-    hl.exec_cmd("/opt/Telegram/Telegram")
-    hl.exec_cmd("/bin/zapzap")
-    hl.exec_cmd("flatpak run org.signal.Signal")
-    hl.exec_cmd("/bin/chatgpt")
+    hl.exec_cmd("uwsm app -- /opt/Telegram/Telegram")
+    hl.exec_cmd("uwsm app -- /bin/zapzap")
+    hl.exec_cmd("uwsm app -- flatpak run org.signal.Signal")
+    hl.exec_cmd("uwsm app -- /bin/chatgpt")
 
     -- IDE
-    hl.exec_cmd("$HOME/.local/zed-preview.app/bin/zed $HOME/code/saanseoi")
+    hl.exec_cmd("$HOME/.local/bin/zed-isolated $HOME/.local/zed-preview.app/bin/zed $HOME/code/saanseoi")
 
 {{- if .isDesktop }}
 
     -- Zen // PWA Sites
-    hl.exec_cmd("/bin/zen-browser")
+    hl.exec_cmd("uwsm app -- /bin/zen-browser")
 
     -- Codex LB
-    hl.exec_cmd("/usr/bin/firefoxpwa site launch 01KVFQER39ASXCZ26D7724G54G")
+    hl.exec_cmd("uwsm app -- /usr/bin/firefoxpwa site launch 01KVFQER39ASXCZ26D7724G54G")
 
     -- Drizzle Studio
-    hl.exec_cmd("/usr/bin/firefoxpwa site launch 01KVFS96FMVBM4QZ9NKX2J01VD")
+    hl.exec_cmd("uwsm app -- /usr/bin/firefoxpwa site launch 01KVFS96FMVBM4QZ9NKX2J01VD")
 
 {{- end }}
 

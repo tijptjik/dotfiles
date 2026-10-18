@@ -25,6 +25,8 @@ Hyprland's keyboard layout is `us` / `altgr-intl`, matching the Default group's
 `keyboard-us-altgr-intl`. Apostrophes, quotes, backticks, and carets type immediately; accent dead keys
 require AltGr (Right Alt). The extra UK group is retained, but Fcitx cannot change
 Hyprland's physical keyboard layout when switching groups.
+The recurring Wayland layout advisory is hidden through Fcitx's notifications
+configuration (`wayland-diagnose-other`). Other notifications remain enabled.
 
 GTK Wayland, Kitty, and the Chromium launchers use native Wayland text input.
 Fcitx supplies input-method popup surfaces, so candidate lists stay beside the

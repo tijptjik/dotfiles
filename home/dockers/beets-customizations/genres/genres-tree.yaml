@@ -1,0 +1,812 @@
+- african:
+  - african heavy metal # Heavy metal produced by African bands, often incorporating traditional folk melodies or rhythms.
+  - african hip hop # Hip hop produced in Africa, utilizing local languages and indigenous instruments.
+  - afrobeat # A combination of traditional Nigerian music, jazz, highlife, and funk.
+  - afrobeats # Modern West African pop music blending house, hiplife, and dancehall.
+  - amapiano # South African house variant featuring deep house, jazz, and distinct "log-drum" basslines.
+  - apala # Percussion-based vocal genre of the Yoruba people in Nigeria.
+  - benga # Kenyan popular music originating from the traditional music of the Luo people.
+  - bikutsi # Intense, fast 6/8 rhythm dance and musical genre from Cameroon.
+  - bongo flava # Tanzanian hip hop influenced by american rap, reggae, and traditional styles.
+  - cape jazz # Jazz from the Western Cape, South Africa, influenced by Marabi and folk.
+  - chimurenga # Zimbabwean music featuring the mbira, often with political themes.
+  - coupé-décalé # Fast, percussive dance music from Ivory Coast with heavy bass.
+  - fuji music # Nigerian genre derived from the percussion-based tradition of Were music.
+  - genge # Subgenre of Kenyan hip hop incorporating dancehall and traditional rhythms.
+  - gengetone # High-energy Kenyan evolution of Genge featuring street-slang lyrics.
+  - highlife # West African genre characterized by jazzy horns and multiple guitars.
+  - hiplife # Ghanaian musical style fusing highlife music with hip hop.
+  - isicathamiya # Zulu a cappella singing style from South Africa.
+  - jit # Fast-paced Zimbabwean dance music featuring rhythmic guitar.
+  - jùjú # Nigerian popular music derived from traditional Yoruba percussion.
+  - kapuka # Kenyan form of hip hop and dancehall music.
+  - kizomba # Slow, romantic, and sensuous rhythm and dance from Angola.
+  - kuduro # Fast-paced, energetic, and punitive electronic dance music from Angola.
+  - kwaito # South African house featuring slowed-down tempos and melodic loops.
+  - kwela # Pennywhistle-based street music from South Africa with jazzy foundations.
+  - makossa # Urban music from Cameroon with a strong rhythmic pulse and brass.
+  - maloya # Traditional music of Réunion sung in Malagasy and African languages.
+  - marrabenta # Mozambican dance music blending traditional rhythms with Portuguese folk.
+  - mbalax # Senegalese dance music fusing Wolof percussion with pop and jazz.
+  - mbaqanga # South African style with rural Zulu roots and urban influences.
+  - mbube # South African vocal music style performed a cappella.
+  - morna # Melancholic Cape Verdean music and dance.
+  - museve # Fast-paced Zimbabwean dance music.
+  - palm-wine # West African genre evolved from the guitar playing of sailors.
+  - raï # Algerian folk music infused with modern pop and electronic sounds.
+  - sakara # Traditional Yoruba music from Nigeria using the sakara drum.
+  - sega # Vibrant rhythm and creole lyrics from the Mascarene Islands.
+  - seggae # A fusion of Sega and Reggae from Mauritius.
+  - semba # Traditional Angolan music and dance, the predecessor to Samba.
+  - singeli # Ultra-fast Tanzanian electronic genre often exceeding 200 BPM.
+  - soukous # Popular dance music from the Congo Basin, derived from African rumba.
+  - taarab # Swahili music genre influenced by Arabic and Indian sounds.
+  - zouglou # Dance-oriented style from Ivory Coast evolved from student culture.
+- asian:
+  - east asian:
+      - anison # Music originally composed for or used in anime.
+      - c-pop # Chinese popular music.
+      - cantopop # Popular music sung in Cantonese, centered in Hong Kong.
+      - city pop # 80s Japanese urban pop characterized by high production and western influence.
+      - enka # Traditional-style Japanese popular music resembling blues or soul.
+      - hong kong english pop # English-language popular music produced in Hong Kong.
+      - j-pop # Japanese popular music.
+      - k-pop # Korean popular music, specifically from South Korea.
+      - kayōkyoku # A Japanese pop style that was a precursor to modern J-pop.
+      - korean pop # General popular music from the Korean peninsula.
+      - mandopop # Mandarin-language popular music.
+      - onkyokei # A form of Japanese improvised music focused on texture and silence.
+      - taiwanese pop # Popular music from Taiwan.
+  - fann at-tanbura # Traditional ritual music from the Persian Gulf.
+  - fijiri # Vocal music of the pearl divers in the Persian Gulf.
+  - khaliji # Modern traditional music from the Arabian Peninsula and Persian Gulf.
+  - liwa # Music and dance performed by communities of African descent in the Gulf.
+  - sawt # An urban music style from Kuwait and Bahrain.
+  - south and southeast asian:
+      - baila # Sri Lankan dance music with Portuguese and African roots.
+      - bhangra # Energetic folk dance and music from the Punjab region.
+      - bhojpuri # Music from the Bhojpuri region of India and Nepal.
+      - dangdut # Indonesian folk-pop music featuring the drum known as the kendang.
+      - filmi # Music written for Indian cinema.
+      - indian pop # Popular music produced in India.
+      - lavani # Traditional song and dance of Maharashtra, India.
+      - luk thung: # Thai country music.
+          - luk krung # Thai "urban" pop music with western orchestral influence.
+      - manila sound # A genre of Philippine popular music that flourished in the 1970s.
+      - morlam # Traditional Lao and Thai folk music of the Isan region.
+      - pinoy pop # Filipino popular music.
+      - pop sunda # Sundanese popular music from Indonesia.
+      - ragini # Traditional folk song genre from Haryana, India.
+      - thai pop # Popular music from Thailand.
+- avant-garde:
+  - experimental music # Music that challenges established boundaries and definitions.
+  - lo-fi # Music where technical imperfections are intentional and aesthetic.
+  - musique concrète # Experimental music using recorded sounds as raw material.
+- blues:
+  - african blues # Modern African music that emphasizes the connection to American blues.
+  - blues rock # A fusion of blues and rock music.
+  - blues shouter # A blues singer capable of singing over a band without a microphone.
+  - british blues # Blues music produced by British musicians in the 1960s.
+  - canadian blues # Blues music produced in Canada.
+  - chicago blues # Electric blues style developed in Chicago.
+  - classic female blues # Early form of blues recorded by female singers with jazz bands.
+  - contemporary r&b # A combination of rhythm and blues with pop, soul, and hip hop.
+  - country blues # Acoustic, guitar-driven blues originating in the rural South.
+  - delta blues # One of the earliest styles of blues from the Mississippi Delta.
+  - detroit blues # Blues style associated with Detroit, often featuring electric guitar.
+  - electric blues # Blues music amplified by electronic instruments.
+  - gospel blues # A combination of gospel lyrics and blues instrumentation.
+  - hill country blues # North Mississippi blues style focused on rhythm and hypnotic grooves.
+  - hokum blues # A humorous, raunchy style of blues.
+  - jazz blues # A style that bridges jazz and blues through improvisation and structure.
+  - jump blues # An up-tempo style of blues played by big bands.
+  - kansas city blues # A transition style from country blues to big band jazz.
+  - louisiana blues # A swampy, rhythmically relaxed style of blues.
+  - memphis blues # Blues music from Memphis, Tennessee, often featuring jug bands.
+  - piano blues # Blues music focused on the piano rather than the guitar.
+  - piedmont blues # Finger-picking style of blues from the East Coast.
+  - punk blues # A fusion of punk rock and blues.
+  - soul blues # A style of blues that incorporates elements of soul and urban R&B.
+  - st. louis blues # A piano-based style of blues with a ragtime influence.
+  - swamp blues # A slow, laid-back version of Louisiana blues.
+  - texas blues # Blues from Texas, often featuring jazzier guitar solos.
+  - west coast blues # A jazz-influenced style of blues from California.
+- caribbean and latin american:
+  - bachata # A genre of popular song and dance from the Dominican Republic.
+  - baithak gana # Indo-Surinamese music based on Bhojpuri folk songs.
+  - bolero # A slow-tempo Latin music genre and dance.
+  - brazilian:
+      - axé # A popular music genre from Salvador, Bahia, Brazil.
+      - bossa nova # A lyrical style of Brazilian samba developed in the 1950s.
+      - brazilian rock # Rock music produced in Brazil.
+      - brega # A kitschy, romantic genre of Brazilian popular music.
+      - choro # Instrumental Brazilian popular music originating in Rio.
+      - forró # A genre of music and dance from Northeastern Brazil.
+      - frevo # A fast-paced Brazilian dance and music from Recife.
+      - funk carioca # A high-energy hip hop style from the favelas of Rio.
+      - lambada # A dance and music style from Pará, Brazil.
+      - maracatu # Traditional Afro-Brazilian performance genre from Pernambuco.
+      - música popular brasileira # A post-bossa nova urban popular music of Brazil.
+      - música sertaneja # Brazilian country music.
+      - pagode # A subgenre of Samba that emerged in Rio de Janeiro.
+      - samba # A Brazilian musical genre and dance style with African roots.
+      - samba rock # A dance and music style fusing samba and rock.
+      - tecnobrega # Electronic dance music from Belém, Brazil, using repurposed pop.
+      - tropicalia # A Brazilian artistic movement that merged traditional and avant-garde.
+      - zouk-lambada # A fusion of Caribbean Zouk and Brazilian Lambada.
+  - calypso # Afro-Caribbean music originating in Trinidad and Tobago.
+  - chutney # A music genre from the southern Caribbean, blending Indian and local styles.
+  - chutney soca # A fusion of Chutney and Soca music.
+  - compas # Modern Méringue dance music from Haiti.
+  - mambo # A Latin dance and music genre originating in Cuba.
+  - merengue # A style of Dominican music and dance.
+  - méringue # A guitar-based dance music from Haiti.
+  - other latin:
+      - chicha # A subgenre of Cumbia from Peru.
+      - criolla # A genre of Peruvian music blending African, Spanish, and Andean.
+      - cumbia # A rhythmic dance music originating in Colombia.
+      - huayno # Traditional Andean music and dance.
+      - mariachi # Traditional Mexican folk music played by ensembles.
+      - ranchera # Traditional music of Mexico associated with the mariachi.
+      - tejano # A fusion of Mexican and American (Texan) music.
+  - punta # A Garifuna music and dance style from Central America.
+  - punta rock # A modern version of Punta using electric instruments.
+  - rasin # Haitian music that combines traditional Vodou music with rock.
+  - reggaeton # A music genre originating in Puerto Rico with hip hop and dancehall roots.
+  - salsa # A fusion of various Cuban and Caribbean dance genres.
+  - soca # A genre of Caribbean music that evolved from Calypso.
+  - son # A fundamental genre of Cuban music.
+  - timba # A modern, intense Cuban genre based on salsa and funk.
+  - twoubadou # Haitian acoustic guitar-based music.
+  - zouk # A fast-tempo rhythmic style of music originating from Guadeloupe and Martinique.
+- classical:
+  - ballet # A type of performance dance with specific music and staging.
+  - baroque:
+      - baroque music # European classical music from approximately 1600 to 1750.
+  - cantata # A vocal composition with an instrumental accompaniment.
+  - chamber music:
+      - string quartet # Music written for two violins, a viola, and a cello.
+  - classical music # Art music produced or rooted in the traditions of Western culture.
+  - concerto:
+      - concerto grosso # A baroque orchestral work featuring a group of soloists.
+  - contemporary classical # Classical music produced from the mid-20th century to the present.
+  - modern classical # Music from the early 20th century that broke from traditional tonality.
+  - opera # A staged drama set to music where singers play roles.
+  - oratorio # A large-scale musical work for orchestra and voices, usually on a religious theme.
+  - orchestra:
+      - orchestral # Music written for a large ensemble of instruments.
+      - symphonic # Relating to or having the character of a symphony.
+      - symphony # An elaborate musical composition for full orchestra.
+  - organum # Early polyphonic music based on plainsong.
+  - mass:
+      - requiem # A musical setting of the Mass for the Dead.
+  - sacred music:
+      - cantique # A song or hymn of praise.
+      - gregorian chant # Monophonic, unaccompanied sacred song of the Roman Catholic Church.
+  - sonata # A composition for an instrumental soloist, often with piano.
+- comedy:
+  - comedy music # Music that is comic or humorous in nature.
+  - comedy rock # Rock music with comedic lyrics or performance.
+  - humor # General category for funny or witty musical content.
+  - parody music # Music that mimics a specific artist or style for comedic effect.
+  - stand-up # Comedic performance usually consisting of spoken jokes.
+- country:
+  - alternative country:
+      - cowpunk # A fusion of country music and punk rock.
+  - americana # A fusion of various American roots music styles.
+  - australian country music # Country music produced in Australia.
+  - bakersfield sound # A gritty, honky-tonk style of country from California.
+  - bluegrass:
+      - progressive bluegrass # Bluegrass using non-traditional instruments or styles.
+      - reactionary bluegrass # Traditionalist bluegrass rejecting modern updates.
+  - blues country # A fusion of country and blues styles.
+  - cajun:
+      - cajun fiddle tunes # Traditional music of the Cajun people of Louisiana.
+  - christian country music # Country music with Christian lyrical themes.
+  - classic country # The mainstream country sound of the mid-20th century.
+  - close harmony # Vocal style featuring notes that are close together in pitch.
+  - country pop # A blend of country music and pop.
+  - country rap # A fusion of country music and hip hop.
+  - country rock # A fusion of country music and rock.
+  - country soul # A fusion of country music and soul.
+  - cowboy/western music # Music celebrating the life of the American cowboy.
+  - dansband music # Swedish popular music for partner dancing.
+  - franco-country # Country music sung in French, primarily in Canada.
+  - gulf and western # A blend of country, pop, and tropical music.
+  - hellbilly music # A high-energy fusion of country, metal, and punk.
+  - hokum # A humorous style of music featuring sexual innuendo.
+  - honky tonk # A style of country music focusing on barroom themes.
+  - instrumental country # Country music without vocals.
+  - lubbock sound # A rock-and-roll influenced country sound from West Texas.
+  - nashville sound # A polished, commercial country music style.
+  - neotraditional country # A movement returning to traditional country sounds.
+  - outlaw country # A subgenre emphasizing independence from the Nashville establishment.
+  - progressive country # Country music that experiments with song structure and themes.
+  - psychobilly/punkabilly # A fusion of punk rock and rockabilly.
+  - red dirt # A genre of country music originating in Oklahoma.
+  - rockabilly # One of the earliest styles of rock and roll, blending country.
+  - sertanejo # Brazilian country music.
+  - texas country # Country music from Texas with a focus on singer-songwriter grit.
+  - traditional country music # Country music based on 19th-century folk and early radio.
+  - truck-driving country # A subgenre focusing on the life of truck drivers.
+  - western swing # A fusion of country, blues, and big band jazz.
+  - zydeco # A music genre from SW Louisiana blending Cajun and R&B.
+- easy listening:
+  - background music # Music intended for passive listening in public spaces.
+  - beautiful music # A format of easy listening music featuring lush arrangements.
+  - elevator music # Bland, unobtrusive music played in public buildings.
+  - furniture music # Background music intended to be part of the environment.
+  - lounge music # Easy listening music meant to evoke a calm, luxurious atmosphere.
+  - middle of the road # Commercial pop music that avoids extremes.
+  - new-age music # Atmospheric music used for relaxation or meditation.
+- electronic:
+  - ambient:
+      - ambient dub # A fusion of ambient and dub reggae production.
+      - ambient house # House music with atmospheric textures and soft rhythms.
+      - ambient techno # Techno emphasizing atmosphere over aggressive percussion.
+      - dark ambient # Ambient music that evokes dread or isolation.
+      - drone music # Minimalist music emphasizing sustained sounds.
+      - illbient # A blend of ambient, hip-hop, and industrial noise.
+      - isolationism # A cold, micro-detailed form of dark ambient.
+      - lowercase # Minimalist music using extremely quiet, recorded sounds.
+      - vaporwave: # Internet-born genre sampling 80s/90s smooth jazz and elevator music.
+          - future funk # High-energy vaporwave sampling disco.
+          - mallsoft # Vaporwave evoking the feeling of empty shopping malls.
+  - asian underground # A blend of electronic music with classical Indian music.
+  - breakbeat:
+      - 4-beat # A breakbeat style featuring a constant bass drum.
+      - acid breaks # Breakbeat music featuring the Roland TB-303 synth.
+      - baltimore club # High-tempo breakbeat style from Baltimore.
+      - big beat # Breakbeat music with heavy drums and catchy synth lines.
+      - breakbeat hardcore # An early rave genre with fast breakbeats.
+      - broken beat # Jazz-influenced electronic music with syncopated beats.
+      - florida breaks # A bass-heavy breakbeat style from Florida.
+      - nu skool breaks # A polished, technical evolution of breakbeat.
+  - chiptune:
+      - 8-bit # Music mimicking the technical limitations and aesthetic of 1980s game consoles (e.g., NES).
+      - 16-bit # Music utilizing the richer FM synthesis or sample-based sounds of 1990s consoles (e.g., Genesis/SNES).
+      - bitpop # A style blending chiptune aesthetics with traditional pop or rock song structures.
+      - nintendocore # A fusion genre that blends chiptune with hardcore punk or metalcore.  - deconstructed club # Experimental, jagged club music focused on texture.
+  - disco:
+      - cosmic disco # A slow, psychedelic form of disco.
+      - disco polo: # A popular Polish genre of dance music.
+          - euro disco # European-style disco with heavy synth use.
+      - italo disco # Italian-produced electronic dance music.
+      - nu-disco # A modern revival of disco and boogie.
+      - space disco # Disco music with futuristic, "outer space" themes.
+  - downtempo:
+      - acid jazz # A fusion of jazz, funk, and hip hop.
+      - balearic beat # An eclectic mix of dance music from Ibiza.
+      - chill out # Relaxed, melodic electronic music.
+      - dub music # A subgenre of reggae focused on studio effects and bass.
+      - dubtronica # A fusion of dub and electronic music.
+      - ethnic electronica # Electronic music featuring traditional folk elements.
+      - moombahton # A fusion of house and reggaeton.
+      - nu jazz # A blend of jazz and electronic dance music.
+      - trip hop # A slow, atmospheric blend of hip hop and electronica.
+  - drum and bass:
+      - darkcore # A dark, breakbeat-heavy style of rave music.
+      - darkstep # High-energy drum and bass with dark, industrial sounds.
+      - drumfunk # Drum and bass focused on intricate breakbeat edits.
+      - drumstep # A fusion of drum and bass and dubstep.
+      - hardstep # A style of drum and bass with hard, percussive breaks.
+      - intelligent drum and bass # A melodic, atmospheric style of drum and bass.
+      - jump-up # A high-energy, bass-heavy style of drum and bass.
+      - liquid funk # A soulful, melodic subgenre of drum and bass.
+      - neurofunk # A technical, dark style of drum and bass with sci-fi themes.
+      - oldschool jungle:
+          - darkside jungle # A dark, ominous precursor to drum and bass.
+          - ragga jungle # Jungle music with reggae and dancehall vocals.
+      - raggacore # A fast, chaotic blend of breakcore and ragga.
+      - sambass # A fusion of drum and bass and Brazilian samba.
+      - techstep # A dark, technical style of drum and bass.
+  - dungeon synth # An atmospheric genre blending dark ambient with the aesthetic of early fantasy RPG soundtracks.
+  - electro:
+      - crunk # A high-energy style of Southern hip hop.
+      - electro backbeat # Early electro with a focus on robotic beats.
+      - electro-grime # Grime music with heavy electro influences.
+      - electropop # Pop music with a primary focus on electronic instruments.
+  - electroacoustic:
+      - acousmatic music # Music intended for loudspeaker performance.
+      - computer music # Music created or assisted by computers.
+      - electroacoustic improvisation # Spontaneous music using electronic and acoustic sources.
+      - field recording # Sound recorded outside of a studio environment.
+      - live coding # Creating music in real-time by writing computer code.
+      - live electronics # Electronic music performed in real-time.
+      - soundscape composition # Music based on environmental sounds.
+      - tape music # Music produced by manipulating recorded tape.
+  - electronic rock:
+      - alternative dance:
+          - baggy # A loose, psychedelic style of dance-rock from the UK.
+          - madchester # A music scene in Manchester blending indie and dance.
+      - dance-punk # A fusion of post-punk and disco/dance.
+      - dance-rock # Rock music with a strong, danceable beat.
+      - dark wave # A dark, melancholic subgenre of new wave.
+      - electroclash # A fusion of 80s synthpop and underground techno.
+      - electronicore # A fusion of metalcore and electronic music.
+      - electropunk # A fusion of electronic music and punk rock.
+      - ethereal wave # A subgenre of dark wave featuring "heavenly" vocals.
+      - indietronica # A blend of indie rock and electronic music.
+      - new rave # A mid-2000s scene blending indie and electronic dance.
+      - space rock # Rock music focused on atmospheric textures and sci-fi themes.
+      - synthpop # Pop music featuring the synthesizer as the main instrument.
+      - synthpunk # Punk rock with synthesizers instead of guitars.
+  - electronica:
+      - berlin school # A style of electronic music focused on long, evolving sequences.
+      - chillwave # A hazy, nostalgic style of indie electronic music.
+      - electronic art music # Serious, experimental electronic composition.
+      - electronic dance music # A broad range of percussive electronic music for clubs.
+      - folktronica # A fusion of folk music and electronic sounds.
+      - freestyle music # A genre of electronic dance music with Latin influences.
+      - glitch # Music featuring the aesthetic of digital errors and noise.
+      - idm # Intelligent Dance Music; experimental electronic music.
+      - laptronica # Live electronic music performed on a laptop.
+      - skweee # A genre of synth-based music from Scandinavia.
+      - sound art # Art that uses sound as its medium.
+      - synthcore # A fusion of hardcore punk and synthpop.
+  - eurodance:
+      - bubblegum dance # A cheerful, high-energy style of dance music.
+      - italo dance # Electronic dance music from Italy.
+      - turbofolk # A fusion of folk music and modern electronic pop in the Balkans.
+  - fm synthesis # A style of synthesis known for metallic, percussive textures, widely used in 90s hardware.
+  - hardcore:
+      - bouncy house # A fast, upbeat style of house music.
+      - bouncy techno # An energetic, melodic style of hardcore techno.
+      - breakcore # A chaotic genre of fast breakbeats and glitchy edits.
+      - digital hardcore # A fusion of hardcore punk and electronic noise.
+      - doomcore # A dark, slow style of hardcore techno.
+      - dubstyle # A fusion of hardstyle and dubstep.
+      - gabber # A style of hardcore techno with very fast, distorted kicks.
+      - happy hardcore # Fast, high-energy dance music with melodic piano.
+      - hardstyle # A fusion of techno and hardcore with a "hard" kick.
+      - jumpstyle # A style of dance and music characterized by jumping.
+      - makina # A fast, melodic style of hardcore from Spain.
+      - speedcore # Hardcore techno with extreme speeds (over 300 BPM).
+      - terrorcore # A dark, aggressive style of speedcore.
+      - uk hardcore # A modern evolution of happy hardcore from the UK.
+  - hi-nrg:
+      - eurobeat # A high-tempo electronic dance music from Europe.
+      - hard nrg # A hard, fast style of Hi-NRG.
+      - new beat # A slow, dark electronic dance style from Belgium.
+  - house:
+      - acid house # House music featuring the squelching sound of the TB-303.
+      - chicago house # The original style of house music from Chicago.
+      - deep house # A melodic, soulful subgenre of house music.
+      - diva house # House music featuring powerful female vocals.
+      - dutch house # A hard, squeaky style of house from the Netherlands.
+      - electro house # House music with heavy, distorted synths.
+      - freestyle house # A fusion of house and freestyle music.
+      - french house # House music featuring disco samples and "filter" effects.
+      - funky house # A soulful, groove-driven style of house.
+      - ghetto house # A raw, fast style of house from Chicago.
+      - hardbag # A commercial, high-energy style of house.
+      - hip house # A fusion of house music and hip hop.
+      - italo house # Piano-heavy house music from Italy.
+      - latin house # House music with Latin rhythms and vocals.
+      - minimal house # House music with a stripped-back aesthetic.
+      - progressive house # House music with evolving structures and layers.
+      - rave music # High-energy electronic music for large dance parties.
+      - swing house # A fusion of swing music and house.
+      - tech house # A fusion of techno and house music.
+      - tribal house # House music with heavy percussion and ethnic chants.
+      - uk hard house # A fast, hard-driving style of house from the UK.
+      - us garage # A soulful, R&B-influenced style of house.
+      - vocal house # House music centered around vocal performances.
+  - hyperpop: # Maximalist, distorted take on pop with high-pitched vocals.
+      - digicore # DIY internet evolution of hyperpop.
+      - dariacore # Chaotic mashup microgenre with fast BPM.
+  - industrial:
+      - aggrotech # A dark, aggressive style of electronic body music.
+      - coldwave # A dark, minimalist style of post-punk and electronic.
+      - cybergrind # A fusion of grindcore and electronic noise.
+      - dark electro # Dark, atmospheric electronic music with distorted vocals.
+      - death industrial # A dark, abrasive style of industrial music.
+      - electro-industrial # A fusion of industrial music and electronic dance.
+      - electronic body music:
+          - futurepop # A fusion of EBM and trance music.
+      - industrial metal:
+          - neue deutsche härte # A style of German industrial metal.
+      - industrial rock # Rock music with industrial sounds and production.
+      - noise:
+          - japanoise # Extreme noise music from Japan.
+          - power electronics # A harsh, abrasive style of noise with political themes.
+          - power noise # A rhythmic, distorted style of industrial noise.
+      - witch house # A dark, occult-themed electronic microgenre.
+  - post-disco:
+      - boogie # A style of post-disco dance music with heavy synth-bass.
+      - dance-pop # Pop music designed for dancing.
+  - progressive:
+      - progressive house/trance:
+          - disco house # House music with heavy disco influence.
+          - dream house # Melodic, atmospheric house music.
+          - space house # House music with futuristic, airy themes.
+      - progressive breaks # Breakbeat music with progressive structures.
+      - progressive drum & bass # Drum and bass with evolving, technical structures.
+      - progressive techno # Techno music that emphasizes evolving layers.
+  - techno:
+      - acid techno # Techno music featuring the TB-303 synth.
+      - detroit techno # The original style of techno from Detroit.
+      - free tekno # Electronic music associated with the "free party" scene.
+      - ghettotech # A fast, raw style of techno from Detroit.
+      - minimal # Techno with a focus on repetition and subtle changes.
+      - nortec # A fusion of techno and Mexican Norteño music.
+      - schranz # A hard, fast, and percussive style of techno.
+      - techno-dnb # Drum and bass with heavy techno influence.
+      - technopop # Pop music with a primary focus on techno production.
+      - tecno brega # Electronic music from Brazil based on cheesy pop.
+      - toytown techno # Fast, playful techno with cartoonish sounds.
+  - trance:
+      - acid trance # Trance music featuring the TB-303 synth.
+      - classic trance # The original style of trance from the 1990s.
+      - dream trance # Melodic, atmospheric trance music.
+      - goa trance:
+          - dark psytrance # A dark, aggressive style of psychedelic trance.
+          - full on # High-energy, melodic psychedelic trance.
+          - psybreaks # A fusion of breakbeat and psychedelic trance.
+          - psyprog # Progressive psychedelic trance.
+          - suomisaundi # Experimental psychedelic trance from Finland.
+      - hard trance # A fast, hard-driving style of trance.
+      - tech trance # A fusion of techno and trance music.
+      - uplifting trance:
+          - orchestral uplifting # Trance with epic, orchestral breakdowns.
+      - vocal trance # Trance music centered on vocal performances.
+  - uk garage:
+      - 2-step # A syncopated, rhythmic style of UK garage.
+      - 4x4 # UK garage with a constant bass drum on every beat.
+      - bassline # A high-energy, bass-heavy subgenre of UK garage.
+      - breakstep # A fusion of breakbeat and UK garage.
+      - dubstep # A bass-heavy genre with syncopated rhythms and "wobble."
+      - funky # A soulful, house-influenced style of UK garage.
+      - grime # A fast, aggressive genre with electronic and dancehall roots.
+      - speed garage # Fast, bass-heavy UK garage.
+      - trap # Electronic dance music with rolling hi-hats and heavy bass.
+  - wave: # Atmospheric, emotional bass music often featuring cinematic synth leads.
+      - hardwave # A high-energy, trance-influenced evolution of the Wave microgenre.
+- folk:
+  - american folk revival # A 1950s-60s movement bringing folk to a modern audience.
+  - anti-folk # A genre that subverts the tropes of traditional folk music.
+  - british folk revival # A movement bringing traditional British music to the modern era.
+  - celtic music # Folk music from the Celtic regions of Europe.
+  - contemporary folk # Modern music inspired by traditional folk styles.
+  - filk music # Folk music associated with science fiction and fantasy fandom.
+  - freak folk # A subgenre of folk featuring experimental or "weird" elements.
+  - indie folk # A fusion of indie rock and folk music.
+  - industrial folk # Folk music with industrial themes or production.
+  - neofolk # A fusion of folk music and experimental/post-industrial music.
+  - progressive folk # Folk music that experiments with structure and style.
+  - psychedelic folk # Folk music featuring psychedelic elements.
+  - sung poetry # Musical settings of poetic texts.
+  - techno-folk # A fusion of folk music and electronic dance music.
+- hip hop:
+  - alternative hip hop # Hip hop that rejects traditional genre conventions.
+  - avant-garde hip hop # Experimental, boundary-pushing hip hop.
+  - chap hop # Hip hop with themes of British gentlemanly culture.
+  - christian hip hop # Hip hop with Christian lyrical themes.
+  - cloud rap # Hazy, ethereal subgenre of hip hop.
+  - conscious hip hop # Hip hop focusing on social and political issues.
+  - country-rap # A fusion of country music and hip hop.
+  - crunkcore # A fusion of crunk and screamo/post-hardcore.
+  - cumbia rap # A fusion of Cumbia and hip hop.
+  - east coast hip hop:
+      - brick city club # High-tempo breakbeat style from Newark.
+      - hardcore hip hop # Aggressive hip hop with confrontational lyrics.
+      - mafioso rap # Hip hop focusing on organized crime themes.
+      - new jersey hip hop # Hip hop produced in New Jersey.
+  - electro music # Early electronic hip hop with robotic beats.
+  - emo rap # Melodic, punk-influenced trap focusing on emotional lyrics.
+  - freestyle rap # Improvised rapping over a beat.
+  - g-funk # A style of West Coast hip hop with melodic synths and slow beats.
+  - gangsta rap # Hip hop focusing on urban street life and crime.
+  - golden age hip hop # The era of hip hop from the late 80s to early 90s.
+  - hip hop soul # A fusion of hip hop and contemporary R&B.
+  - hip pop # A commercial blend of hip hop and pop music.
+  - hyphy # High-energy hip hop from the San Francisco Bay Area.
+  - industrial hip hop # A fusion of industrial noise and hip hop.
+  - instrumental hip hop # Hip hop beats without vocals.
+  - jazz rap # A fusion of jazz and hip hop.
+  - low bap # A Greek subgenre of hip hop.
+  - lyrical hip hop # Hip hop that emphasizes complex wordplay and flow.
+  - merenrap # A fusion of Merengue and hip hop.
+  - midwest hip hop:
+      - chicago hip hop # Hip hop produced in Chicago.
+      - detroit hip hop # Hip hop produced in Detroit.
+      - horrorcore # Hip hop with horror-themed lyrics and imagery.
+      - st. louis hip hop # Hip hop produced in St. Louis.
+      - twin cities hip hop # Hip hop produced in Minneapolis and St. Paul.
+  - motswako # A Tswana-language hip hop subgenre from South Africa and Botswana.
+  - nerdcore # Hip hop with themes related to geek culture.
+  - new jack swing # A fusion of R&B, soul, and hip hop.
+  - new school hip hop # The era of hip hop following the old school era.
+  - old school hip hop # The earliest style of hip hop from the 1970s and 80s.
+  - political hip hop # Hip hop with overt political messages.
+  - rap opera # A full-scale dramatic work in the style of rap.
+  - rap rock:
+      - rap metal # A fusion of rap and heavy metal.
+      - rapcore # A fusion of rap and hardcore punk.
+  - sigilkore # Ultra-distorted, experimental underground trap.
+  - songo-salsa # A fusion of Songo and Salsa music.
+  - southern hip hop:
+      - atlanta hip hop:
+          - snap music # A minimalistic style of Southern hip hop.
+      - bounce music # High-energy, call-and-response hip hop from New Orleans.
+      - houston hip hop:
+          - chopped and screwed # Slowed-down, beat-skipping remix style.
+      - miami bass # Fast, bass-heavy hip hop from Florida.
+  - trap: # Defined by 808 bass, double-time hi-hats, and dark themes.
+      - phonk: # Cowbell-heavy genre inspired by 90s Memphis rap.
+          - drift phonk # High-distortion version popular in car culture.
+          - rare phonk # Atmospheric, jazzy original phonk style.
+          - brazilian phonk # Blend of Phonk with Funk Carioca rhythms.
+      - plugg: # Hazy, melodic trap characterized by specific "plugg" tags.
+          - pluggnb # Fusion of Plugg with modern R&B melodies.
+      - rage # High-energy trap with "video game" synth leads.
+      - drill: # A dark, gritty subgenre of trap focused on street life, originating in Chicago and London.
+          - uk drill # A syncopated, high-energy version of drill with sliding basslines.
+          - brooklyn drill # The New York evolution of drill, heavily influenced by the UK sound.
+      - tread # High-BPM, aggressive trap.
+  - turntablism # The art of manipulating sounds and creating music using turntables.
+  - underground hip hop # Hip hop outside of the commercial mainstream.
+  - urban pasifika # Hip hop and R&B from Pacific Islander communities.
+  - west coast hip hop:
+      - chicano rap # Hip hop produced by Mexican-Americans.
+      - jerkin' # A high-energy dance and hip hop style from LA.
+- jazz:
+  - asian american jazz # Jazz produced by Asian Americans, often exploring heritage.
+  - avant-garde jazz # Experimental jazz that challenges traditional structures.
+  - bebop # A style of jazz with fast tempos and complex chord changes.
+  - boogie-woogie # A piano-based style of blues with a strong rhythm.
+  - british dance band # Popular music played by British dance orchestras.
+  - chamber jazz # Jazz meant for small ensembles, emphasizing composition.
+  - continental jazz # Jazz produced in continental Europe.
+  - cool jazz # A relaxed, melodic style of jazz from the 1950s.
+  - crossover jazz # Jazz that incorporates elements of pop and rock.
+  - cubop # A fusion of bebop and Afro-Cuban rhythms.
+  - dixieland # Early jazz style originating in New Orleans.
+  - ethno jazz # Jazz that incorporates traditional folk music from around the world.
+  - european free jazz # A style of free jazz developed in Europe.
+  - free funk # A fusion of free jazz and funk music.
+  - free improvisation # Spontaneous music without pre-set rules or structures.
+  - free jazz # Jazz that avoids traditional meter and tonality.
+  - gypsy jazz # Jazz style popularized by Django Reinhardt.
+  - hard bop # An extension of bebop with soul and gospel influences.
+  - jazz fusion # A fusion of jazz and rock/electronic music.
+  - jazz rock # Rock music with jazz-style improvisation and arrangements.
+  - jazz-funk # A fusion of jazz, funk, and R&B.
+  - kansas city jazz # Jazz style focusing on riffs and the 4/4 beat.
+  - latin jazz # Jazz with Latin American rhythms.
+  - livetronica # Live jazz and rock performed with electronic elements.
+  - m-base # A conceptual approach to jazz and groove-based music.
+  - mainstream jazz # Jazz that adheres to the acoustic traditions of the mid-20th century.
+  - modal jazz # Jazz based on musical modes rather than chord changes.
+  - neo-bop jazz # A revival of the bebop and hard bop styles.
+  - neo-swing # A modern revival of swing music.
+  - novelty ragtime # Ragtime music intended for humor or entertainment.
+  - orchestral jazz # Jazz written for a full orchestra.
+  - post-bop # Jazz that emerged after bebop, incorporating diverse styles.
+  - punk jazz # A fusion of punk rock and jazz.
+  - ragtime # Syncopated musical style that was a precursor to jazz.
+  - shibuya-kei # A pop style from Japan blending jazz, pop, and bossa nova.
+  - ska jazz # A fusion of ska music and jazz.
+  - smooth jazz # A commercial, radio-friendly style of jazz.
+  - soul jazz # Jazz with strong roots in blues, gospel, and R&B.
+  - straight-ahead jazz # Jazz that adheres to traditional, non-experimental styles.
+  - stride jazz # Piano jazz style with a "striding" left hand.
+  - swing # Jazz style designed for dancing with a strong "swing" rhythm.
+  - third stream # A fusion of classical music and jazz.
+  - trad jazz # A revival of the original New Orleans jazz style.
+  - vocal jazz # Jazz music focused on the singer.
+  - west coast gypsy jazz # Gypsy jazz produced on the West Coast of the US.
+  - west coast jazz # A relaxed, melodic style of jazz from California.
+- other:
+  - worldbeat # A fusion of Western pop and traditional world music.
+- pop:
+  - adult contemporary # Radio-friendly pop aimed at an older audience.
+  - arab pop # Popular music from the Arab world.
+  - baroque pop # Pop music with orchestral or classical arrangements.
+  - bedroom pop # DIY pop music recorded at home.
+  - bubblegum pop # Cheerful, upbeat pop aimed at teens.
+  - chanson # A lyric-driven French song.
+  - christian pop # Pop music with Christian lyrical themes.
+  - classical crossover # A blend of classical and popular music styles.
+  - europop:
+      - austropop # Popular music from Austria.
+      - balkan pop # Popular music from the Balkan region.
+      - french pop # Popular music from France.
+      - latin pop # Popular music from Latin America.
+      - laïkó # Popular Greek music.
+      - nederpop # Popular music from the Netherlands.
+      - russian pop # Popular music from Russia.
+  - iranian pop # Popular music from Iran.
+  - jangle pop # Pop music with "jangly" guitar sounds.
+  - latin ballad # A slow, romantic Latin pop song.
+  - levenslied # Traditional Dutch popular song.
+  - louisiana swamp pop # A fusion of R&B, country, and cajun music.
+  - mexican pop # Popular music from Mexico.
+  - motorpop # A high-energy pop-rock style.
+  - new romanticism # A 1980s pop movement with flamboyant style.
+  - pop rap # A commercial fusion of pop and hip hop.
+  - popera # A fusion of opera and pop music.
+  - psychedelic pop # Pop music with psychedelic elements.
+  - schlager # Catchy, sentimental popular song from Northern Europe.
+  - soft rock # Rock music with a melodic, low-intensity sound.
+  - sophisti-pop # Polished pop music with jazz and soul influences.
+  - space age pop # Futuristic pop music from the 1950s and 60s.
+  - sunshine pop # Upbeat, melodic pop with vocal harmonies.
+  - surf pop # Pop music inspired by surf culture.
+  - teen pop # Pop music created for and marketed to teenagers.
+  - traditional pop music # The mainstream pop sound before the rock era.
+  - turkish pop # Popular music from Turkey.
+  - vispop # A Scandinavian singer-songwriter pop genre.
+  - wonky pop # Quirkier, experimental pop music.
+- rhythm and blues:
+  - funk:
+      - deep funk # Rare, gritty funk music from the 1960s and 70s.
+      - go-go # A funk subgenre originating in Washington, D.C.
+      - p-funk # A style of psychedelic funk associated with George Clinton.
+  - soul:
+      - blue-eyed soul # Soul music performed by white artists.
+      - neo soul # A modern revival of 1970s soul with hip hop influence.
+      - northern soul # A soul music movement from Northern England.
+- rock:
+  - alternative rock:
+      - britpop:
+          - post-britpop # The era of British guitar music after Britpop.
+      - dream pop # Atmospheric, hazy alternative rock.
+      - grunge:
+          - post-grunge # A more commercial version of the grunge sound.
+      - indie pop:
+          - dunedin sound # A lo-fi indie rock style from New Zealand.
+          - twee pop # Sweet, melodic, and innocent indie pop.
+      - indie rock # Alternative rock produced on independent labels.
+      - noise pop # Melodic pop with distorted guitar noise.
+      - nu metal # A fusion of heavy metal, hip hop, and industrial rock.
+      - post-punk revival # A modern revival of late 70s post-punk.
+      - post-rock:
+          - post-metal # A fusion of post-rock and heavy metal.
+      - sadcore # Melancholic, slow-tempo alternative rock.
+      - shoegaze # Alternative rock focused on guitar textures and effects.
+      - slowcore # Minimalist, extremely slow alternative rock.
+  - art rock # Rock music that incorporates avant-garde or classical elements.
+  - beat music # A British rock style from the 1960s.
+  - chinese rock # Rock music produced in China.
+  - christian rock # Rock music with Christian lyrical themes.
+  - dark cabaret # A fusion of cabaret, punk, and goth.
+  - desert rock # A stoner rock style from the California desert.
+  - experimental rock # Rock music that pushes traditional boundaries.
+  - folk rock # A fusion of folk and rock music.
+  - garage rock # Raw, energetic rock music played by amateur bands.
+  - glam rock # Rock music featuring flamboyant costumes and styles.
+  - hard rock # Aggressive rock music with distorted guitars.
+  - heavy metal:
+      - alternative metal:
+          - funk metal # A fusion of heavy metal and funk.
+      - black metal:
+          - viking metal # Black metal with themes of Norse mythology.
+      - christian metal # Heavy metal with Christian lyrical themes.
+      - death metal:
+          - death/doom # A slow, heavy fusion of death and doom metal.
+          - goregrind # A fusion of death metal and grindcore with horror themes.
+          - melodic death metal # Death metal with melodic guitar lines.
+          - technical death metal # Complex, highly technical death metal.
+      - doom metal:
+          - epic doom metal # Doom metal with grand, operatic vocals.
+          - funeral doom # Extremely slow, mournful doom metal.
+      - drone metal # Metal focused on sustained, low-pitched notes.
+      - epic metal # Heavy metal with grand, heroic themes.
+      - folk metal:
+          - celtic metal # Folk metal with Celtic musical elements.
+          - medieval metal # Folk metal with medieval instruments.
+          - pagan metal # Folk metal with pagan and nature themes.
+      - funk metal # A fusion of funk and heavy metal.
+      - glam metal # A commercial, pop-influenced style of heavy metal.
+      - gothic metal # Heavy metal with gothic rock influences.
+      - industrial metal:
+          - industrial death metal # A fusion of industrial noise and death metal.
+      - metalcore:
+          - deathcore # A fusion of death metal and metalcore.
+          - mathcore:
+              - djent # Technical metal with syncopated, palm-muted riffs.
+          - synthcore # A fusion of metalcore and electronic synths.
+      - neoclassical metal # Heavy metal influenced by classical music.
+      - post-metal # Metal with post-rock song structures and atmosphere.
+      - power metal:
+          - progressive power metal # Power metal with complex structures.
+      - progressive metal # Metal that incorporates progressive rock elements.
+      - sludge metal # A slow, heavy fusion of doom metal and hardcore punk.
+      - speed metal # A fast, melodic precursor to thrash metal.
+      - stoner rock:
+          - stoner metal # A slow, heavy rock style influenced by psychedelia.
+      - symphonic metal # Heavy metal with orchestral and operatic elements.
+      - thrash metal:
+          - crossover thrash # A fusion of thrash metal and hardcore punk.
+          - groove metal # A mid-tempo style of thrash metal.
+          - progressive thrash metal # Thrash metal with complex structures.
+          - teutonic thrash metal # A fast, aggressive style of thrash from Germany.
+      - traditional heavy metal # The original style of heavy metal from the 1970s.
+  - math rock # Rock music featuring complex, asymmetrical time signatures.
+  - new wave:
+      - world fusion # A blend of Western rock and world music.
+  - paisley underground # A psychedelic-influenced rock movement from LA.
+  - pop rock # A commercial fusion of pop and rock.
+  - post-punk:
+      - gothic rock # Dark, atmospheric rock music.
+      - no wave # An avant-garde rock movement from New York City.
+      - noise rock # Rock music focused on abrasive noise and distortion.
+  - power pop # Melodic, guitar-driven pop-rock.
+  - progressive rock:
+      - canterbury scene # A whimsical, jazz-influenced rock style.
+      - krautrock # Experimental rock music from Germany.
+      - new prog # A modern revival of progressive rock.
+      - rock in opposition # A movement of avant-garde rock bands.
+  - psychedelic rock:
+      - acid rock # A hard, distorted style of psychedelic rock.
+      - freakbeat # A high-energy style of British psychedelic rock.
+      - neo-psychedelia # A modern revival of psychedelic rock.
+      - raga rock # Rock music influenced by Indian classical music.
+  - punk rock:
+      - anarcho punk:
+          - crust punk:
+              - d-beat # A fast, repetitive style of hardcore punk.
+      - art punk # Punk rock with avant-garde influences.
+      - christian punk # Punk rock with Christian lyrical themes.
+      - deathrock # A dark, gothic subgenre of punk rock.
+      - folk punk:
+          - celtic punk # A fusion of Celtic folk and punk rock.
+          - gypsy punk # A fusion of gypsy music and punk rock.
+      - garage punk # A raw, aggressive style of garage rock.
+      - grindcore:
+          - crustgrind # A fusion of crust punk and grindcore.
+          - noisegrind # Grindcore with an emphasis on pure noise.
+      - hardcore punk:
+          - post-hardcore:
+              - emo:
+                  - screamo # A high-energy, emotional style of emo.
+          - powerviolence # An extremely fast, aggressive style of hardcore.
+          - street punk # A direct, working-class style of punk rock.
+          - thrashcore # A fast, aggressive style of hardcore punk.
+      - horror punk # Punk rock with horror-themed lyrics.
+      - oi! # A working-class subgenre of punk rock.
+      - pop punk # A melodic, commercial style of punk rock.
+      - psychobilly # A fusion of punk rock and rockabilly.
+      - riot grrrl # A feminist underground punk movement.
+      - ska punk:
+          - ska-core # A fusion of ska and hardcore punk.
+      - skate punk # Fast, melodic punk associated with skate culture.
+  - rock and roll # The original style of rock music from the 1950s.
+  - southern rock # Rock music with Southern US cultural influences.
+  - sufi rock # Rock music with Sufi mystical themes.
+  - surf rock # Instrumental rock music inspired by surf culture.
+  - visual kei:
+      - nagoya kei # A darker style of Japanese visual kei from Nagoya.
+- reggae:
+  - roots reggae # The original, spiritual style of reggae from Jamaica.
+  - reggae fusion # A blend of reggae with other genres like pop or R&B.
+  - reggae en español:
+      - spanish reggae # Reggae music performed in Spanish.
+      - reggae 110 # An early Panamanian reggae style.
+      - reggae bultrón # A gritty, underground style of Panamanian reggae.
+      - romantic flow # A melodic, romantic style of reggaeton and reggae.
+  - lovers rock # A soulful, romantic style of reggae.
+  - raggamuffin:
+      - ragga # Reggae music using digital instrumentation.
+  - dancehall # A high-energy, electronic style of Jamaican music.
+  - ska:
+      - 2 tone # A British revival of ska with punk influence.
+      - dub # Reggae focused on studio manipulation and bass.
+      - rocksteady # A slower, more melodic precursor to reggae.
+- soundtrack: # Music specifically composed to accompany and enhance a particular piece of media.
+  - film score # The original music written specifically to accompany the visual narrative of a movie.
+  - game soundtrack # Music composed for interactive media, often featuring adaptive or non-linear structures.
+  - television soundtrack # Music composed for serial television, including themes and incidental music.
+  - anime soundtrack # Music specifically composed for Japanese animation, often spanning multiple genres.
+- singer-songwriter: # Musicians who write, compose, and perform their own material, typically emphasizing lyrical content.
+  - cantautorato # The Italian tradition of singer-songwriters, often characterized by strong social or political themes.
+  - cantautor # A Spanish/Catalan term for a musician who writes and performs their own songs, often in a folk-pop style.
+  - cantautora # The feminine form of cantautor, referring to a female singer-songwriter.
+  - chanson # A lyric-driven French song style focused on the narrative and the nuances of the French language.
+  - canción de autor # A musical movement across Spain and Latin America focusing on artistic expression and poetic lyrics.
+  - nueva canción # A "new song" movement in Latin America that fused folk music with progressive or revolutionary politics.
+- world: # A broad category for music that integrates folk or traditional influences from non-Western cultures.
+  - world dub # A fusion of global traditional rhythms with the echo-heavy production techniques of dub reggae.
+  - world fusion # A genre that blends traditional folk music from various cultures with jazz, rock, or electronic elements.
+  - worldbeat # A subgenre of popular music that combines Western pop and rock structures with traditional world rhythms.

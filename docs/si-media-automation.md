@@ -111,3 +111,60 @@ monitoring and command receipts are under
 Sanitized target lists and initial progress are under
 `/home/m/downloads/media-reacquisition-2026-10-21/` on si. These records contain no
 credentials in Git. No existing media files were deleted or overwritten.
+
+## Book, music and indexer integration checks, October 22
+
+Bookshelf now maps Transmission's `/data/meta/downloads/` to
+`/mnt/storage/meta/downloads/`. Ephemera's SABnzbd-compatible interface was
+disabled; it is enabled again with `/ingest` as the completed directory and
+`/downloads` as incomplete, matching its actual container mounts. Bookshelf maps
+`/ingest/` from `anna.type.hk` to
+`/mnt/storage/meta/downloads/drops/booklore/`. Both download-client connection
+tests pass. Ephemera's global downloads pause remains enabled. Its saved
+Grimmory/Booklore refresh token expired; an authenticated reconnect through
+Ephemera settings is still required for automatic Grimmory uploads. No account
+passwords or authorization roles were changed.
+
+EZTV's Cloudflare challenge is handled by the existing ByParr proxy tag. 1337x's
+old `.to` endpoint returned Forbidden; its supported `.st` mirror passes through
+the same solver. Actual Prowlarr searches returned 147 EZTV and 20 1337x results;
+downstream Bookshelf/Lidarr 1337x tests also pass. Prowlarr application sync was
+run. LazyLibrarian's API was disabled and had no configured key; a dedicated key
+was configured in both applications, and its authenticated API and Prowlarr test
+pass. These app settings are in encrypted application backups, not Git.
+
+Lidarr's actual Tidal configuration is `/data/tidal-config`, not the stale
+`/config/lastUser.json`. Its token refreshed successfully and a read-only album
+search returned 474 Tidal releases. Tidal and Transmission download clients
+remain disabled deliberately while music reacquisition is deferred. The
+no-client/invalid-assigned-client health warnings reflect that deliberate pause,
+not failed Tidal authentication. No music or book acquisition was launched.
+
+Consistent Bookshelf/Ephemera pre-change SQLite copies, private settings rollback
+records and test receipts are under
+`/mnt/data/disk42/.recovery-preservation/service-repairs-20261022/`.
+
+### Corrected non-video loss inventory
+
+The original 378 missing Navidrome paths were not 378 missing recordings. A
+current catalogue/filesystem comparison found counterparts for 366 paths.
+Hyperbubble's 27 historical paths map to the 13 retagged album files by unique,
+identical durations. Crystal Castles' 2012 album exists as `(III)` in AAC; all
+12 files have audio streams and ffprobe durations within 0.1 seconds of the old
+MP3 entries. The only remaining music item is the unidentified old Musepack
+recording of Vivaldi's *The Four Seasons*, 12 movements. Identify its performer
+and edition before seeking an exact replacement. This reconciliation does not
+constitute a full audio integrity audit or delete historical catalogue entries.
+
+The two missing audiobook recordings are Isaac Asimov's *Asimov's Mysteries*
+(Lazar) and Clive Barker's *Books of Blood: Volumes One to Three* (Jim Zeiger).
+The Simon Vance volumes 1–6 recording is present. No owned ebook loss is
+confirmed; historical Grimmory record 2101 is unidentified. Individual *Sandman*
+#14 and #37 records remain unresolved and may have collected-edition coverage.
+The 620 Lidarr and 2,137 Bookshelf Wanted entries are unrelated acquisition
+backlogs, not outage loss counts.
+
+Corrected `CURRENT-REVIEW.md`, the 378-row counterpart audit and the 12-row rich
+unmatched music export are under
+`/home/m/downloads/missing-media-2026-10-21/` on si, with a local copy under
+`/home/io/downloads/missing-media-2026-10-21/` on fi. Original exports remain intact.

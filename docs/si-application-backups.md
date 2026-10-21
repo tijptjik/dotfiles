@@ -8,6 +8,10 @@
 - Daily 10:00 HKT check on `fi` (up to five minutes jitter): rejects server backups older than 24 hours. If no verified local copy has completed since the latest Sunday 06:00, it fetches the retained snapshots, applies retention and verifies all local repository data before recording success. A current receipt must also match a snapshot still present locally. Failed catch-up attempts notify and are attempted again at the next daily check.
 - All transfers are initiated by `fi` over outbound SSH/SFTP; `fi` does not need an SSH server. Persistent timers catch missed runs when its user systemd manager starts.
 - Weekly transfer cap: 2,048 KiB/s. Restic deduplicates and compresses data; snapshots are independently restorable, not a fragile chain of delta archives.
+- Interrupted copies reconnect up to three times with 10/20-second backoff and
+  reuse chunks already stored locally. SSH keepalives allow up to three minutes
+  without a response before disconnecting. A failed copy never updates the
+  verified-success receipt.
 
 ## Coverage
 
@@ -155,10 +159,13 @@ copy/server receipts alongside it.
 
 An owner-only document on fi, `~/.config/si-app-backup/RECOVERY-KEYS.txt`,
 contains both independent repository passwords and basic recovery instructions.
-Copy it into a password manager secure note accessible independently of these
-computers. The document is outside version control; do not put it in public
-downloads or commit it. Passwords alone are insufficient: retain the repository
-files too. Full recovery steps are above.
+On October 22, both current repository passwords and the recovery instructions
+were saved to Bitwarden Secrets Manager, project `dotfiles`, secret
+`si-app-backup-recovery-keys`. The saved value was fetched and compared with the
+owner-only document. This is a Secrets Manager entry, not a personal-vault secure
+note; recovery requires access to that project. The document is outside version
+control; do not put it in public downloads or commit it. Passwords alone are
+insufficient: retain the repository files too. Full recovery steps are above.
 
 Regular parity maintenance is described in [the SnapRAID runbook](si-snapraid-maintenance.md).
 It serializes with application backups. Parity is separate from these versioned backups.
@@ -173,6 +180,12 @@ restores were removed. Adding library coverage stored 15,714,143,657 packed byte
 (about 14.6 GiB) including that run's application changes. Later copies reuse
 unchanged chunks. Fi's first expanded copy was started through the existing
 service; its success receipt is written only after its full data check passes.
+
+The initial expanded copy later lost its SSH connection. On October 22, the
+reconnecting copy was restarted and reused the existing partial repository.
+Library-inclusive offsite verification remains pending until that service
+completes its full `check --read-data`; the previous app-only success receipt
+must not be mistaken for verification of the library copy.
 
 The complete SHA-256 comparison found every `library.bak` book represented in
 the current library. Of 2,896 backup files, 2,876 match at the same path, one was

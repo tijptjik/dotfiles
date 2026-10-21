@@ -122,7 +122,7 @@ services:
       # FlareSolverr URL (for slow download fallback)
       FLARESOLVERR_URL: http://flaresolverr:{{ .ports.byparr }}
       AA_BASE_URL: https://annas-archive.gl/
-      ALLOWED_ORIGINS: https://ephemera.type.hk
+      ALLOWED_ORIGINS: https://anna.type.hk
     ports:
       - {{ .ports.ephemera }}:{{ .ports.ephemera }}
     volumes:
@@ -348,7 +348,7 @@ services:
       SERVER_NAME: Navidrome            # pre-defined server name
       SERVER_LOCK: true                 # When true AND name/type/url are set, only username/password can be toggled
       SERVER_TYPE: navidrome            # the allowed types are: jellyfin, navidrome, subsonic. These values are case insensitive
-      SERVER_URL: http://192.168.1.150:4533 # LAN access while public ingress is stopped
+      SERVER_URL: https://dj.type.hk
       LEGACY_AUTHENTICATION: false      # When SERVER_LOCK is true, sets the legacy (plaintext) authentication flag for Subsonic/OpenSubsonic servers
       ANALYTICS_DISABLED: false         # Set to true to disable Umami analytics tracking
     ports:
@@ -389,8 +389,8 @@ services:
     restart: unless-stopped
     environment:
       - NEXTAUTH_SECRET=l50akmhIBl4TRgE3OCUOn0SO+6oAe4UvyU2VKhOYodA=
-      - NEXTAUTH_URL=http://wrapped.type.hk
-      - NEXT_PUBLIC_SITE_URL=http://wrapped.type.hk
+      - NEXTAUTH_URL=https://wrapped.type.hk
+      - NEXT_PUBLIC_SITE_URL=https://wrapped.type.hk
     volumes:
       - {{ .paths.appData }}/plexrewind:/app/config
     ports:

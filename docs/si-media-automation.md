@@ -171,3 +171,27 @@ Corrected `CURRENT-REVIEW.md`, the 378-row counterpart audit and the 12-row rich
 unmatched music export are under
 `/home/m/downloads/missing-media-2026-10-21/` on si, with a local copy under
 `/home/io/downloads/missing-media-2026-10-21/` on fi. Original exports remain intact.
+
+## Prowlarr Telegram presentation, October 22
+
+The existing Telegram connection now uses Prowlarr's supported Custom Script
+provider. Release messages separate series/episode or movie/year, episode title,
+quality, requesting application, indexer and size, with escaped Telegram HTML.
+Grab and Application Update remain the only selected events; bot, destination
+and silent delivery are preserved. There is one connection, so notifications
+are not duplicated. No container restart or acquisition was needed.
+
+Managed Bash/jq sources are under `home/dockers/prowlarr-notify/`. A server-only
+apply hook atomically copies them into Prowlarr's existing appData mount after
+storage is available; it leaves credentials and connection settings alone.
+Credentials are private at `/config/notifications/telegram.json` in the container,
+covered by encrypted application backups and verified in Bitwarden Secrets
+Manager (`dotfiles` / `si-prowlarr-telegram`), outside Git. See the source README
+for restoration and offline previews. Fi/li skip deployment.
+
+The provider's Test action verifies its Telegram destination without posting.
+The live connection test passed before and after switching. A single labelled
+preview used an already-grabbed MobLand episode (Telegram message 4586); it did
+not request another download. The private pre-change database, rollback record
+and completion receipt are under the dated `prowlarr-telegram-format` repair
+directory on disk42.

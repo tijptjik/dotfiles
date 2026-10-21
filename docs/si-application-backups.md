@@ -162,3 +162,23 @@ files too. Full recovery steps are above.
 
 Regular parity maintenance is described in [the SnapRAID runbook](si-snapraid-maintenance.md).
 It serializes with application backups. Parity is separate from these versioned backups.
+
+## Library validation (October 21, 2026)
+
+Snapshot `3c1afc12` includes all 2,912 library files / 15,774,170,682 bytes,
+alongside the consistent application exports. The completed job passed its
+repository check. EPUB and PDF samples were restored into a private temporary
+directory; their SHA-256 hashes matched the full source inventory, and temporary
+restores were removed. Adding library coverage stored 15,714,143,657 packed bytes
+(about 14.6 GiB) including that run's application changes. Later copies reuse
+unchanged chunks. Fi's first expanded copy was started through the existing
+service; its success receipt is written only after its full data check passes.
+
+The complete SHA-256 comparison found every `library.bak` book represented in
+the current library. Of 2,896 backup files, 2,876 match at the same path, one was
+moved unchanged, and 19 have renamed/current versions: eight EPUB metadata-only
+edits, six EPUB metadata/cover edits, and five PDFs with identical page content,
+resources, geometry, annotations and extracted text. Current has 16 additional
+files. This is not a byte-identical subset: old metadata/covers differ, and
+timestamps alone do not prove chronology. Neither tree was changed. Full audit
+reports are in `~/downloads/library-audit-2026-10-21/` on si and fi.

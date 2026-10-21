@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Copy the retained consistent si snapshots into an independent local repository."""
-import datetime, fcntl, json, os, pathlib, shlex, subprocess, sys
+import datetime, fcntl, json, os, pathlib, shlex, subprocess, sys, time
 from zoneinfo import ZoneInfo
 
 def weekly_copy_current(receipt, now):
@@ -19,7 +19,7 @@ os.umask(0o077)
 home=pathlib.Path.home();base=home/'.local/share/si-app-backups';config=home/'.config/si-app-backup'
 base.mkdir(mode=0o700,parents=True,exist_ok=True)
 lock=(base/'copy.lock').open('w');fcntl.flock(lock,fcntl.LOCK_EX)
-ssh_base=['/usr/bin/mullvad-exclude','/usr/bin/ssh','-x','-o','HostKeyAlias=ssh.type.hk','-o','StrictHostKeyChecking=yes','-o','BatchMode=yes','-o','ConnectTimeout=8','-o','ServerAliveInterval=15','-o','ServerAliveCountMax=2']
+ssh_base=['/usr/bin/mullvad-exclude','/usr/bin/ssh','-x','-o','HostKeyAlias=ssh.type.hk','-o','StrictHostKeyChecking=yes','-o','BatchMode=yes','-o','ConnectTimeout=8','-o','ServerAliveInterval=30','-o','ServerAliveCountMax=6']
 endpoints=[os.environ['SI_BACKUP_SSH_HOST']] if 'SI_BACKUP_SSH_HOST' in os.environ else ['m@192.168.1.150','m@ssh.type.hk']
 ssh=None
 for endpoint in endpoints:
@@ -55,7 +55,14 @@ if health:
    print('Server backup is fresh; verified copy for the latest Sunday is present.');sys.exit(0)
  print('Weekly verified copy is missing or overdue; fetching it now.',flush=True)
 if not (base/'repository/config').exists():run(common+['init','--copy-chunker-params',*remote])
-run(common+['copy',*remote,'--host','si','--tag','app-state'])
+for attempt in range(1,4):
+ try:
+  run(common+['copy',*remote,'--host','si','--tag','app-state'])
+  break
+ except subprocess.CalledProcessError:
+  if attempt==3:raise
+  print(f'Copy interrupted; reconnecting in {attempt*10}s. Existing repository chunks are retained.',flush=True)
+  time.sleep(attempt*10)
 run(['restic','--retry-lock','15m','forget','--host','si','--tag','app-state','--group-by','host,tags','--keep-daily','7','--keep-weekly','4','--prune'])
 run(['restic','--retry-lock','15m','check','--read-data'])
 receipt={'copiedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sourceSnapshot':snapshot['id'],'sourceTime':snapshot['time'],'dataCheck':'passed'}

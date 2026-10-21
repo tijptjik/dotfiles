@@ -11,9 +11,9 @@
 
 ## Coverage
 
-Current appData (including custom plugins/scripts), native Plex databases/settings, Audiobookshelf supporting metadata, MariaDB, Compose files, server dotfile source, user configuration/scripts/SSH files, and `/etc`.
+Current appData (including custom plugins/scripts), native Plex databases/settings, Audiobookshelf supporting metadata, MariaDB, Compose files, server dotfile source, user configuration/scripts/SSH files, `/etc`, and `/mnt/storage/public/library`.
 
-Excluded: media/downloads, sequencing data now in `private/wgs`, Docker layers, Flatpak packages, historical backup archives, known cache/log/artwork directories, Plex generated media/artwork, and development environments. Grimmory images are retained conservatively because some covers may be user-supplied. The exact per-source exclusion manifest is in the server backup executable and each snapshot's `backup-manifest.json`.
+Excluded: other media/downloads (including `public/books` and `public/library.bak`), sequencing data now in `private/wgs`, Docker layers, Flatpak packages, historical backup archives, known cache/log/artwork directories, Plex generated media/artwork, and development environments. Grimmory images are retained conservatively because some covers may be user-supplied. The exact per-source exclusion manifest is in the server backup executable and each snapshot's `backup-manifest.json`.
 
 This is application recovery coverage, not a disk image or backup of all private documents. Private WGS files are not part of this job. The independent computer copy is geographically offsite only when that computer is elsewhere.
 
@@ -24,6 +24,19 @@ Applications stay running. The job stages configuration files with rsync, then r
 MariaDB is backed up with a native logical dump of all databases, routines, events and triggers. A global read lock covers non-InnoDB tables too; writes can briefly wait during the dump. Raw MariaDB database files are excluded. A failed database export or check prevents a new Restic snapshot.
 
 Staging is root-only, on the excluded recovery-preservation directory. The backup disk UUID and all configured SnapRAID data mounts are checked before staging. SnapRAID exclusions are unchanged.
+
+The library is backed up directly alongside staged application state, preserving
+its original folder paths without making a second staging copy. Restic `--force`
+rereads all source bytes on each daily backup and hashes content chunks, so the
+check does not rely solely on size and modification time. Only new chunks are
+stored or copied to fi; unchanged files, duplicate contents and unchanged chunks
+within edited files share storage across snapshots. Existing compression and
+independent encryption apply. A backup is not a monolithic archive: use `restic
+ls`, `mount` or `restore` to browse and recover the directory tree. The initial
+library read/transfer covers about 14.7 GiB before compression/deduplication;
+later storage and network use depend on changed content. Daily full reads cost
+disk I/O, but do not create daily full copies. Retention groups by host and tags
+so adding this source does not create an extra independent retention group.
 
 Restic checks repository structure after each server backup; the weekly copy reads and verifies all stored data. A successful-copy receipt is written only after verification. Server failures are logged to the system journal; weekly stale-backup detection rejects a server snapshot older than 36 hours.
 
@@ -82,6 +95,14 @@ before installing the restored database. MariaDB is restored from
 `database-dumps/mariadb.sql` into a compatible MariaDB server. Restore deployment
 configuration before starting dependent services. The manifest records database
 checks and the services running at capture time.
+
+Snapshots taken after library coverage was enabled also contain
+`mnt/storage/public/library/` directly beneath the restore target. To restore
+only the library, add `--include /mnt/storage/public/library` to the restore
+command. Use a new temporary destination and check it before replacing files.
+Earlier application-only snapshots do not contain the library. `library.bak`
+is not included or removed automatically; the October 21 content comparison
+reports are in `~/downloads/library-audit-2026-10-21/` on si.
 
 ## Managed sources
 

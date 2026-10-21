@@ -53,3 +53,37 @@ The temporary unit override was removed and systemd reloaded. The unit again
 runs the normal maintenance script with the unchanged 200-file removal limit.
 Receipts and the read-only status are preserved under
 `/mnt/data/disk42/.recovery-preservation/approved-library-bak-sync-20261022/`.
+
+## Telegram alerts
+
+Installed October 22, using the existing `@starprowlarr_bot` and its existing
+private chat. Sync, scrub and writer-resume failures trigger separate systemd
+notification jobs, including deletion-gate refusals and failures before the
+maintenance script can save a receipt. Alert delivery does not block parity jobs
+or bypass their safeguards. A successful run after an incident sends one recovery
+notice; ordinary successful runs stay quiet.
+
+An hourly watchdog, `si-snapraid-health.timer`, also checks for missing successes:
+36 hours for daily sync and nine days for weekly scrub. It allows currently
+running jobs within those limits and alerts on jobs running beyond them.
+Unchanged problems are reminded at most once per 24 hours; changed problems
+alert immediately. Failed Telegram deliveries retry every five minutes.
+
+The bot configuration is root-only at `/etc/si-notifications/telegram.json` on
+the system filesystem, independent of Prowlarr and the array. It is excluded
+from Git and included in encrypted `/etc` backups. Its recovery copy is verified
+in Bitwarden Secrets Manager, project `dotfiles`, secret `si-snapraid-telegram`.
+The managed notifier, units, client-host exclusions and server-only enable hook
+are in chezetc. After fresh provisioning, restore the credentials before enabling
+the watchdog; normal apply reports a skip if credentials have not been restored.
+
+```fish
+sudo systemctl status si-snapraid-health.timer --no-pager
+sudo systemctl start si-snapraid-health.service
+sudo journalctl -u 'si-snapraid-alert@*' -u 'si-snapraid-recovered@*' -u si-snapraid-health.service -n 40 --no-pager
+```
+
+The initial health check passed without alerting. A temporary, clearly labelled
+test unit exercised real failure and recovery hooks; Telegram accepted messages
+4581 and 4582. The test unit was removed, and neither a real sync nor scrub ran.
+Test and incident receipts are under `/var/lib/si-snapraid-notifications/`.

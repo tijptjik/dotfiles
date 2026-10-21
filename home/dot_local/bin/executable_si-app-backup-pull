@@ -34,10 +34,12 @@ common=['restic','--retry-lock','15m','--limit-download','2048','-o','sftp.comma
 os.environ.update(RESTIC_REPOSITORY=str(base/'repository'),RESTIC_PASSWORD_FILE=str(config/'local-password'),RESTIC_CACHE_DIR=str(base/'cache'))
 remote=['--from-repo',source,'--from-password-file',str(config/'server-password')]
 def run(args,**kw):return subprocess.run(args,check=True,**kw)
-query=run(common+['-r',source,'-p',str(config/'server-password'),'snapshots','--host','si','--tag','app-state','--group-by','host,tags','--latest','1','--json'],capture_output=True,text=True)
+query=run(common+['-r',source,'-p',str(config/'server-password'),'snapshots','--host','si','--tag','app-state','--json'],capture_output=True,text=True)
 snapshots=json.loads(query.stdout)
-if len(snapshots)!=1:raise RuntimeError('No unique latest si backup')
-snapshot=snapshots[0]
+if not snapshots:raise RuntimeError('No si backup found')
+# Source paths expanded to include the library. Select across old/new path sets;
+# Restic --latest groups by paths, while --group-by changes its JSON structure.
+snapshot=max(snapshots,key=lambda item:datetime.datetime.fromisoformat(item['time'].replace('Z','+00:00')))
 stamp=datetime.datetime.fromisoformat(snapshot['time'].replace('Z','+00:00'))
 health='--health-check' in sys.argv
 max_age=24 if health else 36

@@ -58,9 +58,9 @@ retaining original archives. A separate tested Plex notification updates the mov
 library after imports, upgrades and renames. Existing movie renaming and completed
 download handling were already enabled.
 
-Radarr's Transmission client remains disabled, preserving the earlier acquisition
-pause. No movie search, backlog resume or new download was triggered. These safeguards
-apply when movie acquisition is deliberately re-enabled. Pre-change Radarr DB,
+During initial setup Radarr's Transmission client remained disabled, preserving
+the earlier acquisition pause. Recovery acquisition was explicitly resumed later
+on October 21 as recorded below. Pre-change Radarr DB,
 profiles, notifications and Unpackerr config are preserved under the dated
 2026-10-21-radarr-safety recovery directory. Source changes are persisted in chezetc;
 secret-bearing integration settings are covered by application backups.
@@ -78,3 +78,36 @@ Unpackerr was the only running extractor. The existing Transmission container st
 has the old script bind mount until its next recreation, but its callback is disabled
 and empty; managed Compose removes the mount on recreation. No Transmission restart
 or transfer interruption was required.
+
+## Targeted loss recovery resumed October 21, 2026
+
+After relocation, the user authorized reacquisition. Reconciled the historical
+exports with live catalogs and physically checked the existing files bracketing
+gap seasons. Selected 249 aired missing episodes: 232 with outage-period file
+evidence plus additional internal season gaps (121 gaps overlap that evidence).
+All selected episodes are monitored and verified in Wanted, including episodes
+inside unmonitored seasons. Previously disabled Futurama and MasterClass were
+reactivated only for two and six selected gaps respectively; other episodes and
+future seasons remain effectively unmonitored.
+
+Verified actual file import/deletion/rename history for 23 fileless movies and
+retained their existing quality profiles. The unrelated never-owned Wanted
+backlog was not submitted for bulk search. Tested both Transmission connections
+and enabled Radarr's client. Added `My Daughter Is a Zombie (2025)`, TMDB 1306816,
+Radarr 4674, using the existing 1080p-only profile 4. Its automatic search grabbed
+a 1080p WEB-DL and the torrent manifest contains MKV/NFO/TXT files.
+
+Resumed exactly two existing safe paused recovery torrents; other paused jobs
+were not resumed. Submitted explicit searches for the other 247 episodes, the
+23 historical movies and the new film. Search commands run in the applications'
+background queues; submission and grabs are not evidence of completed imports.
+The executable-payload guard and Unpackerr remain active, with normal completed
+download handling, renaming and Plex notifications. The daily Transmission
+bandwidth schedule remains unchanged.
+
+Consistent pre-change SQLite snapshots, private configuration rollback records,
+monitoring and command receipts are under
+`/mnt/data/disk42/.recovery-preservation/media-reacquisition-20261021T225039/`.
+Sanitized target lists and initial progress are under
+`/home/m/downloads/media-reacquisition-2026-10-21/` on si. These records contain no
+credentials in Git. No existing media files were deleted or overwritten.

@@ -43,6 +43,26 @@ services:
 ###  shows.type.hk  ###
 #######################
 
+  unpackerr:
+    container_name: unpackerr
+    image: golift/unpackerr@sha256:244fc45cb207308f60e8f52dd703c2b3463385752de0f9517c58ff9d331ed15e
+    user: "1000:950"
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Hong_Kong
+    volumes:
+      - {{ .paths.appData }}/unpackerr:/config
+      - {{ .paths.downloads }}:/data/meta/downloads
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   sonarr:
     container_name: sonarr
     image: linuxserver/sonarr:latest
@@ -325,10 +345,10 @@ services:
     image: 'ghcr.io/jeffvli/feishin:latest'
     restart: unless-stopped
     environment:
-      SERVER_NAME: Spotillite           # pre-defined server name
+      SERVER_NAME: Navidrome            # pre-defined server name
       SERVER_LOCK: true                 # When true AND name/type/url are set, only username/password can be toggled
-      SERVER_TYPE: subsonic             # the allowed types are: jellyfin, navidrome, subsonic. These values are case insensitive
-      SERVER_URL: https://lp.type.hk    # the URL to http://address:port or https://address:port
+      SERVER_TYPE: navidrome            # the allowed types are: jellyfin, navidrome, subsonic. These values are case insensitive
+      SERVER_URL: http://192.168.1.150:4533 # LAN access while public ingress is stopped
       LEGACY_AUTHENTICATION: false      # When SERVER_LOCK is true, sets the legacy (plaintext) authentication flag for Subsonic/OpenSubsonic servers
       ANALYTICS_DISABLED: false         # Set to true to disable Umami analytics tracking
     ports:
@@ -421,7 +441,6 @@ services:
     volumes:
       - {{ .paths.appData }}/transmission:/config
       - {{ .chezmoi.homeDir }}/.config/transmission/configure-archive-hook.sh:/custom-cont-init.d/90-configure-transmission-archive-hook:ro
-      - {{ .chezmoi.homeDir }}/.config/transmission/extract.fish:/usr/local/bin/extract-sonarr-archives:ro
       - {{ .paths.downloads }}:/downloads
       - {{ .paths.downloads }}/.torrents:/watch
       - /mnt/storage:/data
@@ -505,7 +524,8 @@ services:
       <<: *common-env
     volumes:
       - {{ .paths.appData }}/beets-audible:/config
-      - {{ .paths.appData }}/beets-audible/beets/scripts:/config/custom-cont-init.d
+      - ./beets-audible-init:/custom-cont-init.d:ro
+      - {{ .paths.appData }}/beets-audible/beets/config/config.yaml:/config/config.yaml:ro
       - {{ .paths.publicRoot }}/audiobooks:/audiobooks
       - {{ .paths.downloads }}/audiobooks/untagged:/untagged
 
@@ -519,6 +539,8 @@ services:
 ####################
 
   auto-m4b:
+    # Explicit opt-in: populated conversion queues must be reviewed first.
+    profiles: [manual]
     container_name: auto-m4b
     image: seanap/auto-m4b
     environment:

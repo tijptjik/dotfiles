@@ -132,6 +132,9 @@ downstream Bookshelf/Lidarr 1337x tests also pass. Prowlarr application sync was
 run. LazyLibrarian's API was disabled and had no configured key; a dedicated key
 was configured in both applications, and its authenticated API and Prowlarr test
 pass. These app settings are in encrypted application backups, not Git.
+The dedicated key is also saved and verified in Bitwarden Secrets Manager's
+`dotfiles` project as `si-lazylibrarian-api-key`. After the repair and health
+refresh, Prowlarr and Bookshelf both reported no health warnings.
 
 Lidarr's actual Tidal configuration is `/data/tidal-config`, not the stale
 `/config/lastUser.json`. Its token refreshed successfully and a read-only album

@@ -1,9 +1,9 @@
 [Desktop Entry]
 Name=Solaar
 Comment=Logitech Unifying Receiver peripherals manager
-Exec=solaar --window=only
+Exec=solaar --window=hide
 Icon=solaar
-StartupNotify=true
+StartupNotify=false
 Terminal=false
 Type=Application
 X-GNOME-UsesNotifications=true

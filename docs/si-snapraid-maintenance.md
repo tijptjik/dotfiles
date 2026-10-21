@@ -39,3 +39,17 @@ Do not launch these together intentionally; a second job waits for the first.
 Managed sources: sibling chezetc `etc/si-snapraid-maintenance/` and `etc/systemd/system/si-snapraid-*`. Update the expected identities deliberately after any future disk replacement.
 
 Initial installation verified systemd units and all disk identities. A read-only current diff returned 110 removed files (mostly sidecars and the prior Black Sun recording path), passing the 200-removal guard. No new sync or scrub was launched during the user's VIDEO transfer. The prior recovery full scrub passed October 20.
+
+## Approved library cleanup sync, October 22
+
+The user-approved removal of `public/library.bak` removed 2,896 tracked files.
+A one-time wrapper checked the exact escaped diff paths against the saved old
+library inventory before permitting those removals; there were zero unrelated
+removals. All normal disk checks, backup serialization and writer pause/resume
+remained in place. The guarded sync passed at 00:15:42 HKT. Post-sync status
+reported no errors, and all owned container pauses were released.
+
+The temporary unit override was removed and systemd reloaded. The unit again
+runs the normal maintenance script with the unchanged 200-file removal limit.
+Receipts and the read-only status are preserved under
+`/mnt/data/disk42/.recovery-preservation/approved-library-bak-sync-20261022/`.

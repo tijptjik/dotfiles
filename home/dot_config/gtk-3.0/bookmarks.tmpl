@@ -1,3 +1,6 @@
+{{- if hasKey .gtkBookmarks .chezmoi.hostname -}}
+{{ index .gtkBookmarks .chezmoi.hostname -}}
+{{- else -}}
 {{ if .isClient -}}
 file://{{ .chezmoi.homeDir }}/downloads Downloads
 file://{{ .chezmoi.homeDir }}/code/hype HYPE
@@ -8,4 +11,5 @@ file://{{ .chezmoi.homeDir }}/.config/Steam/userdata/109933432/760/remote/108694
 {{ end -}}
 {{ if .isServer -}}
 file://{{ .chezmoi.homeDir }}/downloads Downloads
+{{ end -}}
 {{ end -}}

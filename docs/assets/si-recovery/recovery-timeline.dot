@@ -1,0 +1,20 @@
+digraph G {
+graph [bgcolor="white", pad="0.35", nodesep="0.35", ranksep="0.40", dpi=150, fontname="Noto Sans", fontsize=20, labelloc=t];
+node [shape=box, style="rounded,filled", fontname="Noto Sans", fontsize=12, margin="0.22,0.15", penwidth=1.6, fillcolor="#d1fae5", color="#059669", fontcolor="#064e3b"];
+edge [color="#64748b", arrowsize=0.7, penwidth=1.5];
+graph [label="Server storage recovery · recent steps\nTimes: Hong Kong (HKT) | Status checked 19 Oct 2026, 17:21"];
+A [label="18 Oct, 06:31 · Earlier full scrub PASSED\nDuration: 28h 5m"];
+B [label="18 Oct, afternoon · First hardware swap\nParity-1 disconnected; new 16 TB data drive installed\nOld 3 TB drive stayed connected"];
+C [label="18 Oct, 15:17–15:18 · Prepare new drive\nFormatted ext4, label disk5 · About 1 minute"];
+D [label="18 Oct, 15:18–22:47 · Copy old disk5\n2.72 TB copied successfully · 7h 29m"];
+E [label="18 Oct, 22:47–23:26 · Copy verification\nStopped at your request after about 39m\nNo differences reported before stopping",fillcolor="#ffedd5",color="#ea580c",fontcolor="#7c2d12"];
+F [label="18 Oct, 23:26–23:35 · Final hardware swap\nOld 3 TB removed; parity-1 reconnected\nShutdown to inventory: about 9m"];
+G [label="18 Oct, 23:35–23:36 · Compare array files\n331,016 unchanged; zero differences · About 1 minute"];
+H [label="18 Oct 23:36 → 19 Oct 02:37\nCheck new disk5 against saved checksums\nPASSED · About 3 hours"];
+I [label="19 Oct, 02:37–02:39 · Automatic continuation\nFresh diff unchanged; parity sync PASSED\nChecks and sync: about 2 minutes"];
+J [label="19 Oct, 10:43 onward · Final full scrub\nRUNNING · 29% at 17:21 · 6h 38m elapsed\nETA: 20 Oct, about 11:10 HKT (variable)",fillcolor="#fef08a",color="#ca8a04",fontcolor="#713f12",penwidth=2.5];
+K [label="NEXT · Review scrub result\nComplete pool checks and restore applications",fillcolor="#f3f4f6",color="#9ca3af",fontcolor="#374151",style="rounded,filled,dashed"];
+A -> B -> C -> D -> E -> F -> G -> H -> I;
+I -> J [label="8h 4m waiting interval",fontname="Noto Sans",fontsize=10,fontcolor="#64748b"];
+J -> K;
+}

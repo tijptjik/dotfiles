@@ -1,0 +1,15 @@
+digraph G {
+graph [bgcolor="white", pad="0.35", nodesep="0.35", ranksep="0.40", dpi=150, fontname="Noto Sans", fontsize=20, labelloc=t];
+node [shape=box, style="rounded,filled", fontname="Noto Sans", fontsize=12, margin="0.22,0.15", penwidth=1.6, fillcolor="#d1fae5", color="#059669", fontcolor="#064e3b"];
+edge [color="#64748b", arrowsize=0.7, penwidth=1.5];
+graph [rankdir=TB,label="Final drive arrangement\nStatus checked 19 Oct 2026, 17:21 HKT"];
+A [label="Old 3 TB disk5\nWD-WMC4N0383817\nRemoved · Keep intact",fillcolor="#ede9fe",color="#7c3aed",fontcolor="#4c1d95"];
+B [label="New 16 TB disk5\nZL2GRR5L\nCopied, checksum-checked and synced"];
+C [label="16 TB parity-1\nZ4L0A0PHFWTG\nReconnected and synced"];
+D [label="16 TB parity-2\n25L0A03PFQEH\nConnected and synced"];
+E [label="Final full scrub\nChecks data and both parity drives\nRUNNING · 29% complete",fillcolor="#fef08a",color="#ca8a04",fontcolor="#713f12",penwidth=2.5];
+F [label="After scrub passes\nComplete pool checks and restore applications",fillcolor="#f3f4f6",color="#9ca3af",fontcolor="#374151",style="rounded,filled,dashed"];
+A -> B [style=dashed,label="2.72 TB copied",fontname="Noto Sans",fontsize=11,fontcolor="#64748b"];
+{rank=same; B; C; D;}
+B -> E; C -> E; D -> E; E -> F;
+}

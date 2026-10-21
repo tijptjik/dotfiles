@@ -1,0 +1,25 @@
+digraph G {
+graph [bgcolor=white,pad=0.35,nodesep=0.3,ranksep=0.55,dpi=160,fontname="Noto Sans",fontsize=22,labelloc=t,label="si · HDD layout and roles\n20 October 2026 · Capacities are nominal TB"];
+node [shape=box,style="rounded,filled",fontname="Noto Sans",fontsize=12,margin="0.2,0.15",penwidth=2];
+edge [color="#64748b",penwidth=1.5];
+subgraph cluster_data {label="DATA · 64 TB total across five HDDs";fontname="Noto Sans";fontsize=17;color="#2563eb";style=rounded;
+node [fillcolor="#dbeafe",color="#2563eb",fontcolor="#1e3a8a"];
+d1 [label="d1 · 8 TB\n/mnt/data/disk12\nWWZ16S74"];
+d2 [label="d2 · 16 TB\n/mnt/data/disk22\nY4U0A0G4FZ6G"];
+d3 [label="d3 · 8 TB\n/mnt/data/disk32\nWSD33L2N"];
+d4 [label="d4 · 16 TB · replacement\n/mnt/data/disk42\nZL2GQ2JQ"];
+d5 [label="d5 · 16 TB · upgraded\n/mnt/data/disk5\nZL2GRR5L"];
+}
+pool [label="mergerfs pool · /mnt/storage\nFiles distributed across the five data HDDs\nAbout 58 TiB filesystem capacity · 20 TiB available",fillcolor="#dbeafe",color="#2563eb",fontcolor="#1e3a8a"];
+d1 -> pool; d2 -> pool; d3 -> pool; d4 -> pool; d5 -> pool;
+raid [label="SnapRAID · two parity levels\nProtects the last synced, included data\nFinal full scrub PASSED · 20 Oct, 11:45 HKT",fillcolor="#d1fae5",color="#059669",fontcolor="#064e3b"];
+pool -> raid [style=dashed,label="Logical protection relationship",fontname="Noto Sans",fontsize=11];
+subgraph cluster_parity {labelloc=b;label="PARITY · 32 TB dedicated · adds no file-storage capacity";fontname="Noto Sans";fontsize=16;color="#7c3aed";style=rounded;
+node [fillcolor="#ede9fe",color="#7c3aed",fontcolor="#4c1d95"];
+p1 [label="Parity-1 · 16 TB\n/mnt/parity/disk12\nZ4L0A0PHFWTG"];
+p2 [label="Parity-2 · 16 TB\n/mnt/parity/disk22\n25L0A03PFQEH"];
+}
+raid -> p1; raid -> p2;
+note [label="Excluded from parity: /meta/, /docker/, preservation snapshots,\n*.unrecoverable and other configured exclusions.\nThe mergerfs pool is not a mirror; parity is not an independent backup.",fillcolor="#fff7ed",color="#ea580c",fontcolor="#7c2d12",fontsize=11];
+p1 -> note [style=invis];p2 -> note [style=invis];
+}

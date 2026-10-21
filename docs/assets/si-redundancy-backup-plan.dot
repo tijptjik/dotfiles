@@ -1,0 +1,39 @@
+digraph plan {
+ graph [rankdir=TB, bgcolor="#f8fafc", pad="0.35", nodesep="0.45", ranksep="0.55", fontname="DejaVu Sans", labelloc=t, label="si / fi — Redundancy & backup plan\nConfigured schedules · HKT · 21 October 2026", fontsize=23];
+ node [shape=box, style="rounded,filled", fontname="DejaVu Sans", fontsize=12, margin="0.20,0.14", color="#94a3b8", fontcolor="#0f172a"];
+ edge [fontname="DejaVu Sans", fontsize=10, color="#64748b", arrowsize=0.75];
+ subgraph cluster_si {
+  label="si · server"; fontsize=18; color="#cbd5e1"; style=rounded;
+  media [fillcolor="#dbeafe", label="MEDIA + OTHER PROTECTED FILES\n5 data disks · mergerfs pool\ndisk12 / disk22 / disk32 / disk42 / disk5"];
+  app [fillcolor="#dbeafe", label="APPLICATION STATE\nappData · Plex · Audiobookshelf metadata\nMariaDB · configs · scripts\nSpread across array + OS filesystem"];
+  parity [fillcolor="#e0e7ff", color="#6366f1", label="DISK REDUNDANCY · SnapRAID\n2 parity disks: disk12 + disk22\nDaily sync 05:00\nSunday scrub 08:00 · 25% sampling"];
+  consistent [fillcolor="#dcfce7", color="#22c55e", label="CONSISTENT APPLICATION CAPTURE\nDaily 04:00\nSQLite online snapshots + integrity checks\nMariaDB logical dump + configuration copy"];
+  local [fillcolor="#dcfce7", color="#22c55e", label="LOCAL VERSIONED BACKUP · Restic\ndisk42 / .recovery-preservation / app-backups\nEncrypted + compressed + deduplicated\n7 daily + 4 weekly restore points*\nExcluded from SnapRAID"];
+  paritynote [fillcolor="#fff7ed", color="#f59e0b", label="Recovery uses LAST SUCCESSFUL SYNC\nUp to 2 disk failures under recovery conditions\nNew/changed files since sync are at risk\nNo version history; not a backup"];
+  localnote [fillcolor="#fff7ed", color="#f59e0b", label="Local backup shares the server's risks\nLoss of disk42 loses this repository\nFire/theft can affect data + local backup"];
+  media -> parity [label="Successful sync records protected state"];
+  app -> consistent -> local;
+  parity -> paritynote [style=dashed, arrowhead=none];
+  local -> localnote [style=dashed, arrowhead=none];
+  {rank=same;media;app;}
+  {rank=same;parity;consistent;}
+ }
+ subgraph cluster_fi {
+  label="fi · independent computer"; fontsize=18; color="#0d9488"; style=rounded;
+  offsite [fillcolor="#ccfbf1", color="#0d9488", label="INDEPENDENT ENCRYPTED Restic REPOSITORY\n~/.local/share/si-app-backups/repository\nfi pulls retained snapshots Sunday 06:00\nDaily 10:00 freshness check + missed-copy catch-up\n2 MiB/s transfer cap · full repository data verification"];
+  offnote [fillcolor="#fff7ed", color="#f59e0b", label="Geographically offsite only when fi is elsewhere\nWeekly copy can lag by about a week if runs succeed\nFailed/offline runs increase that gap"];
+  offsite -> offnote [style=dashed, arrowhead=none];
+ }
+ local -> offsite [label="fi initiates outbound SSH/SFTP\nNo SSH server needed on fi", color="#0d9488", penwidth=2];
+ git [fillcolor="#f3e8ff", color="#a855f7", label="REBUILD DEFINITIONS · Git\nchezmoi + chezetc\nCompose/image pins · provisioning · custom code\nNo credentials, even encrypted"];
+ vault [fillcolor="#f3e8ff", color="#a855f7", label="SECRET SOURCE · Bitwarden\nCredentials + recovery keys\nSupply securely during provisioning/restore\nKeep repository passwords recoverable"];
+ restore [fillcolor="#dcfce7", color="#22c55e", label="EXPLICIT RECOVERY\nRestore exact snapshot into private staging → verify\nInstall only into empty targets with writers stopped\nImport MariaDB separately → validate → start services\nNever triggered by tjikup"];
+ offsite -> restore [color="#0d9488"];
+ git -> restore [style=dashed,label="Recreate service setup"];
+ vault -> restore [style=dashed,label="Provide secrets"];
+ {rank=same;git;vault;}
+ exclusions [fillcolor="#fee2e2", color="#ef4444", label="NOT COVERED BY APPLICATION BACKUPS\nMedia library · downloads\nDocker layers · rebuildable caches/artwork"];
+ restore -> exclusions [style=invis];
+ foot [shape=plain, fillcolor="#f8fafc", fontsize=10, label="Blue: live data   Indigo: parity   Green: versioned backup/recovery   Teal: second machine   Purple: rebuild inputs   Orange/red: limits\n* Retention buckets overlap. fi retains snapshots available at its last successful pull. Schedules shown are configuration, not a live success report."];
+ exclusions -> foot [style=invis];
+}

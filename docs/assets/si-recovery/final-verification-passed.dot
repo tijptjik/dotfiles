@@ -1,0 +1,10 @@
+digraph G {
+graph [bgcolor=white,pad=0.35,ranksep=0.45,dpi=160,fontname="Noto Sans",fontsize=20,labelloc=t,label="Final storage verification PASSED\n20 October 2026 · Hong Kong time"];
+node [shape=box,style="rounded,filled",fontname="Noto Sans",fontsize=13,margin="0.25,0.17",fillcolor="#d1fae5",color="#059669",fontcolor="#064e3b",penwidth=2];
+edge [color="#64748b",penwidth=1.5];
+a [label="New disk5 checksum validation\nPASSED · 19 Oct, 02:37\nAbout 3 hours"];
+b [label="Automatic parity sync\nPASSED · 19 Oct, 02:39\nFresh diff and sync: about 2 minutes"];
+c [label="Final full-array scrub\n19 Oct, 10:43 → 20 Oct, 11:45\n25 hours 2 minutes\nEverything OK"];
+d [label="Service startup restored · 20 Oct, 12:27\nPool corrected · Plex responds HTTP 200\nAll 22 Compose containers running",fillcolor="#d1fae5",color="#059669",fontcolor="#064e3b"];
+a -> b -> c -> d;
+}

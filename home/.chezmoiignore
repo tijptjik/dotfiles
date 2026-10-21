@@ -16,6 +16,8 @@ storage
 .local/bin/set-webdav-user-password
 {{ end -}}
 {{ if .isServer -}}
+# Runtime-owned settings: restore from app backups, never template over them.
+.config/transmission/settings.json
 .config/claude
 .config/dunst
 .config/hypr
@@ -31,4 +33,8 @@ storage
 .config/waybar
 .config/ZapZap
 .config/zed
+{{ end -}}
+{{ if ne .chezmoi.hostname "fi" -}}
+.local/bin/si-app-backup-pull
+.config/systemd/user/si-app-backup-*
 {{ end -}}

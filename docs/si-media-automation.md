@@ -11,6 +11,7 @@ Configured October 21, 2026. Scope: Sonarr television downloads in Transmission.
 5. Unpackerr polls Sonarr every minute and extracts supported archives after a two-minute completion delay. It has no command hooks, runs as UID 1000/GID 950 with no capabilities, and retains original torrent archives. Its configured Sonarr extraction limits are the application's defaults (20 GB, 1,000 files, 5:1 ratio, eight nested levels). Legitimate releases exceeding these limits need review.
 6. Sonarr completed-download handling validates and imports eligible media, renames episodes with the existing naming convention, and uses hardlinks where possible.
 7. A tested Plex Server notification triggers library updates on import/download, upgrade and rename. It maps Sonarr /data paths to native Plex /mnt/storage paths and connects through the Docker host gateway, avoiding dependence on the site's LAN address.
+8. Plex also scans its libraries daily as a fallback for manually copied files or missed import notifications. Folder watching remains disabled.
 
 The old Transmission completion extraction hook is disabled to avoid competing extractors. Its init script now preserves that setting after container recreation. The old extractor source remains for reference but is no longer mounted by the managed Compose configuration.
 
@@ -256,3 +257,26 @@ are under
 `/mnt/data/disk42/.recovery-preservation/media-permissions-20261022T071129Z/`.
 Rollback requires checking recorded device/inode identities: imports can move or
 replace files after a journal is written. Credentials remain outside Git.
+
+## Plex daily fallback scan and library sharing, October 22
+
+Plex's supported preferences API enables `ScheduledLibraryUpdatesEnabled=1` with
+`ScheduledLibraryUpdateInterval=86400` (daily). The settings are persisted in
+`Preferences.xml` and covered by the existing encrypted application backups.
+Sonarr/Radarr import notifications still provide immediate updates. The daily
+scan covers additions outside that flow; folder watching stays disabled.
+
+The sharing convention is **Starflix (All Libraries)**, including libraries added
+in the future. Selecting the two individual Movies/Shows libraries stores a fixed
+selection even when it currently gives access to every library. Existing sharing
+recipients and their other restrictions are preserved when changing this flag.
+Verified all 47 existing shares have `allLibraries=1`: 46 were updated and one
+already used this setting. Recipient IDs, access tokens, content filters and
+other permissions were verified unchanged.
+For a new invitation, select the parent **Starflix (All Libraries)** checkbox;
+Plex stores this choice per recipient. Sharing state belongs to the Plex account,
+not a template containing user credentials.
+
+Private pre-change settings and share inventories, verification exports and the
+completion receipt are under
+`/mnt/data/disk42/.recovery-preservation/plex-scan-sharing-20261022T075349Z/`.

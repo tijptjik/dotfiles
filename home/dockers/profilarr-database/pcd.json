@@ -1,0 +1,8 @@
+{
+  "name": "si-media-profiles",
+  "version": "1.0.0",
+  "description": "Shared media tiers and explicit acquisition profiles for si",
+  "arr_types": ["radarr", "sonarr"],
+  "dependencies": {"https://github.com/Dictionarry-Hub/schema": "1.1.0"},
+  "profilarr": {"minimum_version": "2.3.1"}
+}

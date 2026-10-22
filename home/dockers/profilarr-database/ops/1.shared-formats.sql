@@ -1,0 +1,54 @@
+-- @operation: export
+-- @entity: batch
+-- @name: shared safety and codec formats
+
+INSERT INTO tags (name) VALUES ('media:SD');
+INSERT INTO tags (name) VALUES ('media:HD/L');
+INSERT INTO tags (name) VALUES ('media:HD/M');
+INSERT INTO tags (name) VALUES ('media:HD/H');
+INSERT INTO tags (name) VALUES ('media:4K/L');
+INSERT INTO tags (name) VALUES ('media:4K/H');
+INSERT INTO tags (name) VALUES ('media:4K/X');
+INSERT INTO regular_expressions (name, pattern, description) VALUES ('Reject executable releases', '(?i)\.(?:exe|scr|lnk|msi|msp|bat|cmd|ps1|vbs|vbe|hta)(?=$|[\s\]\)])', 'Explicit executable suffixes with end boundaries; avoid rejecting Batman/Battle titles.');
+INSERT INTO custom_formats (name, description, include_in_rename) VALUES ('Reject executable releases', 'Explicit executable suffixes with end boundaries; avoid rejecting Batman/Battle titles.', 0);
+INSERT INTO custom_format_conditions (custom_format_name, name, type, arr_type, negate, required) VALUES ('Reject executable releases', 'Release title', 'release_title', 'all', 0, 1);
+INSERT INTO condition_patterns (custom_format_name, condition_name, regular_expression_name) VALUES ('Reject executable releases', 'Release title', 'Reject executable releases');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Reject executable releases', 'Example.Movie.2025.1080p.WEB-DL.exe', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Reject executable releases', 'Example.Movie.2025.1080p.WEB-DL.scr]', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Reject executable releases', 'The.Batman.S01E01.1080p.WEB-DL', 'series', 0, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Reject executable releases', 'Adventure.Time.S01E01.1080p.WEB-DL', 'series', 0, 'Boundary and matching regression fixture');
+INSERT INTO regular_expressions (name, pattern, description) VALUES ('Reject remux and disc payloads', '(?i)(?:\b(?:REMUX|BDMV|BR[ ._-]?DISK|RAW[ ._-]?HD|COMPLETE[ ._-]?(?:BLU[ ._-]?RAY|BD))\b|\.iso(?=$|[\s\]\)]))', 'All acquisition policies use encoded media, including Archival.');
+INSERT INTO custom_formats (name, description, include_in_rename) VALUES ('Reject remux and disc payloads', 'All acquisition policies use encoded media, including Archival.', 0);
+INSERT INTO custom_format_conditions (custom_format_name, name, type, arr_type, negate, required) VALUES ('Reject remux and disc payloads', 'Release title', 'release_title', 'all', 0, 1);
+INSERT INTO condition_patterns (custom_format_name, condition_name, regular_expression_name) VALUES ('Reject remux and disc payloads', 'Release title', 'Reject remux and disc payloads');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Reject remux and disc payloads', 'Example.Movie.2025.2160p.BluRay.REMUX', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Reject remux and disc payloads', 'Example.Movie.2025.BR-DISK', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Reject remux and disc payloads', 'Example.Movie.2025.2160p.BluRay.x265-GROUP', 'movie', 0, 'Boundary and matching regression fixture');
+INSERT INTO regular_expressions (name, pattern, description) VALUES ('Dolby Vision', '(?i)(?<![a-z0-9])(?:DV|DoVi|Dolby[ ._-]?Vision)(?![a-z0-9])', 'Boundary-aware version of the existing Dolby Vision restriction.');
+INSERT INTO custom_formats (name, description, include_in_rename) VALUES ('Dolby Vision', 'Boundary-aware version of the existing Dolby Vision restriction.', 0);
+INSERT INTO custom_format_conditions (custom_format_name, name, type, arr_type, negate, required) VALUES ('Dolby Vision', 'Release title', 'release_title', 'all', 0, 1);
+INSERT INTO condition_patterns (custom_format_name, condition_name, regular_expression_name) VALUES ('Dolby Vision', 'Release title', 'Dolby Vision');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Dolby Vision', 'Example.Movie.2025.2160p.DV.HEVC', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Dolby Vision', 'Example.Movie.2025.DoVi.2160p', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Dolby Vision', 'Adventure.Time.S01E01.1080p.WEB-DL', 'series', 0, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Dolby Vision', 'Example.Movie.2025.DVD', 'movie', 0, 'Boundary and matching regression fixture');
+INSERT INTO regular_expressions (name, pattern, description) VALUES ('Codec - AVC', '(?i)(?<![a-z0-9])(?:[xh][ ._-]?264|AVC)(?![a-z0-9])', 'AVC/H.264 codec identification.');
+INSERT INTO custom_formats (name, description, include_in_rename) VALUES ('Codec - AVC', 'AVC/H.264 codec identification.', 0);
+INSERT INTO custom_format_conditions (custom_format_name, name, type, arr_type, negate, required) VALUES ('Codec - AVC', 'Release title', 'release_title', 'all', 0, 1);
+INSERT INTO condition_patterns (custom_format_name, condition_name, regular_expression_name) VALUES ('Codec - AVC', 'Release title', 'Codec - AVC');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Codec - AVC', 'Example.Movie.2025.1080p.x264', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Codec - AVC', 'Example.Movie.2025.1080p.H.264', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Codec - AVC', 'Example.Movie.2025.1080p.x265', 'movie', 0, 'Boundary and matching regression fixture');
+INSERT INTO regular_expressions (name, pattern, description) VALUES ('Codec - HEVC', '(?i)(?<![a-z0-9])(?:[xh][ ._-]?265|HEVC)(?![a-z0-9])', 'HEVC/H.265 codec identification.');
+INSERT INTO custom_formats (name, description, include_in_rename) VALUES ('Codec - HEVC', 'HEVC/H.265 codec identification.', 0);
+INSERT INTO custom_format_conditions (custom_format_name, name, type, arr_type, negate, required) VALUES ('Codec - HEVC', 'Release title', 'release_title', 'all', 0, 1);
+INSERT INTO condition_patterns (custom_format_name, condition_name, regular_expression_name) VALUES ('Codec - HEVC', 'Release title', 'Codec - HEVC');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Codec - HEVC', 'Example.Movie.2025.1080p.x265', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Codec - HEVC', 'Example.Movie.2025.2160p.HEVC', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Codec - HEVC', 'Example.Movie.2025.1080p.AV1', 'movie', 0, 'Boundary and matching regression fixture');
+INSERT INTO regular_expressions (name, pattern, description) VALUES ('Codec - AV1', '(?i)(?<![a-z0-9])AV1(?![a-z0-9])', 'AV1 codec identification.');
+INSERT INTO custom_formats (name, description, include_in_rename) VALUES ('Codec - AV1', 'AV1 codec identification.', 0);
+INSERT INTO custom_format_conditions (custom_format_name, name, type, arr_type, negate, required) VALUES ('Codec - AV1', 'Release title', 'release_title', 'all', 0, 1);
+INSERT INTO condition_patterns (custom_format_name, condition_name, regular_expression_name) VALUES ('Codec - AV1', 'Release title', 'Codec - AV1');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Codec - AV1', 'Example.Movie.2025.1080p.AV1', 'movie', 1, 'Boundary and matching regression fixture');
+INSERT INTO custom_format_tests (custom_format_name, title, type, should_match, description) VALUES ('Codec - AV1', 'Example.Movie.2025.1080p.x265', 'movie', 0, 'Boundary and matching regression fixture');

@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "description": "Media tiers are reusable policy definitions; acquisition profiles specify upgrade target, maximum and minimum.",
+  "codes": [
+    {
+      "code": "4K/X",
+      "name": "Archival",
+      "resolution": 2160,
+      "x264EquivalentMbps": null,
+      "note": "Encoded 4K with unrestricted bitrate and file size; remux and full-disc exclusions still apply."
+    },
+    {
+      "code": "4K/H",
+      "name": "4K High",
+      "resolution": 2160,
+      "x264EquivalentMbps": [
+        20,
+        40
+      ]
+    },
+    {
+      "code": "4K/L",
+      "name": "4K Low",
+      "resolution": 2160,
+      "x264EquivalentMbps": [
+        8,
+        20
+      ]
+    },
+    {
+      "code": "HD/H",
+      "name": "1080p High",
+      "resolution": 1080,
+      "x264EquivalentMbps": [
+        5,
+        12
+      ]
+    },
+    {
+      "code": "HD/M",
+      "name": "1080p Low",
+      "resolution": 1080,
+      "x264EquivalentMbps": [
+        2,
+        5
+      ]
+    },
+    {
+      "code": "HD/L",
+      "name": "720p",
+      "resolution": 720,
+      "x264EquivalentMbps": [
+        2,
+        4
+      ],
+      "targetMbps": 3
+    },
+    {
+      "code": "SD",
+      "name": "SD",
+      "maximumResolution": 576,
+      "x264EquivalentMbps": null
+    }
+  ],
+  "order": [
+    "SD",
+    "HD/L",
+    "HD/M",
+    "HD/H",
+    "4K/L",
+    "4K/H",
+    "4K/X"
+  ],
+  "codecBudgetFactors": {
+    "h264": 1.0,
+    "hevc": 0.6,
+    "av1": 0.5
+  },
+  "codecBudgetNote": "Planning estimates, not a measurement of equal visual quality; exact video bitrate is unavailable from many release listings.",
+  "acquisitionSyntax": "@ {upgrade target} | mx {highest accepted tier} | mn {lowest accepted tier}",
+  "example": {
+    "name": "@ 4K/H | mx 4K/H | mn HD/M",
+    "upgradeTo": "4K/H",
+    "maximum": "4K/H",
+    "minimum": "HD/M"
+  },
+  "constraints": [
+    "minimum <= upgradeTo <= maximum",
+    "A release above the target remains eligible when maximum allows it.",
+    "Archival remains encoded media; remuxes, full discs and Raw-HD are excluded."
+  ],
+  "activation": "Acquisition profile sync awaits selection of native preference rules or additional strict bitrate selection logic."
+}

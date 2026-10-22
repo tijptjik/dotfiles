@@ -108,3 +108,16 @@ and offline-uncorrectable sector counts are all zero. Its temperature was 50°C
 at verification, with a recorded lifetime maximum of 68°C. Scrutiny's generic
 "close to failure" collector log should not be mistaken for a current overall
 SMART failure. Review cooling and future trends; no disk settings were changed.
+
+## Homepage service availability
+
+The twelve Docker service cards use Homepage's native `siteMonitor` with internal URLs.
+Checks refresh every 30 seconds while the page is open; the UP/DOWN label's
+hover text includes HTTP status and latency. This is HTTP availability, not
+continuous alerting or complete functional validation. Native health/status/ping
+endpoints are used where available. Feishin checks its web root; Transmission
+returns HTTP 401, which Homepage explicitly treats as a reachable authenticated
+service. Homepage does not interpret health-response JSON or test downloads,
+playback, authentication, or external Cloudflare routes. Plex has no indicator: direct host access was not approved, and its public
+link redirects to plex.tv rather than checking this server.
+The Community footer uses the Telegram icon and retains its 400px maximum width.

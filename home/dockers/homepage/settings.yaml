@@ -3,7 +3,7 @@ startUrl: https://home.type.hk
 theme: dark
 color: slate
 headerStyle: clean
-statusStyle: dot
+statusStyle: basic
 maxGroupColumns: 4
 layout:
   Watch:

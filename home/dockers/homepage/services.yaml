@@ -7,49 +7,60 @@
       icon: seerr.png
       href: https://request.type.hk
       description: Seerr
+      siteMonitor: http://seerr:5055/api/v1/status
   - Stats:
       icon: tautulli.png
       href: https://monitor.type.hk
       description: Tautulli
+      siteMonitor: http://tautulli:8181/status
 - Read / Listen:
   - Amazimov:
       icon: booklore.png
       href: https://read.type.hk
       description: Grimmory
+      siteMonitor: http://grimmory:6060/api/v1/healthcheck
   - Audi-Bell's Theorem:
       icon: audiobookshelf.png
       href: https://listen.type.hk
       description: Audiobookshelf
+      siteMonitor: http://audiobookshelf:80/healthcheck
   - Spotellite:
       icon: feishin.png
       href: https://dance.type.hk
       description: Feishin
+      siteMonitor: http://feishin:9180/
 - Acquisition:
   - Movies:
       icon: radarr.png
       href: https://movies.type.hk
       description: Radarr
+      siteMonitor: http://radarr:7878/ping
   - Shows:
       icon: sonarr.png
       href: https://shows.type.hk
       description: Sonarr
+      siteMonitor: http://sonarr:8989/ping
   - Books:
       icon: shelfmark.png
       href: https://mark.type.hk
       description: Shelfmark
+      siteMonitor: http://shelfmark:8084/api/health
   - Torrent:
       icon: transmission.png
       href: https://torrent.type.hk
       description: Transmission
+      siteMonitor: http://transmission:9091/transmission/web/
 - Admin:
   - Quality Profiles:
       icon: profilarr.png
       href: https://profiles.type.hk
       description: Profilarr
+      siteMonitor: http://profilarr:6868/api/v1/health
   - Indexers:
       icon: prowlarr.png
       href: https://indexer.type.hk
       description: Prowlarr
+      siteMonitor: http://prowlarr:9696/ping
   - Storage:
       icon: scrutiny.png
       href: https://storage.type.hk
@@ -57,3 +68,4 @@
       widget:
         type: scrutiny
         url: http://scrutiny:8080
+      siteMonitor: http://scrutiny:8080/api/health

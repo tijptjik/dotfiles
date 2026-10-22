@@ -45,7 +45,6 @@
   box-shadow: none;
   text-align: center;
 }
-#community-link .bookmark-icon,
 #community-link .bookmark-description {
   display: none;
 }
@@ -58,4 +57,20 @@
 }
 #community-link a:hover .bookmark-name {
   text-decoration: underline;
+}
+
+#community-link a > div {
+  justify-content: center;
+  align-items: center;
+}
+#community-link .bookmark-icon {
+  display: flex;
+  width: 1.25rem;
+  background: transparent;
+}
+#community-link .bookmark-text {
+  flex: 0 0 auto;
+}
+#community-link .bookmark-name {
+  padding-left: 0.5rem;
 }

@@ -46,17 +46,49 @@ The source records next-tier maxima and the HD:5 Efficient minimum, but native
 Arr cannot enforce cross-preset tier windows: Dictionarry presets overlap and
 contain fallback releases. The snapshot keeps curated scoring, enforces a 1080p
 floor for Efficient and higher, and prevents resolution jumps. Exact tier-window
-classification is pending a separate policy decision. Seerr's previous defaults
-remain in place while that decision is pending.
+classification is not a native feature; the curated presets and resolution
+guards are active. Seerr retains its existing 4K:7 Balanced movie default and
+uses HD:6 Balanced for TV and anime.
 
-Existing library assignments are preserved. Profiles and quality definitions
-use manual Arr sync. Naming, delay profiles, download clients and automated
+Legacy assignments were migrated using the user-approved mapping in
+`home/dockers/profilarr-database/legacy-migration.json`. All 13 legacy profiles
+were removed after migrating media, import lists, collections, Seerr defaults
+and saved request references. Paths, monitoring and tags were preserved.
+Profiles and quality definitions use manual Arr sync. Naming, delay profiles,
+download clients and automated
 backlog/upgrade searches are not configured by this policy.
 
 Sonarr's old global Dolby Vision ban is disabled so curated HDR profiles can
-apply their own rules. Legacy profiles retain a boundary-aware Dolby Vision CF;
-the global executable restriction also uses suffix boundaries.
+apply their own rules. The global executable restriction also uses suffix
+boundaries. The former legacy-only Dolby Vision CF has no nonzero scores on the
+new profiles.
 
 State and UI overrides are in the application backups; secrets remain in
 Bitwarden. Publish reviewed source changes explicitly; do not use a profile's
 requested bounds as evidence of native enforcement.
+
+## Explicit legacy migration
+
+The approved mapping and migration tool are versioned. This is a manual operation
+and is never invoked by chezmoi, chezetc or tjikup:
+
+```sh
+sudo python3 /home/m/.local/share/chezmoi/home/dockers/profilarr-tools/executable_migrate-legacy-profiles.py
+# After reviewing that dry run:
+sudo python3 /home/m/.local/share/chezmoi/home/dockers/profilarr-tools/executable_migrate-legacy-profiles.py --apply
+```
+
+The tool checks profile identities, makes native Arr backups, and stores private
+configuration/assignment snapshots below
+`/mnt/storage/meta/appData/profilarr/backups/profile-migration-<UTC timestamp>`.
+It uses bulk profile-only media edits and per-ID collection updates, preserving
+monitoring and paths. It does not start a search or move files. Approved Seerr
+request references require a short stopped-writer SQLite transaction because the
+API refuses to edit approved requests; all other request fields stay unchanged,
+and no approval hooks/notifications run. Seerr is restarted even on failure.
+
+Verification covers every existing media assignment, dependent defaults, all 12
+remaining profiles and both Seerr request dropdowns. Profilarr's library caches
+must be refreshed after the migration so its cards show the new assignments.
+Use the native backups and private snapshots for a guarded rollback if needed;
+restoration is never automatic.

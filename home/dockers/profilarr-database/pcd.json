@@ -1,6 +1,6 @@
 {
   "name": "si-media-profiles",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Dictionarry acquisition profiles and SD fallback for si",
   "arr_types": [
     "radarr",

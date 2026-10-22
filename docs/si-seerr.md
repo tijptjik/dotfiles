@@ -25,8 +25,8 @@ Configure the default non-4K services as follows:
 
 | Service | Internal address | Quality profile | Root folder | External URL |
 | --- | --- | --- | --- | --- |
-| Radarr | `radarr:7878` | `2. HD - High` (ID 4, 1080p) | `/data/public/movies` | https://movies.type.hk |
-| Sonarr | `sonarr:8989` | `1080p Only` (ID 9) | `/data/public/shows` | https://shows.type.hk |
+| Radarr | `radarr:7878` | `4K:7 Balanced` (ID 19) | `/data/public/movies` | https://movies.type.hk |
+| Sonarr | `sonarr:8989` | `HD:6 Balanced` (ID 16) | `/data/public/shows` | https://shows.type.hk |
 
 Tautulli connects directly over the shared Docker network: hostname `tautulli`,
 port `8181`, SSL disabled, and URL base empty. Its external URL is
@@ -43,10 +43,12 @@ map `bot_token` to Bot Authorization Token and `chat_id` to Chat ID. Bot Usernam
 is `starprowlarr_bot`. Credentials remain in application state and encrypted
 backups, outside Git. A native Seerr test notification was delivered on October 22.
 
-The proposed Dictionarry defaults are not activated yet. See
-[Profilarr](si-profilarr.md) for the clean profile names, native resolution guards
-and the pending cross-preset tier-policy choice. Seerr retains the default
-profiles above; existing media assignments and the anime default are unchanged.
+The curated defaults above are active; the movie default was already selected
+before the legacy migration and was preserved. Anime also uses `HD:6 Balanced`
+(Sonarr profile 16). Legacy service defaults and saved request-profile references were
+migrated using the same approved map as the Arr libraries. See
+[Profilarr](si-profilarr.md) for the 12 profiles, native resolution guards and
+profile-migration procedure. All legacy profiles have been removed from Arr.
 
 Service keys and Plex authentication belong in application state and Bitwarden,
 never Git. The generated key is saved as `si-seerr-api-key` in the Bitwarden

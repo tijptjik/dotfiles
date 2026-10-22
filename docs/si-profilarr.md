@@ -32,30 +32,31 @@ renames were not configured.
 ## Policy source
 
 The `si-media-profiles` PCD is at
-`home/dockers/profilarr-database`. It contains the reviewed Dictionarry policy
-snapshot, the public upstream revision, the SD profile and user-facing aliases.
-The `profilarr` branch of this repository publishes that directory as a PCD root.
-The separate Dictionarry tab remains the upstream catalogue for comparison.
+`home/dockers/profilarr-database`. It contains the reviewed Dictionarry snapshot,
+clean target names and requested tier rules. The `profilarr` branch publishes
+that directory as a standalone PCD. The separate Dictionarry tab remains the
+upstream catalogue for comparison.
 
-See [the policy README](../home/dockers/profilarr-database/README.md) for the exact
-code mapping, generated snapshot, refresh/publish commands and limitations.
+See [the policy README](../home/dockers/profilarr-database/README.md) for all 12
+names, requested tier windows, native resolution bounds, limitations and refresh
+commands. Names range from `4K:9 Remux` to `SD:1`; HD means 1080p except the
+explicit `HD:4 Quality @ 720p` profile.
 
-Each of the 12 acquisition choices has the form
-`@ {strategy} | mx {strategy} | mn SD`. For example:
-`@ HD/6:BAL | mx HD/6:BAL | mn SD` is Dictionarry 1080p Balanced, including its
-lower-resolution fallbacks. The default for new Seerr movie/series requests is
-that Balanced choice. Existing library profile assignments remain in place.
+The source records next-tier maxima and the HD:5 Efficient minimum, but native
+Arr cannot enforce cross-preset tier windows: Dictionarry presets overlap and
+contain fallback releases. The snapshot keeps curated scoring, enforces a 1080p
+floor for Efficient and higher, and prevents resolution jumps. Exact tier-window
+classification is pending a separate policy decision. Seerr's previous defaults
+remain in place while that decision is pending.
 
-These are curated strategies, not disjoint bitrate bands. The initial catalogue
-uses target = maximum. Remux strategies are allowed, and an SD-only profile is
-included. No arbitrary cross-strategy ranges or codec-adjusted bitrate rules are
-implied by the names. The former custom bitrate design is superseded.
+Existing library assignments are preserved. Profiles and quality definitions
+use manual Arr sync. Naming, delay profiles, download clients and automated
+backlog/upgrade searches are not configured by this policy.
 
-Profiles and global quality definitions are selected for manual Arr sync.
-Dictionarry's global size definitions remove size caps; this affects all profiles
-in the Arr instance. Naming, delay profiles, download clients, library assignments
-and automated backlog/upgrade searches are not part of this change.
+Sonarr's old global Dolby Vision ban is disabled so curated HDR profiles can
+apply their own rules. Legacy profiles retain a boundary-aware Dolby Vision CF;
+the global executable restriction also uses suffix boundaries.
 
-Namespaced custom formats preserve the existing profiles' format definitions.
-Profilarr state and UI overrides are included in the application backups; secrets
-remain in Bitwarden. The source snapshot is versioned and refreshed explicitly.
+State and UI overrides are in the application backups; secrets remain in
+Bitwarden. Publish reviewed source changes explicitly; do not use a profile's
+requested bounds as evidence of native enforcement.

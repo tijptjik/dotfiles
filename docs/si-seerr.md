@@ -43,8 +43,10 @@ map `bot_token` to Bot Authorization Token and `chat_id` to Chat ID. Bot Usernam
 is `starprowlarr_bot`. Credentials remain in application state and encrypted
 backups, outside Git. A native Seerr test notification was delivered on October 22.
 
-The existing Sonarr profile 9 permits 720p fallback despite its name; its quality
-rules are retained. Radarr profile 4 accepts only 1080p releases.
+The proposed Dictionarry defaults are not activated yet. See
+[Profilarr](si-profilarr.md) for the clean profile names, native resolution guards
+and the pending cross-preset tier-policy choice. Seerr retains the default
+profiles above; existing media assignments and the anime default are unchanged.
 
 Service keys and Plex authentication belong in application state and Bitwarden,
 never Git. The generated key is saved as `si-seerr-api-key` in the Bitwarden

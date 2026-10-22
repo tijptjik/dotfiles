@@ -59,22 +59,29 @@ def prepare(connection, policy):
         row = connection.execute("SELECT description FROM quality_profiles WHERE name=?", (source,)).fetchone()
         if row is None:
             raise ValueError(f"Dictionarry profile not found: {source}")
-        description = f"{name}\n\nDictionarry: {source}. SD fallbacks; upstream scoring and upgrade cutoff.\n\n{row[0]}"
+        ceiling = next(x["maximumResolution"] for x in policy["tiers"] if x["name"] == acquisition["maximum"])
+        floor = acquisition["minimumResolution"]
+        if floor > ceiling:
+            raise ValueError(f"Minimum resolution exceeds maximum for {name}")
+        fallback = "SD" if floor == 0 else f"{floor}p"
+        minimum = acquisition["minimum"] or "None"
+        description = f"Dictionarry: {source}. Enforced resolution floor: {fallback}. Upstream scoring and upgrade cutoff.\n\nRequested tier window: target {name}; maximum {acquisition['maximum']}; minimum {minimum}. Cross-preset tier bounds are not native Arr limits and are not enforced by this snapshot.\n\n{row[0]}"
         connection.execute("UPDATE quality_profiles SET name=?, description=? WHERE name=?", (name, description, source))
         connection.execute("INSERT INTO quality_profile_tags VALUES (?, 'si acquisition')", (name,))
-        code = acquisition["upgradeTo"]
-        tag = "media:" + code
+        tag = "media:" + acquisition["upgradeTo"]
         connection.execute("INSERT OR IGNORE INTO tags(name) VALUES (?)", (tag,))
         connection.execute("INSERT INTO quality_profile_tags VALUES (?, ?)", (name, tag))
-        # Upstream 720p includes HDTV-1080p in the group. Honor the advertised
-        # resolution ceiling, while keeping all other curated scoring intact.
-        ceiling = next(x["maximumResolution"] for x in policy["codes"] if x["code"] == code)
+        # Enforce the displayed resolution interval in actual allowed qualities,
+        # including grouped members. A renamed profile alone changes no rules.
         members = connection.execute("SELECT quality_group_name, quality_name FROM quality_group_members WHERE quality_profile_name=?", (name,)).fetchall()
         for group, quality in members:
-            if resolution(quality) > ceiling:
+            if not floor <= resolution(quality) <= ceiling:
                 connection.execute("DELETE FROM quality_group_members WHERE quality_profile_name=? AND quality_group_name=? AND quality_name=?", (name, group, quality))
                 position = connection.execute("SELECT COALESCE(MAX(position),0)+1 FROM quality_profile_qualities WHERE quality_profile_name=?", (name,)).fetchone()[0]
                 connection.execute("INSERT INTO quality_profile_qualities(quality_profile_name,quality_name,position,enabled) VALUES (?,?,?,0)", (name, quality, position))
+        for quality, enabled in connection.execute("SELECT quality_name,enabled FROM quality_profile_qualities WHERE quality_profile_name=? AND quality_name IS NOT NULL", (name,)).fetchall():
+            if enabled and not floor <= resolution(quality) <= ceiling:
+                connection.execute("UPDATE quality_profile_qualities SET enabled=0 WHERE quality_profile_name=? AND quality_name=?", (name, quality))
 
     connection.execute("INSERT INTO regular_expressions(name,pattern,description) VALUES (?,?,?)", (SAFETY_NAME, EXECUTABLE_PATTERN, "Boundary-aware executable suffix rejection."))
     connection.execute("INSERT INTO custom_formats(name,description) VALUES (?,?)", (SAFETY_NAME, "Reject explicit executable payload names, without rejecting Batman or Adventure."))
@@ -99,8 +106,8 @@ def prepare(connection, policy):
         connection.execute("INSERT INTO quality_profile_qualities(quality_profile_name,quality_name,position,enabled) VALUES (?,?,?,0)", (sd_profile, quality, index))
     connection.execute("INSERT INTO quality_profile_languages VALUES (?, 'Any', 'simple')", (sd_profile,))
     connection.execute("INSERT INTO quality_profile_tags VALUES (?, 'si acquisition')", (sd_profile,))
-    connection.execute("INSERT INTO tags(name) VALUES ('media:SD')")
-    connection.execute("INSERT INTO quality_profile_tags VALUES (?, 'media:SD')", (sd_profile,))
+    connection.execute("INSERT INTO tags(name) VALUES ('media:SD:1')")
+    connection.execute("INSERT INTO quality_profile_tags VALUES (?, 'media:SD:1')", (sd_profile,))
     connection.execute("INSERT INTO custom_formats(name,description) VALUES (?, 'Known SD qualities only; no bitrate or codec restriction.')", (SD_NAME,))
     for value in ("720p", "1080p", "2160p"):
         condition = "Not " + value
@@ -140,7 +147,12 @@ def export_sql(connection, policy):
         columns = [row[1] for row in connection.execute("PRAGMA table_info(" + table + ")") if row[1] not in {"id", "created_at", "updated_at"}]
         column_list = ",".join(columns)
         for row in connection.execute(f"SELECT {column_list} FROM {table} ORDER BY {column_list}"):
-            lines.append(f"INSERT INTO {table}({column_list}) VALUES ({','.join(literal(v) for v in row)});")
+            values = [
+                "\n".join(value_line.rstrip() for value_line in value.split("\n"))
+                if column == "description" and isinstance(value, str) else value
+                for column, value in zip(columns, row)
+            ]
+            lines.append(f"INSERT INTO {table}({column_list}) VALUES ({','.join(literal(v) for v in values)});")
     return "\n".join(lines) + "\n"
 
 

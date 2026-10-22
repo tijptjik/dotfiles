@@ -1,62 +1,61 @@
 # si Dictionarry acquisition profiles
 
-The catalogue uses Dictionarry's curated source, encoder, audio and release-group
-scoring. `policy.json` records the upstream revision, names and Seerr default.
-`ops/1.dictionarry-acquisitions.sql` is a reproducible public policy snapshot,
-with attribution in `UPSTREAM-LICENSE`. It contains no credentials or media lists.
+`policy.json` records the clean names, requested tier windows and the settings
+native Arr profiles can actually enforce. The generated SQL contains public
+Dictionarry policy only, without credentials, library inventory or app databases.
+Upstream attribution is in `UPSTREAM-LICENSE`.
 
-| Code | Dictionarry strategy |
-| --- | --- |
-| `HD/9:MAX` | 1080p Remux |
-| `HD/8:HDR` | 1080p Quality HDR |
-| `HD/7:HQ` | 1080p Quality |
-| `HD/6:BAL` | 1080p Balanced |
-| `HD/6:EFF` | 1080p Efficient |
-| `HD/4:XSQ` | 720p Quality |
-| `HD/3:XS` | 1080p Compact |
-| `4K/9:MAX` | 2160p Remux |
-| `4K/7:HQ` | 2160p Quality |
-| `4K/6:BAL` | 2160p Balanced |
-| `4K/6:EFF` | 2160p Efficient |
-| `SD` | SD |
+| Profile | Dictionarry preset | Requested maximum | Requested minimum |
+| --- | --- | --- | --- |
+| `4K:9 Remux` | 2160p Remux | `4K:9 Remux` | `HD:5 Efficient` |
+| `4K:8 Quality` | 2160p Quality | `4K:9 Remux` | `HD:5 Efficient` |
+| `4K:7 Balanced` | 2160p Balanced | `4K:8 Quality` | `HD:5 Efficient` |
+| `4K:6 Efficient` | 2160p Efficient | `4K:7 Balanced` | `HD:5 Efficient` |
+| `HD:9 Remux` | 1080p Remux | `HD:9 Remux` | `HD:5 Efficient` |
+| `HD:8 Quality HDR` | 1080p Quality HDR | `HD:9 Remux` | `HD:5 Efficient` |
+| `HD:7 Quality` | 1080p Quality | `HD:8 Quality HDR` | `HD:5 Efficient` |
+| `HD:6 Balanced` | 1080p Balanced | `HD:7 Quality` | `HD:5 Efficient` |
+| `HD:5 Efficient` | 1080p Efficient | `HD:6 Balanced` | `HD:5 Efficient` |
+| `HD:4 Quality @ 720p` | 720p Quality | `HD:4 Quality @ 720p` | None |
+| `HD:3 Compact` | 1080p Compact | `HD:5 Efficient` | None |
+| `SD:1` | SD | `SD:1` | None |
 
-## Acquisition choices
+## Native settings and pending tier rules
 
-Each strategy has one user-facing profile:
-`@ {strategy} | mx {strategy} | mn SD`. The SD-only choice is
-`@ SD | mx SD | mn SD`. The default for new requests is
-`@ HD/6:BAL | mx HD/6:BAL | mn SD`.
+The clean names identify each target. Maximum means the next higher tier at the
+same resolution, capped at the highest available tier. The requested shared
+minimum is HD:5 Efficient, except lower targets have no minimum.
 
-`@` identifies the upgrade strategy; `mx` identifies the maximum strategy;
-`mn SD` retains the curated lower-resolution fallbacks. This initial list uses
-`@ = mx`: it does not pretend that overlapping Dictionarry strategies are strict,
-interchangeable bitrate bands. BAL and EFF are alternatives. Their descriptions'
-file sizes are typical outcomes, not hard limits. Arbitrary target/max/min
-combinations are not configured.
+Dictionarry presets overlap; they do not classify releases into disjoint numbered
+bands. Each preset also contains lower-quality fallbacks. Native Arr quality
+profiles cannot directly express acceptance by one complete preset, rejection
+above another preset, and a separate target preset. The cross-preset tier window
+is recorded as a requested policy and is **not enforced** by this snapshot.
+It requires a separate classifier or a simpler native policy choice.
 
-Upstream scoring, language rules, quality groups and upgrade cutoff are retained.
-The 720p variant removes upstream's enabled HDTV-1080p member to honor its ceiling.
-The new SD profile allows DVD, SDTV, 480p WEB/Bluray and 576p Bluray, with no
-bitrate or codec restriction and no automatic upgrades. It retains known-bad
-release, executable, full-disc and original/English audio protections.
-MAX profiles permit remuxes. Full-disc payloads remain excluded. The old
-codec-adjusted bitrate design and encoded-only Archival exclusion are superseded.
+The snapshot does enforce a 1080p resolution floor for HD:5 Efficient and higher,
+a 720p ceiling for HD:4 Quality @ 720p, and the appropriate 1080p/2160p ceilings.
+Lower targets retain the curated SD fallbacks. SD:1 permits known SD qualities up
+to 576p, any bitrate/codec, and has no automatic upgrades. These resolution bounds
+are enforced on allowed qualities and group members; a name change alone is not
+used as a guard. Dictionarry scores and upgrade cutoffs are retained, with an
+additional executable rejection. Remux is allowed only by the Remux presets.
 
-CF names are prefixed `DI: ` so importing these profiles does not replace formats
-used by the existing library. An additional boundary-aware executable rejection
-is included in every profile. Upstream global size definitions have minimum 0,
-maximum unlimited; they replace the old global caps that conflict with Compact
-and Remux. This change applies to every profile in each Arr instance.
+Native custom-format names have a `DI: ` prefix to preserve formats used by
+legacy library profiles. Existing library assignments remain in place. Sonarr's
+legacy Dolby Vision rule uses a boundary-aware CF on legacy profiles; curated
+profiles apply their own HDR rules. Its global executable rule also uses suffix
+boundaries to avoid Batman/Adventure false positives.
 
-Existing library assignments are not migrated. New profiles and Seerr defaults
-can be changed independently of a future library migration. No backlog search
-or Profilarr upgrade job is configured by this catalogue.
+Global size definitions are Dictionarry's unrestricted limits. No bitrate-based
+quality classification, renaming job, backlog search or upgrade job is added.
+Seerr keeps its previous defaults until the tier-policy choice is resolved.
 
 ## Refresh and publish
 
-Check out the reviewed Dictionarry revision and schema 1.1.0 outside this repository.
-To change versions, review the upstream changes and update `policy.json` first.
-Then regenerate, validate and commit the public snapshot:
+Check out the reviewed Dictionarry revision from `policy.json` and schema 1.1.0
+outside this repository. Review upstream changes before updating the revision.
+Regenerate and validate:
 
 ```sh
 python3 home/dockers/profilarr-tools/executable_build-dictionarry.py \
@@ -66,12 +65,11 @@ python3 home/dockers/profilarr-tools/executable_build-dictionarry.py \
 python3 home/dockers/profilarr-tools/executable_check-policy.py --list
 ```
 
-After committing, publish with
-`python3 home/dockers/profilarr-tools/executable_publish-database.py`, then manually
-sync the `si-media-profiles` database in Profilarr, review its diff, and sync the
-selected quality profiles and quality definitions to Arr. Source and Arr syncs
-are separate actions. Namespaced formats, curated scoring and acquisition names
-are versioned together; unreviewed upstream changes cannot silently alter them.
+After committing, run
+`python3 home/dockers/profilarr-tools/executable_publish-database.py`.
+Manually sync the `si-media-profiles` source database in Profilarr, review the
+exported profiles, then sync the selected quality profiles to Arr. Source sync
+and Arr sync are separate actions. Keep conflict handling at `ask`.
 
-Profilarr UI overrides live in its backed-up SQLite state. Promote accepted
-changes to this source before publishing. Keep conflict handling at `ask`.
+UI overrides live in backed-up SQLite state; promote accepted changes to this
+source before publishing. Never store API keys or credentials in Git.

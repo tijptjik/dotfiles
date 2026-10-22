@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "description": "Dictionarry strategies with explicit acquisition names. Codes identify overlapping strategies, not disjoint bitrate bands.",
+  "version": 3,
+  "description": "Clean Dictionarry acquisition names, requested tier windows and explicit native enforcement limits.",
   "upstream": {
     "repository": "https://github.com/Dictionarry-Hub/database",
     "commit": "fb09c844998ff022e78ba1261aacb5c2d8384ef6",
@@ -8,170 +8,252 @@
     "schemaVersion": "1.1.0",
     "customFormatPrefix": "DI: "
   },
-  "codes": [
+  "tiers": [
     {
-      "code": "HD/9:MAX",
-      "name": "1080p Remux",
-      "maximumResolution": 1080
+      "name": "4K:9 Remux",
+      "sourceProfile": "2160p Remux",
+      "maximumResolution": 2160,
+      "rank": 9
     },
     {
-      "code": "HD/8:HDR",
-      "name": "1080p Quality HDR",
-      "maximumResolution": 1080
+      "name": "4K:8 Quality",
+      "sourceProfile": "2160p Quality",
+      "maximumResolution": 2160,
+      "rank": 8
     },
     {
-      "code": "HD/7:HQ",
-      "name": "1080p Quality",
-      "maximumResolution": 1080
+      "name": "4K:7 Balanced",
+      "sourceProfile": "2160p Balanced",
+      "maximumResolution": 2160,
+      "rank": 7
     },
     {
-      "code": "HD/6:BAL",
-      "name": "1080p Balanced",
-      "maximumResolution": 1080
+      "name": "4K:6 Efficient",
+      "sourceProfile": "2160p Efficient",
+      "maximumResolution": 2160,
+      "rank": 6
     },
     {
-      "code": "HD/6:EFF",
-      "name": "1080p Efficient",
-      "maximumResolution": 1080
+      "name": "HD:9 Remux",
+      "sourceProfile": "1080p Remux",
+      "maximumResolution": 1080,
+      "rank": 9
     },
     {
-      "code": "HD/4:XSQ",
-      "name": "720p Quality",
-      "maximumResolution": 720
+      "name": "HD:8 Quality HDR",
+      "sourceProfile": "1080p Quality HDR",
+      "maximumResolution": 1080,
+      "rank": 8
     },
     {
-      "code": "HD/3:XS",
-      "name": "1080p Compact",
-      "maximumResolution": 1080
+      "name": "HD:7 Quality",
+      "sourceProfile": "1080p Quality",
+      "maximumResolution": 1080,
+      "rank": 7
     },
     {
-      "code": "4K/9:MAX",
-      "name": "2160p Remux",
-      "maximumResolution": 2160
+      "name": "HD:6 Balanced",
+      "sourceProfile": "1080p Balanced",
+      "maximumResolution": 1080,
+      "rank": 6
     },
     {
-      "code": "4K/7:HQ",
-      "name": "2160p Quality",
-      "maximumResolution": 2160
+      "name": "HD:5 Efficient",
+      "sourceProfile": "1080p Efficient",
+      "maximumResolution": 1080,
+      "rank": 5
     },
     {
-      "code": "4K/6:BAL",
-      "name": "2160p Balanced",
-      "maximumResolution": 2160
+      "name": "HD:4 Quality @ 720p",
+      "sourceProfile": "720p Quality",
+      "maximumResolution": 720,
+      "rank": 4
     },
     {
-      "code": "4K/6:EFF",
-      "name": "2160p Efficient",
-      "maximumResolution": 2160
+      "name": "HD:3 Compact",
+      "sourceProfile": "1080p Compact",
+      "maximumResolution": 1080,
+      "rank": 3
     },
     {
-      "code": "SD",
-      "name": "SD",
-      "maximumResolution": 576
+      "name": "SD:1",
+      "sourceProfile": "SD",
+      "maximumResolution": 576,
+      "rank": 1
     }
   ],
-  "acquisitionSyntax": "@ {upgrade strategy} | mx {maximum strategy} | mn {minimum fallback}",
   "acquisitions": [
     {
-      "name": "@ HD/9:MAX | mx HD/9:MAX | mn SD",
-      "upgradeTo": "HD/9:MAX",
-      "maximum": "HD/9:MAX",
-      "minimum": "SD",
-      "sourceProfile": "1080p Remux"
+      "name": "4K:9 Remux",
+      "upgradeTo": "4K:9 Remux",
+      "maximum": "4K:9 Remux",
+      "minimum": "HD:5 Efficient",
+      "sourceProfile": "2160p Remux",
+      "minimumResolution": 1080,
+      "legacyNames": [
+        "@ 4K/9:MAX | mx 4K/9:MAX | mn SD",
+        "@ 4K/9:MAX | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ HD/8:HDR | mx HD/8:HDR | mn SD",
-      "upgradeTo": "HD/8:HDR",
-      "maximum": "HD/8:HDR",
-      "minimum": "SD",
-      "sourceProfile": "1080p Quality HDR"
+      "name": "4K:8 Quality",
+      "upgradeTo": "4K:8 Quality",
+      "maximum": "4K:9 Remux",
+      "minimum": "HD:5 Efficient",
+      "sourceProfile": "2160p Quality",
+      "minimumResolution": 1080,
+      "legacyNames": [
+        "@ 4K/7:HQ | mx 4K/7:HQ | mn SD",
+        "@ 4K/7:HQ | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ HD/7:HQ | mx HD/7:HQ | mn SD",
-      "upgradeTo": "HD/7:HQ",
-      "maximum": "HD/7:HQ",
-      "minimum": "SD",
-      "sourceProfile": "1080p Quality"
+      "name": "4K:7 Balanced",
+      "upgradeTo": "4K:7 Balanced",
+      "maximum": "4K:8 Quality",
+      "minimum": "HD:5 Efficient",
+      "sourceProfile": "2160p Balanced",
+      "minimumResolution": 1080,
+      "legacyNames": [
+        "@ 4K/6:BAL | mx 4K/6:BAL | mn SD",
+        "@ 4K/6:BAL | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ HD/6:BAL | mx HD/6:BAL | mn SD",
-      "upgradeTo": "HD/6:BAL",
-      "maximum": "HD/6:BAL",
-      "minimum": "SD",
-      "sourceProfile": "1080p Balanced"
+      "name": "4K:6 Efficient",
+      "upgradeTo": "4K:6 Efficient",
+      "maximum": "4K:7 Balanced",
+      "minimum": "HD:5 Efficient",
+      "sourceProfile": "2160p Efficient",
+      "minimumResolution": 1080,
+      "legacyNames": [
+        "@ 4K/6:EFF | mx 4K/6:EFF | mn SD",
+        "@ 4K/6:EFF | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ HD/6:EFF | mx HD/6:EFF | mn SD",
-      "upgradeTo": "HD/6:EFF",
-      "maximum": "HD/6:EFF",
-      "minimum": "SD",
-      "sourceProfile": "1080p Efficient"
+      "name": "HD:9 Remux",
+      "upgradeTo": "HD:9 Remux",
+      "maximum": "HD:9 Remux",
+      "minimum": "HD:5 Efficient",
+      "sourceProfile": "1080p Remux",
+      "minimumResolution": 1080,
+      "legacyNames": [
+        "@ HD/9:MAX | mx HD/9:MAX | mn SD",
+        "@ HD/9:MAX | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ HD/4:XSQ | mx HD/4:XSQ | mn SD",
-      "upgradeTo": "HD/4:XSQ",
-      "maximum": "HD/4:XSQ",
-      "minimum": "SD",
-      "sourceProfile": "720p Quality"
+      "name": "HD:8 Quality HDR",
+      "upgradeTo": "HD:8 Quality HDR",
+      "maximum": "HD:9 Remux",
+      "minimum": "HD:5 Efficient",
+      "sourceProfile": "1080p Quality HDR",
+      "minimumResolution": 1080,
+      "legacyNames": [
+        "@ HD/8:HDR | mx HD/8:HDR | mn SD",
+        "@ HD/8:HDR | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ HD/3:XS | mx HD/3:XS | mn SD",
-      "upgradeTo": "HD/3:XS",
-      "maximum": "HD/3:XS",
-      "minimum": "SD",
-      "sourceProfile": "1080p Compact"
+      "name": "HD:7 Quality",
+      "upgradeTo": "HD:7 Quality",
+      "maximum": "HD:8 Quality HDR",
+      "minimum": "HD:5 Efficient",
+      "sourceProfile": "1080p Quality",
+      "minimumResolution": 1080,
+      "legacyNames": [
+        "@ HD/7:HQ | mx HD/7:HQ | mn SD",
+        "@ HD/7:HQ | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ 4K/9:MAX | mx 4K/9:MAX | mn SD",
-      "upgradeTo": "4K/9:MAX",
-      "maximum": "4K/9:MAX",
-      "minimum": "SD",
-      "sourceProfile": "2160p Remux"
+      "name": "HD:6 Balanced",
+      "upgradeTo": "HD:6 Balanced",
+      "maximum": "HD:7 Quality",
+      "minimum": "HD:5 Efficient",
+      "sourceProfile": "1080p Balanced",
+      "minimumResolution": 1080,
+      "legacyNames": [
+        "@ HD/6:BAL | mx HD/6:BAL | mn SD",
+        "@ HD/6:BAL | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ 4K/7:HQ | mx 4K/7:HQ | mn SD",
-      "upgradeTo": "4K/7:HQ",
-      "maximum": "4K/7:HQ",
-      "minimum": "SD",
-      "sourceProfile": "2160p Quality"
+      "name": "HD:5 Efficient",
+      "upgradeTo": "HD:5 Efficient",
+      "maximum": "HD:6 Balanced",
+      "minimum": "HD:5 Efficient",
+      "sourceProfile": "1080p Efficient",
+      "minimumResolution": 1080,
+      "legacyNames": [
+        "@ HD/6:EFF | mx HD/6:EFF | mn SD",
+        "@ HD/6:EFF | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ 4K/6:BAL | mx 4K/6:BAL | mn SD",
-      "upgradeTo": "4K/6:BAL",
-      "maximum": "4K/6:BAL",
-      "minimum": "SD",
-      "sourceProfile": "2160p Balanced"
+      "name": "HD:4 Quality @ 720p",
+      "upgradeTo": "HD:4 Quality @ 720p",
+      "maximum": "HD:4 Quality @ 720p",
+      "minimum": null,
+      "sourceProfile": "720p Quality",
+      "minimumResolution": 0,
+      "legacyNames": [
+        "@ HD/4:XSQ | mx HD/4:XSQ | mn SD",
+        "@ HD/4:XSQ | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ 4K/6:EFF | mx 4K/6:EFF | mn SD",
-      "upgradeTo": "4K/6:EFF",
-      "maximum": "4K/6:EFF",
-      "minimum": "SD",
-      "sourceProfile": "2160p Efficient"
+      "name": "HD:3 Compact",
+      "upgradeTo": "HD:3 Compact",
+      "maximum": "HD:5 Efficient",
+      "minimum": null,
+      "sourceProfile": "1080p Compact",
+      "minimumResolution": 0,
+      "legacyNames": [
+        "@ HD/3:XS | mx HD/3:XS | mn SD",
+        "@ HD/3:XS | mx # | mn SD"
+      ]
     },
     {
-      "name": "@ SD | mx SD | mn SD",
-      "upgradeTo": "SD",
-      "maximum": "SD",
-      "minimum": "SD",
-      "sourceProfile": "SD"
+      "name": "SD:1",
+      "upgradeTo": "SD:1",
+      "maximum": "SD:1",
+      "minimum": null,
+      "sourceProfile": "SD",
+      "minimumResolution": 0,
+      "legacyNames": [
+        "@ SD | mx SD | mn SD",
+        "@ SD | mx # | mn SD"
+      ]
     }
   ],
-  "default": "@ HD/6:BAL | mx HD/6:BAL | mn SD",
-  "constraints": [
-    "This initial catalogue uses target = maximum and an SD floor. Arbitrary combinations are not implied.",
-    "Dictionarry strategies overlap. BAL and EFF are alternatives, not consecutive rungs.",
-    "The upgrade target uses the upstream quality group and custom-format cutoff, not a measured bitrate.",
-    "Remux is allowed in MAX strategies. Full-disc payloads remain excluded.",
-    "No strict codec-adjusted bitrate bands or fixed movie-size caps are added."
-  ],
+  "default": "HD:6 Balanced",
+  "requestedRules": {
+    "maximum": "Next higher tier at the same resolution, capped at the highest available tier.",
+    "minimum": "HD:5 Efficient for targets at or above that tier; no minimum for lower targets."
+  },
+  "enforcement": {
+    "resolutionBounds": "native allowed-quality groups",
+    "preferenceScoring": "unmodified upstream Dictionarry scores plus executable rejection",
+    "crossPresetTierWindow": "not natively enforceable; awaiting native-scoring or separate-classifier choice"
+  },
   "sync": {
     "databaseName": "si-media-profiles",
     "profileTrigger": "manual",
     "mediaManagement": [
       "qualityDefinitions"
     ],
-    "seerrDefault": "@ HD/6:BAL | mx HD/6:BAL | mn SD",
+    "seerrDefault": "HD:6 Balanced",
     "migrateExistingAssignments": false
+  },
+  "legacyCompatibility": {
+    "sonarr": {
+      "globalDolbyVisionReleaseProfile": "disabled after assigning equivalent boundary-aware CF to legacy profiles",
+      "legacyCustomFormat": "SI: Legacy Dolby Vision",
+      "legacyScore": -10000000,
+      "executableReleaseProfile": "boundary-aware suffix regex"
+    },
+    "libraryAssignments": "unchanged"
   }
 }

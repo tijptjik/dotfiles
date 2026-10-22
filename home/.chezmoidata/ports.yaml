@@ -1,4 +1,6 @@
 ports:
+  homepage: 3000
+  scrutiny: 8085
   mariadb: 3306
   navidrome: 4533
   seerr: 5055

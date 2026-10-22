@@ -7,6 +7,57 @@ x-common-env: &common-env
 
 services:
 
+  homepage:
+    container_name: homepage
+    image: ghcr.io/gethomepage/homepage:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      HOMEPAGE_ALLOWED_HOSTS: localhost:{{ .ports.homepage }},127.0.0.1:{{ .ports.homepage }}
+    ports:
+      - 127.0.0.1:{{ .ports.homepage }}:3000
+    volumes:
+      - {{ .paths.appData }}/homepage:/app/config
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  scrutiny:
+    container_name: scrutiny
+    image: ghcr.io/analogj/scrutiny:latest-omnibus
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Hong_Kong
+      COLLECTOR_CRON_SCHEDULE: "0 6 * * *"
+    cap_add:
+      - SYS_RAWIO
+    ports:
+      - 127.0.0.1:{{ .ports.scrutiny }}:8080
+    volumes:
+      - /run/udev:/run/udev:ro
+      - {{ .paths.appData }}/scrutiny/config:/opt/scrutiny/config
+      - {{ .paths.appData }}/scrutiny/influxdb:/opt/scrutiny/influxdb
+    # All eight physical SATA disks, including the OS SSD. Recheck after hardware changes.
+    devices:
+      - /dev/sda:/dev/sda:r
+      - /dev/sdb:/dev/sdb:r
+      - /dev/sdc:/dev/sdc:r
+      - /dev/sdd:/dev/sdd:r
+      - /dev/sde:/dev/sde:r
+      - /dev/sdf:/dev/sdf:r
+      - /dev/sdg:/dev/sdg:r
+      - /dev/sdh:/dev/sdh:r
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+
 #########################
 ###  MEDIA REQUESTS   ###
 ###  request.type.hk  ###

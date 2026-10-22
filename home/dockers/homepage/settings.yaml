@@ -1,0 +1,6 @@
+title: Si
+startUrl: http://localhost:3000
+theme: dark
+color: slate
+headerStyle: clean
+statusStyle: dot

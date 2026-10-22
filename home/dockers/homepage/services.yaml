@@ -1,0 +1,63 @@
+- Watch:
+  - Plex:
+      icon: plex.png
+      href: https://app.plex.tv
+      description: Your media library
+  - Seerr:
+      icon: seerr.png
+      href: https://request.type.hk
+      description: Request movies and shows
+  - Tautulli:
+      icon: tautulli.png
+      href: https://monitor.type.hk
+      description: Plex activity
+- Read and listen:
+  - Grimmory:
+      icon: booklore.png
+      href: https://read.type.hk
+      description: Books
+  - Audiobookshelf:
+      icon: audiobookshelf.png
+      href: https://listen.type.hk
+      description: Audiobooks and podcasts
+  - Navidrome:
+      icon: navidrome.png
+      href: https://dj.type.hk
+      description: Music
+  - Feishin:
+      icon: feishin.png
+      href: https://dance.type.hk
+      description: Music player
+- Manage media:
+  - Radarr:
+      icon: radarr.png
+      href: https://movies.type.hk
+      description: Movies
+  - Sonarr:
+      icon: sonarr.png
+      href: https://shows.type.hk
+      description: TV series
+  - Profilarr:
+      icon: profilarr.png
+      href: https://profiles.type.hk
+      description: Quality profiles
+  - Prowlarr:
+      icon: prowlarr.png
+      href: https://indexer.type.hk
+      description: Indexers
+  - Transmission:
+      icon: transmission.png
+      href: https://torrent.type.hk
+      description: Downloads
+  - Shelfmark:
+      icon: shelfmark.png
+      href: https://mark.type.hk
+      description: Find books
+- Server:
+  - Scrutiny:
+      icon: scrutiny.png
+      href: http://localhost:8085
+      description: Disk health
+      widget:
+        type: scrutiny
+        url: http://scrutiny:8080

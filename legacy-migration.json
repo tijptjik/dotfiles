@@ -7,7 +7,7 @@
       {
         "legacyId": 5,
         "legacyName": "1. UHD",
-        "targetName": "4K:3 Balanced"
+        "targetName": "4K:4 Balanced"
       },
       {
         "legacyId": 4,
@@ -44,17 +44,17 @@
       {
         "legacyId": 11,
         "legacyName": "2160p Only",
-        "targetName": "4K:3 Balanced"
+        "targetName": "4K:4 Balanced"
       },
       {
         "legacyId": 7,
         "legacyName": "720P and Up",
-        "targetName": "4K:4 Efficient"
+        "targetName": "4K:5 Efficient"
       },
       {
         "legacyId": 8,
         "legacyName": "1080P and Up",
-        "targetName": "4K:4 Efficient"
+        "targetName": "4K:5 Efficient"
       },
       {
         "legacyId": 9,
@@ -74,7 +74,7 @@
     ]
   },
   "seerrDefaults": {
-    "radarr": "4K:3 Balanced",
+    "radarr": "4K:4 Balanced",
     "sonarr": "HD:4 Balanced",
     "sonarrAnime": "HD:4 Balanced"
   },

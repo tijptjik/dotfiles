@@ -7,7 +7,7 @@
       {
         "legacyId": 5,
         "legacyName": "1. UHD",
-        "targetName": "4K:4 Balanced"
+        "targetName": "4K:3 Balanced"
       },
       {
         "legacyId": 4,
@@ -44,7 +44,7 @@
       {
         "legacyId": 11,
         "legacyName": "2160p Only",
-        "targetName": "4K:4 Balanced"
+        "targetName": "4K:3 Balanced"
       },
       {
         "legacyId": 7,
@@ -74,7 +74,7 @@
     ]
   },
   "seerrDefaults": {
-    "radarr": "4K:4 Balanced",
+    "radarr": "4K:3 Balanced",
     "sonarr": "HD:4 Balanced",
     "sonarrAnime": "HD:4 Balanced"
   },

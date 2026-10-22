@@ -7,32 +7,32 @@ Upstream attribution is in `UPSTREAM-LICENSE`.
 
 Quality numbers sort from best (`1`) to lowest (`9`). Renumbering changes display
 names only; preset rules and existing Arr profile IDs remain unchanged.
-Numbers invert the original version-2 ratings from dotfiles commit `f6bbc41`:
-Remux `1`, Quality HDR `2`, Quality `3`, Balanced and Efficient both `4`.
-Balanced and Efficient were originally rated `6`; they are sibling strategies,
-not separate quality ranks. Missing ratings leave gaps, so 4K uses `1`, `3`, `4`.
-The distinct 720p, Compact and SD tiers remain `6`, `7`, `9`.
+Numbers invert the user's explicit **OK, rescore** list, captured in dotfiles
+commit `82686df`: **new number = 10 - old number**. 4K uses `1` Remux, `2` Quality,
+`3` Balanced, `4` Efficient. HD uses `1` Remux, `2` Quality HDR, `3` Quality,
+`4` Balanced, `5` Efficient, `6` Quality at 720p, `7` Compact; SD is `9`.
+The earlier version-2 strategy codes are not the basis for these display numbers.
 
 | Profile | Dictionarry preset | Requested maximum | Requested minimum |
 | --- | --- | --- | --- |
-| `4K:1 Remux` | 2160p Remux | `4K:1 Remux` | `HD:4 Efficient` |
-| `4K:3 Quality` | 2160p Quality | `4K:1 Remux` | `HD:4 Efficient` |
-| `4K:4 Balanced` | 2160p Balanced | `4K:3 Quality` | `HD:4 Efficient` |
-| `4K:4 Efficient` | 2160p Efficient | `4K:4 Balanced` | `HD:4 Efficient` |
-| `HD:1 Remux` | 1080p Remux | `HD:1 Remux` | `HD:4 Efficient` |
-| `HD:2 Quality HDR` | 1080p Quality HDR | `HD:1 Remux` | `HD:4 Efficient` |
-| `HD:3 Quality` | 1080p Quality | `HD:2 Quality HDR` | `HD:4 Efficient` |
-| `HD:4 Balanced` | 1080p Balanced | `HD:3 Quality` | `HD:4 Efficient` |
-| `HD:4 Efficient` | 1080p Efficient | `HD:4 Balanced` | `HD:4 Efficient` |
+| `4K:1 Remux` | 2160p Remux | `4K:1 Remux` | `HD:5 Efficient` |
+| `4K:2 Quality` | 2160p Quality | `4K:1 Remux` | `HD:5 Efficient` |
+| `4K:3 Balanced` | 2160p Balanced | `4K:2 Quality` | `HD:5 Efficient` |
+| `4K:4 Efficient` | 2160p Efficient | `4K:3 Balanced` | `HD:5 Efficient` |
+| `HD:1 Remux` | 1080p Remux | `HD:1 Remux` | `HD:5 Efficient` |
+| `HD:2 Quality HDR` | 1080p Quality HDR | `HD:1 Remux` | `HD:5 Efficient` |
+| `HD:3 Quality` | 1080p Quality | `HD:2 Quality HDR` | `HD:5 Efficient` |
+| `HD:4 Balanced` | 1080p Balanced | `HD:3 Quality` | `HD:5 Efficient` |
+| `HD:5 Efficient` | 1080p Efficient | `HD:4 Balanced` | `HD:5 Efficient` |
 | `HD:6 Quality @ 720p` | 720p Quality | `HD:6 Quality @ 720p` | None |
-| `HD:7 Compact` | 1080p Compact | `HD:4 Efficient` | None |
+| `HD:7 Compact` | 1080p Compact | `HD:5 Efficient` | None |
 | `SD:9` | SD | `SD:9` | None |
 
 ## Native settings and pending tier rules
 
 The clean names identify each target. Maximum means the next higher tier at the
 same resolution, capped at the highest available tier. The requested shared
-minimum is HD:4 Efficient, except lower targets have no minimum.
+minimum is HD:5 Efficient, except lower targets have no minimum.
 
 Dictionarry presets overlap; they do not classify releases into disjoint numbered
 bands. Each preset also contains lower-quality fallbacks. Native Arr quality
@@ -43,7 +43,7 @@ The active configuration uses the curated presets plus native resolution
 guards. Implementing exact cross-preset tier windows would require a separate
 classifier; the profile names do not claim that those windows are enforced.
 
-The snapshot does enforce a 1080p resolution floor for HD:4 Efficient or better,
+The snapshot does enforce a 1080p resolution floor for HD:5 Efficient or better,
 a 720p ceiling for HD:6 Quality @ 720p, and the appropriate 1080p/2160p ceilings.
 Lower targets retain the curated SD fallbacks. SD:9 permits known SD qualities up
 to 576p, any bitrate/codec, and has no automatic upgrades. These resolution bounds
@@ -60,7 +60,7 @@ boundaries to avoid Batman/Adventure false positives.
 
 Global size definitions are Dictionarry's unrestricted limits. No bitrate-based
 quality classification, renaming job, backlog search or upgrade job is added.
-Seerr retains 4K:4 Balanced for new movie requests and uses HD:4 Balanced for new
+Seerr retains 4K:3 Balanced for new movie requests and uses HD:4 Balanced for new
 TV and anime requests. The mapping and explicit migration tool are documented in
 [si-profilarr.md](../../../docs/si-profilarr.md). No migration runs during apply.
 

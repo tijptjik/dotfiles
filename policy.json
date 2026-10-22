@@ -228,7 +228,7 @@
       ]
     }
   ],
-  "default": "HD:6 Balanced",
+  "default": "4K:7 Balanced",
   "requestedRules": {
     "maximum": "Next higher tier at the same resolution, capped at the highest available tier.",
     "minimum": "HD:5 Efficient for targets at or above that tier; no minimum for lower targets."
@@ -236,7 +236,7 @@
   "enforcement": {
     "resolutionBounds": "native allowed-quality groups",
     "preferenceScoring": "unmodified upstream Dictionarry scores plus executable rejection",
-    "crossPresetTierWindow": "not natively enforceable; awaiting native-scoring or separate-classifier choice"
+    "crossPresetTierWindow": "Not natively enforced; the curated presets and native resolution guards are active."
   },
   "sync": {
     "databaseName": "si-media-profiles",
@@ -244,8 +244,12 @@
     "mediaManagement": [
       "qualityDefinitions"
     ],
-    "seerrDefault": "HD:6 Balanced",
-    "migrateExistingAssignments": false
+    "seerrDefaults": {
+      "radarr": "4K:7 Balanced",
+      "sonarr": "HD:6 Balanced",
+      "sonarrAnime": "HD:6 Balanced"
+    },
+    "legacyMigration": "Explicit manual migration from legacy-migration.json; never an apply hook."
   },
   "legacyCompatibility": {
     "sonarr": {
@@ -254,6 +258,11 @@
       "legacyScore": -10000000,
       "executableReleaseProfile": "boundary-aware suffix regex"
     },
-    "libraryAssignments": "unchanged"
+    "libraryAssignments": "Migrated by the approved legacy-migration.json map; monitoring and paths preserved."
+  },
+  "defaults": {
+    "radarr": "4K:7 Balanced",
+    "sonarr": "HD:6 Balanced",
+    "sonarrAnime": "HD:6 Balanced"
   }
 }

@@ -31,7 +31,9 @@ bands. Each preset also contains lower-quality fallbacks. Native Arr quality
 profiles cannot directly express acceptance by one complete preset, rejection
 above another preset, and a separate target preset. The cross-preset tier window
 is recorded as a requested policy and is **not enforced** by this snapshot.
-It requires a separate classifier or a simpler native policy choice.
+The active configuration uses the curated presets plus native resolution
+guards. Implementing exact cross-preset tier windows would require a separate
+classifier; the profile names do not claim that those windows are enforced.
 
 The snapshot does enforce a 1080p resolution floor for HD:5 Efficient and higher,
 a 720p ceiling for HD:4 Quality @ 720p, and the appropriate 1080p/2160p ceilings.
@@ -42,14 +44,17 @@ used as a guard. Dictionarry scores and upgrade cutoffs are retained, with an
 additional executable rejection. Remux is allowed only by the Remux presets.
 
 Native custom-format names have a `DI: ` prefix to preserve formats used by
-legacy library profiles. Existing library assignments remain in place. Sonarr's
-legacy Dolby Vision rule uses a boundary-aware CF on legacy profiles; curated
-profiles apply their own HDR rules. Its global executable rule also uses suffix
+legacy library profiles during migration. All old assignments and dependent
+defaults were then migrated by `legacy-migration.json`, and the 13 unused legacy
+profiles were removed. Paths, monitoring and tags are preserved. Curated
+profiles apply their own HDR rules. Sonarr's global executable rule uses suffix
 boundaries to avoid Batman/Adventure false positives.
 
 Global size definitions are Dictionarry's unrestricted limits. No bitrate-based
 quality classification, renaming job, backlog search or upgrade job is added.
-Seerr keeps its previous defaults until the tier-policy choice is resolved.
+Seerr retains 4K:7 Balanced for new movie requests and uses HD:6 Balanced for new
+TV and anime requests. The mapping and explicit migration tool are documented in
+[si-profilarr.md](../../../docs/si-profilarr.md). No migration runs during apply.
 
 ## Refresh and publish
 

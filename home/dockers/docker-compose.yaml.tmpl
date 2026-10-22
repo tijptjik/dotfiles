@@ -14,6 +14,8 @@ services:
     environment:
       <<: *common-env
       HOMEPAGE_ALLOWED_HOSTS: home.type.hk,localhost:{{ .ports.homepage }},127.0.0.1:{{ .ports.homepage }}
+    extra_hosts:
+      - host.docker.internal:host-gateway
     ports:
       - 127.0.0.1:{{ .ports.homepage }}:3000
     volumes:

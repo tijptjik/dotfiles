@@ -111,13 +111,18 @@ SMART failure. Review cooling and future trends; no disk settings were changed.
 
 ## Homepage service availability
 
-The twelve Docker service cards use Homepage's native `siteMonitor` with internal URLs.
+All thirteen service cards use Homepage's native `siteMonitor` with internal URLs.
 Checks refresh every 30 seconds while the page is open; the UP/DOWN label's
 hover text includes HTTP status and latency. This is HTTP availability, not
 continuous alerting or complete functional validation. Native health/status/ping
 endpoints are used where available. Feishin checks its web root; Transmission
 returns HTTP 401, which Homepage explicitly treats as a reachable authenticated
 service. Homepage does not interpret health-response JSON or test downloads,
-playback, authentication, or external Cloudflare routes. Plex has no indicator: direct host access was not approved, and its public
-link redirects to plex.tv rather than checking this server.
+playback, authentication, or external Cloudflare routes. Plex uses `http://host.docker.internal:32400/identity`; the user explicitly
+approved Homepage container-to-host access through Docker's host-gateway mapping.
 The Community footer uses the Telegram icon and retains its 400px maximum width.
+
+Homepage configuration assets under `/api/config/` are served with
+`Cache-Control: no-store`. Cloudflare previously cached a zero-byte custom.css
+response, which hid the footer styling. The exact CSS URL was purged after
+adding the no-store header. Community is capped at 400px with 2rem top padding.

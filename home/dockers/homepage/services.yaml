@@ -3,6 +3,7 @@
       icon: plex.png
       href: https://watch.type.hk
       description: Plex
+      siteMonitor: http://host.docker.internal:32400/identity
   - Request:
       icon: seerr.png
       href: https://request.type.hk

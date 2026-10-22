@@ -43,18 +43,20 @@ commands. Names range from `4K:1 Remux` to `SD:9`; HD means 1080p except the
 explicit `HD:6 Quality @ 720p` profile.
 Numbers sort from best (`1`) to lowest (`9`); the renumbering preserved profile
 IDs, library assignments and all quality settings.
-Numbers invert the original version-2 ratings from dotfiles commit `f6bbc41`.
-Balanced and Efficient were both rated `6`, so both now use `4` at either
-resolution. 4K uses `1`, `3`, `4`; HD's separate Quality HDR tier uses `2`.
+Numbers invert the user's explicit **OK, rescore** list, captured in dotfiles
+commit `82686df`: **new number = 10 - old number**. 4K uses `1` Remux, `2` Quality,
+`3` Balanced, `4` Efficient. HD uses `1` Remux, `2` Quality HDR, `3` Quality,
+`4` Balanced, `5` Efficient, `6` Quality at 720p, `7` Compact; SD is `9`.
+The earlier version-2 strategy codes are not the basis for these display numbers.
 Name-only Arr updates and Seerr display-name updates were backed up under
 `/mnt/storage/meta/appData/profilarr/backups/profile-renumbering-<UTC timestamp>`.
 
-The source records next-tier maxima and the HD:4 Efficient minimum, but native
+The source records next-tier maxima and the HD:5 Efficient minimum, but native
 Arr cannot enforce cross-preset tier windows: Dictionarry presets overlap and
 contain fallback releases. The snapshot keeps curated scoring, enforces a 1080p
 floor for Efficient and higher, and prevents resolution jumps. Exact tier-window
 classification is not a native feature; the curated presets and resolution
-guards are active. Seerr retains its existing 4K:4 Balanced movie default and
+guards are active. Seerr retains its existing 4K:3 Balanced movie default and
 uses HD:4 Balanced for TV and anime.
 
 Legacy assignments were migrated using the user-approved mapping in

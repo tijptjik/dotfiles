@@ -85,6 +85,7 @@ services:
       driver: json-file
     environment:
       <<: *common-env
+      UMASK: "002"
     ports:
       - {{ .ports.radarr }}:{{ .ports.radarr }}
     volumes:
@@ -104,6 +105,8 @@ services:
     restart: unless-stopped
     environment:
       TZ: Asia/Hong_Kong
+      UN_FILE_MODE: "0664"
+      UN_DIR_MODE: "0775"
     volumes:
       - {{ .paths.appData }}/unpackerr:/config
       - {{ .paths.downloads }}:/data/meta/downloads
@@ -128,6 +131,7 @@ services:
       driver: json-file
     environment:
       <<: *common-env
+      UMASK: "002"
     ports:
       - {{ .ports.sonarr }}:{{ .ports.sonarr }}
     volumes:
@@ -490,6 +494,7 @@ services:
       retries: 5
     environment:
       <<: *common-env
+      UMASK: "002"
       USER: media
       PASS: {{ (bitwardenSecrets "d0001509-175f-4cef-9ca6-b3cb00abff89").value | quote }}
     volumes:

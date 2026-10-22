@@ -21,6 +21,7 @@ updated_settings=$(jq --arg download_dir "$download_dir" '
     | .["script-torrent-done-seeding-enabled"] = false
     | .["download-dir"] = $download_dir
     | .["incomplete-dir"] = $download_dir
+    | .["umask"] = 2
     | .["alt-speed-down"] = 50
     | .["alt-speed-up"] = 50
     | .["alt-speed-time-begin"] = 540
@@ -34,4 +35,5 @@ updated_settings=$(jq --arg download_dir "$download_dir" '
 printf '%s\n' "$updated_settings" > "$settings_file"
 printf '%s Archive extraction delegated to Unpackerr\n' '[configure-archive-hook]'
 printf '%s Set download directory to %s\n' '[configure-archive-hook]' "$download_dir"
+printf '%s Shared media umask: 002\n' '[configure-archive-hook]'
 printf '%s Daily 09:00-17:00 HKT: 50 KB/s each way; uncapped otherwise\n' '[configure-archive-hook]'

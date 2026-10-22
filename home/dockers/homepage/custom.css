@@ -1,14 +1,46 @@
-/* A single centered community link after the four service columns. */
+/* Keep the four service groups in one row on desktop. */
+#layout-groups {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+#layout-groups > .services-group {
+  min-width: 0;
+  padding: 0;
+}
+@media (min-width: 640px) {
+  #layout-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  #layout-groups {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* A centered Community link, never a titled, full-width card. */
 .bookmark-group:has(#community-link) {
-  flex-basis: 100%;
-  margin-top: 1.5rem;
+  grid-column: 1 / -1;
+  width: min(100%, 400px);
+  max-width: 400px;
+  margin: 1.5rem auto 0;
+  padding: 0;
+  flex: 0 1 400px;
+}
+.bookmark-group:has(#community-link) > button,
+.bookmark-group:has(#community-link) .bookmark-group-name {
+  display: none;
 }
 .bookmark-group:has(#community-link) ul {
-  display: flex;
-  justify-content: center;
+  display: block;
+  margin: 0;
 }
 #community-link a {
-  width: auto;
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
   background: transparent;
   box-shadow: none;
   text-align: center;

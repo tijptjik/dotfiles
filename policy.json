@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "description": "Clean Dictionarry acquisition names, requested tier windows and explicit native enforcement limits.",
   "upstream": {
     "repository": "https://github.com/Dictionarry-Hub/database",
@@ -28,10 +28,10 @@
       "rank": 4
     },
     {
-      "name": "4K:5 Efficient",
+      "name": "4K:4 Efficient",
       "sourceProfile": "2160p Efficient",
       "maximumResolution": 2160,
-      "rank": 5
+      "rank": 4
     },
     {
       "name": "HD:1 Remux",
@@ -58,10 +58,10 @@
       "rank": 4
     },
     {
-      "name": "HD:5 Efficient",
+      "name": "HD:4 Efficient",
       "sourceProfile": "1080p Efficient",
       "maximumResolution": 1080,
-      "rank": 5
+      "rank": 4
     },
     {
       "name": "HD:6 Quality @ 720p",
@@ -87,7 +87,7 @@
       "name": "4K:1 Remux",
       "upgradeTo": "4K:1 Remux",
       "maximum": "4K:1 Remux",
-      "minimum": "HD:5 Efficient",
+      "minimum": "HD:4 Efficient",
       "sourceProfile": "2160p Remux",
       "minimumResolution": 1080,
       "legacyNames": [
@@ -101,7 +101,7 @@
       "name": "4K:3 Quality",
       "upgradeTo": "4K:3 Quality",
       "maximum": "4K:1 Remux",
-      "minimum": "HD:5 Efficient",
+      "minimum": "HD:4 Efficient",
       "sourceProfile": "2160p Quality",
       "minimumResolution": 1080,
       "legacyNames": [
@@ -116,7 +116,7 @@
       "name": "4K:4 Balanced",
       "upgradeTo": "4K:4 Balanced",
       "maximum": "4K:3 Quality",
-      "minimum": "HD:5 Efficient",
+      "minimum": "HD:4 Efficient",
       "sourceProfile": "2160p Balanced",
       "minimumResolution": 1080,
       "legacyNames": [
@@ -128,25 +128,25 @@
       "previousName": "4K:3 Balanced"
     },
     {
-      "name": "4K:5 Efficient",
-      "upgradeTo": "4K:5 Efficient",
+      "name": "4K:4 Efficient",
+      "upgradeTo": "4K:4 Efficient",
       "maximum": "4K:4 Balanced",
-      "minimum": "HD:5 Efficient",
+      "minimum": "HD:4 Efficient",
       "sourceProfile": "2160p Efficient",
       "minimumResolution": 1080,
       "legacyNames": [
         "@ 4K/6:EFF | mx 4K/6:EFF | mn SD",
         "@ 4K/6:EFF | mx # | mn SD",
         "4K:6 Efficient",
-        "4K:4 Efficient"
+        "4K:5 Efficient"
       ],
-      "previousName": "4K:4 Efficient"
+      "previousName": "4K:5 Efficient"
     },
     {
       "name": "HD:1 Remux",
       "upgradeTo": "HD:1 Remux",
       "maximum": "HD:1 Remux",
-      "minimum": "HD:5 Efficient",
+      "minimum": "HD:4 Efficient",
       "sourceProfile": "1080p Remux",
       "minimumResolution": 1080,
       "legacyNames": [
@@ -160,7 +160,7 @@
       "name": "HD:2 Quality HDR",
       "upgradeTo": "HD:2 Quality HDR",
       "maximum": "HD:1 Remux",
-      "minimum": "HD:5 Efficient",
+      "minimum": "HD:4 Efficient",
       "sourceProfile": "1080p Quality HDR",
       "minimumResolution": 1080,
       "legacyNames": [
@@ -174,7 +174,7 @@
       "name": "HD:3 Quality",
       "upgradeTo": "HD:3 Quality",
       "maximum": "HD:2 Quality HDR",
-      "minimum": "HD:5 Efficient",
+      "minimum": "HD:4 Efficient",
       "sourceProfile": "1080p Quality",
       "minimumResolution": 1080,
       "legacyNames": [
@@ -188,7 +188,7 @@
       "name": "HD:4 Balanced",
       "upgradeTo": "HD:4 Balanced",
       "maximum": "HD:3 Quality",
-      "minimum": "HD:5 Efficient",
+      "minimum": "HD:4 Efficient",
       "sourceProfile": "1080p Balanced",
       "minimumResolution": 1080,
       "legacyNames": [
@@ -199,15 +199,16 @@
       "previousName": "HD:6 Balanced"
     },
     {
-      "name": "HD:5 Efficient",
-      "upgradeTo": "HD:5 Efficient",
+      "name": "HD:4 Efficient",
+      "upgradeTo": "HD:4 Efficient",
       "maximum": "HD:4 Balanced",
-      "minimum": "HD:5 Efficient",
+      "minimum": "HD:4 Efficient",
       "sourceProfile": "1080p Efficient",
       "minimumResolution": 1080,
       "legacyNames": [
         "@ HD/6:EFF | mx HD/6:EFF | mn SD",
-        "@ HD/6:EFF | mx # | mn SD"
+        "@ HD/6:EFF | mx # | mn SD",
+        "HD:5 Efficient"
       ],
       "previousName": "HD:5 Efficient"
     },
@@ -228,7 +229,7 @@
     {
       "name": "HD:7 Compact",
       "upgradeTo": "HD:7 Compact",
-      "maximum": "HD:5 Efficient",
+      "maximum": "HD:4 Efficient",
       "minimum": null,
       "sourceProfile": "1080p Compact",
       "minimumResolution": 0,
@@ -257,7 +258,7 @@
   "default": "4K:4 Balanced",
   "requestedRules": {
     "maximum": "Next higher tier at the same resolution, capped at the highest available tier.",
-    "minimum": "HD:5 Efficient for targets at or above that tier; no minimum for lower targets."
+    "minimum": "HD:4 Efficient for targets at or above that tier; no minimum for lower targets."
   },
   "enforcement": {
     "resolutionBounds": "native allowed-quality groups",
@@ -291,5 +292,6 @@
     "sonarr": "HD:4 Balanced",
     "sonarrAnime": "HD:4 Balanced"
   },
-  "qualityNumbering": "Shared scale across resolutions: 1 Remux, 2 Quality HDR, 3 Quality, 4 Balanced, 5 Efficient, 6 Quality at 720p, 7 Compact, 9 SD. Lower is better; absent siblings leave gaps."
+  "qualityNumbering": "Inverse of the original version-2 rating: 1 Remux, 2 Quality HDR, 3 Quality, 4 Balanced and Efficient, 6 Quality at 720p, 7 Compact, 9 SD. Equal original ratings retain equal numbers; gaps are intentional.",
+  "qualityNumberingSource": "dotfiles f6bbc41:home/dockers/profilarr-database/policy.json codes; display number = 10 - original rating; SD remains 9."
 }

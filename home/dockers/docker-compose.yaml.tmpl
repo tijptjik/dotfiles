@@ -7,6 +7,33 @@ x-common-env: &common-env
 
 services:
 
+#########################
+###  MEDIA REQUESTS   ###
+###  request.type.hk  ###
+#########################
+
+  seerr:
+    container_name: seerr
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 30s
+    environment:
+      TZ: Asia/Hong_Kong
+      LOG_LEVEL: info
+    ports:
+      - 127.0.0.1:{{ .ports.seerr }}:5055
+    volumes:
+      - {{ .paths.appData }}/seerr:/app/config
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:5055/api/v1/status').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
 ##################################
 ###  AA - ACQUISTION SERVICES  ###
 ##################################

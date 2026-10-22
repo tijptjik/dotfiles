@@ -1,6 +1,7 @@
 ports:
   mariadb: 3306
   navidrome: 4533
+  seerr: 5055
   octoFiestarr: 5274
   lazylibrarian: 5299
   grimmory: 6060

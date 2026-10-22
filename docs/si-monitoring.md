@@ -6,8 +6,14 @@ recreated during their deployment.
 
 ## Access
 
-Neither application provides authentication. Their host ports are loopback-only;
-no public nginx route or DNS record was added. From a trusted computer:
+The requested public routes are https://home.type.hk (Homepage) and
+https://storage.type.hk (Scrutiny). They have not been activated: explicit
+approval of unauthenticated public access or a login protection choice is pending.
+Both hostnames currently reach nginx's default page. The dashboard links and
+four-column layout are prepared for the requested domains.
+
+Both Docker host ports remain loopback-only. Access the running dashboards
+through an SSH tunnel:
 
 ```sh
 ssh -N -o ExitOnForwardFailure=yes \
@@ -15,10 +21,9 @@ ssh -N -o ExitOnForwardFailure=yes \
   -L 127.0.0.1:8085:127.0.0.1:8085 m@ssh.type.hk
 ```
 
-Open http://localhost:3000 for Homepage and http://localhost:8085 for Scrutiny.
-Keep the tunnel running while using the dashboards. Homepage allows only
-`localhost:3000` and `127.0.0.1:3000` Host headers. Public deployment requires
-an authentication layer, matching allowed hosts and updated dashboard links.
+Open http://localhost:3000 or http://localhost:8085 while the tunnel runs.
+Until the public route is activated, open Scrutiny directly through the tunnel;
+the new Storage link targets the pending public hostname.
 
 ## Configuration and deployment
 

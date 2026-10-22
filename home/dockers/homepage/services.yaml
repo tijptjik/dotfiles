@@ -1,63 +1,59 @@
 - Watch:
-  - Plex:
+  - Starflix:
       icon: plex.png
-      href: https://app.plex.tv
-      description: Your media library
-  - Seerr:
+      href: https://watch.type.hk
+      description: Plex
+  - Request:
       icon: seerr.png
       href: https://request.type.hk
-      description: Request movies and shows
-  - Tautulli:
+      description: Seerr
+  - Stats:
       icon: tautulli.png
       href: https://monitor.type.hk
-      description: Plex activity
-- Read and listen:
-  - Grimmory:
+      description: Tautulli
+- Read / Listen:
+  - Amazimov:
       icon: booklore.png
       href: https://read.type.hk
-      description: Books
-  - Audiobookshelf:
+      description: Grimmory
+  - Audi-Bell's Thereun:
       icon: audiobookshelf.png
       href: https://listen.type.hk
-      description: Audiobooks and podcasts
-  - Navidrome:
-      icon: navidrome.png
-      href: https://dj.type.hk
-      description: Music
-  - Feishin:
+      description: Audiobookshelf
+  - Spotellite:
       icon: feishin.png
       href: https://dance.type.hk
-      description: Music player
-- Manage media:
-  - Radarr:
+      description: Feishin
+- Acuisition:
+  - Movies:
       icon: radarr.png
       href: https://movies.type.hk
-      description: Movies
-  - Sonarr:
+      description: Radarr
+  - Shows:
       icon: sonarr.png
       href: https://shows.type.hk
-      description: TV series
-  - Profilarr:
-      icon: profilarr.png
-      href: https://profiles.type.hk
-      description: Quality profiles
-  - Prowlarr:
-      icon: prowlarr.png
-      href: https://indexer.type.hk
-      description: Indexers
-  - Transmission:
-      icon: transmission.png
-      href: https://torrent.type.hk
-      description: Downloads
-  - Shelfmark:
+      description: Sonarr
+  - Books:
       icon: shelfmark.png
       href: https://mark.type.hk
-      description: Find books
-- Server:
-  - Scrutiny:
+      description: Shelfmark
+  - Torrent:
+      icon: transmission.png
+      href: https://torrent.type.hk
+      description: Transmission
+- Admin:
+  - QA:
+      icon: profilarr.png
+      href: https://profiles.type.hk
+      description: Profilarr
+  - Index:
+      icon: prowlarr.png
+      href: https://indexer.type.hk
+      description: Prowlarr
+  - Storage:
       icon: scrutiny.png
-      href: http://localhost:8085
-      description: Disk health
+      href: https://storage.type.hk
+      description: Scrutiny
       widget:
         type: scrutiny
         url: http://scrutiny:8080

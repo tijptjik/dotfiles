@@ -1,6 +1,16 @@
 title: Si
-startUrl: http://localhost:3000
+startUrl: https://home.type.hk
 theme: dark
 color: slate
 headerStyle: clean
 statusStyle: dot
+maxGroupColumns: 4
+layout:
+  Watch:
+    style: column
+  Read / Listen:
+    style: column
+  Acuisition:
+    style: column
+  Admin:
+    style: column

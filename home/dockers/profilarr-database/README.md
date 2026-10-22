@@ -23,6 +23,11 @@ For example, `@ 4K/H | mx 4K/H | mn HD/M` accepts a 1080p Low fallback and
 targets 4K High. Minimum must not exceed target; target must not exceed maximum.
 Releases above the target remain eligible when the maximum permits them.
 
+The sibling `profilarr-tools/check-policy.py` validates notation against an
+already-classified media tier. For example, the profile above accepts `HD/M`,
+`HD/H`, `4K/L`, and `4K/H`; it rejects `HD/L`, `SD`, and `4K/X`. The checker does
+not classify release bitrates or modify any acquisition settings.
+
 The shared safety/codec formats have parser regression fixtures. They are
 definitions, and become active only when selected and scored in an acquisition
 profile. Existing Arr profiles remain in place while the bitrate enforcement

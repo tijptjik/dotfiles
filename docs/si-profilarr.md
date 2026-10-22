@@ -43,12 +43,13 @@ commands. Names range from `4K:1 Remux` to `SD:9`; HD means 1080p except the
 explicit `HD:6 Quality @ 720p` profile.
 Numbers sort from best (`1`) to lowest (`9`); the renumbering preserved profile
 IDs, library assignments and all quality settings.
-Equivalent tiers share a number across resolutions. 4K uses `1`, `3`, `4`, `5`;
-HD's separate Quality HDR tier uses `2`.
+Numbers invert the original version-2 ratings from dotfiles commit `f6bbc41`.
+Balanced and Efficient were both rated `6`, so both now use `4` at either
+resolution. 4K uses `1`, `3`, `4`; HD's separate Quality HDR tier uses `2`.
 Name-only Arr updates and Seerr display-name updates were backed up under
 `/mnt/storage/meta/appData/profilarr/backups/profile-renumbering-<UTC timestamp>`.
 
-The source records next-tier maxima and the HD:5 Efficient minimum, but native
+The source records next-tier maxima and the HD:4 Efficient minimum, but native
 Arr cannot enforce cross-preset tier windows: Dictionarry presets overlap and
 contain fallback releases. The snapshot keeps curated scoring, enforces a 1080p
 floor for Efficient and higher, and prevents resolution jumps. Exact tier-window

@@ -7,30 +7,32 @@ Upstream attribution is in `UPSTREAM-LICENSE`.
 
 Quality numbers sort from best (`1`) to lowest (`9`). Renumbering changes display
 names only; preset rules and existing Arr profile IDs remain unchanged.
-Numbers use one shared scale across resolutions: Remux `1`, Quality HDR `2`,
-Quality `3`, Balanced `4`, Efficient `5`. Missing equivalents leave gaps, so 4K
-uses `1`, `3`, `4`, `5`. The distinct 720p, Compact and SD tiers remain `6`, `7`, `9`.
+Numbers invert the original version-2 ratings from dotfiles commit `f6bbc41`:
+Remux `1`, Quality HDR `2`, Quality `3`, Balanced and Efficient both `4`.
+Balanced and Efficient were originally rated `6`; they are sibling strategies,
+not separate quality ranks. Missing ratings leave gaps, so 4K uses `1`, `3`, `4`.
+The distinct 720p, Compact and SD tiers remain `6`, `7`, `9`.
 
 | Profile | Dictionarry preset | Requested maximum | Requested minimum |
 | --- | --- | --- | --- |
-| `4K:1 Remux` | 2160p Remux | `4K:1 Remux` | `HD:5 Efficient` |
-| `4K:3 Quality` | 2160p Quality | `4K:1 Remux` | `HD:5 Efficient` |
-| `4K:4 Balanced` | 2160p Balanced | `4K:3 Quality` | `HD:5 Efficient` |
-| `4K:5 Efficient` | 2160p Efficient | `4K:4 Balanced` | `HD:5 Efficient` |
-| `HD:1 Remux` | 1080p Remux | `HD:1 Remux` | `HD:5 Efficient` |
-| `HD:2 Quality HDR` | 1080p Quality HDR | `HD:1 Remux` | `HD:5 Efficient` |
-| `HD:3 Quality` | 1080p Quality | `HD:2 Quality HDR` | `HD:5 Efficient` |
-| `HD:4 Balanced` | 1080p Balanced | `HD:3 Quality` | `HD:5 Efficient` |
-| `HD:5 Efficient` | 1080p Efficient | `HD:4 Balanced` | `HD:5 Efficient` |
+| `4K:1 Remux` | 2160p Remux | `4K:1 Remux` | `HD:4 Efficient` |
+| `4K:3 Quality` | 2160p Quality | `4K:1 Remux` | `HD:4 Efficient` |
+| `4K:4 Balanced` | 2160p Balanced | `4K:3 Quality` | `HD:4 Efficient` |
+| `4K:4 Efficient` | 2160p Efficient | `4K:4 Balanced` | `HD:4 Efficient` |
+| `HD:1 Remux` | 1080p Remux | `HD:1 Remux` | `HD:4 Efficient` |
+| `HD:2 Quality HDR` | 1080p Quality HDR | `HD:1 Remux` | `HD:4 Efficient` |
+| `HD:3 Quality` | 1080p Quality | `HD:2 Quality HDR` | `HD:4 Efficient` |
+| `HD:4 Balanced` | 1080p Balanced | `HD:3 Quality` | `HD:4 Efficient` |
+| `HD:4 Efficient` | 1080p Efficient | `HD:4 Balanced` | `HD:4 Efficient` |
 | `HD:6 Quality @ 720p` | 720p Quality | `HD:6 Quality @ 720p` | None |
-| `HD:7 Compact` | 1080p Compact | `HD:5 Efficient` | None |
+| `HD:7 Compact` | 1080p Compact | `HD:4 Efficient` | None |
 | `SD:9` | SD | `SD:9` | None |
 
 ## Native settings and pending tier rules
 
 The clean names identify each target. Maximum means the next higher tier at the
 same resolution, capped at the highest available tier. The requested shared
-minimum is HD:5 Efficient, except lower targets have no minimum.
+minimum is HD:4 Efficient, except lower targets have no minimum.
 
 Dictionarry presets overlap; they do not classify releases into disjoint numbered
 bands. Each preset also contains lower-quality fallbacks. Native Arr quality
@@ -41,7 +43,7 @@ The active configuration uses the curated presets plus native resolution
 guards. Implementing exact cross-preset tier windows would require a separate
 classifier; the profile names do not claim that those windows are enforced.
 
-The snapshot does enforce a 1080p resolution floor for HD:5 Efficient or better,
+The snapshot does enforce a 1080p resolution floor for HD:4 Efficient or better,
 a 720p ceiling for HD:6 Quality @ 720p, and the appropriate 1080p/2160p ceilings.
 Lower targets retain the curated SD fallbacks. SD:9 permits known SD qualities up
 to 576p, any bitrate/codec, and has no automatic upgrades. These resolution bounds

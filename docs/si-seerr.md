@@ -34,6 +34,13 @@ port `8181`, SSL disabled, and URL base empty. Its external URL is
 combine the public HTTPS hostname with the internal HTTP port. The supported
 Seerr save endpoint successfully tested this local connection on October 22.
 
+In Seerr 3.5.1, advanced profile selection applies to new and pending requests.
+Already-downloaded movies do not expose an in-place profile change: Seerr's
+Radarr adapter returns an existing movie with a file without updating its profile.
+Use the movie's cog menu → **Open in Radarr** → **Edit → Quality Profile**, then
+save. Run **Search** in Radarr afterward to look for an upgrade immediately;
+changing the profile alone does not start a backlog search.
+
 Telegram uses the existing `@starprowlarr_bot` and the same chat as Prowlarr.
 The enabled native agent embeds posters and sends silently. All request lifecycle
 and issue events shown in Seerr's notification settings are enabled. The topic

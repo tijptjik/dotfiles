@@ -49,12 +49,12 @@
       {
         "legacyId": 7,
         "legacyName": "720P and Up",
-        "targetName": "4K:5 Efficient"
+        "targetName": "4K:4 Efficient"
       },
       {
         "legacyId": 8,
         "legacyName": "1080P and Up",
-        "targetName": "4K:5 Efficient"
+        "targetName": "4K:4 Efficient"
       },
       {
         "legacyId": 9,

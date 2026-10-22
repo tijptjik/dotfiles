@@ -120,9 +120,25 @@ returns HTTP 401, which Homepage explicitly treats as a reachable authenticated
 service. Homepage does not interpret health-response JSON or test downloads,
 playback, authentication, or external Cloudflare routes. Plex uses `http://host.docker.internal:32400/identity`; the user explicitly
 approved Homepage container-to-host access through Docker's host-gateway mapping.
-The Community footer uses the Telegram icon and retains its 400px maximum width.
+The Community footer uses the Telegram icon and is centered across the full service grid.
 
 Homepage configuration assets under `/api/config/` are served with
 `Cache-Control: no-store`. Cloudflare previously cached a zero-byte custom.css
 response, which hid the footer styling. The exact CSS URL was purged after
-adding the no-store header. Community is capped at 400px with 2rem top padding.
+adding the no-store header. Community uses 2rem top padding.
+
+## StarFix theme deployment — October 22, 2026
+
+The Rose Punk stylesheet, StarFix title and `/images/starfix.jpg` favicon are
+deployed. Custom images are mounted read-only from
+`/mnt/storage/meta/appData/homepage/images` to `/app/public/images`.
+For future updates, compare and copy selected CSS, settings and images into
+the runtime directory; YAML-only copying will not deploy the theme.
+
+Only Homepage was recreated, using its existing image. All thirteen monitors
+reported UP; Scrutiny showed 8 passed, 0 failed and 0 unknown. The public favicon
+returned HTTP 200 with the same SHA-256 as the supplied image.
+Pre-deployment copies of the changed runtime, Compose and source files are on Si
+in `/home/m/.local/state/starfix-deploy/20261022T104431Z/`, preserving their
+absolute path hierarchy. Restore the runtime files and Compose file from this
+backup, then recreate only Homepage to roll back.

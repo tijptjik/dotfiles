@@ -20,6 +20,7 @@ services:
       - 127.0.0.1:{{ .ports.homepage }}:3000
     volumes:
       - {{ .paths.appData }}/homepage:/app/config
+      - {{ .paths.appData }}/homepage/images:/app/public/images:ro
     security_opt:
       - no-new-privileges:true
     logging:

@@ -1,78 +1,259 @@
-/* Keep the four service groups in one row on desktop. */
+/* Rose Punk — palette shared with dot_config/vivid/themes/rose-punk.yml.
+ * Homepage keeps ownership of links, disclosures, checks and widget data.
+ */
+:root {
+  --rp-bg: #191724;
+  --rp-deep: #110f18;
+  --rp-panel: #1f1d2e;
+  --rp-raised: #26233a;
+  --rp-border: #555169;
+  --rp-text: #e5e5e5;
+  --rp-muted: #b1adc3;
+  --rp-rose: #eb6f92;
+  --rp-pink: #ff53a6;
+  --rp-cyan: #9ccfd8;
+  --rp-blue: #8596ed;
+}
+
+body, #page_wrapper {
+  background: var(--rp-bg);
+  color: var(--rp-text);
+}
+#page_wrapper {
+  background-image: radial-gradient(ellipse at 8% 0%, #eb6f9210, transparent 45%);
+}
+#inner_wrapper {
+  padding: clamp(1rem, 3vw, 3rem);
+  scrollbar-gutter: stable both-edges;
+  scrollbar-color: var(--rp-border) var(--rp-bg);
+}
+#inner_wrapper > .container { height: auto; min-height: 100%; }
+#information-widgets, #layout-groups {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+#information-widgets {
+  margin-top: 0;
+  margin-bottom: 2.5rem;
+  padding: 1rem 0 2rem;
+  border-bottom: 1px solid #55516960;
+}
+#widgets-wrap { align-items: center; gap: 1rem; }
+#widgets-wrap::before {
+  content: "StarFix";
+  color: var(--rp-rose);
+  font-size: 3.5rem;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.07em;
+}
+#information-widgets-right { margin: 0 0 0 auto; flex-grow: 0; }
+.information-widget-datetime span {
+  color: var(--rp-muted);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+}
 #layout-groups {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 1rem;
+  gap: 2rem 1.5rem;
 }
-#layout-groups > .services-group {
-  min-width: 0;
+#layout-groups > .services-group { min-width: 0; padding: 0; }
+.services-group { --group-accent: var(--rp-rose); }
+.services-group:nth-child(2) { --group-accent: var(--rp-cyan); }
+.services-group:nth-child(3) { --group-accent: var(--rp-blue); }
+.services-group:nth-child(4) { --group-accent: #f6c177; }
+.services-group > button { padding: 0.5rem 0 0.75rem; }
+.services-group .service-group-name {
+  color: var(--rp-text);
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  align-items: center;
+  gap: 0.65rem;
+}
+.service-group-name::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--group-accent);
+}
+.services-group > button > svg { color: var(--rp-muted); }
+.services-group .services-list { margin-top: 0.5rem; gap: 0.75rem; }
+#layout-groups .service-card {
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid #55516955;
+  border-radius: 1rem;
+  background: var(--rp-panel);
+  color: var(--rp-text);
+  box-shadow: 0 4px 16px #08080c18;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+#layout-groups .service-card:hover {
+  background: var(--rp-raised);
+  border-color: var(--group-accent);
+}
+.service-card .service-title { min-height: 4.5rem; align-items: center; }
+.service-card .service-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.8rem;
+  background: var(--rp-deep);
+}
+.service-card .service-title-text { min-width: 0; align-self: stretch; }
+.service-card .service-name {
+  padding: 0.8rem 0.5rem 0.5rem 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.service-card .service-description {
+  margin-top: 0.3rem;
+  color: var(--rp-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+/* Legible badges; the colour and dot follow the real monitor state. */
+.service-card .service-tags { top: 0.5rem; right: 0.5rem; margin-right: 0; }
+.service-card .site-monitor-status {
   padding: 0;
+  background: transparent;
+  border-radius: 999px;
+  overflow: visible;
 }
+.service-card .site-monitor-status > div {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.07em;
+  background: var(--rp-deep);
+}
+.service-card .site-monitor-status > div::before {
+  content: "";
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+/* Preserve error / pending colours and the actual status text and tooltip. */
+.service-card .site-monitor-status > .text-emerald-500\/80 {
+  color: var(--rp-cyan);
+  background: #9ccfd815;
+  border-color: #9ccfd850;
+}
+/* Scrutiny metrics share one quiet strip instead of three nested cards. */
+.service[data-name="Storage"] .service-container {
+  margin-top: 0.65rem;
+  padding-top: 0.9rem;
+  padding-bottom: 0.35rem;
+  border-top: 1px solid #55516955;
+}
+.service[data-name="Storage"] .service-block {
+  margin: 0;
+  padding: 0 0.5rem;
+  min-width: 0;
+  gap: 0.3rem;
+  border-radius: 0;
+  background: transparent;
+  color: var(--rp-text);
+}
+.service[data-name="Storage"] .service-block + .service-block {
+  border-left: 1px solid #55516955;
+}
+.service[data-name="Storage"] .service-block-value {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.service[data-name="Storage"] .service-block-label {
+  color: var(--rp-muted);
+  font-size: 0.7rem;
+  font-weight: 400;
+  text-transform: none;
+}
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--rp-pink);
+  outline-offset: -2px;
+  border-radius: 0.5rem;
+}
+#footer { opacity: 0.7; }
 @media (min-width: 640px) {
-  #layout-groups {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  #layout-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-@media (min-width: 1024px) {
-  #layout-groups {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+@media (min-width: 1200px) {
+  #layout-groups { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 639px) {
+  #information-widgets { margin-bottom: 1.5rem; padding-bottom: 1.5rem; }
+  #widgets-wrap::before { font-size: 2.75rem; }
+  .information-widget-datetime span { font-size: 0.75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #layout-groups .service-card { transition: none; }
 }
 
-/* A centered Community link, never a titled, full-width card. */
+/* Center the link and its icon/text as a single unit across the grid. */
 .bookmark-group:has(#community-link) {
   grid-column: 1 / -1;
-  width: min(100%, 400px);
-  max-width: 400px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   padding: 2rem 0 0;
   box-sizing: border-box;
-  justify-self: center;
-  flex: 0 1 400px;
+  justify-self: stretch;
 }
 .bookmark-group:has(#community-link) > button,
-.bookmark-group:has(#community-link) .bookmark-group-name {
-  display: none;
-}
-.bookmark-group:has(#community-link) ul {
-  display: block;
-  margin: 0;
-}
-#community-link a {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  background: transparent;
-  box-shadow: none;
-  text-align: center;
-}
+.bookmark-group:has(#community-link) .bookmark-group-name,
 #community-link .bookmark-description {
   display: none;
 }
-#community-link .bookmark-text {
+.bookmark-group:has(#community-link) ul {
+  display: flex;
   justify-content: center;
+  margin: 0;
+  padding: 0;
 }
-#community-link .bookmark-name {
+#community-link a {
+  display: block;
+  width: fit-content;
+  margin: 0;
   padding: 0.75rem 1rem;
-  font-size: 0.875rem;
+  color: var(--rp-muted);
+  background: transparent;
+  border: 1px solid #55516955;
+  border-radius: 999px;
+  box-shadow: none;
+  text-align: center;
 }
-#community-link a:hover .bookmark-name {
-  text-decoration: underline;
-}
-
 #community-link a > div {
   justify-content: center;
   align-items: center;
+  gap: 0.5rem;
 }
 #community-link .bookmark-icon {
   display: flex;
   width: 1.25rem;
   background: transparent;
 }
-#community-link .bookmark-text {
-  flex: 0 0 auto;
-}
+#community-link .bookmark-text { flex: 0 0 auto; }
 #community-link .bookmark-name {
-  padding-left: 0.5rem;
+  padding: 0;
+  font-size: 0.875rem;
+}
+#community-link a:hover {
+  color: var(--rp-cyan);
+  background: var(--rp-panel);
+  border-color: var(--rp-cyan);
 }

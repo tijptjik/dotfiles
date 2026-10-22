@@ -46,7 +46,8 @@ fast-forward push. It leaves the current checkout in place. Profilarr links
 `https://github.com/tijptjik/dotfiles`, branch `profilarr`, without a GitHub token.
 Local UI overrides remain in its backed-up database; promote accepted changes
 into the source directory and republish to version them. Conflict strategy is
-`ask`; automatic pulling is initially disabled.
+`ask`. Scheduled source sync is disabled; an explicit source sync pulls the
+published branch. Arr acquisition-profile sync remains a separate manual step.
 
 The shared executable/disc, Dolby Vision and codec conditions have 19 regression
 fixtures verified against Profilarr's .NET parser, including Adventure and Batman

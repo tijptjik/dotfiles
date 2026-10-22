@@ -6,11 +6,12 @@ recreated during their deployment.
 
 ## Access
 
-The requested public routes are https://home.type.hk (Homepage) and
-https://storage.type.hk (Scrutiny). They have not been activated: explicit
-approval of unauthenticated public access or a login protection choice is pending.
-Both hostnames currently reach nginx's default page. The dashboard links and
-four-column layout are prepared for the requested domains.
+Homepage is served at https://home.type.hk and Scrutiny at
+https://storage.type.hk through nginx and Cloudflare. The user explicitly
+approved public access without login protection. These routes expose the
+dashboard links, disk summary, and Scrutiny disk details and web controls.
+The vhosts are managed in chezetc's `type.hk` nginx configuration.
+Homepage allows `home.type.hk` as well as the existing localhost hosts.
 
 Both Docker host ports remain loopback-only. Access the running dashboards
 through an SSH tunnel:
@@ -22,8 +23,7 @@ ssh -N -o ExitOnForwardFailure=yes \
 ```
 
 Open http://localhost:3000 or http://localhost:8085 while the tunnel runs.
-Until the public route is activated, open Scrutiny directly through the tunnel;
-the new Storage link targets the pending public hostname.
+The Storage link targets https://storage.type.hk.
 
 ## Configuration and deployment
 

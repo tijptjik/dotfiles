@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
     environment:
       <<: *common-env
-      HOMEPAGE_ALLOWED_HOSTS: localhost:{{ .ports.homepage }},127.0.0.1:{{ .ports.homepage }}
+      HOMEPAGE_ALLOWED_HOSTS: home.type.hk,localhost:{{ .ports.homepage }},127.0.0.1:{{ .ports.homepage }}
     ports:
       - 127.0.0.1:{{ .ports.homepage }}:3000
     volumes:

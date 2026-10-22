@@ -1,0 +1,29 @@
+/* A single centered community link after the four service columns. */
+.bookmark-group:has(#community-link) {
+  flex-basis: 100%;
+  margin-top: 1.5rem;
+}
+.bookmark-group:has(#community-link) ul {
+  display: flex;
+  justify-content: center;
+}
+#community-link a {
+  width: auto;
+  background: transparent;
+  box-shadow: none;
+  text-align: center;
+}
+#community-link .bookmark-icon,
+#community-link .bookmark-description {
+  display: none;
+}
+#community-link .bookmark-text {
+  justify-content: center;
+}
+#community-link .bookmark-name {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}
+#community-link a:hover .bookmark-name {
+  text-decoration: underline;
+}

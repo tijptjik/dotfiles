@@ -16,7 +16,7 @@
       icon: booklore.png
       href: https://read.type.hk
       description: Grimmory
-  - Audi-Bell's Thereun:
+  - Audi-Bell's Theorem:
       icon: audiobookshelf.png
       href: https://listen.type.hk
       description: Audiobookshelf
@@ -24,7 +24,7 @@
       icon: feishin.png
       href: https://dance.type.hk
       description: Feishin
-- Acuisition:
+- Acquisition:
   - Movies:
       icon: radarr.png
       href: https://movies.type.hk
@@ -42,11 +42,11 @@
       href: https://torrent.type.hk
       description: Transmission
 - Admin:
-  - QA:
+  - Quality Profiles:
       icon: profilarr.png
       href: https://profiles.type.hk
       description: Profilarr
-  - Index:
+  - Indexers:
       icon: prowlarr.png
       href: https://indexer.type.hk
       description: Prowlarr

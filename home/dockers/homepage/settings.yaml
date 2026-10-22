@@ -10,7 +10,11 @@ layout:
     style: column
   Read / Listen:
     style: column
-  Acuisition:
+  Acquisition:
     style: column
   Admin:
     style: column
+  Community Footer:
+    style: row
+    columns: 1
+    header: false

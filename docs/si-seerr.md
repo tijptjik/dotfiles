@@ -4,7 +4,8 @@ Seerr provides Plex media requests at https://request.type.hk. The managed Compo
 service uses `ghcr.io/seerr-team/seerr:latest`, with persistent state in
 `/mnt/storage/meta/appData/seerr`. Only nginx can access its host port
 (`127.0.0.1:5055`). The nginx vhost is managed in chezetc; Cloudflare DNS must
-proxy `request.type.hk` to the same origin as the other type.hk media services.
+contain a proxied CNAME `request.type.hk` → `indexer.type.hk`, which follows the
+existing media-service origin.
 Existing origin TLS and authenticated origin pulls remain enabled.
 
 ## Application setup
@@ -24,7 +25,8 @@ Configure the default non-4K services as follows:
 | Sonarr | `sonarr:8989` | `1080p Only` (ID 9) | `/data/public/shows` | https://shows.type.hk |
 
 Service keys and Plex authentication belong in application state and Bitwarden,
-never Git. Seerr settings and its SQLite database are included in the existing
+never Git. The generated key is saved as `si-seerr-api-key` in the Bitwarden
+Secrets Manager `dotfiles` project. Seerr settings and its SQLite database are included in the existing
 encrypted daily appData backups and fi offsite copies. Rebuildable Seerr logs and
 cache are excluded. The application is paused alongside the other acquisition
 services during guarded SnapRAID maintenance.

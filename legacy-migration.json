@@ -7,76 +7,76 @@
       {
         "legacyId": 5,
         "legacyName": "1. UHD",
-        "targetName": "4K:7 Balanced"
+        "targetName": "4K:3 Balanced"
       },
       {
         "legacyId": 4,
         "legacyName": "2. HD - High",
-        "targetName": "HD:7 Quality"
+        "targetName": "HD:3 Quality"
       },
       {
         "legacyId": 8,
         "legacyName": "3. HD - Low",
-        "targetName": "HD:3 Compact"
+        "targetName": "HD:7 Compact"
       },
       {
         "legacyId": 6,
         "legacyName": "4. HD - 720p/1080p",
-        "targetName": "HD:6 Balanced"
+        "targetName": "HD:4 Balanced"
       },
       {
         "legacyId": 3,
         "legacyName": "5. HD-720p",
-        "targetName": "HD:4 Quality @ 720p"
+        "targetName": "HD:6 Quality @ 720p"
       },
       {
         "legacyId": 2,
         "legacyName": "6. SD",
-        "targetName": "SD:1"
+        "targetName": "SD:9"
       },
       {
         "legacyId": 1,
         "legacyName": "7. Any",
-        "targetName": "HD:3 Compact"
+        "targetName": "HD:7 Compact"
       }
     ],
     "sonarr": [
       {
         "legacyId": 11,
         "legacyName": "2160p Only",
-        "targetName": "4K:7 Balanced"
+        "targetName": "4K:3 Balanced"
       },
       {
         "legacyId": 7,
         "legacyName": "720P and Up",
-        "targetName": "4K:6 Efficient"
+        "targetName": "4K:4 Efficient"
       },
       {
         "legacyId": 8,
         "legacyName": "1080P and Up",
-        "targetName": "4K:6 Efficient"
+        "targetName": "4K:4 Efficient"
       },
       {
         "legacyId": 9,
         "legacyName": "1080p Only",
-        "targetName": "HD:6 Balanced"
+        "targetName": "HD:4 Balanced"
       },
       {
         "legacyId": 10,
         "legacyName": "720p Only",
-        "targetName": "HD:4 Quality @ 720p"
+        "targetName": "HD:6 Quality @ 720p"
       },
       {
         "legacyId": 12,
         "legacyName": "480p Only",
-        "targetName": "SD:1"
+        "targetName": "SD:9"
       }
     ]
   },
   "seerrDefaults": {
-    "radarr": "4K:7 Balanced",
-    "sonarr": "HD:6 Balanced",
-    "sonarrAnime": "HD:6 Balanced"
+    "radarr": "4K:3 Balanced",
+    "sonarr": "HD:4 Balanced",
+    "sonarrAnime": "HD:4 Balanced"
   },
   "notes": [
     "The migration edits only quality-profile references, then deletes unreferenced legacy profiles.",

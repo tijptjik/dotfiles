@@ -17,9 +17,9 @@ and authenticated Sonarr/Radarr connection tests passed during setup.
 Use the existing Plex owner account to complete initial setup before publishing
 DNS. Set the application URL to `https://request.type.hk` and enable reverse-proxy
 trust. Connect Plex through `host.docker.internal:32400`, enable the movie and
-television libraries, and scan availability. Do not import Plex users automatically.
-New users require approval for requests; automatic approval and watchlist requests
-are not enabled by this setup.
+television libraries, and scan availability. Plex user import and the current
+permission policy are described below; the original approval-only defaults were
+superseded by the owner's settings on October 22.
 
 Configure the default non-4K services as follows:
 
@@ -27,6 +27,39 @@ Configure the default non-4K services as follows:
 | --- | --- | --- | --- | --- |
 | Radarr | `radarr:7878` | `4K:3 Balanced` (ID 19) | `/data/public/movies` | https://movies.type.hk |
 | Sonarr | `sonarr:8989` | `HD:4 Balanced` (ID 16) | `/data/public/shows` | https://shows.type.hk |
+
+### Imported-user permissions and 4K selection
+
+On October 22, all 47 imported non-owner users were extended with the owner's
+current default permissions. Existing grants were retained with a bitwise union;
+owner `tijptjik` (user ID 1, administrator permission 2) was verified unchanged.
+The saved default is now `80766112`: the owner's chosen `80756896` plus
+`REQUEST_4K` (1024) and `REQUEST_ADVANCED` (8192). Future users inherit this
+default. It includes the owner's existing ordinary-request auto-approval,
+request visibility, issue permissions, auto-request permission and recent-media
+visibility. It grants no new administrator, settings-management or user-management
+permissions. Auto-request permission alone does not enable a user's watchlist
+automation preferences.
+
+Users can choose a `4K:*` profile in a new request's advanced quality-profile
+selector. The existing one-copy Radarr/Sonarr layout is retained. Profile access
+was verified through Seerr's API as two ordinary users: all four 4K profiles
+were available for both movies and television, without submitting requests.
+
+Seerr's separate **Request 4K** controls require default Arr connections marked
+`is4k=true`. Neither current connection has that role, so those controls remain
+disabled even when the permission bit is granted. A 4K quality profile on an
+ordinary connection is valid and does not require that separate mode. Do not
+duplicate the same Arr connection to pretend it is a second 4K backend: Seerr's
+existing-file handling cannot reliably turn that into an upgrade workflow.
+For a separate HD/4K-copy workflow, design dedicated backends and storage first.
+Existing-title upgrades still follow the Radarr workflow below.
+
+Changes used the supported settings and bulk-user APIs. The bulk `/user` PUT
+schema requires integer user IDs. Private settings, a consistent SQLite backup,
+user snapshots and the verification receipt are under
+`/mnt/data/disk42/.recovery-preservation/seerr-permissions-20261022T105946Z/`.
+Account state remains covered by encrypted application backups, outside Git.
 
 Tautulli connects directly over the shared Docker network: hostname `tautulli`,
 port `8181`, SSL disabled, and URL base empty. Its external URL is

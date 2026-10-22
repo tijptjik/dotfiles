@@ -38,6 +38,33 @@ services:
 ###  AA - ACQUISTION SERVICES  ###
 ##################################
 
+  profilarr:
+    container_name: profilarr
+    image: ghcr.io/dictionarry-hub/profilarr:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      UMASK: "077"
+      ORIGIN: https://profiles.type.hk
+      PARSER_HOST: profilarr-parser
+      PARSER_PORT: 5000
+    env_file:
+      - {{ .paths.appData }}/profilarr/runtime.env
+    ports:
+      - 127.0.0.1:{{ .ports.profilarr }}:6868
+    volumes:
+      - {{ .paths.appData }}/profilarr:/config
+    depends_on:
+      profilarr-parser:
+        condition: service_healthy
+
+  profilarr-parser:
+    container_name: profilarr-parser
+    image: ghcr.io/dictionarry-hub/profilarr-parser:latest
+    restart: unless-stopped
+    expose:
+      - "5000"
+
 ########################
 ###  MOVIES / SHOWS  ###
 ########################

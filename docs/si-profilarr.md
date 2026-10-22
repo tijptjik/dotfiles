@@ -43,6 +43,8 @@ commands. Names range from `4K:1 Remux` to `SD:9`; HD means 1080p except the
 explicit `HD:6 Quality @ 720p` profile.
 Numbers sort from best (`1`) to lowest (`9`); the renumbering preserved profile
 IDs, library assignments and all quality settings.
+Equivalent tiers share a number across resolutions. 4K uses `1`, `3`, `4`, `5`;
+HD's separate Quality HDR tier uses `2`.
 Name-only Arr updates and Seerr display-name updates were backed up under
 `/mnt/storage/meta/appData/profilarr/backups/profile-renumbering-<UTC timestamp>`.
 
@@ -51,7 +53,7 @@ Arr cannot enforce cross-preset tier windows: Dictionarry presets overlap and
 contain fallback releases. The snapshot keeps curated scoring, enforces a 1080p
 floor for Efficient and higher, and prevents resolution jumps. Exact tier-window
 classification is not a native feature; the curated presets and resolution
-guards are active. Seerr retains its existing 4K:3 Balanced movie default and
+guards are active. Seerr retains its existing 4K:4 Balanced movie default and
 uses HD:4 Balanced for TV and anime.
 
 Legacy assignments were migrated using the user-approved mapping in

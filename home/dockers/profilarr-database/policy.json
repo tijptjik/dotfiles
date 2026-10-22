@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "description": "Clean Dictionarry acquisition names, requested tier windows and explicit native enforcement limits.",
   "upstream": {
     "repository": "https://github.com/Dictionarry-Hub/database",
@@ -16,22 +16,22 @@
       "rank": 1
     },
     {
-      "name": "4K:2 Quality",
+      "name": "4K:3 Quality",
       "sourceProfile": "2160p Quality",
-      "maximumResolution": 2160,
-      "rank": 2
-    },
-    {
-      "name": "4K:3 Balanced",
-      "sourceProfile": "2160p Balanced",
       "maximumResolution": 2160,
       "rank": 3
     },
     {
-      "name": "4K:4 Efficient",
-      "sourceProfile": "2160p Efficient",
+      "name": "4K:4 Balanced",
+      "sourceProfile": "2160p Balanced",
       "maximumResolution": 2160,
       "rank": 4
+    },
+    {
+      "name": "4K:5 Efficient",
+      "sourceProfile": "2160p Efficient",
+      "maximumResolution": 2160,
+      "rank": 5
     },
     {
       "name": "HD:1 Remux",
@@ -98,8 +98,8 @@
       "previousName": "4K:9 Remux"
     },
     {
-      "name": "4K:2 Quality",
-      "upgradeTo": "4K:2 Quality",
+      "name": "4K:3 Quality",
+      "upgradeTo": "4K:3 Quality",
       "maximum": "4K:1 Remux",
       "minimum": "HD:5 Efficient",
       "sourceProfile": "2160p Quality",
@@ -107,37 +107,40 @@
       "legacyNames": [
         "@ 4K/7:HQ | mx 4K/7:HQ | mn SD",
         "@ 4K/7:HQ | mx # | mn SD",
-        "4K:8 Quality"
+        "4K:8 Quality",
+        "4K:2 Quality"
       ],
-      "previousName": "4K:8 Quality"
+      "previousName": "4K:2 Quality"
     },
     {
-      "name": "4K:3 Balanced",
-      "upgradeTo": "4K:3 Balanced",
-      "maximum": "4K:2 Quality",
+      "name": "4K:4 Balanced",
+      "upgradeTo": "4K:4 Balanced",
+      "maximum": "4K:3 Quality",
       "minimum": "HD:5 Efficient",
       "sourceProfile": "2160p Balanced",
       "minimumResolution": 1080,
       "legacyNames": [
         "@ 4K/6:BAL | mx 4K/6:BAL | mn SD",
         "@ 4K/6:BAL | mx # | mn SD",
-        "4K:7 Balanced"
+        "4K:7 Balanced",
+        "4K:3 Balanced"
       ],
-      "previousName": "4K:7 Balanced"
+      "previousName": "4K:3 Balanced"
     },
     {
-      "name": "4K:4 Efficient",
-      "upgradeTo": "4K:4 Efficient",
-      "maximum": "4K:3 Balanced",
+      "name": "4K:5 Efficient",
+      "upgradeTo": "4K:5 Efficient",
+      "maximum": "4K:4 Balanced",
       "minimum": "HD:5 Efficient",
       "sourceProfile": "2160p Efficient",
       "minimumResolution": 1080,
       "legacyNames": [
         "@ 4K/6:EFF | mx 4K/6:EFF | mn SD",
         "@ 4K/6:EFF | mx # | mn SD",
-        "4K:6 Efficient"
+        "4K:6 Efficient",
+        "4K:4 Efficient"
       ],
-      "previousName": "4K:6 Efficient"
+      "previousName": "4K:4 Efficient"
     },
     {
       "name": "HD:1 Remux",
@@ -251,7 +254,7 @@
       "previousName": "SD:1"
     }
   ],
-  "default": "4K:3 Balanced",
+  "default": "4K:4 Balanced",
   "requestedRules": {
     "maximum": "Next higher tier at the same resolution, capped at the highest available tier.",
     "minimum": "HD:5 Efficient for targets at or above that tier; no minimum for lower targets."
@@ -268,7 +271,7 @@
       "qualityDefinitions"
     ],
     "seerrDefaults": {
-      "radarr": "4K:3 Balanced",
+      "radarr": "4K:4 Balanced",
       "sonarr": "HD:4 Balanced",
       "sonarrAnime": "HD:4 Balanced"
     },
@@ -284,9 +287,9 @@
     "libraryAssignments": "Migrated by the approved legacy-migration.json map; monitoring and paths preserved."
   },
   "defaults": {
-    "radarr": "4K:3 Balanced",
+    "radarr": "4K:4 Balanced",
     "sonarr": "HD:4 Balanced",
     "sonarrAnime": "HD:4 Balanced"
   },
-  "qualityNumbering": "1 is best; 9 is lowest. Display number is the inverse of the previous quality rank."
+  "qualityNumbering": "Shared scale across resolutions: 1 Remux, 2 Quality HDR, 3 Quality, 4 Balanced, 5 Efficient, 6 Quality at 720p, 7 Compact, 9 SD. Lower is better; absent siblings leave gaps."
 }

@@ -25,7 +25,7 @@ Configure the default non-4K services as follows:
 
 | Service | Internal address | Quality profile | Root folder | External URL |
 | --- | --- | --- | --- | --- |
-| Radarr | `radarr:7878` | `4K:3 Balanced` (ID 19) | `/data/public/movies` | https://movies.type.hk |
+| Radarr | `radarr:7878` | `4K:4 Balanced` (ID 19) | `/data/public/movies` | https://movies.type.hk |
 | Sonarr | `sonarr:8989` | `HD:4 Balanced` (ID 16) | `/data/public/shows` | https://shows.type.hk |
 
 Tautulli connects directly over the shared Docker network: hostname `tautulli`,

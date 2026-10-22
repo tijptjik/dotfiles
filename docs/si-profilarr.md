@@ -31,44 +31,31 @@ renames were not configured.
 
 ## Policy source
 
-The custom PCD is at `home/dockers/profilarr-database` in the main dotfiles
-checkout. Its `policy.json` contains the media tiers, x264-equivalent target
-bands and acquisition notation. Publish the committed directory as the
-`profilarr` branch of the same repository:
+The `si-media-profiles` PCD is at
+`home/dockers/profilarr-database`. It contains the reviewed Dictionarry policy
+snapshot, the public upstream revision, the SD profile and user-facing aliases.
+The `profilarr` branch of this repository publishes that directory as a PCD root.
+The separate Dictionarry tab remains the upstream catalogue for comparison.
 
-```sh
-cd ~/.local/share/chezmoi
-python3 home/dockers/profilarr-tools/executable_publish-database.py
-```
+See [the policy README](../home/dockers/profilarr-database/README.md) for the exact
+code mapping, generated snapshot, refresh/publish commands and limitations.
 
-The publisher commits only the subtree to its own branch and uses a normal
-fast-forward push. It leaves the current checkout in place. Profilarr links
-`https://github.com/tijptjik/dotfiles`, branch `profilarr`, without a GitHub token.
-Local UI overrides remain in its backed-up database; promote accepted changes
-into the source directory and republish to version them. Conflict strategy is
-`ask`. Scheduled source sync is disabled; an explicit source sync pulls the
-published branch. Arr acquisition-profile sync remains a separate manual step.
+Each of the 12 acquisition choices has the form
+`@ {strategy} | mx {strategy} | mn SD`. For example:
+`@ HD/6:BAL | mx HD/6:BAL | mn SD` is Dictionarry 1080p Balanced, including its
+lower-resolution fallbacks. The default for new Seerr movie/series requests is
+that Balanced choice. Existing library profile assignments remain in place.
 
-The shared executable/disc, Dolby Vision and codec conditions have 19 regression
-fixtures verified against Profilarr's .NET parser, including Adventure and Batman
-false-positive cases. Their definitions do not change existing Arr restrictions
-until a selected acquisition profile is synced.
+These are curated strategies, not disjoint bitrate bands. The initial catalogue
+uses target = maximum. Remux strategies are allowed, and an SD-only profile is
+included. No arbitrary cross-strategy ranges or codec-adjusted bitrate rules are
+implied by the names. The former custom bitrate design is superseded.
 
-## Acquisition names
+Profiles and global quality definitions are selected for manual Arr sync.
+Dictionarry's global size definitions remove size caps; this affects all profiles
+in the Arr instance. Naming, delay profiles, download clients, library assignments
+and automated backlog/upgrade searches are not part of this change.
 
-Use `@ {target} | mx {maximum} | mn {minimum}` with the exact codes in
-`policy.json`: `4K/X`, `4K/H`, `4K/L`, `HD/H`, `HD/M`, `HD/L`, `SD`.
-`HD/M` means 1080p Low; `HD/L` means 720p. The user's example normalizes to
-`@ 4K/H | mx 4K/H | mn HD/M`.
-
-The minimum must not exceed the target, and the target must not exceed the
-maximum. A release above the target can be initially acquired when the maximum
-allows it. Target is the upgrade stopping point; maximum is an acceptance bound.
-Archival is an exception policy permitting encoded 4K at unrestricted bitrate,
-with remuxes and full-disc payloads still excluded.
-
-Activation awaits the bitrate-policy choice: native preferences, or additional
-strict release-selection logic. Installed Sonarr 4 and Radarr 6 expose global
-runtime-based size limits and fixed-GB per-profile size conditions; these cannot
-directly enforce per-profile codec-adjusted bitrate bounds. Existing profile
-assignments and Seerr defaults remain in place pending that choice.
+Namespaced custom formats preserve the existing profiles' format definitions.
+Profilarr state and UI overrides are included in the application backups; secrets
+remain in Bitwarden. The source snapshot is versioned and refreshed explicitly.

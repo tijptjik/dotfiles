@@ -1,93 +1,177 @@
 {
-  "version": 1,
-  "description": "Media tiers are reusable policy definitions; acquisition profiles specify upgrade target, maximum and minimum.",
+  "version": 2,
+  "description": "Dictionarry strategies with explicit acquisition names. Codes identify overlapping strategies, not disjoint bitrate bands.",
+  "upstream": {
+    "repository": "https://github.com/Dictionarry-Hub/database",
+    "commit": "fb09c844998ff022e78ba1261aacb5c2d8384ef6",
+    "schemaRepository": "https://github.com/Dictionarry-Hub/schema",
+    "schemaVersion": "1.1.0",
+    "customFormatPrefix": "DI: "
+  },
   "codes": [
     {
-      "code": "4K/X",
-      "name": "Archival",
-      "resolution": 2160,
-      "x264EquivalentMbps": null,
-      "note": "Encoded 4K with unrestricted bitrate and file size; remux and full-disc exclusions still apply."
+      "code": "HD/9:MAX",
+      "name": "1080p Remux",
+      "maximumResolution": 1080
     },
     {
-      "code": "4K/H",
-      "name": "4K High",
-      "resolution": 2160,
-      "x264EquivalentMbps": [
-        20,
-        40
-      ]
+      "code": "HD/8:HDR",
+      "name": "1080p Quality HDR",
+      "maximumResolution": 1080
     },
     {
-      "code": "4K/L",
-      "name": "4K Low",
-      "resolution": 2160,
-      "x264EquivalentMbps": [
-        8,
-        20
-      ]
+      "code": "HD/7:HQ",
+      "name": "1080p Quality",
+      "maximumResolution": 1080
     },
     {
-      "code": "HD/H",
-      "name": "1080p High",
-      "resolution": 1080,
-      "x264EquivalentMbps": [
-        5,
-        12
-      ]
+      "code": "HD/6:BAL",
+      "name": "1080p Balanced",
+      "maximumResolution": 1080
     },
     {
-      "code": "HD/M",
-      "name": "1080p Low",
-      "resolution": 1080,
-      "x264EquivalentMbps": [
-        2,
-        5
-      ]
+      "code": "HD/6:EFF",
+      "name": "1080p Efficient",
+      "maximumResolution": 1080
     },
     {
-      "code": "HD/L",
-      "name": "720p",
-      "resolution": 720,
-      "x264EquivalentMbps": [
-        2,
-        4
-      ],
-      "targetMbps": 3
+      "code": "HD/4:XSQ",
+      "name": "720p Quality",
+      "maximumResolution": 720
+    },
+    {
+      "code": "HD/3:XS",
+      "name": "1080p Compact",
+      "maximumResolution": 1080
+    },
+    {
+      "code": "4K/9:MAX",
+      "name": "2160p Remux",
+      "maximumResolution": 2160
+    },
+    {
+      "code": "4K/7:HQ",
+      "name": "2160p Quality",
+      "maximumResolution": 2160
+    },
+    {
+      "code": "4K/6:BAL",
+      "name": "2160p Balanced",
+      "maximumResolution": 2160
+    },
+    {
+      "code": "4K/6:EFF",
+      "name": "2160p Efficient",
+      "maximumResolution": 2160
     },
     {
       "code": "SD",
       "name": "SD",
-      "maximumResolution": 576,
-      "x264EquivalentMbps": null
+      "maximumResolution": 576
     }
   ],
-  "order": [
-    "SD",
-    "HD/L",
-    "HD/M",
-    "HD/H",
-    "4K/L",
-    "4K/H",
-    "4K/X"
+  "acquisitionSyntax": "@ {upgrade strategy} | mx {maximum strategy} | mn {minimum fallback}",
+  "acquisitions": [
+    {
+      "name": "@ HD/9:MAX | mx HD/9:MAX | mn SD",
+      "upgradeTo": "HD/9:MAX",
+      "maximum": "HD/9:MAX",
+      "minimum": "SD",
+      "sourceProfile": "1080p Remux"
+    },
+    {
+      "name": "@ HD/8:HDR | mx HD/8:HDR | mn SD",
+      "upgradeTo": "HD/8:HDR",
+      "maximum": "HD/8:HDR",
+      "minimum": "SD",
+      "sourceProfile": "1080p Quality HDR"
+    },
+    {
+      "name": "@ HD/7:HQ | mx HD/7:HQ | mn SD",
+      "upgradeTo": "HD/7:HQ",
+      "maximum": "HD/7:HQ",
+      "minimum": "SD",
+      "sourceProfile": "1080p Quality"
+    },
+    {
+      "name": "@ HD/6:BAL | mx HD/6:BAL | mn SD",
+      "upgradeTo": "HD/6:BAL",
+      "maximum": "HD/6:BAL",
+      "minimum": "SD",
+      "sourceProfile": "1080p Balanced"
+    },
+    {
+      "name": "@ HD/6:EFF | mx HD/6:EFF | mn SD",
+      "upgradeTo": "HD/6:EFF",
+      "maximum": "HD/6:EFF",
+      "minimum": "SD",
+      "sourceProfile": "1080p Efficient"
+    },
+    {
+      "name": "@ HD/4:XSQ | mx HD/4:XSQ | mn SD",
+      "upgradeTo": "HD/4:XSQ",
+      "maximum": "HD/4:XSQ",
+      "minimum": "SD",
+      "sourceProfile": "720p Quality"
+    },
+    {
+      "name": "@ HD/3:XS | mx HD/3:XS | mn SD",
+      "upgradeTo": "HD/3:XS",
+      "maximum": "HD/3:XS",
+      "minimum": "SD",
+      "sourceProfile": "1080p Compact"
+    },
+    {
+      "name": "@ 4K/9:MAX | mx 4K/9:MAX | mn SD",
+      "upgradeTo": "4K/9:MAX",
+      "maximum": "4K/9:MAX",
+      "minimum": "SD",
+      "sourceProfile": "2160p Remux"
+    },
+    {
+      "name": "@ 4K/7:HQ | mx 4K/7:HQ | mn SD",
+      "upgradeTo": "4K/7:HQ",
+      "maximum": "4K/7:HQ",
+      "minimum": "SD",
+      "sourceProfile": "2160p Quality"
+    },
+    {
+      "name": "@ 4K/6:BAL | mx 4K/6:BAL | mn SD",
+      "upgradeTo": "4K/6:BAL",
+      "maximum": "4K/6:BAL",
+      "minimum": "SD",
+      "sourceProfile": "2160p Balanced"
+    },
+    {
+      "name": "@ 4K/6:EFF | mx 4K/6:EFF | mn SD",
+      "upgradeTo": "4K/6:EFF",
+      "maximum": "4K/6:EFF",
+      "minimum": "SD",
+      "sourceProfile": "2160p Efficient"
+    },
+    {
+      "name": "@ SD | mx SD | mn SD",
+      "upgradeTo": "SD",
+      "maximum": "SD",
+      "minimum": "SD",
+      "sourceProfile": "SD"
+    }
   ],
-  "codecBudgetFactors": {
-    "h264": 1.0,
-    "hevc": 0.6,
-    "av1": 0.5
-  },
-  "codecBudgetNote": "Planning estimates, not a measurement of equal visual quality; exact video bitrate is unavailable from many release listings.",
-  "acquisitionSyntax": "@ {upgrade target} | mx {highest accepted tier} | mn {lowest accepted tier}",
-  "example": {
-    "name": "@ 4K/H | mx 4K/H | mn HD/M",
-    "upgradeTo": "4K/H",
-    "maximum": "4K/H",
-    "minimum": "HD/M"
-  },
+  "default": "@ HD/6:BAL | mx HD/6:BAL | mn SD",
   "constraints": [
-    "minimum <= upgradeTo <= maximum",
-    "A release above the target remains eligible when maximum allows it.",
-    "Archival remains encoded media; remuxes, full discs and Raw-HD are excluded."
+    "This initial catalogue uses target = maximum and an SD floor. Arbitrary combinations are not implied.",
+    "Dictionarry strategies overlap. BAL and EFF are alternatives, not consecutive rungs.",
+    "The upgrade target uses the upstream quality group and custom-format cutoff, not a measured bitrate.",
+    "Remux is allowed in MAX strategies. Full-disc payloads remain excluded.",
+    "No strict codec-adjusted bitrate bands or fixed movie-size caps are added."
   ],
-  "activation": "Acquisition profile sync awaits selection of native preference rules or additional strict bitrate selection logic."
+  "sync": {
+    "databaseName": "si-media-profiles",
+    "profileTrigger": "manual",
+    "mediaManagement": [
+      "qualityDefinitions"
+    ],
+    "seerrDefault": "@ HD/6:BAL | mx HD/6:BAL | mn SD",
+    "migrateExistingAssignments": false
+  }
 }

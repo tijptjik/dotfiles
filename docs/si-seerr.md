@@ -34,6 +34,15 @@ port `8181`, SSL disabled, and URL base empty. Its external URL is
 combine the public HTTPS hostname with the internal HTTP port. The supported
 Seerr save endpoint successfully tested this local connection on October 22.
 
+Telegram uses the existing `@starprowlarr_bot` and the same chat as Prowlarr.
+The enabled native agent embeds posters and sends silently. All request lifecycle
+and issue events shown in Seerr's notification settings are enabled. The topic
+field is empty for the existing private chat. Its bot token and chat ID are
+restorable from Bitwarden Secrets Manager, `dotfiles` / `si-prowlarr-telegram`:
+map `bot_token` to Bot Authorization Token and `chat_id` to Chat ID. Bot Username
+is `starprowlarr_bot`. Credentials remain in application state and encrypted
+backups, outside Git. A native Seerr test notification was delivered on October 22.
+
 The existing Sonarr profile 9 permits 720p fallback despite its name; its quality
 rules are retained. Radarr profile 4 accepts only 1080p releases.
 

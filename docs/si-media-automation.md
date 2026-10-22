@@ -8,7 +8,7 @@ Configured October 21, 2026. Scope: Sonarr television downloads in Transmission.
 2. Transmission uses a daily 09:00–17:00 Asia/Hong_Kong schedule at 50 KB/s download and upload, with both directions uncapped outside those hours. This replaces the temporary connectivity-testing limits. The server init hook enforces the schedule at startup; its mutable settings remain covered by application backups. Existing paused jobs remain paused; no bulk missing-library search was launched.
 3. si-media-guard.timer checks every 15 seconds after each completed run. Once torrent metadata is available, it checks files for Windows executables/scripts/shortcuts. Completed payloads with an MZ header are also rejected even if renamed as video. Only torrents matched to Sonarr's queue are modified.
 4. Unsafe torrents are stopped, blocklisted in Sonarr, and removed from Transmission WITHOUT deleting their downloaded bytes. Sonarr is asked for a replacement. At most three immediate replacement requests are allowed per hour globally to contain bad-source loops; later rejections are blocklisted without requesting another immediate replacement. Receipts are in /var/lib/si-media-guard/.
-5. Unpackerr 0.16.1, pinned by image digest, polls Sonarr every minute and extracts supported archives after a two-minute completion delay. It has no command hooks, runs as UID 1000/GID 950 with no capabilities, and retains original torrent archives. Its configured Sonarr extraction limits are the application's defaults (20 GB, 1,000 files, 5:1 ratio, eight nested levels). Legitimate releases exceeding these limits need review.
+5. Unpackerr polls Sonarr every minute and extracts supported archives after a two-minute completion delay. It has no command hooks, runs as UID 1000/GID 950 with no capabilities, and retains original torrent archives. Its configured Sonarr extraction limits are the application's defaults (20 GB, 1,000 files, 5:1 ratio, eight nested levels). Legitimate releases exceeding these limits need review.
 6. Sonarr completed-download handling validates and imports eligible media, renames episodes with the existing naming convention, and uses hardlinks where possible.
 7. A tested Plex Server notification triggers library updates on import/download, upgrade and rename. It maps Sonarr /data paths to native Plex /mnt/storage paths and connects through the Docker host gateway, avoiding dependence on the site's LAN address.
 
@@ -195,3 +195,64 @@ preview used an already-grabbed MobLand episode (Telegram message 4586); it did
 not request another download. The private pre-change database, rollback record
 and completion receipt are under the dated `prowlarr-telegram-format` repair
 directory on disk42.
+
+## Shared video permissions repaired October 22
+
+Recovered root-owned 0755 movie/series directories blocked writes by the media
+services (UID 1000/GID 950). Some existing episodes were root-owned 0600 and
+could not be read. The downloaded payloads and download-client connections were
+already usable; SELinux was permissive and was not the cause.
+
+Repaired shared group access on the UUID-verified native storage branches,
+preserving owners, existing owner/other permission bits, file contents and
+timestamps. Directories inherit media GID 950 with setgid and group rwx; regular
+files receive group rw without executable or world-access bits being added.
+Scope is only `public/movies`, `public/shows`, `meta/downloads/radarr` and
+`meta/downloads/sonarr`. Symlinks are not followed. Private storage, appData,
+other media categories and recovery evidence are outside the scope.
+
+All eight blocked downloads imported automatically: *1917*, *Run Lola Run*,
+*47 Ronin*, *The Chronicles of Narnia: The Voyage of the Dawn Treader*, and four
+*Star Wars Rebels* episodes ("Shroud of Darkness", "The Mystery of Chopper
+Base", and both parts of "Twilight of the Apprentice"). An access audit as
+UID 1000/GID 950 opened all 21,720 movie/TV library files with zero unreadable
+files or directory errors. This verifies accessibility, not full media integrity.
+All eight imported files were also verified in Plex's library. The two previously
+denied existing episodes in *Y: The Last Man* and *X-Men: Evolution* parse with
+Sonarr's bundled ffprobe as UID 1000/GID 950. Neither app has a blocked import.
+
+The durable chezetc policy is `/etc/si-media-permissions/permissions.py`:
+
+- `si-media-permissions-boot.service` establishes permissions before Docker
+  container autostart; a separate service/timer checks every 15 minutes.
+- Storage UUID checks and shared SnapRAID/application-backup locks guard runs.
+  A busy maintenance lock defers the repair. Periodic failures cannot stop Docker.
+- Private change journals and the latest successful receipt are under
+  `/var/lib/si-media-permissions/`. Journals retain original inode identity,
+  ownership, modes and ACLs for reviewed rollback.
+- Provisioning creates missing movie/TV/Arr download roots as 1000:950/2775.
+  Fi/li exclude these policy files and units.
+
+Managed Compose sets `UMASK=002` for Transmission, Sonarr and Radarr. The
+Transmission startup hook also enforces its application umask while retaining
+the daily bandwidth schedule. Unpackerr extracts files as 0664 and directories
+as 0775. Sonarr/Radarr native permission rewriting is disabled in their backed-up
+application settings, leaving inheritance, creation masks and the guarded policy
+responsible for shared access. The four containers were recreated using their
+existing images; Docker and Plex were not restarted.
+Both boot and recurring policy services passed live runs with zero pending
+permission changes, and the recurring timer is enabled.
+
+```sh
+sudo python3 /etc/si-media-permissions/permissions.py  # audit only
+sudo systemctl status si-media-permissions.timer --no-pager
+sudo cat /var/lib/si-media-permissions/last-success.json
+```
+
+The initial repair journal is
+`/var/lib/si-media-permissions/changes-20261022T070055539377Z.jsonl`.
+Private pre-deployment configuration/settings copies and the deployment receipt
+are under
+`/mnt/data/disk42/.recovery-preservation/media-permissions-20261022T071129Z/`.
+Rollback requires checking recorded device/inode identities: imports can move or
+replace files after a journal is written. Credentials remain outside Git.

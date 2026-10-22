@@ -28,6 +28,12 @@ Configure the default non-4K services as follows:
 | Radarr | `radarr:7878` | `2. HD - High` (ID 4, 1080p) | `/data/public/movies` | https://movies.type.hk |
 | Sonarr | `sonarr:8989` | `1080p Only` (ID 9) | `/data/public/shows` | https://shows.type.hk |
 
+Tautulli connects directly over the shared Docker network: hostname `tautulli`,
+port `8181`, SSL disabled, and URL base empty. Its external URL is
+`https://monitor.type.hk`. The public HTTPS endpoint uses port `443`; do not
+combine the public HTTPS hostname with the internal HTTP port. The supported
+Seerr save endpoint successfully tested this local connection on October 22.
+
 The existing Sonarr profile 9 permits 720p fallback despite its name; its quality
 rules are retained. Radarr profile 4 accepts only 1080p releases.
 

@@ -5,20 +5,23 @@ native Arr profiles can actually enforce. The generated SQL contains public
 Dictionarry policy only, without credentials, library inventory or app databases.
 Upstream attribution is in `UPSTREAM-LICENSE`.
 
+Quality numbers sort from best (`1`) to lowest (`9`). Renumbering changes display
+names only; preset rules and existing Arr profile IDs remain unchanged.
+
 | Profile | Dictionarry preset | Requested maximum | Requested minimum |
 | --- | --- | --- | --- |
-| `4K:9 Remux` | 2160p Remux | `4K:9 Remux` | `HD:5 Efficient` |
-| `4K:8 Quality` | 2160p Quality | `4K:9 Remux` | `HD:5 Efficient` |
-| `4K:7 Balanced` | 2160p Balanced | `4K:8 Quality` | `HD:5 Efficient` |
-| `4K:6 Efficient` | 2160p Efficient | `4K:7 Balanced` | `HD:5 Efficient` |
-| `HD:9 Remux` | 1080p Remux | `HD:9 Remux` | `HD:5 Efficient` |
-| `HD:8 Quality HDR` | 1080p Quality HDR | `HD:9 Remux` | `HD:5 Efficient` |
-| `HD:7 Quality` | 1080p Quality | `HD:8 Quality HDR` | `HD:5 Efficient` |
-| `HD:6 Balanced` | 1080p Balanced | `HD:7 Quality` | `HD:5 Efficient` |
-| `HD:5 Efficient` | 1080p Efficient | `HD:6 Balanced` | `HD:5 Efficient` |
-| `HD:4 Quality @ 720p` | 720p Quality | `HD:4 Quality @ 720p` | None |
-| `HD:3 Compact` | 1080p Compact | `HD:5 Efficient` | None |
-| `SD:1` | SD | `SD:1` | None |
+| `4K:1 Remux` | 2160p Remux | `4K:1 Remux` | `HD:5 Efficient` |
+| `4K:2 Quality` | 2160p Quality | `4K:1 Remux` | `HD:5 Efficient` |
+| `4K:3 Balanced` | 2160p Balanced | `4K:2 Quality` | `HD:5 Efficient` |
+| `4K:4 Efficient` | 2160p Efficient | `4K:3 Balanced` | `HD:5 Efficient` |
+| `HD:1 Remux` | 1080p Remux | `HD:1 Remux` | `HD:5 Efficient` |
+| `HD:2 Quality HDR` | 1080p Quality HDR | `HD:1 Remux` | `HD:5 Efficient` |
+| `HD:3 Quality` | 1080p Quality | `HD:2 Quality HDR` | `HD:5 Efficient` |
+| `HD:4 Balanced` | 1080p Balanced | `HD:3 Quality` | `HD:5 Efficient` |
+| `HD:5 Efficient` | 1080p Efficient | `HD:4 Balanced` | `HD:5 Efficient` |
+| `HD:6 Quality @ 720p` | 720p Quality | `HD:6 Quality @ 720p` | None |
+| `HD:7 Compact` | 1080p Compact | `HD:5 Efficient` | None |
+| `SD:9` | SD | `SD:9` | None |
 
 ## Native settings and pending tier rules
 
@@ -35,9 +38,9 @@ The active configuration uses the curated presets plus native resolution
 guards. Implementing exact cross-preset tier windows would require a separate
 classifier; the profile names do not claim that those windows are enforced.
 
-The snapshot does enforce a 1080p resolution floor for HD:5 Efficient and higher,
-a 720p ceiling for HD:4 Quality @ 720p, and the appropriate 1080p/2160p ceilings.
-Lower targets retain the curated SD fallbacks. SD:1 permits known SD qualities up
+The snapshot does enforce a 1080p resolution floor for HD:5 Efficient or better,
+a 720p ceiling for HD:6 Quality @ 720p, and the appropriate 1080p/2160p ceilings.
+Lower targets retain the curated SD fallbacks. SD:9 permits known SD qualities up
 to 576p, any bitrate/codec, and has no automatic upgrades. These resolution bounds
 are enforced on allowed qualities and group members; a name change alone is not
 used as a guard. Dictionarry scores and upgrade cutoffs are retained, with an
@@ -52,7 +55,7 @@ boundaries to avoid Batman/Adventure false positives.
 
 Global size definitions are Dictionarry's unrestricted limits. No bitrate-based
 quality classification, renaming job, backlog search or upgrade job is added.
-Seerr retains 4K:7 Balanced for new movie requests and uses HD:6 Balanced for new
+Seerr retains 4K:3 Balanced for new movie requests and uses HD:4 Balanced for new
 TV and anime requests. The mapping and explicit migration tool are documented in
 [si-profilarr.md](../../../docs/si-profilarr.md). No migration runs during apply.
 

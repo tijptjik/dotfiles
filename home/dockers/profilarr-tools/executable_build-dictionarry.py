@@ -106,8 +106,9 @@ def prepare(connection, policy):
         connection.execute("INSERT INTO quality_profile_qualities(quality_profile_name,quality_name,position,enabled) VALUES (?,?,?,0)", (sd_profile, quality, index))
     connection.execute("INSERT INTO quality_profile_languages VALUES (?, 'Any', 'simple')", (sd_profile,))
     connection.execute("INSERT INTO quality_profile_tags VALUES (?, 'si acquisition')", (sd_profile,))
-    connection.execute("INSERT INTO tags(name) VALUES ('media:SD:1')")
-    connection.execute("INSERT INTO quality_profile_tags VALUES (?, 'media:SD:1')", (sd_profile,))
+    sd_tag = 'media:' + sd_profile
+    connection.execute("INSERT INTO tags(name) VALUES (?)", (sd_tag,))
+    connection.execute("INSERT INTO quality_profile_tags VALUES (?, ?)", (sd_profile, sd_tag))
     connection.execute("INSERT INTO custom_formats(name,description) VALUES (?, 'Known SD qualities only; no bitrate or codec restriction.')", (SD_NAME,))
     for value in ("720p", "1080p", "2160p"):
         condition = "Not " + value

@@ -25,8 +25,8 @@ Configure the default non-4K services as follows:
 
 | Service | Internal address | Quality profile | Root folder | External URL |
 | --- | --- | --- | --- | --- |
-| Radarr | `radarr:7878` | `4K:7 Balanced` (ID 19) | `/data/public/movies` | https://movies.type.hk |
-| Sonarr | `sonarr:8989` | `HD:6 Balanced` (ID 16) | `/data/public/shows` | https://shows.type.hk |
+| Radarr | `radarr:7878` | `4K:3 Balanced` (ID 19) | `/data/public/movies` | https://movies.type.hk |
+| Sonarr | `sonarr:8989` | `HD:4 Balanced` (ID 16) | `/data/public/shows` | https://shows.type.hk |
 
 Tautulli connects directly over the shared Docker network: hostname `tautulli`,
 port `8181`, SSL disabled, and URL base empty. Its external URL is
@@ -44,7 +44,7 @@ is `starprowlarr_bot`. Credentials remain in application state and encrypted
 backups, outside Git. A native Seerr test notification was delivered on October 22.
 
 The curated defaults above are active; the movie default was already selected
-before the legacy migration and was preserved. Anime also uses `HD:6 Balanced`
+before the legacy migration and was preserved. Anime also uses `HD:4 Balanced`
 (Sonarr profile 16). Legacy service defaults and saved request-profile references were
 migrated using the same approved map as the Arr libraries. See
 [Profilarr](si-profilarr.md) for the 12 profiles, native resolution guards and

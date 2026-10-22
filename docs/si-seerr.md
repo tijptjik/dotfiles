@@ -24,10 +24,13 @@ Configure the default non-4K services as follows:
 | Radarr | `radarr:7878` | `2. HD - High` (ID 4, 1080p) | `/data/public/movies` | https://movies.type.hk |
 | Sonarr | `sonarr:8989` | `1080p Only` (ID 9) | `/data/public/shows` | https://shows.type.hk |
 
+The existing Sonarr profile 9 permits 720p fallback despite its name; its quality
+rules are retained. Radarr profile 4 accepts only 1080p releases.
+
 Service keys and Plex authentication belong in application state and Bitwarden,
 never Git. The generated key is saved as `si-seerr-api-key` in the Bitwarden
-Secrets Manager `dotfiles` project. Seerr settings and its SQLite database are included in the existing
-encrypted daily appData backups and fi offsite copies. Rebuildable Seerr logs and
+Secrets Manager `dotfiles` project. Seerr settings and its SQLite database are
+included in the existing encrypted daily appData backups and fi offsite copies. Rebuildable Seerr logs and
 cache are excluded. The application is paused alongside the other acquisition
 services during guarded SnapRAID maintenance.
 

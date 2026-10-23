@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "master": "fi",
+  "remote": "r2-tijpdata:tijpdata/archives-v2",
+  "recipient": "age10cpp7avz2zzlqea22d5c3l83ew36rxfjxl2gcxm79atjkcp7494s3lpvjx",
+  "identity": "~/.keys/chezmoi.txt",
+  "folders": {
+    ".ssh": {"mode": "sync", "review": "content"},
+    ".gnupg": {"mode": "sync", "review": "content", "exclude": ["S.gpg-agent*", "S.dirmngr", "*.lock", "random_seed"]},
+    ".local/share/icons": {"mode": "sync", "review": "files"},
+    ".local/share/backgrounds": {"mode": "sync", "review": "files"},
+    ".fonts": {"mode": "sync", "review": "files", "exclude": [".uuid"]},
+    ".config/Bazecor": {"mode": "sync", "review": "files", "exclude": ["Singleton*", "*.lock"]},
+    ".var/app/rocks.koreader.KOReader/config/koreader": {"mode": "sync", "review": "files"},
+    ".config/sublime-text": {"mode": "master", "exclude": ["Local/Auto Save Session.sublime_session"]},
+    ".config/waybar/crypto": {"mode": "master", "exclude": [".git", "__pycache__", "*.pyc"]},
+    ".duckdb": {"mode": "device"},
+    ".mozilla": {"mode": "device", "exclude": ["lock", ".parentlock", "parent.lock", "cache2", "startupCache", "Crash Reports"]},
+    ".config/unity3d": {"mode": "desktop"},
+    ".var/app/org.yuzu_emu.yuzu/config": {"mode": "desktop"},
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/nand/user/save": {"mode": "desktop"},
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/keys": {"mode": "desktop"},
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/load": {"mode": "desktop"},
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/nand/system/save": {"mode": "desktop"},
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/play_time": {"mode": "desktop"},
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/screenshots": {"mode": "desktop"},
+    ".codex-lb": {"mode": "master-backup", "include": ["store.db", "encryption.key"], "sqlite": ["store.db"]}
+  }
+}

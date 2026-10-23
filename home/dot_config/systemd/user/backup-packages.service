@@ -1,6 +1,9 @@
 [Unit]
-Description=Backup Packages
+Description=Verified per-device encrypted archives
 
 [Service]
 Type=oneshot
-ExecStart=%h/.local/bin/chezmoi-externals-backup
+TimeoutStartSec=infinity
+TimeoutStopSec=30
+UMask=0077
+ExecStart=%h/.local/bin/device-archives backup

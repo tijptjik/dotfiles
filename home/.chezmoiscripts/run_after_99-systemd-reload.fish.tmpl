@@ -44,7 +44,13 @@ end
 
 function configure_common_user_units
     systemctl --user daemon-reload
-    systemctl --user enable --now backup-packages.timer
+    if "$HOME/.local/bin/device-archives" ready >/dev/null 2>&1
+        systemctl --user enable --now backup-packages.timer
+    else
+        # A new laptop must pull reviewed sync folders before its first backup.
+        systemctl --user disable --now backup-packages.timer
+        status_msg SKIP "-" "Device archives" "initial sync from fi required"
+    end
 end
 
 if user_units_need_reload; or unit_needs_enable_now backup-packages.timer

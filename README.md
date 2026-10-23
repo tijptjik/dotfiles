@@ -61,6 +61,10 @@ Readmes are available in `/docs/{topic}.md`
 
 - [Extracting archived Sonarr releases](docs/media-archive-extraction.md)
 
+### Device recovery
+
+- [Per-device archives, reviewed sync, and cross-device restore](docs/device-archives.md)
+
 ## Sample Run
 
 <img width="891" height="609" alt="image" src="https://github.com/user-attachments/assets/f9c2f315-c573-47bc-b30d-b0d6dbff79b6" />

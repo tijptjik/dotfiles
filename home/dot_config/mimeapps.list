@@ -21,4 +21,3 @@ x-scheme-handler/codex=chatgpt.desktop
 
 [Added Associations]
 font/ttf=org.gnome.font-viewer.desktop;
-application/fits=org.qgis.qgis.desktop;

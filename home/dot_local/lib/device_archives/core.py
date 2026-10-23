@@ -991,8 +991,12 @@ class Archives:
                 "Local files or sync baseline changed; create a new plan"
             )
         resolutions = resolutions or {}
-        if set(resolutions) - set(plan["conflicts"]):
-            raise ArchiveError("Resolution names do not match this plan's conflicts")
+        reviewable = {name for name in set(plan["local"]) | set(plan["incoming"])
+                      if plan["local"].get(name) != plan["incoming"].get(name)} | set(plan["conflicts"])
+        if set(resolutions) - reviewable:
+            raise ArchiveError("Resolution names do not match this plan's differing files")
+        if p["mode"] == "master" and any(value != "source" for value in resolutions.values()):
+            raise ArchiveError("Exact mirrors cannot retain local file overrides")
         desired, changes, conflicts = merge_entries(
             plan["base"],
             plan["local"],

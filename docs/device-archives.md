@@ -192,13 +192,37 @@ device-archives setup --from fi
 device-archives setup .ssh .gnupg --from fi
 ```
 
-The wizard uses Gum and tjikup's status rows. It generates each plan, opens a
-scrollable change list, shows conflict metadata and text diffs (or binary hashes),
-and asks whether to keep the local version or use the source version. You can
-inspect individual files, skip a folder, or cancel. A final confirmation shows
-resolved changes before each folder is applied; exact mirrors explicitly warn
-that local managed contents will be replaced, including deletions. No JSON
-editing is required. Confirmation defaults to No.
+The reviewer has a file list on the left and a scrollable diff/metadata preview
+on the right. Every differing file stays in the list, with a visible **pending**,
+**accepted**, **rejected**, or **skipped** decision. Revisit any file to change or
+undo its decision. The layout adapts to terminal width (minimum 60×10).
+
+| Key | Action |
+| --- | --- |
+| ↑/↓ or j/k | Select a file; scroll when preview has focus |
+| Tab | Switch file-list/preview focus |
+| PgUp/PgDn or K/J | Scroll preview |
+| a | Accept the source version (including a source deletion) |
+| r | Reject the source version; keep local |
+| s | Mark this file skipped for now |
+| u | Undo its decision |
+| A | Accept all pending files; existing decisions stay intact |
+| Enter | Continue to final folder confirmation |
+| S | Skip the entire folder without applying it |
+| q / Esc | Quit without applying this folder |
+| ? | Toggle shortcut help |
+
+Pending/skipped files block applying the folder. Decide them or skip the entire
+folder: partial review never records a completed synchronization baseline.
+Exact mirrors accept source versions only; skip the folder to preserve local
+contents. Decisions remain editable after declining the final confirmation.
+Decisions are held for the current review session; quitting discards decisions
+for the unapplied folder.
+
+The two-pane editor uses Python's terminal support; final confirmation and
+error prompts use Gum, with tjikup's status rows around operations. No JSON
+editing is required. Final confirmation defaults to No. Verified snapshot,
+stale-plan, active-writer, and rollback safeguards remain in effect.
 
 Plans and baselines are maintained automatically. A changed local file, expired
 snapshot or active writer still blocks apply; the wizard offers retry with a new

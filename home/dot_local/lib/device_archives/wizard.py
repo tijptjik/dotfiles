@@ -46,6 +46,10 @@ class Terminal:
             return result.returncode == 0
         raise KeyboardInterrupt
 
+    def edit(self, review, decisions):
+        from .editor import run_editor
+        return run_editor(review, decisions, visible)
+
     def row(self, verb, icon, subject, note=''):
         tjikup.status_msg(self.repo, verb, icon, visible(subject), visible(note))
 
@@ -118,6 +122,24 @@ def review_folder(app, folder, source, snapshot, ui):
     resolutions = {}
     with tempfile.TemporaryDirectory(prefix='review-', dir=app.state) as tmp:
         review = Review(app, plan, Path(tmp))
+        if hasattr(ui, 'edit'):
+            from .editor import Decisions
+            decisions = Decisions(plan)
+            while True:
+                if ui.edit(review, decisions) == 'skip':
+                    return False
+                _, changes, conflicts = decisions.changes()
+                if conflicts:
+                    raise ArchiveError('Choices created a structural conflict')
+                title = f"Apply {len(changes)} changes to {folder} and record its sync baseline?"
+                if plan['policy']['mode'] == 'master':
+                    title = 'EXACT MIRROR: ' + title
+                if not ui.confirm(title):
+                    continue
+                ui.row('SYNC', '…', folder, 'verifying and applying')
+                app.apply(path, decisions.resolutions())
+                ui.row('SYNC', '✓', folder, 'verified')
+                return True
         while True:
             _, changes, conflicts = merge_entries(plan['base'], plan['local'], plan['incoming'], plan['policy']['mode'] == 'master', resolutions)
             ui.page(preview(plan, changes, conflicts))

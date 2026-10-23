@@ -198,7 +198,7 @@ hl.bind(super("N", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"
 -- #######################
 
 -- Hamr Launcher
-hl.bind(super("Escape"), hl.dsp.exec_cmd("$HOME/.local/bin/hamr toggle"))
+hl.bind(super("Escape"), hl.dsp.exec_cmd("/usr/local/bin/hamr toggle"))
 
 -- Keep Waybar visible until this is pressed again or the pointer touches its
 -- bottom reveal edge.
@@ -207,7 +207,7 @@ hl.bind(super("M"), function()
 end)
 
 -- Clipboard history
-hl.bind(super("V"), hl.dsp.exec_cmd("$HOME/.local/bin/hamr plugin clipboard"))
+hl.bind(super("V"), hl.dsp.exec_cmd("/usr/local/bin/hamr plugin clipboard"))
 
 -- Applications
 hl.bind(super("Return"), hl.dsp.exec_cmd("uwsm app -- kitty -o allow_remote_control=yes"))

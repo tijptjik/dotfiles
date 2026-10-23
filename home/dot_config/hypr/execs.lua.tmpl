@@ -32,7 +32,7 @@ startup.subscription = hl.on("hyprland.start", function()
     -- available to its custom modules.
     -- Prefer the custom build, with a fallback for machines without it.
     hl.exec_cmd("uwsm app -- fish -lc 'if test -x ~/.local/bin/waybar; exec ~/.local/bin/waybar; else; exec /usr/bin/waybar; end'")
-    hl.exec_cmd("uwsm app -- qs -c hamr")
+    hl.exec_cmd("systemctl --user start hamr-gtk.service")
 
     hl.exec_cmd("dconf load /org/gnome/desktop/interface/ < ~/.config/dconf/interface.conf")
 

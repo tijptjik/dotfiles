@@ -3,9 +3,9 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 # Ensure bws is installed and available.
 if not command -v bws >/dev/null 2>&1
-    set BWS_EXECUTABLE "$HOME/.tools/bws/bws"
+    set BWS_EXECUTABLE "/usr/local/bin/bws"
     if test -f "$BWS_EXECUTABLE"
-        set -gx PATH "$HOME/.tools/bws" $PATH
+        set -gx PATH "/usr/local/bin" $PATH
     else
         status_msg FAILED "✗" "Bitwarden Secrets Manager CLI"
         echo "Bitwarden Secrets Manager CLI (bws) not found."

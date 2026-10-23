@@ -2,7 +2,7 @@
 
 set -l bws_env_file "$HOME/.config/bws/environment"
 set -l chezmoi_key_file "$HOME/.keys/chezmoi.txt"
-set -l bws_executable "$HOME/.tools/bws/bws"
+set -l bws_executable "/usr/local/bin/bws"
 
 if not test -x "$bws_executable"; and not command -v -q bws
     echo "Bitwarden Secrets Manager CLI is not available. Run chezmoi apply once to bootstrap it." >&2

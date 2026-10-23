@@ -1,49 +1,51 @@
 #!/usr/bin/env fish
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
-set BWS_DIR "$HOME/.tools/bws"
-set BWS_EXECUTABLE "$BWS_DIR/bws"
-
-if test -f "$BWS_EXECUTABLE"
-    # Ensure it's in the path
-    if not contains "$BWS_DIR" $fish_user_paths
-        set -Ua fish_user_paths "$BWS_DIR"
-    end
-    status_msg INSTALL "✓" "Bitwarden Secrets Manager CLI"
-    exit 0
-end
-
-set BWS_ZIP_URL "https://github.com/bitwarden/sdk-sm/releases/download/bws-v1.0.0/bws-x86_64-unknown-linux-gnu-1.0.0.zip"
-
-function install_bws --argument-names bws_dir bws_executable bws_zip_url
-    mkdir -p "$bws_dir"
-
-    set TMP_DIR (mktemp -d)
-    set BWS_ZIP_PATH "$TMP_DIR/bws.zip"
-
-    if not curl -fL -o "$BWS_ZIP_PATH" "$bws_zip_url"
-        rm -rf "$TMP_DIR"
+function install_bitwarden_cli --argument-names tool release_tag url digest
+    if test (uname -m) != x86_64
+        echo "Bitwarden CLI releases are pinned for x86_64" >&2
         return 1
     end
-
-    if not unzip -q "$BWS_ZIP_PATH" -d "$TMP_DIR"
-        rm -rf "$TMP_DIR"
+    set -l target /opt/$tool/$release_tag/$tool
+    if test -e /usr/local/bin/$tool; and not test -L /usr/local/bin/$tool
+        echo "Refusing to replace unmanaged /usr/local/bin/$tool" >&2
         return 1
     end
-
-    set EXTRACTED_BWS (find "$TMP_DIR" -type f -name bws)
-    if test -z "$EXTRACTED_BWS"
-        rm -rf "$TMP_DIR"
-        return 1
+    if not test -x "$target"
+        set -l tmp (mktemp -d); or return 1
+        curl --fail --silent --show-error --location --retry 3 "$url" -o "$tmp/release.zip"
+        and echo "$digest  $tmp/release.zip" | sha256sum --check --status
+        and unzip -q "$tmp/release.zip" -d "$tmp/release"
+        or begin
+            rm -rf "$tmp"
+            return 1
+        end
+        set -l binary (find "$tmp/release" -type f -name "$tool")
+        if test (count $binary) -ne 1
+            rm -rf "$tmp"
+            return 1
+        end
+        chmod 755 "$binary"
+        env BITWARDENCLI_APPDATA_DIR="$tmp/check" "$binary" --version >/dev/null
+        and sudo install -d -m 755 /opt/$tool/$release_tag
+        and sudo install -m 755 "$binary" "$target.new"
+        and sudo mv -f "$target.new" "$target"
+        set -l result $status
+        rm -rf "$tmp"
+        test $result -eq 0; or return $result
     end
-
-    mv "$EXTRACTED_BWS" "$bws_executable"
-    chmod +x "$bws_executable"
-    rm -rf "$TMP_DIR"
+    sudo install -d -m 755 /usr/local/bin; or return 1
+    sudo ln -sfn "$target" /usr/local/bin/$tool
 end
 
-stage "Bitwarden Secrets Manager CLI" INSTALL "Bitwarden Secrets Manager CLI" install_bws "$BWS_DIR" "$BWS_EXECUTABLE" "$BWS_ZIP_URL"
-
-if not contains "$BWS_DIR" $fish_user_paths
-    set -Ua fish_user_paths "$BWS_DIR"
-end
+stage "Bitwarden Secrets Manager CLI" INSTALL "Bitwarden Secrets Manager CLI" install_bitwarden_cli \
+    bws 1.0.0 \
+    https://github.com/bitwarden/sdk-sm/releases/download/bws-v1.0.0/bws-x86_64-unknown-linux-gnu-1.0.0.zip \
+    9077fb7b336a62abc8194728fea8753afad8b0baa3a18723fc05fc02fdb53568
+or exit $status
+stage "Bitwarden Vault CLI" INSTALL "Bitwarden Vault CLI" install_bitwarden_cli \
+    bw 2025.11.0 \
+    https://github.com/bitwarden/clients/releases/download/cli-v2025.11.0/bw-linux-2025.11.0.zip \
+    943f0107b3a471e7376b08f118e21a59583afeb49e4eb86f378e3b0d7c79c969
+or exit $status
+fish_add_path /usr/local/bin

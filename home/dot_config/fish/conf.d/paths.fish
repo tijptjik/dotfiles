@@ -46,7 +46,6 @@ fish_add_path $TOOLS
 
 # CLI Tools
 fish_add_path $CONFIG/rclone
-fish_add_path $TOOLS/bws
 fish_add_path $TOOLS/peco
 
 # Code

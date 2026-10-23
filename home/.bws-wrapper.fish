@@ -15,8 +15,8 @@ if test -f "$bws_env_file"
 end
 
 # Find the real bws executable. We assume it's in the PATH.
-# The installer script should have put it in ~/.tools/bws.
-set -l bws_executable (command -v $HOME/.tools/bws/bws || command -v bws)
+# Prefer the managed installation; retain the old path during rollout.
+set -l bws_executable (command -v /usr/local/bin/bws || command -v bws || command -v $HOME/.tools/bws/bws)
 if test -z "$bws_executable"
     echo "Error: bws executable not found." >&2
     exit 1

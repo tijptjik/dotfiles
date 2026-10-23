@@ -39,3 +39,13 @@ with commands in `/usr/local/bin`. The client hook
 `run_57-install-terminal-tools.fish.tmpl` pins release URLs and SHA-256 checksums.
 The migration preserves existing versions and Tinty settings and generated
 artifacts; it does not apply a new colour scheme.
+
+## Bitwarden CLIs
+
+Chezmoi's early bootstrap installs checksum-pinned `bws` 1.0.0 and `bw`
+2025.11.0 under `/opt/bws` and `/opt/bw`, with commands in `/usr/local/bin`.
+The installer requires sudo for these system-owned directories. The Secrets
+Manager wrapper prefers the managed command and retains a legacy fallback
+while other devices migrate. Vault data and Secrets Manager credentials stay
+in their existing user configuration directories. Installation checks use
+isolated temporary Vault CLI state and do not log in, unlock, or alter a vault.

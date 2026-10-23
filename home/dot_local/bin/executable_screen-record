@@ -72,7 +72,7 @@ def countdown(region):
     label.set_name("countdown")
     window.add(label)
     css = Gtk.CssProvider()
-    css.load_from_data(b"window { background: transparent; } #countdown { color: white; background: rgba(20,20,25,0.88); border-radius: 80px; font-size: 96px; font-weight: bold; }")
+    css.load_from_data(b"window { background: transparent; } #countdown { color: white; background: transparent; font-size: 96px; font-weight: bold; }")
     Gtk.StyleContext.add_provider_for_screen(window.get_screen(), css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
     window.connect("realize", lambda widget: widget.get_window().input_shape_combine_region(cairo.Region(), 0, 0))
     window.connect("destroy", Gtk.main_quit)

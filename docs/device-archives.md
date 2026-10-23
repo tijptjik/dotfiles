@@ -1,213 +1,243 @@
 # Device archives and synchronization
 
-`device-archives` owns application archives. Chezmoi installs the tool and
-`~/.config/archive-policy.json`; it no longer extracts these directories on
-`chezmoi apply`. `.obsidian` remains a chezmoi Git external.
+`device-archives` backs up folders to R2 and creates reviewable synchronization
+plans. Chezmoi installs the tool, policy, and systemd units. Backups preserve each
+machine's state; they do not apply sync plans or resolve conflicts.
 
-## Policies
+## Devices and folder assignments
 
-| Policy | Folders | Behavior |
-| --- | --- | --- |
-| Reviewed sync | `.ssh`, `.gnupg`, `.local/share/icons`, `.local/share/backgrounds`, `.fonts`, `.config/Bazecor`, `.var/app/rocks.koreader.KOReader/config/koreader` | Three-way comparison; conflicting paths require a per-file decision. |
-| Master mirror | `.config/sublime-text`, `.config/waybar/crypto` | Only `fi` can be the source. Applying a plan makes the managed file set exactly match its snapshot. |
-| Device backup | `.duckdb`, `.mozilla` | Independent histories; restore from either machine into a new staging directory. |
-| Desktop backup | Existing Unity and Yuzu folders | Only `fi` backs these up. |
-| Master backup | `.codex-lb` | Only `fi` backs up `store.db` and its matching `encryption.key`. No runtime, debug logs, or obsolete database copies. Never synchronized into the laptop backend. |
+`~/.config/archive-policy.json` defines device groups matching chezmoi's roles:
 
-Beekeeper Studio and QGIS are no longer backed up or declared for installation.
-Existing local app data, installed packages, and old remote archives are not
-removed by this migration.
+| Selector | Hostnames |
+| --- | --- |
+| `desktop` | `fi` |
+| `laptop` | `li` |
+| `server` | `si` |
+| `clients` | `fi`, `li` |
+| `all` | `fi`, `li`, `si` |
 
-All new archives and manifests use age encryption, including backgrounds and
-Yuzu saves that previously had unencrypted archives. The recipient and identity
-are the existing chezmoi age keypair. Keep that identity recoverable separately.
+Each folder has a `devices` list. It accepts group names, explicit hostnames,
+or a mixture; overlapping selections are deduplicated. For example:
 
-## Remote layout and verification
-
-Each snapshot gets a new timestamp plus random ID:
-
+```json
+".ssh": {
+  "devices": ["all"],
+  "mode": "sync",
+  "review": "content",
+  "encrypted": true,
+  "retention": "daily-weekly-monthly"
+}
 ```
-r2-tijpdata:tijpdata/archives-v2/<machine>/<folder>/<snapshot>/
+
+| Devices | Folders | Policy |
+| --- | --- | --- |
+| All | `.ssh`, `.gnupg`, `.local/share/icons`, `.local/share/backgrounds`, `.fonts` | Reviewed sync |
+| Clients | `.config/Bazecor`, `.var/app/rocks.koreader.KOReader/config/koreader` | Reviewed sync |
+| Clients | `.config/sublime-text`, `.config/waybar/crypto` | Exact mirror from `fi` |
+| Clients | `.duckdb`, `.mozilla` | Independent device backups |
+| Desktop | `.config/unity3d`, `.var/app/org.yuzu_emu.yuzu/config`, Yuzu data folders listed in the policy | Desktop backups |
+| Desktop | `.codex-lb` | Master backup of `store.db` and its matching `encryption.key` |
+
+SSH and GnuPG conflicts support text diffs. Asset and application conflicts are
+reviewed through file lists, sizes, and hashes. `.obsidian` is a chezmoi Git
+external. Beekeeper Studio and QGIS are outside this backup policy.
+
+Inspect assignments:
+
+```sh
+device-archives devices all
+device-archives devices clients server
+device-archives devices fi
+device-archives status --devices clients
+# --targets is an alias for --devices on status.
+```
+
+These selectors inspect assignments; they do not execute commands over SSH.
+Backups always run on the current machine and write only its own namespace.
+Source arguments also accept single-device aliases, such as `--from desktop`
+or `--left desktop --right laptop`. Use a single hostname for restore/diff;
+a multi-device group is not a valid source.
+
+## Automatic schedules
+
+Each host runs `backup-packages.timer` using its local timezone:
+
+| Host | Daily start |
+| --- | --- |
+| `fi` | 00:00 |
+| `li` | 00:15 |
+| `si` | 00:30 |
+
+The timer has no randomized delay. `Persistent=true` catches up a missed run
+when the machine's user manager starts again. User lingering keeps the user
+manager available without an interactive login. Sleeping or powered-off
+machines run after they resume/start; the timer does not wake them.
+
+The service runs `device-archives ready` as an execution condition, then
+`device-archives backup`. The policy's `initial_sync_required` list controls
+which devices must complete their first sync before backing up. It contains
+`li`: its timer stays enabled, but backups are skipped until every assigned
+sync/master folder has a receipt from `fi`. An empty list permits independent
+backups immediately, without applying any synchronization.
+
+```sh
+systemctl --user list-timers backup-packages.timer
+systemctl --user status backup-packages.service
+journalctl --user -u backup-packages.service -n 50
+device-archives ready
+device-archives backup                 # all folders assigned to this host
+device-archives backup .ssh .gnupg      # selected assigned folders
+device-archives backup .ssh --force    # recreate even if unchanged
+```
+
+Before creating a snapshot, the tool compares the folder with its last verified
+manifest. Unchanged folders report `SKIP ✓ ... no changes`: no regular-file
+staging, compression, encryption, or upload occurs. The summary counts backed-up,
+unchanged, and failed folders separately.
+
+The private local `~/.local/state/device-archives/hash-cache/` stores SHA-256
+hashes with device/inode, size, nanosecond modification/change times, and mode.
+Regular files with unchanged metadata reuse their hashes; other files are hashed
+again. Additions, deletions, symlink targets, permissions, root permissions,
+and content/encryption policy changes are checked. Excluded files do not trigger
+a backup. SQLite databases always use a consistent temporary snapshot, including
+committed WAL data, to compare with the archived database.
+
+Skipping requires a matching verified local manifest/receipt, matching remote
+latest/completion metadata, and the existing remote archive objects. These small
+remote metadata checks do not download the archive. Missing remote objects cause
+a new backup. Hash caching alone never marks an upload successful. Unchanged
+checks keep the original snapshot date; retention still runs, and identical
+contents do not produce duplicate daily/weekly/monthly archives. `--force`
+creates and verifies a fresh snapshot when an explicit refresh is needed.
+
+Interactive backups use fixed columns for status, progress, folder, entry
+count, compressed size, result, and elapsed time, using the tjikup palette.
+Numbers are right-aligned; long folder names are shortened in the middle.
+Narrow terminals put the numeric columns on continuation lines. Full folder
+names remain available through `device-archives status`. Unknown sizes display
+`—`, including unchanged folders whose archives are not downloaded. The active
+row becomes a verified result only when the operation completes. Ctrl-C reports
+`ABORT` and exits with status 130 without a Python traceback. Terminal progress refreshes every five seconds;
+noninteractive logs report phase changes and a heartbeat every 30 seconds.
+
+The tool takes a nonblocking local lock so manual and scheduled jobs cannot
+race. A failed folder is reported, other folders are attempted, and the command
+exits nonzero if any folder failed. Upload failures never count as successful
+backups. Server application/Restic backups are separate from this schedule.
+
+## Storage, encryption, and retention
+
+Snapshots use timestamp-plus-random identifiers:
+
+```text
+r2-tijpdata:tijpdata/acrhives/<machine>/<folder>/<snapshot>/
     tree.tar.zst.age
     manifest.json.age
     complete.json
-r2-tijpdata:tijpdata/archives-v2/<machine>/<folder>/latest.json
+r2-tijpdata:tijpdata/acrhives/<machine>/<folder>/latest.json
 ```
 
-Snapshots are immutable and retained indefinitely; there is no automatic pruning
-in this initial implementation. A machine only writes its own prefix. `latest`
-is a pointer for that machine and folder, not a shared archive. Plaintext pointer
-metadata contains machine, folder, timestamp, and encrypted-object checksums;
-file names, contents, permissions, hashes and change lists are inside the
-encrypted manifest.
+Backgrounds and Yuzu user saves use plaintext `tree.tar.zst` and
+`manifest.json`. All other folders use age encryption with the chezmoi keypair.
+Keep `~/.keys/chezmoi.txt` recoverable separately. Each snapshot records its
+format; readers support both encrypted and plaintext snapshots.
 
-A backup stages files and checks for concurrent changes. SQLite files use the
-online backup API and pass `quick_check`; database WAL/journal sidecars are not
-archived. The snapshots contain modes, symlinks, empty directories and SHA-256
-hashes, plus additions/modifications/removals since the machine's previous
-successful snapshot. It uploads, downloads the encrypted objects again, checks
-their hashes, decrypts, extracts and verifies every file before publishing
-`complete.json`, `latest.json`, and the local success receipt. Any failure leaves
-the previous latest pointer intact until the verified snapshot publication step.
+A backup stages files, detects concurrent changes, and captures SQLite databases
+through the online backup API. It uploads the archive and manifest, downloads
+them again, checks their hashes, decrypts when necessary, extracts, and verifies
+every file before publishing completion and latest pointers. Manifests record
+file hashes, permissions, symlinks, empty directories, and changes since the
+machine's previous successful snapshot. Plaintext pointer metadata contains
+snapshot identity, time, encryption format, and object checksums.
 
-This is not an atomic snapshot of an entire live application. Close apps for
-sync/restore and if a backup reports changing files. Sockets are omitted. The
-policy explicitly excludes ephemeral locks/caches, GNUPG sockets/random seed,
-the fonts UUID, Sublime's autosave session, and the crypto checkout's `.git` and
-Python cache. Exact mirroring applies to managed files; excluded files are kept.
-An excluded file blocking a directory replacement fails safely.
+Retention runs after a verified backup, independently per machine and folder:
 
-## First deployment: fi, then li
+| Retention | Folders |
+| --- | --- |
+| Daily / weekly / monthly | `.codex-lb`, KOReader config, Sublime Text, SSH, GnuPG, Bazecor, Waybar crypto, Unity config, Yuzu config, keys, system saves, play time |
+| Latest only | Fonts, icons, backgrounds, `.duckdb`, `.mozilla`, Yuzu user saves, load, screenshots |
 
-On `fi`:
+Daily/weekly/monthly means **at most three snapshots**: the latest successful
+snapshot, the newest from the previous ISO calendar week, and the newest from
+the previous calendar month. Retention boundaries use UTC. Empty tiers are
+omitted; a snapshot qualifying for two tiers occupies one slot. A failed backup
+keeps the previous good snapshots and does not trigger pruning.
 
 ```sh
-device-archives backup
+device-archives history .mozilla --from desktop
+device-archives prune                  # preview local-machine retention
+device-archives prune --apply          # validate latest, then remove old snapshots
 ```
 
-This must finish successfully before the laptop's first sync. Old shared R2
-objects are left intact. The legacy `r2upload` and `chezmoi-externals-backup`
-entry points now route to the safe per-machine backup command.
+Pruning only removes completed snapshots for folders assigned to the current
+machine. Legacy root-level objects and incomplete uploads are outside this
+retention operation. A pinned sync plan can expire when its snapshot is pruned;
+regenerate that plan before applying it. Local sync baselines survive pruning.
 
-On `li`, in the second migration step:
+## Reviewed synchronization
 
-```sh
-device-archives sync --from fi
-```
-
-This only creates plans, displaying their file paths, changes and conflicts.
-It does not alter directories. Inspect each plan:
+Create plans on the receiving device:
 
 ```sh
+device-archives sync --from desktop
+device-archives sync .ssh --from fi
 device-archives review /path/to/plan.json
-# For text files, especially SSH and GNUPG configuration:
 device-archives review /path/to/plan.json --file config
 ```
 
-Text diffs can contain credentials; keep them local. Binary/large files are
-reviewed through file metadata rather than decoded text. To resolve conflicts,
-create a JSON file with an explicit decision for each conflicting path:
+Planning does not change application files. Text diffs may contain credentials;
+keep them local. Binary and large files are compared through manifest metadata.
+For conflicting paths, provide a JSON mapping to `local` or `source`:
 
 ```json
 {"config": "source", "known_hosts": "local"}
 ```
 
-Then apply the pinned plan:
-
 ```sh
 device-archives apply /path/to/plan.json --resolutions /path/to/decisions.json
-# No resolutions argument is needed for a conflict-free plan.
+# Conflict-free plans do not need --resolutions.
 ```
 
-The tool rejects stale plans if local files or the sync baseline changed, and
-refuses to replace a directory while another user process has files open for
-writing inside it. It
-verifies the pinned remote snapshot, builds the result separately, retains a
-complete sibling recovery directory, swaps in the result and checks it before
-recording success. Transaction receipts and sync manifests live in the private
-`~/.local/state/device-archives/` directory. The receipt includes the recovery
-path; remove old recovery directories manually only after checking the result.
+On first contact, local-only files stay local, source-only files are added, and
+different versions at the same path require review. An absent source file alone
+is not evidence of deletion. After a successful sync, the saved source manifest,
+snapshot ID, and `last_synced_at` establish the baseline:
 
-After all nine reviewed/master folders have synced from `fi`:
-
-```sh
-device-archives ready
-device-archives backup
-systemctl --user enable --now backup-packages.timer
-```
-
-The first laptop backup is refused until these sync receipts exist. Chezmoi also
-leaves the backup timer disabled until this gate passes. Daily backups do not
-apply sync plans, overwrite local settings, or resolve conflicts automatically.
-
-## Additions and deletions
-
-On first contact there is no common baseline: a file only present locally stays
-local; a file only present in the source is added; different versions at the
-same path require review. An absent source file alone is not proof of deletion.
-
-After a successful sync the source manifest, source snapshot ID and
-`last_synced_at` become the baseline. With that evidence:
-
-- Changed only locally: keep the local change, including a local deletion.
-- Changed only in the source: apply the source addition/edit/deletion.
+- Changed only locally: keep the local edit, addition, or deletion.
+- Changed only in the source: apply the source change, including a known deletion.
 - Changed differently on both sides: require review, including edit/delete conflicts.
-- Same result on both sides: no conflict.
+- Same resulting state: no conflict.
 
-A new local file is preserved even when its parent directory disappeared on the
-source. File/directory structural conflicts fail for review. A repeated sync
-continues comparing local differences against the last source manifest rather
-than silently adopting them as a common baseline.
+Master-mirror folders accept only `fi` as their source. Applying a master plan
+makes the managed file set match the source exactly. Excluded files are kept.
+Reviewed folders can propagate changes back deliberately: back up the laptop,
+plan/review/apply from `li` on `fi`, then back up `fi` before another device pulls.
 
-Reviewed folders can propagate back deliberately: after `li` has synced and
-backed up, run `device-archives sync .ssh --from li` on `fi`, review/apply, then
-back up `fi` before pulling its new snapshot on `li`. The master-mirror folders
-never accept `li` as a source.
+Apply rejects changed local files, changed policies/baselines, and active file
+writers. It verifies the pinned snapshot, builds a separate tree, preserves a
+sibling `.archive-recovery-*` directory, swaps, verifies, and records success.
+Remove recovery directories manually after checking the result. Receipts,
+baselines, plans, and transactions live under `~/.local/state/device-archives/`.
 
-## Compare, select, and restore
-
-Compare the two latest backups without applying anything:
-
-```sh
-device-archives diff .mozilla --left fi --right li
-device-archives diff .ssh --left fi --right li --file config
-device-archives history .mozilla --from fi
-```
-
-Restore either machine's snapshot into a new directory for inspection:
+## Compare and restore
 
 ```sh
-device-archives restore .mozilla --from fi --to ~/restore-review/firefox-fi
-# Pin an older snapshot returned by history:
-device-archives restore .mozilla --from li --snapshot SNAPSHOT_ID --to ~/restore-review/firefox-li
+device-archives diff .mozilla --left desktop --right laptop
+device-archives diff .ssh --left fi --right si --file config
+device-archives restore .mozilla --from li --to ~/restore-review/firefox-li
+device-archives restore .mozilla --from fi --snapshot SNAPSHOT_ID --to ~/restore-review/firefox-fi
 ```
 
-The destination must not exist. This avoids replacing a live browser/profile or
-silently combining incompatible databases. After inspection, close the affected
-app and install the selected recovered tree while retaining the old one.
+Restore requires a new, nonexistent destination. It never merges into a running
+application directory. Inspect the restored tree, close the application, and
+install the chosen state while retaining the old one.
 
-For codex-lb:
+For codex-lb, restore `store.db` and `encryption.key` together with the desktop
+backend stopped. The archive contains neither the runtime nor debug logs and
+does not synchronize live account credentials. Restored OAuth tokens may require
+reauthentication after provider-side rotation.
 
-```sh
-device-archives restore .codex-lb --from fi --to ~/restore-review/codex-lb
-```
-
-Only restore the database and matching encryption key together, with the desktop
-backend stopped. Keep the installed runtime separately. Restored tokens may need
-reauthentication if they have since rotated; restoring files does not undo token
-rotation at the provider. The laptop continues to use the desktop tunnel.
-
-## Operations
-
-```sh
-device-archives status
-systemctl --user status backup-packages.timer
-journalctl --user -u backup-packages.service -n 50
-```
-
-The tool takes a nonblocking per-machine lock to prevent manual and timer jobs
-from racing. A failed folder is reported and the backup command exits nonzero;
-other folders still get an opportunity to back up. R2 upload errors never count
-as a successful backup. The existing Si/Restic application backups are separate
-and unchanged.
-
-## Migration verification — 2026-10-23
-
-All 20 `fi` folders were uploaded into `archives-v2/fi` and passed encrypted
-remote readback, extraction and file-manifest verification. The codex-lb snapshot
-was independently restored through the CLI: SQLite `quick_check` passed, four
-active accounts were present, and the encryption key matched the desktop.
-The safe daily timer is enabled on `fi`.
-
-The tool is installed on `li`, with its backup timer disabled. Read-only plans
-for all nine sync/master folders validated access to the encrypted snapshots.
-Nineteen conflicting paths require review (SSH, GnuPG, Bazecor and KOReader).
-No sync plan was applied and no `li` snapshot was created. The initial plan index
-is `~/.local/state/archive-migration/initial-sync-review.json` on `li`; regenerate
-plans if local files change before the second step.
-
-Validation included 23 automated tests for three-way merges, first-sync safety,
-conflict decisions, active-writer rejection, stale plans, rollback after failed
-swaps, cross-device restore/diff, encrypted roundtrips, SQLite WAL consistency,
-and failed/corrupt uploads. Final verification receipts are in
-`~/.local/state/archive-migration/verification.json` on `fi`.
+Sockets, ephemeral locks, SQLite sidecars, and policy exclusions are omitted.
+SQLite is copied consistently, but the full directory is not an atomic snapshot
+of a running application. Close apps if a backup reports changing files.

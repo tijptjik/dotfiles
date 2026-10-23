@@ -113,22 +113,6 @@
         "clients"
       ]
     },
-    ".mozilla": {
-      "mode": "device",
-      "exclude": [
-        "lock",
-        ".parentlock",
-        "parent.lock",
-        "cache2",
-        "startupCache",
-        "Crash Reports"
-      ],
-      "encrypted": true,
-      "retention": "latest",
-      "devices": [
-        "clients"
-      ]
-    },
     ".config/unity3d": {
       "mode": "desktop",
       "encrypted": true,
@@ -257,6 +241,28 @@
       "retention": "daily-weekly-monthly",
       "devices": [
         "desktop"
+      ]
+    },
+    ".zen": {
+      "mode": "device",
+      "include_files": [
+        "profiles.ini",
+        "installs.ini",
+        "*/prefs.js",
+        "*/user.js",
+        "*/zen-keyboard-shortcuts.json",
+        "*/zen-themes.json",
+        "*/zen-workspaces.json",
+        "*/zen-spaces.json",
+        "*/containers.json",
+        "*/handlers.json",
+        "*/chrome/**",
+        "native-messaging-hosts/*.json"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "clients"
       ]
     }
   },

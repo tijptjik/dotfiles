@@ -90,6 +90,19 @@ def excluded(name, policy):
     )
 
 
+def selected_file(name, patterns):
+    """Match root-relative segments; a trailing ** includes descendants."""
+    parts = PurePosixPath(name).parts
+    for pattern in patterns:
+        wanted = PurePosixPath(pattern).parts
+        recursive = wanted[-1:] == ("**",)
+        fixed = wanted[:-1] if recursive else wanted
+        if (recursive and len(parts) >= len(fixed)) or len(parts) == len(fixed):
+            if all(fnmatch.fnmatchcase(part, glob) for part, glob in zip(parts, fixed)):
+                return True
+    return False
+
+
 def scan(root, policy=None, file_entry=None):
     """Content and permissions, without following symlinks or recording sockets."""
     policy = policy or {}
@@ -106,6 +119,9 @@ def scan(root, policy=None, file_entry=None):
                 continue
             st = path.lstat()
             mode = stat.S_IMODE(st.st_mode) & 0o777
+            if policy.get("include_files") and not stat.S_ISDIR(st.st_mode):
+                if not selected_file(name, policy["include_files"]):
+                    continue
             if stat.S_ISLNK(st.st_mode):
                 result[name] = {
                     "type": "link",
@@ -115,6 +131,10 @@ def scan(root, policy=None, file_entry=None):
             elif stat.S_ISDIR(st.st_mode):
                 result[name] = {"type": "dir", "mode": mode}
                 walk(path)
+                if policy.get("include_files") and not any(
+                    child.startswith(name + "/") for child in result if child != name
+                ):
+                    del result[name]
             elif stat.S_ISREG(st.st_mode):
                 # SQLite WAL and journals belong to the online database snapshot.
                 if any(

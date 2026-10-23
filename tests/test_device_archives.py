@@ -554,3 +554,19 @@ class ArchiveIntegrationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SelectedConfigurationTests(unittest.TestCase):
+    def test_config_allowlist_preserves_nested_files_without_profile_data(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for name in ["profiles.ini", "abc.release/prefs.js", "abc.release/chrome/theme/a.css",
+                         "abc.release/cache2/cache", "abc.release/cookies.sqlite", "abc.release/session.json",
+                         "abc.release/storage/permanent/chrome/idb/cache"]:
+                target = root / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text("fixture")
+            entries = scan(root, {"include_files": ["profiles.ini", "*/prefs.js", "*/chrome/**"]})
+            self.assertEqual(set(entries), {"profiles.ini", "abc.release", "abc.release/prefs.js",
+                                           "abc.release/chrome", "abc.release/chrome/theme",
+                                           "abc.release/chrome/theme/a.css"})

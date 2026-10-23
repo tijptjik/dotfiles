@@ -34,7 +34,7 @@ or a mixture; overlapping selections are deduplicated. For example:
 | All | `.ssh`, `.gnupg`, `.local/share/icons`, `.local/share/backgrounds`, `.local/share/fonts` | Reviewed sync |
 | Clients | `.config/Bazecor`, `.var/app/rocks.koreader.KOReader/config/koreader` | Reviewed sync |
 | Clients | `.config/sublime-text`, `.config/waybar/crypto` | Exact mirror from `fi` |
-| Clients | `.duckdb`, `.mozilla` | Independent device backups |
+| Clients | `.duckdb`, `.zen` | Independent device backups |
 | Desktop | `.config/unity3d`, `.var/app/org.yuzu_emu.yuzu/config`, Yuzu data folders listed in the policy | Desktop backups |
 | Desktop | `.local/share/device-archives-policy` | Encrypted recovery copy of the archive policy; daily/weekly/monthly retention |
 | Desktop | `.codex-lb` | Master backup of `store.db` and its matching `encryption.key` |
@@ -164,7 +164,7 @@ Retention runs after a verified backup, independently per machine and folder:
 | Retention | Folders |
 | --- | --- |
 | Daily / weekly / monthly | `.codex-lb`, KOReader config, Sublime Text, SSH, GnuPG, Bazecor, Waybar crypto, Unity config, Yuzu config, keys, system saves, play time |
-| Latest only | Fonts, icons, backgrounds, `.duckdb`, `.mozilla`, Yuzu user saves, load, screenshots |
+| Latest only | Fonts, icons, backgrounds, `.duckdb`, `.zen`, Yuzu user saves, load, screenshots |
 
 Daily/weekly/monthly means **at most three snapshots**: the latest successful
 snapshot, the newest from the previous ISO calendar week, and the newest from
@@ -366,3 +366,13 @@ Mullvad skip this step. This permits local-network SSH while the VPN is on;
 it does not disconnect the VPN or change its relay settings.
 
 Recovery credentials in `.keys` are backed up encrypted, but the age identity must also remain recoverable independently (for example in Bitwarden). The encrypted archive cannot recover its own lost decryption identity. These credential folders are recovery backups, not cross-device synchronization.
+
+Zen backups contain profile registration, preferences, user overrides, keyboard
+shortcuts, themes, workspace/space settings when present, containers, handlers,
+custom `chrome/` files and native-messaging manifests. `include_files` patterns
+select files relative to `.zen`; only their parent directories are retained.
+History, cookies, passwords, session recovery, downloaded extensions and caches
+are excluded. Restore these settings with Zen closed; reinstall extensions and
+use Zen Sync separately. Existing Firefox archives are retained, but `.mozilla`
+is no longer scheduled for backup. Zen configuration uses daily/weekly/monthly
+retention independently for each client.

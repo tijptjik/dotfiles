@@ -249,8 +249,8 @@ end
 function __stage_render_label_note --argument-names use_color stage_name icon subject note
     __stage_event "$stage_name" "$icon" "$subject" "$note"
     set -l color (__stage_color "$stage_name")
-    if test (count $argv) -ge 5
-        set color (__stage_color "$argv[5]")
+    if test (count $argv) -ge 6
+        set color (__stage_color "$argv[6]")
     else if test "$stage_name" = PULL; and test "$note" = "no changes"
         set color 14
     else if test "$stage_name" = SYNC; and contains -- "$note" "no changes" "no updates"

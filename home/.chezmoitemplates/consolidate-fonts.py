@@ -6,6 +6,7 @@ import hashlib
 import os
 from pathlib import Path
 import shutil
+import subprocess
 
 
 def same(a, b):
@@ -64,8 +65,17 @@ def consolidate(home, apply=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--apply', action='store_true')
+    parser.add_argument('--status-helper', type=Path)
     args = parser.parse_args()
     try:
-        print(consolidate(Path.home(), args.apply))
+        result = consolidate(Path.home(), args.apply)
+        if args.status_helper and shutil.which('fish'):
+            unchanged = result == 'Fonts already consolidated'
+            subprocess.run(['fish', '--no-config', '-c',
+                            'source $argv[1]; status_msg $argv[2..-1]', '--',
+                            str(args.status_helper), 'SKIP' if unchanged else 'SYNC',
+                            '✓', 'User fonts', 'no changes' if unchanged else result], check=True)
+        else:
+            print(result)
     except RuntimeError as exc:
         parser.exit(1, str(exc) + '\n')

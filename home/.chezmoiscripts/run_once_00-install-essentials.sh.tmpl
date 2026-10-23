@@ -61,7 +61,7 @@ update_system_packages() {
   return 1
 }
 
-stage "system package updates" "SYNC" "System packages (best effort)" update_system_packages
+STAGE_NOTE="best effort" stage "system package updates" "SYNC" "System packages" update_system_packages
 
 # Install essential packages
 # Chezetc uses python3 from PATH, independently of the home uv environment.

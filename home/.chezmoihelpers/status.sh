@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
+__stage_fish_helper="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/status.fish"
+
 __stage_color() {
   case "$1" in
     SKIP) printf '8' ;;
     CHECK|WARN) printf '14' ;;
-    INSTALL|SYNC|PULL|REMOVE|CONFIG|COMMIT|PUSH|FAILED) printf '9' ;;
+    SYNC) printf '6' ;;
+    INSTALL|PULL|REMOVE|CONFIG|COMMIT|PUSH|FAILED) printf '9' ;;
     *) printf '14' ;;
   esac
 }
@@ -13,6 +16,19 @@ __stage_label() {
   local stage="$1"
   local icon="$2"
   local subject="$3"
+  if command -v fish >/dev/null 2>&1 && [ -f "$__stage_fish_helper" ]; then
+    if [ "${__stage_pending_row:-0}" = 1 ]; then
+      printf '\r\033[2K'
+      __stage_pending_row=0
+    fi
+    if [ "$icon" = '...' ] && { [ -t 1 ] || [ "${TJIKUP_COLOR:-0}" = 1 ]; }; then
+      __stage_pending_row=1
+    fi
+    local -a arguments=("$stage" "$icon" "$subject")
+    [ -z "${STAGE_NOTE:-}" ] || arguments+=("$STAGE_NOTE")
+    fish --no-config -c 'source $argv[1]; status_msg $argv[2..-1]' -- "$__stage_fish_helper" "${arguments[@]}"
+    return
+  fi
   local padded_stage
   local color
   color="$(__stage_color "$stage")"
@@ -69,7 +85,7 @@ stage() {
   ) &
   pid="$!"
 
-  if command -v gum >/dev/null 2>&1 && [ -t 1 ]; then
+  if command -v gum >/dev/null 2>&1 && [ -t 1 ] && [ "${TJIKUP_NO_SPIN:-0}" != 1 ]; then
     gum spin --spinner dot --title "$(__stage_spin_title "$stage_name" "$subject")" -- bash -c \
       'while kill -0 "$1" 2>/dev/null; do sleep 0.2; done' bash "$pid"
   else

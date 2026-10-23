@@ -1,1 +1,1 @@
-{{ include ".chezmoitemplates/consolidate-fonts.py" | replace "args = parser.parse_args()" "args = parser.parse_args(['--apply'])" }}
+{{ include ".chezmoitemplates/consolidate-fonts.py" | replace "args = parser.parse_args()" (printf "args = parser.parse_args(['--apply', '--status-helper', %q])" (joinPath .chezmoi.sourceDir ".chezmoihelpers/status.fish")) }}

@@ -21,12 +21,10 @@ storage
 .config/claude
 .config/dunst
 .config/hypr
-.config/hyprfloat
 .config/hyprvoice
 .config/Mullvad VPN
 .config/quickshell
 .config/solaar
-.config/systemd/user/hyprfloat.service
 .config/systemd/user/hyprlock-login.service
 .config/systemd/user/hyprvoice.service
 .config/xdg-desktop-portal

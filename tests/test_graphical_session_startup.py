@@ -34,10 +34,9 @@ function status_msg; echo (string join ' ' -- $argv); end
                 self.assertEqual('--user start hyprpaper.service' in result.stdout,should_start)
                 self.assertEqual(result.returncode,7 if should_start else 0)
 
-    def test_helpers_cannot_pull_in_session_and_float_stops_with_it(self):
-        for path in ['hyprfloat.service','hyprlock-login.service.tmpl']:
+    def test_lock_helper_cannot_pull_in_session(self):
+        for path in ['hyprlock-login.service.tmpl']:
             text=(REPO/'home/dot_config/systemd/user'/path).read_text()
             self.assertNotIn('\nWants=graphical-session.target',text)
             self.assertNotIn('\nRequires=graphical-session.target',text)
             self.assertIn('PartOf=graphical-session.target',text)
-        self.assertIn('ConditionFileIsExecutable=',(REPO/'home/dot_config/systemd/user/hyprfloat.service').read_text())

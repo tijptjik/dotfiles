@@ -560,8 +560,9 @@ class Store:
 
 
 class Archives:
-    def __init__(self, config, home=None, machine=None, state=None):
+    def __init__(self, config, home=None, machine=None, state=None, report=None):
         self.config = config
+        self.report = report or (lambda phase, folder, note="": None)
         self.home = Path(home or Path.home()).resolve()
         self.machine = host_name(machine or socket.gethostname().split(".")[0])
         self.master = host_name(config["master"])
@@ -678,12 +679,16 @@ class Archives:
             receipt_path = self.state / "backups" / (digest(folder) + ".json")
             previous = read_json(last_path) if last_path.exists() else None
             receipt = read_json(receipt_path) if receipt_path.exists() else None
+            self.report(
+                "CHECK", folder, "compare content hashes with last verified backup"
+            )
             entries, root_mode = fingerprint_tree(
                 self.home / folder,
                 p,
                 self.state / "hash-cache" / (digest(folder) + ".json"),
                 tmp,
             )
+            self.report("METRICS", folder, {"entries": len(entries)})
             same = (
                 not force
                 and previous is not None
@@ -702,6 +707,7 @@ class Archives:
             )
             if same:
                 # Local receipts alone must not hide a missing or replaced remote backup.
+                self.report("CHECK", folder, "confirm existing remote snapshot")
                 try:
                     self.store.get(
                         f"{prefix}/latest.json", tmp / "existing-latest.json"
@@ -724,6 +730,7 @@ class Archives:
                     same = False
             if same:
                 if "retention" in p:
+                    self.report("PRUNE", folder, p["retention"])
                     self.prune(folder, apply=True, verified=receipt)
                 atomic_json(
                     self.state / "checks" / (digest(folder) + ".json"),
@@ -733,8 +740,10 @@ class Archives:
                         "unchanged": True,
                     },
                 )
+                self.report("SKIP", folder, {"entries": len(entries), "size": None})
                 return receipt | {"skipped": True}
             tree = tmp / "tree"
+            self.report("STAGE", folder, "copy files and snapshot SQLite")
             entries, dbs = stage_tree(self.home / folder, tree, p)
             previous_entries = previous["entries"] if previous else {}
             manifest = {
@@ -759,9 +768,11 @@ class Archives:
                 },
             }
             atomic_json(tmp / "manifest.json", manifest)
+            self.report("PACK", folder, f"{len(entries)} entries · {len(dbs)} SQLite")
             pack(tree, entries, tmp / "tree.tar.zst")
             suffix = ".age" if p.get("encrypted", True) else ""
             if suffix:
+                self.report("ENCRYPT", folder, "age")
                 for name in ("manifest.json", "tree.tar.zst"):
                     self.encrypt(tmp / name, tmp / (name + suffix))
             ref = {
@@ -775,6 +786,11 @@ class Archives:
                 "manifest_sha256": file_hash(tmp / ("manifest.json" + suffix)),
                 "archive_sha256": file_hash(tmp / ("tree.tar.zst" + suffix)),
             }
+            self.report(
+                "METRICS",
+                folder,
+                {"size": (tmp / ("tree.tar.zst" + suffix)).stat().st_size},
+            )
             # No latest pointer or local success receipt until remote readback is verified.
             for name, checksum in (
                 ("manifest.json" + suffix, ref["manifest_sha256"]),
@@ -782,16 +798,20 @@ class Archives:
             ):
                 key = f"{prefix}/{snapshot}/{name}"
                 size = (tmp / name).stat().st_size / (1024 * 1024)
+                self.report("UPLOAD", folder, f"{name} · {size:.1f} MiB")
                 self.store.put(tmp / name, key)
+                self.report("CHECK", folder, f"download {name} · {size:.1f} MiB")
                 self.store.get(key, tmp / ("readback-" + name))
                 if file_hash(tmp / ("readback-" + name)) != checksum:
                     raise ArchiveError("Remote readback checksum mismatch")
+            self.report("VERIFY", folder, "extract and check every file")
             decode = self.decrypt if suffix else shutil.copyfile
             decode(tmp / ("readback-tree.tar.zst" + suffix), tmp / "verify.tar.zst")
             unpack(tmp / "verify.tar.zst", entries, tmp / "verified")
             decode(tmp / ("readback-manifest.json" + suffix), tmp / "verify.json")
             if read_json(tmp / "verify.json") != manifest:
                 raise ArchiveError("Remote manifest differs")
+            self.report("PUBLISH", folder, "completion and latest pointers")
             atomic_json(tmp / "ref.json", ref)
             self.store.put(tmp / "ref.json", f"{prefix}/{snapshot}/complete.json")
             self.store.put(tmp / "ref.json", f"{prefix}/latest.json", immutable=False)
@@ -801,8 +821,16 @@ class Archives:
             atomic_json(self.state / "backups" / (digest(folder) + ".json"), ref)
             atomic_json(last_path, manifest)
             if "retention" in p:
+                self.report("PRUNE", folder, p["retention"])
                 self.prune(folder, apply=True, verified=ref)
-            print(f"Verified {self.machine}:{folder} {snapshot}", flush=True)
+            self.report(
+                "DONE",
+                folder,
+                {
+                    "entries": len(entries),
+                    "size": (tmp / ("tree.tar.zst" + suffix)).stat().st_size,
+                },
+            )
             return ref
 
     def prune(self, folder, apply=False, verified=None):

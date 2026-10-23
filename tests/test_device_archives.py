@@ -250,6 +250,22 @@ class ArchiveIntegrationTests(unittest.TestCase):
         self.config["folders"][".shared"]["exclude"] = []
         self.assertNotIn("skipped", self.fi.backup(".shared"))
 
+    def test_backup_progress_reports_success_only_after_verification(self):
+        events = []
+        self.fi.report = lambda phase, folder, note: events.append(phase)
+        self.fi.backup(".shared")
+        self.assertEqual(events[0], "CHECK")
+        self.assertLess(events.index("UPLOAD"), events.index("VERIFY"))
+        self.assertLess(events.index("VERIFY"), events.index("PUBLISH"))
+        self.assertEqual(events[-1], "DONE")
+        events.clear()
+        with patch.object(
+            self.fi.store, "get", side_effect=ArchiveError("failed readback")
+        ):
+            with self.assertRaises(ArchiveError):
+                self.fi.backup(".shared")
+        self.assertNotIn("PUBLISH", events)
+        self.assertNotIn("DONE", events)
 
     def test_device_groups_match_chezmoi_roles(self):
         self.config["device_groups"] = {

@@ -11,6 +11,7 @@ import sqlite3
 import tempfile
 
 from .core import Archives, ArchiveError, read_json, scan, safe_name, digest
+from .feedback import Feedback
 
 
 def review(archives, plan_path, file):
@@ -208,20 +209,38 @@ def main():
                 folders = args.folders or [
                     f for f in config["folders"] if app.eligible(f)
                 ]
+                feedback = Feedback()
+                feedback.header(app.machine, len(folders))
+                app.report = feedback.event
                 failures = []
-                for folder in folders:
+                skipped = 0
+                for index, folder in enumerate(folders, 1):
                     try:
-                        app.backup(folder, force=args.force)
+                        with feedback.folder(folder, index, len(folders)):
+                            result = app.backup(folder, force=args.force)
+                            skipped += bool(result.get("skipped"))
                     except (
                         ArchiveError,
                         OSError,
                         subprocess.CalledProcessError,
                         sqlite3.Error,
-                    ) as error:
+                    ):
                         failures.append(folder)
-                        print(f"FAILED {folder}: {error}", file=sys.stderr, flush=True)
+                        # The presenter has already shown this folder's failure.
                 if failures:
-                    raise ArchiveError("Failed folders: " + ", ".join(failures))
+                    feedback.row(
+                        "FAILED",
+                        "✗",
+                        "Device Archives",
+                        f"{len(folders) - len(failures) - skipped} backed up · {skipped} unchanged · {len(failures)} failed",
+                    )
+                    sys.exit(1)
+                feedback.row(
+                    "COMPLETE",
+                    "✓",
+                    "Device Archives",
+                    f"{len(folders) - skipped} backed up · {skipped} unchanged",
+                )
             elif args.command == "prune":
                 for folder in args.folders or [
                     f for f in config["folders"] if app.eligible(f)
@@ -280,6 +299,8 @@ def main():
                         )
                     )
                 )
+    except KeyboardInterrupt:
+        sys.exit(130)
     except (
         ArchiveError,
         OSError,

@@ -6,6 +6,17 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 section_header "Systemd User Units"
 
+{{ if .isDesktop -}}
+# The desktop owns account refreshes and reconnects the laptop tunnel.
+systemctl --user daemon-reload
+systemctl --user enable --now codex-lb.service codex-lb-laptop.service
+{{ else if .isLaptop -}}
+# Preserve the old database for recovery, but never run a second token refresher.
+systemctl --user disable --now codex-lb.service
+systemctl --user daemon-reload
+systemctl --user enable --now codex-lb-client.socket
+{{ end -}}
+
 function user_units_need_reload
     set -l need_reload (systemctl --user show --property=NeedDaemonReload --value 2>/dev/null)
     test "$need_reload" = yes

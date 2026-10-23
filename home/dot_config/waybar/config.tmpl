@@ -275,7 +275,7 @@
       "format": "{}",
       "interval": 30,
       "return-type": "json",
-      "exec": "$HOME/.config/waybar/codex.py",
+      "exec": "$HOME/.config/waybar/codex.py{{ if .isLaptop }} --api{{ end }}",
       "exec-if": "test -f $HOME/.codex-lb/store.db"
     },
     "custom/openrouter": {

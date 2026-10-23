@@ -30,8 +30,8 @@ startup.subscription = hl.on("hyprland.start", function()
     -- Waybar is launched outside an interactive terminal. Start it through
     -- Fish so the managed conf.d secrets (including OPENROUTER_API_KEY) are
     -- available to its custom modules.
-    -- Use Fish's tilde expansion to avoid systemd-run consuming $HOME first.
-    hl.exec_cmd("uwsm app -- fish -lc 'exec ~/.local/bin/waybar'")
+    -- Prefer the custom build, with a fallback for machines without it.
+    hl.exec_cmd("uwsm app -- fish -lc 'if test -x ~/.local/bin/waybar; exec ~/.local/bin/waybar; else; exec /usr/bin/waybar; end'")
     hl.exec_cmd("uwsm app -- qs -c hamr")
 
     hl.exec_cmd("dconf load /org/gnome/desktop/interface/ < ~/.config/dconf/interface.conf")

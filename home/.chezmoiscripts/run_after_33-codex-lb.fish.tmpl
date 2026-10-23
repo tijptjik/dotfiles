@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
-{{ if .isClient -}}
+{{ if .isDesktop -}}
 function sync_codex_lb
     set -l runtime "$HOME/.codex-lb/runtime"
     if not test -x "$runtime/bin/python"
@@ -15,6 +15,8 @@ function sync_codex_lb
 end
 
 stage "Codex LB runtime" UPDATE "Codex LB" sync_codex_lb
+{{ else if .isLaptop -}}
+status_msg SKIP "-" "Codex LB" "uses desktop master via SSH tunnel"
 {{ else -}}
 status_msg SKIP "-" "Codex LB" "client only"
 {{ end -}}

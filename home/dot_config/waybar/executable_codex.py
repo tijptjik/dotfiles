@@ -4,7 +4,9 @@ import json
 import sqlite3
 import sys
 import time
+from datetime import datetime
 from pathlib import Path
+from urllib.request import urlopen
 
 DB_PATH = Path.home() / ".codex-lb" / "store.db"
 WINDOWS = ("weekly",)
@@ -109,6 +111,27 @@ def load_rows() -> list[sqlite3.Row]:
         connection.close()
 
 
+def load_api_rows() -> list[dict]:
+    # Laptop requests reach the desktop through the localhost SSH relay.
+    with urlopen("http://127.0.0.1:2455/api/accounts", timeout=5) as response:
+        accounts = json.load(response)["accounts"]
+    rows = []
+    for account in accounts:
+        if account["status"] != "active":
+            continue
+        if account.get("windowMinutesSecondary") not in (None, 10080):
+            continue
+        reset = account.get("resetAtSecondary")
+        rows.append({
+            "label": account.get("alias") or account["email"],
+            "plan_type": account["planType"].lower(),
+            "window_name": "weekly",
+            "remaining_percent": (account.get("usage") or {}).get("secondaryRemainingPercent"),
+            "reset_at": int(datetime.fromisoformat(reset.replace("Z", "+00:00")).timestamp()) if reset else None,
+        })
+    return rows
+
+
 def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
     accounts: dict[str, dict[str, object]] = {}
     for row in rows:
@@ -177,7 +200,8 @@ def build_payload(rows: list[sqlite3.Row]) -> dict[str, str]:
 
 
 def main() -> None:
-    if not DB_PATH.exists():
+    use_api = "--api" in sys.argv[1:]
+    if not use_api and not DB_PATH.exists():
         payload = {
             "text": "󰃭 -",
             "tooltip": f"Missing database: {DB_PATH}",
@@ -186,7 +210,7 @@ def main() -> None:
         }
     else:
         try:
-            payload = build_payload(load_rows())
+            payload = build_payload(load_api_rows() if use_api else load_rows())
         except Exception as error:
             payload = {
                 "text": "󰃭 -",

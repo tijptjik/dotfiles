@@ -1,6 +1,7 @@
 # ~/.config/systemd/user/codex-lb.service
 [Unit]
 Description=Codex Load Balancer (local runtime)
+ConditionHost=fi
 After=network-online.target
 Wants=network-online.target
 

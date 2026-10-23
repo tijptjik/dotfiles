@@ -224,4 +224,3 @@ hl.bind(super("P"), hl.dsp.exec_cmd("hyprctl keyword monitorv2.sdrbrightness 0.8
 hl.bind(super("P", "CTRL"), hl.dsp.exec_cmd("hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m window --clipboard-only --freeze --silent;hyprctl reload"))
 hl.bind(super("P", "SHIFT"), hl.dsp.exec_cmd("hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m region --freeze --silent;hyprctl reload"))
 hl.bind(super("P", "SHIFT", "CTRL"), hl.dsp.exec_cmd("hyprctl keyword monitorv2.sdrbrightness 0.8;hyprshot -o ~/media/images/screenshots -m window --freeze --silent;hyprctl reload"))
-hl.bind(super("G"), hl.dsp.exec_cmd("uwsm app -- kitty -e " .. tools .. "/swayrec/swayrec"))

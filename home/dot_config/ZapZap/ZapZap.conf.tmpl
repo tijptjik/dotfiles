@@ -1,0 +1,3 @@
+{{- if and .isClient (hasKey .zapzapConfigs .chezmoi.hostname) -}}
+{{ index .zapzapConfigs .chezmoi.hostname -}}
+{{- end -}}

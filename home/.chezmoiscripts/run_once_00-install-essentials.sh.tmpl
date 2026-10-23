@@ -64,4 +64,5 @@ update_system_packages() {
 stage "system package updates" "SYNC" "System packages (best effort)" update_system_packages
 
 # Install essential packages
-stage "essential packages" "INSTALL" "Essential packages" sudo dnf install -y sudo kitty fish git chezmoi age gum
+# Chezetc uses python3 from PATH, independently of the home uv environment.
+stage "essential packages" "INSTALL" "Essential packages" sudo dnf install -y sudo kitty fish git chezmoi age gum python3-tomli python3-tomli-w

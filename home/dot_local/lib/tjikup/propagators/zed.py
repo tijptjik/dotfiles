@@ -40,7 +40,11 @@ def update_template(source_path: Path, target_path: Path, output_path: Path) -> 
             continue
         try:
             target_value = get_path(target, path)
-        except (KeyError, IndexError, TypeError):
+        except (KeyError, IndexError):
+            # Source settings may not have been applied to this host yet.
+            # Scalar propagation cannot infer a deletion from their absence.
+            continue
+        except TypeError:
             structural_paths.append(path)
             continue
         start, end = spans[-1]

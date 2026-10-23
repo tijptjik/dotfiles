@@ -143,6 +143,8 @@ tjikup
 
 Use `tjikup --dry-run` to preview template changes without modifying Git or applying Chezmoi changes.
 
+Zed propagation updates existing scalar settings and preserves template settings absent from the live config, including settings not yet applied to this host. To remove a managed setting, edit its Chezmoi template.
+
 On clients, `chezmoi apply` (including through `tjikup`) installs or updates `codex-lb` in `~/.codex-lb/runtime`. After an update, run `systemctl --user restart codex-lb.service` between Codex sessions to activate it; the update script leaves the running proxy alone to avoid interrupting requests.
 
 Use `tjikup --skip-conflicts` to automatically skip conflicting files during Chezmoi and Chezetc apply, preserving their local contents while applying other changes. Other apply errors still fail the command.

@@ -15,6 +15,58 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "home/dot_local/lib
 
 import tjikup
 from tjikup.core import UpdateError
+from tjikup.propagators.zed import update_template
+
+
+class ZedPropagationTests(unittest.TestCase):
+    def propagate(self, source_text, target_text):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source, target, output = (root / name for name in ("source", "target", "output"))
+            source.write_text(source_text)
+            target.write_text(target_text)
+            update_template(source, target, output)
+            return output.read_text()
+
+    def test_missing_settings_preserved_while_shared_scalar_updates(self):
+        source = '''{
+  // Settings not yet applied on this host.
+  "markdown_preview": {"limit_content_width": false},
+  "lsp": {"biome": {"binary": {
+    "path": "{{ .chezmoi.homeDir }}/.bun/bin/biome",
+    "arguments": ["lsp-proxy"]
+  }}},
+  "font_size": 14
+}'''
+        updated = self.propagate(source, '{"lsp": {}, "font_size": 16}')
+        self.assertEqual(updated, source.replace('"font_size": 14', '"font_size": 16'))
+
+    def test_incompatible_structure_still_fails(self):
+        for target in ('{"setting": null}', '{"setting": false}'):
+            with self.subTest(target=target), self.assertRaises(UpdateError):
+                self.propagate('{"setting": ["value"]}', target)
+
+    def test_shorter_live_array_preserves_missing_source_entries(self):
+        self.assertEqual(
+            self.propagate('{"models": ["a", "b"]}', '{"models": ["c"]}'),
+            '{"models": ["c", "b"]}',
+        )
+
+
+class PrerequisiteTests(unittest.TestCase):
+    def test_toml_check_uses_chezetc_python_from_path(self):
+        with patch.object(tjikup.shutil, "which", return_value="/usr/bin/python3"), \
+                patch.object(tjikup.subprocess, "run") as command:
+            command.return_value.returncode = 0
+            self.assertTrue(tjikup.has_python_modules("tomli", "tomli_w"))
+            self.assertEqual(command.call_args.args[0],
+                             ["/usr/bin/python3", "-c", "import tomli; import tomli_w"])
+            command.return_value.returncode = 1
+            self.assertFalse(tjikup.has_python_modules("tomli", "tomli_w"))
+
+    def test_missing_python_reports_unavailable(self):
+        with patch.object(tjikup.shutil, "which", return_value=None):
+            self.assertFalse(tjikup.has_python_modules("tomli", "tomli_w"))
 
 
 class ApplyTests(unittest.TestCase):

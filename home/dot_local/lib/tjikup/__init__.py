@@ -438,7 +438,7 @@ def run_checks(repo: Path) -> None:
             "Chezmoi",
             [
                 ("Decryption Key", (Path.home() / ".keys/chezmoi.txt").is_file()),
-                ("TOML modules", has_python_modules("tomli", "tomli_w")),
+                ("Chezetc TOML modules", has_python_modules("tomli", "tomli_w")),
             ],
         ),
     ]
@@ -701,8 +701,13 @@ def report_summary(repo: Path, report_file: Path, *, dry_run: bool = False) -> N
 
 
 def has_python_modules(*modules: str) -> bool:
+    # Chezetc and its TOML merge helper resolve python3 through PATH, which
+    # may differ from the interpreter running tjikup.
+    python = shutil.which("python3")
+    if python is None:
+        return False
     result = subprocess.run(
-        [sys.executable, "-c", "; ".join(f"import {module}" for module in modules)],
+        [python, "-c", "; ".join(f"import {module}" for module in modules)],
         text=True,
         capture_output=True,
         check=False,

@@ -43,14 +43,11 @@ function units_need_enable_now
 end
 
 function configure_common_user_units
+    loginctl enable-linger (id -un); or return $status
     systemctl --user daemon-reload
-    if "$HOME/.local/bin/device-archives" ready >/dev/null 2>&1
-        systemctl --user enable --now backup-packages.timer
-    else
-        # A new laptop must pull reviewed sync folders before its first backup.
-        systemctl --user disable --now backup-packages.timer
-        status_msg SKIP "-" "Device archives" "initial sync from fi required"
-    end
+    # The timer stays enabled; ExecCondition gates backups when initial sync is required.
+    systemctl --user enable backup-packages.timer
+    systemctl --user restart backup-packages.timer
 end
 
 if user_units_need_reload; or unit_needs_enable_now backup-packages.timer

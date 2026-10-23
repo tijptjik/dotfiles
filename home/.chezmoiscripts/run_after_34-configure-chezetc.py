@@ -3,6 +3,9 @@
 
 from pathlib import Path
 import re
+import os
+import subprocess
+import tempfile
 
 
 TJIKUP_ENV = (
@@ -30,8 +33,19 @@ def configure_chezetc(wrapper: Path) -> None:
     names.extend(name for name in TJIKUP_ENV if name not in names)
     updated = source[:match.start(1)] + ",".join(names) + source[match.end(1):]
     if updated != source:
-        wrapper.write_text(updated)
+        if os.access(wrapper, os.W_OK):
+            wrapper.write_text(updated)
+        else:
+            with tempfile.NamedTemporaryFile(mode="w") as staged:
+                staged.write(updated)
+                staged.flush()
+                subprocess.run(["sudo", "install", "-o", "root", "-g", "root",
+                                "-m", "755", staged.name, str(wrapper)], check=True)
 
 
 if __name__ == "__main__":
-    configure_chezetc(Path.home() / ".tools/chezetc/chezetc")
+    wrapper = Path("/opt/chezetc/chezetc")
+    installer = Path.home() / ".local/share/chezetc/scripts/install-chezetc-wrapper.sh"
+    if not wrapper.is_file() and installer.is_file():
+        subprocess.run(["bash", str(installer)], check=True)
+    configure_chezetc(wrapper if wrapper.is_file() else Path.home() / ".tools/chezetc/chezetc")

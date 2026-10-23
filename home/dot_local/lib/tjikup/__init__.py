@@ -623,7 +623,10 @@ def push_committed_chezetc(status_repo: Path) -> None:
 
 
 def apply_chezetc(repo: Path, *, skip_conflicts: bool = False) -> None:
-    chezetc = shutil.which("chezetc") or str(Path.home() / ".tools/chezetc/chezetc")
+    managed_wrapper = Path("/opt/chezetc/chezetc")
+    chezetc = shutil.which("chezetc") or str(
+        managed_wrapper if managed_wrapper.is_file() else Path.home() / ".tools/chezetc/chezetc"
+    )
     config = Path.home() / ".config/chezmoi/chezetc/chezmoi.toml"
     repo_header(repo, "Tijpcetera", "https://github.com/tijptjik/etcfiles")
     environment = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"}

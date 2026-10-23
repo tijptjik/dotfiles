@@ -2,7 +2,8 @@
 Description=Hyprfloat daemon
 Documentation=https://github.com/nevimmu/hyprfloat
 After=graphical-session.target
-Wants=graphical-session.target
+PartOf=graphical-session.target
+ConditionFileIsExecutable=%h/.local/bin/hyprfloat
 
 [Service]
 Type=simple

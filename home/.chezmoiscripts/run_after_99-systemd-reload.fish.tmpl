@@ -63,8 +63,23 @@ end
 set client_services "hyprpolkitagent.service" "hypridle.service" "hyprpaper.service"
 
 function configure_client_user_units
+    # Enabling a graphical helper must not create a session during SSH/apply.
+    # In particular hyprpaper Requires=graphical-session.target; --now would
+    # activate an empty session that UWSM then refuses to replace at login.
+    set -l start_now 0
+    if systemctl --user --quiet is-active graphical-session.target
+        if systemctl --user show-environment | string match -qr '^WAYLAND_DISPLAY=.'
+            set start_now 1
+        end
+    end
     for service in $argv
-        systemctl --user enable --now $service; or return $status
+        systemctl --user enable $service; or return $status
+        if test $start_now -eq 1
+            systemctl --user start $service; or return $status
+        end
+    end
+    if test $start_now -eq 0
+        status_msg SKIP "-" "Desktop services" "waiting for graphical login"
     end
 end
 

@@ -47,10 +47,20 @@ tooltip label {
   padding: 6px 12px;
 }
 
-/* Laptop islands are intentionally more compact than the desktop layout. */
+/* Keep each side of the single-screen laptop bar as one compact, solid pill. */
+window#waybar.laptop .modules-left,
+window#waybar.laptop .modules-right {
+  background-color: @base01;
+  border-radius: 10px;
+}
+
 window#waybar.laptop .modules-right > widget > *,
 window#waybar.laptop .modules-center > widget > *,
 window#waybar.laptop .modules-left > widget > * {
+  background-color: transparent;
+  border-radius: 0;
+  margin-left: 0;
+  margin-right: 0;
   padding-top: 2px;
   padding-bottom: 2px;
 }
@@ -65,6 +75,7 @@ window#waybar.laptop .modules-left > widget > * {
 window#waybar.laptop #workspaces {
   padding-top: 1px;
   padding-bottom: 1px;
+  border-radius: 0;
 }
 
 /* Keep the Wi-Fi name and Mullvad indicator as one compact island. */
@@ -78,6 +89,16 @@ window#waybar.laptop #network {
 window#waybar.laptop #custom-caffeine,
 window#waybar.laptop #custom-nightlight {
   font-size: 23px;
+}
+
+window#waybar.laptop #tray,
+window#waybar.laptop #temperature,
+window#waybar.laptop #custom-tailscale,
+window#waybar.laptop #pulseaudio,
+window#waybar.laptop #custom-input-method {
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 0;
 }
 
 #workspaces button {
@@ -315,4 +336,22 @@ window#waybar.laptop #custom-input-method {
 
 #temperature.critical * {
     color: @base0F;
+}
+
+/* These must follow the shared pill rules so laptop modules remain seamless. */
+window#waybar.laptop #tray,
+window#waybar.laptop #temperature,
+window#waybar.laptop #network,
+window#waybar.laptop #custom-vpn,
+window#waybar.laptop #custom-tailscale,
+window#waybar.laptop #custom-audio-output,
+window#waybar.laptop #pulseaudio,
+window#waybar.laptop #clock,
+window#waybar.laptop #custom-input-method,
+window#waybar.laptop #custom-notifications,
+window#waybar.laptop #custom-caffeine,
+window#waybar.laptop #custom-nightlight {
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 0;
 }

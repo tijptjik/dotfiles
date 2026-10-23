@@ -302,17 +302,13 @@ function helpers.start_zen_extensions()
                     return true
                 end
 
-                local x = math.floor(monitor.x + (monitor.width - extension.width) / 2)
-                local y = math.floor(monitor.y + (monitor.height - extension.height) / 2)
-                local max_x = monitor.x + monitor.width - extension.width
-                local max_y = monitor.y + monitor.height - extension.height
-
-                x = math.max(monitor.x, math.min(x, max_x))
-                y = math.max(monitor.y, math.min(y, max_y))
-
                 hl.dispatch(hl.dsp.window.float({ action = "set", window = window }))
                 hl.dispatch(hl.dsp.window.resize({ x = extension.width, y = extension.height, relative = false, window = window }))
-                hl.dispatch(hl.dsp.window.move({ x = x, y = y, relative = false, window = window }))
+                -- Let Hyprland center the window in its own coordinate space.
+                -- The monitor geometry exposed by hyprload can be physical
+                -- pixels on scaled displays (such as li's scale-2 panel), while
+                -- window move coordinates are logical pixels.
+                hl.dispatch(hl.dsp.window.center({ window = window }))
                 return true
             end
         end

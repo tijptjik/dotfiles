@@ -46,11 +46,14 @@ hl.window_rule({
     match = { class = "kitty" },
 })
 
--- Playwright's headed Chrome windows must not interrupt the active
--- workspace. Workspace 10 is assigned to the primary monitor in workspaces.lua.
+-- Playwright's headed Chrome windows must not interrupt the active workspace.
 hl.window_rule({
     name = "playwright-chrome",
+{{- if .isDesktop }}
     workspace = "10 silent",
+{{- else if .isLaptop }}
+    workspace = "6 silent",
+{{- end }}
     no_initial_focus = true,
     match = {
         initial_class = "^google-chrome$",
@@ -63,7 +66,7 @@ hl.window_rule({
 {{- if .isDesktop }}
     workspace = "12 silent",
 {{- else if .isLaptop }}
-    workspace = "2 silent",
+    workspace = "7 silent",
 {{- end }}
     no_initial_focus = true,
     match = { class = "kitty", title = "^(herdr ~)$" },
@@ -86,7 +89,11 @@ hl.window_rule({
 
 hl.window_rule({
     name = "codex-lb",
+{{- if .isDesktop }}
     workspace = "15 silent",
+{{- else if .isLaptop }}
+    workspace = "6 silent",
+{{- end }}
     no_initial_focus = true,
     match = { class = "FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N" },
 })
@@ -108,7 +115,7 @@ hl.window_rule({
 {{- if .isDesktop }}
     workspace = "14 silent",
 {{- else if .isLaptop }}
-    workspace = "3 silent",
+    workspace = "7 silent",
 {{- end }}
     no_initial_focus = true,
     match = { class = "FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD" },
@@ -209,9 +216,22 @@ hl.window_rule({
     match = { class = "^(feishin)$" },
 })
 
+{{- if .isLaptop }}
+hl.window_rule({
+    name = "spotify",
+    workspace = "10 silent",
+    no_initial_focus = true,
+    match = { class = "^(Spotify|spotify)$" },
+})
+{{- end }}
+
 hl.window_rule({
     name = "plex",
+{{- if .isDesktop }}
     workspace = "8",
+{{- else if .isLaptop }}
+    workspace = "10",
+{{- end }}
     fullscreen = true,
     monitor = "0",
     match = { title = "^(Plex*)" },
@@ -253,7 +273,11 @@ hl.window_rule({
     name = "steam-games",
     fullscreen = true,
     monitor = "0",
+{{- if .isDesktop }}
     workspace = "10",
+{{- else if .isLaptop }}
+    workspace = "9",
+{{- end }}
     border_size = 0,
     no_anim = true,
     match = { class = "^steam_app\\d+|gamescope$" },

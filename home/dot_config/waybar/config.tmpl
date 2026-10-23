@@ -10,24 +10,23 @@
     "layer": "top",
     "position": "bottom",
     "height": 36,
-    "margin-left": 24,
-    "margin-right": 24,
-    "margin-bottom": 16,
-    "spacing": 3,
+    "margin-left": 64,
+    "margin-right": 64,
+    "margin-bottom": 32,
+    "spacing": 0,
     "modules-left": [
       "ext/workspaces",
-      "custom/mediaplayer"
+      "custom/mediaplayer",
+      "tray",
+      "custom/input-method"
     ],
     "modules-right": [
-      "tray",
-      "temperature",
       "network",
       "custom/vpn",
       "custom/tailscale",
       "custom/audio-output",
       "pulseaudio",
       "clock",
-      "custom/input-method",
       "custom/notifications",
       "custom/caffeine",
       "custom/nightlight"
@@ -60,15 +59,6 @@
       "ignore-list": ["Input Method"],
       "icon-size": 21,
       "spacing": 14
-    },
-    "temperature": {
-      "hwmon-path-abs": "/sys/devices/pci0000:00/0000:00:18.3/hwmon",
-      "input-filename": "temp1_input",
-      "warning-threshold": 60,
-      "critical-threshold": 80,
-      "format": "{icon} {temperatureC}°C",
-      "format-critical": "󰸁 {temperatureC}°C",
-      "format-icons": ["󱃃", "󰔏", "󱃂"]
     },
     "network": {
       "format": "{ifname}",
@@ -157,30 +147,6 @@
       "exec": "$HOME/.config/waybar/powerbutton.fish nightlight",
       "on-click": "$HOME/.config/waybar/powerbutton.fish toggle-filter",
       "on-click-middle": "systemctl poweroff"
-    }
-  },
-  {
-    "output": "DP-4",
-    "mode": "hide",
-    "on-sigusr1": "HIDE",
-    "on-sigusr2": "SHOW",
-    "layer": "top",
-    "position": "bottom",
-    "height": 40,
-    "spacing": 12,
-    "modules-center": [
-      "ext/workspaces"
-    ],
-    "ext/workspaces": {
-      "format": "{icon} {name}",
-      "on-click": "activate",
-      "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
-      "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
-      "format-icons": {
-        "default": "\uf10c",
-        "active": "\uf111",
-        "10": "\uf11b"
-      }
     }
   }
 {{- else if .isDesktop }}

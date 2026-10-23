@@ -60,11 +60,11 @@ end
 
 {{ if .isClient -}}
 
-set client_services "hyprpolkitagent.service" "hypridle.service" "hyprpaper.service" "hyprvoice.service"
+set client_services "hyprpolkitagent.service" "hypridle.service" "hyprpaper.service"
 
 function configure_client_user_units
     for service in $argv
-        systemctl --user enable --now $service
+        systemctl --user enable --now $service; or return $status
     end
 end
 
@@ -73,6 +73,30 @@ if user_units_need_reload; or units_need_enable_now $client_services
 else
     status_msg SKIP "✓" "Clients Units" "no changes"
 end
+
+# Voice capture belongs to the graphical session, not the lingering user manager.
+function configure_hyprvoice_unit
+    if test -L "$HOME/.config/systemd/user/default.target.wants/hyprvoice.service"
+        systemctl --user reenable hyprvoice.service; or return $status
+    else
+        systemctl --user enable hyprvoice.service; or return $status
+    end
+    if not test -x "$HOME/.local/bin/hyprvoice"
+        status_msg SKIP "-" "Hyprvoice" "not installed"
+        return 0
+    end
+    if not systemctl --user show-environment | string match -qr '^WAYLAND_DISPLAY=.'
+        status_msg SKIP "-" "Hyprvoice" "waiting for Wayland"
+        return 0
+    end
+    if systemctl --user --quiet is-active hyprvoice.service
+        status_msg SKIP "✓" "Hyprvoice" "running"
+        return 0
+    end
+    stage_note "Hyprvoice" CONFIG "Hyprvoice" started systemctl --user start hyprvoice.service
+end
+
+configure_hyprvoice_unit; or exit $status
 
 # This unit is deliberately enabled without --now: starting it during a
 # chezmoi apply would lock the currently active graphical session.  systemd

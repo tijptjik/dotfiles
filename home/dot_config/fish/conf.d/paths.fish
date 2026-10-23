@@ -49,7 +49,6 @@ fish_add_path $CONFIG/rclone
 fish_add_path $TOOLS/chezetc
 fish_add_path $TOOLS/bws
 fish_add_path $TOOLS/peco
-fish_add_path $TOOLS/yt-dlp
 fish_add_path $TOOLS/tennis
 
 # Code

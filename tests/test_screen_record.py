@@ -39,12 +39,16 @@ class ScreenRecordTests(unittest.TestCase):
         self.assertEqual(popen.call_count, 1)
 
     def test_cancelled_countdown_never_starts_recording(self):
-        child = Mock(returncode=0)
-        child.communicate.return_value = ('100x100+0+0', None)
+        selection = Mock(returncode=0)
+        selection.communicate.return_value = ('100x100+0+0', None)
+        countdown = Mock()
+        countdown.wait.return_value = 0
         stopped = Mock()
-        stopped.is_set.return_value = False
-        stopped.wait.return_value = True
+        stopped.is_set.side_effect = [False, False, False, True]
         with patch.object(recorder.signal, 'signal'), patch.object(recorder.threading, 'Event', return_value=stopped), \
-             patch.object(recorder, 'notify'), patch.object(recorder.subprocess, 'Popen', return_value=child) as popen:
+             patch.object(recorder, 'notify') as notify, \
+             patch.object(recorder.subprocess, 'Popen', side_effect=[selection, countdown]) as popen:
             recorder.record()
-        self.assertEqual(popen.call_count, 1)
+        self.assertEqual(popen.call_count, 2)
+        self.assertIn('countdown', popen.call_args.args[0])
+        notify.assert_not_called()

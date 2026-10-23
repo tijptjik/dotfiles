@@ -47,7 +47,7 @@
         "all"
       ]
     },
-    ".fonts": {
+    ".local/share/fonts": {
       "mode": "sync",
       "review": "files",
       "exclude": [
@@ -201,6 +201,17 @@
       ],
       "sqlite": [
         "store.db"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".local/share/device-archives-policy": {
+      "mode": "master-backup",
+      "include": [
+        "archive-policy.json"
       ],
       "encrypted": true,
       "retention": "daily-weekly-monthly",

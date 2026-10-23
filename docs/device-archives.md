@@ -31,16 +31,23 @@ or a mixture; overlapping selections are deduplicated. For example:
 
 | Devices | Folders | Policy |
 | --- | --- | --- |
-| All | `.ssh`, `.gnupg`, `.local/share/icons`, `.local/share/backgrounds`, `.fonts` | Reviewed sync |
+| All | `.ssh`, `.gnupg`, `.local/share/icons`, `.local/share/backgrounds`, `.local/share/fonts` | Reviewed sync |
 | Clients | `.config/Bazecor`, `.var/app/rocks.koreader.KOReader/config/koreader` | Reviewed sync |
 | Clients | `.config/sublime-text`, `.config/waybar/crypto` | Exact mirror from `fi` |
 | Clients | `.duckdb`, `.mozilla` | Independent device backups |
 | Desktop | `.config/unity3d`, `.var/app/org.yuzu_emu.yuzu/config`, Yuzu data folders listed in the policy | Desktop backups |
+| Desktop | `.local/share/device-archives-policy` | Encrypted recovery copy of the archive policy; daily/weekly/monthly retention |
 | Desktop | `.codex-lb` | Master backup of `store.db` and its matching `encryption.key` |
 
 SSH and GnuPG conflicts support text diffs. Asset and application conflicts are
 reviewed through file lists, sizes, and hashes. `.obsidian` is a chezmoi Git
 external. Beekeeper Studio and QGIS are outside this backup policy.
+
+User fonts live in `~/.local/share/fonts`. `~/.fonts` is a compatibility symlink
+and is not archived separately. Chezmoi consolidates both locations before
+applying files, refuses differing files at the same relative path, and preserves
+the original directory under `~/.local/state/font-migration/` for rollback.
+Font caches are rebuilt locally; they are not synchronized.
 
 Inspect assignments:
 
@@ -315,7 +322,7 @@ can otherwise write its old settings back at exit.
    `systemctl --user list-timers backup-packages.timer`. Si has no mandatory
    initial-sync gate and backs up its own assigned folders daily at 00:30.
 3. Run `device-archives setup --from fi` to review the five shared folders:
-   `.ssh`, `.gnupg`, `.local/share/icons`, `.local/share/backgrounds`, and `.fonts`.
+   `.ssh`, `.gnupg`, `.local/share/icons`, `.local/share/backgrounds`, and `.local/share/fonts`.
    Preserve server-specific keys and authorization files when resolving
    conflicts. Keep the current SSH session open until access has been checked
    from a second session after applying SSH changes.

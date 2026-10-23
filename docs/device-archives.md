@@ -38,6 +38,7 @@ or a mixture; overlapping selections are deduplicated. For example:
 | Desktop | `.config/unity3d`, `.var/app/org.yuzu_emu.yuzu/config`, Yuzu data folders listed in the policy | Desktop backups |
 | Desktop | `.local/share/device-archives-policy` | Encrypted recovery copy of the archive policy; daily/weekly/monthly retention |
 | Desktop | `.codex-lb` | Master backup of `store.db` and its matching `encryption.key` |
+| Desktop | `.electrum`, `.local/share/keyrings`, `.config/gh`, `.config/gcloud`, `.keys` | Encrypted independent recovery snapshots; daily/weekly/monthly retention |
 
 SSH and GnuPG conflicts support text diffs. Asset and application conflicts are
 reviewed through file lists, sizes, and hashes. `.obsidian` is a chezmoi Git
@@ -363,3 +364,5 @@ Every chezmoi apply sets Mullvad's persistent LAN-sharing policy to `allow`
 when the CLI is installed, including on clients and servers. Hosts without
 Mullvad skip this step. This permits local-network SSH while the VPN is on;
 it does not disconnect the VPN or change its relay settings.
+
+Recovery credentials in `.keys` are backed up encrypted, but the age identity must also remain recoverable independently (for example in Bitwarden). The encrypted archive cannot recover its own lost decryption identity. These credential folders are recovery backups, not cross-device synchronization.

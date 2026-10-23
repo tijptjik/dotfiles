@@ -218,6 +218,46 @@
       "devices": [
         "desktop"
       ]
+    },
+    ".electrum": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".local/share/keyrings": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".config/gh": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".config/gcloud": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".keys": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
     }
   },
   "device_groups": {

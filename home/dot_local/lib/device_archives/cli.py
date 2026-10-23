@@ -74,16 +74,31 @@ def review(archives, plan_path, file):
 def main():
     os.umask(0o077)
     parser = argparse.ArgumentParser(
-        description="Verified encrypted device backups and reviewed directory sync"
+        description="Verified device backups and reviewed directory sync"
     )
     parser.add_argument(
         "--config", type=Path, default=Path.home() / ".config/archive-policy.json"
     )
     sub = parser.add_subparsers(dest="command", required=True)
-    sub.add_parser("status", help="Show policy and last backup/sync receipts")
+    st = sub.add_parser("status", help="Show policy and local backup/sync receipts")
+    st.add_argument(
+        "--devices",
+        "--targets",
+        nargs="+",
+        help="Filter folder assignments by device groups or hostnames; does not run remotely",
+    )
+    dv = sub.add_parser(
+        "devices", help="Resolve device selectors and list folder assignments"
+    )
+    dv.add_argument("selectors", nargs="*", default=["all"])
     sub.add_parser("ready", help="Check whether this device completed its initial sync")
     b = sub.add_parser("backup", help="Snapshot configured folders without syncing")
     b.add_argument("folders", nargs="*")
+    p = sub.add_parser(
+        "prune", help="Preview retention; --apply deletes superseded snapshots"
+    )
+    p.add_argument("folders", nargs="*")
+    p.add_argument("--apply", action="store_true")
     s = sub.add_parser(
         "sync", help="Write a reviewable three-way plan; does not apply it"
     )
@@ -131,12 +146,33 @@ def main():
         if config["version"] != 2:
             raise ArchiveError("Unsupported policy version")
         app = Archives(config)
+        for name in ("source", "left", "right"):
+            if hasattr(args, name):
+                setattr(args, name, app.device(getattr(args, name)))
         with app.locked():
-            if args.command == "ready":
+            if args.command == "devices":
+                for device in app.devices(args.selectors):
+                    print(
+                        json.dumps(
+                            {
+                                "device": device,
+                                "folders": [
+                                    f
+                                    for f in config["folders"]
+                                    if app.eligible(f, device)
+                                ],
+                            }
+                        )
+                    )
+            elif args.command == "ready":
                 app.ready()
-                print("Initial synchronization complete")
+                print("Backup readiness checks passed")
             elif args.command == "status":
                 for folder, policy in config["folders"].items():
+                    if args.devices and not any(
+                        app.eligible(folder, d) for d in app.devices(args.devices)
+                    ):
+                        continue
                     receipts = list(
                         (app.state / "sync").glob("*/" + digest(folder) + ".json")
                     )
@@ -145,6 +181,7 @@ def main():
                             {
                                 "folder": folder,
                                 "mode": policy["mode"],
+                                "devices": policy.get("devices", []),
                                 "backup_here": app.eligible(folder),
                                 "backup": read_json(
                                     app.state / "backups" / (digest(folder) + ".json")
@@ -180,11 +217,16 @@ def main():
                         print(f"FAILED {folder}: {error}", file=sys.stderr, flush=True)
                 if failures:
                     raise ArchiveError("Failed folders: " + ", ".join(failures))
+            elif args.command == "prune":
+                for folder in args.folders or [
+                    f for f in config["folders"] if app.eligible(f)
+                ]:
+                    print(json.dumps(app.prune(folder, apply=args.apply)))
             elif args.command == "sync":
                 folders = args.folders or [
                     f
                     for f, p in config["folders"].items()
-                    if p["mode"] in ("sync", "master")
+                    if p["mode"] in ("sync", "master") and app.eligible(f)
                 ]
                 for folder in folders:
                     path, plan = app.plan(folder, args.source, args.snapshot)

@@ -1,3 +1,4 @@
+import datetime as dt
 import contextlib
 import io
 import json
@@ -11,6 +12,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "home/dot_local/lib"))
 from device_archives.core import (
+    retention_keep,
     Archives,
     ArchiveError,
     merge_entries,
@@ -89,6 +91,25 @@ class MergeTests(unittest.TestCase):
         )
 
 
+class RetentionTests(unittest.TestCase):
+    def test_calendar_year_boundary_and_deduplication(self):
+        refs = [
+            {"snapshot": str(i), "created_at": date + "T12:00:00+00:00"}
+            for i, date in enumerate(
+                ["2025-11-30", "2025-12-28", "2025-12-31", "2026-01-01", "2026-01-02"]
+            )
+        ]
+        current = dt.datetime(2026, 1, 2, tzinfo=dt.timezone.utc)
+        self.assertEqual(
+            retention_keep(refs, "4", "daily-weekly-monthly", current), {"4", "1", "2"}
+        )
+        self.assertEqual(retention_keep(refs, "4", "latest", current), {"4"})
+
+    def test_empty_tiers_and_old_history_expire(self):
+        refs = [{"snapshot": "old", "created_at": "2020-01-01T00:00:00+00:00"}]
+        self.assertEqual(retention_keep(refs, "new", "daily-weekly-monthly"), {"new"})
+
+
 class ArchiveIntegrationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -148,6 +169,94 @@ class ArchiveIntegrationTests(unittest.TestCase):
             self.fi.backup(folder)
             path, _ = self.li.plan(folder, "fi")
             self.li.apply(path)
+
+
+
+
+
+
+
+    def test_device_groups_match_chezmoi_roles(self):
+        self.config["device_groups"] = {
+            "desktop": ["fi"],
+            "laptop": ["li"],
+            "server": ["si"],
+            "clients": ["fi", "li"],
+            "all": ["fi", "li", "si"],
+        }
+        self.config["folders"][".shared"]["devices"] = ["all"]
+        self.config["folders"][".device"]["devices"] = ["clients"]
+        self.config["folders"][".codex"]["devices"] = ["desktop"]
+        self.assertEqual(
+            self.fi.devices(["clients", "fi", "server"]), ["fi", "li", "si"]
+        )
+        self.assertEqual(self.fi.device("laptop"), "li")
+        self.assertEqual(self.fi.devices(["test-host"]), ["test-host"])
+        with self.assertRaises(ArchiveError):
+            self.fi.device("clients")
+        self.assertTrue(self.fi.eligible(".shared", "si"))
+        self.assertFalse(self.fi.eligible(".device", "si"))
+        self.assertFalse(self.fi.eligible(".codex", "li"))
+        server = Archives(self.config, self.root / "si", "si")
+        with self.assertRaises(ArchiveError):
+            server.backup(".device")
+        with self.assertRaises(ArchiveError):
+            server.plan(".device", "fi")
+
+    def test_readiness_is_scoped_and_can_be_separate_from_backup(self):
+        self.config["device_groups"] = {"clients": ["fi", "li"], "desktop": ["fi"]}
+        self.config["folders"][".shared"]["devices"] = ["clients"]
+        self.config["folders"][".master"]["devices"] = ["desktop"]
+        self.config["initial_sync_required"] = ["li"]
+        Archives(self.config, self.root / "si", "si").ready()
+        with self.assertRaises(ArchiveError):
+            self.li.ready()
+        self.fi.backup(".shared")
+        path, _ = self.li.plan(".shared", "fi")
+        self.li.apply(path)
+        self.li.ready()  # Desktop-only master folder must not block li.
+        self.config["initial_sync_required"] = []
+        self.li.baseline_path(".shared", "fi").unlink()
+        self.li.backup(
+            ".shared"
+        )  # Independent history; sync does not happen implicitly.
+
+    def test_plaintext_and_legacy_encrypted_restore(self):
+        self.write(self.fi, ".shared", "config", "fixture")
+        old = self.fi.backup(".shared")
+        # Older pointer format has no explicit encryption flag.
+        path = self.root / "remote/fi/.shared" / old["snapshot"] / "complete.json"
+        legacy = json.loads(path.read_text())
+        legacy.pop("encrypted")
+        path.write_text(json.dumps(legacy))
+        self.config["folders"][".shared"]["encrypted"] = False
+        new = self.fi.backup(".shared")
+        folder = self.root / "remote/fi/.shared" / new["snapshot"]
+        self.assertTrue((folder / "manifest.json").exists())
+        self.assertFalse((folder / "tree.tar.zst.age").exists())
+        self.li.restore(".shared", "fi", self.root / "plain")
+        self.li.restore(".shared", "fi", self.root / "encrypted", old["snapshot"])
+        self.assertEqual(scan(self.root / "plain"), scan(self.root / "encrypted"))
+        self.li.plan(".shared", "fi")
+
+    def test_retention_prunes_only_after_verified_backup(self):
+        self.config["folders"][".shared"]["retention"] = "latest"
+        old = self.fi.backup(".shared")
+        self.write(self.fi, ".shared", "changed", "new content")
+        with patch.object(
+            self.fi.store, "get", side_effect=ArchiveError("failed readback")
+        ):
+            with self.assertRaises(ArchiveError):
+                self.fi.backup(".shared")
+        self.assertEqual(self.fi.store.completed("fi/.shared"), [old["snapshot"]])
+        new = self.fi.backup(".shared")
+        self.assertEqual(self.fi.store.completed("fi/.shared"), [new["snapshot"]])
+        # Corrupt latest must prevent standalone pruning.
+        tree = self.root / "remote/fi/.shared" / new["snapshot"] / "tree.tar.zst.age"
+        tree.write_bytes(b"corrupt")
+        with self.assertRaises(ArchiveError):
+            self.fi.prune(".shared", apply=True)
+        self.assertEqual(self.fi.store.completed("fi/.shared"), [new["snapshot"]])
 
     def test_roundtrip_preserves_permissions_and_symlinks(self):
         self.write(self.fi, ".shared", "config", "secret fixture")

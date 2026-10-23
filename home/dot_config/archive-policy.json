@@ -1,29 +1,235 @@
 {
   "version": 2,
   "master": "fi",
-  "remote": "r2-tijpdata:tijpdata/archives-v2",
+  "remote": "r2-tijpdata:tijpdata/acrhives",
   "recipient": "age10cpp7avz2zzlqea22d5c3l83ew36rxfjxl2gcxm79atjkcp7494s3lpvjx",
   "identity": "~/.keys/chezmoi.txt",
   "folders": {
-    ".ssh": {"mode": "sync", "review": "content"},
-    ".gnupg": {"mode": "sync", "review": "content", "exclude": ["S.gpg-agent*", "S.dirmngr", "*.lock", "random_seed"]},
-    ".local/share/icons": {"mode": "sync", "review": "files"},
-    ".local/share/backgrounds": {"mode": "sync", "review": "files"},
-    ".fonts": {"mode": "sync", "review": "files", "exclude": [".uuid"]},
-    ".config/Bazecor": {"mode": "sync", "review": "files", "exclude": ["Singleton*", "*.lock"]},
-    ".var/app/rocks.koreader.KOReader/config/koreader": {"mode": "sync", "review": "files"},
-    ".config/sublime-text": {"mode": "master", "exclude": ["Local/Auto Save Session.sublime_session"]},
-    ".config/waybar/crypto": {"mode": "master", "exclude": [".git", "__pycache__", "*.pyc"]},
-    ".duckdb": {"mode": "device"},
-    ".mozilla": {"mode": "device", "exclude": ["lock", ".parentlock", "parent.lock", "cache2", "startupCache", "Crash Reports"]},
-    ".config/unity3d": {"mode": "desktop"},
-    ".var/app/org.yuzu_emu.yuzu/config": {"mode": "desktop"},
-    ".var/app/org.yuzu_emu.yuzu/data/yuzu/nand/user/save": {"mode": "desktop"},
-    ".var/app/org.yuzu_emu.yuzu/data/yuzu/keys": {"mode": "desktop"},
-    ".var/app/org.yuzu_emu.yuzu/data/yuzu/load": {"mode": "desktop"},
-    ".var/app/org.yuzu_emu.yuzu/data/yuzu/nand/system/save": {"mode": "desktop"},
-    ".var/app/org.yuzu_emu.yuzu/data/yuzu/play_time": {"mode": "desktop"},
-    ".var/app/org.yuzu_emu.yuzu/data/yuzu/screenshots": {"mode": "desktop"},
-    ".codex-lb": {"mode": "master-backup", "include": ["store.db", "encryption.key"], "sqlite": ["store.db"]}
-  }
+    ".ssh": {
+      "mode": "sync",
+      "review": "content",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "all"
+      ]
+    },
+    ".gnupg": {
+      "mode": "sync",
+      "review": "content",
+      "exclude": [
+        "S.gpg-agent*",
+        "S.dirmngr",
+        "*.lock",
+        "random_seed"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "all"
+      ]
+    },
+    ".local/share/icons": {
+      "mode": "sync",
+      "review": "files",
+      "encrypted": true,
+      "retention": "latest",
+      "devices": [
+        "all"
+      ]
+    },
+    ".local/share/backgrounds": {
+      "mode": "sync",
+      "review": "files",
+      "encrypted": false,
+      "retention": "latest",
+      "devices": [
+        "all"
+      ]
+    },
+    ".fonts": {
+      "mode": "sync",
+      "review": "files",
+      "exclude": [
+        ".uuid"
+      ],
+      "encrypted": true,
+      "retention": "latest",
+      "devices": [
+        "all"
+      ]
+    },
+    ".config/Bazecor": {
+      "mode": "sync",
+      "review": "files",
+      "exclude": [
+        "Singleton*",
+        "*.lock"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "clients"
+      ]
+    },
+    ".var/app/rocks.koreader.KOReader/config/koreader": {
+      "mode": "sync",
+      "review": "files",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "clients"
+      ]
+    },
+    ".config/sublime-text": {
+      "mode": "master",
+      "exclude": [
+        "Local/Auto Save Session.sublime_session"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "clients"
+      ]
+    },
+    ".config/waybar/crypto": {
+      "mode": "master",
+      "exclude": [
+        ".git",
+        "__pycache__",
+        "*.pyc"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "clients"
+      ]
+    },
+    ".duckdb": {
+      "mode": "device",
+      "encrypted": true,
+      "retention": "latest",
+      "devices": [
+        "clients"
+      ]
+    },
+    ".mozilla": {
+      "mode": "device",
+      "exclude": [
+        "lock",
+        ".parentlock",
+        "parent.lock",
+        "cache2",
+        "startupCache",
+        "Crash Reports"
+      ],
+      "encrypted": true,
+      "retention": "latest",
+      "devices": [
+        "clients"
+      ]
+    },
+    ".config/unity3d": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".var/app/org.yuzu_emu.yuzu/config": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/nand/user/save": {
+      "mode": "desktop",
+      "encrypted": false,
+      "retention": "latest",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/keys": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/load": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "latest",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/nand/system/save": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/play_time": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".var/app/org.yuzu_emu.yuzu/data/yuzu/screenshots": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "latest",
+      "devices": [
+        "desktop"
+      ]
+    },
+    ".codex-lb": {
+      "mode": "master-backup",
+      "include": [
+        "store.db",
+        "encryption.key"
+      ],
+      "sqlite": [
+        "store.db"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    }
+  },
+  "device_groups": {
+    "desktop": [
+      "fi"
+    ],
+    "laptop": [
+      "li"
+    ],
+    "server": [
+      "si"
+    ],
+    "clients": [
+      "fi",
+      "li"
+    ],
+    "all": [
+      "fi",
+      "li",
+      "si"
+    ]
+  },
+  "initial_sync_required": [
+    "li"
+  ]
 }

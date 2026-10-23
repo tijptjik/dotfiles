@@ -380,6 +380,42 @@ def merge_entries(base, local, incoming, master=False, resolutions=None):
     return desired, changes, sorted(set(conflicts))
 
 
+def retention_keep(refs, latest, policy, current=None):
+    """Latest, previous ISO week, previous calendar month; at most three."""
+    if policy not in ("latest", "daily-weekly-monthly"):
+        raise ArchiveError("Unknown retention policy")
+    keep = {latest}
+    if policy == "latest":
+        return keep
+    current = current or dt.datetime.now(dt.timezone.utc)
+    monday = current.date() - dt.timedelta(days=current.weekday())
+    month = current.date().replace(day=1)
+    previous_month = (month - dt.timedelta(days=1)).replace(day=1)
+    dated = sorted(
+        (
+            dt.datetime.fromisoformat(r["created_at"]).astimezone(dt.timezone.utc),
+            r["snapshot"],
+        )
+        for r in refs
+    )
+    for start, end in (
+        (monday - dt.timedelta(days=7), monday),
+        (previous_month, month),
+    ):
+        candidates = [snap for date, snap in dated if start <= date.date() < end]
+        if candidates:
+            keep.add(candidates[-1])
+    return keep
+
+
+def managed_policy(policy):
+    return {
+        k: v
+        for k, v in policy.items()
+        if k not in ("encrypted", "retention", "devices")
+    }
+
+
 class Store:
     def __init__(self, root):
         self.root = root.rstrip("/")
@@ -408,6 +444,16 @@ class Store:
                 + (["--immutable"] if immutable else []),
                 check=True,
             )
+
+    def remove_snapshot(self, prefix, snapshot):
+        safe_name(prefix)
+        if not re.fullmatch(r"[0-9TZ.]+-[0-9a-f]+", snapshot):
+            raise ArchiveError("Invalid snapshot identifier")
+        key = prefix + "/" + snapshot
+        if self.local:
+            shutil.rmtree(Path(self.root) / key)
+        else:
+            subprocess.run(["rclone", "purge", self.root + "/" + key], check=True)
 
     def list(self, prefix):
         if self.local:
@@ -472,11 +518,33 @@ class Archives:
             raise ArchiveError(f"Folder not configured: {folder}")
         return self.config["folders"][folder]
 
-    def eligible(self, folder):
+    def devices(self, selectors):
+        if not isinstance(selectors, list) or not selectors:
+            raise ArchiveError("Device selectors must be a nonempty list")
+        groups = self.config.get("device_groups", {})
+        result = set()
+        for selector in selectors:
+            if selector in groups:
+                members = groups[selector]
+                if not isinstance(members, list) or not members:
+                    raise ArchiveError("Device groups must contain hostnames")
+                result.update(host_name(member) for member in members)
+            else:
+                result.add(host_name(selector))
+        return sorted(result)
+
+    def device(self, selector):
+        devices = self.devices([selector])
+        if len(devices) != 1:
+            raise ArchiveError("Choose one device, not a multi-device group")
+        return devices[0]
+
+    def eligible(self, folder, machine=None):
+        machine = machine or self.machine
         p = self.policy(folder)
-        return (
-            p["mode"] not in ("desktop", "master-backup") or self.machine == self.master
-        )
+        if "devices" in p and machine not in self.devices(p["devices"]):
+            return False
+        return p["mode"] not in ("desktop", "master-backup") or machine == self.master
 
     def prefix(self, folder, machine):
         self.policy(folder)
@@ -509,10 +577,16 @@ class Archives:
     def ready(self):
         if self.machine == self.master:
             return
+        required = self.config.get("initial_sync_required")
+        if required is not None and (
+            not required or self.machine not in self.devices(required)
+        ):
+            return
         missing = [
             f
             for f, p in self.config["folders"].items()
             if p["mode"] in ("sync", "master")
+            and self.eligible(f)
             and not self.baseline_path(f, self.master).exists()
         ]
         if missing:
@@ -524,7 +598,7 @@ class Archives:
     def backup(self, folder):
         p = self.policy(folder)
         if not self.eligible(folder):
-            raise ArchiveError(f"Only {self.master} may back up {folder}")
+            raise ArchiveError(f"{folder} is not assigned to {self.machine}")
         self.ready()
         snapshot = (
             dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ-")
@@ -533,10 +607,10 @@ class Archives:
         prefix = self.prefix(folder, self.machine)
         with tempfile.TemporaryDirectory(prefix="snapshot-", dir=self.state) as tmp:
             tmp = Path(tmp)
-            tree = tmp / "tree"
-            entries, dbs = stage_tree(self.home / folder, tree, p)
             last_path = self.state / "manifests" / (digest(folder) + ".json")
             previous = read_json(last_path) if last_path.exists() else None
+            tree = tmp / "tree"
+            entries, dbs = stage_tree(self.home / folder, tree, p)
             previous_entries = previous["entries"] if previous else {}
             manifest = {
                 "version": 2,
@@ -560,35 +634,37 @@ class Archives:
                 },
             }
             atomic_json(tmp / "manifest.json", manifest)
-            print(
-                f"Snapshot {folder}: {len(entries)} entries, {len(dbs)} consistent SQLite databases",
-                flush=True,
-            )
             pack(tree, entries, tmp / "tree.tar.zst")
-            for name in ("manifest.json", "tree.tar.zst"):
-                self.encrypt(tmp / name, tmp / (name + ".age"))
+            suffix = ".age" if p.get("encrypted", True) else ""
+            if suffix:
+                for name in ("manifest.json", "tree.tar.zst"):
+                    self.encrypt(tmp / name, tmp / (name + suffix))
             ref = {
                 "version": 2,
                 "machine": self.machine,
                 "folder": folder,
                 "snapshot": snapshot,
                 "created_at": manifest["created_at"],
-                "manifest_sha256": file_hash(tmp / "manifest.json.age"),
-                "archive_sha256": file_hash(tmp / "tree.tar.zst.age"),
+                "encrypted": bool(suffix),
+                "recipient": self.config["recipient"] if suffix else None,
+                "manifest_sha256": file_hash(tmp / ("manifest.json" + suffix)),
+                "archive_sha256": file_hash(tmp / ("tree.tar.zst" + suffix)),
             }
             # No latest pointer or local success receipt until remote readback is verified.
             for name, checksum in (
-                ("manifest.json.age", ref["manifest_sha256"]),
-                ("tree.tar.zst.age", ref["archive_sha256"]),
+                ("manifest.json" + suffix, ref["manifest_sha256"]),
+                ("tree.tar.zst" + suffix, ref["archive_sha256"]),
             ):
                 key = f"{prefix}/{snapshot}/{name}"
+                size = (tmp / name).stat().st_size / (1024 * 1024)
                 self.store.put(tmp / name, key)
                 self.store.get(key, tmp / ("readback-" + name))
                 if file_hash(tmp / ("readback-" + name)) != checksum:
                     raise ArchiveError("Remote readback checksum mismatch")
-            self.decrypt(tmp / "readback-tree.tar.zst.age", tmp / "verify.tar.zst")
+            decode = self.decrypt if suffix else shutil.copyfile
+            decode(tmp / ("readback-tree.tar.zst" + suffix), tmp / "verify.tar.zst")
             unpack(tmp / "verify.tar.zst", entries, tmp / "verified")
-            self.decrypt(tmp / "readback-manifest.json.age", tmp / "verify.json")
+            decode(tmp / ("readback-manifest.json" + suffix), tmp / "verify.json")
             if read_json(tmp / "verify.json") != manifest:
                 raise ArchiveError("Remote manifest differs")
             atomic_json(tmp / "ref.json", ref)
@@ -599,8 +675,56 @@ class Archives:
                 raise ArchiveError("Latest pointer verification failed")
             atomic_json(self.state / "backups" / (digest(folder) + ".json"), ref)
             atomic_json(last_path, manifest)
+            if "retention" in p:
+                self.prune(folder, apply=True, verified=ref)
             print(f"Verified {self.machine}:{folder} {snapshot}", flush=True)
             return ref
+
+    def prune(self, folder, apply=False, verified=None):
+        if not self.eligible(folder):
+            raise ArchiveError("Cannot prune another machine's backups")
+        policy = self.policy(folder)["retention"]
+        prefix = self.prefix(folder, self.machine)
+        with tempfile.TemporaryDirectory(dir=self.state) as tmp:
+            tmp = Path(tmp)
+            # Standalone pruning verifies the entire latest tree before deleting history.
+            if verified is None:
+                verified, _ = self.fetch(folder, self.machine, tmp, tree=True)
+            self.store.get(prefix + "/latest.json", tmp / "current.json")
+            if read_json(tmp / "current.json") != verified:
+                raise ArchiveError("Latest changed before retention")
+            refs = []
+            for snapshot in self.store.completed(prefix):
+                if not re.fullmatch(r"[0-9TZ.]+-[0-9a-f]+", snapshot):
+                    raise ArchiveError("Invalid snapshot identifier")
+                self.store.get(
+                    f"{prefix}/{snapshot}/complete.json", tmp / "candidate.json"
+                )
+                ref = read_json(tmp / "candidate.json")
+                if (ref["snapshot"], ref["machine"], ref["folder"]) != (
+                    snapshot,
+                    self.machine,
+                    folder,
+                ):
+                    raise ArchiveError("Retention snapshot identity mismatch")
+                refs.append(ref)
+            if verified["snapshot"] not in {r["snapshot"] for r in refs}:
+                raise ArchiveError("Latest snapshot is not complete")
+            keep = retention_keep(refs, verified["snapshot"], policy)
+            remove = sorted(r["snapshot"] for r in refs if r["snapshot"] not in keep)
+            report = {
+                "folder": folder,
+                "keep": sorted(keep),
+                "remove": remove,
+                "applied": apply,
+            }
+            if apply:
+                atomic_json(
+                    self.state / "retention" / (digest(folder) + ".json"), report
+                )
+                for snapshot in remove:
+                    self.store.remove_snapshot(prefix, snapshot)
+            return report
 
     def fetch(self, folder, source, dest, snapshot=None, tree=False):
         prefix = self.prefix(folder, source)
@@ -620,10 +744,12 @@ class Archives:
         for name, checksum in [("manifest.json", ref["manifest_sha256"])] + (
             [("tree.tar.zst", ref["archive_sha256"])] if tree else []
         ):
-            self.store.get(f"{prefix}/{snap}/{name}.age", dest / (name + ".age"))
-            if file_hash(dest / (name + ".age")) != checksum:
+            suffix = ".age" if ref.get("encrypted", True) else ""
+            self.store.get(f"{prefix}/{snap}/{name}{suffix}", dest / (name + suffix))
+            if file_hash(dest / (name + suffix)) != checksum:
                 raise ArchiveError("Snapshot checksum mismatch")
-            self.decrypt(dest / (name + ".age"), dest / name)
+            if suffix:
+                self.decrypt(dest / (name + suffix), dest / name)
         manifest = read_json(dest / "manifest.json")
         if any(
             manifest[k] != ref[k] for k in ("machine", "folder", "snapshot", "version")
@@ -636,6 +762,8 @@ class Archives:
 
     def plan(self, folder, source, snapshot=None, restore=False):
         p = self.policy(folder)
+        if not restore and not self.eligible(folder):
+            raise ArchiveError(f"{folder} is not assigned to {self.machine}")
         if source == self.machine and not restore:
             raise ArchiveError("Choose a different source machine")
         if not restore and p["mode"] not in ("sync", "master"):
@@ -656,7 +784,7 @@ class Archives:
         base = prior["entries"] if prior else {}
         local = scan(self.home / folder, p)
         incoming = manifest["entries"]
-        if manifest["policy"] != p:
+        if managed_policy(manifest["policy"]) != managed_policy(p):
             raise ArchiveError(
                 "Snapshot policy differs; create a backup under the current policy first"
             )
@@ -691,9 +819,13 @@ class Archives:
         p = self.policy(folder)
         if plan["machine"] != self.machine or plan["policy"] != p:
             raise ArchiveError("Plan belongs to another machine or policy")
-        if p["mode"] not in ("sync", "master") or (
-            p["mode"] == "master"
-            and (source != self.master or self.machine == self.master)
+        if (
+            not self.eligible(folder)
+            or p["mode"] not in ("sync", "master")
+            or (
+                p["mode"] == "master"
+                and (source != self.master or self.machine == self.master)
+            )
         ):
             raise ArchiveError("This folder cannot be synchronized from this source")
         baseline = self.baseline_path(folder, source)

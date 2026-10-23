@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "master": "fi",
+  "recipient": "age10cpp7avz2zzlqea22d5c3l83ew36rxfjxl2gcxm79atjkcp7494s3lpvjx",
+  "identity": "~/.keys/chezmoi.txt",
+  "device_groups": {
+    "desktop": [
+      "fi"
+    ],
+    "laptop": [
+      "li"
+    ],
+    "server": [
+      "si"
+    ],
+    "clients": [
+      "fi",
+      "li"
+    ],
+    "all": [
+      "fi",
+      "li",
+      "si"
+    ]
+  },
+  "remote": ":sftp:/mnt/storage/backups/device-archives",
+  "folders": {
+    "documents": {
+      "mode": "device",
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "desktop"
+      ]
+    }
+  }
+}

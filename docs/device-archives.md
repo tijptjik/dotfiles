@@ -332,3 +332,10 @@ can otherwise write its old settings back at exit.
 Neither device receives codex-lb accounts through this workflow. The `.codex-lb`
 archive is fi-only recovery data; independent laptop authentication remains a
 separate setup task.
+
+## LAN access while using Mullvad
+
+Every chezmoi apply sets Mullvad's persistent LAN-sharing policy to `allow`
+when the CLI is installed, including on clients and servers. Hosts without
+Mullvad skip this step. This permits local-network SSH while the VPN is on;
+it does not disconnect the VPN or change its relay settings.

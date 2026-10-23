@@ -1,6 +1,7 @@
 import datetime as dt
 import contextlib
 import io
+import os
 import json
 from pathlib import Path
 import sqlite3
@@ -170,10 +171,84 @@ class ArchiveIntegrationTests(unittest.TestCase):
             path, _ = self.li.plan(folder, "fi")
             self.li.apply(path)
 
+    def test_identical_backup_skips_staging_upload_and_reuses_hashes(self):
+        self.write(self.fi, ".shared", "file", "original")
+        first = self.fi.backup(".shared")
+        with (
+            patch(
+                "device_archives.core.stage_tree", side_effect=AssertionError("staged")
+            ),
+            patch(
+                "device_archives.core.file_hash", side_effect=AssertionError("rehashed")
+            ),
+            patch.object(self.fi.store, "put", side_effect=AssertionError("uploaded")),
+        ):
+            second = self.fi.backup(".shared")
+        self.assertTrue(second["skipped"])
+        self.assertEqual(first["snapshot"], second["snapshot"])
+        self.assertEqual(len(self.fi.store.completed("fi/.shared")), 1)
+        forced = self.fi.backup(".shared", force=True)
+        self.assertNotEqual(first["snapshot"], forced["snapshot"])
 
+    def test_change_detection_handles_metadata_deletions_and_same_size_edits(self):
+        self.write(self.fi, ".shared", "file", "before")
+        first = self.fi.backup(".shared")
+        path = self.fi.home / ".shared/file"
+        old = path.stat()
+        path.write_text("after!")
+        os.utime(path, ns=(old.st_atime_ns, old.st_mtime_ns))
+        second = self.fi.backup(".shared")
+        self.assertNotEqual(first["snapshot"], second["snapshot"])
+        os.utime(path, None)  # A timestamp-only change must not create a snapshot.
+        self.assertTrue(self.fi.backup(".shared")["skipped"])
+        path.chmod(0o640)
+        self.assertNotIn("skipped", self.fi.backup(".shared"))
+        path.unlink()
+        self.assertNotIn("skipped", self.fi.backup(".shared"))
+        (self.fi.home / ".shared").chmod(0o750)
+        self.assertNotIn("skipped", self.fi.backup(".shared"))
 
+    def test_missing_remote_archive_rebuilt_and_failed_upload_retried(self):
+        self.write(self.fi, ".shared", "file", "initial")
+        first = self.fi.backup(".shared")
+        (
+            self.root / "remote/fi/.shared" / first["snapshot"] / "tree.tar.zst.age"
+        ).unlink()
+        self.assertNotIn("skipped", self.fi.backup(".shared"))
+        self.write(self.fi, ".shared", "file", "changed")
+        with patch.object(self.fi.store, "put", side_effect=OSError("upload failed")):
+            with self.assertRaises(OSError):
+                self.fi.backup(".shared")
+        self.assertNotIn("skipped", self.fi.backup(".shared"))
 
+    def test_sqlite_change_check_reads_committed_wal(self):
+        db = sqlite3.connect(self.fi.home / ".shared/db.sqlite")
+        try:
+            db.execute("pragma journal_mode=WAL")
+            db.execute("pragma wal_autocheckpoint=0")
+            db.execute("create table data(value text)")
+            db.commit()
+            self.fi.backup(".shared")
+            self.assertTrue(self.fi.backup(".shared")["skipped"])
+            db.execute("insert into data values ('WAL-only change')")
+            db.commit()
+            self.assertNotIn("skipped", self.fi.backup(".shared"))
+            self.assertTrue(self.fi.backup(".shared")["skipped"])
+        finally:
+            db.close()
 
+    def test_unchanged_retention_and_filter_changes(self):
+        self.write(self.fi, ".shared", "included", "a")
+        self.write(self.fi, ".shared", "ignored", "a")
+        self.config["folders"][".shared"]["exclude"] = ["ignored"]
+        self.fi.backup(".shared")
+        self.config["folders"][".shared"]["retention"] = "latest"
+        self.write(self.fi, ".shared", "ignored", "b")
+        with patch.object(self.fi, "prune", wraps=self.fi.prune) as prune:
+            self.assertTrue(self.fi.backup(".shared")["skipped"])
+            prune.assert_called_once()
+        self.config["folders"][".shared"]["exclude"] = []
+        self.assertNotIn("skipped", self.fi.backup(".shared"))
 
 
     def test_device_groups_match_chezmoi_roles(self):

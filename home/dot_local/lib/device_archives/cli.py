@@ -94,6 +94,11 @@ def main():
     sub.add_parser("ready", help="Check whether this device completed its initial sync")
     b = sub.add_parser("backup", help="Snapshot configured folders without syncing")
     b.add_argument("folders", nargs="*")
+    b.add_argument(
+        "--force",
+        action="store_true",
+        help="Create a fresh verified snapshot even when unchanged",
+    )
     p = sub.add_parser(
         "prune", help="Preview retention; --apply deletes superseded snapshots"
     )
@@ -206,7 +211,7 @@ def main():
                 failures = []
                 for folder in folders:
                     try:
-                        app.backup(folder)
+                        app.backup(folder, force=args.force)
                     except (
                         ArchiveError,
                         OSError,

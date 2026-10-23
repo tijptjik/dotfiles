@@ -90,7 +90,7 @@ def excluded(name, policy):
     )
 
 
-def scan(root, policy=None):
+def scan(root, policy=None, file_entry=None):
     """Content and permissions, without following symlinks or recording sockets."""
     policy = policy or {}
     if root.is_symlink():
@@ -128,8 +128,10 @@ def scan(root, policy=None):
                     "type": "file",
                     "mode": mode,
                     "size": st.st_size,
-                    "sha256": file_hash(path),
+                    "sha256": file_hash(path) if file_entry is None else "",
                 }
+                if file_entry is not None:
+                    result[name].update(file_entry(path, st))
             elif not stat.S_ISSOCK(st.st_mode):
                 raise ArchiveError(f"Unsupported special file: {path}")
 
@@ -250,6 +252,71 @@ def stage_tree(source, dest, policy):
         if name not in staged:
             raise ArchiveError(f"Required backup file missing: {name}")
     return staged, sorted(sqlite_names)
+
+
+def backup_policy(policy):
+    # Assignment and retention changes do not change the archived contents.
+    result = {
+        k: v for k, v in policy.items() if k not in ("devices", "retention", "review")
+    }
+    result["encrypted"] = policy.get("encrypted", True)
+    return result
+
+
+def fingerprint_tree(source, policy, cache_path, temp):
+    """Reuse regular-file hashes; always snapshot SQLite, including uncheckpointed WAL."""
+    if not source.is_dir() or source.is_symlink():
+        raise ArchiveError(f"Missing or symlinked source folder: {source}")
+    try:
+        cached = read_json(cache_path)
+        cached = cached.get("files", {}) if cached.get("version") == 1 else {}
+        if not isinstance(cached, dict):
+            cached = {}
+    except (FileNotFoundError, ValueError, AttributeError):
+        cached = {}
+    updated, sqlite_names = {}, set()
+
+    def signature(st):
+        return [
+            st.st_dev,
+            st.st_ino,
+            st.st_size,
+            st.st_mtime_ns,
+            st.st_ctime_ns,
+            st.st_mode,
+        ]
+
+    def entry(path, st):
+        name = path.relative_to(source).as_posix()
+        if is_sqlite(path):
+            sqlite_names.add(name)
+            snapshot = temp / (digest(name) + ".sqlite")
+            sqlite_copy(path, snapshot)
+            return {"size": snapshot.stat().st_size, "sha256": file_hash(snapshot)}
+        prior = cached.get(name, {})
+        if (
+            isinstance(prior, dict)
+            and prior.get("stat") == signature(st)
+            and re.fullmatch(r"[0-9a-f]{64}", str(prior.get("sha256", "")))
+        ):
+            checksum = prior["sha256"]
+        else:
+            checksum = file_hash(path)
+        if signature(path.lstat()) != signature(st):
+            raise ArchiveError(f"File changed during change check: {path}")
+        updated[name] = {"stat": signature(st), "sha256": checksum}
+        return {"sha256": checksum}
+
+    root_mode = stat.S_IMODE(source.stat().st_mode) & 0o777
+    entries = scan(source, policy, file_entry=entry)
+    for name in policy.get("sqlite", []):
+        if name not in sqlite_names:
+            raise ArchiveError(f"Required SQLite database missing or invalid: {name}")
+    for name in policy.get("include", []):
+        if name not in entries:
+            raise ArchiveError(f"Required backup file missing: {name}")
+    atomic_json(cache_path, {"version": 1, "files": updated})
+    return entries, root_mode
 
 
 def pack(tree, entries, output):
@@ -595,7 +662,7 @@ class Archives:
                 + ", ".join(missing)
             )
 
-    def backup(self, folder):
+    def backup(self, folder, force=False):
         p = self.policy(folder)
         if not self.eligible(folder):
             raise ArchiveError(f"{folder} is not assigned to {self.machine}")
@@ -608,7 +675,65 @@ class Archives:
         with tempfile.TemporaryDirectory(prefix="snapshot-", dir=self.state) as tmp:
             tmp = Path(tmp)
             last_path = self.state / "manifests" / (digest(folder) + ".json")
+            receipt_path = self.state / "backups" / (digest(folder) + ".json")
             previous = read_json(last_path) if last_path.exists() else None
+            receipt = read_json(receipt_path) if receipt_path.exists() else None
+            entries, root_mode = fingerprint_tree(
+                self.home / folder,
+                p,
+                self.state / "hash-cache" / (digest(folder) + ".json"),
+                tmp,
+            )
+            same = (
+                not force
+                and previous is not None
+                and receipt is not None
+                and previous["machine"] == self.machine
+                and previous["folder"] == folder
+                and previous["snapshot"] == receipt["snapshot"]
+                and previous["entries"] == entries
+                and previous["root_mode"] == root_mode
+                and backup_policy(previous["policy"]) == backup_policy(p)
+                and (
+                    not p.get("encrypted", True)
+                    or receipt.get("recipient", self.config["recipient"])
+                    == self.config["recipient"]
+                )
+            )
+            if same:
+                # Local receipts alone must not hide a missing or replaced remote backup.
+                try:
+                    self.store.get(
+                        f"{prefix}/latest.json", tmp / "existing-latest.json"
+                    )
+                    self.store.get(
+                        f"{prefix}/{receipt['snapshot']}/complete.json",
+                        tmp / "existing-complete.json",
+                    )
+                    same = (
+                        read_json(tmp / "existing-latest.json")
+                        == receipt
+                        == read_json(tmp / "existing-complete.json")
+                    )
+                    suffix = ".age" if receipt.get("encrypted", True) else ""
+                    same = same and {
+                        "manifest.json" + suffix,
+                        "tree.tar.zst" + suffix,
+                    }.issubset(self.store.list(f"{prefix}/{receipt['snapshot']}"))
+                except (FileNotFoundError, subprocess.CalledProcessError):
+                    same = False
+            if same:
+                if "retention" in p:
+                    self.prune(folder, apply=True, verified=receipt)
+                atomic_json(
+                    self.state / "checks" / (digest(folder) + ".json"),
+                    {
+                        "checked_at": now(),
+                        "snapshot": receipt["snapshot"],
+                        "unchanged": True,
+                    },
+                )
+                return receipt | {"skipped": True}
             tree = tmp / "tree"
             entries, dbs = stage_tree(self.home / folder, tree, p)
             previous_entries = previous["entries"] if previous else {}

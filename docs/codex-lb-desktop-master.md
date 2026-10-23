@@ -1,33 +1,35 @@
-# Codex LB desktop master
+# Independent Codex LB instances
 
-`fi` owns the accounts, encryption key, token refreshes and request history.
-`li` uses its existing `http://127.0.0.1:2455` endpoint through an SSH reverse
-tunnel maintained by `codex-lb-laptop.service` on `fi`. Only loopback is bound
-on both machines; the desktop does not need an SSH server. On the laptop,
-`codex-lb-client.socket` and systemd's socket proxy relay port 2455 to the
-tunnel at port 42455. The high tunnel port works with Fedora's existing
-SELinux SSH policy without changing policy or disabling enforcement.
+Both `fi` and `li` run their own Codex LB runtime on `127.0.0.1:2455`.
+The laptop works without the desktop or a LAN connection. Each machine owns
+its database, encryption key, account authentication and request history.
+The server remains client-only.
 
-The tunnel connects to `io@li.local`, verifies the pinned laptop SSH host key,
-and uses existing SSH authentication. It retries every ten seconds after
-disconnects. Both machines must be awake and reachable on the same LAN, with
-mDNS and laptop SSH available. Off-LAN access is not configured. When the
-desktop is unavailable, laptop Codex requests fail rather than using stale
-local credentials.
+Chezmoi installs/updates the runtime on both clients. Its systemd hook disables
+the former desktop reverse tunnel and stops the laptop socket proxy before
+enabling the local service. The old tunnel units remain available for manual
+recovery, but are no longer enabled by configuration. Runtime updates do not
+restart an already-running backend; restart between active Codex sessions.
 
-The laptop's old database and key remain untouched. Its local service is
-disabled, and `ConditionHost=fi` prevents it from being started accidentally.
-Account changes made through the laptop dashboard now change the desktop's
-accounts. This is one shared backend, not account backup or replication.
+## Laptop authentication
 
-Check on the desktop:
+The existing laptop database and key are preserved. An account marked
+`reauth_required` needs a fresh login through the laptop's
+<http://localhost:2455/dashboard>. Authenticate independently on each machine;
+do not copy the desktop database or refresh tokens to bootstrap the laptop.
+Sharing a refresh token between running instances can cause refresh conflicts.
+Device archive synchronization does not distribute Codex LB accounts.
+
+## Verification
+
+On each client:
 
 ```sh
-systemctl --user status codex-lb codex-lb-laptop
-journalctl --user -u codex-lb-laptop -n 30
+systemctl --user status codex-lb
+curl --fail http://127.0.0.1:2455/health
 ```
 
-To undo, stop and disable `codex-lb-laptop` on the desktop and
-`codex-lb-client.socket` on the laptop, stop `codex-lb-client.service`, remove the
-`ConditionHost=fi` restriction from the laptop's local unit, reload systemd
-and enable its local `codex-lb` service. Its old account still requires login.
+On `li`, confirm `codex-lb-client.socket` and `codex-lb-client.service` are
+inactive; on `fi`, confirm `codex-lb-laptop.service` is inactive. Complete a
+Codex request after login to verify upstream authentication as well as local
+service health.

@@ -6,15 +6,17 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 section_header "Systemd User Units"
 
+{{ if or .isDesktop .isLaptop -}}
+# Each client owns its runtime and independently authenticated accounts.
+systemctl --user daemon-reload; or exit $status
 {{ if .isDesktop -}}
-# The desktop owns account refreshes and reconnects the laptop tunnel.
-systemctl --user daemon-reload
-systemctl --user enable --now codex-lb.service codex-lb-laptop.service
-{{ else if .isLaptop -}}
-# Preserve the old database for recovery, but never run a second token refresher.
-systemctl --user disable --now codex-lb.service
-systemctl --user daemon-reload
-systemctl --user enable --now codex-lb-client.socket
+systemctl --user disable --now codex-lb-laptop.service; or exit $status
+{{ else -}}
+# Release port 2455 before starting the laptop's local backend.
+systemctl --user disable --now codex-lb-client.socket; or exit $status
+systemctl --user stop codex-lb-client.service; or exit $status
+{{ end -}}
+systemctl --user enable --now codex-lb.service; or exit $status
 {{ end -}}
 
 function user_units_need_reload

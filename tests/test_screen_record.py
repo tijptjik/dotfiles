@@ -52,3 +52,17 @@ class ScreenRecordTests(unittest.TestCase):
         self.assertEqual(popen.call_count, 2)
         self.assertIn('countdown', popen.call_args.args[0])
         notify.assert_not_called()
+
+    def test_cancel_during_overlay_settle_does_not_start_capture(self):
+        selection = Mock(returncode=0)
+        selection.communicate.return_value = ('100x100+0+0', None)
+        countdown = Mock()
+        countdown.wait.return_value = 0
+        stopped = Mock()
+        stopped.is_set.return_value = False
+        stopped.wait.return_value = True
+        with patch.object(recorder.signal, 'signal'), patch.object(recorder.threading, 'Event', return_value=stopped), \
+             patch.object(recorder.subprocess, 'Popen', side_effect=[selection, countdown]) as popen:
+            recorder.record()
+        stopped.wait.assert_called_once_with(0.5)
+        self.assertEqual(popen.call_count, 2)

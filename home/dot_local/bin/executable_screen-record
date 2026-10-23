@@ -82,7 +82,18 @@ def countdown(region):
         nonlocal remaining
         remaining -= 1
         if remaining == 0:
-            window.destroy()
+            fade_started = GLib.get_monotonic_time()
+
+            def fade():
+                elapsed = (GLib.get_monotonic_time() - fade_started) / 300_000
+                label.set_opacity(max(0.0, 1.0 - elapsed))
+                if elapsed >= 1:
+                    # Submit a fully transparent frame before destroying the layer.
+                    GLib.timeout_add(100, cancel)
+                    return False
+                return True
+
+            GLib.timeout_add(16, fade)
             return False
         label.set_text(str(remaining))
         return True
@@ -125,6 +136,9 @@ def record():
         return
     if countdown_status != 0:
         raise RuntimeError("Could not display the countdown")
+    # Allow the compositor to finish unmapping/animating the transparent layer.
+    if stopped.wait(0.5):
+        return
     directory = Path(subprocess.check_output(["xdg-user-dir", "VIDEOS"], text=True).strip())
     if not directory.is_absolute():
         raise RuntimeError("Videos directory is not configured")

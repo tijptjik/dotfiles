@@ -213,8 +213,20 @@ function __stage_label_note
     __stage_print_row "$argv[2]" "$row"
 end
 
+# Parent tjikup supplies geometry when stdout is piped through run_stream.
+function __stage_columns
+    if string match -qr '^[0-9]+$' -- "$TJIKUP_COLUMNS"; and test "$TJIKUP_COLUMNS" -ge 24
+        echo $TJIKUP_COLUMNS
+    else if set -q COLUMNS; and test "$COLUMNS" -ge 24
+        echo $COLUMNS
+    else
+        echo 80
+    end
+end
+
 function __stage_render_label --argument-names use_color stage_name icon subject
     __stage_event "$stage_name" "$icon" "$subject" ""
+    set subject (string shorten --max (math (__stage_columns) - 1 - 9 - (string length --visible -- "$icon")) -- "$subject")
     set -l color (__stage_color "$stage_name")
     set -l padded_stage (printf "%-7s" "$stage_name")
 
@@ -245,11 +257,10 @@ function __stage_render_label_note --argument-names use_color stage_name icon su
         set color 6
     end
     set -l padded_stage (printf "%-7s" "$stage_name")
-    set -l note_column 72
-    set -l prefix_length 10
-    set -l subject_length (string length -- "$subject")
-    set -l note_length (string length -- "$note")
-    set -l padding (math "$note_column - $prefix_length - $subject_length - $note_length")
+    set -l available (math (__stage_columns) - 1 - (string length --visible -- "$padded_stage $icon "))
+    set note (string shorten --max (math "floor(($available - 2) / 2)") -- "$note")
+    set subject (string shorten --max (math "$available - "(string length --visible -- "$note")" - 2") -- "$subject")
+    set -l padding (math "$available - "(string length --visible -- "$subject")" - "(string length --visible -- "$note"))
     if test $padding -lt 2
         set padding 2
     end
@@ -293,6 +304,7 @@ function status_msg
 end
 
 function __stage_spin_title --argument-names stage_name subject
+    set subject (string shorten --max (math (__stage_columns) - 13) -- "$subject")
     set -l color (__stage_color "$stage_name")
     set -l padded_stage (printf "%-7s" "$stage_name")
 

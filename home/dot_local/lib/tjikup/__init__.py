@@ -16,6 +16,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import unicodedata
 from pathlib import Path
 
 from tjikup.core import Propagator, UpdateError
@@ -111,6 +112,32 @@ def show_diff(path: Path, before: str, after: str) -> None:
     )
 
 
+def terminal_columns() -> int:
+    """Carry terminal geometry through piped apply commands."""
+    try:
+        return max(24, int(os.environ.get("TJIKUP_COLUMNS", "")))
+    except ValueError:
+        return max(24, shutil.get_terminal_size((80, 24)).columns)
+
+
+def display_width(value: str) -> int:
+    return sum(0 if unicodedata.combining(c) else
+               2 if unicodedata.east_asian_width(c) in {"W", "F"} else 1
+               for c in value)
+
+
+def shorten_status(value: str, width: int) -> str:
+    value = " ".join(value.splitlines())
+    if display_width(value) <= width:
+        return value
+    result = ""
+    for char in value:
+        if display_width(result + char) > width - 1:
+            break
+        result += char
+    return result + "…"
+
+
 def status_msg(repo: Path, verb: str, icon: str, subject: str, note: str | None = None) -> None:
     if note:
         note = note.strip()
@@ -146,13 +173,15 @@ def status_msg(repo: Path, verb: str, icon: str, subject: str, note: str | None 
     if not report_recorded and report_file:
         with Path(report_file).open("a") as report:
             report.write(f"{verb}\t{icon}\t{subject}\t{note or ''}\n")
+    prefix = f"{verb:<7} {icon} "
+    available = max(1, terminal_columns() - 1 - display_width(prefix))
     if note:
-        prefix_length = 10
-        note_column = 72
-        padding = max(2, note_column - prefix_length - len(subject) - len(note))
-        print(f"{verb:<7} {icon} {subject}{' ' * padding}{note}")
+        note = shorten_status(note, max(1, (available - 2) // 2))
+        subject = shorten_status(subject, max(1, available - display_width(note) - 2))
+        padding = max(2, available - display_width(subject) - display_width(note))
+        print(f"{prefix}{subject}{' ' * padding}{note}")
     else:
-        print(f"{verb:<7} {icon} {subject}")
+        print(prefix + shorten_status(subject, available))
 
 
 def stage_label(repo: Path, verb: str, icon: str, subject: str, note: str | None = None) -> None:
@@ -192,7 +221,7 @@ def stage_started(repo: Path, verb: str, subject: str) -> None:
             check=False,
         )
     else:
-        sys.stdout.write(f"{verb:<7} … {subject}")
+        sys.stdout.write(f"{verb:<7} … " + shorten_status(subject, terminal_columns() - 11))
     sys.stdout.flush()
     ACTIVE_STAGE = True
 
@@ -273,6 +302,7 @@ def run_stream(
         **(os.environ if env is None else env),
         "TJIKUP_COLOR": "1" if sys.stdout.isatty() else "0",
         "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_COLUMNS": str(terminal_columns()),
     }
     try:
         with apply_conflict_policy(command, skip_conflicts) as (apply_command, stdin):

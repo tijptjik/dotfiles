@@ -12,6 +12,7 @@ import subprocess
 import sys
 import time
 import unittest
+from unittest.mock import patch
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "home/dot_local/lib"))
@@ -21,6 +22,31 @@ from tjikup.core import UpdateError
 
 
 class StreamTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which("fish"), "Fish required")
+    def test_status_width_and_unicode_match_fish_and_python(self):
+        helper = REPO / "home/.chezmoihelpers/status.fish"
+        for width in (24, 40, 80, 120):
+            for subject, note in (("Zed", "no changes"), ("中文配置" * 20, "long note " * 20)):
+                with self.subTest(width=width, subject=subject):
+                    env = {**os.environ, "TJIKUP_COLUMNS": str(width), "TJIKUP_COLOR": "0"}
+                    result = subprocess.run(
+                        ["fish", "--no-config", "-c",
+                         'source $argv[1]; status_msg SYNC ✓ "$argv[2]" "$argv[3]"',
+                         "--", str(helper), subject, note],
+                        env=env, capture_output=True, text=True, check=True,
+                    )
+                    output = io.StringIO()
+                    with patch.dict(os.environ, env), contextlib.redirect_stdout(output):
+                        tjikup.status_msg(REPO, "SYNC", "✓", subject, note)
+                    self.assertEqual(result.stdout, output.getvalue())
+                    self.assertEqual(tjikup.display_width(result.stdout.rstrip("\n")), width - 1)
+
+    def test_stream_propagates_terminal_width(self):
+        output = io.StringIO()
+        with patch.object(tjikup, "terminal_columns", return_value=103), contextlib.redirect_stdout(output):
+            tjikup.run_stream([sys.executable, "-c", "import os; print(os.environ['TJIKUP_COLUMNS'])"], REPO)
+        self.assertEqual(output.getvalue().strip(), "103")
+
     @unittest.skipUnless(shutil.which("fish"), "Fish required")
     def test_terminal_settled_rows_keep_colours(self):
         master, slave = pty.openpty()

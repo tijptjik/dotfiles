@@ -76,7 +76,7 @@ os.execvpe(sys.argv[3], sys.argv[3:], env)
             expected = source.replace(
                 "PATH,EDITOR,VISUAL",
                 "PATH,EDITOR,VISUAL,TJIKUP_COLOR,TJIKUP_NO_SPIN,"
-                "TJIKUP_REPORT_FILE,TJIKUP_SKIP_PREFLIGHT",
+                "TJIKUP_REPORT_FILE,TJIKUP_SKIP_PREFLIGHT,TJIKUP_COLUMNS",
             )
             self.assertEqual(wrapper.read_text(), expected)
             self.assertEqual(wrapper.stat().st_mode & 0o777, 0o755)
@@ -92,7 +92,7 @@ os.execvpe(sys.argv[3], sys.argv[3:], env)
             configure_chezetc(wrapper)
             self.assertEqual(wrapper.read_text(), (
                 "sudo --preserve-env=PATH,CUSTOM,TJIKUP_COLOR,TJIKUP_NO_SPIN,"
-                "TJIKUP_REPORT_FILE,TJIKUP_SKIP_PREFLIGHT -- chezmoi\n"
+                "TJIKUP_REPORT_FILE,TJIKUP_SKIP_PREFLIGHT,TJIKUP_COLUMNS -- chezmoi\n"
             ))
 
     def test_missing_installation_is_skipped(self):

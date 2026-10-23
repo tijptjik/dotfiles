@@ -133,6 +133,8 @@ Before making any changes, it is recommended to pull the latest version of the d
 
 `tjikup` synchronizes supported live configuration changes back into their Chezmoi templates. It then commits the updated templates, pulls and pushes the dotfiles repository, applies the changes with Chezmoi, and updates the Chezetc repository when available.
 
+Status rows use the terminal width, align notes on the right, and shorten long text with an ellipsis. Full messages remain in the run report. Child apply commands inherit the terminal width; redirected output defaults to 80 columns.
+
 Run it after changing supported live configuration files:
 
 ```bash

@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+"""Toggle a region recording, with systemd owning the recorder lifecycle."""
+import datetime
+import fcntl
+import os
+from pathlib import Path
+import re
+import signal
+import subprocess
+import sys
+import threading
+
+UNIT = "screen-record.service"
+
+
+def notify(message):
+    subprocess.run(["notify-send", "--app-name=Screen recording", "--expire-time=1500",
+                    "Screen recording", message], check=False)
+
+
+def recorder_command(region, output):
+    match = re.fullmatch(r"(\d+)x(\d+)\+(-?\d+)\+(-?\d+)", region)
+    if not match or int(match[1]) < 2 or int(match[2]) < 2:
+        raise ValueError("Select a region at least 2 pixels wide and high")
+    return ["gpu-screen-recorder", "-w", "region", "-region", region,
+            "-f", "30", "-k", "h264", "-ac", "aac", "-a", "default_output",
+            "-fallback-cpu-encoding", "yes", "-o", str(output)]
+
+
+def toggle():
+    runtime = Path(os.environ["XDG_RUNTIME_DIR"])
+    with (runtime / "screen-record-toggle.lock").open("a") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            return
+        state = subprocess.check_output(["systemctl", "--user", "show", UNIT,
+                                         "--property=ActiveState", "--value"], text=True).strip()
+        action = "stop" if state in {"active", "activating", "deactivating", "reloading"} else "start"
+        if action == "start":
+            subprocess.run(["systemctl", "--user", "import-environment", "WAYLAND_DISPLAY",
+                            "DISPLAY", "HYPRLAND_INSTANCE_SIGNATURE"], check=True)
+        subprocess.run(["systemctl", "--user", action, UNIT], check=True)
+
+
+def record():
+    stopped = threading.Event()
+    child = None
+
+    def stop(_signum, _frame):
+        stopped.set()
+        if child is not None and child.poll() is None:
+            child.send_signal(signal.SIGINT)
+
+    signal.signal(signal.SIGINT, stop)
+    signal.signal(signal.SIGTERM, stop)
+    child = subprocess.Popen(["slurp", "-f", "%wx%h+%x+%y"], stdout=subprocess.PIPE, text=True)
+    if stopped.is_set():
+        child.send_signal(signal.SIGINT)
+    region, _ = child.communicate()
+    if stopped.is_set() or child.returncode != 0:
+        return
+    region = region.strip()
+    recorder_command(region, "unused.mp4")  # Validate before countdown.
+    for seconds in (3, 2, 1):
+        notify(f"Recording in {seconds}… Press Super+G again to cancel.")
+        if stopped.wait(1):
+            return
+    directory = Path(subprocess.check_output(["xdg-user-dir", "VIDEOS"], text=True).strip())
+    if not directory.is_absolute():
+        raise RuntimeError("Videos directory is not configured")
+    directory.mkdir(parents=True, exist_ok=True)
+    output = directory / ("Recording-" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f") + ".mp4")
+    child = subprocess.Popen(recorder_command(region, output))
+    if stopped.is_set():
+        child.send_signal(signal.SIGINT)
+    else:
+        notify("Recording — Super+G stops and saves.")
+    code = child.wait()
+    if code != 0:
+        raise RuntimeError(f"Recorder exited with status {code}; inspect journalctl --user -u {UNIT}")
+    if output.is_file() and output.stat().st_size:
+        notify(f"Saved {output.name} in {directory}")
+    else:
+        raise RuntimeError("Recorder did not create a video")
+
+
+if __name__ == "__main__":
+    try:
+        record() if sys.argv[1:] == ["run"] else toggle()
+    except Exception as exc:
+        notify(f"Failed: {exc}")
+        raise

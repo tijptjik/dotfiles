@@ -111,6 +111,10 @@ def main():
     s.add_argument("folders", nargs="*")
     s.add_argument("--from", dest="source", default="fi")
     s.add_argument("--snapshot")
+    guided = sub.add_parser("setup", help="Guided sync: review diffs, choose conflicts, apply and optionally back up")
+    guided.add_argument("folders", nargs="*")
+    guided.add_argument("--from", dest="source", default="fi")
+    guided.add_argument("--snapshot")
     a = sub.add_parser(
         "apply", help="Apply a pinned plan after verifying unchanged local files"
     )
@@ -265,6 +269,9 @@ def main():
                             indent=2,
                         )
                     )
+            elif args.command == "setup":
+                from .wizard import setup
+                setup(app, args.source, args.folders, args.snapshot)
             elif args.command == "apply":
                 print(
                     json.dumps(

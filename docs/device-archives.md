@@ -177,6 +177,33 @@ regenerate that plan before applying it. Local sync baselines survive pruning.
 
 ## Reviewed synchronization
 
+For guided synchronization, run this on the receiving device:
+
+```sh
+device-archives setup --from fi
+# Or limit the guided session to selected folders:
+device-archives setup .ssh .gnupg --from fi
+```
+
+The wizard uses Gum and tjikup's status rows. It generates each plan, opens a
+scrollable change list, shows conflict metadata and text diffs (or binary hashes),
+and asks whether to keep the local version or use the source version. You can
+inspect individual files, skip a folder, or cancel. A final confirmation shows
+resolved changes before each folder is applied; exact mirrors explicitly warn
+that local managed contents will be replaced, including deletions. No JSON
+editing is required. Confirmation defaults to No.
+
+Plans and baselines are maintained automatically. A changed local file, expired
+snapshot or active writer still blocks apply; the wizard offers retry with a new
+plan or skip. Completed folders stay applied if you cancel later. Once all
+selected folders succeed and readiness passes, it offers to back up this device.
+Skipped folders suppress that offer; the laptop's initial-sync gate still requires
+all nine assigned sync/master folders. Missing Gum or a noninteractive terminal
+fails without applying changes. Diffs can contain credentials and are displayed
+only in the local terminal, not written into status reports.
+
+The lower-level commands remain available for automation and advanced review:
+
 Create plans on the receiving device:
 
 ```sh
@@ -241,3 +268,60 @@ reauthentication after provider-side rotation.
 Sockets, ephemeral locks, SQLite sidecars, and policy exclusions are omitted.
 SQLite is copied consistently, but the full directory is not an atomic snapshot
 of a running application. Close apps if a backup reports changing files.
+
+## Client and server rollout
+
+Install the current changes in **both** the chezmoi and Chezetc source repositories
+before applying. `tjikup` runs the home and system configuration workflows; it
+does not complete archive synchronization. A failure during Chezetc apply does
+not undo earlier successful stages. Re-running after fixing the failed stage is
+safe; review unrelated local changes before allowing tjikup to commit them.
+
+### Laptop (`li`)
+
+1. If tjikup already completed its home stages and stopped during system apply,
+   run `chezetc apply` after installing the client installer fixes to complete
+   that part; a full tjikup run is not required just for archive sync. The hooks
+   build Waybar and install Strata as the invoking desktop user, while package
+   dependencies use sudo. Material Symbols can use the Fedora 43 COPR chroot
+   when the current Fedora release is unavailable; an already-installed fallback
+   needs no repair. Check `~/.local/state/chezetc/waybar-build-failure.log` if the
+   custom Waybar build fails. The working system binary remains the fallback.
+2. Close Bazecor, KOReader and Sublime Text before applying their sync plans.
+   Confirm fi has current successful backups; fi need not remain online while
+   li downloads its snapshots from R2.
+3. Run `device-archives setup --from fi`. Follow the folder previews, inspect
+   diffs, choose local/source for conflicts, and confirm each apply. Do not
+   blanket-select fi for SSH/GnuPG differences. The wizard handles plans and
+   resolutions internally.
+4. Accept the final backup prompt after all nine folders are synchronized.
+   If you skip or cancel, run the same command again to continue reviewing;
+   completed folder baselines are retained.
+5. Confirm `systemctl --user list-timers backup-packages.timer`: daily at 00:15.
+   Until initial sync is complete, the enabled timer intentionally skips backups.
+
+ZapZap is managed separately by chezmoi, not these archives. Its template uses
+`zapzapConfigs.fi` or `zapzapConfigs.li` from `.chezmoidata/zapzap.json`; tjikup
+captures only the current client's configuration, preserving Qt serialization,
+window geometry, window state, and recent-download paths on the other client.
+Close ZapZap before applying deliberately edited settings; its running process
+can otherwise write its old settings back at exit.
+
+### Server (`si`)
+
+1. Install the current repository changes and run `tjikup` after reviewing local
+   server edits. Client-only Waybar, Strata and ZapZap configuration is excluded.
+2. Run `device-archives ready` and inspect
+   `systemctl --user list-timers backup-packages.timer`. Si has no mandatory
+   initial-sync gate and backs up its own assigned folders daily at 00:30.
+3. Run `device-archives setup --from fi` to review the five shared folders:
+   `.ssh`, `.gnupg`, `.local/share/icons`, `.local/share/backgrounds`, and `.fonts`.
+   Preserve server-specific keys and authorization files when resolving
+   conflicts. Keep the current SSH session open until access has been checked
+   from a second session after applying SSH changes.
+4. Accept the final backup prompt after the reviewed sync. Si's snapshots remain
+   separate from fi/li, subject to each folder's retention policy.
+
+Neither device receives codex-lb accounts through this workflow. The `.codex-lb`
+archive is fi-only recovery data; independent laptop authentication remains a
+separate setup task.

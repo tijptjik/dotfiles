@@ -31,3 +31,11 @@ The active GTK, Micro, and Zed templates are managed by Chezmoi under
 rely on a separate `.tools/matugen-themes` directory. Edit the managed templates
 and configuration in the dotfiles repository; generated colour files stay at
 the destinations specified in `~/.config/matugen/config.toml`.
+
+## Tennis and Tinty
+
+Chezetc installs Tennis 0.6.0 and Tinty 0.30.0 into versioned `/opt` directories,
+with commands in `/usr/local/bin`. The client hook
+`run_57-install-terminal-tools.fish.tmpl` pins release URLs and SHA-256 checksums.
+The migration preserves existing versions and Tinty settings and generated
+artifacts; it does not apply a new colour scheme.

@@ -48,7 +48,6 @@ fish_add_path $TOOLS
 fish_add_path $CONFIG/rclone
 fish_add_path $TOOLS/bws
 fish_add_path $TOOLS/peco
-fish_add_path $TOOLS/tennis
 
 # Code
 fish_add_path $HOME/code/foodworks/bin

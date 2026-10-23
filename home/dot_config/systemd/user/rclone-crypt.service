@@ -1,0 +1,15 @@
+[Unit]
+Description=Encrypted Google Drive mount
+StartLimitIntervalSec=0
+
+[Service]
+Type=notify
+ExecStartPre=/usr/bin/mkdir -p %h/mnt/rclone/crypt
+ExecStart=/usr/bin/rclone --config %h/.local/state/storage-review/legacy-rclone.conf mount crypt: %h/mnt/rclone/crypt --vfs-cache-mode writes
+ExecStop=/usr/bin/fusermount3 -u %h/mnt/rclone/crypt
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=60
+
+[Install]
+WantedBy=default.target

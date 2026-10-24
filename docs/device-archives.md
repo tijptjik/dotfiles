@@ -389,12 +389,3 @@ Existing age-encrypted documents snapshots remain under
 `/mnt/storage/private/backups/device-archives`. Use `document-archives` for
 inspection or restoration of those snapshots. They are not part of the daily
 Restic job. Both formats retain their own recoverable encryption credentials.
-
-## Legacy Beets recovery
-
-The retired desktop Beets database, configuration, and import state are preserved
-in `~/.local/share/legacy-recovery/beets` on fi and backed up encrypted to R2
-with latest-snapshot retention. `origin-manifest.json` records source hashes
-and comparison counts. This is historical recovery data, not the active si
-library: restore into a new directory and inspect it before importing anything.
-Never execute or unpickle historical state files merely to inspect them.

@@ -243,19 +243,22 @@ def mount(which):
         finally:
             staged.unlink(missing_ok=True)
         args = ['rclone', '--config', str(plain), 'mount', 'crypt:', str(point)]
+        device_name = 'crypt'
     elif which.startswith('gi'):
         args = rclone() + ['mount', 'type-drive:' + which[2:], str(point), '--drive-skip-gdocs']
+        device_name = 'gi-' + which[2:]
     else:
         args = ['rclone', 'mount', ':sftp:/mnt/storage/' + which[2:], str(point),
                 '--sftp-ssh', shlex.join(si_ssh()), '--sftp-known-hosts-file', 'none',
                 '--sftp-shell-type', 'unix', '--sftp-disable-hashcheck']
+        device_name = 'si-' + which[2:]
     # A transient service survives the terminal and restarts mount failures.
     unit = 'private-mount-' + which
     run(['systemd-run', '--user', '--collect', '--unit', unit, '--property=Type=notify',
          '--property=Restart=on-failure', '--property=RestartSec=15',
          '--property=TimeoutStopSec=120',
          '--property=ExecStopPost=-/usr/bin/fusermount3 -uz ' + str(point),
-         *args, '--vfs-cache-mode', 'writes'])
+         *args, '--devname', device_name, '--vfs-cache-mode', 'writes'])
     note('MOUNT', str(point))
 
 

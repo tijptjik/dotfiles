@@ -100,13 +100,17 @@ can restore from the other's repository using the same recoverable password.
 
 ## Mount commands
 
-| Command | Local mount | Remote |
-|---|---|---|
-| `mntcrypt` | `~/mnt/rclone/crypt` | Drive `crypt:` |
-| `mntgiprivate` | `~/mnt/google/private` | Drive `private/` |
-| `mntgipublic` | `~/mnt/google/public` | Drive `public/` |
-| `mntsiprivate` | `~/mnt/si/private` | si `/mnt/storage/private` |
-| `mntsipublic` | `~/mnt/si/public` | si `/mnt/storage/public` |
+| Command | File-manager label | Local mount | Remote |
+|---|---|---|---|
+| `mntcrypt` | `crypt` | `~/mnt/rclone/crypt` | Drive `crypt:` |
+| `mntgiprivate` | `gi-private` | `~/mnt/google/private` | Drive `private/` |
+| `mntgipublic` | `gi-public` | `~/mnt/google/public` | Drive `public/` |
+| `mntsiprivate` | `si-private` | `~/mnt/si/private` | si `/mnt/storage/private` |
+| `mntsipublic` | `si-public` | `~/mnt/si/public` | si `/mnt/storage/public` |
+
+Google Drive and si both contain `public` and `private` mounts. Their Linux
+FUSE device labels include the source (`gi` or `si`) so the file manager shows
+four distinct names. Restart an existing mount service for its label to update.
 
 These mounts are writable, cache writes locally, and run in supervised transient
 user services named `private-mount-<name>`. A fast file-manager copy is not proof

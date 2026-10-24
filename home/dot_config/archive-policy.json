@@ -264,6 +264,14 @@
       "devices": [
         "clients"
       ]
+    },
+    ".local/share/legacy-recovery/beets": {
+      "mode": "desktop",
+      "encrypted": true,
+      "retention": "latest",
+      "devices": [
+        "desktop"
+      ]
     }
   },
   "device_groups": {

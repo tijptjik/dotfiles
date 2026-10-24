@@ -1,5 +1,11 @@
 #!/usr/bin/env fish
 {{ if .isClient -}}
+# Retire the legacy whole-tree writers before enabling per-folder bisync.
+for unit in rclone_sync.type-drive:private.service rclone_sync.type-drive:system.service
+    if systemctl --user cat "$unit" >/dev/null 2>&1
+        systemctl --user disable --now "$unit"; or exit $status
+    end
+end
 for folder in documents media projects resources
     if test -L "$HOME/$folder"
         echo "Private storage requires a real local directory: $HOME/$folder" >&2

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+{{ if .isDesktop -}}
+set -euo pipefail
+
+# The embedded source config makes this hook rerun whenever it changes.
+sudo tee /etc/sysctl.d/90-inotify.conf >/dev/null <<'SYSCTL'
+{{ include ".chezmoitemplates/sysctl/90-inotify.conf" -}}
+SYSCTL
+
+sudo sysctl -p /etc/sysctl.d/90-inotify.conf
+{{ end -}}

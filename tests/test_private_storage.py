@@ -19,7 +19,7 @@ class PrivateStorageTests(unittest.TestCase):
             root = Path(directory)
             (root/'documents').mkdir()
             with patch.object(storage, 'HOME', root), patch.object(storage, 'STATE', root/'state'), \
-                 patch.object(storage, 'settings', return_value={'folders':['documents'], 'remote':'drive:private'}), \
+                 patch.object(storage, 'settings', return_value={'sharing_approved': True, 'folders':['documents'], 'remote':'drive:private'}), \
                  patch.object(storage, 'run') as run:
                 with self.assertRaisesRegex(RuntimeError, 'not been initialized'):
                     storage.sync()
@@ -31,7 +31,7 @@ class PrivateStorageTests(unittest.TestCase):
             (root/'target').mkdir()
             (root/'documents').symlink_to(root/'target', target_is_directory=True)
             with patch.object(storage, 'HOME', root), patch.object(storage, 'STATE', root/'state'), \
-                 patch.object(storage, 'settings', return_value={'folders':['documents'], 'remote':'drive:private'}), \
+                 patch.object(storage, 'settings', return_value={'sharing_approved': True, 'folders':['documents'], 'remote':'drive:private'}), \
                  patch.object(storage, 'run') as run:
                 with self.assertRaisesRegex(RuntimeError, 'real local directory'):
                     storage.sync()
@@ -56,7 +56,7 @@ class PrivateStorageTests(unittest.TestCase):
                 calls.append(args)
                 Path(args[args.index('--log-file') + 1]).write_text('Sync completed')
             with patch.object(storage, 'HOME', root), patch.object(storage, 'STATE', root/'state'), \
-                 patch.object(storage, 'settings', return_value={'folders':['documents'], 'remote':'drive:private'}), \
+                 patch.object(storage, 'settings', return_value={'sharing_approved': True, 'folders':['documents'], 'remote':'drive:private'}), \
                  patch.object(storage, 'run', side_effect=run):
                 storage.sync()
             self.assertEqual(len(calls), 1)
@@ -72,7 +72,7 @@ class PrivateStorageTests(unittest.TestCase):
 
     def test_initialization_requires_verified_layout(self):
         with tempfile.TemporaryDirectory() as directory, patch.object(storage, 'CONFIG', Path(directory)), \
-             patch.object(storage, 'settings', return_value={'folders':['documents']}), \
+             patch.object(storage, 'settings', return_value={'sharing_approved': True, 'folders':['documents']}), \
              patch.object(storage, 'run') as run:
             with self.assertRaisesRegex(RuntimeError, 'reorganization'):
                 storage.sync(initial=True)
@@ -92,7 +92,7 @@ class PrivateStorageTests(unittest.TestCase):
                 return SimpleNamespace(stdout='{"bytes": 0}')
             with patch.object(storage, 'HOME', root), patch.object(storage, 'STATE', root/'state'), \
                  patch.object(storage, 'CONFIG', root), patch.object(storage, 'HOST', 'li'), \
-                 patch.object(storage, 'settings', return_value={'folders':['documents'], 'remote':'drive:private'}), \
+                 patch.object(storage, 'settings', return_value={'sharing_approved': True, 'folders':['documents'], 'remote':'drive:private'}), \
                  patch.object(storage, 'run', side_effect=run):
                 storage.sync(initial=True)
             transfers = [args for args in calls if 'bisync' in args]
@@ -103,3 +103,13 @@ class PrivateStorageTests(unittest.TestCase):
                 self.assertIn('--backup-dir1', args)
             receipt = json.loads((root/'state/bisync/documents/initialized.json').read_text())
             self.assertEqual(receipt['host'], 'li')
+
+    def test_unapproved_sharing_blocks_initial_and_normal_sync_before_commands(self):
+        for initial in (False, True):
+            for approval in (None, False, "true"):
+                with self.subTest(initial=initial, approval=approval), \
+                     patch.object(storage, 'settings', return_value={'sharing_approved': approval}), \
+                     patch.object(storage, 'run') as run:
+                    with self.assertRaisesRegex(RuntimeError, 'sharing has not been approved'):
+                        storage.sync(initial=initial)
+                    run.assert_not_called()

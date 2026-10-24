@@ -8,7 +8,7 @@ uppercase `~/Documents` directory are outside this workflow.
 ## Drive layout
 
 - `crypt/`: encrypted rclone storage, unlocked explicitly with a local password.
-- `GSUITE/`: Google-native documents. Native files remain cloud-native and are
+- `GSUITE/`: destination for Google-native documents. Native files remain cloud-native and are
   excluded from bisync; opening them in Google's applications preserves their
   editing and sharing semantics.
 - `public/`: existing public/shared files. Mounting it does not change sharing.
@@ -23,6 +23,19 @@ clients. The former Drive media collection is retained in
 Legacy backups are preserved for content review; they are not automatically
 classified as redundant merely because new backups exist. Other unclassified
 root files are not moved into synced folders automatically.
+
+## Sharing approval
+
+Google synchronization is blocked while `sharing_approved` is false in
+`~/.config/private-storage/config.json`. Both initialization and ordinary sync
+check this gate; chezmoi preserves the blocked policy until its source config
+is explicitly updated after review. Local backups to si remain independent.
+
+The existing `private` and `GSUITE` folders have domain-wide reader access.
+Approval requires deciding whether to retain that access or remove folder-level
+domain grants, while preserving individual document shares. The root Google-native
+documents remain in their original locations pending this decision.
+The layout-ready marker alone does not authorize synchronization.
 
 ## Hourly sync
 

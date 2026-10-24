@@ -76,6 +76,8 @@ def stamp():
 
 def sync(initial=False, selected=None):
     conf = settings()
+    if conf.get('sharing_approved') is not True:
+        raise RuntimeError('Drive folder sharing has not been approved; synchronization is blocked')
     if initial and not (CONFIG/'layout-ready').exists():
         raise RuntimeError('Drive reorganization is not verified yet; initialization is blocked')
     folders = selected or conf['folders']
@@ -277,7 +279,9 @@ def main():
     args = parser.parse_args()
     try:
         if args.action == 'ready':
-            return 0 if all((STATE/'bisync'/name/'initialized.json').exists() for name in settings()['folders']) else 1
+            conf = settings()
+            return 0 if conf.get('sharing_approved') is True and all(
+                (STATE/'bisync'/name/'initialized.json').exists() for name in conf['folders']) else 1
         if args.action == 'mount': mount(args.which)
         elif args.action == 'crypt-password': crypt_password()
         elif args.action == 'snapshots':

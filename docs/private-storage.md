@@ -26,16 +26,11 @@ root files are not moved into synced folders automatically.
 
 ## Sharing approval
 
-Google synchronization is blocked while `sharing_approved` is false in
-`~/.config/private-storage/config.json`. Both initialization and ordinary sync
-check this gate; chezmoi preserves the blocked policy until its source config
-is explicitly updated after review. Local backups to si remain independent.
-
-The existing `private` and `GSUITE` folders have domain-wide reader access.
-Approval requires deciding whether to retain that access or remove folder-level
-domain grants, while preserving individual document shares. The root Google-native
-documents remain in their original locations pending this decision.
-The layout-ready marker alone does not authorize synchronization.
+Domain-wide reader access on `private` and `GSUITE` is approved: the domain
+has only the owner as a user. Existing sharing permissions are retained.
+`sharing_approved: true` enables synchronization; setting it false blocks both
+initialization and ordinary sync without stopping local backups to si.
+The verified layout marker is also required for initialization.
 
 ## Hourly sync
 

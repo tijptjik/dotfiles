@@ -3,3 +3,8 @@
 .config/systemd/user/graphical-session.target.wants/hyprfloat.service
 .config/systemd/user/default.target.wants/hyprfloat.service
 {{ end -}}
+
+{{ if .isClient -}}
+.config/systemd/user/rclone-crypt.service
+.config/systemd/user/default.target.wants/rclone-crypt.service
+{{ end -}}

@@ -1,16 +1,19 @@
-# Encrypted Google Drive
+# Encrypted Google Drive mount
 
-On fi, `rclone-crypt.service` mounts `crypt:` writable at `~/mnt/rclone/crypt`.
-It uses `~/.local/state/storage-review/legacy-rclone.conf` (mode 0600), whose
-`crypt` remote wraps `type-drive:crypt`. Credentials and encryption secrets stay
-outside Git. Preserve this configuration securely for recovery.
+Run `mntcrypt --set-password` in a terminal to choose the password, then
+`mntcrypt` to unlock and mount encrypted Google Drive at `~/mnt/rclone/crypt`.
+The mount is writable and does not start automatically at login.
 
-The user service starts at login and restarts after failure. It retains rclone's
-VFS write cache; do not delete that cache when repairing a mount. Other review
-mounts are still temporary, read-only mounts.
+Credentials are recoverable from Bitwarden Secrets Manager. The local crypt
+configuration is passphrase-encrypted; decrypted configuration exists in the
+user runtime directory while mounting. See [private-storage.md](private-storage.md)
+for credentials, mounts, cache behavior, synchronization, and recovery.
 
-Inspect with `systemctl --user status rclone-crypt` and
-`journalctl --user -u rclone-crypt`. A disconnected FUSE endpoint with no rclone
-process is a stale mount. Stop the service, unmount with
-`fusermount3 -u ~/mnt/rclone/crypt`, then start the service. OAuth failures require
-`rclone --config ~/.local/state/storage-review/legacy-rclone.conf config reconnect type-drive:`.
+Check upload progress with:
+
+```sh
+systemctl --user status private-mount-crypt
+```
+
+Wait for zero pending and uploading files before stopping the mount. Never
+remove the VFS cache to repair a disconnected mount while writes remain pending.

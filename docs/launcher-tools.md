@@ -10,10 +10,12 @@ plugins next to the binaries; personal settings remain in `~/.config/hamr`.
 Hyprland starts the Hamr GTK user service. Super+Escape toggles the launcher;
 Super+V opens its clipboard plugin. The old Quickshell startup is retired.
 
-`tjikup` runs the idempotent Chezetc installer. Versions and source checksums
-are pinned in `.chezmoitemplates/install-launcher-tools.py` in the Chezetc repo;
-change those pins deliberately to upgrade. Reproducible downloads and build
-output do not require recurring backups. Preserve personal configuration.
+`tjikup` checks GitHub for each tool's latest stable release and updates the
+versioned install when needed. Hamr archives are verified against the release
+asset digest. Gitfetch is installed from the latest stable release tag after
+checking that the cloned commit matches GitHub's commit API. Reproducible
+downloads and build output do not require recurring backups. Preserve personal
+configuration.
 
 ## Strata
 
@@ -34,20 +36,28 @@ rely on a separate `.tools/matugen-themes` directory. Edit the managed templates
 and configuration in the dotfiles repository; generated colour files stay at
 the destinations specified in `~/.config/matugen/config.toml`.
 
+## Hyprvoice
+
+Chezetc checks the latest stable Hyprvoice release on each client apply,
+verifies the downloaded binary against GitHub's release asset digest, and
+activates it from a versioned `/opt` directory. Existing user configuration is
+preserved.
+
 ## Tennis and Tinty
 
-Chezetc installs Tennis 0.6.0 and Tinty 0.30.0 into versioned `/opt` directories,
-with commands in `/usr/local/bin`. The client hook
-`run_57-install-terminal-tools.fish.tmpl` pins release URLs and SHA-256 checksums.
-The migration preserves existing versions and Tinty settings and generated
-artifacts; it does not apply a new colour scheme.
+Chezetc checks each tool's latest stable release on every client apply and
+verifies the archive against GitHub's published SHA-256 digest. New versions
+are installed under `/opt`; older installs remain available, and the active
+command links are switched after verification. Tinty settings and generated
+artifacts are preserved; updates do not apply a new colour scheme.
 
 ## Bitwarden CLIs
 
-Chezmoi's early bootstrap installs checksum-pinned `bws` 1.0.0 and `bw`
-2025.11.0 under `/opt/bws` and `/opt/bw`, with commands in `/usr/local/bin`.
-The installer requires sudo for these system-owned directories. The Secrets
-Manager wrapper prefers the managed command and retains a legacy fallback
-while other devices migrate. Vault data and Secrets Manager credentials stay
-in their existing user configuration directories. Installation checks use
-isolated temporary Vault CLI state and do not log in, unlock, or alter a vault.
+Chezmoi checks for the latest stable `bws` and `bw` releases on each apply,
+verifies their release asset digests, and activates them from versioned `/opt`
+directories. The installer requires sudo for these system-owned directories.
+The Secrets Manager wrapper prefers the managed command and retains a legacy
+fallback while other devices migrate. Vault data and Secrets Manager
+credentials stay in their existing user configuration directories.
+Installation checks use isolated temporary Vault CLI state and do not log in,
+unlock, or alter a vault.

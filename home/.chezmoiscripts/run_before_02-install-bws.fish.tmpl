@@ -1,0 +1,15 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+function update_bitwarden_clis
+    set -l installer (mktemp); or return 1
+    printf '%s\n' {{ include ".chezmoitemplates/install-bitwarden-cli.py" | quote }} > "$installer"
+    python3 "$installer"
+    set -l result $status
+    rm -f "$installer"
+    return $result
+end
+
+stage "Bitwarden CLIs" UPDATE "Bitwarden CLIs" update_bitwarden_clis
+or exit $status
+fish_add_path /usr/local/bin

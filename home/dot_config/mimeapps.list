@@ -18,6 +18,9 @@ x-scheme-handler/tg=org.telegram.desktop
 x-scheme-handler/tonsite=org.telegram.desktop
 text/x-log=sublime_text.desktop
 x-scheme-handler/codex=chatgpt.desktop
+text/markdown=obsidian-appimage.desktop
+x-scheme-handler/obsidian=md.obsidian.Obsidian.desktop
 
 [Added Associations]
 font/ttf=org.gnome.font-viewer.desktop;
+x-scheme-handler/obsidian=md.obsidian.Obsidian.desktop;

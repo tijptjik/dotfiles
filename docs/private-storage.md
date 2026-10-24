@@ -43,6 +43,9 @@ Use `private-storage sync --progress` to run an interactive Drive sync with
 rclone transfer progress on one updating line, or `private-storage sync` for
 the normal quiet run. Interactive status uses Charmbracelet Gum styling when
 `gum` is installed; plain text remains available otherwise.
+For a reviewed change that exceeds the 5% delete guard, use
+`private-storage sync --progress --max-delete-percent 40 resources` for that
+single folder. The 1 GiB deletion-size cap and recovery copies still apply.
 Use `private-storage backup` to create and verify the Restic backup on si;
 Restic shows progress in an interactive terminal. `private-storage status`
 shows the last successful sync, backup, and most recent failure. Logs and

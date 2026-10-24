@@ -102,7 +102,7 @@ def stamp():
     return dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
 
 
-def sync(initial=False, selected=None, progress=False):
+def sync(initial=False, selected=None, progress=False, max_delete_percent=5):
     conf = settings()
     if conf.get('sharing_approved') is not True:
         raise RuntimeError('Drive folder sharing has not been approved; synchronization is blocked')
@@ -111,6 +111,8 @@ def sync(initial=False, selected=None, progress=False):
     folders = selected or conf['folders']
     if not set(folders).issubset(conf['folders']):
         raise RuntimeError('Unknown sync folder')
+    if max_delete_percent > 5 and (initial or selected is None or len(selected) != 1):
+        raise RuntimeError('A reviewed delete-limit override requires exactly one folder')
     for folder in folders:
         local = HOME / folder
         remote = conf['remote'] + '/' + folder
@@ -137,7 +139,7 @@ def sync(initial=False, selected=None, progress=False):
         args = rclone() + ['bisync', str(local), remote, '--workdir', str(work),
             '--filters-file', str(CONFIG / 'sync-filter.txt'), '--drive-skip-gdocs', '--skip-links',
             '--check-access', '--check-filename', '.private-sync-access',
-            '--max-delete', '5', '--max-delete-size', '1Gi',
+            '--max-delete', str(max_delete_percent), '--max-delete-size', '1Gi',
             '--conflict-resolve', 'none', '--conflict-loser', 'num',
             '--conflict-suffix', f'conflict-{HOST}', '--recover', '--resilient',
             '--backup-dir1', str(recovery), '--backup-dir2',
@@ -306,6 +308,8 @@ def main():
     sync_parser.add_argument('folders', nargs='*')
     sync_parser.add_argument('--progress', action='store_true',
                              help='show rclone transfer progress in the terminal')
+    sync_parser.add_argument('--max-delete-percent', type=int, choices=range(5, 101), default=5,
+                             help='temporarily raise the delete guard for one reviewed folder')
     sub.add_parser('init').add_argument('folders', nargs='*')
     sub.add_parser('backup')
     sub.add_parser('snapshots').add_argument('--from', dest='source', choices=['fi','li'], default=HOST)
@@ -347,7 +351,8 @@ def main():
                         backup()
                 else:
                     sync(args.action == 'init', args.folders,
-                         getattr(args, 'progress', False))
+                         getattr(args, 'progress', False),
+                         getattr(args, 'max_delete_percent', 5))
                     if args.action == 'init': notify('Initial sync completed. Hourly synchronization is ready.')
     except Busy as error:
         note('SKIP', str(error))

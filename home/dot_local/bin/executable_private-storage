@@ -221,9 +221,9 @@ def crypt_password():
 
 
 def mount(which):
-    mountpoints = {'crypt': HOME/'mnt/rclone/crypt', 'giprivate': HOME/'mnt/google/private',
-                  'gipublic': HOME/'mnt/google/public', 'siprivate': HOME/'mnt/si/private',
-                  'sipublic': HOME/'mnt/si/public'}
+    mountpoints = {'crypt': HOME/'.mnt/rclone/crypt', 'giprivate': HOME/'.mnt/google/private',
+                  'gipublic': HOME/'.mnt/google/public', 'siprivate': HOME/'.mnt/si/private',
+                  'sipublic': HOME/'.mnt/si/public'}
     point = mountpoints[which]
     if os.path.ismount(point):
         note('SKIP', f'Already mounted: {point}')

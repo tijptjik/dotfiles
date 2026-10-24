@@ -1,7 +1,7 @@
 # Encrypted Google Drive mount
 
 Run `mntcrypt --set-password` in a terminal to choose the password, then
-`mntcrypt` to unlock and mount encrypted Google Drive at `~/mnt/rclone/crypt`.
+`mntcrypt` to unlock and mount encrypted Google Drive at `~/.mnt/rclone/crypt`.
 The mount is writable and does not start automatically at login.
 
 Credentials are recoverable from Bitwarden Secrets Manager. The local crypt

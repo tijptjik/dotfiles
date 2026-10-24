@@ -102,11 +102,11 @@ can restore from the other's repository using the same recoverable password.
 
 | Command | File-manager label | Local mount | Remote |
 |---|---|---|---|
-| `mntcrypt` | `crypt` | `~/mnt/rclone/crypt` | Drive `crypt:` |
-| `mntgiprivate` | `gi-private` | `~/mnt/google/private` | Drive `private/` |
-| `mntgipublic` | `gi-public` | `~/mnt/google/public` | Drive `public/` |
-| `mntsiprivate` | `si-private` | `~/mnt/si/private` | si `/mnt/storage/private` |
-| `mntsipublic` | `si-public` | `~/mnt/si/public` | si `/mnt/storage/public` |
+| `mntcrypt` | `crypt` | `~/.mnt/rclone/crypt` | Drive `crypt:` |
+| `mntgiprivate` | `gi-private` | `~/.mnt/google/private` | Drive `private/` |
+| `mntgipublic` | `gi-public` | `~/.mnt/google/public` | Drive `public/` |
+| `mntsiprivate` | `si-private` | `~/.mnt/si/private` | si `/mnt/storage/private` |
+| `mntsipublic` | `si-public` | `~/.mnt/si/public` | si `/mnt/storage/public` |
 
 Google Drive and si both contain `public` and `private` mounts. Their Linux
 FUSE device labels include the source (`gi` or `si`) so the file manager shows
@@ -178,5 +178,6 @@ categories are Android, DB, credentials, drives, hkghostsigns, images, and syste
 
 New client recovery snapshots go to Restic on si. New short-term bisync recovery
 copies go to `private/backups/sync-recovery`. Reproducible `/opt` binaries do not
-need new Drive backups: their pinned installers are committed in Chezmoi/Chezetc.
+need new Drive backups: their release-checking installers are committed in
+Chezmoi/Chezetc.
 The existing external `.tools` safety archive remains independent of this cleanup.

@@ -38,7 +38,8 @@ or a mixture; overlapping selections are deduplicated. For example:
 | Desktop | `.config/unity3d`, `.var/app/org.yuzu_emu.yuzu/config`, Yuzu data folders listed in the policy | Desktop backups |
 | Desktop | `.local/share/device-archives-policy` | Encrypted recovery copy of the archive policy; daily/weekly/monthly retention |
 | Desktop | `.codex-lb` | Master backup of `store.db` and its matching `encryption.key` |
-| Desktop | `.electrum`, `.local/share/keyrings`, `.config/gh`, `.config/gcloud`, `.keys` | Encrypted independent recovery snapshots; daily/weekly/monthly retention |
+| Per client | `.electrum`, `.local/share/keyrings`, `.config/gh`, `.config/gcloud` | Encrypted device-specific recovery snapshots; daily/weekly/monthly retention |
+| Desktop | `.keys` | Encrypted independent recovery snapshots; daily/weekly/monthly retention |
 
 SSH and GnuPG conflicts support text diffs. Asset and application conflicts are
 reviewed through file lists, sizes, and hashes. `.obsidian` is a chezmoi Git

@@ -204,35 +204,35 @@
       ]
     },
     ".electrum": {
-      "mode": "desktop",
+      "mode": "device",
       "encrypted": true,
       "retention": "daily-weekly-monthly",
       "devices": [
-        "desktop"
+        "clients"
       ]
     },
     ".local/share/keyrings": {
-      "mode": "desktop",
+      "mode": "device",
       "encrypted": true,
       "retention": "daily-weekly-monthly",
       "devices": [
-        "desktop"
+        "clients"
       ]
     },
     ".config/gh": {
-      "mode": "desktop",
+      "mode": "device",
       "encrypted": true,
       "retention": "daily-weekly-monthly",
       "devices": [
-        "desktop"
+        "clients"
       ]
     },
     ".config/gcloud": {
-      "mode": "desktop",
+      "mode": "device",
       "encrypted": true,
       "retention": "daily-weekly-monthly",
       "devices": [
-        "desktop"
+        "clients"
       ]
     },
     ".keys": {

@@ -39,10 +39,14 @@ minutes past on li, with up to a minute of jitter. The service skips until all
 four initializations finish. It catches up after login if a scheduled run was
 missed; it cannot sync while a device is asleep or offline.
 
-Use `private-storage sync` to run now, and `private-storage status` for the last
-successful sync, backup, and most recent failure. Logs and per-folder baselines
-are in `~/.local/state/private-storage`. They are local device state: do not copy
-them to another machine, delete them to clear an error, or synchronize them.
+Use `private-storage sync --progress` to run an interactive Drive sync with
+rclone transfer progress, or `private-storage sync` for the normal quiet run.
+Use `private-storage backup` to create and verify the Restic backup on si;
+Restic shows progress in an interactive terminal. `private-storage status`
+shows the last successful sync, backup, and most recent failure. Logs and
+per-folder baselines are in `~/.local/state/private-storage`. They are local
+device state: do not copy them to another machine, delete them to clear an
+error, or synchronize them.
 
 Protections:
 

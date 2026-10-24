@@ -74,7 +74,7 @@ def stamp():
     return dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
 
 
-def sync(initial=False, selected=None):
+def sync(initial=False, selected=None, progress=False):
     conf = settings()
     if conf.get('sharing_approved') is not True:
         raise RuntimeError('Drive folder sharing has not been approved; synchronization is blocked')
@@ -135,7 +135,7 @@ def sync(initial=False, selected=None):
             if 'duplicate object' in preview or 'duplicate directory' in preview:
                 raise RuntimeError(f'Duplicate Drive paths require review before initial sync: {log}')
         note('SYNC', folder)
-        run(args)
+        run(args + (['--progress'] if progress else []))
         receipt.write_text(json.dumps({'completed': when, 'host': HOST, 'remote': remote}) + '\n')
         text = log.read_text(errors='replace')
         if 'conflict' in text.lower() and ('renam' in text.lower() or 'WARNING' in text):
@@ -195,6 +195,7 @@ def backup():
     run(common + ['backup', '--skip-if-unchanged', '--host', HOST, '--tag', 'private-storage',
                   '--exclude', '**/.git', '--exclude', '**/node_modules',
                   '--exclude', '**/.venv', '--exclude', '**/__pycache__',
+                  '--exclude', '**/.Trash-*',
                   '--exclude', '**/.private-sync-access', *map(str, paths)])
     run(common + ['check'])
     run(common + ['forget', '--host', HOST, '--tag', 'private-storage',
@@ -267,8 +268,11 @@ def main():
     STATE.mkdir(parents=True, exist_ok=True, mode=0o700)
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='action', required=True)
-    for name in ('sync', 'init'):
-        sub.add_parser(name).add_argument('folders', nargs='*')
+    sync_parser = sub.add_parser('sync')
+    sync_parser.add_argument('folders', nargs='*')
+    sync_parser.add_argument('--progress', action='store_true',
+                             help='show rclone transfer progress in the terminal')
+    sub.add_parser('init').add_argument('folders', nargs='*')
     sub.add_parser('backup')
     sub.add_parser('snapshots').add_argument('--from', dest='source', choices=['fi','li'], default=HOST)
     restore = sub.add_parser('restore')
@@ -308,7 +312,8 @@ def main():
                         fcntl.flock(archive_lock, fcntl.LOCK_EX)
                         backup()
                 else:
-                    sync(args.action == 'init', args.folders)
+                    sync(args.action == 'init', args.folders,
+                         getattr(args, 'progress', False))
                     if args.action == 'init': notify('Initial sync completed. Hourly synchronization is ready.')
     except Busy as error:
         note('SKIP', str(error))

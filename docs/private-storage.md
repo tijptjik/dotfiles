@@ -83,9 +83,27 @@ failed initialization is not silently retried with a forced resync.
 
 ## Incremental backups
 
-`private-backup.timer` runs `private-storage backup` on fi (00:00) and li
-(00:15), independently of R2 success. A shared backup lock serializes it with
-R2 archiving. Restic stores encrypted, deduplicated
+`private-backup.timer` runs `private-storage backup --scheduled` on fi at
+00:00 and li at 01:00, independently of R2 success. li is a fallback: it skips
+if another client backup is running, or fi has completed a verified backup
+since midnight in li's local timezone. A failed or absent fi backup does not
+suppress li. This decision uses si's `.coordination/fi.json` receipt, so fi
+need not be online for li to check it.
+
+A server-held lock in `/mnt/storage/private/backups/clients/.coordination/`
+prevents overlapping client backups. Completion is recorded only after backup,
+repository verification, and retention succeed. Losing the lock connection
+stops the local Restic process. Local locks also serialize backup with sync
+and R2 archiving. Explicit `private-storage backup` bypasses the completed-fi
+skip but still respects the shared lock.
+
+Both hourly sync and daily backup timers use `Persistent=true`: after a missed
+schedule, they run once when the user's systemd manager is next available, then
+resume their normal calendar. Catch-up is not one run per missed interval.
+A policy skip counts as that timer activation; it is not retried later that day.
+Network failures are reported, not automatically retried as soon as connectivity
+returns. Existing `private-storage-initialize.service` is an explicit bootstrap
+workflow, not the ordinary daily backup timer. Restic stores encrypted, deduplicated
 snapshots in `/mnt/storage/private/backups/clients/<hostname>` on si. Each device
 has its own repository and retention: **1 daily, 1 weekly, 1 monthly**. Only new
 content chunks transfer; unchanged contents skip creating another snapshot.

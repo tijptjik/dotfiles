@@ -113,3 +113,91 @@ class PrivateStorageTests(unittest.TestCase):
                     with self.assertRaisesRegex(RuntimeError, 'sharing has not been approved'):
                         storage.sync(initial=initial)
                     run.assert_not_called()
+
+
+class BackupCoordinationTests(unittest.TestCase):
+    def start(self, root, host='fi', scheduled=False, cutoff=0):
+        import subprocess
+        import sys
+        process = subprocess.Popen(
+            [sys.executable, '-u', '-c', storage.BACKUP_COORDINATOR,
+             str(root), host, str(cutoff), '1' if scheduled else '0'],
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            text=True,
+        )
+        self.addCleanup(self.close, process)
+        return process
+
+    @staticmethod
+    def close(process):
+        if not process.stdin.closed:
+            process.stdin.close()
+        try:
+            process.wait(timeout=3)
+        except Exception:
+            process.kill()
+            process.wait()
+        process.stdout.close()
+        process.stderr.close()
+
+    def test_laptop_skips_running_desktop_then_runs_after_failed_desktop(self):
+        with tempfile.TemporaryDirectory() as root:
+            fi = self.start(root)
+            self.assertEqual(storage.coordinator_reply(fi), 'READY')
+            li = self.start(root, 'li', True)
+            self.assertIn('another client', storage.coordinator_reply(li))
+            self.close(fi)
+            self.assertFalse((Path(root)/'.coordination/fi.json').exists())
+            retry = self.start(root, 'li', True)
+            self.assertEqual(storage.coordinator_reply(retry), 'READY')
+            self.close(retry)
+
+    def test_successful_desktop_skips_scheduled_laptop_but_not_manual(self):
+        with tempfile.TemporaryDirectory() as root:
+            fi = self.start(root)
+            self.assertEqual(storage.coordinator_reply(fi), 'READY')
+            fi.stdin.write('complete\n')
+            fi.stdin.flush()
+            self.assertEqual(storage.coordinator_reply(fi), 'SAVED')
+            fi.wait(timeout=3)
+            li = self.start(root, 'li', True)
+            self.assertIn('fi already completed', storage.coordinator_reply(li))
+            li.wait(timeout=3)
+            manual = self.start(root, 'li', False)
+            self.assertEqual(storage.coordinator_reply(manual), 'READY')
+            self.close(manual)
+
+    def test_yesterdays_completion_does_not_skip_laptop(self):
+        import time
+        with tempfile.TemporaryDirectory() as root:
+            state = Path(root)/'.coordination'
+            state.mkdir()
+            (state/'fi.json').write_text(json.dumps({'host':'fi', 'completed_epoch':time.time()-86400}))
+            li = self.start(root, 'li', True, time.time()-3600)
+            self.assertEqual(storage.coordinator_reply(li), 'READY')
+            self.close(li)
+
+    def test_invalid_receipt_fails_closed(self):
+        with tempfile.TemporaryDirectory() as root:
+            state = Path(root)/'.coordination'
+            state.mkdir()
+            (state/'fi.json').write_text('not valid json')
+            li = self.start(root, 'li', True)
+            with self.assertRaisesRegex(RuntimeError, 'Lost backup coordination'):
+                storage.coordinator_reply(li)
+
+    def test_lost_lock_stops_running_backup_process(self):
+        import subprocess
+        import sys
+        from types import SimpleNamespace
+        processes = []
+        real_popen = subprocess.Popen
+        def launch(*args, **kwargs):
+            process = real_popen(*args, **kwargs)
+            processes.append(process)
+            return process
+        with patch.object(storage.subprocess, 'Popen', side_effect=launch):
+            with self.assertRaisesRegex(RuntimeError, 'Lost backup coordination lock'):
+                storage.coordinated_run([sys.executable, '-c', 'import time; time.sleep(60)'],
+                                        SimpleNamespace(poll=lambda: 1))
+        self.assertIsNotNone(processes[0].poll())

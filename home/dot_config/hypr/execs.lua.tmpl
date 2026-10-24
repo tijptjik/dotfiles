@@ -52,13 +52,15 @@ startup.subscription = hl.on("hyprland.start", function()
     -- Chat
     hl.exec_cmd("uwsm app -- /opt/Telegram/Telegram")
     hl.exec_cmd("uwsm app -- /bin/zapzap")
+{{- if .isDesktop }}
     hl.exec_cmd("uwsm app -- flatpak run org.signal.Signal")
+{{- end }}
     hl.exec_cmd("uwsm app -- /bin/chatgpt")
 
+{{- if .isDesktop }}
     -- IDE
     hl.exec_cmd("$HOME/.local/zed-preview.app/bin/zed $HOME/code/saanseoi")
 
-{{- if .isDesktop }}
 
     -- Zen // PWA Sites
     hl.exec_cmd("uwsm app -- /bin/zen-browser")

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import email
 import email.policy
 import email.utils
@@ -365,10 +366,22 @@ def get_tar_writer(writers: dict[str, TarUpload], slug: str, kind: str,
     return writers[slug]
 
 
-def canonical_membership(db: sqlite3.Connection, digest: str, folder: str) -> int | None:
+def canonical_membership(db: sqlite3.Connection, digest: str, folder: str,
+                         source_paths: list[Path]) -> int | None:
+    """Choose one reader-view membership among the sources being exported.
+
+    The index may include duplicate provenance from both Drive and a staged
+    local copy. If the exporter uses only the staged copy, an earlier Drive
+    membership must not suppress its MBOX record.
+    """
+    sources = [str(path) for path in source_paths]
+    if not sources:
+        return None
+    placeholders = ",".join("?" for _ in sources)
     row = db.execute(
-        "SELECT MIN(id) FROM memberships WHERE message_sha256=? AND original_mailbox_path=?",
-        (digest, folder),
+        f"SELECT MIN(id) FROM memberships WHERE message_sha256=? "
+        f"AND original_mailbox_path=? AND source_archive IN ({placeholders})",
+        [digest, folder, *sources],
     ).fetchone()
     return int(row[0]) if row and row[0] is not None else None
 
@@ -658,7 +671,7 @@ def export(config_path: Path, workdir: Path, recipient: str, run_root: str) -> d
                     current_id = membership_id(db, digest, source_name, folder, offset, ordinal)
                     if current_id is None:
                         raise RuntimeError("source mailbox membership is absent from the index")
-                    first_id = canonical_membership(db, digest, folder)
+                    first_id = canonical_membership(db, digest, folder, sources)
                     if first_id != current_id:
                         add_export_record(db, current_id, False, account, None, "exact duplicate membership; retained in index")
                         continue
@@ -712,8 +725,13 @@ def export(config_path: Path, workdir: Path, recipient: str, run_root: str) -> d
 
 def main() -> int:
     os.umask(0o077)
-    workdir = Path("/tmp/email-archive-work")
-    config_path = workdir / "config.json"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--workdir", type=Path, default=Path("/tmp/email-archive-work"))
+    parser.add_argument("--config", type=Path,
+                        help="private JSON config containing export source paths")
+    args = parser.parse_args()
+    workdir = args.workdir
+    config_path = args.config or (workdir / "config.json")
     recipient = json.loads(AGE_POLICY.read_text(encoding="utf-8"))["recipient"]
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:8]
     run_root = f"{REMOTE_ROOT}/{run_id}"

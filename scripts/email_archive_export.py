@@ -597,6 +597,22 @@ def export(config_path: Path, workdir: Path, recipient: str, run_root: str) -> d
     manifest_path = workdir / "manifest.jsonl"
     db = sqlite3.connect(db_path)
     db.execute("PRAGMA foreign_keys=ON")
+    source_names = [str(path) for path in sources]
+    if not source_names:
+        db.close()
+        raise ValueError("export config must contain at least one source archive")
+    placeholders = ",".join("?" for _ in source_names)
+    missing_messages = db.execute(
+        "SELECT count(*) FROM messages m WHERE NOT EXISTS ("
+        "SELECT 1 FROM memberships x WHERE x.message_sha256=m.sha256 "
+        f"AND x.source_archive IN ({placeholders}))",
+        source_names,
+    ).fetchone()[0]
+    if missing_messages:
+        db.close()
+        raise RuntimeError(
+            f"export source selection omits {missing_messages} indexed raw messages"
+        )
     db.execute("""
         CREATE TABLE IF NOT EXISTS mailbox_exports (
             membership_id INTEGER PRIMARY KEY REFERENCES memberships(id),
@@ -709,6 +725,12 @@ def export(config_path: Path, workdir: Path, recipient: str, run_root: str) -> d
         for writer in attachment_writers.values():
             writer.close()
         db.commit()
+        expected_raw_messages = db.execute("SELECT count(*) FROM messages").fetchone()[0]
+        if counters["raw_messages"] != expected_raw_messages:
+            raise RuntimeError(
+                f"exported {counters['raw_messages']} unique raw messages; "
+                f"index contains {expected_raw_messages}"
+            )
         manifest_count = rewrite_manifest(db, manifest_path)
         db.execute("ANALYZE")
         db.commit()

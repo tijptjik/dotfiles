@@ -1,0 +1,10 @@
+[Unit]
+Description=Hourly local-first Google Drive private folders
+
+[Service]
+Type=oneshot
+UMask=0077
+TimeoutStartSec=infinity
+TimeoutStopSec=120
+ExecCondition=%h/.local/bin/private-storage ready
+ExecStart=%h/.local/bin/private-storage sync

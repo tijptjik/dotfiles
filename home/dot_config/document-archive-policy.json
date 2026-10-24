@@ -23,7 +23,7 @@
       "si"
     ]
   },
-  "remote": ":sftp:/mnt/storage/backups/device-archives",
+  "remote": ":sftp:/mnt/storage/private/backups/device-archives",
   "folders": {
     "documents": {
       "mode": "device",

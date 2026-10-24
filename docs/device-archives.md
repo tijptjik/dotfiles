@@ -377,27 +377,14 @@ use Zen Sync separately. Existing Firefox archives are retained, but `.mozilla`
 is no longer scheduled for backup. Zen configuration uses daily/weekly/monthly
 retention independently for each client.
 
-## Personal documents on si
+## Personal files on si
 
-On fi, `~/documents` (the configured XDG documents directory) is backed up to
-`si` under `/mnt/storage/backups/device-archives/fi/`. The separate uppercase
-`~/Documents` directory is not included. These are device-specific recovery
-snapshots, not synchronization: removing a source document does not immediately
-remove it from older retained snapshots.
+Documents, media, projects, and resources use the incremental Restic workflow in
+[private-storage.md](private-storage.md). Dedicated client midnight timers run it independently of R2 success,
+sharing the backup lock to avoid simultaneous backup processes. Its repositories are under
+`/mnt/storage/private/backups/clients/<hostname>`.
 
-`document-archives` uses the same archive engine, local lock, hash cache,
-verification, and 1 daily / 1 weekly / 1 monthly retention as `device-archives`.
-Archives and manifests are age-encrypted with the existing recipient; keep the
-matching identity recoverable separately. Transport uses rclone SFTP through
-`m@ssh.type.hk`, bypassing Mullvad through `mullvad-exclude`.
-
-The desktop's midnight `backup-packages.service` runs the document backup after
-its R2 backup completes successfully. An unreachable si fails the service;
-it never records a successful upload locally. The next scheduled run retries.
-
-Use `document-archives backup`, `document-archives status`, and
-`document-archives --help` for manual operations. Restore and diff commands use
-the same syntax as `device-archives`, but through `document-archives` so they
-select si and the document policy. Restore into a separate directory to inspect
-files before replacing live documents. No document contents or credentials are
-stored in Git.
+Existing age-encrypted documents snapshots remain under
+`/mnt/storage/private/backups/device-archives`. Use `document-archives` for
+inspection or restoration of those snapshots. They are not part of the daily
+Restic job. Both formats retain their own recoverable encryption credentials.

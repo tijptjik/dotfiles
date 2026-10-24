@@ -1,0 +1,12 @@
+{
+  "folders": [
+    "documents",
+    "projects",
+    "resources",
+    "media"
+  ],
+  "crypt_secret_id": "061503b8-30bd-4f98-8cdb-b4ed0026bdc1",
+  "remote": "type-drive:private",
+  "backup_root": "/mnt/storage/private/backups/clients",
+  "recovery_days": 31
+}

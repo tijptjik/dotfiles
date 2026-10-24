@@ -1,0 +1,13 @@
+#!/usr/bin/env fish
+{{ if .isClient -}}
+for folder in documents media projects resources
+    if test -L "$HOME/$folder"
+        echo "Private storage requires a real local directory: $HOME/$folder" >&2
+        exit 1
+    end
+    mkdir -p "$HOME/$folder"; or exit $status
+end
+# Initial merges are explicit; the hourly service skips until they finish.
+systemctl --user daemon-reload; or exit $status
+systemctl --user enable --now private-sync.timer private-backup.timer; or exit $status
+{{ end -}}

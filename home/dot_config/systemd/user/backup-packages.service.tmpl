@@ -8,6 +8,3 @@ TimeoutStopSec=30
 UMask=0077
 ExecCondition=%h/.local/bin/device-archives ready
 ExecStart=%h/.local/bin/device-archives backup
-{{ if .isDesktop -}}
-ExecStart=%h/.local/bin/document-archives backup
-{{ end -}}

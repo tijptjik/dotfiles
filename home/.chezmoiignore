@@ -16,6 +16,16 @@ storage
 .local/bin/set-webdav-user-password
 {{ end -}}
 {{ if .isServer -}}
+.config/private-storage
+.config/systemd/user/private-sync.*
+.config/systemd/user/private-backup.*
+.config/systemd/user/private-storage-initialize.service
+.local/bin/private-storage
+.local/bin/mntcrypt
+.local/bin/mntsiprivate
+.local/bin/mntsipublic
+.local/bin/mntgiprivate
+.local/bin/mntgipublic
 # Runtime-owned settings: restore from app backups, never template over them.
 .config/transmission/settings.json
 .config/claude

@@ -549,6 +549,20 @@ def changed_line_count(before: str, after: str) -> int:
     return changes or 1
 
 
+def elapsed_note(seconds: float) -> str:
+    return f"{seconds:.2f}s"
+
+
+def propagate_one(
+    propagator: Propagator, source: Path, target: Path, output: Path,
+) -> tuple[str, str, float]:
+    started = time.perf_counter()
+    before = source.read_text()
+    propagator.propagate(source, target, output)
+    after = output.read_text()
+    return before, after, time.perf_counter() - started
+
+
 def pull_dotfiles(repo: Path) -> None:
     before = git_ref(repo, "HEAD")
     stage_started(repo, "PULL", "Tjipfiles")
@@ -568,11 +582,13 @@ def pull_repositories(status_repo: Path, dotfiles_repo: Path, chezetc_repo: Path
         stage_label(status_repo, "FAILED", "✗", "Tijpcetera")
         raise UpdateError(f"missing chezetc repository: {chezetc_repo}")
 
-    def pull(repo: Path) -> str:
+    def pull(repo: Path) -> tuple[str, float]:
+        started = time.perf_counter()
         before = git_ref(repo, "HEAD")
         run(["git", "pull", "--rebase", "--autostash"], repo, capture_output=True)
         after = git_ref(repo, "HEAD")
-        return "rebased" if before and after and before != after else "no changes"
+        note = "rebased" if before and after and before != after else "no changes"
+        return note, time.perf_counter() - started
 
     stage_started(status_repo, "PULL", "Repositories")
     repositories = (("Tjipfiles", dotfiles_repo), ("Tijpcetera", chezetc_repo))
@@ -581,7 +597,8 @@ def pull_repositories(status_repo: Path, dotfiles_repo: Path, chezetc_repo: Path
         futures = [pool.submit(pull, repo) for _, repo in repositories]
         for (subject, _), future in zip(repositories, futures):
             try:
-                stage_result(status_repo, "PULL", subject, future.result())
+                note, seconds = future.result()
+                stage_result(status_repo, "PULL", subject, f"{note} · {elapsed_note(seconds)}")
             except UpdateError as error:
                 stage_label(status_repo, "FAILED", "✗", subject)
                 errors.append(error)
@@ -608,6 +625,7 @@ def commit_templates(status_repo: Path, repo: Path, propagators: list[Propagator
         if propagator.name in changed_names
     ]
     stage_started(status_repo, "COMMIT", "Templates")
+    started = time.perf_counter()
     try:
         run(["git", "add", "--", *changed_paths], repo, capture_output=True)
         run(
@@ -626,7 +644,10 @@ def commit_templates(status_repo: Path, repo: Path, propagators: list[Propagator
     except UpdateError:
         stage_label(status_repo, "FAILED", "✗", "Templates")
         raise
-    stage_result(status_repo, "COMMIT", "Templates", f"{len(changed_names)} files")
+    stage_result(
+        status_repo, "COMMIT", "Templates",
+        f"{len(changed_names)} files · {elapsed_note(time.perf_counter() - started)}",
+    )
     return changed_names
 
 
@@ -705,15 +726,21 @@ def push_repositories(status_repo: Path, dotfiles_repo: Path, chezetc_repo: Path
 
     stage_started(status_repo, "PUSH", "Repositories")
     errors: list[UpdateError] = []
+
+    def push(repo: Path) -> float:
+        started = time.perf_counter()
+        run(["git", "push"], repo, capture_output=True)
+        return time.perf_counter() - started
+
     with ThreadPoolExecutor(max_workers=len(pending), thread_name_prefix="tjikup-push") as pool:
         futures = [
-            pool.submit(run, ["git", "push"], repo, capture_output=True)
+            pool.submit(push, repo)
             for _, repo, _ in pending
         ]
         for (subject, _, ahead), future in zip(pending, futures):
             try:
-                future.result()
-                stage_result(status_repo, "PUSH", subject, f"{ahead} commits")
+                seconds = future.result()
+                stage_result(status_repo, "PUSH", subject, f"{ahead} commits · {elapsed_note(seconds)}")
             except UpdateError as error:
                 stage_label(status_repo, "FAILED", "✗", subject)
                 errors.append(error)
@@ -853,23 +880,41 @@ def main() -> int:
         temp = Path(temp_dir)
         changed_names: list[str] = []
         sync_changes: dict[str, int] = {}
+        sync_elapsed: dict[str, float] = {}
         pending_writes: list[tuple[Path, str]] = []
-        for propagator, source, target in active_resolved:
-            before = source.read_text()
-            output = temp / f"{propagator.name}.template"
-            try:
-                propagator.propagate(source, target, output)
-            except UpdateError as error:
-                stage_label(repo, "SYNC", "✗", propagator.name.capitalize(), str(error))
-                return 1
-            after = output.read_text()
-            if before != after:
+        failures = False
+        with ThreadPoolExecutor(
+            max_workers=min(4, max(1, len(active_resolved))), thread_name_prefix="tjikup-sync",
+        ) as pool:
+            futures = [
+                pool.submit(
+                    propagate_one,
+                    propagator,
+                    source,
+                    target,
+                    temp / f"{propagator.name}.template",
+                )
+                for propagator, source, target in active_resolved
+            ]
+            for (propagator, source, _), future in zip(active_resolved, futures):
+                try:
+                    before, after, seconds = future.result()
+                except UpdateError as error:
+                    stage_label(repo, "SYNC", "✗", propagator.name.capitalize(), str(error))
+                    failures = True
+                    continue
+                sync_elapsed[propagator.name] = seconds
+                if before == after:
+                    continue
                 changed_names.append(propagator.name)
                 sync_changes[propagator.name] = changed_line_count(before, after)
                 if args.dry_run:
                     show_diff(source, before, after)
-                if not args.dry_run:
+                else:
                     pending_writes.append((source, after))
+
+        if failures:
+            return 1
 
         # Validate every propagator before changing any source templates.
         for source, after in pending_writes:
@@ -879,18 +924,30 @@ def main() -> int:
         for propagator in active_propagators:
             if propagator.name in changed_names:
                 changes = sync_changes[propagator.name]
-                stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
+                stage_result(
+                    repo, "SYNC", propagator.name.capitalize(),
+                    f"{changes} changes · {elapsed_note(sync_elapsed[propagator.name])}",
+                )
             else:
-                stage_unchanged(repo, propagator.name.capitalize())
+                stage_unchanged(
+                    repo, propagator.name.capitalize(),
+                    f"no changes · {elapsed_note(sync_elapsed[propagator.name])}",
+                )
         report_summary(repo, report_file, dry_run=True)
         return 0
 
     for propagator in active_propagators:
         if propagator.name in changed_names:
             changes = sync_changes[propagator.name]
-            stage_result(repo, "SYNC", propagator.name.capitalize(), f"{changes} changes")
+            stage_result(
+                repo, "SYNC", propagator.name.capitalize(),
+                f"{changes} changes · {elapsed_note(sync_elapsed[propagator.name])}",
+            )
         else:
-            stage_unchanged(repo, propagator.name.capitalize())
+            stage_unchanged(
+                repo, propagator.name.capitalize(),
+                f"no changes · {elapsed_note(sync_elapsed[propagator.name])}",
+            )
     section_header(repo, "Dotfiles Repository")
 
     changed_names = commit_templates(repo, repo, active_propagators)
@@ -903,6 +960,8 @@ def main() -> int:
         report_summary(repo, report_file)
         return 0
     apply_env = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"}
+    stage_started(repo, "APPLY", "Dotfiles")
+    apply_started = time.perf_counter()
     if not run_chezmoi_apply(
         repo,
         ["chezmoi", "apply"],
@@ -911,7 +970,10 @@ def main() -> int:
     ):
         report_summary(repo, report_file)
         return 0
+    stage_result(repo, "APPLY", "Dotfiles", elapsed_note(time.perf_counter() - apply_started))
+    chezetc_started = time.perf_counter()
     apply_chezetc(repo, skip_conflicts=args.skip_conflicts)
+    stage_result(repo, "APPLY", "Chezetc", elapsed_note(time.perf_counter() - chezetc_started))
     report_summary(repo, report_file)
     return 0
 

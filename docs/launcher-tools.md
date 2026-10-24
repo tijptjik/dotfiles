@@ -17,12 +17,14 @@ output do not require recurring backups. Preserve personal configuration.
 
 ## Strata
 
-Chezetc installs Strata 1.0.0 under `/opt/strata/1.0.0` from its checksum-pinned
-upstream release. `/usr/local/bin/strata` and the compatibility link in
-`~/.local/bin` select that binary. Existing user settings remain untouched;
-the previous user binary is saved under `~/.local/state/chezetc/strata`.
-The client installer checks Fedora dependencies on each apply. Upgrade the
-version and checksum in `run_53-install-strata.fish.tmpl` deliberately.
+Chezetc checks GitHub's latest stable Strata release on each client apply. It
+installs a newer x86_64 release under `/opt/strata/<version>` after verifying
+the SHA-256 digest published in the GitHub release API, then updates
+`/usr/local/bin/strata` and the compatibility link in `~/.local/bin`. Older
+versioned installs remain available for rollback. Existing user settings stay
+untouched; a previous user binary is saved under
+`~/.local/state/chezetc/strata`. The client installer checks Fedora dependencies
+on each apply.
 
 ## Matugen templates
 

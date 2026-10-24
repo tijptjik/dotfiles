@@ -10,6 +10,7 @@ import difflib
 import importlib
 import os
 import pkgutil
+import re
 import selectors
 import shutil
 import subprocess
@@ -316,6 +317,24 @@ def run_stream(
             ) as process:
                 deadline = time.monotonic() + timeout
                 decoder = codecs.getincrementaldecoder(sys.stdout.encoding or "utf-8")("replace")
+                pending = ""
+
+                def forward_output(value: str, *, final: bool = False) -> None:
+                    nonlocal pending
+                    pending += value
+                    lines = pending.splitlines(keepends=True)
+                    pending = ""
+                    if lines and not lines[-1].endswith(("\n", "\r")) and not final:
+                        pending = lines.pop()
+                    for line in lines:
+                        ending = ""
+                        if line.endswith("\r\n"):
+                            line, ending = line[:-2], "\r\n"
+                        elif line.endswith(("\n", "\r")):
+                            line, ending = line[:-1], line[-1:]
+                        sys.stdout.write(format_apply_output(line) + ending)
+                    sys.stdout.flush()
+
                 try:
                     with selectors.DefaultSelector() as selector:
                         selector.register(process.stdout, selectors.EVENT_READ)
@@ -324,8 +343,7 @@ def run_stream(
                             if remaining <= 0 or not selector.select(remaining):
                                 raise subprocess.TimeoutExpired(apply_command, timeout)
                             chunk = process.stdout.read1(65536)
-                            sys.stdout.write(decoder.decode(chunk, final=not chunk))
-                            sys.stdout.flush()
+                            forward_output(decoder.decode(chunk, final=not chunk), final=not chunk)
                             if not chunk:
                                 break
                     returncode = process.wait(timeout=max(0, deadline - time.monotonic()))
@@ -386,13 +404,35 @@ def run_chezmoi_apply(
         return False
 
     if result.stdout:
-        sys.stdout.write(result.stdout)
+        sys.stdout.write("\n".join(format_apply_output(line) for line in result.stdout.split("\n")))
     if result.stderr:
         sys.stderr.write(result.stderr)
     if result.returncode:
         stage_label(repo, "FAILED", "✗", "Dotfiles apply")
         raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
     return True
+
+
+def format_apply_output(line: str) -> str:
+    """Give common chezmoi apply change messages the same shape as status rows."""
+    removed = re.fullmatch(r"Removed '(.+)'\.", line)
+    if removed:
+        return _apply_status_row("REMOVE", "✓", removed.group(1))
+
+    symlink = re.fullmatch(r"Created symlink '(.+)' -> '(.+)'\.", line)
+    if symlink:
+        return _apply_status_row("LINK", "✓", f"{symlink.group(1)} → {symlink.group(2)}")
+    return line
+
+
+def _apply_status_row(verb: str, icon: str, subject: str) -> str:
+    prefix = f"{verb:<7} {icon} "
+    available = max(1, terminal_columns() - 1 - display_width(prefix))
+    subject = shorten_status(subject, available)
+    if not sys.stdout.isatty():
+        return prefix + subject
+    verb_color = "31;1" if verb == "REMOVE" else "36;1"
+    return f"\033[{verb_color}m{verb:<7}\033[0m \033[32m{icon}\033[0m {subject}"
 
 
 def repo_header(repo: Path, title: str, url: str) -> None:

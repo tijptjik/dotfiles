@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import atexit
 import codecs
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 import difflib
 import importlib
@@ -561,6 +562,33 @@ def pull_dotfiles(repo: Path) -> None:
     stage_result(repo, "PULL", "Tjipfiles", note)
 
 
+def pull_repositories(status_repo: Path, dotfiles_repo: Path, chezetc_repo: Path) -> None:
+    """Pull the independent repositories concurrently, then report in order."""
+    if not (chezetc_repo / ".git").is_dir():
+        stage_label(status_repo, "FAILED", "✗", "Tijpcetera")
+        raise UpdateError(f"missing chezetc repository: {chezetc_repo}")
+
+    def pull(repo: Path) -> str:
+        before = git_ref(repo, "HEAD")
+        run(["git", "pull", "--rebase", "--autostash"], repo, capture_output=True)
+        after = git_ref(repo, "HEAD")
+        return "rebased" if before and after and before != after else "no changes"
+
+    stage_started(status_repo, "PULL", "Repositories")
+    repositories = (("Tjipfiles", dotfiles_repo), ("Tijpcetera", chezetc_repo))
+    errors: list[UpdateError] = []
+    with ThreadPoolExecutor(max_workers=len(repositories), thread_name_prefix="tjikup-pull") as pool:
+        futures = [pool.submit(pull, repo) for _, repo in repositories]
+        for (subject, _), future in zip(repositories, futures):
+            try:
+                stage_result(status_repo, "PULL", subject, future.result())
+            except UpdateError as error:
+                stage_label(status_repo, "FAILED", "✗", subject)
+                errors.append(error)
+    if errors:
+        raise errors[0]
+
+
 def changed_propagator_names(repo: Path, propagators: list[Propagator]) -> list[str]:
     paths = [str(propagator.source) for propagator in propagators]
     result = subprocess.run(["git", "diff", "--name-only", "HEAD", "--", *paths], cwd=repo, text=True, capture_output=True, check=False)
@@ -660,6 +688,37 @@ def push_committed_chezetc(status_repo: Path) -> None:
         stage_unchanged(status_repo, "Tijpcetera", "no changes")
         return
     run_stage(status_repo, "PUSH", "Tijpcetera", ["git", "push"], CHEZETC_REPO, f"{ahead} commits")
+
+
+def push_repositories(status_repo: Path, dotfiles_repo: Path, chezetc_repo: Path) -> None:
+    """Push independent repositories concurrently after their pulls complete."""
+    repositories = (
+        ("Tjipfiles", dotfiles_repo, git_ahead_count(dotfiles_repo)),
+        ("Tijpcetera", chezetc_repo, git_ahead_count(chezetc_repo)),
+    )
+    pending = [(subject, repo, ahead) for subject, repo, ahead in repositories if ahead]
+    for subject, _, ahead in repositories:
+        if not ahead:
+            stage_unchanged(status_repo, subject)
+    if not pending:
+        return
+
+    stage_started(status_repo, "PUSH", "Repositories")
+    errors: list[UpdateError] = []
+    with ThreadPoolExecutor(max_workers=len(pending), thread_name_prefix="tjikup-push") as pool:
+        futures = [
+            pool.submit(run, ["git", "push"], repo, capture_output=True)
+            for _, repo, _ in pending
+        ]
+        for (subject, _, ahead), future in zip(pending, futures):
+            try:
+                future.result()
+                stage_result(status_repo, "PUSH", subject, f"{ahead} commits")
+            except UpdateError as error:
+                stage_label(status_repo, "FAILED", "✗", subject)
+                errors.append(error)
+    if errors:
+        raise errors[0]
 
 
 def apply_chezetc(repo: Path, *, skip_conflicts: bool = False) -> None:
@@ -835,15 +894,9 @@ def main() -> int:
     section_header(repo, "Dotfiles Repository")
 
     changed_names = commit_templates(repo, repo, active_propagators)
-    pull_dotfiles(repo)
+    pull_repositories(repo, repo, CHEZETC_REPO)
     warn_dirty_files(repo, repo)
-    ahead = git_ahead_count(repo)
-    if ahead:
-        run_stage(repo, "PUSH", "Tjipfiles", ["git", "push"], repo, f"{ahead} commits")
-    else:
-        stage_unchanged(repo, "Tjipfiles")
-    pull_chezetc(repo)
-    push_committed_chezetc(repo)
+    push_repositories(repo, repo, CHEZETC_REPO)
     section_header(repo, "Dotfiles Apply")
     if chezmoi_config_needs_init(repo):
         stage_label(repo, "WARN", "!", "Chezmoi config changed; run chezmoi init")

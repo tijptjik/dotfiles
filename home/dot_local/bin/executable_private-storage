@@ -37,7 +37,35 @@ def settings():
 
 
 def note(stage, message):
-    print(f'{stage:<8} {message}', flush=True)
+    icons = {'SYNC': ('↻', '12'), 'DONE': ('✓', '10'), 'SKIP': ('–', '8'),
+             'FAILED': ('✗', '9'), 'PLAN': ('·', '13'), 'BACKUP': ('⇧', '13'),
+             'MOUNT': ('↗', '12')}
+    icon, color = icons.get(stage, ('·', '8'))
+    line = f'{icon} {message}'
+    gum = shutil.which('gum')
+    if gum and sys.stdout.isatty() and 'NO_COLOR' not in os.environ:
+        result = subprocess.run([gum, 'style', '--foreground', color,
+                                 '--bold' if stage in ('FAILED', 'DONE') else '--faint',
+                                 line])
+        if result.returncode == 0:
+            return
+    print(line, flush=True)
+
+
+def failure_detail(log):
+    try:
+        lines = log.read_text(errors='replace').splitlines()
+    except OSError:
+        return 'rclone failed'
+    for line in reversed(lines):
+        marker = 'Safety abort: '
+        if marker in line:
+            return line.split(marker, 1)[1].strip()
+    for line in reversed(lines):
+        marker = 'Failed to bisync: '
+        if marker in line:
+            return line.split(marker, 1)[1].strip()
+    return 'rclone failed'
 
 
 def notify(message, critical=False):
@@ -135,7 +163,13 @@ def sync(initial=False, selected=None, progress=False):
             if 'duplicate object' in preview or 'duplicate directory' in preview:
                 raise RuntimeError(f'Duplicate Drive paths require review before initial sync: {log}')
         note('SYNC', folder)
-        run(args + (['--progress'] if progress else []))
+        try:
+            run(args + (['--progress', '--stats-one-line', '--stats', '1s']
+                        if progress else []))
+        except subprocess.CalledProcessError as error:
+            raise RuntimeError(
+                f'{folder}: {failure_detail(log)}; details: {log}'
+            ) from error
         receipt.write_text(json.dumps({'completed': when, 'host': HOST, 'remote': remote}) + '\n')
         text = log.read_text(errors='replace')
         if 'conflict' in text.lower() and ('renam' in text.lower() or 'WARNING' in text):

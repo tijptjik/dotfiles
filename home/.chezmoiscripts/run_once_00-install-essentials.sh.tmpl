@@ -5,7 +5,8 @@
 set -euo pipefail
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.sh"
 
-sudo -v
+# sudo -v can require authentication even when commands allow NOPASSWD.
+sudo -n true 2>/dev/null || sudo -v
 
 update_system_packages() {
   local log_file nevra package attempt=0

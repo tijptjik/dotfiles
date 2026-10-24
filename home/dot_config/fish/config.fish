@@ -44,7 +44,9 @@ source "$FISHCONFIG/shell.fish"
 workon
 
 # Node.js version manager
-fnm env --use-on-cd --shell fish | source
+if command -q fnm
+    fnm env --use-on-cd --shell fish | source
+end
 
 # `workon` and fnm can restore an inherited PATH after paths.fish has run.
 # Apply its worktree-bin cleanup once shell initialisation is complete.

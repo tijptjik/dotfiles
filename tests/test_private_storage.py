@@ -77,3 +77,29 @@ class PrivateStorageTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'reorganization'):
                 storage.sync(initial=True)
             run.assert_not_called()
+
+    def test_laptop_initial_merge_prefers_established_cloud_and_retains_local_recovery(self):
+        from types import SimpleNamespace
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root/'documents').mkdir()
+            (root/'layout-ready').write_text('verified')
+            calls = []
+            def run(args, **kwargs):
+                calls.append(args)
+                if '--log-file' in args:
+                    Path(args[args.index('--log-file')+1]).write_text('Sync completed')
+                return SimpleNamespace(stdout='{"bytes": 0}')
+            with patch.object(storage, 'HOME', root), patch.object(storage, 'STATE', root/'state'), \
+                 patch.object(storage, 'CONFIG', root), patch.object(storage, 'HOST', 'li'), \
+                 patch.object(storage, 'settings', return_value={'folders':['documents'], 'remote':'drive:private'}), \
+                 patch.object(storage, 'run', side_effect=run):
+                storage.sync(initial=True)
+            transfers = [args for args in calls if 'bisync' in args]
+            self.assertEqual(len(transfers), 2)
+            self.assertIn('--dry-run', transfers[0])
+            for args in transfers:
+                self.assertEqual(args[args.index('--resync-mode')+1], 'path2')
+                self.assertIn('--backup-dir1', args)
+            receipt = json.loads((root/'state/bisync/documents/initialized.json').read_text())
+            self.assertEqual(receipt['host'], 'li')

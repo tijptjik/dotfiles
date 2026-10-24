@@ -114,14 +114,16 @@ def sync(initial=False, selected=None):
             conf['remote'] + f'/backups/sync-recovery/{HOST}/{folder}/{when}',
             '--create-empty-src-dirs', '--log-level', 'INFO', '--log-file', str(log)]
         if initial:
-            # A resync chooses the local copy on a same-name difference. The
-            # displaced remote copy is retained in backup-dir2, not destroyed.
+            # fi establishes the cloud baseline. Other clients prefer that
+            # established copy; displaced versions remain in recovery.
             marker = local / '.private-sync-access'
             if not marker.exists():
                 marker.write_text('Private storage availability check. Do not delete.\n')
             run(rclone() + ['copyto', str(marker), remote + '/.private-sync-access'])
-            args += ['--resync', '--resync-mode', 'path1']
-            note('PLAN', f'{folder}: initial union; local wins, displaced files retained')
+            priority = 'path1' if HOST == 'fi' else 'path2'
+            args += ['--resync', '--resync-mode', priority]
+            winner = 'desktop local' if HOST == 'fi' else 'established cloud'
+            note('PLAN', f'{folder}: initial union; {winner} wins, displaced files retained')
             capacity = json.loads(run(rclone() + ['size', remote, '--json', '--drive-skip-gdocs',
                 '--filter-from', str(CONFIG/'sync-filter.txt')], capture_output=True, text=True).stdout)
             if shutil.disk_usage(local).free < capacity['bytes'] + 5 * 1024**3:

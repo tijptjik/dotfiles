@@ -57,8 +57,9 @@ Protections:
 
 Initialization is explicit: `private-storage init [folder ...]`. It requires a
 verified Drive layout, checks disk headroom, previews the merge, and then merges
-both sides. On an initial same-name difference the local version wins; the
-cloud version goes into recovery storage. Subsequent runs use the established
+both sides. On an initial same-name difference fi establishes the cloud version, retaining
+the displaced cloud copy in recovery. li then prefers that established cloud
+version, retaining its displaced local copy in recovery. Subsequent runs use the established
 baseline and preserve both versions of concurrent changes. The initial service
 first backs up existing local files to si, then initializes each folder. A
 failed initialization is not silently retried with a forced resync.

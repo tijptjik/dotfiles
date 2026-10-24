@@ -3,15 +3,16 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 {{ if .isClient -}}
 function sync_python_environment
-    # This is an after script so chezmoi has already deployed $HOME/pyproject.toml
-    # before uv reads it. Chezmoi otherwise reaches .chezmoiscripts before the
-    # project file during its normal traversal.
+    # This is an after script so chezmoi has already deployed the project files
+    # under ~/.local/share/pytjik before uv reads them.
     #
     # PaddlePaddle supports CPython through 3.13. Request it explicitly so an
     # installed system Python 3.14 does not make the sync unsatisfiable.
-    uv sync --project "$HOME" --python 3.13
+    set -l project "$HOME/.local/share/pytjik"
+    set -lx UV_PROJECT_ENVIRONMENT "$HOME/.venv"
+    uv sync --project "$project" --python 3.13
 
-    set -l package_count (uv pip list --python "$HOME/.venv/bin/python" --format=json | string match -ra '"name":' | count)
+    set -l package_count (uv pip list --python "$UV_PROJECT_ENVIRONMENT/bin/python" --format=json | string match -ra '"name":' | count)
     printf '__stage_note__:%s pkgs; no changes\n' "$package_count"
 end
 

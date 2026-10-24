@@ -10,6 +10,9 @@ function update_bitwarden_clis
     return $result
 end
 
+if not contains -- /usr/local/bin $PATH
+    fish_add_path /usr/local/bin; or exit $status
+end
+
 stage "Bitwarden CLIs" UPDATE "Bitwarden CLIs" update_bitwarden_clis
 or exit $status
-fish_add_path /usr/local/bin

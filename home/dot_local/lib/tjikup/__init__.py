@@ -563,6 +563,21 @@ def propagate_one(
     return before, after, time.perf_counter() - started
 
 
+def backup_live_output(propagator: Propagator, output: Path) -> None:
+    """Keep the captured live bytes before updating a source; never run on dry-run."""
+    state = Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state")
+    directory = state / "tjikup/backups" / propagator.name
+    directory.mkdir(parents=True, exist_ok=True, mode=0o700)
+    prefix = time.strftime("%Y%m%dT%H%M%SZ-", time.gmtime())
+    descriptor, name = tempfile.mkstemp(prefix=prefix, suffix=".backup", dir=directory)
+    try:
+        with os.fdopen(descriptor, "wb") as stream:
+            stream.write(output.read_bytes())
+    except BaseException:
+        Path(name).unlink(missing_ok=True)
+        raise
+
+
 def pull_dotfiles(repo: Path) -> None:
     before = git_ref(repo, "HEAD")
     stage_started(repo, "PULL", "Tjipfiles")
@@ -915,6 +930,11 @@ def main() -> int:
 
         if failures:
             return 1
+
+        if not args.dry_run:
+            for propagator in active_propagators:
+                if propagator.backup_live:
+                    backup_live_output(propagator, temp / f"{propagator.name}.template")
 
         # Validate every propagator before changing any source templates.
         for source, after in pending_writes:

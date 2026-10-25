@@ -23,6 +23,7 @@ class Propagator(ABC):
     source: Path
     target: Path
     optional = False
+    backup_live = False
 
     @abstractmethod
     def propagate(self, source_path: Path, target_path: Path, output_path: Path) -> None:

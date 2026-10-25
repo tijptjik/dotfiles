@@ -10,6 +10,26 @@ Traditional Chinese conversion with Hong Kong character variants. Quick Classic
 already outputs Traditional characters. Additional Cantonese / Quick 3 and UK
 groups present during setup are retained.
 
+## Preserving the live profile
+
+`tjikup` captures `~/.config/fcitx5/profile` before committing and pulling, using
+the same propagation workflow as Zed and Herdr. The current group order and
+default input methods are accepted exactly as Fcitx writes them; they are not
+sorted or reset to the repository's previous order.
+
+Every normal run with a profile present saves an owner-only, timestamped copy
+under `~/.local/state/tjikup/backups/fcitx/` (or `$XDG_STATE_HOME/tjikup/backups/fcitx/`).
+The backup contains the captured live bytes and is saved before source updates.
+Backups are retained, including on runs where the profile has not changed.
+`tjikup --dry-run` does not create these backups or change the source.
+
+This prevents the usual profile-order overwrite prompt when applying through
+`tjikup`. A direct `chezmoi apply` does not capture live state first; use `tjikup`
+after changing input-method preferences. Git merge conflicts between devices,
+or further profile edits while the update is running, remain separate cases.
+
+## Input indicator
+
 The input indicator shares the clock pill. Fcitx's notificationitem add-on is
 disabled to avoid a duplicate tray indicator.
 

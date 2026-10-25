@@ -24,7 +24,7 @@ The approved account is `a6eeace4b6d9f8e07ab307964e74d801` (`tijptjik`).
 | --- | --- | --- |
 | Zones, DNS records, zone settings | Cloudflare API JSON, filtered to this account | Export passed: 11 zones and 187 DNS records |
 | Workers KV | Namespace/key manifests, metadata, expiry, raw values named by SHA-256 | Independent export passed: 2 namespaces, 1 key |
-| R2 | Inventory plus object bodies/names/timestamps through a read-only rclone mount | 38,464 objects, 20,409,698,437 bytes in the preflight inventory |
+| R2 | Inventory plus object bodies/names/server modification timestamps through a read-only rclone mount | 38,464 objects, 20,409,698,437 bytes in the preflight inventory |
 
 This is not a complete Cloudflare account backup. D1 databases, Durable Objects,
 Workers deployments and secrets, Access/Tunnel configuration, and other products
@@ -47,8 +47,11 @@ review. The job rejects an empty zone/namespace list and fewer than 18 R2 bucket
   restricted to the Cloudflare tag/host. These can select the same snapshot.
   The first successful run does not prune; later successful runs do.
 - API staging files live in a private temporary directory and are removed after
-  each run. R2 is mounted read-only without a VFS file cache. The job uses a
-  process lock and eight Restic file readers.
+  each run. R2 is mounted read-only without a VFS file cache. Recursive directory
+  prefetch, a 24-hour directory cache, and server modification timestamps avoid
+  repeated listings and per-object metadata requests. Every run creates a fresh
+  mount/cache. The job uses a process lock and 32 Restic file readers to tolerate
+  R2 request latency without staging a second copy of the object bodies.
 - Failures are recorded in `~/.local/state/cloudflare-restic/last-failure.json`
   and the systemd journal; a critical desktop notification is attempted.
   Notifications require a working desktop session.

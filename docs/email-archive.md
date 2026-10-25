@@ -1,5 +1,9 @@
 # Email archive format
 
+The proposed [annual partitioning and selective import design](email-archive-annual-design.md)
+adds smaller retrievable parts and a year/account/label selector. It is not yet
+the implemented export format described below.
+
 The structured archive is stored under Google Drive `private/archives/mail/structured/`.
 Every data object is compressed with zstd and encrypted with age before upload.
 Drive filenames use opaque account and mailbox IDs; the encrypted SQLite index

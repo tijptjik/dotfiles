@@ -13,9 +13,10 @@ from unittest.mock import Mock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "home/dot_local/lib"))
 
-import tjikup
-from tjikup.core import UpdateError
-from tjikup.propagators.zed import update_template
+import tjikup_support
+import fleet_update as tjikup
+from fleet_update.core import UpdateError
+from fleet_update.propagators.zed import update_template
 
 
 class ZedPropagationTests(unittest.TestCase):
@@ -161,13 +162,11 @@ class PropagationTests(unittest.TestCase):
             with contextlib.ExitStack() as stack:
                 stack.enter_context(patch.dict(os.environ))
                 stack.enter_context(patch.object(sys, "argv", ["tjikup"]))
-                stack.enter_context(patch.object(tjikup, "find_repo", return_value=root))
-                stack.enter_context(patch.object(tjikup, "create_report_file", return_value=root / "report"))
                 stack.enter_context(patch.object(tjikup, "discover_propagators", return_value=[good, bad]))
-                for name in ("splash", "repo_header", "section_header", "run_checks", "stage_label"):
+                for name in ("stage_label",):
                     stack.enter_context(patch.object(tjikup, name))
                 command = stack.enter_context(patch.object(tjikup.subprocess, "run"))
-                self.assertEqual(tjikup.main(), 1)
+                self.assertEqual(tjikup.capture(root), 1)
                 command.assert_not_called()
             self.assertEqual(first.read_text(), "original first")
             self.assertEqual(second.read_text(), "original second")

@@ -7,7 +7,8 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'home/dot_local/lib'))
-from tjikup.propagators.gtk_bookmarks import PROPAGATOR
+import tjikup_support
+from fleet_update.propagators.gtk_bookmarks import PROPAGATOR
 
 
 class GtkBookmarksTests(unittest.TestCase):
@@ -19,7 +20,7 @@ class GtkBookmarksTests(unittest.TestCase):
             source.write_text(json.dumps(data))
             for live in ['file:///home/io/My%20Files 圖片\n', '']:
                 target.write_text(live)
-                with patch('tjikup.propagators.gtk_bookmarks.socket.gethostname', return_value='fi'):
+                with patch('fleet_update.propagators.gtk_bookmarks.socket.gethostname', return_value='fi'):
                     PROPAGATOR.propagate(source, target, output)
                 saved = json.loads(output.read_text())
                 self.assertEqual(saved['gtkBookmarks'], {'fi': live, 'li': data['gtkBookmarks']['li']})

@@ -10,11 +10,6 @@ import threading
 import time
 import unicodedata
 
-try:
-    import tjikup
-except ImportError:
-    tjikup = None
-
 
 def clean(value):
     return "".join(
@@ -95,10 +90,7 @@ class Feedback:
     def header(self, machine, count):
         self.count = count
         title = f"Device Archives [{machine} · {count} {'folder' if count == 1 else 'folders'}]"
-        if tjikup:
-            tjikup.section_header(self.repo, title)
-        else:
-            print("\n" + self.paint(title, "94;1") + "\n", flush=True)
+        print("\n" + self.paint(title, "94;1") + "\n", flush=True)
         print(
             self.paint(
                 self.line(

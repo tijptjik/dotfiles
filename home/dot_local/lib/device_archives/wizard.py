@@ -1,4 +1,4 @@
-"""Interactive, reviewed synchronization using tjikup's presenter and Gum."""
+"""Interactive, reviewed synchronization using archive feedback and Gum."""
 
 import difflib
 import shutil
@@ -7,7 +7,6 @@ import sys
 import tempfile
 from pathlib import Path
 
-import tjikup
 from .core import ArchiveError, merge_entries, scan
 from .feedback import Feedback
 
@@ -23,8 +22,8 @@ class Terminal:
             raise ArchiveError('Guided sync needs a terminal; use sync for plan-only output')
         self.gum = shutil.which('gum')
         if not self.gum:
-            raise ArchiveError('Guided sync requires gum (also used by tjikup)')
-        self.repo = Path.home() / '.local/share/chezmoi'
+            raise ArchiveError('Guided sync requires gum')
+        self.feedback = Feedback()
 
     def choose(self, title, options):
         result = subprocess.run([self.gum, 'choose', '--header', visible(title), '--', *options], text=True, stdout=subprocess.PIPE)
@@ -51,7 +50,7 @@ class Terminal:
         return run_editor(review, decisions, visible)
 
     def row(self, verb, icon, subject, note=''):
-        tjikup.status_msg(self.repo, verb, icon, visible(subject), visible(note))
+        self.feedback.row(verb, icon, visible(subject), visible(note))
 
 
 def describe(entry):

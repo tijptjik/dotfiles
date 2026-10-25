@@ -12,8 +12,7 @@ from typing import Any, Iterable
 TEMPLATE_ACTION = re.compile(r"{{.*?}}", re.DOTALL)
 
 
-class UpdateError(RuntimeError):
-    pass
+from tjikup.runtime import UpdateError
 
 
 class Propagator(ABC):
@@ -26,7 +25,9 @@ class Propagator(ABC):
     backup_live = False
 
     @abstractmethod
-    def propagate(self, source_path: Path, target_path: Path, output_path: Path) -> None:
+    def propagate(
+        self, source_path: Path, target_path: Path, output_path: Path
+    ) -> None:
         """Write an updated template to output_path."""
 
 
@@ -65,7 +66,9 @@ def strip_jsonc_comments(text: str) -> str:
         if char == "/" and index + 1 < len(chars) and chars[index + 1] == "*":
             chars[index] = chars[index + 1] = " "
             index += 2
-            while index + 1 < len(chars) and not (chars[index] == "*" and chars[index + 1] == "/"):
+            while index + 1 < len(chars) and not (
+                chars[index] == "*" and chars[index + 1] == "/"
+            ):
                 if chars[index] != "\n":
                     chars[index] = " "
                 index += 1
@@ -109,7 +112,11 @@ class JsonSpanParser:
         elif char == '"':
             self.parse_string()
         else:
-            while self.index < len(self.text) and self.text[self.index] not in ",]}" and not self.text[self.index].isspace():
+            while (
+                self.index < len(self.text)
+                and self.text[self.index] not in ",]}"
+                and not self.text[self.index].isspace()
+            ):
                 self.index += 1
         self.spans.setdefault(path, []).append((start, self.index))
 
@@ -183,7 +190,9 @@ def template_control_ranges(source: str) -> list[tuple[int, int]]:
 
 
 def inside_range(start: int, end: int, ranges: Iterable[tuple[int, int]]) -> bool:
-    return any(range_start <= start and end <= range_end for range_start, range_end in ranges)
+    return any(
+        range_start <= start and end <= range_end for range_start, range_end in ranges
+    )
 
 
 def get_path(value: Any, path: tuple[Any, ...]) -> Any:

@@ -8,7 +8,7 @@ python3 - <<'PY'
 import ast
 from pathlib import Path
 
-for path in Path("home").rglob("*"):
+for path in (path for root in ("home", "scripts") for path in Path(root).rglob("*")):
     if path.is_file() and (path.suffix == ".py" or path.name == "executable_tjikup"):
         ast.parse(path.read_text(), filename=str(path))
 PY
@@ -26,7 +26,7 @@ while IFS= read -r -d '' script; do
     esac
 done < <(find home scripts -type f ! -name '*.tmpl' \( -name '*.sh' -o -name '*.fish' -o -path 'home/dot_local/bin/*' \) -print0)
 
-echo "[CHECK] Tjikup regressions"
+echo "[CHECK] Regression tests"
 python3 -B -m unittest discover -s tests -v
 
 echo "[SUCCESS] Validation passed."

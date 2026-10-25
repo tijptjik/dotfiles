@@ -6,7 +6,7 @@ import json
 import socket
 from pathlib import Path
 
-from tjikup.core import Propagator, UpdateError
+from fleet_update.core import Propagator, UpdateError
 
 
 class ZapZapPropagator(Propagator):
@@ -16,7 +16,9 @@ class ZapZapPropagator(Propagator):
     source = Path("home/.chezmoidata/zapzap.json")
     target = Path(".config/ZapZap/ZapZap.conf")
 
-    def propagate(self, source_path: Path, target_path: Path, output_path: Path) -> None:
+    def propagate(
+        self, source_path: Path, target_path: Path, output_path: Path
+    ) -> None:
         # Preserve Qt's serialized values without parsing or rewriting the INI.
         data = json.loads(source_path.read_text())
         configs = data.get("zapzapConfigs")

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from tjikup.core import Propagator
+from fleet_update.core import Propagator
 
 
 class SolaarPropagator(Propagator):
@@ -14,7 +14,9 @@ class SolaarPropagator(Propagator):
     source = Path("home/dot_config/solaar/config.yaml")
     target = Path(".config/solaar/config.yaml")
 
-    def propagate(self, source_path: Path, target_path: Path, output_path: Path) -> None:
+    def propagate(
+        self, source_path: Path, target_path: Path, output_path: Path
+    ) -> None:
         output_path.write_text(target_path.read_text())
 
 

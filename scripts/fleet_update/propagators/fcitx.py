@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from tjikup.core import Propagator
+from fleet_update.core import Propagator
 
 
 class FcitxPropagator(Propagator):
@@ -13,7 +13,9 @@ class FcitxPropagator(Propagator):
     source = Path("home/dot_config/fcitx5/private_profile")
     target = Path(".config/fcitx5/profile")
 
-    def propagate(self, source_path: Path, target_path: Path, output_path: Path) -> None:
+    def propagate(
+        self, source_path: Path, target_path: Path, output_path: Path
+    ) -> None:
         # Group order and DefaultIM are live user preferences, not formatting.
         output_path.write_bytes(target_path.read_bytes())
 

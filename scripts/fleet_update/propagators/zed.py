@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from tjikup.core import (
+from fleet_update.core import (
     TEMPLATE_ACTION,
     JsonSpanParser,
     Propagator,
@@ -56,11 +56,15 @@ def update_template(source_path: Path, target_path: Path, output_path: Path) -> 
         except json.JSONDecodeError:
             continue
         if current_value != target_value:
-            replacements.append((start, end, json.dumps(target_value, ensure_ascii=False)))
+            replacements.append(
+                (start, end, json.dumps(target_value, ensure_ascii=False))
+            )
 
     if structural_paths:
         paths = ", ".join(".".join(map(str, path)) for path in structural_paths[:5])
-        raise UpdateError(f"structural changes require a manual template merge: {paths}")
+        raise UpdateError(
+            f"structural changes require a manual template merge: {paths}"
+        )
 
     updated = source
     for start, end, replacement in sorted(replacements, reverse=True):
@@ -75,7 +79,9 @@ class ZedPropagator(Propagator):
     source = Path("home/dot_config/zed/private_settings.json.tmpl")
     target = Path(".config/zed/settings.json")
 
-    def propagate(self, source_path: Path, target_path: Path, output_path: Path) -> None:
+    def propagate(
+        self, source_path: Path, target_path: Path, output_path: Path
+    ) -> None:
         update_template(source_path, target_path, output_path)
 
 

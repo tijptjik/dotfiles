@@ -1,0 +1,18 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+# Application source belongs to tooltjik; this hook selects our fleet dependency.
+set -l tool_repo "$HOME/.local/share/tooltjik"
+if set -q TOOLTJIK_REPO
+    set tool_repo "$TOOLTJIK_REPO"
+else if test -d "$HOME/code/tooltjik/.git"
+    set tool_repo "$HOME/code/tooltjik"
+end
+if not test -d "$tool_repo/.git"
+    stage 'Clone tooltjik' INSTALL tooltjik git clone https://github.com/tijptjik/tooltjik.git "$tool_repo"
+end
+if not test -f "$tool_repo/apps/tjikup/scripts/install.sh"
+    status_msg FAILED '✗' Tjikup 'Update tooltjik to a revision containing apps/tjikup'
+    exit 1
+end
+stage 'Install tjikup' INSTALL Tjikup bash "$tool_repo/apps/tjikup/scripts/install.sh"

@@ -17,8 +17,9 @@ from unittest.mock import patch
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "home/dot_local/lib"))
 
-import tjikup
-from tjikup.core import UpdateError
+import tjikup_support
+import fleet_update as tjikup
+from fleet_update.core import UpdateError
 
 
 class StreamTests(unittest.TestCase):
@@ -37,13 +38,13 @@ class StreamTests(unittest.TestCase):
                     )
                     output = io.StringIO()
                     with patch.dict(os.environ, env), contextlib.redirect_stdout(output):
-                        tjikup.status_msg(REPO, "SYNC", "✓", subject, note)
+                        tjikup.status_msg( "SYNC", "✓", subject, note)
                     self.assertEqual(result.stdout, output.getvalue())
                     self.assertEqual(tjikup.display_width(result.stdout.rstrip("\n")), width - 1)
 
     def test_stream_propagates_terminal_width(self):
         output = io.StringIO()
-        with patch.object(tjikup, "terminal_columns", return_value=103), contextlib.redirect_stdout(output):
+        with patch.object(tjikup.runtime, "terminal_columns", return_value=103), contextlib.redirect_stdout(output):
             tjikup.run_stream([sys.executable, "-c", "import os; print(os.environ['TJIKUP_COLUMNS'])"], REPO)
         self.assertEqual(output.getvalue().strip(), "103")
 
@@ -131,7 +132,7 @@ class StreamTests(unittest.TestCase):
         code = """
 import sys
 from pathlib import Path
-import tjikup
+import fleet_update as tjikup
 repo = Path(sys.argv[1])
 assert sys.stdout.isatty()
 tjikup.run_chezmoi_apply(repo, [
@@ -147,7 +148,7 @@ tjikup.run_stream([sys.executable, '-c',
         with subprocess.Popen(
             [sys.executable, "-B", "-c", code, str(REPO)],
             stdin=slave, stdout=slave, stderr=slave,
-            env={**os.environ, "TERM": "xterm-256color", "PYTHONPATH": str(REPO / "home/dot_local/lib")},
+            env={**os.environ, "TERM": "xterm-256color", "PYTHONPATH": os.pathsep.join([str(REPO / "scripts"), str(Path(tjikup.runtime.__file__).resolve().parents[1])])},
         ) as process:
             os.close(slave)
             output = b""

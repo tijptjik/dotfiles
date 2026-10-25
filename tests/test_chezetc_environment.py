@@ -15,7 +15,8 @@ from unittest.mock import patch
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "home/dot_local/lib"))
-import tjikup
+import tjikup_support
+import fleet_update as tjikup
 
 
 HOOK = Path(__file__).resolve().parents[1] / "home/.chezmoiscripts/run_after_34-configure-chezetc.py"
@@ -127,7 +128,6 @@ sudo --preserve-env=PATH -- true
                 self.assertEqual('please execute' in result.stderr, compact == '0')
                 self.assertIn('Other useful information', result.stderr)
                 self.assertIn('WARN: diagnostic\nPassword: ', result.stderr)
-
 
     def test_unknown_wrapper_fails_without_changes(self):
         with tempfile.TemporaryDirectory() as directory:

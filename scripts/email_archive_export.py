@@ -757,6 +757,8 @@ def main() -> int:
                         help="private JSON config containing export source paths")
     args = parser.parse_args()
     workdir = args.workdir
+    if (workdir.parent / "export.hold").exists():
+        raise SystemExit("Export held: archive layout revision pending; completed index retained")
     config_path = args.config or (workdir / "config.json")
     recipient = json.loads(AGE_POLICY.read_text(encoding="utf-8"))["recipient"]
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:8]

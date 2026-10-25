@@ -36,6 +36,9 @@
       "retention": "latest",
       "devices": [
         "all"
+      ],
+      "exclude": [
+        "icon-theme.cache"
       ]
     },
     ".local/share/backgrounds": {
@@ -64,7 +67,17 @@
       "review": "files",
       "exclude": [
         "Singleton*",
-        "*.lock"
+        "*.lock",
+        "Cache",
+        "Code Cache",
+        "GPUCache",
+        "DawnGraphiteCache",
+        "DawnWebGPUCache",
+        "Crashpad",
+        "logs",
+        "Dictionaries",
+        "VideoDecodeStats",
+        "Shared Dictionary"
       ],
       "encrypted": true,
       "retention": "daily-weekly-monthly",
@@ -79,6 +92,9 @@
       "retention": "daily-weekly-monthly",
       "devices": [
         "clients"
+      ],
+      "exclude": [
+        "cache"
       ]
     },
     ".config/sublime-text": {
@@ -111,6 +127,9 @@
       "retention": "latest",
       "devices": [
         "clients"
+      ],
+      "exclude": [
+        "extensions"
       ]
     },
     ".config/unity3d": {
@@ -119,6 +138,11 @@
       "retention": "daily-weekly-monthly",
       "devices": [
         "desktop"
+      ],
+      "exclude": [
+        "*/Player.log",
+        "*/Player-prev.log",
+        "*/Unity/*/Analytics"
       ]
     },
     ".var/app/org.yuzu_emu.yuzu/config": {
@@ -245,6 +269,10 @@
       "retention": "daily-weekly-monthly",
       "devices": [
         "clients"
+      ],
+      "exclude": [
+        "blockchain_headers",
+        "daemon"
       ]
     },
     ".local/share/keyrings": {
@@ -277,28 +305,6 @@
       "retention": "daily-weekly-monthly",
       "devices": [
         "desktop"
-      ]
-    },
-    ".zen": {
-      "mode": "device",
-      "include_files": [
-        "profiles.ini",
-        "installs.ini",
-        "*/prefs.js",
-        "*/user.js",
-        "*/zen-keyboard-shortcuts.json",
-        "*/zen-themes.json",
-        "*/zen-workspaces.json",
-        "*/zen-spaces.json",
-        "*/containers.json",
-        "*/handlers.json",
-        "*/chrome/**",
-        "native-messaging-hosts/*.json"
-      ],
-      "encrypted": true,
-      "retention": "daily-weekly-monthly",
-      "devices": [
-        "clients"
       ]
     }
   },

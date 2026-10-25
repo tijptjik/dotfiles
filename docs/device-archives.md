@@ -34,7 +34,7 @@ or a mixture; overlapping selections are deduplicated. For example:
 | All | `.ssh`, `.gnupg`, `.local/share/icons`, `.local/share/backgrounds`, `.local/share/fonts` | Reviewed sync |
 | Clients | `.config/Bazecor`, `.var/app/rocks.koreader.KOReader/config/koreader` | Reviewed sync |
 | Clients | `.config/sublime-text`, `.config/waybar/crypto` | Exact mirror from `fi` |
-| Clients | `.duckdb`, `.zen` | Independent device backups |
+| Clients | `.duckdb` | Independent device backups |
 | Desktop | `.config/unity3d`, `.var/app/org.yuzu_emu.yuzu/config`, Yuzu data folders listed in the policy | Desktop backups |
 | Desktop | `.local/share/device-archives-policy` | Encrypted recovery copy of the archive policy; daily/weekly/monthly retention |
 | Desktop | `.codex-lb` | Master backup of `store.db` and its matching `encryption.key` |
@@ -165,7 +165,7 @@ Retention runs after a verified backup, independently per machine and folder:
 | Retention | Folders |
 | --- | --- |
 | Daily / weekly / monthly | `.codex-lb`, KOReader config, Sublime Text, SSH, GnuPG, Bazecor, Waybar crypto, Unity config, Yuzu config, keys, system saves, play time |
-| Latest only | Fonts, icons, backgrounds, `.duckdb`, `.zen`, Yuzu user saves, load, screenshots |
+| Latest only | Fonts, icons, backgrounds, `.duckdb`, Yuzu user saves, load, screenshots |
 
 Daily/weekly/monthly means **at most three snapshots**: the latest successful
 snapshot, the newest from the previous ISO calendar week, and the newest from
@@ -382,15 +382,27 @@ it does not disconnect the VPN or change its relay settings.
 
 Recovery credentials in `.keys` are backed up encrypted, but the age identity must also remain recoverable independently (for example in Bitwarden). The encrypted archive cannot recover its own lost decryption identity. These credential folders are recovery backups, not cross-device synchronization.
 
-Zen backups contain profile registration, preferences, user overrides, keyboard
-shortcuts, themes, workspace/space settings when present, containers, handlers,
-custom `chrome/` files and native-messaging manifests. `include_files` patterns
-select files relative to `.zen`; only their parent directories are retained.
-History, cookies, passwords, session recovery, downloaded extensions and caches
-are excluded. Restore these settings with Zen closed; reinstall extensions and
-use Zen Sync separately. Existing Firefox archives are retained, but `.mozilla`
-is no longer scheduled for backup. Zen configuration uses daily/weekly/monthly
-retention independently for each client.
+Zen is delegated to its own sync by user preference. `.zen` is no longer in the
+archive policy deployed on Fi and Li. Existing remote Zen and Firefox snapshots
+are retained. `.mozilla` also remains unscheduled. Removing the policy
+entry means the ordinary restore CLI cannot select `.zen` without temporarily
+reintroducing a compatible policy entry. Sync coverage was not audited here.
+
+## Cache exclusions
+
+The policy excludes Bazecor's Chromium caches, logs, crash files and downloaded
+dictionaries; KOReader's render cache; DuckDB's downloaded `extensions/`;
+Electrum's `blockchain_headers` and `daemon`; Unity player logs/analytics; and
+generated `icon-theme.cache` files. It preserves app settings, wallet files,
+reading state, custom assets and game saves. DuckDB currently has no selected
+files after excluding extensions, but the folder rule remains to capture any
+future user data outside that directory. Current extension metadata identified
+all 12 Fi extensions as downloads from the official repository.
+
+These exclusions affect future backup and sync selections. They do not delete
+local caches. Existing snapshots are pruned only after replacement readback and
+verification succeeds, according to the configured retention policy. See the
+[dated content audit](device-archives-content-audit.md) for the measured baseline.
 
 ## Personal files on si
 

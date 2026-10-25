@@ -624,6 +624,41 @@ if __name__ == "__main__":
 
 
 class SelectedConfigurationTests(unittest.TestCase):
+    def test_cache_exclusions_keep_configuration_credentials_and_saves(self):
+        policy = json.loads(
+            (Path(__file__).parents[1] / "home/dot_config/archive-policy.json").read_text()
+        )["folders"]
+        cases = {
+            ".config/Bazecor": (
+                ["config.json", "Local Storage/leveldb/data", "Preferences"],
+                ["Cache/Cache_Data/data", "GPUCache/data", "logs/main.log", "Code Cache/js/data"],
+            ),
+            ".var/app/rocks.koreader.KOReader/config/koreader": (
+                ["settings.reader.lua", "settings/bookinfo_cache.sqlite3", "history.lua"],
+                ["cache/cr3cache/book.cr3", "cache/render"],
+            ),
+            ".electrum": (
+                ["wallets/cache-wallet", "config", "certs/server"],
+                ["blockchain_headers", "daemon"],
+            ),
+            ".config/unity3d": (
+                ["Vendor/Game/prefs", "Vendor/Game/profile.json", "Vendor/Game/save.dat"],
+                ["Vendor/Game/Player.log", "Vendor/Game/Player-prev.log",
+                 "Vendor/Game/Unity/id/Analytics/events/event"],
+            ),
+            ".duckdb": (["user.duckdb"], ["extensions/version/platform/spatial.duckdb_extension"]),
+            ".local/share/icons": (["theme/icon.svg"], ["theme/icon-theme.cache"]),
+        }
+        for folder, (keep, omit) in cases.items():
+            with self.subTest(folder=folder), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                for name in keep + omit:
+                    path = root / name
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_text("fixture")
+                entries = scan(root, policy[folder])
+                self.assertEqual({n for n, e in entries.items() if e["type"] == "file"}, set(keep))
+
     def test_config_allowlist_preserves_nested_files_without_profile_data(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

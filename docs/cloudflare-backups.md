@@ -5,12 +5,16 @@
 Setup is authorized. On 25 October 2026 the correct disk was writable, with
 495 GiB free. The managed executable, credential file, and user units were
 installed, and the persistent mount was added to Chezetc and Fi's `/etc/fstab`.
-The export rehearsal identified a credential blocker: the existing Bitwarden
-`CLOUDFLARE_API_TOKEN` can list zones and read zone settings and KV namespaces,
-but DNS-record reads return HTTP 403 / Cloudflare code 10000.
+The initial export rehearsal found that the existing `CLOUDFLARE_API_TOKEN`
+lacked DNS Read permission. A separate DNS read token was entered through a
+hidden terminal prompt, saved to Bitwarden as `CLOUDFLARE_BACKUP_API_TOKEN`, and
+verified by secret readback. The job uses that token for DNS records and the
+existing token for zone metadata/settings and KV.
 
-The weekly timer remains disabled until the first snapshot and an isolated
-restore have succeeded. No backup or restore is yet claimed by this setup.
+The complete export preflight passed: 11 zones, 187 DNS records, 2 KV namespaces,
+1 KV key, and 18 R2 buckets containing 38,464 objects / 20,409,698,437 bytes.
+The first backup started on 25 October 2026 at 11:13 HKT. The weekly timer remains
+disabled until the first snapshot and an isolated restore have succeeded.
 
 ## Scope
 
@@ -18,7 +22,7 @@ The approved account is `a6eeace4b6d9f8e07ab307964e74d801` (`tijptjik`).
 
 | Content | Export | Current evidence |
 | --- | --- | --- |
-| Zones, DNS records, zone settings | Cloudflare API JSON, filtered to this account | 11 zones visible; DNS permission blocked |
+| Zones, DNS records, zone settings | Cloudflare API JSON, filtered to this account | Export passed: 11 zones and 187 DNS records |
 | Workers KV | Namespace/key manifests, metadata, expiry, raw values named by SHA-256 | Independent export passed: 2 namespaces, 1 key |
 | R2 | Inventory plus object bodies/names/timestamps through a read-only rclone mount | 38,464 objects, 20,409,698,437 bytes in the preflight inventory |
 
@@ -61,11 +65,14 @@ No credential values belong in Git, shell arguments, logs, or documentation.
   ID `90f34958-6254-4b0c-bc65-b4ed0026bee2`; managed owner-only file
   `~/.config/private-storage/restic-password`. Losing it makes the repository
   unrecoverable. Access to Bitwarden must be available independently of Fi.
-- API exports: currently references Bitwarden `CLOUDFLARE_API_TOKEN`, secret ID
-  `c2cdd91d-02c8-4d31-83ed-b497007da128`; managed owner-only file
-  `~/.config/private-storage/cloudflare-backup-token`. It needs DNS Read, Zone
-  Read, Zone Settings Read, and Workers KV Storage Read for the approved scope.
-  The current credential is insufficient; it must be corrected before activation.
+- DNS records: Bitwarden `CLOUDFLARE_BACKUP_API_TOKEN`, secret ID
+  `5608d86b-b32f-4656-88e2-b4ee00347d28`; managed owner-only file
+  `~/.config/private-storage/cloudflare-backup-token`. It supplies DNS Read.
+- Zone metadata/settings and KV: existing Bitwarden `CLOUDFLARE_API_TOKEN`, secret
+  ID `c2cdd91d-02c8-4d31-83ed-b497007da128`; managed owner-only file
+  `~/.config/private-storage/cloudflare-config-token`. It supplies Zone Read,
+  Zone Settings Read, and Workers KV Storage Read for the approved scope. The
+  shared credential is not modified or replaced by this backup setup.
 - R2 source reads: existing `r2-tijpdata:` remote in the owner-only
   `~/.config/rclone/rclone.conf`. That credential is needed to fetch new backups,
   not to decrypt an existing Restic repository. Source credentials are not

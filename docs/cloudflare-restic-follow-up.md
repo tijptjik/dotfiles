@@ -1,8 +1,8 @@
 # Follow-up instruction: Cloudflare Restic backup route
 
 Implementation was authorized on 25 October 2026. See
-[Cloudflare backups on Fi](cloudflare-backups.md) for the current setup, credential
-blocker, verification evidence, and recovery procedure. The accepted design and
+[Cloudflare backups on Fi](cloudflare-backups.md) for the current setup,
+verification evidence, and recovery procedure. The accepted design and
 completion requirements below remain applicable.
 
 ## Accepted design

@@ -13,8 +13,25 @@ existing token for zone metadata/settings and KV.
 
 The complete export preflight passed: 11 zones, 187 DNS records, 2 KV namespaces,
 1 KV key, and 18 R2 buckets containing 38,464 objects / 20,409,698,437 bytes.
-The first backup started on 25 October 2026 at 11:13 HKT. The weekly timer remains
+The first backup started on 25 October 2026 at 11:13 HKT. Two early attempts were
+interrupted to improve R2 traversal and read concurrency; neither produced a
+snapshot. The current attempt started at 11:24:51 HKT. The weekly timer remains
 disabled until the first snapshot and an isolated restore have succeeded.
+
+A one-time `cloudflare-backup-first-restore.service` is running independently of
+the chat. It waits for this backup invocation to succeed, requires a fresh success
+receipt, then restores the entire snapshot with `--verify` into an isolated,
+owner-only directory on Fi's internal disk. It validates DNS counts, every KV
+value's SHA-256, R2 object/byte counts, and representative R2 source hashes before
+removing its temporary restore and enabling the timer. Completion writes
+`~/.local/state/cloudflare-restic/setup-completed.json`; failure writes
+`setup-failure.json` and sends a desktop notification. No verified snapshot or
+restore is claimed until these receipts exist.
+
+This initial completion service is transient and uses private helpers under
+`/tmp/cloudflare-token-entry`. It survives the chat ending, but not a reboot.
+After an interrupted setup, inspect both journals and complete the isolated
+restore below before enabling the timer. Its wait limit is 12 hours.
 
 ## Scope
 
@@ -92,7 +109,9 @@ credential. The R2 remote must expose all expected account buckets.
 cloudflare-restic-backup --dry-run
 systemctl --user start --no-block cloudflare-restic-backup.service
 journalctl --user -u cloudflare-restic-backup.service -f
+journalctl --user -u cloudflare-backup-first-restore.service -f
 cat ~/.local/state/cloudflare-restic/last-success.json
+cat ~/.local/state/cloudflare-restic/setup-completed.json
 systemctl --user list-timers cloudflare-restic-backup.timer
 ```
 

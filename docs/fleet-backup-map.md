@@ -58,7 +58,9 @@ job, or cloud inventory/export was started to create this map.
    the desired recovery window.
 4. Complete activation of the existing Cloudflare route after checking its target
    disk, credentials and first verified backup. Do not count the inactive timer
-   as current protection.
+   as current protection. [Setup is now authorized](cloudflare-backups.md); the
+   writable mount and managed units are installed, but DNS Read permission is
+   missing from the stored API token.
 5. Schedule isolated restore rehearsals for a client folder, a Plex/SQLite
    snapshot, MariaDB and the library. The existing health checks establish
    repository/backup evidence, not full application recovery. Confirm recovery

@@ -47,6 +47,9 @@ storage
 .config/zed
 {{ end -}}
 {{ if ne .chezmoi.hostname "fi" -}}
+.local/bin/cloudflare-restic-backup
+.config/private-storage/cloudflare-backup-token
+.config/systemd/user/cloudflare-restic-backup*
 .local/bin/si-app-backup-pull
 .config/systemd/user/si-app-backup-*
 {{ end -}}

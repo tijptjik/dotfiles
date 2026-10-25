@@ -114,7 +114,7 @@ def cloudflare_request(token: str, path: str, query: dict | None = None) -> tupl
             payload = json.loads(response.read())
     except HTTPError as error:
         # Do not print provider response bodies: they can echo submitted values.
-        raise BackupError(f"Cloudflare API request failed with HTTP {error.code}") from None
+        raise BackupError(f"Cloudflare API request failed for {path} with HTTP {error.code}") from None
     except (URLError, TimeoutError, json.JSONDecodeError) as error:
         raise BackupError(f"Cloudflare API request failed: {type(error).__name__}") from None
     if not payload.get("success"):
@@ -139,7 +139,9 @@ def paged_results(token: str, path: str, *, query: dict | None = None) -> list[d
 
 
 def export_zones(token: str, root: Path) -> tuple[int, int]:
-    zones = paged_results(token, "/zones")
+    zones = paged_results(token, "/zones", query={"account.id": ACCOUNT_ID})
+    if any(zone.get("account", {}).get("id") != ACCOUNT_ID for zone in zones):
+        raise BackupError("Cloudflare returned a zone outside the approved account")
     dns_total = 0
     for zone in zones:
         zone_id = str(zone["id"])
@@ -312,9 +314,13 @@ def backup(dry_run: bool = False) -> None:
         work_root = Path(tempfile.mkdtemp(prefix="cloudflare-restic-", dir="/tmp"))
         os.chmod(work_root, 0o700)
         try:
+            print("Exporting Cloudflare DNS and zone settings", flush=True)
             zones, records = export_zones(token, work_root)
+            print(f"DNS export ready: zones={zones}, records={records}", flush=True)
             namespaces, keys = export_kv(token, ACCOUNT_ID, work_root)
+            print(f"KV export ready: namespaces={namespaces}, keys={keys}", flush=True)
             buckets, objects, r2_bytes = export_r2_inventory(work_root)
+            print(f"R2 inventory ready: buckets={buckets}, objects={objects}, bytes={r2_bytes}", flush=True)
             if dry_run:
                 print(f"Dry run ready: zones={zones}, dns_records={records}, "
                       f"kv_namespaces={namespaces}, kv_keys={keys}, r2_buckets={buckets}, "
@@ -322,6 +328,8 @@ def backup(dry_run: bool = False) -> None:
                 return
             repo_config = REPOSITORY / "config"
             verify_repository_path()
+            if shutil.disk_usage(MOUNT_POINT).free < r2_bytes + 1024 ** 3:
+                raise BackupError("Backup drive lacks room for source data plus 1 GiB headroom")
             if not repo_config.exists():
                 if REPOSITORY.exists() and any(REPOSITORY.iterdir()):
                     raise BackupError("Repository target exists but is not an initialized Restic repository")
@@ -332,17 +340,23 @@ def backup(dry_run: bool = False) -> None:
                 if not any(mount_path.iterdir()):
                     raise BackupError("R2 mount returned an empty root; refusing an incomplete snapshot")
                 verify_mount()
-                restic(["backup", "--tag", "cloudflare", "--host", "cloudflare", str(work_root)])
+                print("Backing up DNS, KV, and the read-only R2 mount", flush=True)
+                restic(["backup", "--read-concurrency", "8", "--tag", "cloudflare",
+                        "--host", "cloudflare", str(work_root)])
             restic(["check"])
             verify_repository_path()
             snapshots = subprocess.run(["restic", "snapshots", "--json"],
                                        env=restic_env(), check=True, capture_output=True,
                                        text=True)
-            if not any(s.get("tags") and "cloudflare" in s["tags"] for s in json.loads(snapshots.stdout)):
+            matching = [s for s in json.loads(snapshots.stdout)
+                        if s.get("hostname") == "cloudflare" and "cloudflare" in s.get("tags", [])]
+            if not matching:
                 raise BackupError("Restic did not report the expected Cloudflare snapshot")
+            latest = max(matching, key=lambda snapshot: snapshot["time"])
             retention_marker = STATE / "retention-enabled.json"
             if retention_marker.exists():
-                restic(["forget", "--group-by", "host,tags", "--keep-weekly", "1",
+                restic(["forget", "--host", "cloudflare", "--tag", "cloudflare",
+                        "--group-by", "host,tags", "--keep-weekly", "1",
                         "--keep-monthly", "1", "--prune"])
             else:
                 # Setup never prunes. Enable retention only after the first
@@ -354,6 +368,7 @@ def backup(dry_run: bool = False) -> None:
                 })
             success = {
                 "completed": dt.datetime.now(dt.timezone.utc).isoformat(),
+                "snapshot_id": latest["id"],
                 "zones": zones, "dns_records": records,
                 "kv_namespaces": namespaces, "kv_keys": keys,
                 "r2_buckets": buckets, "r2_objects": objects, "r2_bytes": r2_bytes,

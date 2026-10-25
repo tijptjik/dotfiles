@@ -1,0 +1,7 @@
+[Unit]
+Description=Notify that the Cloudflare backup failed
+ConditionHost=fi
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/notify-send --urgency=critical "Cloudflare backup needs attention" "Check journalctl --user -u cloudflare-restic-backup.service and the backup drive mount."

@@ -1,5 +1,7 @@
 [Unit]
 Description=Encrypted Cloudflare DNS, KV, and R2 backup
+ConditionHost=fi
+OnFailure=cloudflare-restic-backup-failure.service
 
 [Service]
 Type=oneshot
@@ -7,3 +9,4 @@ UMask=0077
 TimeoutStartSec=infinity
 TimeoutStopSec=120
 ExecStart=%h/.local/bin/cloudflare-restic-backup
+Environment=PYTHONUNBUFFERED=1

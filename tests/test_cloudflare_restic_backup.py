@@ -17,7 +17,9 @@ SPEC.loader.exec_module(backup)
 class CloudflareResticGuardTests(unittest.TestCase):
     def test_mount_guard_accepts_exact_uuid_at_exact_path(self):
         result = subprocess.CompletedProcess([], 0, stdout=backup.MOUNT_UUID + " rw,nosuid\n")
-        with mock.patch.object(backup.os.path, "ismount", return_value=True), \
+        with tempfile.TemporaryDirectory() as tmp, \
+             mock.patch.object(backup, "MOUNT_POINT", Path(tmp)), \
+             mock.patch.object(backup.os.path, "ismount", return_value=True), \
              mock.patch.object(backup, "run", return_value=result):
             backup.verify_mount()
 
@@ -28,14 +30,18 @@ class CloudflareResticGuardTests(unittest.TestCase):
 
     def test_mount_guard_rejects_wrong_uuid(self):
         result = subprocess.CompletedProcess([], 0, stdout="OTHER-UUID rw,nosuid\n")
-        with mock.patch.object(backup.os.path, "ismount", return_value=True), \
+        with tempfile.TemporaryDirectory() as tmp, \
+             mock.patch.object(backup, "MOUNT_POINT", Path(tmp)), \
+             mock.patch.object(backup.os.path, "ismount", return_value=True), \
              mock.patch.object(backup, "run", return_value=result):
             with self.assertRaisesRegex(backup.BackupError, "does not match"):
                 backup.verify_mount()
 
     def test_repository_guard_rejects_read_only_mount(self):
         result = subprocess.CompletedProcess([], 0, stdout=backup.MOUNT_UUID + " ro,nosuid\n")
-        with mock.patch.object(backup.os.path, "ismount", return_value=True), \
+        with tempfile.TemporaryDirectory() as tmp, \
+             mock.patch.object(backup, "MOUNT_POINT", Path(tmp)), \
+             mock.patch.object(backup.os.path, "ismount", return_value=True), \
              mock.patch.object(backup, "run", return_value=result):
             with self.assertRaisesRegex(backup.BackupError, "mounted read-only"):
                 backup.verify_repository_path()
@@ -47,6 +53,21 @@ class CloudflareResticGuardTests(unittest.TestCase):
 
 
 class CloudflareResticExportTests(unittest.TestCase):
+    def test_zone_export_is_restricted_to_approved_account(self):
+        zone = {"id": "zone-one", "account": {"id": backup.ACCOUNT_ID}}
+        with tempfile.TemporaryDirectory() as tmp, \
+             mock.patch.object(backup, "paged_results", side_effect=[[zone], []]) as request, \
+             mock.patch.object(backup, "cloudflare_request", return_value=([], None)):
+            self.assertEqual(backup.export_zones("token", Path(tmp)), (1, 0))
+        request.assert_any_call("token", "/zones", query={"account.id": backup.ACCOUNT_ID})
+
+    def test_zone_export_rejects_unexpected_account(self):
+        with tempfile.TemporaryDirectory() as tmp, \
+             mock.patch.object(backup, "paged_results", return_value=[
+                 {"id": "zone-one", "account": {"id": "other-account"}}]):
+            with self.assertRaisesRegex(backup.BackupError, "outside the approved account"):
+                backup.export_zones("token", Path(tmp))
+
     def test_page_pagination_collects_all_pages(self):
         with mock.patch.object(backup, "cloudflare_request", side_effect=[
                 ([{"id": "one"}, {"id": "two"}], None),
@@ -102,6 +123,7 @@ class CloudflareResticExportTests(unittest.TestCase):
             with mock.patch.object(backup, "STATE", state), \
                  mock.patch.object(backup, "RCLONE_CONFIG", config), \
                  mock.patch.object(backup, "verify_repository_path"), \
+                 mock.patch.object(backup, "verify_mount"), \
                  mock.patch.object(backup, "safe_secret_file", return_value="secret"), \
                  mock.patch.object(backup, "export_zones", return_value=(11, 25)), \
                  mock.patch.object(backup, "export_kv", return_value=(2, 1)), \

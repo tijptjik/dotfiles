@@ -1,6 +1,9 @@
 # Follow-up instruction: Cloudflare Restic backup route
 
-This is a deferred implementation task. Do not run it during the current backup or mail audit. Begin only when the user explicitly asks to carry out this follow-up.
+Implementation was authorized on 25 October 2026. See
+[Cloudflare backups on Fi](cloudflare-backups.md) for the current setup, credential
+blocker, verification evidence, and recovery procedure. The accepted design and
+completion requirements below remain applicable.
 
 ## Accepted design
 

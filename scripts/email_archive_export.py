@@ -41,7 +41,6 @@ class MountBackpressure:
 
     def __init__(self):
         self.allow = threading.Event()
-        self.allow.set()
         self.stopping = threading.Event()
         self.error: str | None = None
         self.thread = threading.Thread(target=self._monitor, daemon=True)
@@ -87,9 +86,12 @@ class MountBackpressure:
             self.stopping.wait(10)
 
     def wait(self) -> None:
+        started = time.monotonic()
         while not self.allow.wait(1):
             if self.stopping.is_set():
                 raise RuntimeError("Drive upload monitor stopped")
+            if self.error and time.monotonic() - started > 60:
+                raise RuntimeError(f"Drive upload status unavailable: {self.error}")
 
     def stop(self) -> None:
         self.stopping.set()
@@ -205,9 +207,11 @@ class EncryptedOutput:
         prefix = "type-drive:private/"
         if not remote.startswith(prefix):
             raise ValueError("archive target must be below the managed Google Drive private remote")
+        if not os.path.ismount(DRIVE_MOUNT):
+            raise RuntimeError("managed Google Drive mount is unavailable")
         self.path = DRIVE_MOUNT / remote[len(prefix):]
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.file = self.path.open("wb")
+        self.file = self.path.open("xb")
         self.age = subprocess.Popen(
             ["age", "-r", recipient], stdin=subprocess.PIPE,
             stdout=self.file, stderr=subprocess.DEVNULL,

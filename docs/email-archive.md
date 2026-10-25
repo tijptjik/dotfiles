@@ -5,6 +5,28 @@ Every data object is compressed with zstd and encrypted with age before upload.
 Drive filenames use opaque account and mailbox IDs; the encrypted SQLite index
 and JSONL manifest map those IDs to addresses and original source paths.
 
+## Running a migration
+
+Keep the private configuration, working SQLite database, manifests, logs, and
+completion markers in persistent storage such as
+`~/.local/state/email-archive/`. Use directory permissions 0700 and file
+permissions 0600. A reboot clears `/tmp`; it must not hold the only index.
+
+Run `scripts/email_archive_run.py --workdir PRIVATE_DIRECTORY --config PRIVATE_CONFIG`
+from the repository root in the host user session. The runner waits directly
+for the index process to exit successfully, checks SQLite integrity and any
+configured baseline counts, and only then starts export. It does not infer
+completion from a transient systemd unit disappearing. A private lock prevents
+two runner instances from using the same working directory.
+
+The `index.complete.json` checkpoint permits reuse of a completed index when
+source sizes and modification times still match. Incomplete attempts are kept
+in separate directories. `upload.complete.json` means export finished and the
+mount upload queue drained; it does not mean restoration validation passed.
+The runner requires the writable `gi-private` FUSE mount at
+`~/.mnt/google/private` before export. Launch it with a user systemd service to
+survive terminal closure, and retain its logs on persistent storage.
+
 Each canonical account has three encrypted data collections:
 
 - `mailboxes/`: standard MBOX files, one per original mailbox source. Reader

@@ -1,9 +1,0 @@
-#!/usr/bin/env python3
-"""Entry point for the privately installed annual archive tools."""
-from pathlib import Path
-import runpy
-import sys
-
-library = Path.home() / ".local/lib/email-archives"
-sys.path.insert(0, str(library))
-runpy.run_path(str(library / "email_archives.py"), run_name="__main__")

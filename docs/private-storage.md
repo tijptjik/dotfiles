@@ -17,12 +17,9 @@ uppercase `~/Documents` directory are outside this workflow.
 - `private/documents/`, `private/media/`, `private/projects/`,
   `private/resources/`: the four bidirectional sync destinations.
 
-`private/media` contains the former archived images plus files merged from
-clients. The former Drive media collection is retained in
-`private/archives/media`. The old root archives and backups belong under private.
-Legacy backups are preserved for content review; they are not automatically
-classified as redundant merely because new backups exist. Other unclassified
-root files are not moved into synced folders automatically.
+Existing archives and legacy backup collections remain under
+`private/archives/` and `private/backups/`. They are outside the four-folder
+hourly client sync; backup jobs do not move or delete them.
 
 ## Sharing approval
 
@@ -140,7 +137,8 @@ The repository is encrypted with `PRIVATE_RESTIC_PASSWORD`, checked after
 backup, and pruned only after the checks succeed. A failed transfer or empty
 Drive source fails closed and records a failure receipt. The transient mount
 lives in Si's user runtime directory and
-is unmounted after each source backup.
+is unmounted after each source backup. The first baseline may take hours for a
+large archive; later runs deduplicate unchanged content.
 
 Si's Drive OAuth config is created once from the Bitwarden
 `RCLONE_GOOGLE_DRIVE_CONFIG` secret so rclone can persist token refreshes. It is
@@ -148,7 +146,9 @@ separate from Si's existing R2 rclone config. The native-file export preserves
 document content and folder names; it does not preserve Google sharing ACLs,
 comments, revision history, or native editing semantics. Unsupported or
 non-exportable Google file types fail the run instead of silently counting as
-backed up.
+backed up. A dangling Drive shortcut has no target content to export; rclone
+logs it, and the target must be restored or reattached in Drive before it can
+be backed up.
 
 Inspect service status with `systemctl --user status drive-restic-backup.timer`
 and logs with `journalctl --user -u drive-restic-backup.service`. The last
@@ -229,24 +229,5 @@ reserve. Do not initialize a second client until fi's initial merge finishes;
 then that client merges with the established cloud copy, retaining displaced
 versions in its own recovery directories.
 
-The four public/private mount commands have been exercised on fi. The crypt
-password file is per device; unlocking requires the password chosen by its user.
-
-## Legacy Drive backup review
-
-The retained legacy collection is about 104 GB across 203,002 files. Its top-level
-categories are Android, DB, credentials, drives, hkghostsigns, images, and system.
-
-| Collection | Coverage decision |
-|---|---|
-| `system/system.all.20240425`, `system/system.clients.20241203` | Overlap with managed configuration and current R2 archives. Review file coverage before deleting; older app state may be unique. |
-| `credentials` | Current secrets use Bitwarden and encrypted R2 recovery. Old credentials still need a content comparison; retained. |
-| `DB/breadline`, `hkghostsigns` | Not covered by merely having source code on GitHub. Retained. |
-| Android and phone/Telegram images | Historical device data; not assumed identical to the active media collection. Retained. |
-| `drives/FoodWorks`, `drives/m@droste.hk` | Historical drive collections, outside active client sync. Retained. |
-
-New client recovery snapshots go to Restic on si. New short-term bisync recovery
-copies go to `private/backups/sync-recovery`. Reproducible `/opt` binaries do not
-need new Drive backups: their release-checking installers are committed in
-Chezmoi/Chezetc.
-The existing external `.tools` safety archive remains independent of this cleanup.
+The crypt password file is per device; unlocking requires the password chosen
+by its user.

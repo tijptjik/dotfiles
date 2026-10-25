@@ -61,7 +61,7 @@ Readmes are available in `/docs/{topic}.md`
 
 The **[fleet storage atlas](docs/fleet-backup-atlas.md)** explains where files
 live across Fi, Li, Si, Google and Cloudflare, with device and content icons,
-backup relationships, schedules, and coverage gaps.
+backup locations, schedules, and retention.
 
 [![Fleet backup diagram: devices, content and recovery relationships](docs/assets/fleet-backup-atlas.png)](docs/fleet-backup-atlas.md)
 
@@ -74,9 +74,8 @@ backup relationships, schedules, and coverage gaps.
   [Server application backups](docs/si-application-backups.md) ·
   [Cloudflare backups](docs/cloudflare-backups.md)
 
-The diagrams describe the configured backup routes and their schedules. They
-are not live status dashboards; setup notes identify recovery boundaries and
-remaining coverage work.
+The diagrams describe configured backup routes and schedules. The linked setup
+guides describe their scope and recovery procedures.
 
 ### Server media
 

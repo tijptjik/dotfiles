@@ -60,6 +60,13 @@ Fi hosts that terminal. The title includes the remote hostname, for example
 are preserved. The **Focus** button asks Kitty to activate the originating
 terminal. No reverse SSH connection or remote desktop bus is needed.
 
+The managed `~/.config/kitty/notifications.py` hook reads structured status
+metadata from the remote runner and delivers a native Notjik status card on the
+desktop. Only display fields cross SSH; focus actions are generated locally.
+If Notjik is unavailable or delivery fails, Kitty keeps its standard text card.
+Kitty loads this hook at startup: restart the Kitty application after first
+installing it (a new tab or configuration reload is not sufficient).
+
 Interactive SSH sessions work automatically. For a one-line remote invocation,
 allocate a terminal:
 

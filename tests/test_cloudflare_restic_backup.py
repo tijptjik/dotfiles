@@ -53,6 +53,20 @@ class CloudflareResticGuardTests(unittest.TestCase):
 
 
 class CloudflareResticExportTests(unittest.TestCase):
+    def test_r2_mount_prefetches_directories_without_caching_object_bodies(self):
+        with tempfile.TemporaryDirectory() as tmp, \
+             mock.patch.object(backup.subprocess, "Popen") as popen, \
+             mock.patch.object(backup.subprocess, "run"), \
+             mock.patch.object(backup.os.path, "ismount", return_value=True):
+            popen.return_value.poll.return_value = None
+            with backup.mounted_r2(Path(tmp) / "r2", Path(tmp) / "mount.log"):
+                pass
+        args = popen.call_args.args[0]
+        for flag in ["--read-only", "--vfs-refresh", "--fast-list", "--use-server-modtime"]:
+            self.assertIn(flag, args)
+        self.assertEqual(args[args.index("--vfs-cache-mode") + 1], "off")
+        self.assertEqual(args[args.index("--dir-cache-time") + 1], "24h")
+
     def test_zone_export_is_restricted_to_approved_account(self):
         zone = {"id": "zone-one", "account": {"id": backup.ACCOUNT_ID}}
         with tempfile.TemporaryDirectory() as tmp, \

@@ -237,7 +237,7 @@ def export_r2_inventory(root: Path) -> tuple[int, int, int]:
         "exported_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "bucket_count": len(buckets), "object_count": summary.get("count"),
         "bytes": summary.get("bytes"), "buckets": buckets,
-        "metadata_note": "Object bodies, names, and timestamps are read through the read-only rclone mount. "
+        "metadata_note": "Object bodies, names, and server modification timestamps are read through the read-only rclone mount. "
                          "Custom S3 metadata is not guaranteed to be restored.",
     })
     return len(buckets), int(summary.get("count", 0)), int(summary.get("bytes", 0))
@@ -249,7 +249,8 @@ def mounted_r2(path: Path, log_path: Path):
     log = log_path.open("ab")
     process = subprocess.Popen([
         "rclone", "mount", R2_REMOTE, str(path), "--config", str(RCLONE_CONFIG),
-        "--read-only", "--vfs-cache-mode", "off", "--dir-cache-time", "1m",
+        "--read-only", "--vfs-cache-mode", "off", "--dir-cache-time", "24h",
+        "--vfs-refresh", "--fast-list", "--use-server-modtime",
         "--poll-interval", "0", "--log-level", "ERROR",
     ], stdout=subprocess.DEVNULL, stderr=log, start_new_session=True)
     try:
@@ -283,6 +284,7 @@ def restic_env() -> dict[str, str]:
     env = os.environ.copy()
     env["RESTIC_REPOSITORY"] = str(REPOSITORY)
     env["RESTIC_PASSWORD_FILE"] = str(RESTIC_PASSWORD)
+    env.setdefault("RESTIC_PROGRESS_FPS", "0.1")
     return env
 
 
@@ -343,7 +345,7 @@ def backup(dry_run: bool = False) -> None:
                     raise BackupError("R2 mount returned an empty root; refusing an incomplete snapshot")
                 verify_mount()
                 print("Backing up DNS, KV, and the read-only R2 mount", flush=True)
-                restic(["backup", "--read-concurrency", "8", "--tag", "cloudflare",
+                restic(["backup", "--json", "--read-concurrency", "32", "--tag", "cloudflare",
                         "--host", "cloudflare", str(work_root)])
             restic(["check"])
             verify_repository_path()

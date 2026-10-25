@@ -244,8 +244,11 @@ def warn_dirty_files(status_repo: Path, repo: Path) -> None:
     paths = git_dirty_paths(repo)
     if paths:
         count = len(paths)
+        name = repo.resolve().name
+        name = {"chezmoi": "Chezmoi", "chezetc": "Chezetc"}.get(name, name)
         stage_label(
-            "WARN", "!", "Dirty State", f"{count} {('file' if count == 1 else 'files')}"
+            "WARN", "!", f"Dirty {name}",
+            f"{count} {('file' if count == 1 else 'files')}"
         )
 
 

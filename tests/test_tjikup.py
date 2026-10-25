@@ -54,6 +54,30 @@ class ZedPropagationTests(unittest.TestCase):
         )
 
 
+class DirtyStateTests(unittest.TestCase):
+    def test_warning_identifies_repository_and_count(self):
+        repo = Path.home() / ".local/share/chezmoi"
+        with patch.object(tjikup, "git_dirty_paths", return_value=["a", "b"]), \
+                patch.object(tjikup, "stage_label") as stage:
+            tjikup.warn_dirty_files(repo, repo)
+            stage.assert_called_once_with("WARN", "!", "Dirty Chezmoi", "2 files")
+
+    def test_other_repository_name_and_singular_count(self):
+        for name, label in (("chezetc", "Chezetc"), ("my-repo", "my-repo")):
+            with self.subTest(name=name), \
+                    patch.object(tjikup, "git_dirty_paths", return_value=["a"]), \
+                    patch.object(tjikup, "stage_label") as stage:
+                repo = Path("/tmp") / name
+                tjikup.warn_dirty_files(repo, repo)
+                stage.assert_called_once_with("WARN", "!", f"Dirty {label}", "1 file")
+
+    def test_clean_repository_has_no_warning(self):
+        with patch.object(tjikup, "git_dirty_paths", return_value=[]), \
+                patch.object(tjikup, "stage_label") as stage:
+            tjikup.warn_dirty_files(Path("/tmp/repo"), Path("/tmp/repo"))
+            stage.assert_not_called()
+
+
 class PrerequisiteTests(unittest.TestCase):
     def test_toml_check_uses_chezetc_python_from_path(self):
         with patch.object(tjikup.shutil, "which", return_value="/usr/bin/python3"), \

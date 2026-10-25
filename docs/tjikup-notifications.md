@@ -1,11 +1,28 @@
 # Tjikup completion notifications
 
-Local desktop runs send one notification with a branded white “up” icon, elapsed
-time, completed-stage count and up to three warning/failure subjects. Warning
-reports remain visible even when the workflow returns zero (for example, an apply
-was skipped). Failures and Ctrl-C use critical urgency. Dry runs are labelled
-as previews. Detailed output stays in the terminal; the temporary TSV report is
-removed when the process exits.
+Local desktop runs prefer a native Notjik status card with a branded white “up”
+icon. A compact status row shows `ALL SYSTEMS GO`, issue counts such as
+`2 failed · 1 warning`, or `INTERRUPTED`, alongside elapsed time and completed-stage
+count. The body lists up to three issues, with failures first and a count of any
+remaining issues. Entries identify the stage and tool, for example
+`Failed · UPDATE: Bun` or `Warning · CHECK: Bitwarden`. Dirty repositories use
+friendly names and file counts: `Dirty Chezmoi — 48 files`. This includes staged,
+unstaged, and untracked files, so a dirty warning does not mean a tool failed.
+A single dirty repository shows its name at the left of the status row and its
+file count at the right; elapsed time and stage count appear below the title.
+The generic runner failure summary is omitted when specific failures are
+available. Other report notes and raw command output stay in the terminal.
+
+On Hyprland, **Show window** returns to the window and workspace that launched the
+command. The runner captures the window from its process ancestry at startup;
+switching workspaces while it runs does not change the target. It detects Lua
+dispatch support and retains the legacy command for older Hyprland versions.
+It activates the application window; it does not select an editor's terminal
+panel or scroll to the command output. The button is
+omitted when no unambiguous originating window is available. Clean cards expire
+after ten seconds; warnings and failures remain until dismissed. Failures and
+Ctrl-C use critical urgency. Dry runs are labelled as previews. The temporary
+TSV report is removed when the process exits.
 
 Fish's `done` plugin excludes direct `tjikup` and fleet shortcut invocations,
 including `command tjikup` and absolute paths. Other commands retain their completion notices.
@@ -15,7 +32,8 @@ New Fish shells load this automatically. In an existing shell, run:
 source ~/.config/fish/conf.d/tjikup-notifications.fish
 ```
 
-Local notifications require `notify-send` and a desktop session.
+Local notifications require a desktop session. If `notjikctl` is unavailable or
+delivery fails, the runner falls back to `notify-send` with the same result text.
 
 ## SSH results on the originating desktop
 
@@ -39,7 +57,8 @@ In a direct Kitty SSH terminal, completion reports travel back through the SSH
 PTY using Kitty's OSC 99 protocol. A run on Si or Li therefore notifies Fi when
 Fi hosts that terminal. The title includes the remote hostname, for example
 `Tjikup · si complete`. Success, warnings, failure urgency and the branded icon
-are preserved. No reverse SSH connection or remote desktop bus is needed.
+are preserved. The **Focus** button asks Kitty to activate the originating
+terminal. No reverse SSH connection or remote desktop bus is needed.
 
 Interactive SSH sessions work automatically. For a one-line remote invocation,
 allocate a terminal:

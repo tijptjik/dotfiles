@@ -369,8 +369,7 @@ class ArchiveIntegrationTests(unittest.TestCase):
             (repository / "home/dot_config/archive-policy.json").read_text()
         )
         folder = ".local/share/TelegramDesktop/tdata"
-        proposal = json.loads((repository / "docs/telegram-settings-policy.json").read_text())
-        self.config["folders"][folder] = proposal[folder]
+        self.config["folders"][folder] = policy["folders"][folder]
         self.config["device_groups"] = policy["device_groups"]
         selected = {
             "settingss", "settings0", "settings1", "shortcuts-custom.json",
@@ -402,6 +401,56 @@ class ArchiveIntegrationTests(unittest.TestCase):
         # Excluded cache updates do not create a new configuration snapshot.
         self.write(self.fi, folder, "user_data/cache/new", "new cached data")
         self.assertEqual(self.fi.backup(folder)["snapshot"], ref["snapshot"])
+
+    def test_minimal_app_backups_roundtrip_without_runtime_or_sessions(self):
+        policy = json.loads(
+            (Path(__file__).parents[1] / "home/dot_config/archive-policy.json").read_text()
+        )
+        cases = {
+            ".config/BraveSoftware/Brave-Browser": (
+                ["Local State", "Default/Preferences", "Default/Secure Preferences",
+                 "Profile 2/Preferences", "NativeMessagingHosts/custom.json"],
+                ["Default/History", "Default/Bookmarks", "Default/Cookies",
+                 "Default/Cache/data", "Default/Extensions/extension/manifest.json",
+                 "Default/Local Storage/leveldb/data", "Other/Preferences"],
+            ),
+            ".config/Steam": (
+                ["config/config.vdf", "config/libraryfolders.vdf", "steamapps/libraryfolders.vdf",
+                 "userdata/1/config/localconfig.vdf", "userdata/2/config/shortcuts.vdf",
+                 "userdata/2/config/compat.vdf"],
+                ["config/loginusers.vdf", "ssfn123", "config/htmlcache/data",
+                 "steamapps/common/game/game.exe", "steamapps/compatdata/1/pfx/file",
+                 "userdata/1/123/remote/save", "userdata/1/config/grid/custom.png"],
+            ),
+            ".local/share/firefoxpwa": (
+                ["config.json", "profiles/one/prefs.js", "profiles/two/user.js",
+                 "profiles/one/containers.json", "profiles/one/handlers.json",
+                 "profiles/one/search.json.mozlz4", "profiles/one/persdict.dat",
+                 "profiles/one/chrome/userChrome.css", "profiles/two/chrome/userContent.css"],
+                ["runtime/firefox", "profiles/one/cookies.sqlite", "profiles/one/logins.json",
+                 "profiles/one/key4.db", "profiles/one/storage/site/data",
+                 "profiles/one/chrome/pwa/code.js", "profiles/one/extensions/a.xpi"],
+            ),
+        }
+        self.config["device_groups"] = policy["device_groups"]
+        for index, (folder, (keep, omit)) in enumerate(cases.items()):
+            with self.subTest(folder=folder):
+                self.config["folders"][folder] = policy["folders"][folder]
+                for name in keep + omit:
+                    self.write(self.fi, folder, name, "fixture: " + name)
+                self.assertTrue(self.fi.eligible(folder))
+                self.assertTrue(self.li.eligible(folder))
+                self.assertFalse(Archives(self.config, self.root / "si", "si").eligible(folder))
+                ref = self.fi.backup(folder)
+                self.assertTrue(ref["encrypted"])
+                dest = self.root / f"app-restore-{index}"
+                self.fi.restore(folder, "fi", dest)
+                restored = scan(dest)
+                self.assertEqual({n for n, entry in restored.items() if entry["type"] == "file"}, set(keep))
+                for name in keep:
+                    self.assertEqual((dest / name).read_text(), "fixture: " + name)
+                self.write(self.fi, folder, omit[0], "changed excluded data")
+                self.assertEqual(self.fi.backup(folder)["snapshot"], ref["snapshot"])
 
     def test_snapshot_history_and_machine_isolation(self):
         self.prime()
@@ -698,6 +747,31 @@ class SelectedConfigurationTests(unittest.TestCase):
                     path.write_text("fixture")
                 entries = scan(root, policy[folder])
                 self.assertEqual({n for n, e in entries.items() if e["type"] == "file"}, set(keep))
+
+    def test_allowlist_does_not_walk_unselected_directories(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for name in ["config/config.vdf", "steamapps/common/huge/game", "userdata/1/123/remote/save",
+                         "userdata/1/config/localconfig.vdf", "config.vdf/trap"]:
+                path = root / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("fixture")
+            original = Path.iterdir
+            visited = []
+
+            def guarded(path):
+                relative = path.relative_to(root).as_posix()
+                visited.append(relative)
+                if relative in {"steamapps", "userdata/1/123", "config.vdf"}:
+                    raise AssertionError("Traversed an unselected directory")
+                return original(path)
+
+            with patch.object(Path, "iterdir", guarded):
+                entries = scan(root, {"include_files": ["config/config.vdf", "config.vdf",
+                                                       "userdata/*/config/localconfig.vdf"]})
+            self.assertEqual({n for n, e in entries.items() if e["type"] == "file"},
+                             {"config/config.vdf", "userdata/1/config/localconfig.vdf"})
+            self.assertIn("userdata/1/config", visited)
 
     def test_config_allowlist_preserves_nested_files_without_profile_data(self):
         with tempfile.TemporaryDirectory() as tmp:

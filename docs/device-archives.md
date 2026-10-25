@@ -35,6 +35,7 @@ or a mixture; overlapping selections are deduplicated. For example:
 | Clients | `.config/Bazecor`, `.var/app/rocks.koreader.KOReader/config/koreader` | Reviewed sync |
 | Clients | `.config/sublime-text`, `.config/waybar/crypto` | Exact mirror from `fi` |
 | Clients | `.duckdb` | Independent device backups |
+| Clients | Telegram global settings, Brave preferences, Steam client settings, FirefoxPWA registrations/preferences | Minimal encrypted device backups; daily/weekly/monthly retention |
 | Desktop | `.config/unity3d`, `.var/app/org.yuzu_emu.yuzu/config`, Yuzu data folders listed in the policy | Desktop backups |
 | Desktop | `.local/share/device-archives-policy` | Encrypted recovery copy of the archive policy; daily/weekly/monthly retention |
 | Desktop | `.codex-lb` | Master backup of `store.db` and its matching `encryption.key` |
@@ -390,8 +391,7 @@ reintroducing a compatible policy entry. Sync coverage was not audited here.
 
 ## Telegram Desktop settings
 
-The separate, unapplied [Telegram policy proposal](telegram-settings-policy.json)
-selects these root-level files from
+The active client policy selects these root-level files from
 `~/.local/share/TelegramDesktop/tdata`:
 
 ```text
@@ -417,8 +417,7 @@ default shortcuts are excluded. Custom theme exports are retained, but the
 active theme may require reimporting because its cached blob is omitted.
 Account-specific preferences are not promised by this global-settings backup.
 
-Once the proposal has been activated and a first Telegram backup exists,
-restore into a review directory first:
+Restore into a new review directory first:
 
 ```sh
 device-archives restore .local/share/TelegramDesktop/tdata --from fi --to ~/restore-review/telegram-settings
@@ -437,9 +436,44 @@ in an isolated working directory without account login keys. The selected
 three files totalled 43,399 bytes (42.4 KiB). This startup check is narrower
 than verifying every setting after login; those checks remain manual.
 
-Activation status (2026-10-25): local restore tests are complete. This entry is
-kept outside the active policy pending approval of the first Telegram upload;
-the cache-cleanup rollout does not activate Telegram backups on either client.
+Activation status (2026-10-25): the user authorized activation and the first
+upload. The minimal Telegram policy is now deployed on Fi and Li. It retains
+global settings only; post-login visual/settings acceptance remains a separate
+manual check because the recovery copy deliberately has no account login keys.
+
+## Minimal Brave, Steam and FirefoxPWA backups
+
+These client-only, age-encrypted entries use `include_files` to retain only
+reviewed settings. Each device backs up its own state; no app settings or login
+credentials are synchronized between hosts. The scanner skips directories that
+cannot contain an allowlisted file, including unselected browser profiles,
+Steam game libraries and website storage.
+
+- Brave: `Local State`, `Preferences` and `Secure Preferences` under `Default`
+  and `Profile *`, plus root `NativeMessagingHosts/*.json`.
+- Steam: `config/config.vdf`, both possible `libraryfolders.vdf` locations, and
+  `userdata/*/config/{localconfig,shortcuts,compat}.vdf`.
+- FirefoxPWA: root `config.json`, profile preferences, containers, handlers,
+  search settings, personal dictionaries, and explicit profile
+  `chrome/userChrome.css` / `chrome/userContent.css` overrides.
+
+Generated FirefoxPWA `chrome/pwa/` integration code is omitted. Fi has a 97-byte
+`userChrome.css` override; it is included. Steam has no custom artwork or
+controller configuration files at the reviewed paths. Those are not selected
+by this policy. Bookmarks, browser history/storage/sessions, downloaded
+extensions, Steam login files, games, Proton prefixes and game saves are outside
+these new entries. Preferences may contain private metadata; all selected files
+and manifests are encrypted. Fresh login and reinstalling software are expected.
+
+Restore with `device-archives restore FOLDER --from HOST --to NEW_DIRECTORY`,
+review the result, then install selected files with the application stopped.
+Reconcile machine-specific library/profile paths. Brave may reject protected
+preferences on another installation; Steam libraries must be reinstalled or
+reattached; FirefoxPWA runtime and desktop integration must be regenerated.
+These backups provide best-effort configuration recovery. Archive readback and
+extraction do not establish successful GUI recovery for these three apps.
+See the [restoration guide](config-restoration-plan.md) for exact selections
+and the dated verification record.
 
 ## Cache exclusions
 

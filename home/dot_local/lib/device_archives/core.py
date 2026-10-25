@@ -103,6 +103,20 @@ def selected_file(name, patterns):
     return False
 
 
+def selected_directory(name, patterns):
+    """Whether any allowlisted file could be below this root-relative directory."""
+    parts = PurePosixPath(name).parts
+    for pattern in patterns:
+        wanted = PurePosixPath(pattern).parts
+        recursive = wanted[-1:] == ("**",)
+        fixed = wanted[:-1] if recursive else wanted
+        if (recursive or len(parts) < len(fixed)) and all(
+            fnmatch.fnmatchcase(part, glob) for part, glob in zip(parts, fixed)
+        ):
+            return True
+    return False
+
+
 def scan(root, policy=None, file_entry=None):
     """Content and permissions, without following symlinks or recording sockets."""
     policy = policy or {}
@@ -129,6 +143,10 @@ def scan(root, policy=None, file_entry=None):
                     "mode": mode,
                 }
             elif stat.S_ISDIR(st.st_mode):
+                if policy.get("include_files") and not selected_directory(
+                    name, policy["include_files"]
+                ):
+                    continue
                 result[name] = {"type": "dir", "mode": mode}
                 walk(path)
                 if policy.get("include_files") and not any(

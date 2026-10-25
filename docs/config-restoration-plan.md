@@ -1,11 +1,13 @@
-# Essential configuration restoration plan
+# Essential configuration restoration
 
-Status: remaining application work is proposed. Zen was dropped in favor of its
-own sync. Telegram's successful minimal-settings trial is recorded below, with
-its proposed entry kept separately in `docs/telegram-settings-policy.json` pending
-upload approval. The subsequent existing-archive cache cleanup and compact
-codex-lb recovery rollout are documented in `device-archives.md` and the dated
-content audit; they do not activate Telegram backups.
+Status (2026-10-25): minimal Telegram, Brave, Steam and FirefoxPWA backups are
+implemented and deployed on Fi and Li. Zen is delegated to its own sync.
+`layout_uv` is hardened and tested. Li's managed fstab matches its actual disks
+and mounts; no change was necessary. The original proposed selections below
+are now implemented, with explicit FirefoxPWA CSS overrides added after review.
+The user accepted best-effort recovery for Brave, Steam and FirefoxPWA; GUI
+restore acceptance for those apps was not required. Telegram's post-login
+settings check still needs an interactive login in the isolated restore.
 
 The goal is to recover application choices and customizations after reinstalling
 software. Downloadable software, caches, browsing history, login sessions,
@@ -14,19 +16,22 @@ Exclusion from these backups does not delete anything from the source.
 
 ## Findings and scope
 
-Some README TODOs are stale or partly implemented:
+The original README TODOs are now resolved as follows:
 
 - `home/dot_config/direnv/direnvrc` already defines `layout_uv`, and Fish loads
-  the direnv hook. The helper needs verification and hardening.
+  the direnv hook. The helper now validates uv, ignores inherited environments,
+  and watches
+  `pyproject.toml`, `uv.lock` and `.python-version`.
 - Zen previously had a config-only archive rule; the new policy removes it by
   user preference. Existing remote archives are retained. Sync coverage has not
   been audited as part of this work.
-- Chezetc already has a laptop branch in `etc/fstab.tmpl`. Its UUIDs still need
-  comparison with Li's actual disks.
+- Chezetc already has a laptop branch in `etc/fstab.tmpl`. Its UUIDs and
+  subvolumes match Li's actual disks;
+  both the rendered file and current local laptop branch passed validation.
 - Fi's `.config/uv` currently contains a downloaded Python runtime, with no
   `uv.toml`. There is no configuration there to capture today.
 
-| Directory | Current disk usage on Fi | Candidate config payload |
+| Directory | Initial disk usage on Fi | Initial candidate payload |
 | --- | ---: | ---: |
 | `.zen` | 4.6 GiB | Out of scope; use Zen sync |
 | `.config/BraveSoftware` | 683 MiB | 219.2 KiB |
@@ -60,11 +65,10 @@ default. Do not recursively `chezmoi add` any of these application roots, use
 Preferences can contain private URLs and account metadata; keep raw app state
 out of Git even when it is small.
 
-Add exclusions for known cache/runtime trees to avoid needless traversal. The
-current scanner filters files but still walks unselected directories; consider
-pruning directories that cannot match any allowlist pattern, with tests for
-nested profiles and trailing `**`. Do not introduce a silent size cutoff that
-could discard an essential setting. A dry-run inventory should report selected
+Exclusions remove known cache/runtime trees. The scanner now prunes directories
+that cannot match any allowlist pattern, with regression coverage for nested
+profiles, trailing `**`, and unselected trees that must never be traversed.
+Do not introduce a silent size cutoff that could discard an essential setting. A dry-run inventory should report selected
 file count, bytes, and unexpectedly large files before a policy is activated.
 
 ## Per-item implementation
@@ -100,9 +104,9 @@ policy without deleting existing snapshots. No workspace-format investigation,
 additional allowlist entries or Zen restore implementation is planned. This
 choice does not assert that Zen sync covers every local customization.
 
-### 3. Brave
+### 3. Brave — enabled
 
-Create an archive entry rooted at `.config/BraveSoftware/Brave-Browser`:
+The active archive entry is rooted at `.config/BraveSoftware/Brave-Browser`:
 
 ```text
 Local State
@@ -125,7 +129,7 @@ may reject protected preferences after migration, and this file set does not
 promise to restore installed extensions or authentication. Document any
 settings that require reapplication instead of expanding to a full profile.
 
-### 4. Steam
+### 4. Steam — enabled
 
 Fi's real Steam root is `.config/Steam`; `.steam/root` and `.steam/steam` point
 there. Archive it once, without following the compatibility symlinks:
@@ -157,9 +161,9 @@ check client options, launch/compatibility settings and non-Steam shortcuts.
 Reconcile library paths and account IDs for the destination; library manifests
 do not restore games. Verify any selected custom mappings/artwork separately.
 
-### 5. FirefoxPWA
+### 5. FirefoxPWA — enabled
 
-Create an archive entry rooted at `.local/share/firefoxpwa`:
+The active archive entry is rooted at `.local/share/firefoxpwa`:
 
 ```text
 config.json
@@ -169,6 +173,8 @@ profiles/*/containers.json
 profiles/*/handlers.json
 profiles/*/search.json.mozlz4
 profiles/*/persdict.dat
+profiles/*/chrome/userChrome.css
+profiles/*/chrome/userContent.css
 ```
 
 Fi's `config.json` contains profile/site registrations, arguments, variables
@@ -177,9 +183,9 @@ paths on restore. Do not print private URLs or variable values into reports.
 
 Exclude `runtime/`, logs, profile caches, website storage, cookies, passwords,
 history, sessions and installed extensions. `profiles/*/chrome/pwa/` is installed
-integration code: regenerate it. Inspect `chrome/userChrome.css` and any other
-overrides for actual user edits before selecting exact files; do not capture
-the entire `chrome/` tree as customization.
+integration code: regenerate it. Fi has a 97-byte `chrome/userChrome.css` override hiding browser chrome.
+Retain the exact userChrome/userContent override paths; the entire `chrome/`
+tree is not selected.
 
 Acceptance: reinstall FirefoxPWA and its runtime, restore registration/settings
 with all PWA processes stopped, and use the installed version's supported site
@@ -188,13 +194,13 @@ registered apps appear and launch. Fresh website login is expected. Verify the
 precise integration command during implementation rather than assume copying
 `config.json` alone recreates launchers.
 
-### 6. Telegram Desktop — minimal trial implemented
+### 6. Telegram Desktop — enabled
 
-The separate Telegram proposal selects only root-level global settings slots
+The active Telegram entry selects only root-level global settings slots
 (`settingss`, `settings0`, `settings1`), `shortcuts-custom.json`, and exported
 `*.tdesktop-palette`/`*.tdesktop-theme` files from
 `.local/share/TelegramDesktop/tdata`. On Fi this is three files, 43,399 bytes.
-The proposed client-only archive is encrypted and independent per device, with the
+The client-only archive is encrypted and independent per device, with the
 existing daily/weekly/monthly retention.
 
 The matching Telegram 7.3.3 source confirms global settings derive their key
@@ -208,9 +214,9 @@ Theme/background blobs, account preferences and login sessions remain excluded.
 Reimport the retained custom theme as needed. Login and visual/settings checks
 remain manual; successful parsing does not prove every option is portable.
 See [the Telegram restore instructions](device-archives.md#telegram-desktop-settings)
-for exclusions and the exact restore procedure. Other plan items remain proposals.
+for exclusions and the exact restore procedure. Brave, Steam and FirefoxPWA entries are also active.
 
-### 7. Laptop fstab
+### 7. Laptop fstab — verified, no changes needed
 
 Keep this in Chezetc, which already owns `/etc/fstab`. No home-directory backup
 entry is needed. Compare the existing laptop branch with Li's `/etc/fstab`,
@@ -225,34 +231,78 @@ where the comparison identifies a real mismatch. Preserve a before-image for
 any eventual system change. Successful rendering alone does not prove boot or
 mount behavior; verify those on the laptop during rollout.
 
-## Delivery sequence and completion criteria
+## Recovery acceptance
 
-1. Inventory Li's installed apps and corresponding paths using filenames and
-   sizes, without dumping private settings. Verify Telegram's limited global
-   settings restore on Li; retain the documented account/theme limitations.
-2. Harden direnv and add the proven app allowlists in
-   `home/dot_config/archive-policy.json`. The policy recovery copy is rendered
-   from this source. Keep new rules per-device and encrypted. Add traversal
-   pruning only if it is needed to avoid repeatedly scanning large trees.
-3. Extend `tests/test_device_archives.py` with realistic fixtures: multiple
-   profiles/accounts, included customizations, excluded cache/runtime/session
-   data, large unselected trees, missing apps and symlink roots. Verify omitted
-   paths stay omitted in staging and restore; test that app updates cannot
-   widen the selection accidentally. Add focused direnv tests.
-4. Run focused tests and `bash scripts/validate.sh`. Render the affected policy
-   and hooks for Fi, Li and Si; assert client assignments and no new Si app
-   backups. Record selected counts/bytes per app before first backup. Report
-   unexplained growth for review rather than silently losing selected files.
-5. During implementation rollout, close the relevant apps for a consistent
-   first snapshot, back up only the selected folders, and verify encrypted
-   remote readback. Restore to a temporary directory, compare the manifest,
-   and perform the app-specific restore checks above. Static tests and archive
-   integrity alone are not application acceptance.
-6. Update README TODOs to distinguish completed, intentionally unnecessary,
-   and unresolved items. Zen and Telegram policy documentation has been updated;
-   document the other applications as their implementation and restore checks
-   are completed.
+The new app entries are configuration-only backups. They do not preserve every
+login, browser tab, game save or downloaded file. Brave, Steam and FirefoxPWA
+are best-effort restores at the user's request; no GUI restore test was needed
+to enable their backups. Their downloaded archives still receive the normal
+decryption, manifest and extraction checks.
 
-Completion means demonstrable configuration recovery with the selected payload,
-plus explicit exclusions. It does not mean every application directory is
-backed up or that every prior login, tab, game save or downloaded file returns.
+Telegram's login and visual/settings checks require the user's participation.
+A separate review was prepared from Fi's actual R2 snapshot at
+`~/.local/state/device-archives/telegram-settings-review/work/tdata`. Run
+`~/.local/state/device-archives/telegram-settings-review/launch.sh` from the
+desktop session to launch it with isolated config/data/cache directories and a
+distinct Telegram working directory. Sign in there, check shortcuts,
+display/notification settings and download paths, and reimport the saved theme
+if needed. This does not replace the live profile. The review is not itself
+included in the backup policy. It may be removed after the check and after
+quitting the review instance; retain the actual app's profile.
+
+
+## Verification record — 2026-10-25
+
+The changes were installed on Fi and Li with scoped Chezmoi applies, excluding
+hooks and retaining private before-images under
+`~/.local/state/device-archives/app-config-rollout-20261025T*/`. Applications
+were not restarted and no live account/profile directory was replaced.
+
+`layout uv` passed five isolated failure/selection tests and a real temporary
+project check on both Fi and Li: enter creates `.venv`, does not install dependencies, explicit
+`uv sync --offline` succeeds, and leaving restores the inherited environment
+and PATH. Use `layout uv` in `.envrc`, run `direnv allow`, then run `uv sync`
+explicitly as needed. No empty uv configuration backup was introduced.
+
+Li's Chezetc-rendered `/etc/fstab` exactly matched the live file. The current
+local repository's laptop branch was also checked against Li. `findmnt
+--verify --tab-file` reported no errors or warnings, and the active mounts
+matched these devices:
+
+| Target | Filesystem/source | UUID |
+| --- | --- | --- |
+| `/` | Btrfs `root` on `nvme0n1p3` | `6eff2c29-fe2e-41e9-ac4f-3a2319f85443` |
+| `/home` | Btrfs `home` on `nvme0n1p3` | same as `/` |
+| `/boot` | ext4 on `nvme0n1p2` | `1b5a9e2b-2a67-48bb-b442-bda8d188c54a` |
+| `/boot/efi` | vfat on `nvme0n1p1` | `7859-8D4F` |
+
+No fstab edits, remounts or reboot were necessary. Reinstallation onto different
+disks still requires reconciling installer-generated UUIDs.
+
+
+The four app archives were encrypted, uploaded and independently downloaded,
+decrypted and restored into temporary directories on both Fi and Li. Each
+restored tree matched its archived manifest. Source application profiles were
+not replaced or synchronized.
+
+| App | Fi selected files / bytes | Li selected files / bytes |
+| --- | ---: | ---: |
+| Telegram | 3 / 43,399 | 3 / 42,923 |
+| Brave | 4 / 224,416 | 4 / 87,033 |
+| Steam | 6 / 89,843 | 5 / 89,971 |
+| FirefoxPWA | 6 / 45,301 | 6 / 42,675 |
+| Total | **19 / 402,959** | **18 / 262,602** |
+
+These are uncompressed file bytes, about 393.5 KiB and 256.4 KiB respectively;
+remote archives are compressed before encryption. Adding the reviewed 97-byte
+FirefoxPWA CSS overrides required one replacement snapshot per host. Normal
+retention removed the superseded same-day versions after verified readback.
+The archive policy recovery copy was updated with the new selections.
+
+`bash scripts/validate.sh` passed all **164 tests**. New coverage checks the
+allowlists using encrypted round trips, account/cache exclusion, client-only
+assignment, skipped traversal of unselected trees, and uv failure handling.
+The actual restore receipts are retained privately on each client at
+`~/.local/state/device-archives/minimal-app-restore-verification.json`.
+Telegram post-login acceptance remains pending user confirmation; the separate
+review contains only the three recovered global-setting files before login.

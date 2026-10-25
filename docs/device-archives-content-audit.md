@@ -292,3 +292,13 @@ missing tables, trigger/dependency rejection and cache-exclusion fixtures.
 Fi's active code and both policy copies were compared with the managed source;
 Li performed the same comparison during installation. Repository changes remain
 uncommitted. Telegram's proposed entry remains separate and was not activated.
+
+
+### Follow-up: minimal app backups activated
+
+After the cache-cleanup rollout above, the user authorized Telegram activation
+and best-effort Brave, Steam and FirefoxPWA backups. Those policies are now
+active on Fi and Li; the separate Telegram proposal was removed. The earlier
+references to an inactive proposal describe the state at the time of that audit.
+See [the configuration restoration record](config-restoration-plan.md#verification-record--2026-10-25)
+for the subsequent app, direnv and laptop fstab work.

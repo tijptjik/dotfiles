@@ -188,25 +188,12 @@ run the isolated Tjikup regression tests. Requires Python 3 and Fish; it does
 not apply dotfiles, access secrets, install packages, or synchronize Git.
 Chezmoi template rendering and host-specific behavior require separate checks.
 
-## TODO
+## Configuration recovery
 
-### Config
+Minimal encrypted Telegram, Brave, Steam and FirefoxPWA backups are enabled on
+Fi and Li. Zen uses its own sync. uv has no separate configuration to archive;
+`layout uv` selects the project's `.venv` and leaves dependency installation to
+an explicit `uv sync`. Li's Chezetc fstab matches its current disks and mounts.
 
-- [DirEnv for UV](https://github.com/direnv/direnv/issues/1250)
-- Telegram: [minimal settings restore](docs/device-archives.md#telegram-desktop-settings)
-  is prepared; activation and first backup are pending approval.
-
-### Laptop
-
-- `fstab`
-
-### Packages Not Backed Up
-
-- .config/BraveSoftware
-- .config/Steam
-- .config/uv
-- .local/share/firefoxpwa
-
-Zen is handled through its own sync; new Zen archives are disabled on Fi and Li.
-See the [configuration restoration plan](docs/config-restoration-plan.md) for
-the remaining applications and their proposed file selections.
+See the [configuration restoration guide](docs/config-restoration-plan.md) for
+selected files, recovery limits and verification status.

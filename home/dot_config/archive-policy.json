@@ -306,6 +306,127 @@
       "devices": [
         "desktop"
       ]
+    },
+    ".local/share/TelegramDesktop/tdata": {
+      "mode": "device",
+      "include_files": [
+        "settingss",
+        "settings0",
+        "settings1",
+        "shortcuts-custom.json",
+        "*.tdesktop-palette",
+        "*.tdesktop-theme"
+      ],
+      "exclude": [
+        "user_data",
+        "dumps",
+        "emoji",
+        "audio_cache",
+        "dictionaries",
+        "fonts"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "clients"
+      ]
+    },
+    ".config/BraveSoftware/Brave-Browser": {
+      "mode": "device",
+      "include_files": [
+        "Local State",
+        "Default/Preferences",
+        "Default/Secure Preferences",
+        "Profile */Preferences",
+        "Profile */Secure Preferences",
+        "NativeMessagingHosts/*.json"
+      ],
+      "exclude": [
+        "Cache",
+        "Code Cache",
+        "GPUCache",
+        "Crashpad",
+        "BraveWallet",
+        "Sessions",
+        "History",
+        "Cookies",
+        "Login Data",
+        "Web Data",
+        "Local Storage",
+        "IndexedDB",
+        "Service Worker",
+        "Extensions",
+        "Extension State",
+        "Local Extension Settings",
+        "Sync Extension Settings"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "clients"
+      ]
+    },
+    ".config/Steam": {
+      "mode": "device",
+      "include_files": [
+        "config/config.vdf",
+        "config/libraryfolders.vdf",
+        "steamapps/libraryfolders.vdf",
+        "userdata/*/config/localconfig.vdf",
+        "userdata/*/config/shortcuts.vdf",
+        "userdata/*/config/compat.vdf"
+      ],
+      "exclude": [
+        "appcache",
+        "htmlcache",
+        "logs",
+        "package",
+        "depotcache",
+        "steamapps/common",
+        "steamapps/compatdata",
+        "steamapps/shadercache",
+        "steamapps/workshop",
+        "steamapps/downloading",
+        "loginusers.vdf",
+        "ssfn*"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "clients"
+      ]
+    },
+    ".local/share/firefoxpwa": {
+      "mode": "device",
+      "include_files": [
+        "config.json",
+        "profiles/*/prefs.js",
+        "profiles/*/user.js",
+        "profiles/*/containers.json",
+        "profiles/*/handlers.json",
+        "profiles/*/search.json.mozlz4",
+        "profiles/*/persdict.dat",
+        "profiles/*/chrome/userChrome.css",
+        "profiles/*/chrome/userContent.css"
+      ],
+      "exclude": [
+        "runtime",
+        "logs",
+        "cache2",
+        "startupCache",
+        "storage",
+        "cookies.sqlite",
+        "logins.json",
+        "key4.db",
+        "places.sqlite",
+        "sessionstore*",
+        "extensions"
+      ],
+      "encrypted": true,
+      "retention": "daily-weekly-monthly",
+      "devices": [
+        "clients"
+      ]
     }
   },
   "device_groups": {

@@ -69,13 +69,12 @@ file count, bytes, and unexpectedly large files before a policy is activated.
 
 ## Per-item implementation
 
-### 1. Direnv and uv
+### 1. Direnv and uv — implemented
 
-Harden the existing `layout_uv` in `home/dot_config/direnv/direnvrc`:
+Implemented in `home/dot_config/direnv/direnvrc`:
 
-- Resolve the current project's `.venv` deterministically. Do not reuse an
-  inherited `VIRTUAL_ENV` belonging to another project; the current helper can
-  do this when the new project has no `.venv`.
+- Resolve the current project's `.venv` deterministically, ignoring an inherited
+  `VIRTUAL_ENV` belonging to another project.
 - Verify `uv` exists and stop on failed environment creation before exporting
   `VIRTUAL_ENV` or updating `PATH`.
 - Watch `pyproject.toml`, `uv.lock`, and `.python-version` where present. Keep

@@ -19,17 +19,23 @@ layout_poetry() {
 }
 
 layout_uv() {
-    if [[ -d ".venv" ]]; then
-        VIRTUAL_ENV="$(pwd)/.venv"
+    local project_env="$PWD/.venv"
+    watch_file pyproject.toml uv.lock .python-version
+    if ! command -v uv >/dev/null 2>&1; then
+        log_error "layout uv requires uv on PATH."
+        return 1
     fi
-
-    if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
+    if [[ ! -d "$project_env" ]]; then
         log_status "No virtual environment exists. Executing \`uv venv\` to create one."
-        uv venv
-        VIRTUAL_ENV="$(pwd)/.venv"
+        uv venv "$project_env" || return
+    fi
+    if [[ ! -x "$project_env/bin/python" ]]; then
+        log_error "Project .venv has no executable Python; repair it explicitly."
+        return 1
     fi
 
-    PATH_add "$VIRTUAL_ENV/bin"
-    export UV_ACTIVE=1  # or VENV_ACTIVE=1
-    export VIRTUAL_ENV
+    unset PYTHONHOME
+    PATH_add "$project_env/bin"
+    export UV_ACTIVE=1
+    export VIRTUAL_ENV="$project_env"
 }

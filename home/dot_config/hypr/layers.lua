@@ -18,3 +18,18 @@ hl.layer_rule({
     no_anim = true,
     match = { namespace = "^network-widget$" },
 })
+
+hl.layer_rule({
+    name = "bartjik-panel-immediate",
+    -- The drag image and dropped card share this surface; a compositor fade
+    -- would interrupt their frame-synchronized handoff and pointer tracking.
+    no_anim = true,
+    match = { namespace = "^bartjik-panel$" },
+})
+
+hl.layer_rule({
+    name = "notjik-floating-immediate",
+    -- Floating cards follow pointer movement without compositor fades.
+    no_anim = true,
+    match = { namespace = "^notjik-floating$" },
+})

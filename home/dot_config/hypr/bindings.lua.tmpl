@@ -101,7 +101,7 @@ hl.bind(super("Up", "SHIFT"), hl.dsp.window.resize({ x = 0, y = -128, relative =
 hl.bind(super("Down", "SHIFT"), hl.dsp.window.resize({ x = 0, y = 128, relative = true }))
 
 -- Window Mouse Manipulation
-hl.bind(super("mouse:272"), hl.dsp.window.drag())
+hl.bind(super("mouse:272"), helpers.panel_aware_drag)
 hl.bind(super("mouse:273"), hl.dsp.window.resize())
 
 -- #######################
@@ -200,11 +200,15 @@ hl.bind(super("N", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"
 -- Hamr Launcher
 hl.bind(super("Escape"), hl.dsp.exec_cmd("/usr/local/bin/hamr toggle"))
 
--- Keep Waybar visible until this is pressed again or the pointer touches its
--- bottom reveal edge.
+-- Show the bar and notification history together. Escape closes history;
+-- the bar remains pinned until toggled again or its reveal edge is touched.
 hl.bind(super("M"), function()
-    helpers.toggle_waybar_auto_hide()
+    local visible = helpers.toggle_waybar_auto_hide()
+    hl.exec_cmd("$HOME/.local/bin/notjikctl history " .. (visible and "show" or "hide"))
 end)
+
+hl.bind(super("comma"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate previous"))
+hl.bind(super("period"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate next"))
 
 -- Clipboard history
 hl.bind(super("V"), hl.dsp.exec_cmd("/usr/local/bin/hamr plugin clipboard"))

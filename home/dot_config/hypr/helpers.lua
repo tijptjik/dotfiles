@@ -272,6 +272,8 @@ function helpers.toggle_waybar_auto_hide()
         hl.exec_cmd("pkill -USR2 -x waybar")
         waybar_visibility(true)
     end
+
+    return waybar_auto_hide_override
 end
 
 -- Only float Zen's known extension popups. Regular browser windows must stay in
@@ -499,6 +501,82 @@ function helpers.start_zen_workspace_restore()
             save_snapshot()
         end
     end, { timeout = 1000, type = "repeat" })
+end
+
+-- Detached cards stay above ordinary windows on their own workspace. Raising
+-- their stacking order must not steal focus or pin them across workspaces.
+local detached_card_subscriptions = {}
+local detached_card_raise_timer
+
+function helpers.start_detached_cards()
+    if #detached_card_subscriptions > 0 then return end
+
+    local function is_card(window)
+        local title = window.initial_title or ""
+        return window.mapped and window.floating
+            and (title:match("^bartjik%-detached:") or title:match("^notjik%-detached:"))
+    end
+
+    local function raise_cards()
+        local active = hl.get_active_window()
+        for _, window in ipairs(hl.get_windows()) do
+            if is_card(window) and (not active or window.address ~= active.address) then
+                hl.dispatch(hl.dsp.window.alter_zorder({ mode = "top", window = window }))
+            end
+        end
+        -- Preserve the interacted card above other detached cards.
+        if active and is_card(active) then
+            hl.dispatch(hl.dsp.window.alter_zorder({ mode = "top", window = active }))
+        end
+    end
+
+    local function schedule_raise()
+        if detached_card_raise_timer then detached_card_raise_timer:set_enabled(false) end
+        -- Run after the compositor finishes raising the newly focused window.
+        detached_card_raise_timer = hl.timer(raise_cards, { timeout = 1, type = "oneshot" })
+    end
+
+    for _, event in ipairs({ "window.active", "window.open" }) do
+        table.insert(detached_card_subscriptions, hl.on(event, schedule_raise))
+    end
+    schedule_raise()
+end
+
+-- Layer panels are not native windows: let their own Super-drag handler see
+-- the press instead of starting a move on the window beneath the layer.
+function helpers.panel_under_pointer()
+    local runtime, cursor = os.getenv("XDG_RUNTIME_DIR"), hl.get_cursor_pos()
+    if not runtime or not cursor then return false end
+    for _, layer in ipairs(hl.get_layers({ namespace = "bartjik-panel-shell" })) do
+        if layer.mapped and layer.pid then
+            local file = io.open(runtime .. "/bartjik-panel-" .. layer.pid .. ".rect", "r")
+            if file then
+                local x, y, width, height = file:read("*n", "*n", "*n", "*n")
+                file:close()
+                if x and y and width and height and width > 0 and height > 0 then
+                    local px, py = cursor.x - x, cursor.y - y
+                    local dx = math.max(12 - px, 0, px - (width - 12))
+                    local dy = math.max(12 - py, 0, py - (height - 12))
+                    if px >= 0 and py >= 0 and px < width and py < height
+                        and dx * dx + dy * dy <= 144 then return true end
+                end
+            end
+        end
+    end
+    return false
+end
+
+local native_drag_pending = false
+function helpers.panel_aware_drag()
+    -- Native drag asks Hyprland to call this binding again on release. Finish
+    -- that same drag even if the pointer has since crossed an attached panel.
+    if native_drag_pending then
+        native_drag_pending = false
+        return hl.dsp.window.drag()()
+    end
+    if helpers.panel_under_pointer() then return { pass_event = true } end
+    native_drag_pending = true
+    return hl.dsp.window.drag()()
 end
 
 return helpers

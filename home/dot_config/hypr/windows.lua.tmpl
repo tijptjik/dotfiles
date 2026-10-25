@@ -41,6 +41,29 @@ hl.window_rule({
 -- #######################
 
 hl.window_rule({
+    name = "notjik-detached",
+    float = true,
+    no_blur = true,
+    -- Transparent placement frames must not leave a compositor shadow.
+    no_shadow = true,
+    border_size = 0,
+    no_anim = true,
+    match = { initial_title = "^notjik-detached:.*$" },
+})
+
+hl.window_rule({
+    name = "bartjik-detached",
+    float = true,
+    -- The transparent placement frame must not blur its temporary window bounds.
+    no_blur = true,
+    -- Transparent placement frames must not leave a compositor shadow.
+    no_shadow = true,
+    border_size = 0,
+    no_anim = true,
+    match = { initial_title = "^bartjik-detached:.*$" },
+})
+
+hl.window_rule({
     name = "kitty",
     -- no_anim = true,
     match = { class = "kitty" },

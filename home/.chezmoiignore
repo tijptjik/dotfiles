@@ -29,7 +29,9 @@ storage
 # Runtime-owned settings: restore from app backups, never template over them.
 .config/transmission/settings.json
 .config/claude
-.config/dunst
+.config/notjik
+.config/systemd/user/notjik.service.d
+.local/share/dbus-1/services/org.freedesktop.Notifications.service
 .config/hypr
 .config/hyprvoice
 .config/Mullvad VPN

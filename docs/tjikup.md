@@ -35,6 +35,9 @@ bash ~/.local/share/chezmoi/scripts/install-tjikup.sh
 ```
 
 `~/.config/tjikup/config.json` links to the workflow in the dotfiles source.
+Chezmoi and the installer use the same normalized link target to avoid spurious
+"changed since chezmoi last wrote it" conflicts. Keep this as a managed symlink;
+edit `tjikup.json` in the repository instead of re-adding the live config.
 Changing the workflow changes the next invocation. A run loads the configuration
 once, before any scripts execute. Pulls may update subsequent scripts, matching
 the existing fleet update behavior.

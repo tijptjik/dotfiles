@@ -65,6 +65,23 @@ class InstallTests(unittest.TestCase):
         self.check_installed()
         self.assertEqual(self.install().returncode, 0)
 
+    @unittest.skipUnless(shutil.which('chezmoi'), 'Chezmoi required')
+    def test_managed_config_link_matches_installer_exactly(self):
+        result = self.install()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        source = self.fleet / 'home'
+        source.mkdir()
+        config = self.home / 'chezmoi.json'
+        config.write_text('{}')
+        rendered = subprocess.check_output([
+            'chezmoi', '--config', str(config), '--source', str(source),
+            '--persistent-state', str(self.home / 'state.db'),
+            'execute-template', '-f',
+            str(REPO / 'home/dot_config/tjikup/symlink_config.json.tmpl'),
+        ], env=self.env, text=True).strip()
+        link = self.home / '.config/tjikup/config.json'
+        self.assertEqual(os.readlink(link), rendered)
+
     def test_absent_checkout_is_cloned_before_install(self):
         self.env.pop('TOOLTJIK_REPO')
         clone = self.bin / 'git'

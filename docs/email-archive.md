@@ -1,8 +1,11 @@
 # Email archive format
 
-The proposed [annual partitioning and selective import design](email-archive-annual-design.md)
-adds smaller retrievable parts and a year/account/label selector. It is not yet
-the implemented export format described below.
+The [annual archive implementation and commands](email-archives-operations.md)
+add account/year collections, smaller retrievable parts, a Charm tree selector,
+read-only live capture, and immutable delta generations. See the
+[design](email-archive-annual-design.md) for the rationale. The rest of this
+page documents the earlier account-wide format and runner; use the annual
+operations guide for new exports. The old migration export remains held.
 
 The structured archive is stored under Google Drive `private/archives/mail/structured/`.
 Every data object is compressed with zstd and encrypted with age before upload.

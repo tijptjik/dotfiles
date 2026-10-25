@@ -1,10 +1,11 @@
 # Annual mail archive and selective import design
 
-Status: proposed revision, researched on 2026-10-25. The existing indexer can
-finish unchanged. Its previous export layout is held using a private
-`export.hold` file in the migration working directory. The yearly exporter,
-interactive selector, and live connectors described here are not implemented
-yet. See [the current format](email-archive.md) for existing implementation.
+Status: implementation added on 2026-10-25; see the
+[operations guide](email-archives-operations.md) for commands and validation
+boundaries. The existing indexer can finish unchanged. Its previous export
+layout is held using a private `export.hold` file in the migration working
+directory. Publication and live authentication must be reported from actual
+completion receipts, independently of code availability.
 
 ## Partitioning and retrieval
 

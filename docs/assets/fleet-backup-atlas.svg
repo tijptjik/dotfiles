@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="2140" viewBox="0 0 1800 2140" role="img" aria-labelledby="title desc"><title id="title">Fleet storage atlas: devices, content and recovery routes</title><desc id="desc">Fi desktop and its secondary SSD, Li laptop, Si server with storage and parity, Google Drive and Photos, Cloudflare, Git and Bitwarden. Six lanes distinguish synchronization, snapshots, copies, archives, parity and deployment. Cloudflare backup and full restore verified; weekly timer enabled.</desc><g font-family="DejaVu Sans, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="2140" viewBox="0 0 1800 2140" role="img" aria-labelledby="title desc"><title id="title">Fleet storage atlas: devices, content and recovery routes</title><desc id="desc">Fi desktop and its secondary SSD, Li laptop, Si server with storage and parity, Google Drive and Photos, Cloudflare, Git and Bitwarden. Six lanes distinguish synchronization, snapshots, copies, archives, parity and deployment. Cloudflare backups run weekly to Fi; Google Drive archives and native documents are backed up daily to Si. Immich evaluation is pending.</desc><g font-family="DejaVu Sans, sans-serif">
 <rect x="0" y="0" width="1800" height="2140" rx="0" fill="#F3F6F9" stroke="none"/>
 <text x="48" y="64" font-size="39" fill="#182C40" font-weight="700" text-anchor="start">The fleet. The files. The recovery paths.</text>
-<text x="48" y="103" font-size="20" fill="#576B7D" font-weight="400" text-anchor="start">Implemented policy • locations and relationships • 25 October 2026 / HKT</text>
+<text x="48" y="103" font-size="20" fill="#576B7D" font-weight="400" text-anchor="start">Current backup configuration • locations and relationships • schedules in HKT</text>
 <rect x="48" y="126" width="1704" height="62" rx="12" fill="#EAF6F0" stroke="#BADCCC"/>
-<text x="70" y="153" font-size="17" fill="#137B67" font-weight="700" text-anchor="start">CLOUDFLARE  /  ACTIVE · BACKUP + FULL RESTORE VERIFIED</text>
-<text x="70" y="176" font-size="17" fill="#137B67" font-weight="400" text-anchor="start">Verified 25 Oct 2026, 14:05 HKT · 39,089 R2 objects + DNS / KV · Weekly Sunday 03:00 · Next run 1 Nov</text>
+<text x="70" y="153" font-size="17" fill="#137B67" font-weight="700" text-anchor="start">CLOUDFLARE  /  WEEKLY RESTIC BACKUP TO FI SECONDARY DISK</text>
+<text x="70" y="176" font-size="17" fill="#137B67" font-weight="400" text-anchor="start">DNS + KV exports and R2 objects · Sunday 03:00 HKT · 1 weekly + 1 monthly snapshot</text>
 <text x="48" y="233" font-size="17" fill="#286CC4" font-weight="700" text-anchor="start">01  LOCATIONS</text>
 <text x="1752" y="233" font-size="17" fill="#576B7D" font-weight="400" text-anchor="end">Grouped cards indicate ownership / containment, not a copy</text>
 <rect x="40" y="253" width="560" height="292" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
@@ -38,7 +38,7 @@
 <text x="1305" y="395" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Shared files + cloud-only archives / docs</text>
 <g transform="translate(1253 450) scale(1.2)" fill="none" stroke="#9A6511" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="24" rx="3"/><circle cx="11" cy="12" r="3"/><path d="M4 25l8-7 5 4 6-9 6 12"/></g>
 <text x="1305" y="466" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">giP  Google Photos</text>
-<text x="1305" y="492" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Hosted photos • export route unconfirmed</text>
+<text x="1305" y="492" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">TODO: evaluate Immich on Si</text>
 <path d="M1240 324v145h8M1240 371h8" fill="none" stroke="#A9BAC9" stroke-width="2"/>
 <rect x="40" y="561" width="1720" height="86" rx="16" fill="#EAF0F6" stroke="none"/>
 <g transform="translate(64 581) scale(1)" fill="none" stroke="#207A90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 25a7 7 0 0 1-1-14 9 9 0 0 1 18-1 8 8 0 0 1 0 15z"/></g>
@@ -72,7 +72,7 @@
 <text x="1285.0" y="777" font-size="15" fill="#137B67" font-weight="650" text-anchor="middle">Restic snapshot</text>
 <g transform="translate(1400 768) scale(1)" fill="none" stroke="#137B67" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="16" cy="6" rx="12" ry="4"/><path d="M4 6v9c0 5 24 5 24 0V6M4 15v10c0 5 24 5 24 0V15"/></g>
 <text x="1444" y="782" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">siS</text>
-<text x="1444" y="807" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Client repos • 1D / 1W / 1M</text>
+<text x="1444" y="807" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Client repos • daily to annual bands</text>
 <rect x="40" y="855" width="1720" height="132" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
 <text x="62" y="886" font-size="15" fill="#286CC4" font-weight="700" text-anchor="start">B</text>
 <text x="105" y="886" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Applications + library</text>
@@ -147,16 +147,16 @@
 <rect x="40" y="1431" width="1720" height="132" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
 <text x="62" y="1462" font-size="15" fill="#286CC4" font-weight="700" text-anchor="start">F</text>
 <text x="105" y="1462" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Cloud-only collections</text>
-<text x="1736" y="1462" font-size="16" fill="#576B7D" font-weight="400" text-anchor="end">Provider hosting is a location; an export needs its own backup route</text>
+<text x="1736" y="1462" font-size="16" fill="#576B7D" font-weight="400" text-anchor="end">Drive archives and native docs are backed up to Si</text>
 <g transform="translate(72 1488) scale(1)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h9l10 18-5 8H6l-5-8zM12 3l14 26M21 3L6 29M1 21h30"/></g>
 <text x="116" y="1502" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">giD · archives + mail</text>
-<text x="116" y="1527" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Encrypted uploads; originals retained</text>
-<g transform="translate(650 1488) scale(1)" fill="none" stroke="#9A6511" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h13l7 7v21H6zM19 2v8h7M11 16h10M11 22h10"/></g>
+<text x="116" y="1527" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Daily encrypted Restic backup on Si</text>
+<g transform="translate(650 1488) scale(1)" fill="none" stroke="#137B67" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h13l7 7v21H6zM19 2v8h7M11 16h10M11 22h10"/></g>
 <text x="694" y="1502" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">giD · native documents</text>
-<text x="694" y="1527" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">GSUITE excluded from folder bisync</text>
+<text x="694" y="1527" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Export + daily backup • 1D / 1W / 1M</text>
 <g transform="translate(1230 1488) scale(1)" fill="none" stroke="#9A6511" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="24" rx="3"/><circle cx="11" cy="12" r="3"/><path d="M4 25l8-7 5 4 6-9 6 12"/></g>
 <text x="1274" y="1502" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">giP · personal photos</text>
-<text x="1274" y="1527" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Independent export not established</text>
+<text x="1274" y="1527" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">TODO: evaluate Immich on Si</text>
 <text x="48" y="1605" font-size="17" fill="#286CC4" font-weight="700" text-anchor="start">03  CONTENT ICONS</text>
 <text x="1752" y="1605" font-size="17" fill="#576B7D" font-weight="400" text-anchor="end">Content tags can overlap • archive = inactive material • backup = recovery copy</text>
 <rect x="40" y="1626" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
@@ -210,7 +210,7 @@
 <rect x="40" y="1962" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
 <g transform="translate(56 1980) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h13l7 7v21H6zM19 2v8h7M11 16h10M11 22h10"/></g>
 <text x="102" y="1991" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Cloud-native docs</text>
-<text x="102" y="2016" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Google Docs / Sheets / Slides</text>
+<text x="102" y="2016" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Google Docs / Sheets / Slides / Drawings</text>
 <rect x="620" y="1962" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
 <g transform="translate(636 1980) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2l13 7v14l-13 7-13-7V9zM3 9l13 7 13-7M16 16v14M9 6l14 7"/></g>
 <text x="682" y="1991" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Recovery software</text>
@@ -220,5 +220,5 @@
 <text x="1262" y="1991" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Disposable data</text>
 <text x="1262" y="2016" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Caches / builds / temp files</text>
 <text x="48" y="2072" font-size="17" fill="#576B7D" font-weight="400" text-anchor="start">BLUE  sync / Git       GREEN  versioned recovery       PURPLE  parity       TEAL  hosting / deployment       AMBER  pending / unconfirmed</text>
-<text x="48" y="2103" font-size="17" fill="#576B7D" font-weight="400" text-anchor="start">Coverage limits: client repos have no Fi copy; cloud-only Drive / Photos need independent coverage; preserve Ephemera’s final image.</text>
+<text x="48" y="2103" font-size="17" fill="#576B7D" font-weight="400" text-anchor="start">Coverage limits: client repos have no Fi copy; Google Photos has no independent copy; preserve Ephemera’s final image.</text>
 </g></svg>

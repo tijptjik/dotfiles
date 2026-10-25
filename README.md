@@ -67,15 +67,16 @@ backup relationships, schedules, and coverage gaps.
 
 - **[Read the atlas and diagram explanation](docs/fleet-backup-atlas.md)** —
   locations, content types, sync, snapshots, archives, parity and configuration.
-- **[Backup policy and dated evidence](docs/fleet-backup-map.md)** — retention,
-  recorded job results, implementation status and outstanding recovery work.
+- **[Backup map](docs/fleet-backup-map.md)** — current scopes, schedules,
+  retention and coverage boundaries.
 - [Device archives and cross-device restore](docs/device-archives.md) ·
   [Private-file sync and backups](docs/private-storage.md) ·
   [Server application backups](docs/si-application-backups.md) ·
-  [Cloudflare backup activation](docs/cloudflare-backups.md)
+  [Cloudflare backups](docs/cloudflare-backups.md)
 
-The diagrams show dated policy and activation evidence; they are not live status
-dashboards. Pending verification and coverage gaps are marked in the guides.
+The diagrams describe the configured backup routes and their schedules. They
+are not live status dashboards; setup notes identify recovery boundaries and
+remaining coverage work.
 
 ### Server media
 

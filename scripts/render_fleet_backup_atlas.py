@@ -103,14 +103,15 @@ def render():
                  '<desc id="desc">Fi desktop and its secondary SSD, Li laptop, Si server with '
                  'storage and parity, Google Drive and Photos, Cloudflare, Git and Bitwarden. '
                  'Six lanes distinguish synchronization, snapshots, copies, archives, parity '
-                 'and deployment. Cloudflare backup and full restore verified; weekly timer enabled.</desc>'
+                 'and deployment. Cloudflare backups run weekly to Fi; Google Drive archives '
+                 'and native documents are backed up daily to Si. Immich evaluation is pending.</desc>'
                  '<g font-family="DejaVu Sans, sans-serif">')
     rect(0, 0, 1800, 2140, "#F3F6F9", "none", 0)
     text(48, 64, "The fleet. The files. The recovery paths.", 39, INK, 700)
-    text(48, 103, "Implemented policy • locations and relationships • 25 October 2026 / HKT", 20, MUTED)
+    text(48, 103, "Current backup configuration • locations and relationships • schedules in HKT", 20, MUTED)
     rect(48, 126, 1704, 62, "#EAF6F0", "#BADCCC", 12)
-    text(70, 153, "CLOUDFLARE  /  ACTIVE · BACKUP + FULL RESTORE VERIFIED", 17, GREEN, 700)
-    text(70, 176, "Verified 25 Oct 2026, 14:05 HKT · 39,089 R2 objects + DNS / KV · Weekly Sunday 03:00 · Next run 1 Nov", 17, GREEN)
+    text(70, 153, "CLOUDFLARE  /  WEEKLY RESTIC BACKUP TO FI SECONDARY DISK", 17, GREEN, 700)
+    text(70, 176, "DNS + KV exports and R2 objects · Sunday 03:00 HKT · 1 weekly + 1 monthly snapshot", 17, GREEN)
 
     text(48, 233, "01  LOCATIONS", 17, BLUE, 700)
     text(1752, 233, "Grouped cards indicate ownership / containment, not a copy", 17, MUTED, anchor="end")
@@ -126,7 +127,7 @@ def render():
     PARTS.append('<path d="M660 324v145h8M660 371h8" fill="none" stroke="#A9BAC9" stroke-width="2"/>')
     place(1224, 274, "cloud", "gi", "Google", "Provider grouping • not a backup destination")
     place(1253, 353, "drive", "giD", "Google Drive", "Shared files + cloud-only archives / docs")
-    place(1253, 450, "photo", "giP", "Google Photos", "Hosted photos • export route unconfirmed", AMBER)
+    place(1253, 450, "photo", "giP", "Google Photos", "TODO: evaluate Immich on Si", AMBER)
     PARTS.append('<path d="M1240 324v145h8M1240 371h8" fill="none" stroke="#A9BAC9" stroke-width="2"/>')
     rect(40, 561, 1720, 86, "#EAF0F6", "none")
     node(64, 577, "cloud", "cf / cfR2  Cloudflare", "DNS + KV + R2 archives / assets", TEAL)
@@ -141,7 +142,7 @@ def render():
     node(525, 764, "drive", "giD", "Shared private folders")
     node(945, 764, "desktop", "fi / li", "Fi daily; Li fallback")
     arrow(1190, 1380, 789, "Restic snapshot")
-    node(1400, 764, "pool", "siS", "Client repos • 1D / 1W / 1M", GREEN)
+    node(1400, 764, "pool", "siS", "Client repos • daily to annual bands", GREEN)
 
     lane(855, "B", "Applications + library", "SQLite / DB exports + app state + configs + public/library")
     node(72, 908, "server", "si", "Live apps + library")
@@ -173,10 +174,10 @@ def render():
     arrow(1575, 1360, 1365, "provision", TEAL)
     node(1600, 1340, "key", "bw", "Secrets", TEAL)
 
-    lane(1431, "F", "Cloud-only collections", "Provider hosting is a location; an export needs its own backup route")
-    node(72, 1484, "drive", "giD · archives + mail", "Encrypted uploads; originals retained")
-    node(650, 1484, "document", "giD · native documents", "GSUITE excluded from folder bisync", AMBER)
-    node(1230, 1484, "photo", "giP · personal photos", "Independent export not established", AMBER)
+    lane(1431, "F", "Cloud-only collections", "Drive archives and native docs are backed up to Si")
+    node(72, 1484, "drive", "giD · archives + mail", "Daily encrypted Restic backup on Si")
+    node(650, 1484, "document", "giD · native documents", "Export + daily backup • 1D / 1W / 1M", GREEN)
+    node(1230, 1484, "photo", "giP · personal photos", "TODO: evaluate Immich on Si", AMBER)
 
     text(48, 1605, "03  CONTENT ICONS", 17, BLUE, 700)
     text(1752, 1605, "Content tags can overlap • archive = inactive material • backup = recovery copy", 17, MUTED, anchor="end")
@@ -193,7 +194,7 @@ def render():
         ("key", "Secrets", "Keys / credentials / recovery"),
         ("mail", "Mail", "Messages / attachments / indexes"),
         ("pool", "App state + databases", "Mutable data / native exports"),
-        ("document", "Cloud-native docs", "Google Docs / Sheets / Slides"),
+        ("document", "Cloud-native docs", "Google Docs / Sheets / Slides / Drawings"),
         ("assets", "Recovery software", "Pinned images / installers"),
         ("download", "Disposable data", "Caches / builds / temp files"),
     ]
@@ -205,7 +206,7 @@ def render():
         text(x + 62, y + 29, title, 19, INK, 650)
         text(x + 62, y + 54, subtitle, 16, MUTED)
     text(48, 2072, "BLUE  sync / Git       GREEN  versioned recovery       PURPLE  parity       TEAL  hosting / deployment       AMBER  pending / unconfirmed", 17, MUTED)
-    text(48, 2103, "Coverage limits: client repos have no Fi copy; cloud-only Drive / Photos need independent coverage; preserve Ephemera’s final image.", 17, MUTED)
+    text(48, 2103, "Coverage limits: client repos have no Fi copy; Google Photos has no independent copy; preserve Ephemera’s final image.", 17, MUTED)
     PARTS.append("</g></svg>")
     OUT.write_text("\n".join(PARTS) + "\n")
 

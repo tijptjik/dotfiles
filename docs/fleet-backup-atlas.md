@@ -4,22 +4,12 @@
 
 [Full-resolution PNG](assets/fleet-backup-atlas.png) ·
 [Editable SVG](assets/fleet-backup-atlas.svg) ·
-[Policy and evidence](fleet-backup-map.md)
+[Backup map](fleet-backup-map.md)
 
-## Implementation status
+## Backup locations
 
-The diagram describes implemented routes, with pending or unconfirmed coverage
-explicitly marked. Cloudflare credentials, exports, mounted destination, backup
-program and managed units are installed. Its first backup is **actively running**
-again after the 12:39 HKT restart on 25 October 2026. The previous attempt
-saved a partial snapshot after one R2 object changed during the run and failed to
-read; a later direct read succeeded. A bounded retry now refreshes exports and
-mount metadata on incomplete reads. The automatic completion service requires a
-complete backup and isolated restore before enabling the weekly timer.
-**Implemented and running does not yet mean restore-verified or weekly-active.** See [activation details](cloudflare-backups.md).
-
-Other route schedules come from the managed policy and the earlier dated evidence
-in the policy map; they were not all rechecked to produce this drawing.
+The atlas shows the configured backup routes and their current schedules.
+Schedules use HKT. Timer jobs run under each host's user systemd manager.
 
 ## Location icons
 
@@ -33,7 +23,7 @@ in the policy map; they were not all rechecked to produce this drawing.
 | `siP` | Server parity | Two SnapRAID parity disks; configured scope only |
 | `gi` | Google | Parent provider grouping, not shorthand for a second machine or Drive |
 | `giD` | Google Drive | `type-drive:`; synchronized private files, cloud-only archives and Google-native documents |
-| `giP` | Google Photos | Provider-hosted personal photos; upload/export automation not established by inspected configuration |
+| `giP` | Google Photos | Provider-hosted personal photos; TODO: evaluate Immich on Si as a backup destination |
 | `cf` / `cfR2` | Cloudflare / R2 | DNS/KV exports and object storage, including device archives and public assets |
 | `git` | Git remotes | Committed code and configuration history |
 | `bw` | Bitwarden | Hosted vault and selected Secrets Manager provisioning; independently recoverable vault access is required |
@@ -53,78 +43,52 @@ a recurring job or a successful restore.
 
 | Type | Meaning / location | Protection boundary |
 | --- | --- | --- |
-| Archives | Themed inactive collections; e.g. `giD:private/archives/` | Drive-only archives are outside hourly private-folder sync and its Restic scope |
+| Archives | Themed inactive collections; e.g. `giD:private/archives/` | Daily encrypted Restic backup on Si |
 | Backups | Phone exports, OS/partition images, DB dumps, snapshots | The recurring Restic routes below are defined; no blanket phone/OS image job is implied |
 | Code | Git-backed repos on workstations and remotes | Git protects pushed commits; `~/code`, uncommitted/untracked files and repository secrets are outside the four-folder private backup |
 | Personal artefacts | Fi/Li `~/documents`, `~/media`, `~/projects`, `~/resources` | Hourly Drive bisync plus client Restic snapshots on Si; uppercase `~/Documents` is outside this job |
 | Downloads | Pre-organized staging / downloads | Deliberately excluded from backup and Si parity |
 | Media | Si movies, shows, books and audiobooks | Configured bulk parity; most public media excluded from application Restic. Only `public/library` has the documented library backup, not `public/books` or `library.bak` |
-| Photos | Personal images in local folders and/or Google Photos | Local images inherit their folder's protection; Google Photos export/independent backup is unconfirmed |
-| Assets | Public image and dataset releases, including R2 objects | R2 objects are in the implemented Cloudflare-to-fiX scope; first verified recovery is pending |
+| Photos | Personal images in local folders and/or Google Photos | Local images inherit their folder's protection; Google Photos has no configured independent copy. TODO: evaluate Immich on Si |
+| Assets | Public image and dataset releases, including R2 objects | Cloudflare R2 is included in the Fi Restic backup scope |
 | Configs | Git-managed dotfiles, scripts, templates, Compose and system configuration | Git history + Chezmoi/Chezetc deployment; selected live state also in device/app backups |
 | Secrets | Keys, credentials, encryption/recovery material | Bitwarden provisioning and selected age-encrypted device archives; never committed to Git |
-| **Mail** | Messages, attachments, indexes and reader exports | Encrypted structured archives under `giD:private/archives/mail/structured/`; no independently scheduled Drive-archive backup established |
+| **Mail** | Messages, attachments, indexes and reader exports | Encrypted structured archives under `giD:private/archives/mail/structured/`; included in the Si Drive backup |
 | **App state / databases** | Mutable application data, SQLite/Plex, MariaDB | Application-consistent exports → Si Restic → independently encrypted Fi repository |
-| **Cloud-native documents** | Google Docs, Sheets and Slides in `GSUITE/` | Excluded from local folder sync; independent export/backup remains undefined |
-| **Recovery software** | Pinned container images, installers, recovery tools | Ephemera's final image still needs explicit preservation; normal app-state backups exclude Docker layers |
-| **Disposable data** | Caches, builds, temporary files, regenerable output | Explicit exclusions; keep separate from irreplaceable content |
-
-The first three additions—mail, application state/databases, and cloud-native
-documents—are necessary to explain current coverage. Recovery software explains
-the Ephemera gap; disposable data explains intentional exclusions. Private WGS
-data is also excluded from the app job and needs a separate policy if retained
-as irreplaceable research data; do not assume public-asset coverage applies.
-
-## Relationship types
-
-| Relationship | Direction | What it guarantees / does not guarantee |
-| --- | --- | --- |
-| **rclone bisync** | Fi/Li ↔ giD | Shared working state; edits/deletions propagate. Recovery copies retained 31 days; separate Restic provides snapshots |
-| **Restic snapshot** | Source → repository | Encrypted versioned recovery for selected scope; requires successful runs and available decryption keys |
-| **Restic copy** | Repository → independent repository | Copies snapshots under destination encryption; Fi receives Si app snapshots, not private client repos |
-| **Encrypted archive upload** | Selected source → R2 or Drive | age packaging, upload and readback verification; folder retention and destination depend on policy |
-| **Application-consistent export** | Running service → backup input | SQLite online backup / MariaDB dump; API exports for DNS/KV. Cloudflare exports are not transactional across products |
-| **Git push / pull** | Local repository ↔ Git remote | Committed history; no automatic protection for local-only work |
-| **Config deployment** | Checked-out source → device | Chezmoi/Chezetc renders and applies desired state; deployment is not a backup |
-| **Secret provisioning** | Bitwarden → selected runtime files | Supplies credentials with restricted permissions; not universal credential-file synchronization |
-| **Hosted service** | Content held by provider | Google Photos, Drive, Bitwarden; hosting alone does not establish an independently recoverable copy |
-| **SnapRAID parity** | Configured data → parity | Scheduled disk-failure/corruption protection, not independent version history; exclusions matter |
-| **Containment / mount / access** | Device contains storage, or client accesses it | A location/access relationship with no implied data copy; neutral grouping in the diagram |
-| **Restore / recovery** | Repository or archive → isolated target | The reverse operational path, verified separately; do not draw it as a continuously running synchronization job |
-
-For each copy route record **scope, schedule, retention, encryption/key location,
-failure domain and last verified recovery**. These attributes explain more than
-adding more file categories.
-
+| **Cloud-native documents** | Google Docs, Sheets, Slides and Drawings in `GSUITE/` | Daily Si Restic export and backup at 02:00 HKT; 1 daily / 1 weekly / 1 monthly per source. Sharing, comments and revision history are not retained |
 ## Implemented schedule summary
 
 All times HKT; persistent timers may catch up and some runs include jitter.
 
 - **Personal:** Fi Drive sync at :05 and Li at :35 hourly. Fi Restic at 00:00;
-  Li 01:00 fallback; 1 daily / 1 weekly / 1 monthly. Li-only unsynchronized edits
-  can remain unprotected when its fallback skips. No independent copy of these
-  client repositories is configured in the Si-to-Fi app job.
+  Li 01:00 fallback. Each client repository keeps one snapshot in each band:
+  under 1 day, 1–3 days, 3–7 days, 7–14 days, 14–31 days, 31–92 days, and
+  92–365 days; then one per older calendar year. Li-only unsynchronized edits
+  can remain unprotected when its fallback skips. The repositories are
+  `/mnt/storage/private/backups/clients/fi` and
+  `/mnt/storage/private/backups/clients/li` on Si. The Si-to-Fi app
+  repository is separate from these client repositories.
 - **Server apps:** Si 04:00, 7 daily / 4 weekly. Fi Restic copy Sunday 06:00,
   daily 10:00 freshness/catch-up. Fi is geographically offsite only when elsewhere.
 - **Device archives:** Fi 00:00, Li 00:15, Si 00:30. Selected per-host folders;
   latest only, or latest + previous week + previous month according to policy.
-- **Cloudflare:** first run active; target Sunday 03:00 and 1 weekly / 1 monthly
-  after successful first backup and isolated restore. Scope is DNS/settings, KV
-  and R2, not all Cloudflare products.
+- **Google Drive archives and native documents:** Si daily backup at 02:00;
+  1 daily / 1 weekly / 1 monthly snapshot per source.
+- **Cloudflare:** Fi backup at 03:00 Sunday; 1 weekly / 1 monthly after the
+  initial backup and isolated restore. Scope is DNS/settings, KV and R2.
 - **Parity:** daily 05:00 sync; Sunday 08:00 scrub of 25% of eligible blocks.
   Excludes `meta/`, downloads and `.recovery-preservation/`.
 
 ## Sources and editing
 
-- [Policy/evidence map](fleet-backup-map.md)
+- [Backup map](fleet-backup-map.md)
 - [Private storage](private-storage.md)
 - [Device archive policy](device-archives.md)
 - [Si app recovery](si-application-backups.md)
 - [SnapRAID maintenance](si-snapraid-maintenance.md)
-- [Cloudflare activation](cloudflare-backups.md)
+- [Cloudflare backups](cloudflare-backups.md)
 - [Mail archive format](email-archive.md)
 
 The SVG uses original line icons and editable text, with no remote assets.
 Rebuild with `python3 scripts/render_fleet_backup_atlas.py`; add `--png` when
-CairoSVG is available. Status wording is a dated documentation snapshot, not
-an automatically refreshed monitoring dashboard.
+CairoSVG is available.

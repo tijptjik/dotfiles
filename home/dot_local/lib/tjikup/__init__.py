@@ -998,12 +998,33 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
+def cli() -> int:
+    """Send one completion notification, including early failures and interrupts."""
+    global ACTIVE_REPO, ACTIVE_REPORT_FILE
+    from tjikup.notifications import notify_completion
+
+    ACTIVE_REPO = ACTIVE_REPORT_FILE = None
+    started = time.monotonic()
+    interrupted = False
     try:
-        raise SystemExit(main())
-    except UpdateError as error:
+        result = main()
+    except KeyboardInterrupt:
+        interrupted = True
+        result = 130
+        print("tjikup: interrupted", file=sys.stderr)
+    except Exception as error:
+        result = 1
         if ACTIVE_REPO is not None and ACTIVE_REPORT_FILE is not None:
             status_msg(ACTIVE_REPO, "FAILED", "✗", "Tjikup", str(error))
             report_summary(ACTIVE_REPO, ACTIVE_REPORT_FILE)
         print(f"tjikup: {error}", file=sys.stderr)
-        raise SystemExit(1)
+    # argparse's help/usage SystemExit deliberately bypasses notifications.
+    notify_completion(
+        ACTIVE_REPORT_FILE, result, time.monotonic() - started,
+        dry_run="--dry-run" in sys.argv[1:], interrupted=interrupted,
+    )
+    return result
+
+
+if __name__ == "__main__":
+    raise SystemExit(cli())

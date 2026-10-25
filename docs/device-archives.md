@@ -388,6 +388,59 @@ are retained. `.mozilla` also remains unscheduled. Removing the policy
 entry means the ordinary restore CLI cannot select `.zen` without temporarily
 reintroducing a compatible policy entry. Sync coverage was not audited here.
 
+## Telegram Desktop settings
+
+The separate, unapplied [Telegram policy proposal](telegram-settings-policy.json)
+selects these root-level files from
+`~/.local/share/TelegramDesktop/tdata`:
+
+```text
+settingss
+settings0
+settings1
+shortcuts-custom.json
+*.tdesktop-palette
+*.tdesktop-theme
+```
+
+`settingss` holds global application settings. `settings0`/`settings1` are the
+legacy alternate storage slots. Settings carry their own salt and do not need
+the account's `key_datas`; see Telegram 7.3.3's
+[settings loader](https://github.com/telegramdesktop/tdesktop/blob/v7.3.3/Telegram/SourceFiles/storage/localstorage.cpp).
+This internal encryption does not provide backup secrecy: the archive and
+manifest still use age encryption because settings can contain private paths
+and proxy configuration. Retention is independent per client.
+
+Account keys, account subdirectories, hashed theme/background blobs, messages,
+media, caches, logs, dumps, downloaded fonts/emoji/dictionaries, and generated
+default shortcuts are excluded. Custom theme exports are retained, but the
+active theme may require reimporting because its cached blob is omitted.
+Account-specific preferences are not promised by this global-settings backup.
+
+Once the proposal has been activated and a first Telegram backup exists,
+restore into a review directory first:
+
+```sh
+device-archives restore .local/share/TelegramDesktop/tdata --from fi --to ~/restore-review/telegram-settings
+```
+
+For an actual restore, quit Telegram, preserve any existing target settings,
+and copy only the reviewed files into the destination `tdata` directory with
+private permissions. Replace conflicting `settingss`/`settings0`/`settings1`
+slots as one reviewed set so a stale target slot cannot win. Do not replace
+the whole `tdata` directory or copy account keys from another installation.
+Launch Telegram, sign in afresh if needed, reimport the saved theme, and check
+shortcuts, display/notification settings and destination-specific paths.
+
+On 2026-10-25, Telegram 7.3.3 accepted and decrypted Fi's copied global settings
+in an isolated working directory without account login keys. The selected
+three files totalled 43,399 bytes (42.4 KiB). This startup check is narrower
+than verifying every setting after login; those checks remain manual.
+
+Activation status (2026-10-25): local restore tests are complete. This entry is
+kept outside the active policy pending approval of the first Telegram upload;
+the cache-cleanup rollout does not activate Telegram backups on either client.
+
 ## Cache exclusions
 
 The policy excludes Bazecor's Chromium caches, logs, crash files and downloaded

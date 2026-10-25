@@ -1,0 +1,26 @@
+{
+  ".local/share/TelegramDesktop/tdata": {
+    "mode": "device",
+    "include_files": [
+      "settingss",
+      "settings0",
+      "settings1",
+      "shortcuts-custom.json",
+      "*.tdesktop-palette",
+      "*.tdesktop-theme"
+    ],
+    "exclude": [
+      "user_data",
+      "dumps",
+      "emoji",
+      "audio_cache",
+      "dictionaries",
+      "fonts"
+    ],
+    "encrypted": true,
+    "retention": "daily-weekly-monthly",
+    "devices": [
+      "clients"
+    ]
+  }
+}

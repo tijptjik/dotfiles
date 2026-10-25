@@ -363,6 +363,46 @@ class ArchiveIntegrationTests(unittest.TestCase):
         ).read_bytes()
         self.assertNotIn(b"secret fixture", ciphertext)
 
+    def test_telegram_settings_roundtrip_excludes_accounts_and_cache(self):
+        repository = Path(__file__).parents[1]
+        policy = json.loads(
+            (repository / "home/dot_config/archive-policy.json").read_text()
+        )
+        folder = ".local/share/TelegramDesktop/tdata"
+        proposal = json.loads((repository / "docs/telegram-settings-policy.json").read_text())
+        self.config["folders"][folder] = proposal[folder]
+        self.config["device_groups"] = policy["device_groups"]
+        selected = {
+            "settingss", "settings0", "settings1", "shortcuts-custom.json",
+            "custom.tdesktop-palette", "custom.tdesktop-theme",
+        }
+        omitted = {
+            "key_datas", "D877F783D5D3EF8Cs", "D877F783D5D3EF8C/maps",
+            "D877F783D5D3EF8C/configs", "D877F783D5D3EF8C/settingss",
+            "D59288A9C3A41D50s", "shortcuts-default.json", "log.txt",
+            "future-settings.json", "settingss.bak", "working",
+            "user_data/cache/custom.tdesktop-theme", "dumps/crash",
+            "emoji/download", "audio_cache/audio", "dictionaries/dictionary",
+            "fonts/font.ttf",
+        }
+        for name in selected | omitted:
+            self.write(self.fi, folder, name, "fixture: " + name)
+        self.assertTrue(self.fi.eligible(folder))
+        self.assertTrue(self.li.eligible(folder))
+        self.assertFalse(Archives(self.config, self.root / "si", "si").eligible(folder))
+        ref = self.fi.backup(folder)
+        self.assertTrue(ref["encrypted"])
+        dest = self.root / "telegram-restore"
+        self.li.restore(folder, "fi", dest)
+        restored = scan(dest)
+        self.assertEqual(set(restored), selected)
+        for name in selected:
+            self.assertEqual((dest / name).read_text(), "fixture: " + name)
+            self.assertEqual((dest / name).stat().st_mode & 0o777, 0o600)
+        # Excluded cache updates do not create a new configuration snapshot.
+        self.write(self.fi, folder, "user_data/cache/new", "new cached data")
+        self.assertEqual(self.fi.backup(folder)["snapshot"], ref["snapshot"])
+
     def test_snapshot_history_and_machine_isolation(self):
         self.prime()
         self.write(self.fi, ".device", "file", "desktop")

@@ -193,7 +193,8 @@ Chezmoi template rendering and host-specific behavior require separate checks.
 ### Config
 
 - [DirEnv for UV](https://github.com/direnv/direnv/issues/1250)
-- Telegram
+- Telegram: [minimal settings restore](docs/device-archives.md#telegram-desktop-settings)
+  is prepared; activation and first backup are pending approval.
 
 ### Laptop
 
@@ -201,8 +202,11 @@ Chezmoi template rendering and host-specific behavior require separate checks.
 
 ### Packages Not Backed Up
 
-- .zen/
 - .config/BraveSoftware
 - .config/Steam
 - .config/uv
 - .local/share/firefoxpwa
+
+Zen is handled through its own sync; new Zen archives are disabled on Fi and Li.
+See the [configuration restoration plan](docs/config-restoration-plan.md) for
+the remaining applications and their proposed file selections.

@@ -33,6 +33,32 @@ This initial completion service is transient and uses private helpers under
 After an interrupted setup, inspect both journals and complete the isolated
 restore below before enabling the timer. Its wait limit is 12 hours.
 
+## Outstanding work — 25 October 2026, 11:51 HKT
+
+The implementation and credentials are committed locally. The live first backup
+has read approximately 6.3 GiB of 19 GiB (33% by bytes); no successful snapshot,
+restore, or setup-completion receipt exists yet. The old `last-failure.json`
+records the deliberately interrupted earlier attempt, not a new transfer failure.
+
+- Finish the running first snapshot and its repository integrity check.
+- Let `cloudflare-backup-first-restore.service` perform the full isolated restore,
+  content verification, source sample comparisons, and conditional weekly-timer
+  activation. These steps are already running/waiting under systemd and need no
+  further approval. Inspect `setup-failure.json` and both service journals if the
+  completion job fails.
+- Confirm `last-success.json`, `restore-verified.json`, and `setup-completed.json`
+  agree on the snapshot ID; confirm the timer is enabled with its next run shown.
+- Refresh this activation status and the fleet backup map (Markdown, SVG, and
+  PNG) only after that evidence exists. The map currently shows the route inactive.
+- Push the thread's committed changes and synchronize the relevant repositories
+  on Li and Si. Pushing to `main` was blocked by automatic approval review and
+  remains pending explicit approval. Cloudflare backup execution stays Fi-only.
+- Check the UUID mount after Fi's next planned reboot. The live writable mount
+  and fstab entry are verified; actual boot-time mounting has not been exercised.
+
+Unrelated email-archive changes in the shared checkout are outside this thread's
+commit scope.
+
 ## Scope
 
 The approved account is `a6eeace4b6d9f8e07ab307964e74d801` (`tijptjik`).

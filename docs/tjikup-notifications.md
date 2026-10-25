@@ -1,6 +1,6 @@
 # Tjikup completion notifications
 
-Local desktop runs send one notification with a custom house/check icon, elapsed
+Local desktop runs send one notification with a branded white “up” icon, elapsed
 time, completed-stage count and up to three warning/failure subjects. Warning
 reports remain visible even when the workflow returns zero (for example, an apply
 was skipped). Failures and Ctrl-C use critical urgency. Dry runs are labelled

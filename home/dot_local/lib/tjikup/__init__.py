@@ -770,7 +770,8 @@ def apply_chezetc(repo: Path, *, skip_conflicts: bool = False) -> None:
     )
     config = Path.home() / ".config/chezmoi/chezetc/chezmoi.toml"
     repo_header(repo, "Tijpcetera", "https://github.com/tijptjik/etcfiles")
-    environment = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"}
+    environment = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1",
+                   "TJIKUP_QUIET_CONFIG": "1"}
     before = config.read_bytes() if config.is_file() else None
     try:
         run_stream(
@@ -785,7 +786,7 @@ def apply_chezetc(repo: Path, *, skip_conflicts: bool = False) -> None:
         raise
     after = config.read_bytes() if config.is_file() else None
     if before != after:
-        stage_result(repo, "RETRY", "Chezetc", "configuration refreshed")
+        stage_result(repo, "CONFIG", "Chezetc", "configuration refreshed")
         try:
             run_stream(
                 [chezetc, "apply"],

@@ -61,7 +61,7 @@ def notify_completion(report_file, result, seconds, *, dry_run=False, interrupte
         title, body, urgency = completion_message(
             report_file, result, seconds, dry_run=dry_run, interrupted=interrupted,
         )
-        icon = Path(os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/share"))) / "icons/hicolor/scalable/apps/tjikup.svg"
+        icon = Path(os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/share"))) / "icons/tjikup.png"
         subprocess.run(
             [sender, "--app-name=Tjikup", f"--icon={icon}", f"--urgency={urgency}",
              "--expire-time=10000", title, body],

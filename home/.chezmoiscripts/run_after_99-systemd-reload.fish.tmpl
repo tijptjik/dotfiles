@@ -142,3 +142,18 @@ else
     status_msg SKIP "-" "Cloudflare backup" "setup pending"
 end
 {{ end -}}
+{{ if eq .chezmoi.hostname "si" -}}
+# Enable the Drive snapshot timer only after both the create-once OAuth config
+# and Restic password have been provisioned. This leaves existing rclone/R2
+# configuration untouched.
+if test -f "$HOME/.config/drive-restic/drive.conf"; and test -f "$HOME/.config/drive-restic/restic-password"; and test -f "$HOME/.local/state/drive-restic/last-success.json"
+    if user_units_need_reload; or unit_needs_enable_now drive-restic-backup.timer
+        systemctl --user daemon-reload; or exit $status
+        stage_note "Google Drive backup" CONFIG "Daily Restic backup" enabled systemctl --user enable --now drive-restic-backup.timer
+    else
+        status_msg SKIP "✓" "Google Drive backup" "scheduled"
+    end
+else
+    status_msg SKIP "-" "Google Drive backup" "credentials or first verified backup pending"
+end
+{{ end -}}

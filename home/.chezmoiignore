@@ -46,6 +46,12 @@ storage
 .config/ZapZap
 .config/zed
 {{ end -}}
+{{ if not .isServer -}}
+.config/drive-restic
+.config/systemd/user/drive-restic-backup.*
+.config/systemd/user/drive-restic-backup-failure.service
+.local/bin/drive-restic-backup
+{{ end -}}
 {{ if ne .chezmoi.hostname "fi" -}}
 .local/bin/cloudflare-restic-backup
 .config/private-storage/cloudflare-backup-token

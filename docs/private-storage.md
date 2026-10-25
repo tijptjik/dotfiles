@@ -127,6 +127,42 @@ private-storage restore --from fi --snapshot latest --to ~/restore-private
 Restore requires a new destination and verifies restored content. Either client
 can restore from the other's repository using the same recoverable password.
 
+## Drive archive and Google-native backups
+
+Si runs a separate Restic job daily at 02:00 HKT for
+`type-drive:private/archives` and `type-drive:GSUITE`. The job exports Google
+Docs, Sheets, Slides, and Drawings to
+`docx`, `xlsx`, `pptx`, and `svg`, reads through a read-only rclone mount without
+keeping a persistent plaintext mirror, and backs them up to
+`/mnt/storage/private/backups/google-drive`. Each source is tagged
+and retained independently at **1 daily, 1 weekly, and 1 monthly** snapshot.
+The repository is encrypted with `PRIVATE_RESTIC_PASSWORD`, checked after
+backup, and pruned only after the checks succeed. A failed transfer or empty
+Drive source fails closed and records a failure receipt. The transient mount
+lives in Si's user runtime directory and
+is unmounted after each source backup.
+
+Si's Drive OAuth config is created once from the Bitwarden
+`RCLONE_GOOGLE_DRIVE_CONFIG` secret so rclone can persist token refreshes. It is
+separate from Si's existing R2 rclone config. The native-file export preserves
+document content and folder names; it does not preserve Google sharing ACLs,
+comments, revision history, or native editing semantics. Unsupported or
+non-exportable Google file types fail the run instead of silently counting as
+backed up.
+
+Inspect service status with `systemctl --user status drive-restic-backup.timer`
+and logs with `journalctl --user -u drive-restic-backup.service`. The last
+successful run receipt, including top-level entry counts, is in
+`~/.local/state/drive-restic/last-success.json`; failures are in
+`~/.local/state/drive-restic/last-error.json`.
+Restore snapshots from the repository on Si with Restic, filtering by the
+`private-archives` or `gsuite` tag before restoring into a new directory.
+
+```sh
+restic -r /mnt/storage/private/backups/google-drive -p ~/.config/drive-restic/restic-password snapshots --tag gsuite
+restic -r /mnt/storage/private/backups/google-drive -p ~/.config/drive-restic/restic-password restore latest --tag gsuite --target ~/restore-gsuite
+```
+
 ## Mount commands
 
 | Command | File-manager label | Local mount | Remote |

@@ -329,7 +329,8 @@
       "retention": "daily-weekly-monthly",
       "devices": [
         "clients"
-      ]
+      ],
+      "telegram_themes": true
     },
     ".config/BraveSoftware/Brave-Browser": {
       "mode": "device",

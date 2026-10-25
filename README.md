@@ -184,8 +184,9 @@ chezmoi apply
 ## Validation
 
 Run `bash scripts/validate.sh` to check Python and non-template shell syntax and
-run the isolated Tjikup regression tests. Requires Python 3 and Fish; it does
-not apply dotfiles, access secrets, install packages, or synchronize Git.
+run the isolated Tjikup regression tests. Requires Python 3 with `cryptography`
+and Fish; it does not apply dotfiles, access secrets, install packages, or
+synchronize Git.
 Chezmoi template rendering and host-specific behavior require separate checks.
 
 ## Configuration recovery

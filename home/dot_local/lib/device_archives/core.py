@@ -117,13 +117,27 @@ def selected_directory(name, patterns):
     return False
 
 
-def scan(root, policy=None, file_entry=None):
+def scan(root, policy=None, file_entry=None, compact_telegram=False):
     """Content and permissions, without following symlinks or recording sockets."""
     policy = policy or {}
     if root.is_symlink():
         raise ArchiveError(f"Folder root is a symlink: {root}")
     if not root.exists():
         return {}
+    required, compacted = {}, {}
+    if policy.get("telegram_themes"):
+        if (
+            policy.get("mode") not in ("device", "desktop", "master-backup")
+            or not policy.get("encrypted", True)
+            or not policy.get("include_files")
+        ):
+            raise ArchiveError("Telegram themes require an encrypted allowlisted backup")
+        from .telegram import TelegramSettingsError, theme_recovery
+        try:
+            required, compacted = theme_recovery(root)
+        except TelegramSettingsError as exc:
+            raise ArchiveError(str(exc)) from exc
+        policy = policy | {"include_files": sorted(set(policy["include_files"]) | set(required))}
     result = {}
 
     def walk(directory):
@@ -174,6 +188,12 @@ def scan(root, policy=None, file_entry=None):
                 raise ArchiveError(f"Unsupported special file: {path}")
 
     walk(root)
+    for name, fingerprint in required.items():
+        if result.get(name, {}).get("sha256") != fingerprint:
+            raise ArchiveError("Telegram settings/theme changed during selection or was excluded")
+    if compact_telegram:
+        for name, data in compacted.items():
+            result[name].update(size=len(data), sha256=hashlib.sha256(data).hexdigest())
     return result
 
 
@@ -336,9 +356,28 @@ def stage_tree(source, dest, policy):
         raise ArchiveError(
             f"Files changed during backup: {source}; retry with its app closed"
         )
+    compacted = {}
+    if policy.get("telegram_themes"):
+        from .telegram import TelegramSettingsError, theme_recovery
+        try:
+            copied, compacted = theme_recovery(dest)
+        except TelegramSettingsError as exc:
+            raise ArchiveError(str(exc)) from exc
+        if any(before.get(name, {}).get("sha256") != checksum for name, checksum in copied.items()):
+            raise ArchiveError("Telegram settings/theme changed while copying")
+        for name, data in compacted.items():
+            (dest / name).write_bytes(data)
     staged = scan(dest)
-    if {k: v for k, v in staged.items() if k not in sqlite_names} != stable_before:
+    if {k: v for k, v in staged.items() if k not in sqlite_names and k not in compacted} != {
+        k: v for k, v in stable_before.items() if k not in compacted
+    }:
         raise ArchiveError(f"Staging verification failed: {source}")
+    for name, data in compacted.items():
+        if (
+            staged[name]["sha256"] != hashlib.sha256(data).hexdigest()
+            or staged[name]["mode"] != before[name]["mode"]
+        ):
+            raise ArchiveError("Telegram theme recovery staging failed")
     for name in set(policy.get("sqlite", [])) | set(policy.get("sqlite_recovery", {})):
         if name not in sqlite_names:
             raise ArchiveError(f"Required SQLite database missing or invalid: {name}")
@@ -402,7 +441,7 @@ def fingerprint_tree(source, policy, cache_path, temp):
         return {"sha256": checksum}
 
     root_mode = stat.S_IMODE(source.stat().st_mode) & 0o777
-    entries = scan(source, policy, file_entry=entry)
+    entries = scan(source, policy, file_entry=entry, compact_telegram=True)
     for name in set(policy.get("sqlite", [])) | set(policy.get("sqlite_recovery", {})):
         if name not in sqlite_names:
             raise ArchiveError(f"Required SQLite database missing or invalid: {name}")

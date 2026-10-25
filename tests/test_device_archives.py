@@ -11,6 +11,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+from telegram_fixtures import write_fixture as telegram_fixture
+
 sys.path.insert(0, str(Path(__file__).parents[1] / "home/dot_local/lib"))
 from device_archives.core import (
     retention_keep,
@@ -386,6 +388,14 @@ class ArchiveIntegrationTests(unittest.TestCase):
         }
         for name in selected | omitted:
             self.write(self.fi, folder, name, "fixture: " + name)
+        root = self.fi.home / folder
+        theme_name = telegram_fixture(root, cached_background=b"cached pixels" * 10000)
+        selected.add(theme_name)
+        for name in selected:
+            (root / name).chmod(0o600)
+        expected = {name: (root / name).read_bytes() for name in selected}
+        from device_archives.telegram import theme_recovery
+        expected.update(theme_recovery(root)[1])
         self.assertTrue(self.fi.eligible(folder))
         self.assertTrue(self.li.eligible(folder))
         self.assertFalse(Archives(self.config, self.root / "si", "si").eligible(folder))
@@ -396,10 +406,13 @@ class ArchiveIntegrationTests(unittest.TestCase):
         restored = scan(dest)
         self.assertEqual(set(restored), selected)
         for name in selected:
-            self.assertEqual((dest / name).read_text(), "fixture: " + name)
+            self.assertEqual((dest / name).read_bytes(), expected[name])
             self.assertEqual((dest / name).stat().st_mode & 0o777, 0o600)
         # Excluded cache updates do not create a new configuration snapshot.
         self.write(self.fi, folder, "user_data/cache/new", "new cached data")
+        self.assertEqual(self.fi.backup(folder)["snapshot"], ref["snapshot"])
+        # Regenerating a theme cache must not upload another recovery snapshot.
+        telegram_fixture(root, cached_background=b"different cached pixels" * 20000)
         self.assertEqual(self.fi.backup(folder)["snapshot"], ref["snapshot"])
 
     def test_minimal_app_backups_roundtrip_without_runtime_or_sessions(self):

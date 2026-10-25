@@ -7,7 +7,8 @@ and mounts; no change was necessary. The original proposed selections below
 are now implemented, with explicit FirefoxPWA CSS overrides added after review.
 The user accepted best-effort recovery for Brave, Steam and FirefoxPWA; GUI
 restore acceptance for those apps was not required. Telegram's post-login
-settings check still needs an interactive login in the isolated restore.
+settings check found a dark-mode regression; the corrected theme dependency
+selection and its startup verification are recorded below.
 
 The goal is to recover application choices and customizations after reinstalling
 software. Downloadable software, caches, browsing history, login sessions,
@@ -196,10 +197,13 @@ precise integration command during implementation rather than assume copying
 
 ### 6. Telegram Desktop — enabled
 
-The active Telegram entry selects only root-level global settings slots
+The active Telegram entry selects root-level global settings slots
 (`settingss`, `settings0`, `settings1`), `shortcuts-custom.json`, and exported
 `*.tdesktop-palette`/`*.tdesktop-theme` files from
-`.local/share/TelegramDesktop/tdata`. On Fi this is three files, 43,399 bytes.
+`.local/share/TelegramDesktop/tdata`, plus the exact day/night theme files
+referenced by global settings. The initial three-file selection was 43,399
+bytes on Fi; its required theme definition adds about 641 KiB after removing
+regenerable compiled caches from the recovery copy.
 The client-only archive is encrypted and independent per device, with the
 existing daily/weekly/monthly retention.
 
@@ -210,9 +214,10 @@ repeat trial used a private display, disabled networking and a read-only live
 filesystem; source files were unchanged during that repeat. The trial process
 was then terminated and its temporary files removed.
 
-Theme/background blobs, account preferences and login sessions remain excluded.
-Reimport the retained custom theme as needed. Login and visual/settings checks
-remain manual; successful parsing does not prove every option is portable.
+Account preferences, login sessions, unrelated theme blobs and separate chat
+backgrounds remain excluded. The referenced day/night themes are required to
+preserve appearance and are selected dynamically. Other login and settings
+checks remain manual; successful parsing does not prove every option is portable.
 See [the Telegram restore instructions](device-archives.md#telegram-desktop-settings)
 for exclusions and the exact restore procedure. Brave, Steam and FirefoxPWA entries are also active.
 
@@ -245,8 +250,7 @@ A separate review was prepared from Fi's actual R2 snapshot at
 `~/.local/state/device-archives/telegram-settings-review/launch.sh` from the
 desktop session to launch it with isolated config/data/cache directories and a
 distinct Telegram working directory. Sign in there, check shortcuts,
-display/notification settings and download paths, and reimport the saved theme
-if needed. This does not replace the live profile. The review is not itself
+appearance, display/notification settings and download paths. This does not replace the live profile. The review is not itself
 included in the backup policy. It may be removed after the check and after
 quitting the review instance; retain the actual app's profile.
 
@@ -304,5 +308,56 @@ allowlists using encrypted round trips, account/cache exclusion, client-only
 assignment, skipped traversal of unselected trees, and uv failure handling.
 The actual restore receipts are retained privately on each client at
 `~/.local/state/device-archives/minimal-app-restore-verification.json`.
-Telegram post-login acceptance remains pending user confirmation; the separate
-review contains only the three recovered global-setting files before login.
+The initial Telegram review contained only three global-setting files. The
+user reported that dark/light mode was not restored; the correction below
+supersedes that selection and its original size estimate.
+
+
+### Telegram appearance correction
+
+The user's review exposed a real dependency: `settingss` stored night mode and
+a theme key, but the initial policy omitted the file behind that key. Telegram
+7.3.3's `InitialLoadTheme()` calls `clearTheme()` when the file cannot load;
+`writeTheme()` then clears night mode. A retained exported palette does not
+repair the missing reference automatically.
+
+The policy now resolves exactly the current day/night references from global
+settings. It validates their settings-key encryption, checksums and theme
+structure, then compacts only the staged copy. The compact file keeps the
+embedded definition and metadata while clearing generated colors/background
+caches and checksums. Telegram regenerates these on startup. Normalized theme
+fingerprints mean cache-only churn does not create another upload. Account encryption keys and account state
+are not consulted. Unknown schemas or missing/oversized dependencies fail
+closed. Source files are hashed again during scanning, and normal staging
+checks detect changes during capture.
+
+An isolated two-case test used the same original settings with networking
+disabled and the live home directory hidden. Without the theme, Telegram
+loaded settings but cleared night mode; with the compact theme, it loaded the definition, regenerated its cache
+and kept night mode. Source files were unchanged. This tests real application
+startup, not just archive extraction. The review's account files are preserved
+when replacing only its global settings and required appearance files.
+
+
+The correction passed **173 repository tests**, including nine dedicated
+Telegram dependency cases. Fi's replacement archive was independently restored
+from R2 into the existing review: only global settings, shortcuts, palette and
+the referenced theme were replaced, with before-images retained. The review's
+account and other files were hash-verified unchanged. The review was reopened;
+the normal Telegram instance was untouched. Further visual acceptance remains
+with the user.
+
+Final compact backups and independent R2 restores succeeded on both clients:
+
+| Host | Files | Total uncompressed bytes | Theme recovery bytes | Restored mode |
+| --- | ---: | ---: | ---: | --- |
+| Fi | 4 | 700,099 | 656,764 | Dark |
+| Li | 4 | 699,543 | 656,620 | Dark |
+
+Both restored theme files had empty generated caches and intact theme content.
+Li's 18,182,236-byte source theme included a 17,523,254-byte background cache;
+that cache is omitted from its 656,620-byte theme recovery file. Fi's source
+theme was 1,314,684 bytes before compaction. Live themes were not changed.
+Normal retention replaced the superseded same-day Telegram snapshots only
+after successful readback. Receipts are stored privately on each client at
+`~/.local/state/device-archives/telegram-theme-restore-verification.json`.

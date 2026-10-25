@@ -411,10 +411,21 @@ This internal encryption does not provide backup secrecy: the archive and
 manifest still use age encryption because settings can contain private paths
 and proxy configuration. Retention is independent per client.
 
-Account keys, account subdirectories, hashed theme/background blobs, messages,
-media, caches, logs, dumps, downloaded fonts/emoji/dictionaries, and generated
-default shortcuts are excluded. Custom theme exports are retained, but the
-active theme may require reimporting because its cached blob is omitted.
+The `telegram_themes` selector also retains the exact day/night theme files
+referenced by `settingss`. These hashed files are required dependencies, not
+optional cache: Telegram resets dark mode if its selected theme is missing.
+The selector decrypts only global settings with their embedded-salt key,
+checks each referenced theme's format and checksum, and includes its current
+filename dynamically. It never reads `key_datas` or an account subdirectory.
+
+Account keys, account subdirectories, unrelated hashed files, separate chat
+backgrounds, messages, media, caches, logs, dumps, downloaded
+fonts/emoji/dictionaries, and generated default shortcuts remain excluded.
+The recovery copy keeps the embedded theme definition, identity and selection.
+It clears compiled colors/background caches and their checksums; Telegram
+regenerates them from the retained definition on startup. Live theme files are
+never rewritten. Cache-only changes do not trigger a new recovery upload.
+Custom theme exports are retained too.
 Account-specific preferences are not promised by this global-settings backup.
 
 Restore into a new review directory first:
@@ -428,8 +439,8 @@ and copy only the reviewed files into the destination `tdata` directory with
 private permissions. Replace conflicting `settingss`/`settings0`/`settings1`
 slots as one reviewed set so a stale target slot cannot win. Do not replace
 the whole `tdata` directory or copy account keys from another installation.
-Launch Telegram, sign in afresh if needed, reimport the saved theme, and check
-shortcuts, display/notification settings and destination-specific paths.
+Launch Telegram, sign in afresh if needed, and check appearance, shortcuts,
+display/notification settings and destination-specific paths.
 
 On 2026-10-25, Telegram 7.3.3 accepted and decrypted Fi's copied global settings
 in an isolated working directory without account login keys. The selected
@@ -438,8 +449,20 @@ than verifying every setting after login; those checks remain manual.
 
 Activation status (2026-10-25): the user authorized activation and the first
 upload. The minimal Telegram policy is now deployed on Fi and Li. It retains
-global settings only; post-login visual/settings acceptance remains a separate
-manual check because the recovery copy deliberately has no account login keys.
+global settings and their referenced day/night themes; account login keys
+remain excluded. The initial three-file restore failed the user's dark-mode
+check. A subsequent isolated startup comparison reproduced the failure without
+the referenced theme and preserved dark mode with its compact recovery copy, while
+networking was disabled and the live home directory was hidden.
+
+Theme parsing supports the current Telegram 7.3.3 modern `settingss`/theme `s`
+format. Missing dependencies, unknown settings records, corrupt or symlinked
+files, and files exceeding the limits stop the backup before upload, preserving
+the previous recovery point. Limits are 1 MiB for global settings, 64 MiB per
+source theme and 8 MiB per compacted theme (at most day and night). Legacy 0/1 settings must be migrated
+by opening current Telegram first. Python `cryptography` is declared in the
+client environment. A client hook installs Fedora's `python3-cryptography` only
+if the system interpreter cannot import it; no broad package update is needed.
 
 ## Minimal Brave, Steam and FirefoxPWA backups
 

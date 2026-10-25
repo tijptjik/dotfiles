@@ -7,8 +7,8 @@ was skipped). Failures and Ctrl-C use critical urgency. Dry runs are labelled
 as previews. Detailed output stays in the terminal; the temporary TSV report is
 removed when the process exits.
 
-Fish's `done` plugin excludes direct `tjikup` invocations, including `command
-tjikup` and absolute paths. Other commands retain their completion notices.
+Fish's `done` plugin excludes direct `tjikup` and fleet shortcut invocations,
+including `command tjikup` and absolute paths. Other commands retain their completion notices.
 New Fish shells load this automatically. In an existing shell, run:
 
 ```fish
@@ -18,6 +18,22 @@ source ~/.config/fish/conf.d/tjikup-notifications.fish
 Local notifications require `notify-send` and a desktop session.
 
 ## SSH results on the originating desktop
+
+Use these Fish shortcuts from the machine where you want the completion report:
+
+```fish
+sitjikup            # Si: m@ssh.type.hk (Mullvad exclusion when available)
+litjikup            # Li: io@li.local
+fitjikup            # Fi: io@fi.local
+litjikup --dry-run  # Extra arguments are forwarded safely
+```
+
+On the named host, the shortcut runs `tjikup` locally. Otherwise it uses SSH with
+a terminal allocated for prompts and notifications. The functions autoload in
+existing Fish shells after installation. Remote access requires a reachable SSH
+server and your existing SSH authentication; the shortcuts do not configure these.
+Li uses the managed laptop host-key file when present. Fi and Li's `.local`
+addresses require local-network name resolution. From Fi, `fitjikup` needs no SSH.
 
 In a direct Kitty SSH terminal, completion reports travel back through the SSH
 PTY using Kitty's OSC 99 protocol. A run on Si or Li therefore notifies Fi when

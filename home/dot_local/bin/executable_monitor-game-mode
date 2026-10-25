@@ -25,12 +25,12 @@ end
 function report_status --argument-names output
     set -l icon ''
     set -l state desktop
-    set -l tooltip 'Desktop mode — TV disabled'
+    set -l tooltip 'Desktop Mode'
 
     if tv_is_active "$output"
         set icon ''
         set state game
-        set tooltip 'Game mode — TV is left of the primary display'
+        set tooltip 'Game Mode'
     end
 
     printf '{"text":"%s","class":"%s","tooltip":"%s"}\n' "$icon" "$state" "$tooltip"

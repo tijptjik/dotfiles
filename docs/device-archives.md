@@ -354,6 +354,8 @@ captures only the current client's configuration, preserving Qt serialization,
 window geometry, window state, and recent-download paths on the other client.
 Close ZapZap before applying deliberately edited settings; its running process
 can otherwise write its old settings back at exit.
+On fi, keep `system/notificationCounter=true`: bartjik reads ZapZap's native
+unread badge to show a primary-color dot beside the white WhatsApp tray icon.
 
 ### Server (`si`)
 

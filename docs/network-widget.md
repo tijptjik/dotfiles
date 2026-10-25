@@ -93,3 +93,7 @@ The first click launches this configuration; later clicks use its scoped IPC
 handler. No autostart entry is needed.
 
 Run the helper's offline checks with `python3 tests/test_network_widget.py`.
+
+The network and audio panel frames use `Theme.panelBorder` (`#393546`), matching
+the rose-punk notjik notification border and bartjik hover panels. Internal
+controls and separators keep their existing palette border colour.

@@ -151,8 +151,8 @@ def iter_message_blobs(stream: BinaryIO) -> Iterator[tuple[int, bytes]]:
 
 def iter_archive_members(path: Path) -> Iterator[tuple[str, BinaryIO]]:
     suffix = path.name.lower()
-    if suffix.endswith((".tar.gz", ".tgz")):
-        with tarfile.open(path, mode="r|gz") as archive:
+    if suffix.endswith((".tar.gz", ".tgz", ".tar")):
+        with tarfile.open(path, mode="r|" if suffix.endswith(".tar") else "r|gz") as archive:
             for item in archive:
                 if not item.isfile():
                     continue

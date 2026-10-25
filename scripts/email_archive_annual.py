@@ -270,7 +270,13 @@ CREATE TABLE IF NOT EXISTS locations (
 CREATE INDEX IF NOT EXISTS locations_digest ON locations(digest,kind);
 CREATE TABLE IF NOT EXISTS source_checkpoints (source TEXT PRIMARY KEY,size INTEGER,mtime_ns INTEGER);
 CREATE TABLE IF NOT EXISTS reader_decisions (
- sha256 TEXT,folder TEXT,included INTEGER,reason TEXT,PRIMARY KEY(sha256,folder));
+ sha256 TEXT,folder TEXT,included INTEGER,reason TEXT,output_folder TEXT,PRIMARY KEY(sha256,folder));
+CREATE TABLE IF NOT EXISTS provider_date_evidence (
+ sha256 TEXT,provider_utc TEXT,source_identity TEXT,
+ PRIMARY KEY(sha256,provider_utc,source_identity));
+CREATE TABLE IF NOT EXISTS generation_policy (
+ generation TEXT PRIMARY KEY,policy_json TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS archive_settings (key TEXT PRIMARY KEY,value TEXT NOT NULL);
 """
 
 
@@ -340,28 +346,52 @@ def reader_folders(db, digest):
     for folder in sorted(folders):
         is_all = views.is_all_mail(folder)
         included = not is_all or not ordinary
-        db.execute("INSERT OR REPLACE INTO reader_decisions VALUES(?,?,?,?)",
-                   (digest, folder, int(included), "residual_all_mail" if is_all else "source_membership"))
+        db.execute("INSERT OR REPLACE INTO reader_decisions VALUES(?,?,?,?,?)",
+                   (digest, folder, int(included), "residual_all_mail" if is_all else "source_membership", views.mapped_folder(folder)))
+        if is_all and not included:
+            # Later provenance can move a message out of the residual view.
+            # The old encrypted object stays intact; current locators select
+            # only the records belonging to this catalogue generation.
+            db.execute("DELETE FROM locations WHERE kind='reader' AND digest=? AND folder='Gmail Archive'", (digest,))
         if included:
             result.add(views.mapped_folder(folder))
     return sorted(result)
 
 
-def prepare_ledger(workdir, source_db):
+def prepare_ledger(workdir, source_db, base_ledger=None):
     target = workdir / "ledger.sqlite"
     if not target.exists():
         temp = target.with_suffix(".partial")
         temp.unlink(missing_ok=True)
-        with connect(source_db, True) as source, connect(temp) as dest:
+        with connect(base_ledger or source_db, True) as source, connect(temp) as dest:
             source.backup(dest)
         temp.replace(target)
     db = connect(target)
     db.executescript(SCHEMA)
     db.execute("PRAGMA synchronous=FULL")
-    # The completed input is immutable. A separate job/workdir is required for
-    # a different input index; later generations explicitly merge via import.
+    if base_ledger and not (workdir / "merged.json").exists():
+        with connect(source_db, True) as incoming:
+            expected = [tuple(r) for r in db.execute("SELECT * FROM accounts ORDER BY priority")]
+            actual = [tuple(r) for r in incoming.execute("SELECT * FROM accounts ORDER BY priority")]
+            if expected != actual:
+                raise RuntimeError("canonical account priority changed between generations")
+            with db:
+                for table in ("messages", "attachments", "attachment_occurrences", "thunderbird_account_config", "aliases"):
+                    columns = [r[1] for r in incoming.execute(f"PRAGMA table_info({table})")]
+                    names = ','.join(columns)
+                    placeholders = ','.join('?' for _ in columns)
+                    db.executemany(f"INSERT OR IGNORE INTO {table}({names}) VALUES({placeholders})", incoming.execute(f"SELECT {names} FROM {table}"))
+                for row in incoming.execute("SELECT message_sha256,source_archive,original_mailbox_path,locator,mailbox_offset,message_ordinal FROM memberships"):
+                    changed = db.execute("INSERT OR IGNORE INTO memberships(message_sha256,source_archive,original_mailbox_path,locator,mailbox_offset,message_ordinal) VALUES(?,?,?,?,?,?)", tuple(row)).rowcount
+                    if changed and db.execute("SELECT 1 FROM sqlite_master WHERE name='derived_objects'").fetchone():
+                        db.execute("DELETE FROM derived_objects WHERE id IN (SELECT object_id FROM locations WHERE kind='raw' AND digest=?)", (row[0],))
+        save_json(workdir / "merged.json", {"input": str(source_db), "base": str(base_ledger)})
+    with connect(source_db, True) as incoming:
+        provider_dates = dict(incoming.execute("SELECT sha256,provider_utc FROM provider_dates")) if incoming.execute("SELECT 1 FROM sqlite_master WHERE name='provider_dates'").fetchone() else {}
+        if provider_dates:
+            db.executemany("INSERT OR IGNORE INTO provider_date_evidence VALUES(?,?,?)", incoming.execute("SELECT sha256,provider_utc,source_identity FROM provider_dates"))
     for row in db.execute("SELECT sha256,account,original_date FROM messages WHERE sha256 NOT IN (SELECT sha256 FROM archive_years)").fetchall():
-        year, basis = year_for(row["original_date"])
+        year, basis = year_for(row["original_date"], provider_dates.get(row["sha256"]))
         db.execute("INSERT INTO archive_years VALUES(?,?,?,?)",
                    (row["sha256"], row["account"] or "unresolved", year, basis))
     db.commit()
@@ -493,6 +523,8 @@ def partition_index(engine, account, year, target):
         "accounts": "SELECT * FROM ledger.accounts",
         "aliases": "SELECT * FROM ledger.aliases",
         "thunderbird_account_config": "SELECT * FROM ledger.thunderbird_account_config",
+        "provider_date_evidence": "SELECT x.* FROM ledger.provider_date_evidence x JOIN messages m ON m.sha256=x.sha256",
+        "generation_policy": "SELECT * FROM ledger.generation_policy",
     }
     for table, query in queries.items():
         dest.execute(f"CREATE TABLE {table} AS {query}", (account, year) if "?" in query else ())
@@ -525,6 +557,18 @@ def publish(engine):
     missing = db.execute("SELECT count(*) FROM messages m WHERE NOT EXISTS (SELECT 1 FROM locations l WHERE l.digest=m.sha256 AND l.kind='raw')").fetchone()[0]
     if missing:
         raise RuntimeError(f"raw coverage incomplete: {missing} messages")
+    missing_attachments = db.execute("""SELECT count(*) FROM attachment_occurrences a
+        JOIN archive_years y ON y.sha256=a.message_sha256
+        WHERE NOT EXISTS (SELECT 1 FROM locations l WHERE l.kind='attachments'
+          AND l.digest=a.attachment_sha256 AND l.account=y.account AND l.year=y.year)""").fetchone()[0]
+    if missing_attachments:
+        raise RuntimeError(f"attachment coverage incomplete: {missing_attachments} occurrences")
+    missing_views = db.execute("""SELECT count(*) FROM reader_decisions r
+        WHERE r.included=1 AND NOT EXISTS (SELECT 1 FROM locations l
+          WHERE l.kind='reader' AND l.digest=r.sha256 AND
+            l.folder=r.output_folder)""").fetchone()[0]
+    if missing_views:
+        raise RuntimeError(f"reader coverage incomplete: {missing_views} memberships")
     engine.status("publishing_indexes")
     catalogue = {"version": 2, "generation": engine.generation,
                  "remote": store.remote, "part_target_bytes": engine.part_bytes,
@@ -553,11 +597,18 @@ def publish(engine):
     engine.status("complete", partitions=len(catalogue["partitions"]))
 
 
-def run(workdir, checkpoint, config_path, policy_path, remote=ROOT):
+def run(workdir, checkpoint, config_path, policy_path, remote=ROOT, base_ledger=None, wait_checkpoint=False):
     os.umask(0o077)
     workdir = private_directory(workdir)
     with (workdir / "annual.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        if wait_checkpoint:
+            deadline = time.monotonic() + 24 * 3600
+            while not checkpoint.exists():
+                save_json(workdir / "status.json", {"stage": "waiting_for_completed_index", "updated_utc": datetime.now(timezone.utc).isoformat()})
+                if time.monotonic() > deadline:
+                    raise TimeoutError("index checkpoint did not arrive within 24 hours")
+                time.sleep(30)
         config = json.loads(config_path.read_text())
         completed = json.loads(checkpoint.read_text())
         if completed["sources"] != source_state(config) or completed["config_sha256"] != file_hash(config_path):
@@ -566,7 +617,8 @@ def run(workdir, checkpoint, config_path, policy_path, remote=ROOT):
         policy = json.loads(policy_path.read_text())
         state_path = workdir / "job.json"
         identity = {"checkpoint_sha256": file_hash(checkpoint), "remote": remote,
-                    "recipient": policy["recipient"]}
+                    "recipient": policy["recipient"],
+                    "base_ledger_sha256": file_hash(base_ledger) if base_ledger else None}
         if state_path.exists():
             state = json.loads(state_path.read_text())
             if any(state[k] != v for k, v in identity.items()):
@@ -577,11 +629,22 @@ def run(workdir, checkpoint, config_path, policy_path, remote=ROOT):
         if (workdir / "published.json").exists():
             return
         store = Store(workdir, policy["recipient"], policy["identity"], remote)
-        db = prepare_ledger(workdir, input_db)
+        db = prepare_ledger(workdir, input_db, base_ledger)
+        for key, value in (("remote", remote), ("recipient", policy["recipient"])):
+            previous = db.execute("SELECT value FROM archive_settings WHERE key=?", (key,)).fetchone()
+            if previous and previous[0] != value:
+                raise RuntimeError("base generation belongs to a different archive destination or recipient")
+            db.execute("INSERT OR IGNORE INTO archive_settings VALUES(?,?)", (key, value))
+        selection_path = input_db.parent / "selection-policy.json"
+        with db:
+            db.execute("INSERT OR IGNORE INTO generation_policy VALUES(?,?)", (state["generation"],
+                selection_path.read_text() if selection_path.exists() else json.dumps({"mode": "historical", "exclusions": [], "checkpoint": completed})))
         engine = Engine(store, db, state["generation"])
         try:
             scan_sources(engine, [Path(p) for p in config["source_paths"]])
             derive_views(engine)
+            if completed["sources"] != source_state(config):
+                raise RuntimeError("source state changed before publication")
             publish(engine)
         except BaseException as error:
             engine.status("interrupted", error_type=type(error).__name__)
@@ -598,5 +661,7 @@ if __name__ == "__main__":
     parser.add_argument("--config", required=True, type=Path)
     parser.add_argument("--policy", required=True, type=Path)
     parser.add_argument("--remote", default=ROOT)
+    parser.add_argument("--base-ledger", type=Path, help="published previous generation's private ledger")
+    parser.add_argument("--wait-checkpoint", action="store_true")
     args = parser.parse_args()
-    run(args.workdir, args.checkpoint, args.config, args.policy, args.remote)
+    run(args.workdir, args.checkpoint, args.config, args.policy, args.remote, args.base_ledger, args.wait_checkpoint)

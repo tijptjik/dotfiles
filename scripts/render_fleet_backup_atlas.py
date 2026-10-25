@@ -195,7 +195,7 @@ def render():
         ("mail", "Mail", "Messages / attachments / indexes"),
         ("pool", "App state + databases", "Mutable data / native exports"),
         ("document", "Cloud-native docs", "Google Docs / Sheets / Slides / Drawings"),
-        ("assets", "Recovery software", "Pinned images / installers"),
+        ("assets", "Recovery software", "Ephemera 2.0.0 → giD backups / software"),
         ("download", "Disposable data", "Caches / builds / temp files"),
     ]
     for i, (kind, title, subtitle) in enumerate(content):
@@ -206,7 +206,7 @@ def render():
         text(x + 62, y + 29, title, 19, INK, 650)
         text(x + 62, y + 54, subtitle, 16, MUTED)
     text(48, 2072, "BLUE  sync / Git       GREEN  versioned recovery       PURPLE  parity       TEAL  hosting / deployment       AMBER  pending / unconfirmed", 17, MUTED)
-    text(48, 2103, "Coverage limits: client repos have no Fi copy; Google Photos has no independent copy; preserve Ephemera’s final image.", 17, MUTED)
+    text(48, 2103, "Coverage limits: client repos have no Fi copy; Google Photos has no independent copy. Ephemera’s final image is preserved on Drive.", 17, MUTED)
     PARTS.append("</g></svg>")
     OUT.write_text("\n".join(PARTS) + "\n")
 

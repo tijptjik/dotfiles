@@ -55,6 +55,7 @@ a recurring job or a successful restore.
 | Secrets | Keys, credentials, encryption/recovery material | Bitwarden provisioning and selected age-encrypted device archives; never committed to Git |
 | **Mail** | Messages, attachments, indexes and reader exports | Encrypted structured archives under `giD:private/archives/mail/structured/`; included in the Si Drive backup |
 | **App state / databases** | Mutable application data, SQLite/Plex, MariaDB | Application-consistent exports → Si Restic → independently encrypted Fi repository |
+| **Recovery software** | Ephemera 2.0.0 final Docker image | Verified permanent export in `giD:private/backups/software/ephemera/v2.0.0-37d95e68394b/`; superseded Si tar removed. [Recovery instructions](si-application-backups.md#ephemera-final-image) |
 | **Cloud-native documents** | Google Docs, Sheets, Slides and Drawings in `GSUITE/` | Daily Si Restic export and backup at 02:00 HKT; 1 daily / 1 weekly / 1 monthly per source. Sharing, comments and revision history are not retained |
 ## Implemented schedule summary
 

@@ -214,11 +214,11 @@
 <rect x="620" y="1962" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
 <g transform="translate(636 1980) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2l13 7v14l-13 7-13-7V9zM3 9l13 7 13-7M16 16v14M9 6l14 7"/></g>
 <text x="682" y="1991" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Recovery software</text>
-<text x="682" y="2016" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Pinned images / installers</text>
+<text x="682" y="2016" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Ephemera 2.0.0 → giD backups / software</text>
 <rect x="1200" y="1962" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
 <g transform="translate(1216 1980) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v19m-7-7 7 7 7-7M3 23v6h26v-6"/></g>
 <text x="1262" y="1991" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Disposable data</text>
 <text x="1262" y="2016" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Caches / builds / temp files</text>
 <text x="48" y="2072" font-size="17" fill="#576B7D" font-weight="400" text-anchor="start">BLUE  sync / Git       GREEN  versioned recovery       PURPLE  parity       TEAL  hosting / deployment       AMBER  pending / unconfirmed</text>
-<text x="48" y="2103" font-size="17" fill="#576B7D" font-weight="400" text-anchor="start">Coverage limits: client repos have no Fi copy; Google Photos has no independent copy; preserve Ephemera’s final image.</text>
+<text x="48" y="2103" font-size="17" fill="#576B7D" font-weight="400" text-anchor="start">Coverage limits: client repos have no Fi copy; Google Photos has no independent copy. Ephemera’s final image is preserved on Drive.</text>
 </g></svg>

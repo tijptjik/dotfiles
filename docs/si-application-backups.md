@@ -21,6 +21,34 @@ Excluded: other media/downloads (including `public/books` and `public/library.ba
 
 This is application recovery coverage, not a disk image or backup of all private documents. Private WGS files are not part of this job. The independent computer copy is geographically offsite only when that computer is elsewhere.
 
+### Ephemera final image
+
+Ephemera 2.0.0 has a permanent, one-time Docker image backup on Google Drive:
+
+`type-drive:private/backups/software/ephemera/v2.0.0-37d95e68394b/`
+
+The folder contains `ephemera-v2.0.0.tar`, `image.json`, `SHA256SUMS`, and a
+recovery `README.md`. Keep these indefinitely. The image is Linux/amd64, with ID
+`sha256:37d95e68394bfeeb39958ccb042b9a6753d6f51b22d0fa2e7ba33017eb89cc2b`.
+It matches the image running on Si; automatic image updates remain disabled.
+
+On October 25, 2026, all 44 content-addressed blobs and the 21-layer manifest
+were verified. The complete uploaded archive was read back from Drive and its
+SHA-256 checked before removing the superseded `/home/m/ephemera-v2.0.0.tar`
+export on Si. Its SHA-256 is
+`083a341a1bc32242fe66ae1b9df681bf1932d523d529783566bb757f0eca8e7e`.
+Si retains a small pointer at `/home/m/ephemera-v2.0.0.README.md` and a transfer
+receipt under `~/.local/state/ephemera-preservation/`.
+
+Download the four files and run `sha256sum -c SHA256SUMS`, then
+`docker load --input ephemera-v2.0.0.tar`. Confirm the loaded image ID before
+starting it with `docker compose up -d --no-deps --pull never ephemera` using
+the managed Compose configuration. Recover application data separately using
+the Restic procedure below. This image archive contains no live application
+state and has no recurring backup schedule. Its relocation does not change
+the daily app-state backups or their Fi copy. Integrity verification is not a
+fresh application restore rehearsal.
+
 ## Consistency and validation
 
 Applications stay running. The job stages configuration files with rsync, then replaces every staged SQLite database with a transactionally consistent snapshot produced by SQLite's online backup API. Each database passes `PRAGMA quick_check`; Plex's bundled SQLite tool handles its custom schema if needed. Live WAL/SHM/journal files are removed only from staging after a clean database snapshot replaces them.

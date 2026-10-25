@@ -10,28 +10,6 @@ The system setup (repos, packages) is managed by [Chezetc](https://github.com/ti
 - `li` - Laptop (client)
 - `si` - Server
 
-## Backups and recovery
-
-The **[fleet storage atlas](docs/fleet-backup-atlas.md)** explains where files
-live across Fi, Li, Si, Google and Cloudflare, with device and content icons,
-backup relationships, schedules, and coverage gaps.
-
-[![Fleet backup diagram: devices, content and recovery relationships](docs/assets/fleet-backup-atlas.png)](docs/fleet-backup-atlas.md)
-
-- **[Read the atlas and diagram explanation](docs/fleet-backup-atlas.md)** —
-  locations, content types, sync, snapshots, archives, parity and configuration.
-- **[Backup policy and dated evidence](docs/fleet-backup-map.md)** — retention,
-  recorded job results, implementation status and outstanding recovery work.
-- [Full-size diagram](docs/assets/fleet-backup-atlas.png) ·
-  [Editable SVG](docs/assets/fleet-backup-atlas.svg)
-- [Device archives and cross-device restore](docs/device-archives.md) ·
-  [Private-file sync and backups](docs/private-storage.md) ·
-  [Server application backups](docs/si-application-backups.md) ·
-  [Cloudflare backup activation](docs/cloudflare-backups.md)
-
-The diagrams show dated policy and activation evidence; they are not live status
-dashboards. Pending verification and coverage gaps are marked in the guides.
-
 ## Supported Software
 
 Readmes are available in `/docs/{topic}.md`
@@ -78,6 +56,26 @@ Readmes are available in `/docs/{topic}.md`
 - [`waybar`](https://github.com/Alexays/Waybar)
 - [`zapzap`](https://github.com/rafatosta/zapzap)
 - [`zed`](https://zed.dev/)
+
+## Backups and recovery
+
+The **[fleet storage atlas](docs/fleet-backup-atlas.md)** explains where files
+live across Fi, Li, Si, Google and Cloudflare, with device and content icons,
+backup relationships, schedules, and coverage gaps.
+
+[![Fleet backup diagram: devices, content and recovery relationships](docs/assets/fleet-backup-atlas.png)](docs/fleet-backup-atlas.md)
+
+- **[Read the atlas and diagram explanation](docs/fleet-backup-atlas.md)** —
+  locations, content types, sync, snapshots, archives, parity and configuration.
+- **[Backup policy and dated evidence](docs/fleet-backup-map.md)** — retention,
+  recorded job results, implementation status and outstanding recovery work.
+- [Device archives and cross-device restore](docs/device-archives.md) ·
+  [Private-file sync and backups](docs/private-storage.md) ·
+  [Server application backups](docs/si-application-backups.md) ·
+  [Cloudflare backup activation](docs/cloudflare-backups.md)
+
+The diagrams show dated policy and activation evidence; they are not live status
+dashboards. Pending verification and coverage gaps are marked in the guides.
 
 ### Server media
 

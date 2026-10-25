@@ -255,7 +255,7 @@ ShellRoot {
             }
             radius: 12
             color: theme.background
-            border.color: theme.border
+            border.color: theme.panelBorder
             border.width: 1
             HoverHandler {
                 id: panelHover
@@ -349,14 +349,15 @@ ShellRoot {
                             embedded: true
                             detail: root.activeOutput?.description || "No output device available"
                         }
-                        Rectangle { Layout.fillWidth: true; height: 1; color: theme.background }
+                        Rectangle { visible: root.inputs.length > 0; Layout.fillWidth: true; height: 1; color: theme.background }
                         AudioGroup {
+                            visible: nodes.length > 0
                             Layout.fillWidth: true
                             theme: root.theme; title: "BRIO microphone"; nodes: root.inputs
                             microphone: true
                             peak: root.levels.__input || 0
                             embedded: true
-                            detail: (nodes.map(n => n.description || n.name).join(" · ") || "No devices available")
+                            detail: nodes.map(n => n.description || n.name).join(" · ")
                         }
                     }
                 }

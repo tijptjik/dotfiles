@@ -8,6 +8,8 @@ QtObject {
     readonly property color background: palette.base01 || "#1f1d2e"
     readonly property color surface: palette.base02 || "#26233a"
     readonly property color border: palette.base03 || "#555169"
+    // Match the normal notjik rose-punk notification frame.
+    readonly property color panelBorder: "#393546"
     readonly property color muted: palette.base04 || "#6e6a86"
     readonly property color text: palette.base05 || "#e5e5e5"
     readonly property color accent: palette.base0E || "#ff53a6"

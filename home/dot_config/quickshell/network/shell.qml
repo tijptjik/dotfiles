@@ -310,7 +310,7 @@ ShellRoot {
             }
             radius: 12
             color: theme.background
-            border.color: theme.border
+            border.color: theme.panelBorder
             border.width: 1
             HoverHandler {
                 id: panelHover

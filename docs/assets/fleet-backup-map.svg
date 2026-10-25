@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1580" viewBox="0 0 1920 1580">
 <title>Fi, Li, Si and Gi — storage and backup relationships</title>
-<desc>Configured backup policy, checked against host receipts on 25 October 2026. Blue arrows indicate synchronization, green arrows backup, purple parity, amber inactive paths or coverage gaps.</desc>
+<desc>Configured backup policy, checked against host receipts on 25 October 2026. Blue arrows indicate synchronization, green arrows backup, purple parity, amber pending verification or coverage gaps.</desc>
 <defs>
 <marker id="green" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#16836d" stroke-width="2"/></marker>
 <marker id="blue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#3676d8" stroke-width="2"/></marker>
@@ -9,7 +9,7 @@
 <rect width="1920" height="1580" fill="#f5f7fb"/>
 
 <text x="48" y="62" font-family="DejaVu Sans, sans-serif" font-size="42" font-weight="700" fill="#17283e" text-anchor="start">What lives where. What brings it back.</text>
-<text x="48" y="102" font-family="DejaVu Sans, sans-serif" font-size="22" font-weight="400" fill="#52667f" text-anchor="start">FI · desktop     LI · laptop     SI · server     GI · Google Drive</text>
+<text x="48" y="102" font-family="DejaVu Sans, sans-serif" font-size="22" font-weight="400" fill="#52667f" text-anchor="start">FI · desktop     LI · laptop     SI · server     giD · Google Drive</text>
 <text x="1872" y="61" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="700" fill="#3676d8" text-anchor="end">BACKUP MAP</text>
 <text x="1872" y="94" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="400" fill="#52667f" text-anchor="end">25 OCT 2026 · HKT</text>
 <line x1="48" y1="143" x2="82" y2="143" stroke="#3676d8" stroke-width="4"/>
@@ -19,7 +19,7 @@
 <line x1="865" y1="143" x2="899" y2="143" stroke="#7c55af" stroke-width="4"/>
 <text x="912" y="150" font-family="DejaVu Sans, sans-serif" font-size="19" font-weight="400" fill="#52667f" text-anchor="start">Parity protection</text>
 <line x1="1190" y1="143" x2="1224" y2="143" stroke="#a86a0c" stroke-width="4"/>
-<text x="1237" y="150" font-family="DejaVu Sans, sans-serif" font-size="19" font-weight="400" fill="#52667f" text-anchor="start">Inactive route / coverage gap</text>
+<text x="1237" y="150" font-family="DejaVu Sans, sans-serif" font-size="19" font-weight="400" fill="#52667f" text-anchor="start">Pending verification / coverage gap</text>
 <text x="48" y="204" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="700" fill="#3676d8" text-anchor="start">01</text>
 <text x="93" y="204" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">Personal files</text>
 <text x="1872" y="204" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="400" fill="#52667f" text-anchor="end">Local work → shared cloud copy + separate backup</text>
@@ -33,7 +33,7 @@
 <text x="74" y="441" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="600" fill="#3676d8" text-anchor="start">~/code and ~/Documents are outside this job</text>
 <rect x="710" y="245" width="500" height="218" rx="18" fill="#ffffff" stroke="#dae2ee" stroke-width="1.5"/>
 <rect x="710" y="263" width="5" height="182" rx="2" fill="#3676d8"/>
-<text x="736" y="279" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="#3676d8" text-anchor="start">GI · GOOGLE DRIVE</text>
+<text x="736" y="279" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="#3676d8" text-anchor="start">giD · GOOGLE DRIVE</text>
 <text x="736" y="317" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">Shared private files</text>
 <text x="736" y="354" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">private/{documents, media,</text>
 <text x="736" y="384" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">projects, resources}</text>
@@ -108,16 +108,16 @@
 <text x="736" y="1160" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="600" fill="#16836d" text-anchor="start">Readback + file verification before completion</text>
 <rect x="1372" y="970" width="500" height="212" rx="18" fill="#ffffff" stroke="#dae2ee" stroke-width="1.5"/>
 <rect x="1372" y="988" width="5" height="176" rx="2" fill="#a86a0c"/>
-<text x="1398" y="1004" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="#a86a0c" text-anchor="start">FI · SECONDARY 1 TB DISK</text>
+<text x="1398" y="1004" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="#a86a0c" text-anchor="start">fiX · SECONDARY 1 TB DISK</text>
 <text x="1398" y="1042" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">Cloudflare backup route</text>
-<text x="1398" y="1079" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Configured: DNS + KV + R2 → Restic.</text>
-<text x="1398" y="1109" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Weekly Sunday 03:00; retain 1W + 1M.</text>
-<text x="1398" y="1139" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Timer inactive; no success receipt found.</text>
-<text x="1398" y="1160" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="600" fill="#a86a0c" text-anchor="start">INACTIVE · do not count as current coverage</text>
+<text x="1398" y="1079" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Implemented: DNS + KV + R2 → Restic.</text>
+<text x="1398" y="1109" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Weekly after restore: Sun 03:00 · 1W + 1M.</text>
+<text x="1398" y="1139" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">First run active; read error needs review.</text>
+<text x="1398" y="1160" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="600" fill="#a86a0c" text-anchor="start">RESTORE + WEEKLY ACTIVATION PENDING</text>
 <path d="M560 1072 H698" fill="none" stroke="#16836d" stroke-width="3" marker-end="url(#green)" />
 <text x="629" y="1040" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="#16836d" text-anchor="middle">DAILY</text>
 <path d="M1222 1072 H1360" fill="none" stroke="#a86a0c" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#amber)" />
-<text x="1291" y="1040" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="700" fill="#a86a0c" text-anchor="middle">INACTIVE</text>
+<text x="1291" y="1040" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="700" fill="#a86a0c" text-anchor="middle">FIRST RUN</text>
 <text x="48" y="1240" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="700" fill="#3676d8" text-anchor="start">04</text>
 <text x="93" y="1240" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">Different protection. Remaining gaps.</text>
 <text x="1872" y="1240" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="400" fill="#52667f" text-anchor="end">Parity, synchronization and recoverable history serve different roles</text>
@@ -128,7 +128,7 @@
 <text x="76" y="1416" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Disk-failure / corruption protection; no independent versioned copy.</text>
 <text x="76" y="1454" font-family="DejaVu Sans, sans-serif" font-size="18" font-weight="400" fill="#7c55af" text-anchor="start">App state, downloads and recovery staging are outside parity coverage.</text>
 <rect x="972" y="1274" width="900" height="214" rx="18" fill="#fff8eb" stroke="#ead7ad" stroke-width="1.5"/>
-<text x="1000" y="1309" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="#a86a0c" text-anchor="start">GI · CLOUD-ONLY CONTENT</text>
+<text x="1000" y="1309" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="#a86a0c" text-anchor="start">giD · CLOUD-ONLY CONTENT</text>
 <text x="1000" y="1347" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">GSUITE + Drive-only archives</text>
 <text x="1000" y="1383" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Google Docs / Sheets / Slides are excluded from local folder sync.</text>
 <text x="1000" y="1416" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Encrypted mail archives live under private/archives/mail/structured.</text>

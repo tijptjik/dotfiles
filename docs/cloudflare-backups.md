@@ -48,8 +48,10 @@ records the deliberately interrupted earlier attempt, not a new transfer failure
   completion job fails.
 - Confirm `last-success.json`, `restore-verified.json`, and `setup-completed.json`
   agree on the snapshot ID; confirm the timer is enabled with its next run shown.
-- Refresh this activation status and the fleet backup map (Markdown, SVG, and
-  PNG) only after that evidence exists. The map currently shows the route inactive.
+- The [policy map](fleet-backup-map.md) and [iconographic atlas](fleet-backup-atlas.md)
+  now show implementation complete and the first run active, with verification
+  and weekly activation pending. Update them to verified/weekly-active only after
+  matching receipts and timer evidence exist.
 - Push the thread's committed changes and synchronize the relevant repositories
   on Li and Si. Pushing to `main` was blocked by automatic approval review and
   remains pending explicit approval. Cloudflare backup execution stays Fi-only.
@@ -58,6 +60,16 @@ records the deliberately interrupted earlier attempt, not a new transfer failure
 
 Unrelated email-archive changes in the shared checkout are outside this thread's
 commit scope.
+
+## Diagram status refresh — approximately 12:07 HKT
+
+The running attempt had read about 60% of the expected bytes and reported one
+input/output read error; the rclone log also contains unexpected-EOF errors.
+No successful-backup, restore, or setup-completion receipt exists at this check.
+The run was left in progress. Its final result and any failed object need review;
+the initial verification gate remains in force. The diagrams label the route
+implemented / first run active, with verified coverage and weekly activation
+pending.
 
 ## Scope
 

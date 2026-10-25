@@ -4,20 +4,22 @@
 
 [PNG](assets/fleet-backup-map.png) · [Editable SVG](assets/fleet-backup-map.svg)
 
-Gi means Google Drive (`type-drive:`), not another Linux server. This map records
-configured scope and live receipt/timer evidence on 25 October 2026 HKT. It does
-not change schedules, retention, sharing, or backup destinations.
+The [iconographic fleet atlas](fleet-backup-atlas.md) expands this policy map with
+device, content and relationship icons. `gi` means Google; `giD` means Google
+Drive (`type-drive:`), and `giP` means Google Photos. This map records configured
+scope and dated receipt/timer evidence on 25 October 2026 HKT. It does not change
+schedules, retention, sharing, or backup destinations.
 
 ## Coverage
 
 | Content | Working location | Backup or protection | Retention / schedule |
 | --- | --- | --- | --- |
-| Lowercase documents, media, projects, resources | Local Fi/Li folders, hourly bisync through Gi `private/` | Encrypted per-client Restic repositories on Si | Fi 00:00, Li 01:00 fallback; 1 daily / 1 weekly / 1 monthly |
+| Lowercase documents, media, projects, resources | Local Fi/Li folders, hourly bisync through giD `private/` | Encrypted per-client Restic repositories on Si | Fi 00:00, Li 01:00 fallback; 1 daily / 1 weekly / 1 monthly |
 | Selected device settings, SSH/GPG, keys and application state | Host-specific folders on Fi/Li/Si | Verified archives in Cloudflare R2; age encryption except explicit asset exceptions | Fi 00:00, Li 00:15, Si 00:30; latest only or latest + previous ISO week + previous month |
 | Si applications, Plex, MariaDB, config, scripts and public/library | Si app state and library | Daily Restic on Si disk42, then independently encrypted Restic copy on Fi | Si 04:00; Fi Sunday 06:00 plus daily 10:00 check/catch-up; 7 daily + 4 weekly |
 | Bulk data on Si | Five data disks | Two SnapRAID parity disks; separate from versioned backup | Daily 05:00 sync; Sunday 08:00 25% scrub of eligible blocks |
-| Google-native documents, Drive-only archives and structured mail exports | Gi GSUITE / private archives | No independent scheduled route defined by the inspected policy | Outside the four local-folder backups |
-| Cloudflare DNS, KV and R2 | Cloudflare | Implemented export/Restic route to Fi's secondary 1 TB disk, currently inactive | Configured Sunday 03:00, 1 weekly + 1 monthly; no success receipt found |
+| Google-native documents, Drive-only archives and structured mail exports | giD GSUITE / private archives | No independent scheduled route defined by the inspected policy | Outside the four local-folder backups |
+| Cloudflare DNS, KV and R2 | Cloudflare | Implemented export/Restic route to fiX, Fi's secondary 1 TB disk; first run active | Weekly Sunday 03:00, 1 weekly + 1 monthly pending successful backup and isolated restore |
 
 Schedules are HKT and may include jitter. Persistent timers catch up when the
 host/user manager is available. Private Li backup is suppressed when Fi has
@@ -37,10 +39,11 @@ Li-only unsynchronized edits have a snapshot on Si.
 | Si SnapRAID sync | Success receipt: 24 Oct 05:20:16 HKT |
 | Si SnapRAID scrub | Success receipt: 21 Oct 20:08:35 HKT |
 | Fi device archives | 30 local archive receipts; latest recorded snapshot 24 Oct 13:56:24 HKT; timer active |
-| Fi Cloudflare backup | Timer inactive; no last-success receipt |
+| Fi Cloudflare backup | Updated ~12:07 HKT: first run active, about 60% read; one read error reported. No success/restore receipt; weekly timer disabled pending verification |
 
-These observations are point-in-time. No new backup, restore rehearsal, parity
-job, or cloud inventory/export was started to create this map.
+These observations are point-in-time. The Cloudflare row was refreshed during
+the already-running activation job; other rows retain their earlier evidence.
+No additional backup, restore or parity job was started for this diagram update.
 
 ## Boundaries and recommended follow-up
 
@@ -48,7 +51,7 @@ job, or cloud inventory/export was started to create this map.
    Its running image reports version 2.0.0; application-state backups exclude
    Docker image layers. Skipping updates alone does not make a lost image
    recoverable when the registry can no longer supply it.
-2. Define independent coverage for Gi's Google-native documents and Drive-only
+2. Define independent coverage for giD's Google-native documents and Drive-only
    archives, including the encrypted mail collection. Export formats and version
    retention need an explicit policy; ordinary Drive synchronization is not that
    backup.
@@ -56,11 +59,12 @@ job, or cloud inventory/export was started to create this map.
    loss of Si must be recoverable. The existing Si-to-Fi application copy does
    not include these repositories. Review the short 1D/1W/1M retention against
    the desired recovery window.
-4. Complete activation of the existing Cloudflare route after checking its target
-   disk, credentials and first verified backup. Do not count the inactive timer
-   as current protection. [Setup is now authorized](cloudflare-backups.md); the
-   writable mount and managed units are installed, and a separate DNS read token
-   has been saved to Bitwarden. First backup and restore verification are pending.
+4. Finish [Cloudflare activation](cloudflare-backups.md). The route is implemented,
+   credentials and writable mount are installed, and the first backup is active.
+   A read error has been reported; inspect the final result before claiming
+   coverage. The automatic handoff requires a successful snapshot and isolated
+   restore before enabling the weekly timer. Neither completion nor verified
+   recovery is claimed yet.
 5. Schedule isolated restore rehearsals for a client folder, a Plex/SQLite
    snapshot, MariaDB and the library. The existing health checks establish
    repository/backup evidence, not full application recovery. Confirm recovery

@@ -1,0 +1,224 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="2140" viewBox="0 0 1800 2140" role="img" aria-labelledby="title desc"><title id="title">Fleet storage atlas: devices, content and recovery routes</title><desc id="desc">Fi desktop and its secondary SSD, Li laptop, Si server with storage and parity, Google Drive and Photos, Cloudflare, Git and Bitwarden. Six lanes distinguish synchronization, snapshots, copies, archives, parity and deployment. Cloudflare first run active; restore and weekly activation pending.</desc><g font-family="DejaVu Sans, sans-serif">
+<rect x="0" y="0" width="1800" height="2140" rx="0" fill="#F3F6F9" stroke="none"/>
+<text x="48" y="64" font-size="39" fill="#182C40" font-weight="700" text-anchor="start">The fleet. The files. The recovery paths.</text>
+<text x="48" y="103" font-size="20" fill="#576B7D" font-weight="400" text-anchor="start">Implemented policy • locations and relationships • 25 October 2026 / HKT</text>
+<rect x="48" y="126" width="1704" height="62" rx="12" fill="#FFF7E7" stroke="#EBD7AD"/>
+<text x="70" y="153" font-size="17" fill="#9A6511" font-weight="700" text-anchor="start">CLOUDFLARE  /  IMPLEMENTED · FIRST RUN ACTIVE</text>
+<text x="70" y="176" font-size="17" fill="#9A6511" font-weight="400" text-anchor="start">Restore verification and weekly activation pending; current run has reported a read error. No verified snapshot claimed.</text>
+<text x="48" y="233" font-size="17" fill="#286CC4" font-weight="700" text-anchor="start">01  LOCATIONS</text>
+<text x="1752" y="233" font-size="17" fill="#576B7D" font-weight="400" text-anchor="end">Grouped cards indicate ownership / containment, not a copy</text>
+<rect x="40" y="253" width="560" height="292" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<rect x="620" y="253" width="560" height="292" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<rect x="1200" y="253" width="560" height="292" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(64 274) scale(1.2)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="18" rx="2"/><path d="M16 22v6m-7 0h14"/></g>
+<text x="116" y="290" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fi  Desktop</text>
+<text x="116" y="316" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Main disk: work + independent Si app copy</text>
+<g transform="translate(93 353) scale(1.2)" fill="none" stroke="#137B67" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="22" height="26" rx="3"/><circle cx="16" cy="14" r="6"/><path d="M16 14l5-4M9 25h1m4 0h1"/></g>
+<text x="145" y="369" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fiX  Secondary desktop SSD</text>
+<text x="145" y="395" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Cloudflare Restic destination</text>
+<path d="M80 324v46h8" fill="none" stroke="#A9BAC9" stroke-width="2"/>
+<g transform="translate(64 450) scale(1.2)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="20" height="17" rx="2"/><path d="M6 22l-4 5h28l-4-5M12 25h8"/></g>
+<text x="116" y="466" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">li  Laptop</text>
+<text x="116" y="492" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Local work + fallback private-file backup</text>
+<g transform="translate(644 274) scale(1.2)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="24" height="11" rx="2"/><rect x="4" y="18" width="24" height="11" rx="2"/><path d="M9 8h1m5 0h8M9 23h1m5 0h8"/></g>
+<text x="696" y="290" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">si  Server</text>
+<text x="696" y="316" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Applications + local recovery repository</text>
+<g transform="translate(673 353) scale(1.2)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="16" cy="6" rx="12" ry="4"/><path d="M4 6v9c0 5 24 5 24 0V6M4 15v10c0 5 24 5 24 0V15"/></g>
+<text x="725" y="369" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">siS  Storage pool</text>
+<text x="725" y="395" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">5 data disks • mergerfs</text>
+<g transform="translate(673 450) scale(1.2)" fill="none" stroke="#8054AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2L4 7v10c0 7 12 13 12 13s12-6 12-13V7zM10 15l4 4 8-9"/></g>
+<text x="725" y="466" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">siP  Parity</text>
+<text x="725" y="492" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">2 parity disks • SnapRAID</text>
+<path d="M660 324v145h8M660 371h8" fill="none" stroke="#A9BAC9" stroke-width="2"/>
+<g transform="translate(1224 274) scale(1.2)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 25a7 7 0 0 1-1-14 9 9 0 0 1 18-1 8 8 0 0 1 0 15z"/></g>
+<text x="1276" y="290" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">gi  Google</text>
+<text x="1276" y="316" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Provider grouping • not a backup destination</text>
+<g transform="translate(1253 353) scale(1.2)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h9l10 18-5 8H6l-5-8zM12 3l14 26M21 3L6 29M1 21h30"/></g>
+<text x="1305" y="369" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">giD  Google Drive</text>
+<text x="1305" y="395" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Shared files + cloud-only archives / docs</text>
+<g transform="translate(1253 450) scale(1.2)" fill="none" stroke="#9A6511" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="24" rx="3"/><circle cx="11" cy="12" r="3"/><path d="M4 25l8-7 5 4 6-9 6 12"/></g>
+<text x="1305" y="466" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">giP  Google Photos</text>
+<text x="1305" y="492" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Hosted photos • export route unconfirmed</text>
+<path d="M1240 324v145h8M1240 371h8" fill="none" stroke="#A9BAC9" stroke-width="2"/>
+<rect x="40" y="561" width="1720" height="86" rx="16" fill="#EAF0F6" stroke="none"/>
+<g transform="translate(64 581) scale(1)" fill="none" stroke="#207A90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 25a7 7 0 0 1-1-14 9 9 0 0 1 18-1 8 8 0 0 1 0 15z"/></g>
+<text x="108" y="595" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">cf / cfR2  Cloudflare</text>
+<text x="108" y="620" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">DNS + KV + R2 archives / assets</text>
+<g transform="translate(644 581) scale(1)" fill="none" stroke="#207A90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="3"/><circle cx="8" cy="26" r="3"/><circle cx="25" cy="8" r="3"/><path d="M8 9v14m17-12c0 10-17 4-17 12"/></g>
+<text x="688" y="595" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">git  Git remotes</text>
+<text x="688" y="620" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Committed code + config history</text>
+<g transform="translate(1224 581) scale(1)" fill="none" stroke="#207A90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M16 16l13 13m-5-5 4-4m-9-1 4-4"/></g>
+<text x="1268" y="595" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">bw  Bitwarden</text>
+<text x="1268" y="620" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Vault / selected credential provisioning</text>
+<text x="48" y="689" font-size="17" fill="#286CC4" font-weight="700" text-anchor="start">02  IMPLEMENTED ROUTES</text>
+<text x="1752" y="689" font-size="17" fill="#576B7D" font-weight="400" text-anchor="end">Each lane is a separate scope • repeated device IDs are intentional</text>
+<rect x="40" y="711" width="1720" height="132" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<text x="62" y="742" font-size="15" fill="#286CC4" font-weight="700" text-anchor="start">A</text>
+<text x="105" y="742" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Personal artefacts</text>
+<text x="1736" y="742" font-size="16" fill="#576B7D" font-weight="400" text-anchor="end">Local documents / media / projects / resources</text>
+<g transform="translate(72 768) scale(1)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="18" rx="2"/><path d="M16 22v6m-7 0h14"/></g>
+<text x="116" y="782" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fi + li</text>
+<text x="116" y="807" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Local working folders</text>
+<path d="M315 789H505" stroke="#286CC4" stroke-width="2.5" fill="none" /><path d="M497 784l8 5 -8 5" fill="none" stroke="#286CC4" stroke-width="2.5"/>
+<path d="M323 784l-8 5 8 5" fill="none" stroke="#286CC4" stroke-width="2.5"/>
+<text x="410.0" y="777" font-size="15" fill="#286CC4" font-weight="650" text-anchor="middle">rclone bisync</text>
+<g transform="translate(525 768) scale(1)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h9l10 18-5 8H6l-5-8zM12 3l14 26M21 3L6 29M1 21h30"/></g>
+<text x="569" y="782" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">giD</text>
+<text x="569" y="807" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Shared private folders</text>
+<g transform="translate(945 768) scale(1)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="18" rx="2"/><path d="M16 22v6m-7 0h14"/></g>
+<text x="989" y="782" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fi / li</text>
+<text x="989" y="807" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Fi daily; Li fallback</text>
+<path d="M1190 789H1380" stroke="#137B67" stroke-width="2.5" fill="none" /><path d="M1372 784l8 5 -8 5" fill="none" stroke="#137B67" stroke-width="2.5"/>
+<text x="1285.0" y="777" font-size="15" fill="#137B67" font-weight="650" text-anchor="middle">Restic snapshot</text>
+<g transform="translate(1400 768) scale(1)" fill="none" stroke="#137B67" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="16" cy="6" rx="12" ry="4"/><path d="M4 6v9c0 5 24 5 24 0V6M4 15v10c0 5 24 5 24 0V15"/></g>
+<text x="1444" y="782" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">siS</text>
+<text x="1444" y="807" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Client repos • 1D / 1W / 1M</text>
+<rect x="40" y="855" width="1720" height="132" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<text x="62" y="886" font-size="15" fill="#286CC4" font-weight="700" text-anchor="start">B</text>
+<text x="105" y="886" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Applications + library</text>
+<text x="1736" y="886" font-size="16" fill="#576B7D" font-weight="400" text-anchor="end">SQLite / DB exports + app state + configs + public/library</text>
+<g transform="translate(72 912) scale(1)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="24" height="11" rx="2"/><rect x="4" y="18" width="24" height="11" rx="2"/><path d="M9 8h1m5 0h8M9 23h1m5 0h8"/></g>
+<text x="116" y="926" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">si</text>
+<text x="116" y="951" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Live apps + library</text>
+<path d="M353 933H613" stroke="#137B67" stroke-width="2.5" fill="none" /><path d="M605 928l8 5 -8 5" fill="none" stroke="#137B67" stroke-width="2.5"/>
+<text x="483.0" y="921" font-size="15" fill="#137B67" font-weight="650" text-anchor="middle">export + snapshot</text>
+<g transform="translate(637 912) scale(1)" fill="none" stroke="#137B67" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="22" height="26" rx="3"/><circle cx="16" cy="14" r="6"/><path d="M16 14l5-4M9 25h1m4 0h1"/></g>
+<text x="681" y="926" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">si · disk42 recovery</text>
+<text x="681" y="951" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Daily • 7D / 4W • outside parity</text>
+<path d="M1025 933H1310" stroke="#137B67" stroke-width="2.5" fill="none" /><path d="M1302 928l8 5 -8 5" fill="none" stroke="#137B67" stroke-width="2.5"/>
+<text x="1167.5" y="921" font-size="15" fill="#137B67" font-weight="650" text-anchor="middle">Restic copy</text>
+<g transform="translate(1330 912) scale(1)" fill="none" stroke="#137B67" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="18" rx="2"/><path d="M16 22v6m-7 0h14"/></g>
+<text x="1374" y="926" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fi · main disk</text>
+<text x="1374" y="951" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Weekly + daily catch-up</text>
+<rect x="40" y="999" width="1720" height="132" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<text x="62" y="1030" font-size="15" fill="#286CC4" font-weight="700" text-anchor="start">C</text>
+<text x="105" y="1030" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Device archives + cloud recovery</text>
+<text x="1736" y="1030" font-size="16" fill="#576B7D" font-weight="400" text-anchor="end">Selected config / state / secrets; R2 also holds public assets</text>
+<g transform="translate(72 1056) scale(1)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="7" rx="1"/><path d="M5 11v17h22V11M12 17h8"/></g>
+<text x="116" y="1070" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fi + li + si</text>
+<text x="116" y="1095" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Selected device folders</text>
+<path d="M353 1077H613" stroke="#137B67" stroke-width="2.5" fill="none" /><path d="M605 1072l8 5 -8 5" fill="none" stroke="#137B67" stroke-width="2.5"/>
+<text x="483.0" y="1065" font-size="15" fill="#137B67" font-weight="650" text-anchor="middle">age archive + upload</text>
+<g transform="translate(637 1056) scale(1)" fill="none" stroke="#207A90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 25a7 7 0 0 1-1-14 9 9 0 0 1 18-1 8 8 0 0 1 0 15z"/></g>
+<text x="681" y="1070" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">cfR2 + DNS / KV</text>
+<text x="681" y="1095" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Daily archives • per-folder retention</text>
+<path d="M1040 1077H1310" stroke="#9A6511" stroke-width="2.5" fill="none" stroke-dasharray="7 5"/><path d="M1302 1072l8 5 -8 5" fill="none" stroke="#9A6511" stroke-width="2.5"/>
+<text x="1175.0" y="1065" font-size="15" fill="#9A6511" font-weight="650" text-anchor="middle">export + Restic</text>
+<g transform="translate(1330 1056) scale(1)" fill="none" stroke="#9A6511" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="22" height="26" rx="3"/><circle cx="16" cy="14" r="6"/><path d="M16 14l5-4M9 25h1m4 0h1"/></g>
+<text x="1374" y="1070" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fiX · secondary SSD</text>
+<text x="1374" y="1095" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">First run active; weekly pending</text>
+<rect x="40" y="1143" width="1720" height="132" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<text x="62" y="1174" font-size="15" fill="#286CC4" font-weight="700" text-anchor="start">D</text>
+<text x="105" y="1174" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Bulk storage resilience</text>
+<text x="1736" y="1174" font-size="16" fill="#576B7D" font-weight="400" text-anchor="end">Configured parity scope only; no version history</text>
+<g transform="translate(72 1200) scale(1)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="16" cy="6" rx="12" ry="4"/><path d="M4 6v9c0 5 24 5 24 0V6M4 15v10c0 5 24 5 24 0V15"/></g>
+<text x="116" y="1214" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">siS · data disks</text>
+<text x="116" y="1239" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Bulk media + configured files</text>
+<path d="M400 1221H710" stroke="#8054AF" stroke-width="2.5" fill="none" /><path d="M702 1216l8 5 -8 5" fill="none" stroke="#8054AF" stroke-width="2.5"/>
+<text x="555.0" y="1209" font-size="15" fill="#8054AF" font-weight="650" text-anchor="middle">SnapRAID parity</text>
+<g transform="translate(735 1200) scale(1)" fill="none" stroke="#8054AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2L4 7v10c0 7 12 13 12 13s12-6 12-13V7zM10 15l4 4 8-9"/></g>
+<text x="779" y="1214" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">siP · parity disks</text>
+<text x="779" y="1239" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Daily sync • weekly scrub</text>
+<text x="1210" y="1215" font-size="18" fill="#576B7D" font-weight="400" text-anchor="start">Excluded: meta / downloads /</text>
+<text x="1210" y="1241" font-size="18" fill="#576B7D" font-weight="400" text-anchor="start">recovery-preservation</text>
+<rect x="40" y="1287" width="1720" height="132" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<text x="62" y="1318" font-size="15" fill="#286CC4" font-weight="700" text-anchor="start">E</text>
+<text x="105" y="1318" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Code, configs + credentials</text>
+<text x="1736" y="1318" font-size="16" fill="#576B7D" font-weight="400" text-anchor="end">History → deployment; vault → runtime secrets</text>
+<g transform="translate(72 1344) scale(1)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 8l-8 8 8 8m12-16 8 8-8 8M19 3l-6 26"/></g>
+<text x="116" y="1358" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">Local repos</text>
+<text x="116" y="1383" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Committed changes</text>
+<path d="M318 1365H510" stroke="#286CC4" stroke-width="2.5" fill="none" /><path d="M502 1360l8 5 -8 5" fill="none" stroke="#286CC4" stroke-width="2.5"/>
+<path d="M326 1360l-8 5 8 5" fill="none" stroke="#286CC4" stroke-width="2.5"/>
+<text x="414.0" y="1353" font-size="15" fill="#286CC4" font-weight="650" text-anchor="middle">Git push / pull</text>
+<g transform="translate(530 1344) scale(1)" fill="none" stroke="#207A90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="3"/><circle cx="8" cy="26" r="3"/><circle cx="25" cy="8" r="3"/><path d="M8 9v14m17-12c0 10-17 4-17 12"/></g>
+<text x="574" y="1358" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">git</text>
+<text x="574" y="1383" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Code + config source</text>
+<path d="M795 1365H1060" stroke="#207A90" stroke-width="2.5" fill="none" /><path d="M1052 1360l8 5 -8 5" fill="none" stroke="#207A90" stroke-width="2.5"/>
+<text x="927.5" y="1353" font-size="15" fill="#207A90" font-weight="650" text-anchor="middle">Chezmoi / Chezetc</text>
+<g transform="translate(1080 1344) scale(1)" fill="none" stroke="#207A90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2v28M16 2v28M27 2v28"/><rect x="2" y="8" width="6" height="6" fill="white"/><rect x="13" y="20" width="6" height="6" fill="white"/><rect x="24" y="5" width="6" height="6" fill="white"/></g>
+<text x="1124" y="1358" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fi / li / si</text>
+<text x="1124" y="1383" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Applied configuration</text>
+<path d="M1575 1365H1360" stroke="#207A90" stroke-width="2.5" fill="none" /><path d="M1368 1360l-8 5 8 5" fill="none" stroke="#207A90" stroke-width="2.5"/>
+<text x="1467.5" y="1353" font-size="15" fill="#207A90" font-weight="650" text-anchor="middle">provision</text>
+<g transform="translate(1600 1344) scale(1)" fill="none" stroke="#207A90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M16 16l13 13m-5-5 4-4m-9-1 4-4"/></g>
+<text x="1644" y="1358" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">bw</text>
+<text x="1644" y="1383" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Secrets</text>
+<rect x="40" y="1431" width="1720" height="132" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<text x="62" y="1462" font-size="15" fill="#286CC4" font-weight="700" text-anchor="start">F</text>
+<text x="105" y="1462" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Cloud-only collections</text>
+<text x="1736" y="1462" font-size="16" fill="#576B7D" font-weight="400" text-anchor="end">Provider hosting is a location; an export needs its own backup route</text>
+<g transform="translate(72 1488) scale(1)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3h9l10 18-5 8H6l-5-8zM12 3l14 26M21 3L6 29M1 21h30"/></g>
+<text x="116" y="1502" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">giD · archives + mail</text>
+<text x="116" y="1527" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Encrypted uploads; originals retained</text>
+<g transform="translate(650 1488) scale(1)" fill="none" stroke="#9A6511" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h13l7 7v21H6zM19 2v8h7M11 16h10M11 22h10"/></g>
+<text x="694" y="1502" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">giD · native documents</text>
+<text x="694" y="1527" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">GSUITE excluded from folder bisync</text>
+<g transform="translate(1230 1488) scale(1)" fill="none" stroke="#9A6511" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="24" rx="3"/><circle cx="11" cy="12" r="3"/><path d="M4 25l8-7 5 4 6-9 6 12"/></g>
+<text x="1274" y="1502" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">giP · personal photos</text>
+<text x="1274" y="1527" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Independent export not established</text>
+<text x="48" y="1605" font-size="17" fill="#286CC4" font-weight="700" text-anchor="start">03  CONTENT ICONS</text>
+<text x="1752" y="1605" font-size="17" fill="#576B7D" font-weight="400" text-anchor="end">Content tags can overlap • archive = inactive material • backup = recovery copy</text>
+<rect x="40" y="1626" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(56 1644) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="7" rx="1"/><path d="M5 11v17h22V11M12 17h8"/></g>
+<text x="102" y="1655" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Archives</text>
+<text x="102" y="1680" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Themed, inactive collections</text>
+<rect x="620" y="1626" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(636 1644) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10A12 12 0 1 1 4 21M5 3v7h7M16 8v9l6 3"/></g>
+<text x="682" y="1655" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Backups</text>
+<text x="682" y="1680" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Phone / OS / DB snapshots</text>
+<rect x="1200" y="1626" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(1216 1644) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 8l-8 8 8 8m12-16 8 8-8 8M19 3l-6 26"/></g>
+<text x="1262" y="1655" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Code</text>
+<text x="1262" y="1680" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Git-backed repositories</text>
+<rect x="40" y="1710" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(56 1728) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11l3 4h14v16H2zM2 8V4h11l3 4h12v4"/></g>
+<text x="102" y="1739" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Personal artefacts</text>
+<text x="102" y="1764" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Docs / media / projects / resources</text>
+<rect x="620" y="1710" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(636 1728) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v19m-7-7 7 7 7-7M3 23v6h26v-6"/></g>
+<text x="682" y="1739" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Downloads</text>
+<text x="682" y="1764" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Staging; not backed up</text>
+<rect x="1200" y="1710" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(1216 1728) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="26" height="26" rx="3"/><path d="M12 9l11 7-11 7z"/></g>
+<text x="1262" y="1739" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Media</text>
+<text x="1262" y="1764" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Movies / shows / books / audio</text>
+<rect x="40" y="1794" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(56 1812) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="24" rx="3"/><circle cx="11" cy="12" r="3"/><path d="M4 25l8-7 5 4 6-9 6 12"/></g>
+<text x="102" y="1823" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Photos</text>
+<text x="102" y="1848" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Personal images</text>
+<rect x="620" y="1794" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(636 1812) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2l13 7v14l-13 7-13-7V9zM3 9l13 7 13-7M16 16v14M9 6l14 7"/></g>
+<text x="682" y="1823" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Assets</text>
+<text x="682" y="1848" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Public images / dataset releases</text>
+<rect x="1200" y="1794" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(1216 1812) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2v28M16 2v28M27 2v28"/><rect x="2" y="8" width="6" height="6" fill="white"/><rect x="13" y="20" width="6" height="6" fill="white"/><rect x="24" y="5" width="6" height="6" fill="white"/></g>
+<text x="1262" y="1823" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Configs</text>
+<text x="1262" y="1848" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Dotfiles / scripts / templates</text>
+<rect x="40" y="1878" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(56 1896) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M16 16l13 13m-5-5 4-4m-9-1 4-4"/></g>
+<text x="102" y="1907" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Secrets</text>
+<text x="102" y="1932" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Keys / credentials / recovery</text>
+<rect x="620" y="1878" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(636 1896) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="28" height="22" rx="3"/><path d="M3 7l13 11L29 7"/></g>
+<text x="682" y="1907" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Mail</text>
+<text x="682" y="1932" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Messages / attachments / indexes</text>
+<rect x="1200" y="1878" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(1216 1896) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="16" cy="6" rx="12" ry="4"/><path d="M4 6v9c0 5 24 5 24 0V6M4 15v10c0 5 24 5 24 0V15"/></g>
+<text x="1262" y="1907" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">App state + databases</text>
+<text x="1262" y="1932" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Mutable data / native exports</text>
+<rect x="40" y="1962" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(56 1980) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h13l7 7v21H6zM19 2v8h7M11 16h10M11 22h10"/></g>
+<text x="102" y="1991" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Cloud-native docs</text>
+<text x="102" y="2016" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Google Docs / Sheets / Slides</text>
+<rect x="620" y="1962" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(636 1980) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2l13 7v14l-13 7-13-7V9zM3 9l13 7 13-7M16 16v14M9 6l14 7"/></g>
+<text x="682" y="1991" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Recovery software</text>
+<text x="682" y="2016" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Pinned images / installers</text>
+<rect x="1200" y="1962" width="560" height="72" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
+<g transform="translate(1216 1980) scale(1)" fill="none" stroke="#576B7D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v19m-7-7 7 7 7-7M3 23v6h26v-6"/></g>
+<text x="1262" y="1991" font-size="19" fill="#182C40" font-weight="650" text-anchor="start">Disposable data</text>
+<text x="1262" y="2016" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Caches / builds / temp files</text>
+<text x="48" y="2072" font-size="17" fill="#576B7D" font-weight="400" text-anchor="start">BLUE  sync / Git       GREEN  versioned recovery       PURPLE  parity       TEAL  hosting / deployment       AMBER  pending / unconfirmed</text>
+<text x="48" y="2103" font-size="17" fill="#576B7D" font-weight="400" text-anchor="start">Coverage limits: client repos have no Fi copy; cloud-only Drive / Photos need independent coverage; preserve Ephemera’s final image.</text>
+</g></svg>

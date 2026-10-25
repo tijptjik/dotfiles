@@ -190,7 +190,43 @@
       "retention": "daily-weekly-monthly",
       "devices": [
         "desktop"
-      ]
+      ],
+      "sqlite_recovery": {
+        "store.db": {
+          "omit_tables": [
+            "request_logs",
+            "usage_history",
+            "additional_usage_history",
+            "request_usage_hourly_rollups",
+            "request_usage_hourly_error_rollups",
+            "request_conversation_hourly_rollups",
+            "request_demand_quarter_rollups",
+            "account_usage_rollups",
+            "account_usage_rollup_state",
+            "api_key_usage_rollups",
+            "http_bridge_operation_events",
+            "http_bridge_operations",
+            "http_bridge_recovery_attempts",
+            "http_bridge_session_aliases",
+            "http_bridge_sessions",
+            "http_bridge_retry_circuits",
+            "quota_planner_decisions",
+            "audit_logs",
+            "automation_runs",
+            "automation_run_cycle_accounts",
+            "automation_run_cycles",
+            "sticky_sessions",
+            "rate_limit_attempts",
+            "oauth_flow_states",
+            "oauth_device_flow_slots",
+            "runtime_sentinels",
+            "scheduler_leader",
+            "account_refresh_claims",
+            "bridge_ring_members"
+          ],
+          "max_bytes": 16777216
+        }
+      }
     },
     ".local/share/device-archives-policy": {
       "mode": "master-backup",

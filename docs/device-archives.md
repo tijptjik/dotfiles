@@ -294,9 +294,23 @@ application directory. Inspect the restored tree, close the application, and
 install the chosen state while retaining the old one.
 
 For codex-lb, restore `store.db` and `encryption.key` together with the desktop
-backend stopped. The archive contains neither the runtime nor debug logs and
-does not synchronize live account credentials. Restored OAuth tokens may require
-reauthentication after provider-side rotation.
+backend stopped. The archive contains a compact recovery database: accounts,
+credentials, configuration and schema are retained, while the policy's explicit
+`sqlite_recovery.store.db.omit_tables` list removes request/usage history,
+historical rollups, audit/automation runs and transient bridge/session records.
+Configuration tables for automation jobs, API keys, proxies and limits remain.
+Live history is never deleted; cleanup and compaction run only on a consistent
+temporary SQLite copy. The copy must pass integrity/foreign-key checks and stay
+under 16 MiB or the backup fails before upload, preserving the previous recovery
+point. New or changed deletion triggers and missing configured tables also fail
+closed. Runtime code and debug logs remain excluded.
+
+This is a configuration/credential recovery backup, not operational history.
+Following a restore, history starts afresh and in-progress sessions/operations
+are lost. No live account credentials are synchronized between devices.
+Restored OAuth tokens may require reauthentication after provider-side rotation.
+The 2026-10-25 trial reduced a 975 MiB database to 2.45 MiB, preserved all rows
+in 28 retained tables, and verified credential decryption using the matching key.
 
 Sockets, ephemeral locks, SQLite sidecars, and policy exclusions are omitted.
 SQLite is copied consistently, but the full directory is not an atomic snapshot

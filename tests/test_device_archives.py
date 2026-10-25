@@ -20,6 +20,7 @@ from device_archives.core import (
     scan,
     unpack,
     digest,
+    sqlite_copy,
 )
 
 
@@ -512,6 +513,72 @@ class ArchiveIntegrationTests(unittest.TestCase):
                 self.li.plan(".codex", "fi")
         finally:
             db.close()
+
+    def test_sqlite_recovery_omits_history_but_preserves_schema_and_wal_config(self):
+        policy = self.config["folders"][".codex"]
+        policy["sqlite_recovery"] = {"store.db": {
+            "omit_tables": ["request_logs"], "max_bytes": 128 * 1024,
+        }}
+        source = self.fi.home / ".codex/store.db"
+        with contextlib.closing(sqlite3.connect(source)) as db:
+            db.execute("PRAGMA journal_mode=WAL")
+            db.executescript("""
+                CREATE TABLE accounts(id INTEGER PRIMARY KEY, token BLOB);
+                CREATE TABLE request_logs(id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    account_id INTEGER REFERENCES accounts(id), body TEXT);
+                CREATE INDEX logs_account ON request_logs(account_id);
+                INSERT INTO accounts VALUES (1, X'616263');
+            """)
+            db.execute("INSERT INTO request_logs(account_id,body) VALUES(1,?)", ("history" * 100000,))
+            db.commit()
+            self.write(self.fi, ".codex", "encryption.key", "matching-key")
+            first = self.fi.backup(".codex")
+            dest = self.root / "compact-restore"
+            self.fi.restore(".codex", "fi", dest)
+            with contextlib.closing(sqlite3.connect(dest / "store.db")) as restored:
+                self.assertEqual(restored.execute("SELECT * FROM accounts").fetchall(), [(1, b"abc")])
+                self.assertEqual(restored.execute("SELECT count(*) FROM request_logs").fetchone()[0], 0)
+                self.assertEqual(restored.execute("PRAGMA foreign_key_check").fetchall(), [])
+                self.assertEqual(restored.execute("PRAGMA integrity_check").fetchall(), [("ok",)])
+                self.assertIsNotNone(restored.execute("SELECT name FROM sqlite_schema WHERE name='logs_account'").fetchone())
+            self.assertLess((dest / "store.db").stat().st_size, 128 * 1024)
+            self.assertEqual((dest / "encryption.key").read_text(), "matching-key")
+            self.assertEqual(db.execute("SELECT count(*) FROM request_logs").fetchone()[0], 1)
+            db.execute("INSERT INTO request_logs(account_id,body) VALUES(1,'new history')")
+            db.commit()
+            # Log churn alone must not upload a new compact recovery snapshot.
+            self.assertEqual(self.fi.backup(".codex")["snapshot"], first["snapshot"])
+            db.execute("UPDATE accounts SET token=X'646566' WHERE id=1")
+            db.commit()
+            self.assertNotEqual(self.fi.backup(".codex")["snapshot"], first["snapshot"])
+
+    def test_sqlite_recovery_fails_closed_on_schema_triggers_dependencies_and_size(self):
+        source = self.root / "source.db"
+        with contextlib.closing(sqlite3.connect(source)) as db:
+            db.executescript("""
+                CREATE TABLE logs(id INTEGER PRIMARY KEY);
+                CREATE TABLE config(id INTEGER PRIMARY KEY, log_id INTEGER REFERENCES logs(id));
+                INSERT INTO logs VALUES(1);
+                INSERT INTO config VALUES(1,1);
+            """)
+        cases = [
+            {"omit_tables": ["missing"]},
+            {"omit_tables": ["logs; DELETE FROM config"]},
+            {"omit_tables": ["logs"]},
+            {"max_bytes": 1},
+        ]
+        for i, options in enumerate(cases):
+            with self.subTest(options=options), self.assertRaises(ArchiveError):
+                sqlite_copy(source, self.root / f"failed-{i}.db", options)
+        with self.assertRaises(ArchiveError):
+            sqlite_copy(source, source, {"omit_tables": ["logs"]})
+        with contextlib.closing(sqlite3.connect(source)) as db:
+            db.execute("CREATE TRIGGER unsafe AFTER DELETE ON logs BEGIN DELETE FROM config; END")
+        with self.assertRaisesRegex(ArchiveError, "triggers"):
+            sqlite_copy(source, self.root / "trigger.db", {"omit_tables": ["logs"]})
+        with contextlib.closing(sqlite3.connect(source)) as db:
+            self.assertEqual(db.execute("SELECT * FROM config").fetchall(), [(1, 1)])
+            self.assertEqual(db.execute("SELECT * FROM logs").fetchall(), [(1,)])
 
     def test_failed_upload_does_not_publish_success(self):
         with patch.object(self.fi.store, "put", side_effect=OSError("network failure")):

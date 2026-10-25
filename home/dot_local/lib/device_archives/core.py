@@ -173,7 +173,24 @@ def copy_regular(source, target):
             shutil.copyfileobj(src, dst)
 
 
-def sqlite_copy(source, target):
+def sqlite_copy(source, target, recovery=None):
+    """Snapshot committed WAL; optionally remove history from the copy only."""
+    if source.resolve() == target.resolve() or target.exists():
+        raise ArchiveError("SQLite snapshot target must be a new file")
+    recovery = recovery or {}
+    if set(recovery) - {"omit_tables", "max_bytes"}:
+        raise ArchiveError("Unknown SQLite recovery option")
+    omitted = recovery.get("omit_tables", [])
+    if not isinstance(omitted, list) or any(
+        not isinstance(name, str)
+        or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", name)
+        or name.startswith("sqlite_")
+        for name in omitted
+    ):
+        raise ArchiveError("Invalid SQLite recovery table names")
+    limit = recovery.get("max_bytes")
+    if limit is not None and (type(limit) is not int or limit <= 0):
+        raise ArchiveError("Invalid SQLite recovery size limit")
     start = time.monotonic()
 
     def progress(*_):
@@ -186,8 +203,47 @@ def sqlite_copy(source, target):
         with contextlib.closing(sqlite3.connect(target)) as dst:
             src.backup(dst, pages=1024, progress=progress)
             dst.execute("PRAGMA journal_mode=DELETE")
+            if omitted:
+                tables = {
+                    row[0] for row in dst.execute(
+                        "SELECT name FROM sqlite_schema WHERE type='table'"
+                    )
+                }
+                if set(omitted) - tables:
+                    raise ArchiveError("SQLite recovery schema changed: missing configured tables")
+                triggers = {
+                    row[0] for row in dst.execute(
+                        "SELECT tbl_name FROM sqlite_schema WHERE type='trigger'"
+                    )
+                }
+                if triggers.intersection(omitted):
+                    raise ArchiveError("SQLite recovery refuses deletion triggers")
+                # Do not cascade into retained configuration/credentials.
+                dst.execute("PRAGMA foreign_keys=OFF")
+                for name in sorted(set(omitted)):
+                    dst.execute(f'DELETE FROM "{name}"')
+                    if "sqlite_sequence" in tables:
+                        dst.execute("DELETE FROM sqlite_sequence WHERE name=?", (name,))
+                dst.commit()
+                if dst.execute("PRAGMA foreign_key_check").fetchone() is not None:
+                    raise ArchiveError("SQLite recovery would leave broken foreign keys")
+                # Compact only the disposable snapshot; never vacuum the source.
+                dst.execute("VACUUM")
             if dst.execute("PRAGMA quick_check").fetchall() != [("ok",)]:
                 raise ArchiveError(f"SQLite validation failed: {source.name}")
+    if limit is not None and target.stat().st_size > limit:
+        raise ArchiveError("SQLite recovery snapshot exceeds its size limit; review schema before upload")
+
+
+def sqlite_recovery(policy, name):
+    options = policy.get("sqlite_recovery", {}).get(name)
+    if options is not None and (
+        policy.get("mode") not in ("device", "desktop", "master-backup")
+        or not policy.get("encrypted", True)
+        or name not in policy.get("sqlite", [])
+    ):
+        raise ArchiveError("SQLite recovery requires encrypted backup-only mode and a required SQLite file")
+    return options
 
 
 def check_tree(entries):
@@ -248,7 +304,7 @@ def stage_tree(source, dest, policy):
         else:
             if is_sqlite(p):
                 sqlite_names.add(name)
-                sqlite_copy(p, q)
+                sqlite_copy(p, q, sqlite_recovery(policy, name))
             else:
                 copy_regular(p, q)
             os.chmod(q, entry["mode"])
@@ -265,7 +321,7 @@ def stage_tree(source, dest, policy):
     staged = scan(dest)
     if {k: v for k, v in staged.items() if k not in sqlite_names} != stable_before:
         raise ArchiveError(f"Staging verification failed: {source}")
-    for name in policy.get("sqlite", []):
+    for name in set(policy.get("sqlite", [])) | set(policy.get("sqlite_recovery", {})):
         if name not in sqlite_names:
             raise ArchiveError(f"Required SQLite database missing or invalid: {name}")
     for name in policy.get("include", []):
@@ -311,7 +367,7 @@ def fingerprint_tree(source, policy, cache_path, temp):
         if is_sqlite(path):
             sqlite_names.add(name)
             snapshot = temp / (digest(name) + ".sqlite")
-            sqlite_copy(path, snapshot)
+            sqlite_copy(path, snapshot, sqlite_recovery(policy, name))
             return {"size": snapshot.stat().st_size, "sha256": file_hash(snapshot)}
         prior = cached.get(name, {})
         if (
@@ -329,7 +385,7 @@ def fingerprint_tree(source, policy, cache_path, temp):
 
     root_mode = stat.S_IMODE(source.stat().st_mode) & 0o777
     entries = scan(source, policy, file_entry=entry)
-    for name in policy.get("sqlite", []):
+    for name in set(policy.get("sqlite", [])) | set(policy.get("sqlite_recovery", {})):
         if name not in sqlite_names:
             raise ArchiveError(f"Required SQLite database missing or invalid: {name}")
     for name in policy.get("include", []):

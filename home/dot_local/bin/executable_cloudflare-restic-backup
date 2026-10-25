@@ -30,6 +30,7 @@ CONFIG = Path.home() / ".config/private-storage"
 STATE = Path.home() / ".local/state/cloudflare-restic"
 RESTIC_PASSWORD = CONFIG / "restic-password"
 CLOUDFLARE_TOKEN = CONFIG / "cloudflare-backup-token"
+CLOUDFLARE_CONFIG_TOKEN = CONFIG / "cloudflare-config-token"
 RCLONE_CONFIG = Path.home() / ".config/rclone/rclone.conf"
 R2_REMOTE = "r2-tijpdata:"
 API = "https://api.cloudflare.com/client/v4"
@@ -138,7 +139,7 @@ def paged_results(token: str, path: str, *, query: dict | None = None) -> list[d
         page += 1
 
 
-def export_zones(token: str, root: Path) -> tuple[int, int]:
+def export_zones(token: str, root: Path, *, dns_token: str | None = None) -> tuple[int, int]:
     zones = paged_results(token, "/zones", query={"account.id": ACCOUNT_ID})
     if any(zone.get("account", {}).get("id") != ACCOUNT_ID for zone in zones):
         raise BackupError("Cloudflare returned a zone outside the approved account")
@@ -146,7 +147,7 @@ def export_zones(token: str, root: Path) -> tuple[int, int]:
     for zone in zones:
         zone_id = str(zone["id"])
         settings, _ = cloudflare_request(token, f"/zones/{quote(zone_id, safe='')}/settings")
-        records = paged_results(token, f"/zones/{quote(zone_id, safe='')}/dns_records")
+        records = paged_results(dns_token or token, f"/zones/{quote(zone_id, safe='')}/dns_records")
         write_json(root / "dns" / zone_id / "zone.json", zone)
         write_json(root / "dns" / zone_id / "settings.json", settings)
         write_json(root / "dns" / zone_id / "records.json", records)
@@ -303,7 +304,8 @@ def backup(dry_run: bool = False) -> None:
     if not dry_run:
         password = safe_secret_file(RESTIC_PASSWORD)
         del password
-    token = safe_secret_file(CLOUDFLARE_TOKEN)
+    dns_token = safe_secret_file(CLOUDFLARE_TOKEN)
+    token = safe_secret_file(CLOUDFLARE_CONFIG_TOKEN)
     STATE.mkdir(parents=True, exist_ok=True, mode=0o700)
     os.chmod(STATE, 0o700)
     with (STATE / "backup.lock").open("a") as lock:
@@ -315,7 +317,7 @@ def backup(dry_run: bool = False) -> None:
         os.chmod(work_root, 0o700)
         try:
             print("Exporting Cloudflare DNS and zone settings", flush=True)
-            zones, records = export_zones(token, work_root)
+            zones, records = export_zones(token, work_root, dns_token=dns_token)
             print(f"DNS export ready: zones={zones}, records={records}", flush=True)
             namespaces, keys = export_kv(token, ACCOUNT_ID, work_root)
             print(f"KV export ready: namespaces={namespaces}, keys={keys}", flush=True)

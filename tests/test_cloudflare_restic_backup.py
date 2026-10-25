@@ -68,6 +68,16 @@ class CloudflareResticExportTests(unittest.TestCase):
             with self.assertRaisesRegex(backup.BackupError, "outside the approved account"):
                 backup.export_zones("token", Path(tmp))
 
+    def test_zone_export_uses_separate_dns_read_credential(self):
+        zone = {"id": "zone-one", "account": {"id": backup.ACCOUNT_ID}}
+        with tempfile.TemporaryDirectory() as tmp, \
+             mock.patch.object(backup, "paged_results", side_effect=[[zone], []]) as listing, \
+             mock.patch.object(backup, "cloudflare_request", return_value=([], None)) as settings:
+            backup.export_zones("config-token", Path(tmp), dns_token="dns-token")
+        listing.assert_any_call("config-token", "/zones", query={"account.id": backup.ACCOUNT_ID})
+        listing.assert_any_call("dns-token", "/zones/zone-one/dns_records")
+        settings.assert_called_once_with("config-token", "/zones/zone-one/settings")
+
     def test_page_pagination_collects_all_pages(self):
         with mock.patch.object(backup, "cloudflare_request", side_effect=[
                 ([{"id": "one"}, {"id": "two"}], None),

@@ -49,6 +49,7 @@ storage
 {{ if ne .chezmoi.hostname "fi" -}}
 .local/bin/cloudflare-restic-backup
 .config/private-storage/cloudflare-backup-token
+.config/private-storage/cloudflare-config-token
 .config/systemd/user/cloudflare-restic-backup*
 .local/bin/si-app-backup-pull
 .config/systemd/user/si-app-backup-*

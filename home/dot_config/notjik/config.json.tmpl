@@ -1,0 +1,49 @@
+{{ if .isClient -}}
+{
+  "theme": "rose-punk",
+  "placement": {
+    "monitors": "primary",
+    "primaryMonitor": "{{ if .isDesktop }}DP-1{{ else }}eDP-1{{ end }}",
+    "edge": "b",
+    "position": "c",
+    "offsetX": 0,
+    "offsetY": -24,
+    "margin": 16,
+    "perMonitor": {}
+  },
+  "grouping": {
+    "enabled": true,
+    "windowSeconds": 120
+  },
+  "actions": {
+    "blacklist": [
+      "telegram",
+      "Telegram Desktop",
+      "Mullvad VPN",
+      "mullvad-vpn"
+    ],
+    "nativeHooks": [
+      {
+        "caller": "chatgpt",
+        "identifier": "default",
+        "command": [
+          "{{ .chezmoi.homeDir }}/.local/bin/show-codex"
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "lockScreen": "hide"
+  },
+  "stack": {
+    "animationMs": 220,
+    "heightPercent": 75
+  },
+  "history": {
+    "maxAgeDays": 7,
+    "maxEvents": 0,
+    "drawerLimit": 0
+  },
+  "components": {}
+}
+{{ end -}}

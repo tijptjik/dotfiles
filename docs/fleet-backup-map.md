@@ -1,6 +1,6 @@
 # Fleet storage and backup map
 
-![Fi, Li, Si and Gi backup relationships](assets/fleet-backup-map.svg)
+[![Fi, Li, Si and Google backup relationships](assets/fleet-backup-map.png)](assets/fleet-backup-map.png)
 
 [PNG](assets/fleet-backup-map.png) · [Editable SVG](assets/fleet-backup-map.svg)
 

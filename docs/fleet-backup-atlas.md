@@ -1,6 +1,6 @@
 # Fleet storage atlas
 
-![Devices, content and recovery relationships](assets/fleet-backup-atlas.svg)
+[![Devices, content and recovery relationships](assets/fleet-backup-atlas.png)](assets/fleet-backup-atlas.png)
 
 [Full-resolution PNG](assets/fleet-backup-atlas.png) ·
 [Editable SVG](assets/fleet-backup-atlas.svg) ·

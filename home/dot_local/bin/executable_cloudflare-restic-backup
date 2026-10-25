@@ -35,6 +35,7 @@ RCLONE_CONFIG = Path.home() / ".config/rclone/rclone.conf"
 R2_REMOTE = "r2-tijpdata:"
 API = "https://api.cloudflare.com/client/v4"
 EXPECTED_R2_BUCKETS = 18
+MAX_BACKUP_ATTEMPTS = 2
 
 
 class BackupError(RuntimeError):
@@ -293,6 +294,22 @@ def restic(args: list[str]) -> subprocess.CompletedProcess:
     return run(["restic", *args], env=restic_env())
 
 
+def export_sources(work_root: Path, token: str, dns_token: str) -> tuple[int, ...]:
+    # A retry must not retain exports of keys/zones deleted since the last pass.
+    for name in ("dns", "kv", "r2"):
+        directory = work_root / name
+        if directory.exists():
+            shutil.rmtree(directory)
+    print("Exporting Cloudflare DNS and zone settings", flush=True)
+    zones, records = export_zones(token, work_root, dns_token=dns_token)
+    print(f"DNS export ready: zones={zones}, records={records}", flush=True)
+    namespaces, keys = export_kv(token, ACCOUNT_ID, work_root)
+    print(f"KV export ready: namespaces={namespaces}, keys={keys}", flush=True)
+    buckets, objects, r2_bytes = export_r2_inventory(work_root)
+    print(f"R2 inventory ready: buckets={buckets}, objects={objects}, bytes={r2_bytes}", flush=True)
+    return zones, records, namespaces, keys, buckets, objects, r2_bytes
+
+
 def backup(dry_run: bool = False) -> None:
     os.umask(0o077)
     if dry_run:
@@ -318,13 +335,8 @@ def backup(dry_run: bool = False) -> None:
         work_root = Path(tempfile.mkdtemp(prefix="cloudflare-restic-", dir="/tmp"))
         os.chmod(work_root, 0o700)
         try:
-            print("Exporting Cloudflare DNS and zone settings", flush=True)
-            zones, records = export_zones(token, work_root, dns_token=dns_token)
-            print(f"DNS export ready: zones={zones}, records={records}", flush=True)
-            namespaces, keys = export_kv(token, ACCOUNT_ID, work_root)
-            print(f"KV export ready: namespaces={namespaces}, keys={keys}", flush=True)
-            buckets, objects, r2_bytes = export_r2_inventory(work_root)
-            print(f"R2 inventory ready: buckets={buckets}, objects={objects}, bytes={r2_bytes}", flush=True)
+            zones, records, namespaces, keys, buckets, objects, r2_bytes = export_sources(
+                work_root, token, dns_token)
             if dry_run:
                 print(f"Dry run ready: zones={zones}, dns_records={records}, "
                       f"kv_namespaces={namespaces}, kv_keys={keys}, r2_buckets={buckets}, "
@@ -340,13 +352,32 @@ def backup(dry_run: bool = False) -> None:
                 REPOSITORY.mkdir(parents=True, exist_ok=True, mode=0o700)
                 restic(["init"])
             mount_path = work_root / "r2-mount"
-            with mounted_r2(mount_path, STATE / "rclone-mount.log"):
-                if not any(mount_path.iterdir()):
-                    raise BackupError("R2 mount returned an empty root; refusing an incomplete snapshot")
-                verify_mount()
-                print("Backing up DNS, KV, and the read-only R2 mount", flush=True)
-                restic(["backup", "--json", "--read-concurrency", "32", "--tag", "cloudflare",
-                        "--host", "cloudflare", str(work_root)])
+            for attempt in range(1, MAX_BACKUP_ATTEMPTS + 1):
+                if attempt > 1:
+                    zones, records, namespaces, keys, buckets, objects, r2_bytes = export_sources(
+                        work_root, token, dns_token)
+                    verify_repository_path()
+                    if shutil.disk_usage(MOUNT_POINT).free < r2_bytes + 1024 ** 3:
+                        raise BackupError("Backup drive lacks room for source data plus 1 GiB headroom")
+                try:
+                    # Remount each attempt: an object replaced during a long run
+                    # can leave a stale size in the previous mount's dir cache.
+                    with mounted_r2(mount_path, STATE / "rclone-mount.log"):
+                        if not any(mount_path.iterdir()):
+                            raise BackupError("R2 mount returned an empty root; refusing an incomplete snapshot")
+                        verify_mount()
+                        print(f"Backing up DNS, KV, and R2 (attempt {attempt}/{MAX_BACKUP_ATTEMPTS})", flush=True)
+                        # The path stays fixed within this invocation. Restic can
+                        # reuse unchanged files in its partial parent snapshot;
+                        # remounting assigns new synthetic inode/ctime values.
+                        restic(["backup", "--json", "--ignore-inode", "--read-concurrency", "32",
+                                "--tag", "cloudflare", "--host", "cloudflare", str(work_root)])
+                    break
+                except subprocess.CalledProcessError as error:
+                    if error.returncode != 3 or attempt == MAX_BACKUP_ATTEMPTS:
+                        raise
+                    print("Incomplete source read; retaining partial snapshot and retrying once "
+                          "with fresh exports and a new read-only R2 mount", flush=True)
             restic(["check"])
             verify_repository_path()
             snapshots = subprocess.run(["restic", "snapshots", "--json"],
@@ -397,10 +428,26 @@ def main() -> int:
         return 0
     except (BackupError, OSError, subprocess.CalledProcessError) as error:
         message = error if isinstance(error, BackupError) else type(error).__name__
+        details = {}
+        if isinstance(error, subprocess.CalledProcessError):
+            # Do not include command arguments or captured output: these can
+            # contain private object paths or credential-bearing API requests.
+            command = error.cmd if isinstance(error.cmd, (list, tuple)) else []
+            program = Path(str(command[0])).name if command else "subprocess"
+            if program not in {"restic", "rclone", "findmnt"}:
+                program = "subprocess"
+            operation = str(command[1]) if len(command) > 1 else ""
+            if operation not in {"backup", "check", "snapshots", "forget", "init", "size", "lsf", "lsjson"}:
+                operation = "operation"
+            details = {"program": program, "operation": operation, "exit_code": error.returncode}
+            message = f"{program} {operation} failed (exit {error.returncode})"
+            if program == "restic" and operation == "backup" and error.returncode == 3:
+                message += ": source files unreadable after retry; partial snapshots retained"
         STATE.mkdir(parents=True, exist_ok=True, mode=0o700)
         write_json(STATE / "last-failure.json", {
             "failed": dt.datetime.now(dt.timezone.utc).isoformat(),
             "error": str(message),
+            **details,
         })
         print(f"Cloudflare Restic backup failed: {message}", file=sys.stderr)
         return 1

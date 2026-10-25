@@ -3,8 +3,8 @@
 <text x="48" y="64" font-size="39" fill="#182C40" font-weight="700" text-anchor="start">The fleet. The files. The recovery paths.</text>
 <text x="48" y="103" font-size="20" fill="#576B7D" font-weight="400" text-anchor="start">Implemented policy • locations and relationships • 25 October 2026 / HKT</text>
 <rect x="48" y="126" width="1704" height="62" rx="12" fill="#FFF7E7" stroke="#EBD7AD"/>
-<text x="70" y="153" font-size="17" fill="#9A6511" font-weight="700" text-anchor="start">CLOUDFLARE  /  IMPLEMENTED · FIRST RUN ACTIVE</text>
-<text x="70" y="176" font-size="17" fill="#9A6511" font-weight="400" text-anchor="start">Restore verification and weekly activation pending; current run has reported a read error. No verified snapshot claimed.</text>
+<text x="70" y="153" font-size="17" fill="#9A6511" font-weight="700" text-anchor="start">CLOUDFLARE  /  IMPLEMENTED · RETRY ACTIVE</text>
+<text x="70" y="176" font-size="17" fill="#9A6511" font-weight="400" text-anchor="start">Restore verification and weekly activation pending; restarted after an incomplete source read. No verified snapshot claimed.</text>
 <text x="48" y="233" font-size="17" fill="#286CC4" font-weight="700" text-anchor="start">01  LOCATIONS</text>
 <text x="1752" y="233" font-size="17" fill="#576B7D" font-weight="400" text-anchor="end">Grouped cards indicate ownership / containment, not a copy</text>
 <rect x="40" y="253" width="560" height="292" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
@@ -106,7 +106,7 @@
 <text x="1175.0" y="1065" font-size="15" fill="#9A6511" font-weight="650" text-anchor="middle">export + Restic</text>
 <g transform="translate(1330 1056) scale(1)" fill="none" stroke="#9A6511" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="22" height="26" rx="3"/><circle cx="16" cy="14" r="6"/><path d="M16 14l5-4M9 25h1m4 0h1"/></g>
 <text x="1374" y="1070" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fiX · secondary SSD</text>
-<text x="1374" y="1095" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">First run active; weekly pending</text>
+<text x="1374" y="1095" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Retry active; weekly pending</text>
 <rect x="40" y="1143" width="1720" height="132" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
 <text x="62" y="1174" font-size="15" fill="#286CC4" font-weight="700" text-anchor="start">D</text>
 <text x="105" y="1174" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Bulk storage resilience</text>

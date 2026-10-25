@@ -39,7 +39,7 @@ Li-only unsynchronized edits have a snapshot on Si.
 | Si SnapRAID sync | Success receipt: 24 Oct 05:20:16 HKT |
 | Si SnapRAID scrub | Success receipt: 21 Oct 20:08:35 HKT |
 | Fi device archives | 30 local archive receipts; latest recorded snapshot 24 Oct 13:56:24 HKT; timer active |
-| Fi Cloudflare backup | Updated ~12:07 HKT: first run active, about 60% read; one read error reported. No success/restore receipt; weekly timer disabled pending verification |
+| Fi Cloudflare backup | Updated 12:39 HKT: patched job restarted after an incomplete source read; partial snapshot retained. Complete backup/restore pending; weekly timer disabled |
 
 These observations are point-in-time. The Cloudflare row was refreshed during
 the already-running activation job; other rows retain their earlier evidence.
@@ -60,8 +60,8 @@ No additional backup, restore or parity job was started for this diagram update.
    not include these repositories. Review the short 1D/1W/1M retention against
    the desired recovery window.
 4. Finish [Cloudflare activation](cloudflare-backups.md). The route is implemented,
-   credentials and writable mount are installed, and the first backup is active.
-   A read error has been reported; inspect the final result before claiming
+   credentials and writable mount are installed, and the patched backup restarted
+   after an incomplete source read. Inspect the final result before claiming
    coverage. The automatic handoff requires a successful snapshot and isolated
    restore before enabling the weekly timer. Neither completion nor verified
    recovery is claimed yet.

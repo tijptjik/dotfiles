@@ -15,8 +15,10 @@ The complete export preflight passed: 11 zones, 187 DNS records, 2 KV namespaces
 1 KV key, and 18 R2 buckets containing 38,464 objects / 20,409,698,437 bytes.
 The first backup started on 25 October 2026 at 11:13 HKT. Two early attempts were
 interrupted to improve R2 traversal and read concurrency; neither produced a
-snapshot. The current attempt started at 11:24:51 HKT. The weekly timer remains
-disabled until the first snapshot and an isolated restore have succeeded.
+snapshot. The 11:24:51 HKT attempt finished at 12:35 with a partial snapshot
+after one R2 object could not be read. The patched job restarted at 12:39:15 HKT.
+The weekly timer remains disabled until a complete snapshot and an isolated
+restore have succeeded.
 
 A one-time `cloudflare-backup-first-restore.service` is running independently of
 the chat. It waits for this backup invocation to succeed, requires a fresh success
@@ -70,6 +72,32 @@ The run was left in progress. Its final result and any failed object need review
 the initial verification gate remains in force. The diagrams label the route
 implemented / first run active, with verified coverage and weekly activation
 pending.
+
+## Read-failure recovery — 25 October 2026, 12:39 HKT
+
+The 11:24 attempt saved partial snapshot `a17562f0` at 12:35 after processing
+38,502 files. One R2 index object repeatedly returned `unexpected EOF` through
+rclone's read-only mount. The destination was still mounted read/write with
+484 GiB free. A direct source read subsequently succeeded (389 bytes), with a
+server modification time of 11:45 HKT, during the backup. This points to source
+replacement after the mount cached its previous size; it does not establish a
+backup-disk failure.
+
+The job now retries Restic's incomplete-source exit code 3 once, after discarding
+only temporary exports, refreshing DNS/KV/R2 inventory and creating a new
+read-only R2 mount. It retains partial snapshots and the same staging path within
+that invocation. `--ignore-inode` lets Restic reuse unchanged parent files despite
+new synthetic FUSE inode/ctime values; size and modification time still matter.
+Other errors fail immediately. No incomplete attempt reaches the success receipt
+or retention/pruning steps. Failure receipts now include the program, operation
+and exit code without command arguments or object paths.
+
+The previous executable and failure receipts were preserved in the private state
+folder `incident-20261025T043915Z`. The patched backup and existing first-restore
+watcher restarted at 12:39:15 HKT. Their completion is pending. Old failure receipts
+remain dated evidence until superseded; use service state and receipt timestamps
+to distinguish this retry from the previous failure. Weekly activation still
+requires a complete backup plus verified isolated restore.
 
 ## Scope
 

@@ -11,11 +11,12 @@
 The diagram describes implemented routes, with pending or unconfirmed coverage
 explicitly marked. Cloudflare credentials, exports, mounted destination, backup
 program and managed units are installed. Its first backup is **actively running**
-as of 25 October 2026, approximately 12:07 HKT (60% by bytes at inspection).
-One input/output read error has been reported; a clean snapshot is not yet
-established. The automatic completion service requires a successful backup and
-isolated restore before enabling the weekly timer. **Implemented and running does
-not yet mean restore-verified or weekly-active.** See [activation details](cloudflare-backups.md).
+again after the 12:39 HKT restart on 25 October 2026. The previous attempt
+saved a partial snapshot after one R2 object changed during the run and failed to
+read; a later direct read succeeded. A bounded retry now refreshes exports and
+mount metadata on incomplete reads. The automatic completion service requires a
+complete backup and isolated restore before enabling the weekly timer.
+**Implemented and running does not yet mean restore-verified or weekly-active.** See [activation details](cloudflare-backups.md).
 
 Other route schedules come from the managed policy and the earlier dated evidence
 in the policy map; they were not all rechecked to produce this drawing.

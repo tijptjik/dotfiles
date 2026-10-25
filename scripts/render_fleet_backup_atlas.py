@@ -109,8 +109,8 @@ def render():
     text(48, 64, "The fleet. The files. The recovery paths.", 39, INK, 700)
     text(48, 103, "Implemented policy • locations and relationships • 25 October 2026 / HKT", 20, MUTED)
     rect(48, 126, 1704, 62, "#FFF7E7", "#EBD7AD", 12)
-    text(70, 153, "CLOUDFLARE  /  IMPLEMENTED · FIRST RUN ACTIVE", 17, AMBER, 700)
-    text(70, 176, "Restore verification and weekly activation pending; current run has reported a read error. No verified snapshot claimed.", 17, AMBER)
+    text(70, 153, "CLOUDFLARE  /  IMPLEMENTED · RETRY ACTIVE", 17, AMBER, 700)
+    text(70, 176, "Restore verification and weekly activation pending; restarted after an incomplete source read. No verified snapshot claimed.", 17, AMBER)
 
     text(48, 233, "01  LOCATIONS", 17, BLUE, 700)
     text(1752, 233, "Grouped cards indicate ownership / containment, not a copy", 17, MUTED, anchor="end")
@@ -155,7 +155,7 @@ def render():
     arrow(353, 613, 1077, "age archive + upload")
     node(637, 1052, "cloud", "cfR2 + DNS / KV", "Daily archives • per-folder retention", TEAL)
     arrow(1040, 1310, 1077, "export + Restic", AMBER, dashed=True)
-    node(1330, 1052, "disk", "fiX · secondary SSD", "First run active; weekly pending", AMBER)
+    node(1330, 1052, "disk", "fiX · secondary SSD", "Retry active; weekly pending", AMBER)
 
     lane(1143, "D", "Bulk storage resilience", "Configured parity scope only; no version history")
     node(72, 1196, "pool", "siS · data disks", "Bulk media + configured files")

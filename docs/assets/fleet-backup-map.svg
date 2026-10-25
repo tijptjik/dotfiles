@@ -112,12 +112,12 @@
 <text x="1398" y="1042" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">Cloudflare backup route</text>
 <text x="1398" y="1079" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Implemented: DNS + KV + R2 → Restic.</text>
 <text x="1398" y="1109" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Weekly after restore: Sun 03:00 · 1W + 1M.</text>
-<text x="1398" y="1139" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">First run active; read error needs review.</text>
+<text x="1398" y="1139" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Restarted after incomplete source read.</text>
 <text x="1398" y="1160" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="600" fill="#a86a0c" text-anchor="start">RESTORE + WEEKLY ACTIVATION PENDING</text>
 <path d="M560 1072 H698" fill="none" stroke="#16836d" stroke-width="3" marker-end="url(#green)" />
 <text x="629" y="1040" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="#16836d" text-anchor="middle">DAILY</text>
 <path d="M1222 1072 H1360" fill="none" stroke="#a86a0c" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#amber)" />
-<text x="1291" y="1040" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="700" fill="#a86a0c" text-anchor="middle">FIRST RUN</text>
+<text x="1291" y="1040" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="700" fill="#a86a0c" text-anchor="middle">RETRY</text>
 <text x="48" y="1240" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="700" fill="#3676d8" text-anchor="start">04</text>
 <text x="93" y="1240" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">Different protection. Remaining gaps.</text>
 <text x="1872" y="1240" font-family="DejaVu Sans, sans-serif" font-size="17" font-weight="400" fill="#52667f" text-anchor="end">Parity, synchronization and recoverable history serve different roles</text>

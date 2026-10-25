@@ -1,103 +1,72 @@
 # Cloudflare backups on Fi
 
-## Activation status
+## Activation status — verified 25 October 2026, 14:05 HKT
 
-Setup is authorized. On 25 October 2026 the correct disk was writable, with
-495 GiB free. The managed executable, credential file, and user units were
-installed, and the persistent mount was added to Chezetc and Fi's `/etc/fstab`.
-The initial export rehearsal found that the existing `CLOUDFLARE_API_TOKEN`
-lacked DNS Read permission. A separate DNS read token was entered through a
-hidden terminal prompt, saved to Bitwarden as `CLOUDFLARE_BACKUP_API_TOKEN`, and
-verified by secret readback. The job uses that token for DNS records and the
-existing token for zone metadata/settings and KV.
+**Implemented, restore-verified and scheduled.** The complete backup finished
+at 14:04 HKT; the isolated restore passed at 14:05 HKT, and the weekly timer was
+then enabled. Its next run is **1 November 2026 at 03:00 HKT**.
 
-The complete export preflight passed: 11 zones, 187 DNS records, 2 KV namespaces,
-1 KV key, and 18 R2 buckets containing 38,464 objects / 20,409,698,437 bytes.
-The first backup started on 25 October 2026 at 11:13 HKT. Two early attempts were
-interrupted to improve R2 traversal and read concurrency; neither produced a
-snapshot. The 11:24:51 HKT attempt finished at 12:35 with a partial snapshot
-after one R2 object could not be read. The patched job restarted at 12:39:15 HKT.
-The weekly timer remains disabled until a complete snapshot and an isolated
-restore have succeeded.
+| Evidence | Result |
+| --- | --- |
+| Snapshot | `ec990711a569ed504570165c2d409c8a70fe32845c4a64cbc4fb2c38d2ead908` |
+| DNS | 11 zones, 187 records; restored account and record counts checked |
+| KV | 2 namespaces, 1 value; restored value SHA-256 checked |
+| R2 | 18 buckets, 39,089 objects, 20,218,714,649 bytes; restored counts and bytes match inventory |
+| Repository integrity | `restic check`: no errors found |
+| Full isolated restore | All 39,128 restored files verified by Restic |
+| Source comparisons | SHA-256 comparisons passed for 14 representative R2 objects, selected from eligible nonempty buckets |
+| Completion receipts | `last-success.json`, `restore-verified.json` and `setup-completed.json` agree on the snapshot ID |
+| Destination | Exact UUID `E84A8D8F4A8D5B68` mounted read/write; isolated restore directory removed |
+| Timer | Enabled and active; Sunday 03:00 HKT, persistent |
 
-A one-time `cloudflare-backup-first-restore.service` is running independently of
-the chat. It waits for this backup invocation to succeed, requires a fresh success
-receipt, then restores the entire snapshot with `--verify` into an isolated,
-owner-only directory on Fi's internal disk. It validates DNS counts, every KV
-value's SHA-256, R2 object/byte counts, and representative R2 source hashes before
-removing its temporary restore and enabling the timer. Completion writes
-`~/.local/state/cloudflare-restic/setup-completed.json`; failure writes
-`setup-failure.json` and sends a desktop notification. No verified snapshot or
-restore is claimed until these receipts exist.
+Receipts are under `~/.local/state/cloudflare-restic/`. The previous failure
+records are retained in `incident-20261025T043915Z`; superseded top-level failure
+markers have been cleared. This is verified file recovery. Importing the data
+into replacement Cloudflare services remains a separate recovery operation.
 
-This initial completion service is transient and uses private helpers under
-`/tmp/cloudflare-token-entry`. It survives the chat ending, but not a reboot.
-After an interrupted setup, inspect both journals and complete the isolated
-restore below before enabling the timer. Its wait limit is 12 hours.
+The one-time first-restore service has completed. Its private helpers under
+`/tmp/cloudflare-token-entry` are no longer needed for normal scheduled backups.
+The managed backup service, timer, credentials and verified-restore marker persist
+across sessions. A future isolated rehearsal can follow the instructions below.
 
-## Outstanding work — 25 October 2026, 11:51 HKT
+## Outstanding work
 
-The implementation and credentials are committed locally. The live first backup
-has read approximately 6.3 GiB of 19 GiB (33% by bytes); no successful snapshot,
-restore, or setup-completion receipt exists yet. The old `last-failure.json`
-records the deliberately interrupted earlier attempt, not a new transfer failure.
-
-- Finish the running first snapshot and its repository integrity check.
-- Let `cloudflare-backup-first-restore.service` perform the full isolated restore,
-  content verification, source sample comparisons, and conditional weekly-timer
-  activation. These steps are already running/waiting under systemd and need no
-  further approval. Inspect `setup-failure.json` and both service journals if the
-  completion job fails.
-- Confirm `last-success.json`, `restore-verified.json`, and `setup-completed.json`
-  agree on the snapshot ID; confirm the timer is enabled with its next run shown.
-- The [policy map](fleet-backup-map.md) and [iconographic atlas](fleet-backup-atlas.md)
-  now show implementation complete and the first run active, with verification
-  and weekly activation pending. Update them to verified/weekly-active only after
-  matching receipts and timer evidence exist.
-- Push the thread's committed changes and synchronize the relevant repositories
-  on Li and Si. Pushing to `main` was blocked by automatic approval review and
-  remains pending explicit approval. Cloudflare backup execution stays Fi-only.
+- Push the thread's commits and synchronize the relevant repositories on Li and
+  Si. Earlier push approval was rejected; this thread has not pushed these
+  changes. Cloudflare backup execution remains Fi-only.
 - Check the UUID mount after Fi's next planned reboot. The live writable mount
   and fstab entry are verified; actual boot-time mounting has not been exercised.
+- Repeat isolated restore rehearsals periodically; the first full rehearsal
+  passed on 25 October 2026.
 
-Unrelated email-archive changes in the shared checkout are outside this thread's
-commit scope.
+## Setup and read-failure recovery
 
-## Diagram status refresh — approximately 12:07 HKT
+The approved disk was mounted writable and the persistent mount installed through
+Chezetc. A separate DNS Read token was saved to Bitwarden as
+`CLOUDFLARE_BACKUP_API_TOKEN`; the existing token supplies zone settings and KV.
+The original preflight found 38,464 R2 objects. Source contents changed during
+setup; the verified snapshot's inventory above is authoritative for that snapshot.
 
-The running attempt had read about 60% of the expected bytes and reported one
-input/output read error; the rclone log also contains unexpected-EOF errors.
-No successful-backup, restore, or setup-completion receipt exists at this check.
-The run was left in progress. Its final result and any failed object need review;
-the initial verification gate remains in force. The diagrams label the route
-implemented / first run active, with verified coverage and weekly activation
-pending.
+Two early runs were interrupted for traversal/concurrency tuning. The 11:24 run
+saved partial snapshot `a17562f0` at 12:35 after an R2 index object repeatedly
+returned `unexpected EOF`. A subsequent direct read succeeded, and its server
+modification time was during the backup, consistent with stale mount metadata.
+The destination remained writable with ample free space.
 
-## Read-failure recovery — 25 October 2026, 12:39 HKT
+The patched service restarted at 12:39 HKT. Its first pass encountered 42 read
+errors in the device-archive bucket and retained partial snapshot `6ba488ef` at
+14:00. The bounded retry refreshed exports and the R2 mount, reused 38,924
+unchanged files, and completed in approximately 76 seconds. The following
+repository check and full restore passed, allowing automatic timer activation.
 
-The 11:24 attempt saved partial snapshot `a17562f0` at 12:35 after processing
-38,502 files. One R2 index object repeatedly returned `unexpected EOF` through
-rclone's read-only mount. The destination was still mounted read/write with
-484 GiB free. A direct source read subsequently succeeded (389 bytes), with a
-server modification time of 11:45 HKT, during the backup. This points to source
-replacement after the mount cached its previous size; it does not establish a
-backup-disk failure.
-
-The job now retries Restic's incomplete-source exit code 3 once, after discarding
-only temporary exports, refreshing DNS/KV/R2 inventory and creating a new
-read-only R2 mount. It retains partial snapshots and the same staging path within
-that invocation. `--ignore-inode` lets Restic reuse unchanged parent files despite
-new synthetic FUSE inode/ctime values; size and modification time still matter.
-Other errors fail immediately. No incomplete attempt reaches the success receipt
-or retention/pruning steps. Failure receipts now include the program, operation
-and exit code without command arguments or object paths.
-
-The previous executable and failure receipts were preserved in the private state
-folder `incident-20261025T043915Z`. The patched backup and existing first-restore
-watcher restarted at 12:39:15 HKT. Their completion is pending. Old failure receipts
-remain dated evidence until superseded; use service state and receipt timestamps
-to distinguish this retry from the previous failure. Weekly activation still
-requires a complete backup plus verified isolated restore.
+The job retries Restic's incomplete-source exit code 3 once. It discards only
+temporary exports, refreshes DNS/KV/R2 inventory and creates a new read-only
+mount. Partial snapshots and the staging path are retained within that invocation.
+`--ignore-inode` allows unchanged parent files to be reused despite new synthetic
+FUSE inode/ctime values; size and modification time still matter. Other errors
+fail immediately. Incomplete attempts never reach success receipts or pruning.
+Failure receipts include the program, operation and exit code without command
+arguments or object paths.
 
 ## Scope
 
@@ -107,7 +76,7 @@ The approved account is `a6eeace4b6d9f8e07ab307964e74d801` (`tijptjik`).
 | --- | --- | --- |
 | Zones, DNS records, zone settings | Cloudflare API JSON, filtered to this account | Export passed: 11 zones and 187 DNS records |
 | Workers KV | Namespace/key manifests, metadata, expiry, raw values named by SHA-256 | Independent export passed: 2 namespaces, 1 key |
-| R2 | Inventory plus object bodies/names/server modification timestamps through a read-only rclone mount | 38,464 objects, 20,409,698,437 bytes in the preflight inventory |
+| R2 | Inventory plus object bodies/names/server modification timestamps through a read-only rclone mount | 39,089 objects, 20,218,714,649 bytes in the verified snapshot inventory |
 
 This is not a complete Cloudflare account backup. D1 databases, Durable Objects,
 Workers deployments and secrets, Access/Tunnel configuration, and other products

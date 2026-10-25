@@ -103,14 +103,14 @@ def render():
                  '<desc id="desc">Fi desktop and its secondary SSD, Li laptop, Si server with '
                  'storage and parity, Google Drive and Photos, Cloudflare, Git and Bitwarden. '
                  'Six lanes distinguish synchronization, snapshots, copies, archives, parity '
-                 'and deployment. Cloudflare first run active; restore and weekly activation pending.</desc>'
+                 'and deployment. Cloudflare backup and full restore verified; weekly timer enabled.</desc>'
                  '<g font-family="DejaVu Sans, sans-serif">')
     rect(0, 0, 1800, 2140, "#F3F6F9", "none", 0)
     text(48, 64, "The fleet. The files. The recovery paths.", 39, INK, 700)
     text(48, 103, "Implemented policy • locations and relationships • 25 October 2026 / HKT", 20, MUTED)
-    rect(48, 126, 1704, 62, "#FFF7E7", "#EBD7AD", 12)
-    text(70, 153, "CLOUDFLARE  /  IMPLEMENTED · RETRY ACTIVE", 17, AMBER, 700)
-    text(70, 176, "Restore verification and weekly activation pending; restarted after an incomplete source read. No verified snapshot claimed.", 17, AMBER)
+    rect(48, 126, 1704, 62, "#EAF6F0", "#BADCCC", 12)
+    text(70, 153, "CLOUDFLARE  /  ACTIVE · BACKUP + FULL RESTORE VERIFIED", 17, GREEN, 700)
+    text(70, 176, "Verified 25 Oct 2026, 14:05 HKT · 39,089 R2 objects + DNS / KV · Weekly Sunday 03:00 · Next run 1 Nov", 17, GREEN)
 
     text(48, 233, "01  LOCATIONS", 17, BLUE, 700)
     text(1752, 233, "Grouped cards indicate ownership / containment, not a copy", 17, MUTED, anchor="end")
@@ -154,8 +154,8 @@ def render():
     node(72, 1052, "archive", "fi + li + si", "Selected device folders")
     arrow(353, 613, 1077, "age archive + upload")
     node(637, 1052, "cloud", "cfR2 + DNS / KV", "Daily archives • per-folder retention", TEAL)
-    arrow(1040, 1310, 1077, "export + Restic", AMBER, dashed=True)
-    node(1330, 1052, "disk", "fiX · secondary SSD", "Retry active; weekly pending", AMBER)
+    arrow(1040, 1310, 1077, "export + Restic", GREEN)
+    node(1330, 1052, "disk", "fiX · secondary SSD", "Restore verified · weekly active", GREEN)
 
     lane(1143, "D", "Bulk storage resilience", "Configured parity scope only; no version history")
     node(72, 1196, "pool", "siS · data disks", "Bulk media + configured files")

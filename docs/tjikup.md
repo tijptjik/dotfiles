@@ -20,13 +20,18 @@ error. A configuration-refresh warning stops subsequent apply stages.
 
 ## Installation and migration
 
-Publish/install the matching revisions of tooltjik, dotfiles and Chezetc together.
-Until these changes are published, use the existing local tooltjik checkout:
+For a clean Fedora device, start with the [initialization instructions](../README.md#installation-on-new-machine).
+Initialize both configuration repositories and the Chezetc wrapper before using
+the fleet workflow. The normal home apply hook installs the runner automatically.
+
+For an existing device, update the dotfiles and Chezetc checkouts to compatible
+revisions, then run the focused installer as the normal user:
 
 ```sh
-bash ~/code/tooltjik/apps/tjikup/scripts/install.sh
-tjikup --config ~/.local/share/chezmoi/tjikup.json --check
-chezmoi apply --exclude=scripts ~/.config/tjikup/config.json
+git -C ~/.local/share/chezmoi pull --ff-only
+git -C ~/.local/share/chezetc pull --ff-only
+bash ~/.local/share/chezmoi/scripts/install-tjikup.sh
+~/.local/bin/tjikup --check
 ```
 
 `~/.config/tjikup/config.json` links to the workflow in the dotfiles source.
@@ -34,11 +39,23 @@ Changing the workflow changes the next invocation. A run loads the configuration
 once, before any scripts execute. Pulls may update subsequent scripts, matching
 the existing fleet update behavior.
 
-The managed installation hook selects `$TOOLTJIK_REPO`, an existing
-`~/code/tooltjik`, or `~/.local/share/tooltjik`. If absent it clones tooltjik.
-It builds and installs only tjikup, leaving other applications alone. Existing
+The installer does not commit, pull, push, capture settings or apply either
+configuration repo. It checks the system adapter exists, installs the executable
+and icon, validates the workflow, and atomically links the default configuration.
+It can also be run before the first home apply once Chezetc is initialized.
+
+The managed installation hook and focused installer select `$TOOLTJIK_REPO`, an existing
+`~/code/tooltjik`, or `~/.local/share/tooltjik`. If absent they clone tooltjik.
+The installer builds and installs only tjikup, leaving other applications alone. Existing
 checkouts are not pulled by this hook; update tooltjik explicitly before
-applying to deploy a new runner version. It fails clearly if the checkout does
+applying to deploy a new runner version, for example:
+
+```sh
+git -C ~/code/tooltjik pull --ff-only
+TOOLTJIK_REPO=~/code/tooltjik bash ~/.local/share/chezmoi/scripts/install-tjikup.sh
+```
+
+Use `~/.local/share/tooltjik` instead on devices with the default cloned checkout. It fails clearly if the checkout does
 not yet contain tjikup. The command and notification icon are tooltjik-owned;
 Chezmoi no longer installs runner code into `~/.local/lib/tjikup`. An old copy
 there is unused by the new self-contained executable and may be removed after

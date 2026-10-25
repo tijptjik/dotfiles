@@ -88,40 +88,51 @@ remaining coverage work.
 
 ## Installation on New Machine
 
-A beginning is the time for taking the most delicate care that the balances are correct.
-
-1. **First we name her**
-
-```bash
-hostnamectl set-hostname "NAME"
-```
-
-The system-level setup is managed by [chezetc](https://github.com/tijptjik/etcfiles).
-
-2. **Install Repos and Packages**
+Run these commands as the device's normal user (`io` on Fi/Li, `m` on Si),
+using Bash for the commands below. Set the intended hostname first: configuration
+is selected by `fi`, `li` or `si`.
 
 ```bash
-# Clone the chezetc repo
-git clone git@github.com:tijptjik/etcfiles.git $HOME/.local/share/chezetc
-# Run the setup script
-$HOME/.local/share/chezetc/setup.sh
-# Apply the /etc configs
-$HOME/.tools/chezetc/chezetc apply
+sudo hostnamectl set-hostname fi  # use li or si on those devices
+sudo dnf install git curl fish chezmoi gum age jq python3 python3-tomli python3-tomli-w
+mkdir -p "$HOME/.local/share"
+git clone git@github.com:tijptjik/dotfiles.git "$HOME/.local/share/chezmoi"
+git clone git@github.com:tijptjik/etcfiles.git "$HOME/.local/share/chezetc"
 ```
 
-3. **Install required software:**
+GitHub SSH access must already be configured for the account. Both repositories
+are fleet dependencies. Before initializing Chezmoi, bootstrap the Bitwarden CLI,
+access token and age identity; the helper prompts for the encrypted token's
+passphrase. It stores credentials privately and does not print them.
 
 ```bash
-# Fedora/CentOS/RHEL
-sudo dnf install kitty fish curl git chezmoi gum
+fish "$HOME/.local/share/chezmoi/home/.bitwarden-setup.fish"
+chezmoi init --source "$HOME/.local/share/chezmoi"
+bash "$HOME/.local/share/chezetc/setup.sh"
 ```
 
-4. **Pull in dotfiles**
+For **Fi/Li**, apply the initial home and system configuration:
 
 ```bash
-# Initialize and apply dotfiles in one step
-chezmoi init --apply tijptjik
+chezmoi apply
+/opt/chezetc/chezetc apply
+export PATH="$HOME/.local/bin:$PATH"
+tjikup --check
+tjikup --dry-run
 ```
+
+The home apply hook clones tooltjik if needed, installs its self-contained
+`tjikup` executable and links the fleet workflow. Python 3.10+ is sufficient for
+the runner; Bun and Go are not needed to build it. Open a new Fish shell after
+setup to load the managed PATH and fleet shortcuts. Later updates use `tjikup`.
+
+For **Si**, follow Chezetc's [server bootstrap](https://github.com/tijptjik/etcfiles/blob/main/SERVER-BOOTSTRAP.md)
+and [rebuild guide](https://github.com/tijptjik/etcfiles/blob/main/SERVER-REBUILD.md)
+for storage and service initialization before ordinary applies. Once the two
+configuration repos and Chezetc are initialized, the focused installer below
+also enables the runner without executing home or system hooks.
+
+To migrate an **existing device**, see [the focused tjikup installation](docs/tjikup.md#installation-and-migration).
 
 ### Tailscale and Collie on a new device
 

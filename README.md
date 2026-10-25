@@ -18,7 +18,6 @@ Readmes are available in `/docs/{topic}.md`
 - [`bottom`](https://github.com/ClementTsang/bottom)
 - [`codex`](https://openai.com/codex/)
 - [`direnv`](https://direnv.net/)
-- [`dunst`](https://github.com/dunst-project/dunst)
 - [`fish`](https://fishshell.com/)
   - [`fisher`](https://github.com/jorgebucaran/fisher) - Plugin manager with automatic updates
 - [`fnm`](https://github.com/Schniz/fnm)
@@ -42,13 +41,15 @@ Readmes are available in `/docs/{topic}.md`
 - [`matugen`](https://github.com/InioX/matugen)
 - [`micro`](https://micro-editor.github.io/)
 - [`mullvad`](https://mullvad.net/)
+- [`notjik`](https://github.com/tijptjik/tooltjik/tree/main/apps/notjik) — [desktop notification setup](docs/notjik.md)
 - [`python`](https://www.python.org/)
 - [`quickshell`](https://github.com/quickshell-mirror/quickshell)
 - [`rclone`](https://github.com/rclone/rclone)
 - [`solaar`](https://github.com/pwr-Solaar/Solaar)
 - [`starship`](https://github.com/starship/starship)
 - [systemd](https://systemd.io/)
-- [`Tailscale`](https://tailscale.com/)
+- [`Tailscale`](https://tailscale.com/) — [Li and Si setup with timed
+  rollback](docs/tailscale-setup.md)
 - [`tinty`](https://github.com/tinted-theming/tinty)
 - [`transmission`](https://github.com/transmission/transmission)
 - [`uv`](https://github.com/astral-sh/uv)
@@ -124,6 +125,11 @@ The home apply hook clones tooltjik if needed, installs its self-contained
 `tjikup` executable and links the fleet workflow. Python 3.10+ is sufficient for
 the runner; Bun and Go are not needed to build it. Open a new Fish shell after
 setup to load the managed PATH and fleet shortcuts. Later updates use `tjikup`.
+
+On Fi/Li, the following home hook also builds and installs Notjik from that
+checkout and enables its desktop notification service. Install Quickshell and
+Python 3 through the system configuration first. See
+[desktop notifications](docs/notjik.md) for configuration and controls.
 
 For **Si**, follow Chezetc's [server bootstrap](https://github.com/tijptjik/etcfiles/blob/main/SERVER-BOOTSTRAP.md)
 and [rebuild guide](https://github.com/tijptjik/etcfiles/blob/main/SERVER-REBUILD.md)

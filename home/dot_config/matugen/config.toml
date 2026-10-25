@@ -110,9 +110,7 @@ post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings s
 input_path = '~/.config/matugen/templates/gtk-colors.css'
 output_path = '~/.config/gtk-4.0/colors.css'
 
-# [templates.dunst]
-# output_path = '~/.config/dunst/dunstrc'
-# post_hook = 'dunstctl reload'
+# Notjik loads its own live theme from ~/.config/notjik/config.json.
 
 [templates.micro]
 input_path = '~/.config/matugen/templates/micro.micro'

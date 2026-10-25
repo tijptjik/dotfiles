@@ -1,0 +1,7 @@
+{{ if .isClient -}}
+# Activate the notjik desktop notification service.
+[D-BUS Service]
+Name=org.freedesktop.Notifications
+Exec={{ .chezmoi.homeDir }}/.local/bin/notjik
+SystemdService=notjik.service
+{{ end -}}

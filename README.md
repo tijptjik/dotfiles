@@ -168,6 +168,10 @@ Use `tjikup --skip-conflicts` to automatically skip conflicting files during Che
 
 Apply stages stream plain output to avoid terminal capability replies leaking from Gum spinners. Interactive prompts remain available.
 
+When Chezetc refreshes its wrapper configuration, `tjikup` shows one aligned
+`CONFIG ✓ Chezetc` row and retries automatically. Routine file-path chatter is
+suppressed; warnings, errors, and password prompts remain visible.
+
 ### Editing
 
 1. **Edit a file:**

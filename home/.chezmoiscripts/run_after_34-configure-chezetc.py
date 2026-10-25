@@ -32,6 +32,20 @@ def configure_chezetc(wrapper: Path) -> None:
     names = match.group(1).split(",")
     names.extend(name for name in TJIKUP_ENV if name not in names)
     updated = source[:match.start(1)] + ",".join(names) + source[match.end(1):]
+    # The wrapper writes refresh chatter to stderr, which must stay attached
+    # for sudo prompts. Suppress only these known info messages during tjikup;
+    # warnings, errors, and standalone chezetc output remain visible.
+    info_header = "info() {\n"
+    if info_header in updated and "# tjikup: compact configuration refresh" not in updated:
+        if updated.count(info_header) != 1:
+            raise RuntimeError(f"ambiguous info function in {wrapper}")
+        updated = updated.replace(info_header, info_header + '''    # tjikup: compact configuration refresh
+    if [[ "${TJIKUP_QUIET_CONFIG:-0}" == 1 ]]; then
+        case "$*" in
+            "Updating file "*|"Configuration updated, please execute "*) return 0 ;;
+        esac
+    fi
+''')
     if updated != source:
         if os.access(wrapper, os.W_OK):
             wrapper.write_text(updated)

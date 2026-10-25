@@ -7,6 +7,7 @@ from pathlib import Path
 import runpy
 import shlex
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -98,6 +99,35 @@ os.execvpe(sys.argv[3], sys.argv[3:], env)
     def test_missing_installation_is_skipped(self):
         with tempfile.TemporaryDirectory() as directory:
             configure_chezetc(Path(directory) / "missing")
+
+    def test_compact_refresh_preserves_warnings_and_standalone_output(self):
+        with tempfile.TemporaryDirectory() as directory:
+            wrapper = Path(directory) / "chezetc"
+            wrapper.write_text('''#!/bin/bash
+info() {
+    printf '%s\\n' "$*" >&2
+}
+sudo() { return 0; }
+info 'Updating file /private/config...'
+info 'Configuration updated, please execute chezetc again'
+info 'Other useful information'
+printf 'WARN: diagnostic\\nPassword: ' >&2
+sudo --preserve-env=PATH -- true
+''')
+            configure_chezetc(wrapper)
+            before = wrapper.read_bytes()
+            configure_chezetc(wrapper)
+            self.assertEqual(wrapper.read_bytes(), before)
+            for compact in ('0', '1'):
+                result = subprocess.run(
+                    ['bash', str(wrapper)], capture_output=True, text=True, check=True,
+                    env={**os.environ, 'TJIKUP_QUIET_CONFIG': compact},
+                )
+                self.assertEqual('Updating file' in result.stderr, compact == '0')
+                self.assertEqual('please execute' in result.stderr, compact == '0')
+                self.assertIn('Other useful information', result.stderr)
+                self.assertIn('WARN: diagnostic\nPassword: ', result.stderr)
+
 
     def test_unknown_wrapper_fails_without_changes(self):
         with tempfile.TemporaryDirectory() as directory:

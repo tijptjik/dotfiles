@@ -444,24 +444,34 @@ def derive_views(engine):
 
 
 def encrypt_file(store, source, key):
-    target = store.cache / (uuid.uuid4().hex + ".age")
-    with target.open("xb") as output:
-        age = subprocess.Popen(["age", "-r", store.recipient], stdin=subprocess.PIPE,
-                               stdout=output, stderr=subprocess.DEVNULL)
-        result = subprocess.run(["zstd", "-T1", "-3", "-c", str(source)],
-                                stdout=age.stdin, stderr=subprocess.DEVNULL)
-        age.stdin.close()
-        status = age.wait()
-        output.flush()
-        os.fsync(output.fileno())
-    if result.returncode or status:
-        raise RuntimeError("metadata encryption failed")
+    plaintext_hash = file_hash(source)
+    key = key.removesuffix(".zst.age") + "." + plaintext_hash + ".zst.age"
+    receipts = private_directory(store.workdir / "receipts")
+    receipt = receipts / (sha(key.encode()) + ".json")
+    if receipt.exists():
+        return json.loads(receipt.read_text())
+    target = store.cache / (sha(key.encode()) + ".age")
+    if not target.exists():
+        partial = target.with_suffix(".partial")
+        with partial.open("wb") as output:
+            age = subprocess.Popen(["age", "-r", store.recipient], stdin=subprocess.PIPE,
+                                   stdout=output, stderr=subprocess.DEVNULL)
+            result = subprocess.run(["zstd", "-T1", "-3", "-c", str(source)],
+                                    stdout=age.stdin, stderr=subprocess.DEVNULL)
+            age.stdin.close()
+            status = age.wait()
+            output.flush()
+            os.fsync(output.fileno())
+        if result.returncode or status:
+            raise RuntimeError("metadata encryption failed")
+        partial.replace(target)
     with decrypted(target, store.identity) as stream:
-        if hashlib.file_digest(stream, "sha256").hexdigest() != file_hash(source):
+        if hashlib.file_digest(stream, "sha256").hexdigest() != plaintext_hash:
             raise RuntimeError("encrypted metadata validation failed")
     digest = store.upload(target, key)
     result = {"path": key, "cipher_sha256": digest, "cipher_bytes": target.stat().st_size,
-              "plaintext_sha256": file_hash(source)}
+              "plaintext_sha256": plaintext_hash}
+    save_json(receipt, result)
     target.unlink()
     return result
 

@@ -105,16 +105,18 @@ Network failures are reported, not automatically retried as soon as connectivity
 returns. Existing `private-storage-initialize.service` is an explicit bootstrap
 workflow, not the ordinary daily backup timer. Restic stores encrypted, deduplicated
 snapshots in `/mnt/storage/private/backups/clients/<hostname>` on si. Each device
-has its own repository and retention: **1 daily, 1 weekly, 1 monthly**. Only new
-content chunks transfer; unchanged contents skip creating another snapshot.
-Repository locks, a check after backup, and retention after successful backup
-protect against overlapping runs and failed uploads. The first backup must
-transfer the baseline and can take hours for large media folders.
+has its own repository. After each successful backup and repository check, the
+job keeps one snapshot in each age band: under 1 day, 1–3 days, 3–7 days,
+7–14 days, 14–31 days, 31–92 days, and 92–365 days. For snapshots older than
+365 days, it keeps the newest snapshot from each calendar year. This gives daily,
+every-three-day, weekly, every-two-week, monthly, quarterly, and annual recovery
+points. Identical file content is deduplicated even though each scheduled run
+creates a snapshot. Repository locks and pruning only after successful backup
+and verification protect against overlapping runs and failed uploads. The first
+backup must transfer the baseline and can take hours for large media folders.
 
 The password is recoverable from Bitwarden Secrets Manager as
-`PRIVATE_RESTIC_PASSWORD`. Losing that secret prevents restoration. Original
-age-encrypted document snapshots remain recoverable with `document-archives`
-under `/mnt/storage/private/backups/device-archives`; daily backups now use Restic.
+`PRIVATE_RESTIC_PASSWORD`. Losing that secret prevents restoration.
 
 ```sh
 private-storage backup

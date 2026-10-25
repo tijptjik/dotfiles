@@ -193,6 +193,34 @@ def restic_command(source=HOST):
             '-o', 'sftp.command=' + command, '--retry-lock', '5m'], ssh, root
 
 
+def private_retention(snapshot_list, now=None):
+    """Keep one snapshot in each requested age band, then one per older year."""
+    now = now or dt.datetime.now(dt.timezone.utc)
+    bands = ((0, 1), (1, 3), (3, 7), (7, 14), (14, 31), (31, 92), (92, 365))
+    parsed = []
+    for snapshot in snapshot_list:
+        timestamp = dt.datetime.fromisoformat(snapshot['time'].replace('Z', '+00:00'))
+        if timestamp.tzinfo is None:
+            timestamp = timestamp.replace(tzinfo=dt.timezone.utc)
+        parsed.append((timestamp.astimezone(dt.timezone.utc), snapshot['id']))
+    keep = set()
+    ages = [(max(0.0, (now - timestamp).total_seconds() / 86400), timestamp, ident)
+            for timestamp, ident in parsed]
+    for start, end in bands:
+        candidates = [item for item in ages if start <= item[0] < end]
+        if candidates:
+            keep.add(max(candidates, key=lambda item: item[1])[2])
+    annual = {}
+    for age, timestamp, ident in ages:
+        if age >= 365:
+            if timestamp.year not in annual or timestamp > annual[timestamp.year][0]:
+                annual[timestamp.year] = (timestamp, ident)
+    keep.update(item[1] for item in annual.values())
+    if not keep and parsed:
+        keep.add(max(parsed)[1])
+    return keep
+
+
 def prune_recovery(folder):
     # Timestamp directory names define age; source-file mtimes do not.
     if not (STATE / 'last-backup.json').exists():
@@ -333,17 +361,20 @@ def backup(scheduled=False):
         if any(not p.is_dir() or p.is_symlink() for p in paths):
             raise RuntimeError('All private folders must exist as real local directories before backup')
         note('BACKUP', f'{HOST} → si:{root}')
-        coordinated_run(common + ['backup', '--skip-if-unchanged', '--host', HOST, '--tag', 'private-storage',
+        coordinated_run(common + ['backup', '--host', HOST, '--tag', 'private-storage',
                       '--exclude', '**/.git', '--exclude', '**/node_modules',
                       '--exclude', '**/.venv', '--exclude', '**/__pycache__',
                       '--exclude', '**/.Trash-*',
                       '--exclude', '**/.private-sync-access', *map(str, paths)], coordinator)
         coordinated_run(common + ['check'], coordinator)
-        coordinated_run(common + ['forget', '--host', HOST, '--tag', 'private-storage',
-                      '--group-by', 'host,tags', '--keep-daily', '1', '--keep-weekly', '1',
-                      '--keep-monthly', '1', '--prune'], coordinator)
+        snapshots = json.loads(run(common + ['snapshots', '--json', '--host', HOST,
+                            '--tag', 'private-storage'], capture_output=True, text=True).stdout)
+        keep = private_retention(snapshots)
+        remove = [snapshot['id'] for snapshot in snapshots if snapshot['id'] not in keep]
+        if remove:
+            coordinated_run(common + ['forget', *remove, '--prune'], coordinator)
     (STATE / 'last-backup.json').write_text(json.dumps({'completed': stamp(), 'repository': root}) + '\n')
-    note('DONE', 'Incremental backup verified; daily/weekly/monthly retention applied')
+    note('DONE', 'Incremental backup verified; daily/3-day/weekly/2-week/monthly/quarterly/annual retention applied')
 
 
 def crypt_password():

@@ -167,6 +167,12 @@
       "actions": {
         "leftClick": "network.panel",
         "hoverEnter": "network.panel"
+      },
+      "text": {
+        "style": {
+          "maxTextWidth": 110,
+          "marquee": true
+        }
       }
     },
     "vpn": {

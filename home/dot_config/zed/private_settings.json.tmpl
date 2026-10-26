@@ -156,28 +156,15 @@
     },
     "agent": {
         "commit_message_instructions": "Use the Conventional Commits format: <type>(<scope>): <description>. Strip markdown backticks and trim. type, scope, and description must all start lower-case.",
-        "commit_message_model": {
-          "provider": "openai-subscribed",
-          "model": "gpt-6-luna",
-          "enable_thinking": false
-        },
-        "sidebar_side": "right",
         "dock": "right",
-        "inline_assistant_model": {
-          "provider": "openai",
-          "model": "gpt-6-luna",
-          "enable_thinking": false
-        },
         "tool_permissions": {
             "default": "allow"
         },
         "show_turn_stats": true,
         "use_modifier_to_send": true,
         "play_sound_when_agent_done": "never",
-        "default_model": {
-          "provider": "openai-subscribed",
-          "model": "gpt-6-astra",
-          "enable_thinking": true
+        "threads_sidebar": {
+          "position": "right"
         },
         "model_parameters": []
     },
@@ -200,7 +187,7 @@
       "default_config_options": {
         "fast-mode": false,
         "reasoning_effort": "medium",
-        "model": "gpt-6-luna",
+        "model": "gpt-5.6-terra",
         "mode": "agent"
       },
       "type": "registry"

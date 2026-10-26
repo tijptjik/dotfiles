@@ -201,7 +201,7 @@ function helpers.start_bartjik_auto_hide(side)
         bartjik_auto_hide_timer:set_enabled(false)
     end
 
-    waybar_auto_hide_timer = hl.timer(function()
+    bartjik_auto_hide_timer = hl.timer(function()
         local cursor = hl.get_cursor_pos()
         local monitor = hl.get_monitor_at_cursor()
 
@@ -236,7 +236,7 @@ function helpers.start_bartjik_auto_hide(side)
         -- reaches Bartjik's reveal edge.
         if bartjik_auto_hide_override then
             if at_reveal_edge then
-                waybar_auto_hide_override = false
+                bartjik_auto_hide_override = false
             else
                 if not visible then
                     hl.exec_cmd("$HOME/.local/bin/bartjikctl show all")

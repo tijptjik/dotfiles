@@ -278,3 +278,19 @@ Demo text sends dismiss the card without contacting Telegram.
 Sender images and Telegram avatars fill an 80 px strip along the left edge, cropped to the full
 card height and clipped to its rounded corners. The strip grows with expanded
 controls; missing avatars keep the initials fallback.
+
+## Structured Telegram notifications
+
+The managed `handlers` registry currently formats StarProwlarr's four-line
+`Grabbed by Sonarr/Radarr` template as a key-value card: release heading,
+resolution, source, codec, event, application and indexer. It matches both
+Telegram Desktop and the TDLib bridge by Telegram caller and exact chat title.
+Other message formats keep their original text; no delivery or duplicate policy
+changes. The original body and Telegram controls remain available.
+
+Add rules to `home/dot_config/notjik/config.json.tmpl`. Each rule specifies `id`,
+`match`, a full-body `pattern`, numbered `captures`, a target `card`, and labeled
+`fields`. Tooltjik's `apps/notjik/examples/handlers.json` is the starting example;
+its README documents the registry and custom QML renderers. Shared rendering
+code stays in Tooltjik; personal source registrations stay in Chezmoi. Install a
+Tooltjik build with handler support before applying this configuration.

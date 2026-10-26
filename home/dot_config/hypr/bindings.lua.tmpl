@@ -223,13 +223,17 @@ hl.bind(super("E"), hl.dsp.exec_cmd("uwsm app -- nautilus"))
 -- KEY BINDINGS : SCREENSHOTS
 -- #######################
 
--- Hyprshot captures the compositor's SDR output directly.  Do not change the
--- HDR output's SDR brightness immediately before capture: on Hyprland 0.56+
--- that applies a second SDR tone map and produces washed-out PNGs.
-hl.bind(super("P"), hl.dsp.exec_cmd("hyprshot -o ~/media/images/screenshots -m region --clipboard-only --freeze --silent"))
-hl.bind(super("P", "CTRL"), hl.dsp.exec_cmd("hyprshot -o ~/media/images/screenshots -m window --clipboard-only --freeze --silent"))
-hl.bind(super("P", "SHIFT"), hl.dsp.exec_cmd("hyprshot -o ~/media/images/screenshots -m region --freeze --silent"))
-hl.bind(super("P", "SHIFT", "CTRL"), hl.dsp.exec_cmd("hyprshot -o ~/media/images/screenshots -m window --freeze --silent"))
+{{- if .isDesktop }}
+local screenshot_prepare = "hyprctl eval 'hl.monitor({output=\"DP-1\",sdrbrightness=0.8})';"
+local screenshot_restore = ";hyprctl reload"
+{{- else }}
+local screenshot_prepare = ""
+local screenshot_restore = ""
+{{- end }}
+hl.bind(super("P"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m region --clipboard-only --freeze --silent" .. screenshot_restore))
+hl.bind(super("P", "CTRL"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m window --clipboard-only --freeze --silent" .. screenshot_restore))
+hl.bind(super("P", "SHIFT"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m region --freeze --silent" .. screenshot_restore))
+hl.bind(super("P", "SHIFT", "CTRL"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m window --freeze --silent" .. screenshot_restore))
 
 -- Toggle selected-region recording with a three-second countdown.
 hl.bind(super("G"), hl.dsp.exec_cmd("$HOME/.local/bin/screen-record"))

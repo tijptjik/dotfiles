@@ -5,6 +5,7 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 import difflib
+import fcntl
 import importlib
 import os
 import pkgutil
@@ -503,15 +504,24 @@ def run_stream(
 def sync_repo(repo, action):
     if not (repo / ".git").exists():
         raise UpdateError(f"missing repository: {repo}")
-    if action == "pull":
-        run(["git", "pull", "--rebase", "--autostash"], repo, capture_output=True)
-    elif action == "push":
-        ahead = git_ahead_count(repo)
-        if ahead is None:
-            raise UpdateError(f"cannot determine upstream status: {repo}")
-        if not ahead:
-            return 77
-        run(["git", "push"], repo, capture_output=True)
+    # A second tjikup can otherwise fetch and advance refs while the first is
+    # rebasing this same worktree. Git then aborts with "Cannot rebase onto
+    # multiple branches". The lock is per repository, so home and system
+    # repositories still synchronize concurrently.
+    with (repo / ".git" / "tjikup-sync.lock").open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        try:
+            if action == "pull":
+                run(["git", "pull", "--rebase", "--autostash"], repo, capture_output=True)
+            elif action == "push":
+                ahead = git_ahead_count(repo)
+                if ahead is None:
+                    raise UpdateError(f"cannot determine upstream status: {repo}")
+                if not ahead:
+                    return 77
+                run(["git", "push"], repo, capture_output=True)
+        finally:
+            fcntl.flock(lock, fcntl.LOCK_UN)
     return 0
 
 

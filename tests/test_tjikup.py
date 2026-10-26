@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import unittest
 from unittest.mock import Mock, patch
 
@@ -167,6 +168,31 @@ class ConflictIntegrationTests(unittest.TestCase):
             tjikup.run_chezmoi_apply(
                 self.root, self.command, dict(os.environ), skip_conflicts=True,
             )
+
+
+class RepositorySyncTests(unittest.TestCase):
+    def test_second_sync_waits_for_the_same_repository(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory)
+            (repo / ".git").mkdir()
+            started = threading.Event()
+            completed = threading.Event()
+
+            def run_pull(*_args, **_kwargs):
+                started.set()
+
+            with (repo / ".git" / "tjikup-sync.lock").open("a") as lock, \
+                    patch.object(tjikup, "run", side_effect=run_pull):
+                tjikup.fcntl.flock(lock, tjikup.fcntl.LOCK_EX)
+                worker = threading.Thread(
+                    target=lambda: (tjikup.sync_repo(repo, "pull"), completed.set())
+                )
+                worker.start()
+                self.assertFalse(started.wait(0.1))
+                tjikup.fcntl.flock(lock, tjikup.fcntl.LOCK_UN)
+                self.assertTrue(completed.wait(1))
+                worker.join()
+            self.assertTrue(started.is_set())
 
 
 class PropagationTests(unittest.TestCase):

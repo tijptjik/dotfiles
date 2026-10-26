@@ -16,7 +16,9 @@ home sources, pushes ahead commits concurrently, then applies home followed by
 system configuration. Both repos are required. Capture validates every result
 before writing any source. Fcitx capture retains its existing private backup
 behavior. Git uses `pull --rebase --autostash`; unknown upstream state is an
-error. A configuration-refresh warning stops subsequent apply stages.
+error. Each repository's Git operation holds a local lock, so overlapping
+Tjikup runs wait instead of changing the same worktree during a rebase. A
+configuration-refresh warning stops subsequent apply stages.
 
 ## Installation and migration
 

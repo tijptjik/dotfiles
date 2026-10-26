@@ -4,6 +4,9 @@ Native scrolling is the default layout (Hyprland 0.56.2, Lua configuration).
 Windows occupy columns on an expanding horizontal strip. This is independent of
 mouse/touchpad scrolling inside applications.
 
+Kitty uses `remember_window_size no` so it does not restore a cached maximized
+state over the tiling layout. Explicit fullscreen/maximize actions still work.
+
 ## Configuration choices
 
 Edit `home/dot_config/hypr/layouts.lua.tmpl`:

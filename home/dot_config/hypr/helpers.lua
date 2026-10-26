@@ -572,11 +572,11 @@ function helpers.panel_aware_drag()
     -- that same drag even if the pointer has since crossed an attached panel.
     if native_drag_pending then
         native_drag_pending = false
-        return hl.dsp.window.drag()()
+        return hl.dispatch(hl.dsp.window.drag())
     end
     if helpers.panel_under_pointer() then return { pass_event = true } end
     native_drag_pending = true
-    return hl.dsp.window.drag()()
+    return hl.dispatch(hl.dsp.window.drag())
 end
 
 return helpers

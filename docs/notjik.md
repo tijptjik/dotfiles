@@ -45,6 +45,7 @@ The first card appears at the bottom before the stack moves; departing cards rec
 fall behind the remaining stack. Wireless
 notifications use the painted sci-fi communications dish; the default fallback is a matching robot portrait. Both stay in full colour, in an 80 px strip flush with the left edge and cropped to the full card height. Sender icons and Telegram avatars remain inset; supplied images still take priority.
 
+Kitty reports use the robot portraits instead of Kitty's supplied terminal image.
 Default robot artwork is drawn from the notification's urgency: 64 attentive
 portraits for `normal`, 12 red-alert portraits for `critical`, and 12 dreaming
 portraits for `low`. The draw stays stable during updates and in history; changing

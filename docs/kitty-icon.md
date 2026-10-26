@@ -8,7 +8,8 @@ Upstream supplies it under [CC0](licenses/neuwaita-CC0.txt).
 Chezmoi manages these user-wide overrides:
 
 - `~/.config/kitty/kitty.app.png`: Kitty's native custom window icon and default
-  notification image. Kitty reads this at startup; restart existing Kitty
+  notification image (Notjik displays robot portraits for Kitty reports instead).
+  Kitty reads this at startup; restart existing Kitty
   processes to pick it up reliably.
 - `~/.local/share/icons/hicolor/scalable/apps/kitty.svg`: scalable launcher icon.
 - `~/.local/share/icons/hicolor/256x256/apps/kitty.png`: PNG alias of the custom icon.

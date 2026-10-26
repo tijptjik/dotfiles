@@ -4,8 +4,13 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 {{ if or .isDesktop .isLaptop -}}
 function sync_codex_lb
     set -l runtime "$HOME/.codex-lb/runtime"
-    if not test -x "$runtime/bin/python"
-        uv venv --python 3.13 "$runtime"; or return $status
+    set -l system_python /usr/bin/python3
+    set -l system_version ($system_python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+    # Fedora upgrades remove the old interpreter. Recreate only the disposable
+    # virtual environment when it is absent or differs from the system Python;
+    # Codex LB's database and encryption key live outside this directory.
+    if not test -x "$runtime/bin/python"; or not test ("$runtime/bin/python" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")' 2>/dev/null) = "$system_version"
+        uv venv --clear --python "$system_python" "$runtime"; or return $status
     end
 
     uv pip install --python "$runtime/bin/python" --upgrade-package codex-lb codex-lb; or return $status

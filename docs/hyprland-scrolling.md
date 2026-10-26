@@ -17,7 +17,7 @@ Edit `home/dot_config/hypr/layouts.lua.tmpl`:
 | `column_width` | `0.5` of available width | `0.1` through `1.0` |
 | `explicit_column_widths` | `0.333, 0.5, 0.667, 1.0` | Width presets cycled by bindings |
 | `fullscreen_on_one_column` | `true` | `false` keeps a lone column at its configured width |
-| `focus_fit_method` | `1` (fit with minimal movement) | `0` centers the focused column |
+| `focus_fit_method` | `0` (center the focused column) | `1` fits with minimal movement |
 | `follow_focus` | `true` | `false` disables automatic viewport following |
 | `follow_min_visible` | `0.4` | Fraction required for soft focus following; explicit focus still follows |
 | `wrap_focus`, `wrap_swapcol` | `false` | Enable wrapping for layout-specific focus/swapcol commands |

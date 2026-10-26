@@ -3,13 +3,12 @@
 -- HYPRLAND :: LAYER SURFACES
 -- #######################
 
--- Waybar is a layer-shell client. Fade it when Hyprland maps or unmaps it
--- (for example, on launch or exit). Waybar's SIGUSR visibility actions are
--- client-side and do not trigger this compositor animation.
+-- Bartjik bars are layer-shell clients. Fade them when Hyprland maps or unmaps
+-- them; its regular hide/show actions remain client-side.
 hl.layer_rule({
-    name = "waybar-fade",
+    name = "bartjik-bar-fade",
     animation = "fade",
-    match = { namespace = "^waybar$" },
+    match = { namespace = "^bartjik%-" },
 })
 
 hl.layer_rule({

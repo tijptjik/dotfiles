@@ -1,12 +1,11 @@
 local helpers = {}
-local waybar_auto_hide_timer
-local waybar_auto_hide_override = false
+local bartjik_auto_hide_timer
+local bartjik_auto_hide_override = false
 
-local function waybar_visibility(visible)
-    -- Waybar hides client-side: layer bounds and AT-SPI SHOWING stay present.
+local function bartjik_visibility(visible)
     local runtime = os.getenv("XDG_RUNTIME_DIR")
     if runtime then
-        local file = io.open(runtime .. "/waybar-visible", "w")
+        local file = io.open(runtime .. "/bartjik-visible", "w")
         if file then
             file:write(visible and "visible" or "hidden")
             file:close()
@@ -190,16 +189,16 @@ function helpers.toggle_hyprvoice()
     end, { timeout = 100, type = "repeat" })
 end
 
--- Show and hide Waybar when the pointer reaches or leaves a screen edge.
-function helpers.start_waybar_auto_hide(side)
+-- Show and hide Bartjik when the pointer reaches or leaves a screen edge.
+function helpers.start_bartjik_auto_hide(side)
     side = side or "bottom"
     local safe_zone = 68
     local visible = false
-    waybar_visibility(false)
-    hl.exec_cmd("pkill -USR1 -x waybar")
+    bartjik_visibility(false)
+    hl.exec_cmd("$HOME/.local/bin/bartjikctl hide all")
 
-    if waybar_auto_hide_timer ~= nil then
-        waybar_auto_hide_timer:set_enabled(false)
+    if bartjik_auto_hide_timer ~= nil then
+        bartjik_auto_hide_timer:set_enabled(false)
     end
 
     waybar_auto_hide_timer = hl.timer(function()
@@ -230,50 +229,50 @@ function helpers.start_waybar_auto_hide(side)
             at_reveal_edge = x >= width - 2
             in_safe_zone = x >= width - safe_zone
         else
-            error("waybar_auto_hide: unsupported side '" .. side .. "'")
+            error("bartjik_auto_hide: unsupported side '" .. side .. "'")
         end
 
-        -- Super+M pins Waybar open until it is pressed again or the pointer
-        -- reaches Waybar's reveal edge.
-        if waybar_auto_hide_override then
+        -- Super+M pins Bartjik open until it is pressed again or the pointer
+        -- reaches Bartjik's reveal edge.
+        if bartjik_auto_hide_override then
             if at_reveal_edge then
                 waybar_auto_hide_override = false
             else
                 if not visible then
-                    hl.exec_cmd("pkill -USR2 -x waybar")
+                    hl.exec_cmd("$HOME/.local/bin/bartjikctl show all")
                     visible = true
-                    waybar_visibility(true)
+                    bartjik_visibility(true)
                 end
                 return
             end
         end
 
         if at_reveal_edge and not visible then
-            hl.exec_cmd("pkill -USR2 -x waybar")
+            hl.exec_cmd("$HOME/.local/bin/bartjikctl show all")
             visible = true
-            waybar_visibility(true)
+            bartjik_visibility(true)
         elseif not in_safe_zone and visible then
-            hl.exec_cmd("pkill -USR1 -x waybar")
+            hl.exec_cmd("$HOME/.local/bin/bartjikctl hide all")
             visible = false
-            waybar_visibility(false)
+            bartjik_visibility(false)
         end
     end, { timeout = 100, type = "repeat" })
-    waybar_auto_hide_timer:set_enabled(true)
+    bartjik_auto_hide_timer:set_enabled(true)
 
-    return waybar_auto_hide_timer
+    return bartjik_auto_hide_timer
 end
 
--- Pin Waybar open, bypassing auto-hide until toggled again or the pointer
+-- Pin Bartjik open, bypassing auto-hide until toggled again or the pointer
 -- touches its reveal edge.
-function helpers.toggle_waybar_auto_hide()
-    waybar_auto_hide_override = not waybar_auto_hide_override
+function helpers.toggle_bartjik_auto_hide()
+    bartjik_auto_hide_override = not bartjik_auto_hide_override
 
-    if waybar_auto_hide_override then
-        hl.exec_cmd("pkill -USR2 -x waybar")
-        waybar_visibility(true)
+    if bartjik_auto_hide_override then
+        hl.exec_cmd("$HOME/.local/bin/bartjikctl show all")
+        bartjik_visibility(true)
     end
 
-    return waybar_auto_hide_override
+    return bartjik_auto_hide_override
 end
 
 -- Only float Zen's known extension popups. Regular browser windows must stay in

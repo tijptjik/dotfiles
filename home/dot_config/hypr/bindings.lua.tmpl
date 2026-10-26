@@ -203,7 +203,7 @@ hl.bind(super("Escape"), hl.dsp.exec_cmd("/usr/local/bin/hamr toggle"))
 -- Show the bar and notification history together. Escape closes history;
 -- the bar remains pinned until toggled again or its reveal edge is touched.
 hl.bind(super("M"), function()
-    local visible = helpers.toggle_waybar_auto_hide()
+    local visible = helpers.toggle_bartjik_auto_hide()
     hl.exec_cmd("$HOME/.local/bin/notjikctl history " .. (visible and "show" or "hide"))
 end)
 

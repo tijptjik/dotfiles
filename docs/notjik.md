@@ -58,7 +58,9 @@ out their controls; moving away collapses them. Active replies and recordings
 keep their controls open. This applies to ordinary actions and Telegram demos
 as well as live Telegram cards.
 
-- Super+M shows/hides the bar and history drawer.
+- Super+M toggles the history drawer. Bartjik uses its native bottom-edge activation,
+  stays open while its bar or panels are hovered, and hides after 1000 ms outside
+  its 140px safe distance. Hyprland must not run a separate bar visibility timer.
 - Super+comma / Super+period browse older/newer notices.
 - In the focused history drawer, `/` opens a filter for titles, message text,
   app names and groups. Results update as you type, ignoring case; all typed

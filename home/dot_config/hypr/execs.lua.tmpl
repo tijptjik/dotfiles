@@ -13,7 +13,6 @@ local startup = {}
 -- Register this immediately so it also takes effect after a config reload.
 helpers.start_zen_workspace_restore()
 helpers.start_zen_extensions()
-helpers.start_bartjik_auto_hide("bottom")
 helpers.start_detached_cards()
 
 startup.subscription = hl.on("hyprland.start", function()

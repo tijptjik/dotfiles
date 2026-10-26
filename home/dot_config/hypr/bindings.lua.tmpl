@@ -200,12 +200,8 @@ hl.bind(super("N", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"
 -- Hamr Launcher
 hl.bind(super("Escape"), hl.dsp.exec_cmd("/usr/local/bin/hamr toggle"))
 
--- Show the bar and notification history together. Escape closes history;
--- the bar remains pinned until toggled again or its reveal edge is touched.
-hl.bind(super("M"), function()
-    local visible = helpers.toggle_bartjik_auto_hide()
-    hl.exec_cmd("$HOME/.local/bin/notjikctl history " .. (visible and "show" or "hide"))
-end)
+-- Toggle notification history; Bartjik owns its native edge activation and decay.
+hl.bind(super("M"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl history toggle"))
 
 hl.bind(super("comma"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate previous"))
 hl.bind(super("period"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate next"))

@@ -25,7 +25,7 @@ hl.config({
             active_border = colors.fx_active,
             inactive_border = colors.fx_inactive,
         },
-        layout = "master",
+        layout = "scrolling",
         resize_on_border = true,
         hover_icon_on_border = false,
     },

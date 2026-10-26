@@ -64,7 +64,22 @@ hl.bind(super("Q", "SHIFT"), hl.dsp.exit())
 -- KEY BINDINGS : WINDOW MANAGEMENT
 -- #######################
 
--- Layout
+-- Switch the default layout for an immediate scrolling/master comparison.
+hl.bind(super("F6"), function() hl.config({ general = { layout = "scrolling" } }) end)
+hl.bind(super("F7"), function() hl.config({ general = { layout = "master" } }) end)
+-- Scrolling controls; existing arrows still focus/move/resize windows.
+hl.bind(super("bracketleft"), hl.dsp.layout("colresize -conf"))
+hl.bind(super("bracketright"), hl.dsp.layout("colresize +conf"))
+hl.bind(super("Page_Up"), hl.dsp.layout("move -col"))
+hl.bind(super("Page_Down"), hl.dsp.layout("move +col"))
+hl.bind(super("Home"), hl.dsp.layout("fit active"))
+hl.bind(super("End"), hl.dsp.layout("fit all"))
+hl.bind(super("bracketleft", "CTRL"), hl.dsp.layout("consume"))
+hl.bind(super("bracketright", "CTRL"), hl.dsp.layout("expel"))
+hl.bind(super("mouse_up", "ALT"), hl.dsp.layout("move -col"))
+hl.bind(super("mouse_down", "ALT"), hl.dsp.layout("move +col"))
+
+-- Layout (master-specific controls)
 -- Swaps the current window with master. If the current window is the master, swaps it with the first child.
 hl.bind(super("Delete"), hl.dsp.layout("swapwithmaster"))
 -- Adds a master to the master side.

@@ -17,8 +17,14 @@ class PanelDragTests(unittest.TestCase):
 local cursor={x=130,y=230}
 local layer={pid=123,mapped=true}
 local moves=0
+local drag_dispatcher={}
 hl={get_cursor_pos=function()return cursor end,get_layers=function()return {layer} end,
-    dsp={window={drag=function()return function()moves=moves+1;return {} end end}}}
+    dispatch=function(dispatcher)
+        assert(dispatcher==drag_dispatcher)
+        moves=moves+1
+        return {}
+    end,
+    dsp={window={drag=function()return drag_dispatcher end}}}
 local h=dofile('home/dot_config/hypr/helpers.lua')
 assert(h.panel_under_pointer())
 assert(h.panel_aware_drag().pass_event and moves==0)

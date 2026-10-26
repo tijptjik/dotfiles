@@ -385,7 +385,7 @@
       "side": "b",
       "position": "l",
       "alignment": "r",
-      "offsetY": -60,
+      "offsetY": -24,
       "islandGap": 10,
       "islands": [
         {
@@ -437,7 +437,7 @@
       "side": "b",
       "position": "r",
       "alignment": "l",
-      "offsetY": -60,
+      "offsetY": -24,
       "islandGap": 10,
       "islands": [
         {

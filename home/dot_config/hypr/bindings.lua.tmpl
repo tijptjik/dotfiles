@@ -233,3 +233,5 @@ hl.bind(super("P", "SHIFT", "CTRL"), hl.dsp.exec_cmd(screenshot_prepare .. "hypr
 
 -- Toggle selected-region recording with a three-second countdown.
 hl.bind(super("G"), hl.dsp.exec_cmd("$HOME/.local/bin/screen-record"))
+hl.bind(super("G", "CTRL"), hl.dsp.exec_cmd("$HOME/.local/bin/screen-record window"))
+hl.bind(super("G", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/screen-record monitor"))

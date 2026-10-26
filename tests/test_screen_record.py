@@ -66,3 +66,26 @@ class ScreenRecordTests(unittest.TestCase):
             recorder.record()
         stopped.wait.assert_called_once_with(0.5)
         self.assertEqual(popen.call_count, 2)
+
+    def test_window_capture_uses_portal_with_fresh_picker(self):
+        command = recorder.recorder_command(None, 'window.mp4', 'window')
+        self.assertEqual(command[1:5], ['-w', 'portal', '-restore-portal-session', 'no'])
+        self.assertNotIn('-region', command)
+
+    def test_monitor_picker_restricts_selection_to_outputs(self):
+        child = Mock(returncode=1)
+        child.communicate.return_value = ('', None)
+        with patch.object(recorder.signal, 'signal'), patch.object(recorder.subprocess, 'Popen', return_value=child) as popen:
+            recorder.record('monitor')
+        self.assertEqual(popen.call_args.args[0], ['slurp', '-o', '-r', '-f', '%wx%h+%x+%y'])
+        self.assertEqual(popen.call_count, 1)
+
+    def test_mode_is_saved_only_when_starting(self):
+        for state in ('active', 'inactive'):
+            with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, {'XDG_RUNTIME_DIR': tmp}), \
+                 patch.object(recorder.subprocess, 'check_output', return_value=state), \
+                 patch.object(recorder.subprocess, 'run'):
+                mode_path = Path(tmp) / 'screen-record-mode'
+                mode_path.write_text('region')
+                recorder.toggle('window')
+                self.assertEqual(mode_path.read_text(), 'window' if state == 'inactive' else 'region')

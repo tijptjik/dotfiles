@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Toggle a region recording, with systemd owning the recorder lifecycle."""
+"""Toggle a region, window or monitor recording, with systemd owning the recorder lifecycle."""
 import datetime
 import fcntl
 import os
@@ -18,16 +18,26 @@ def notify(message):
                     "Screen recording", message], check=False)
 
 
-def recorder_command(region, output):
-    match = re.fullmatch(r"(\d+)x(\d+)\+(-?\d+)\+(-?\d+)", region)
-    if not match or int(match[1]) < 2 or int(match[2]) < 2:
-        raise ValueError("Select a region at least 2 pixels wide and high")
-    return ["gpu-screen-recorder", "-w", "region", "-region", region,
+def recorder_command(region, output, mode="region"):
+    if mode == "window":
+        source = ["-w", "portal", "-restore-portal-session", "no"]
+    else:
+        validate_region(region)
+        source = ["-w", "region", "-region", region]
+    return ["gpu-screen-recorder", *source,
             "-f", "30", "-k", "h264", "-ac", "aac", "-a", "default_output",
             "-fallback-cpu-encoding", "yes", "-o", str(output)]
 
 
-def toggle():
+def validate_region(region):
+    match = re.fullmatch(r"(\d+)x(\d+)\+(-?\d+)\+(-?\d+)", region)
+    if not match or int(match[1]) < 2 or int(match[2]) < 2:
+        raise ValueError("Select a region at least 2 pixels wide and high")
+
+
+def toggle(mode="region"):
+    if mode not in {"region", "window", "monitor"}:
+        raise ValueError("Unknown recording mode")
     runtime = Path(os.environ["XDG_RUNTIME_DIR"])
     with (runtime / "screen-record-toggle.lock").open("a") as lock:
         try:
@@ -38,6 +48,7 @@ def toggle():
                                          "--property=ActiveState", "--value"], text=True).strip()
         action = "stop" if state in {"active", "activating", "deactivating", "reloading"} else "start"
         if action == "start":
+            (runtime / "screen-record-mode").write_text(mode)
             subprocess.run(["systemctl", "--user", "import-environment", "WAYLAND_DISPLAY",
                             "DISPLAY", "HYPRLAND_INSTANCE_SIGNATURE"], check=True)
         subprocess.run(["systemctl", "--user", action, UNIT], check=True)
@@ -109,7 +120,7 @@ def countdown(region):
     Gtk.main()
 
 
-def record():
+def record(mode="region"):
     stopped = threading.Event()
     child = None
 
@@ -120,31 +131,33 @@ def record():
 
     signal.signal(signal.SIGINT, stop)
     signal.signal(signal.SIGTERM, stop)
-    child = subprocess.Popen(["slurp", "-f", "%wx%h+%x+%y"], stdout=subprocess.PIPE, text=True)
-    if stopped.is_set():
-        child.send_signal(signal.SIGINT)
-    region, _ = child.communicate()
-    if stopped.is_set() or child.returncode != 0:
-        return
-    region = region.strip()
-    recorder_command(region, "unused.mp4")  # Validate before countdown.
-    child = subprocess.Popen(["/usr/bin/python3", str(Path(__file__).resolve()), "countdown", region])
-    if stopped.is_set():
-        child.send_signal(signal.SIGINT)
-    countdown_status = child.wait()
-    if stopped.is_set():
-        return
-    if countdown_status != 0:
-        raise RuntimeError("Could not display the countdown")
-    # Allow the compositor to finish unmapping/animating the transparent layer.
-    if stopped.wait(0.5):
-        return
+    region = None
+    if mode != "window":
+        child = subprocess.Popen(["slurp", *(["-o", "-r"] if mode == "monitor" else []), "-f", "%wx%h+%x+%y"], stdout=subprocess.PIPE, text=True)
+        if stopped.is_set():
+            child.send_signal(signal.SIGINT)
+        region, _ = child.communicate()
+        if stopped.is_set() or child.returncode != 0:
+            return
+        region = region.strip()
+        recorder_command(region, "unused.mp4")  # Validate before countdown.
+        child = subprocess.Popen(["/usr/bin/python3", str(Path(__file__).resolve()), "countdown", region])
+        if stopped.is_set():
+            child.send_signal(signal.SIGINT)
+        countdown_status = child.wait()
+        if stopped.is_set():
+            return
+        if countdown_status != 0:
+            raise RuntimeError("Could not display the countdown")
+        # Allow the compositor to finish unmapping/animating the transparent layer.
+        if stopped.wait(0.5):
+            return
     directory = Path(subprocess.check_output(["xdg-user-dir", "VIDEOS"], text=True).strip())
     if not directory.is_absolute():
         raise RuntimeError("Videos directory is not configured")
     directory.mkdir(parents=True, exist_ok=True)
     output = directory / ("Recording-" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f") + ".mp4")
-    child = subprocess.Popen(recorder_command(region, output))
+    child = subprocess.Popen(recorder_command(region, output, mode))
     if stopped.is_set():
         child.send_signal(signal.SIGINT)
     code = child.wait()
@@ -161,9 +174,15 @@ if __name__ == "__main__":
         if len(sys.argv) == 3 and sys.argv[1] == "countdown":
             countdown(sys.argv[2])
         elif sys.argv[1:] == ["run"]:
-            record()
+            mode_path = Path(os.environ["XDG_RUNTIME_DIR"]) / "screen-record-mode"
+            mode = mode_path.read_text().strip() if mode_path.exists() else "region"
+            if mode not in {"region", "window", "monitor"}:
+                raise ValueError("Unknown recording mode")
+            record(mode)
         else:
-            toggle()
+            if len(sys.argv) > 2:
+                raise ValueError("Usage: screen-record [region|window|monitor]")
+            toggle(sys.argv[1] if len(sys.argv) == 2 else "region")
     except Exception as exc:
         notify(f"Failed: {exc}")
         raise

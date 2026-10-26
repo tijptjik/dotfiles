@@ -357,6 +357,7 @@
     }
   },
   "perMonitor": {
+{{- if not .isLaptop }}
     "DP-2": {
       "modules": {
         "music": {
@@ -380,17 +381,15 @@
         }
       }
     }
+{{- end }}
   },
   "bars": [
     {
       "id": "workspace-bar",
-      "monitors": [
-        "DP-1",
-        "DP-2"
-      ],
+      "monitors": {{ if .isLaptop }}"all"{{ else }}["DP-1", "DP-2"]{{ end }},
       "side": "b",
       "position": "l",
-      "alignment": "r",
+      "alignment": "{{ if .isLaptop }}l{{ else }}r{{ end }}",
       "offsetY": -24,
       "islandGap": 10,
       "islands": [
@@ -423,6 +422,7 @@
       "overflow": "centre",
       "screenGutter": "edgeOffset",
       "perMonitor": {
+{{- if not .isLaptop }}
         "DP-2": {
           "islands": [
             {
@@ -433,16 +433,15 @@
             }
           ]
         }
+{{- end }}
       }
     },
     {
       "id": "status-bar",
-      "monitors": [
-        "DP-1"
-      ],
+      "monitors": {{ if .isLaptop }}"all"{{ else }}["DP-1"]{{ end }},
       "side": "b",
       "position": "r",
-      "alignment": "l",
+      "alignment": "{{ if .isLaptop }}r{{ else }}l{{ end }}",
       "offsetY": -24,
       "islandGap": 10,
       "islands": [

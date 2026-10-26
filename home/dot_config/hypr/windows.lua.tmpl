@@ -157,7 +157,8 @@ hl.window_rule({
 {{- if .isDesktop }}
     workspace = "special:chat silent",
     float = true,
-    size = { 944, 1338 },
+    -- Keep the 24px top gap and clear the 44px Bartjik row by 24px below.
+    size = { 944, 1324 },
     move = { "(1248)", "(24)" },
 {{- else if .isLaptop }}
     workspace = "4",
@@ -170,7 +171,7 @@ hl.window_rule({
     name = "telegram-media-viewer",
     workspace = "special:chat silent",
     float = true,
-    size = { 3228, 1338 },
+    size = { 3228, 1324 },
     move = { "(112)", "(24)" },
     match = { title = "^(Media viewer)$" },
 })
@@ -182,7 +183,7 @@ hl.window_rule({
 {{- if .isDesktop }}
     workspace = "special:chat silent",
     float = true,
-    size = { 1112, 1338 },
+    size = { 1112, 1324 },
     move = { "(112)", "(24)" },
 {{- else if .isLaptop }}
     workspace = "4",
@@ -196,7 +197,7 @@ hl.window_rule({
 {{- if .isDesktop }}
     workspace = "special:chat silent",
     float = true,
-    size = { 1112, 1338 },
+    size = { 1112, 1324 },
     move = { "(2218)", "(24)" },
 {{- else if .isLaptop }}
     workspace = "8",

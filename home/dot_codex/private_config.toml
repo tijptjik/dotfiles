@@ -157,6 +157,9 @@ trust_level = "trusted"
 [projects."/home/io/code/tooltjik"]
 trust_level = "trusted"
 
+[projects."/home/io/code/type.hk"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 screen_reader_detection_done = true

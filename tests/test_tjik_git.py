@@ -4,8 +4,12 @@ import fcntl
 import importlib.util
 import io
 from pathlib import Path
+import re
+import shutil
 import subprocess
 import tempfile
+import threading
+import time
 import unittest
 from unittest.mock import patch
 
@@ -13,6 +17,31 @@ ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('tjik_git', ROOT / 'home/dot_local/lib/tjik_git.py')
 tjik_git = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tjik_git)
+
+
+class GitProgressTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('gum'), 'Gum is not installed')
+    def test_gum_animates_rows_and_restores_cursor(self):
+        output = io.StringIO()
+        repos = [('Dotjik', Path('/unused/dot')), ('Systjik', Path('/unused/sys'))]
+        with contextlib.redirect_stdout(output), \
+                patch.object(output, 'isatty', return_value=True), \
+                patch.dict('os.environ', {'TERM': 'xterm-256color', 'TJIKUP_NO_SPIN': '0'}):
+            with tjik_git.GitProgress(repos, 'PULL') as progress:
+                frames = set()
+                deadline = time.monotonic() + 3
+                while len(frames) < 2 and time.monotonic() < deadline:
+                    time.sleep(.08)
+                    progress.draw()
+                    frames.update(re.findall('[\u2800-\u28ff]', output.getvalue()))
+                progress.complete(0, True)
+                progress.complete(1, False)
+                progress.draw()
+            self.assertIsNotNone(progress.process.poll())
+        self.assertGreaterEqual(len(frames), 2)
+        self.assertIn('Dotjik   PULL OK', output.getvalue())
+        self.assertIn('Systjik  PULL FAILED', output.getvalue())
+        self.assertTrue(output.getvalue().endswith('\033[?25h'))
 
 
 class FleetGitTests(unittest.TestCase):
@@ -149,6 +178,86 @@ class FleetGitTests(unittest.TestCase):
         self.sync(dry_run=True)
         self.assertFalse((self.repos[0][1] / '.git/tjikup-workflow.lock').exists())
         self.assertEqual(self.run_git('--git-dir', str(self.root / 'dotjik.git'), 'rev-list', '--count', 'main'), '1')
+
+    def test_network_stages_overlap_and_all_pulls_finish_before_push(self):
+        original_git = tjik_git.git
+        barrier = threading.Barrier(3, timeout=5)
+        pulled = set()
+        pushed = set()
+        mutex = threading.Lock()
+
+        def git(repo, *args, **kwargs):
+            if args[0] not in ('pull', 'push'):
+                return original_git(repo, *args, **kwargs)
+            # Each stage can pass only when all three workers are in flight.
+            barrier.wait()
+            with mutex:
+                if args[0] == 'pull':
+                    pulled.add(repo)
+                else:
+                    self.assertEqual(pulled, {path for _, path in self.repos})
+                    pushed.add(repo)
+            return ''
+
+        with patch.object(tjik_git, 'git', side_effect=git):
+            self.sync(sync=True)
+        self.assertEqual(pushed, {path for _, path in self.repos})
+
+    def test_failed_parallel_pull_waits_for_peers_and_blocks_push(self):
+        original_git = tjik_git.git
+        barrier = threading.Barrier(3, timeout=5)
+        failed = threading.Event()
+        finished = set()
+        mutex = threading.Lock()
+
+        def git(repo, *args, **kwargs):
+            if args[0] == 'push':
+                self.fail('push after failed pull')
+            if args[0] != 'pull':
+                return original_git(repo, *args, **kwargs)
+            barrier.wait()
+            if repo == self.repos[0][1]:
+                failed.set()
+                raise tjik_git.SyncError('deliberate pull failure')
+            self.assertTrue(failed.wait(5))
+            # The workflow lock must remain held until every peer finishes.
+            with (self.repos[0][1] / '.git/tjikup-workflow.lock').open('a') as lock:
+                with self.assertRaises(BlockingIOError):
+                    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            with mutex:
+                finished.add(repo)
+            return ''
+
+        with patch.object(tjik_git, 'git', side_effect=git):
+            with self.assertRaisesRegex(tjik_git.SyncError, 'deliberate pull failure'):
+                self.sync(sync=True)
+        self.assertEqual(finished, {repo for _, repo in self.repos[1:]})
+
+    def test_parallel_push_reports_every_failure(self):
+        original_git = tjik_git.git
+        barrier = threading.Barrier(3, timeout=5)
+
+        def git(repo, *args, **kwargs):
+            if args[0] != 'push':
+                return original_git(repo, *args, **kwargs)
+            barrier.wait()
+            raise tjik_git.SyncError(f'failed {repo.name}')
+
+        with patch.object(tjik_git, 'git', side_effect=git):
+            with self.assertRaises(tjik_git.SyncError) as raised:
+                self.sync()
+        for name, _ in self.repos:
+            self.assertIn(f'failed {name}', str(raised.exception))
+
+    def test_plain_progress_reports_each_stage_and_completion(self):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output), patch.object(tjik_git.shutil, 'which') as gum:
+            tjik_git.synchronize(self.repos, sync=True)
+        gum.assert_not_called()
+        for name, _ in self.repos:
+            for stage in ('PULL', 'PUSH'):
+                self.assertIn(f'{name}: {stage} RUNNING', output.getvalue())
+                self.assertIn(f'{name}: {stage} OK', output.getvalue())
 
     def paused_conflict(self, *, apply_backend=False, another_conflict=False):
         repo = self.repos[1][1]

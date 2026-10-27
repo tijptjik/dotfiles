@@ -72,10 +72,20 @@ files but sends only committed history. `tjixx` requires all three working trees
 (including untracked files) to be clean; commit or stash intentionally beforehand.
 It explicitly uses `git pull --rebase --no-autostash`, so it never temporarily
 hides ongoing work. It checks every repository before any network operation,
-pulls all three before pushing any, and stops on the first failure. A conflict
+pulls all three concurrently before pushing all three concurrently. Every pull
+must succeed before any push starts. If a stage fails, it waits for its running
+peers, reports the failures, and skips subsequent stages. A conflict
 is left available for normal Git resolution. Earlier successful pulls or pushes
 are not rolled back; the operation is not atomic across repositories. No force
 push is used. Each branch must have an upstream.
+
+On terminals, Charmbracelet Gum animates a row for each repository with `PULL`
+or `PUSH`, elapsed seconds, and `OK`/`FAILED` completion status. A shared renderer
+keeps the spinner rows together and prints Git output by repository after each
+stage. Redirected output, `TERM=dumb`, missing Gum, or `TJIKUP_NO_SPIN=1` use plain
+status lines. `--dry-run` describes the parallel stages without launching Gum or
+running network operations. Rebase continuation remains sequential before these
+stages.
 
 Both shortcuts detect an existing rebase before checking the branch, since a
 rebase temporarily detaches HEAD. After checking all three repositories, they run

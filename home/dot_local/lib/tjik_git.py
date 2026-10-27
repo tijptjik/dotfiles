@@ -1,26 +1,38 @@
 """Git-only synchronization policy for Dotjik, Systjik and Tooltjik."""
 import argparse
+import codecs
+from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
 from contextlib import ExitStack
 import fcntl
 import os
 from pathlib import Path
+import pty
+import re
 import shlex
+import shutil
+import signal
+import struct
 import subprocess
 import sys
+import termios
+import time
+import tty
 
 
 class SyncError(Exception):
     pass
 
 
-def git(repo, *args, capture=True, env=None):
+def git(repo, *args, capture=True, env=None, include_stderr=False):
     result = subprocess.run(['git', '-C', str(repo), *args], text=True,
                             stdout=subprocess.PIPE if capture else None,
                             stderr=subprocess.PIPE if capture else None, env=env)
     if result.returncode:
         raise SyncError(f'{repo}: git {shlex.join(args)} failed'
-                        + (f'\n{result.stderr.strip()}' if capture else ''))
-    return result.stdout.strip() if capture else None
+                        + (f'\n{result.stdout.strip()}\n{result.stderr.strip()}' if capture else ''))
+    if capture:
+        return (result.stdout + ('\n' + result.stderr if include_stderr else '')).strip()
+    return None
 
 
 def repositories():
@@ -98,6 +110,123 @@ def continue_rebase(repo):
         preflight(repo, False)
 
 
+class GitProgress:
+    """Compose repository rows from Gum's animation without competing TTY writers."""
+
+    def __init__(self, repos, stage):
+        self.repos = repos
+        self.stage = stage
+        self.states = ['RUNNING'] * len(repos)
+        self.started = time.monotonic()
+        self.frame = '⠿'
+        self.process = None
+        self.master = None
+        self.decoder = codecs.getincrementaldecoder('utf-8')(errors='replace')
+        self.animated = (sys.stdout.isatty() and os.environ.get('TERM') != 'dumb'
+                         and os.environ.get('TJIKUP_NO_SPIN') != '1'
+                         and shutil.which('gum') is not None)
+
+    def __enter__(self):
+        if self.animated:
+            master, slave = pty.openpty()
+            self.master = master
+            try:
+                tty.setraw(slave)
+                fcntl.ioctl(slave, termios.TIOCSWINSZ, struct.pack('HHHH', 24, 80, 0, 0))
+                # Gum supplies the animation for every active row. Only this
+                # renderer writes to the real terminal; Gum's probes stay private.
+                self.process = subprocess.Popen(
+                    ['gum', 'spin', '--spinner', 'dot', '--title', '', '--', 'sleep', '86400'],
+                    stdin=slave, stdout=slave, stderr=slave, start_new_session=True,
+                    env={**os.environ, 'TERM': 'xterm-256color'})
+                os.set_blocking(master, False)
+            except OSError:
+                os.close(master)
+                self.master = None
+                self.animated = False
+            finally:
+                os.close(slave)
+        if self.animated:
+            print('\033[?25l' + '\n' * len(self.repos), end='', flush=True)
+            self.draw()
+        else:
+            for name, _ in self.repos:
+                print(f'{name}: {self.stage} RUNNING', flush=True)
+        return self
+
+    def draw(self):
+        if not self.animated:
+            return
+        try:
+            data = os.read(self.master, 65536)
+        except (BlockingIOError, OSError):
+            data = b''
+        frames = re.findall('[\u2800-\u28ff]', self.decoder.decode(data))
+        if frames:
+            self.frame = frames[-1]
+        width = max(1, shutil.get_terminal_size((80, 24)).columns - 1)
+        rows = []
+        for (name, _), state in zip(self.repos, self.states):
+            icon = self.frame if state == 'RUNNING' else ('✓' if state == 'OK' else '✗')
+            row = f'{icon} {name:<8} {self.stage:<4} {state:<7} {int(time.monotonic() - self.started)}s'
+            rows.append('\r\033[2K' + row[:width] + '\n')
+        print(f'\033[{len(rows)}A' + ''.join(rows), end='', flush=True)
+
+    def complete(self, index, success):
+        self.states[index] = 'OK' if success else 'FAILED'
+        if not self.animated:
+            print(f'{self.repos[index][0]}: {self.stage} {self.states[index]}', flush=True)
+
+    def __exit__(self, *_):
+        try:
+            if self.process is not None:
+                try:
+                    os.killpg(self.process.pid, signal.SIGTERM)
+                except ProcessLookupError:
+                    pass
+                try:
+                    self.process.wait(timeout=2)
+                except subprocess.TimeoutExpired:
+                    os.killpg(self.process.pid, signal.SIGKILL)
+                    self.process.wait()
+        finally:
+            if self.master is not None:
+                os.close(self.master)
+            if self.animated:
+                print('\033[?25h', end='', flush=True)
+
+
+def parallel_operation(repos, operation, *, sync):
+    # A late invalid checkout still blocks the whole stage before launching Git.
+    for _, repo in repos:
+        preflight(repo, sync)
+    errors = []
+    output = {}
+    with GitProgress(repos, operation[0].upper()) as progress:
+        with ThreadPoolExecutor(max_workers=len(repos)) as executor:
+            pending = {executor.submit(git, repo, *operation, include_stderr=True): index
+                       for index, (_, repo) in enumerate(repos)}
+            while pending:
+                completed, _ = wait(pending, timeout=.08, return_when=FIRST_COMPLETED)
+                for future in completed:
+                    index = pending.pop(future)
+                    try:
+                        output[index] = future.result()
+                    except (SyncError, OSError) as error:
+                        errors.append(str(error))
+                        progress.complete(index, False)
+                    else:
+                        progress.complete(index, True)
+                progress.draw()
+    # Keep command output together, outside the live display. Wait for every
+    # peer before reporting failure, releasing locks, or starting another stage.
+    for index, (name, _) in enumerate(repos):
+        if output.get(index):
+            print(f'{name}:\n{output[index]}', flush=True)
+    if errors:
+        raise SyncError('\n'.join(errors))
+
+
 def synchronize(repos, *, sync=False, dry_run=False):
     if len({path for _, path in repos}) != len(repos):
         raise SyncError('Repository paths must be distinct')
@@ -130,11 +259,11 @@ def synchronize(repos, *, sync=False, dry_run=False):
         operations = [('pull', '--rebase', '--no-autostash')] if sync else []
         operations += [('push',)]
         for operation in operations:
-            for name, repo in repos:
-                print(f'{name}: git {shlex.join(operation)}', flush=True)
-                if not dry_run:
-                    preflight(repo, sync)
-                    git(repo, *operation, capture=False)
+            if dry_run:
+                for name, _ in repos:
+                    print(f'{name}: git {shlex.join(operation)} (parallel {operation[0].upper()} stage)', flush=True)
+            else:
+                parallel_operation(repos, operation, sync=sync)
     return 0
 
 

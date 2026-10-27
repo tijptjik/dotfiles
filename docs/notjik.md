@@ -25,7 +25,8 @@ systemctl --user enable --now notjik.service
 ```
 
 The installer supplies the user service and standard D-Bus activation entry.
-Quickshell and Python 3 are runtime dependencies. The managed desktop service
+Quickshell, Python 3 and Qt's GraphicalEffects module (`qt6-qt5compat` on Fedora)
+are runtime dependencies. The managed desktop service
 uses the same `qt6ct` platform theme as the shell, so named sender icons resolve
 consistently; its override lives in `notjik.service.d/theme.conf`. Only one desktop notification
 server can own `org.freedesktop.Notifications`.
@@ -178,6 +179,13 @@ with its version, basemap previews, style previews and routing companion beneath
 Errors and missing evidence are represented as explicit result rows.
 
 ## Telegram media bridge
+
+Bridge notifications preserve Telegram's bold, italic, underline, strikethrough,
+monospace/code and underlined links in messages and captions, including text
+around custom emoji. Links are visual; use Open to follow them in Telegram.
+Literal Markdown and HTML stay literal. Text spoilers show a placeholder directing
+you to Telegram. Native Desktop notifications cannot recover formatting entities
+that Telegram omits from its notification payload.
 
 Telegram cards show the chat’s small profile photo, downloaded through TDLib,
 and update when the photo changes. Initials are the fallback while loading or

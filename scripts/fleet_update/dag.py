@@ -23,6 +23,11 @@ class Result:
     state: str
     seconds: float = 0
     error: object = None
+    dependency_wait: float = 0
+    resource_wait: float = 0
+    worker_wait: float = 0
+    started: float | None = None
+    finished: float | None = None
 
 
 def validate(tasks):
@@ -58,20 +63,41 @@ def run(tasks, *, workers=4, event=lambda *_: None):
     results, running = {}, {}
     held = set()
     failed = False
+    epoch = time.monotonic()
+    waits = {name: dict(dependency_wait=0., resource_wait=0., worker_wait=0.) for name in nodes}
+    reasons = {name: "dependency_wait" for name in nodes}
+    last_tick = epoch
+
+    def account():
+        nonlocal last_tick
+        now = time.monotonic()
+        for name in pending:
+            waits[name][reasons[name]] += now - last_tick
+        last_tick = now
+
+    def exclusive(task):
+        return task.exclusive() if callable(task.exclusive) else task.exclusive
 
     def execute(task):
         started = time.monotonic()
         try:
             if task.check is not None and task.check():
-                return Result("skipped", time.monotonic() - started)
-            task.run()
-            return Result("done", time.monotonic() - started)
+                result = Result("skipped")
+            else:
+                task.run()
+                result = Result("done")
         except Exception as error:
-            return Result("failed", time.monotonic() - started, error)
+            result = Result("failed", error=error)
+        finished = time.monotonic()
+        result.seconds = finished - started
+        result.started, result.finished = started - epoch, finished - epoch
+        return result
 
     def complete(task, result):
         nonlocal failed
         held.difference_update(task.resources)
+        for key, value in waits[task.name].items():
+            setattr(result, key, value)
         results[task.name] = result
         failed = failed or result.state == "failed"
         event(task.name, result)
@@ -80,25 +106,37 @@ def run(tasks, *, workers=4, event=lambda *_: None):
     with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="apply") as pool:
         try:
             while pending or running:
+                account()
                 if not failed:
                     for name, task in list(pending.items()):
                         if len(running) >= workers:
                             break
                         if not set(task.needs) <= results.keys() or held.intersection(task.resources):
                             continue
-                        if task.exclusive:
+                        if exclusive(task):
                             if running:
                                 continue
                             del pending[name]
                             event(name, Result("running"))
                             complete(task, execute(task))
+                            account()
                             break
                         held.update(task.resources)
                         del pending[name]
                         event(name, Result("running"))
                         running[pool.submit(execute, task)] = task
+                # Attribute queue time to its current limiting condition. The
+                # next completion wakes us; no polling or timing-based ordering.
+                for name, task in pending.items():
+                    if not set(task.needs) <= results.keys():
+                        reasons[name] = "dependency_wait"
+                    elif held.intersection(task.resources) or (exclusive(task) and running):
+                        reasons[name] = "resource_wait"
+                    else:
+                        reasons[name] = "worker_wait"
                 if running:
                     completed, _ = wait(running, return_when=FIRST_COMPLETED)
+                    account()
                     for future in completed:
                         complete(running.pop(future), future.result())
                 elif failed:
@@ -109,7 +147,7 @@ def run(tasks, *, workers=4, event=lambda *_: None):
             cancel_commands()
             raise
         for name in pending:
-            results[name] = Result("blocked")
+            results[name] = Result("blocked", **waits[name])
             event(name, results[name])
     return results
 

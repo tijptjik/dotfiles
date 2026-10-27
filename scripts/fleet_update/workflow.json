@@ -137,16 +137,16 @@
     ]
   },
   {
-    "id": "apply-home",
+    "id": "apply-fleet",
     "command": [
       "python3",
       "{config_dir}/scripts/fleet-update.py",
       "apply"
     ],
-    "label": "Dotfiles",
+    "label": "Home and system",
     "verb": "APPLY",
     "output": "stream",
-    "timeout": 1800,
+    "timeout": 7200,
     "stop_codes": [
       78
     ],
@@ -154,25 +154,6 @@
     "needs": [
       "push-home",
       "push-system"
-    ],
-    "exclusive": true
-  },
-  {
-    "id": "apply-system",
-    "command": [
-      "python3",
-      "~/.local/share/chezetc/scripts/tjikup-apply.py"
-    ],
-    "label": "Chezetc",
-    "verb": "APPLY",
-    "output": "stream",
-    "timeout": 3700,
-    "banner": {
-      "title": "Systjik",
-      "url": "https://github.com/tijptjik/systjik"
-    },
-    "needs": [
-      "apply-home"
     ],
     "exclusive": true
   }

@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+import zipfile
 
 import tjikup_support
 import tjikup
@@ -24,6 +25,7 @@ class InstallTests(unittest.TestCase):
         shutil.copy2(REPO / 'scripts/install-tjikup.sh', self.fleet / 'scripts')
         shutil.copy2(REPO / 'scripts/ensure-tooltjik.sh', self.fleet / 'scripts')
         shutil.copy2(REPO / 'scripts/cache-install.py', self.fleet / 'scripts')
+        shutil.copy2(REPO / 'scripts/tjikup_dependency.py', self.fleet / 'scripts')
         (self.fleet / 'tjikup.json').write_text(
             '{"version":1,"steps":[{"id":"unused","command":["false"]}]}'
         )
@@ -104,3 +106,37 @@ class InstallTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('Initialize/update', result.stderr)
         self.assertFalse((self.home / '.local/bin/tjikup').exists())
+
+    def test_stale_checkout_leaves_installed_runner_and_cache_untouched(self):
+        result = self.install()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        executable = self.home / '.local/bin/tjikup'
+        record = self.home / '.local/state/tjikup/install/tjikup.json'
+        before = executable.read_bytes(), record.read_bytes()
+        (self.tools / 'apps/tjikup/src/tjikup/progress.py').unlink()
+        result = self.install()
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn('runner is missing or outdated', result.stderr)
+        self.assertIn('Update your Tooltjik checkout', result.stderr)
+        self.assertNotIn('Traceback', result.stderr)
+        self.assertEqual((executable.read_bytes(), record.read_bytes()), before)
+
+    def test_stale_bundle_reports_recovery_before_starting_workflow(self):
+        result = self.install()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        executable = self.home / '.local/bin/tjikup'
+        stale = self.home / 'stale-tjikup'
+        with zipfile.ZipFile(executable) as source, zipfile.ZipFile(stale, 'w') as target:
+            for entry in source.infolist():
+                if entry.filename != 'tjikup/progress.py':
+                    target.writestr(entry, source.read(entry))
+        executable.write_bytes(b'#!/usr/bin/env python3\n' + stale.read_bytes())
+        result = subprocess.run([
+            str(executable), '--config', str(REPO / 'tjikup.json'), '--dry-run',
+        ], env=self.env, text=True, capture_output=True)
+        self.assertEqual(result.returncode, 1, result.stderr)
+        output = result.stdout + result.stderr
+        self.assertIn('runner is missing or outdated', output)
+        self.assertIn('tjikup.progress', output)
+        self.assertIn(str(REPO / 'scripts/install-tjikup.sh'), output)
+        self.assertNotIn('Traceback', output)

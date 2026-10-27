@@ -565,21 +565,26 @@ def main():
     elif args.action in {"pull", "push"}:
         return sync_repo(repo, args.action)
     elif args.action == "apply":
-        from .home_apply import load_plan
-        load_plan(repo)
-        if chezmoi_config_needs_init(repo):
-            stage_label("WARN", "!", "Chezmoi config changed; run chezmoi init")
-            return 78
-        env = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1",
-               "FLEET_DEFER_HOOKS": "1"}
-        # Bind apply explicitly to the source selected by the workflow.
-        if not run_chezmoi_apply(
-            repo,
-            ["chezmoi", "--source", str(repo / "home"), "apply"],
-            env,
-            skip_conflicts=os.environ.get("FLEET_SKIP_CONFLICTS") == "1",
-        ):
-            return 78
-        from .home_apply import apply_hooks
-        apply_hooks(repo, env)
+        from .fleet_apply import apply
+        return apply(repo)
+    return 0
+
+
+def apply_files(repo):
+    """Leave native file, once and onchange handling with Chezmoi."""
+    from .home_apply import load_plan
+    load_plan(repo)
+    if chezmoi_config_needs_init(repo):
+        stage_label("WARN", "!", "Chezmoi config changed; run chezmoi init")
+        return 78
+    env = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1",
+           "FLEET_DEFER_HOOKS": "1"}
+    # Bind apply explicitly to the source selected by the workflow.
+    if not run_chezmoi_apply(
+        repo,
+        ["chezmoi", "--source", str(repo / "home"), "apply"],
+        env,
+        skip_conflicts=os.environ.get("FLEET_SKIP_CONFLICTS") == "1",
+    ):
+        return 78
     return 0

@@ -1,0 +1,30 @@
+"""Check the runner dependency before starting or installing fleet commands."""
+
+from pathlib import Path
+import shlex
+import sys
+
+
+def check_runtime():
+    try:
+        from tjikup.progress import Progress
+    except ModuleNotFoundError as error:
+        if error.name not in {"tjikup", "tjikup.progress", "tjikup.runtime"}:
+            raise
+        installer = Path(__file__).resolve().with_name("install-tjikup.sh")
+        print(
+            "fleet-update: the Tjikup runner is missing or outdated "
+            f"({error.name} is unavailable).\n"
+            "Update your Tooltjik checkout (TOOLTJIK_REPO or ~/code/tooltjik), "
+            "then reinstall the runner:\n"
+            f"  bash {shlex.quote(str(installer))}\n"
+            "Updating dotfiles alone does not update the installed runner. "
+            "See docs/tjikup.md#installation-and-migration.",
+            file=sys.stderr,
+        )
+        return False
+    return True
+
+
+if __name__ == "__main__":
+    raise SystemExit(0 if check_runtime() else 1)

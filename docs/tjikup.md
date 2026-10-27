@@ -198,6 +198,17 @@ git -C ~/code/tooltjik merge --ff-only origin/main
 TOOLTJIK_REPO=~/code/tooltjik bash ~/.local/share/chezmoi/scripts/install-tjikup.sh
 ```
 
+If startup reports `No module named 'tjikup.progress'` or says the runner is
+outdated, the fleet workflow requires a newer runner than the installed copy.
+Run the Tooltjik update and focused installer commands above on the affected
+host, then run `tjikup --dry-run` before retrying `tjikup`. Use your
+`TOOLTJIK_REPO` path instead if you selected a different checkout. The runner
+passes its own bundled Python modules to fleet subprocesses, so updating the
+Tooltjik source alone is insufficient: reinstall the executable too.
+`tjikup --check` only checks configuration syntax and cannot detect this mismatch.
+The focused installer checks the source dependency before replacing the runner,
+then checks the installed bundle before linking the configuration.
+
 Older installations may still have `~/.local/share/tooltjik`. If it exists and
 `~/code/tooltjik` does not, installers and fleet Git commands stop with migration
 guidance rather than creating a second clone. Move the existing checkout while

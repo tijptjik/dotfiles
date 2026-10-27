@@ -2,6 +2,11 @@
 """Commands referenced by this fleet's tjikup.json; not a standalone runner."""
 
 import sys
+from tjikup_dependency import check_runtime
+
+if not check_runtime():
+    raise SystemExit(1)
+
 from fleet_update import main
 from fleet_update.core import UpdateError
 

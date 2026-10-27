@@ -30,18 +30,29 @@
     "verb": "UPDATE"
   },
   {
-    "id": "llmtrim",
-    "file": "run_after_31-remove-llmtrim-herdr.fish.tmpl",
+    "id": "llmtrim-install",
+    "file": "run_after_31-install-llmtrim.fish.tmpl",
     "needs": [
       "rust"
     ],
     "resources": [
-      "cargo",
+      "cargo"
+    ],
+    "label": "llmtrim package",
+    "verb": "SYNC"
+  },
+  {
+    "id": "llmtrim",
+    "file": "run_after_31-remove-llmtrim-herdr.fish.tmpl",
+    "needs": [
+      "llmtrim-install"
+    ],
+    "resources": [
       "herdr"
     ],
-    "exclusive": true,
     "label": "llmtrim",
-    "verb": "UPDATE"
+    "verb": "UPDATE",
+    "terminal_when_missing": "~/.llmtrim/ca.pem"
   },
   {
     "id": "herdr",

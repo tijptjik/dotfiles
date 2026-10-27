@@ -12,11 +12,15 @@ fi
 source "$repo_dir/scripts/ensure-tooltjik.sh"
 ensure_tooltjik apps/tjikup/scripts/install.sh
 
+# Reject stale checkouts before replacing a working executable or cache record.
+PYTHONPATH="$tool_repo/apps/tjikup/src" python3 -B "$repo_dir/scripts/tjikup_dependency.py"
+
 python3 "$repo_dir/scripts/cache-install.py" tjikup \
     --input "$tool_repo/apps/tjikup" --input "$repo_dir/scripts/cache-install.py" \
     --output "$HOME/.local/bin/tjikup" --output "$HOME/.local/share/icons/tjikup.png" \
     --output "$HOME/.local/share/icons/hicolor/256x256/apps/tjikup-notification.png" \
     -- bash "$tool_repo/apps/tjikup/scripts/install.sh"
+PYTHONPATH="$HOME/.local/bin/tjikup" python3 -B "$repo_dir/scripts/tjikup_dependency.py"
 "$HOME/.local/bin/tjikup" --config "$repo_dir/tjikup.json" --check
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/tjikup"
 mkdir -p -- "$config_dir"

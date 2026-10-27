@@ -36,6 +36,9 @@ class FleetWorkflowTests(unittest.TestCase):
         shutil.copy(
             REPO / "scripts/fleet-update.py", self.repo / "scripts/fleet-update.py"
         )
+        shutil.copy(
+            REPO / "scripts/tjikup_dependency.py", self.repo / "scripts/tjikup_dependency.py"
+        )
         shutil.copy(REPO / "tjikup.json", self.repo / "tjikup.json")
         (system / "scripts").mkdir()
         shutil.copy(

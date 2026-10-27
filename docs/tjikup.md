@@ -66,6 +66,10 @@ Chezmoi no longer installs runner code into `~/.local/lib/tjikup`. An old copy
 there is unused by the new self-contained executable and may be removed after
 migration. No blanket apply is needed to migrate the command.
 
+Setup hooks render colored pending and completion rows directly, including during
+a plain `chezmoi apply`. They do not use Gum spinners, whose terminal capability
+queries can leave echoed replies in the output when stdin is redirected.
+
 ## Use and validation
 
 ```sh

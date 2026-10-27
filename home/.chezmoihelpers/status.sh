@@ -34,34 +34,9 @@ __stage_label() {
   color="$(__stage_color "$stage")"
   printf -v padded_stage '%-7s' "$stage"
 
-  if command -v gum >/dev/null 2>&1 && [ -t 1 ]; then
-    gum style --foreground "$color" --bold "$padded_stage" | tr -d '\n'
-    printf ' '
-    gum style --foreground 10 "$icon" | tr -d '\n'
-    printf ' '
-    gum style --foreground 15 "$subject"
-  else
-    printf '%s %s %s\n' "$padded_stage" "$icon" "$subject"
-  fi
-}
-
-__stage_spin_title() {
-  local stage="$1"
-  local subject="$2"
-  local padded_stage
-  local color
-  color="$(__stage_color "$stage")"
-  printf -v padded_stage '%-7s' "$stage"
-
-  if command -v gum >/dev/null 2>&1 && [ -t 1 ]; then
-    {
-      gum style --foreground "$color" --bold "$padded_stage" | tr -d '\n'
-      printf ' '
-      gum style --foreground 15 "$subject" | tr -d '\n'
-    }
-  else
-    printf '%s ... %s' "$padded_stage" "$subject"
-  fi
+  # Bootstrap may run before Fish is installed. Keep this fallback free of
+  # terminal queries too; plain rows are safe with any stdin arrangement.
+  printf '%s %s %s\n' "$padded_stage" "$icon" "$subject"
 }
 
 stage() {
@@ -85,12 +60,7 @@ stage() {
   ) &
   pid="$!"
 
-  if command -v gum >/dev/null 2>&1 && [ -t 1 ] && [ "${TJIKUP_NO_SPIN:-0}" != 1 ]; then
-    gum spin --spinner dot --title "$(__stage_spin_title "$stage_name" "$subject")" -- bash -c \
-      'while kill -0 "$1" 2>/dev/null; do sleep 0.2; done' bash "$pid"
-  else
-    __stage_label "$stage_name" "..." "$subject"
-  fi
+  __stage_label "$stage_name" "..." "$subject"
 
   wait "$pid" 2>/dev/null || true
   code="$(cat "$status_file")"

@@ -1,5 +1,6 @@
 """Bootstrap hooks share Tjikup's status renderer even through piped stdout."""
 import os
+import pty
 from pathlib import Path
 import re
 import subprocess
@@ -50,3 +51,40 @@ class BootstrapStatusTests(unittest.TestCase):
             capture_output=True, check=True)
         self.assertIn(b'\r\x1b[2K', result.stdout)
         self.assertEqual(result.stdout.count(b'\n'), 1)
+
+    def test_direct_terminal_stages_do_not_probe_or_consume_input(self):
+        # Direct chezmoi apply does not have Tjikup's stdout pipe. Exercise
+        # both helpers on a real terminal with stdin supplied separately.
+        for shell, filename, script in (
+            ('bash', 'status.sh', 'source "$1"; stage test SYNC Test sleep 0.05; read -r answer; printf "answer=%s\\n" "$answer"'),
+            ('fish', 'status.fish', 'source $argv[1]; stage test SYNC Test sleep 0.05; read -l answer; printf "answer=%s\\n" "$answer"'),
+        ):
+            with self.subTest(shell=shell):
+                master, slave = pty.openpty()
+                try:
+                    result = subprocess.run([
+                        shell, *(('--no-config',) if shell == 'fish' else ()),
+                        '-c', script, '--', str(ROOT / 'home/.chezmoihelpers' / filename),
+                    ], input=b'untouched\n', stdout=slave, stderr=slave,
+                        env={**os.environ, 'TERM': 'xterm-256color'}, timeout=10)
+                    os.close(slave)
+                    slave = None
+                    output = b''
+                    while True:
+                        try:
+                            chunk = os.read(master, 65536)
+                        except OSError:
+                            break
+                        if not chunk:
+                            break
+                        output += chunk
+                    self.assertEqual(result.returncode, 0, output)
+                    self.assertIn(b'answer=untouched', output)
+                    self.assertIn('✓ Test'.encode(), ANSI.sub('', output.decode()).encode())
+                    self.assertIn(b'\x1b[', output)  # colours are retained
+                    self.assertNotIn(b'\x1b[?', output)  # no mode queries
+                    self.assertNotIn(b'\x1b]', output)  # no colour queries
+                finally:
+                    os.close(master)
+                    if slave is not None:
+                        os.close(slave)

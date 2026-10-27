@@ -1,5 +1,5 @@
-# tjikup forwards piped output to its terminal to avoid Gum's terminal probes.
-# Colour support is independent of whether interactive spinners can run.
+# Render status directly: Gum's terminal probes can leak replies into stdin
+# during direct chezmoi applies. Colour also works through tjikup's output pipe.
 function __stage_use_color
     isatty stdout; or test "$TJIKUP_COLOR" = 1
 end
@@ -343,11 +343,8 @@ function __stage_run
     end &
     set -l pid $last_pid
 
-    if command -v gum >/dev/null 2>&1; and isatty stdout
-        gum spin --spinner dot --title (__stage_spin_title "$stage_name" "$subject") -- bash -c 'while kill -0 "$1" 2>/dev/null; do sleep 0.2; done' bash $pid
-    else
-        __stage_label "$stage_name" "..." "$subject"
-    end
+    # A pending row needs no terminal queries or ownership of stdin.
+    __stage_label "$stage_name" "..." "$subject"
 
     wait $pid 2>/dev/null
     set -l code (cat $status_file)

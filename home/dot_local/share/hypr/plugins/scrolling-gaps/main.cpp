@@ -2,20 +2,23 @@
 #include <hyprland/src/plugins/PluginAPI.hpp>
 #include <hyprland/src/desktop/state/FocusState.hpp>
 #include <hyprland/src/desktop/state/WindowState.hpp>
+#include <hyprland/src/desktop/state/ViewState.hpp>
 #include <hyprland/src/layout/target/WindowTarget.hpp>
 #include <hyprland/src/layout/algorithm/Algorithm.hpp>
 #include <hyprland/src/layout/algorithm/tiled/scrolling/ScrollingAlgorithm.hpp>
 #include <hyprland/src/managers/fullscreen/FullscreenController.hpp>
 #include <hyprland/src/output/Monitor.hpp>
+#include <hyprland/src/state/MonitorState.hpp>
 #include <cmath>
 #include <stdexcept>
+#include <sstream>
 #include <unordered_set>
 
 namespace {
 HANDLE handle;
-CFunctionHook *positionHook, *borderHook, *roundingHook;
+CFunctionHook *positionHook, *borderHook, *roundingHook, *hitTestHook;
 CHyprSignalListener focusListener;
-SP<SHyprCtlCommand> stateCommand;
+SP<SHyprCtlCommand> stateCommand, hitTestCommand;
 bool enabled = true;
 
 // Focus belongs to each workspace, not to the desktop as a whole. Leaving a
@@ -67,6 +70,26 @@ float rounding(Desktop::View::CWindow* w) {
     return reinterpret_cast<float (*)(Desktop::View::CWindow*)>(roundingHook->m_original)(w);
 }
 
+PHLWINDOW windowAt(const Desktop::CViewHitTester* tester, const Vector2D& pos, uint16_t properties, PHLWINDOW ignoreWindow) {
+    const auto original = reinterpret_cast<PHLWINDOW (*)(const Desktop::CViewHitTester*, const Vector2D&, uint16_t, PHLWINDOW)>(hitTestHook->m_original);
+    const auto found = original(tester, pos, properties, ignoreWindow);
+    if (!enabled || ignoreWindow || (properties & Desktop::View::FLOATING_ONLY)) return found;
+    // Native floating/special-window and popup priority must remain intact.
+    if (found && (found->m_isFloating || found->onSpecialWorkspace() || found->hasPopupAt(pos))) return found;
+    const auto monitor = State::monitorState()->query().vec(pos).run();
+    if (!monitor || !monitor->m_activeWorkspace) return found;
+    const auto last = monitor->m_activeWorkspace->m_lastFocusedWindow.lock();
+    const auto focused = effectiveFocus(last.get());
+    if (!gapless(focused.get()) || found == focused
+        || (found && found->m_workspace != focused->m_workspace)
+        || !focused->geometricBox(Desktop::View::IGeometric::GEOMETRIC_CURRENT).containsPoint(pos)) return found;
+    // The expanded content covers a neighbor's logical footprint (and sometimes
+    // a few pixels of its rendered border). Re-query actual geometry, excluding
+    // that covered neighbor. Native eligibility, modal and query flags still apply.
+    const auto visual = original(tester, pos, properties | Desktop::View::USE_PROP_TILED, found);
+    return visual == focused ? visual : found;
+}
+
 void refresh() {
     // Include unfocused workspaces on load/unload too: their geometry may now
     // qualify, or need restoration when the hooks are disabled.
@@ -98,6 +121,7 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE owner) {
     positionHook = hook("setPositionGlobal", "Layout::CWindowTarget::setPositionGlobal(Layout::STargetBox const&, unsigned char)", reinterpret_cast<void*>(position));
     borderHook = hook("getRealBorderSize", "Desktop::View::CWindow::getRealBorderSize() const", reinterpret_cast<void*>(border));
     roundingHook = hook("rounding", "Desktop::View::CWindow::rounding()", reinterpret_cast<void*>(rounding));
+    hitTestHook = hook("windowAt", "Desktop::CViewHitTester::windowAt(Hyprutils::Math::Vector2D const&, unsigned short, Hyprutils::Memory::CSharedPointer<Desktop::View::CWindow>) const", reinterpret_cast<void*>(windowAt));
     focusListener = Event::bus()->m_events.window.active.listen([] { refresh(); });
     stateCommand = HyprlandAPI::registerHyprCtlCommand(handle, {"scrolling-gaps:state", true,
         [](eHyprCtlOutputFormat, std::string) {
@@ -112,8 +136,19 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE owner) {
             }
             return result + "]";
         }});
+    hitTestCommand = HyprlandAPI::registerHyprCtlCommand(handle, {"scrolling-gaps:hit-test", false,
+        [](eHyprCtlOutputFormat, std::string request) {
+            std::istringstream input(request);
+            std::string command;
+            double x, y;
+            if (!(input >> command >> x >> y) || !std::isfinite(x) || !std::isfinite(y))
+                return std::string("usage: scrolling-gaps:hit-test X Y");
+            const auto window = Desktop::viewState()->hitTest().windowAt({x, y},
+                Desktop::View::RESERVED_EXTENTS | Desktop::View::INPUT_EXTENTS | Desktop::View::ALLOW_FLOATING);
+            return window ? std::format("\"0x{:x}\"", reinterpret_cast<uintptr_t>(window.get())) : std::string("null");
+        }});
     refresh();
-    return {"scrolling-gaps", "Workspace-local gaps for 100% scrolling columns; no fullscreen", "Tijpfiles", "0.1.2"};
+    return {"scrolling-gaps", "Workspace-local gaps for 100% scrolling columns; no fullscreen", "Tijpfiles", "0.1.3"};
 }
 APICALL EXPORT void PLUGIN_EXIT() {
     enabled = false;

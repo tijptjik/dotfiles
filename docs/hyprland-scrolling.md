@@ -87,7 +87,11 @@ last-focused column, including during transient loss of focus and plugin reload.
 Panel reservations, layer visibility, and floating windows
 retain normal behavior. Explicit user fullscreen is left to Hyprland.
 
-The plugin hooks the native window-target geometry and border/rounding accessors.
+The plugin hooks the native window-target geometry, border/rounding accessors,
+and window hit testing. Within expanded full-width content, covered neighboring
+columns must not capture edge clicks through their original logical footprints.
+Hit testing rechecks the visible geometry while retaining native floating-window,
+popup, modal, and special-workspace priority. Focus-follows-mouse settings are unchanged.
 It checks the compositor ABI before installing hooks and fails closed on mismatch.
 A missing plugin leaves ordinary gaps everywhere; there is no workspace-wide or
 fullscreen fallback. `scrolling_gaps.lua` only dispatches navigation and widths.
@@ -118,6 +122,8 @@ For rollback, move the binary aside and reload configuration. Ordinary gapped
 geometry is restored; shortcuts continue to work. `hyprctl scrolling-gaps:state`
 reports current rendered sizes, goal sizes, and which window is gapless, without
 window titles or application content.
+`hyprctl scrolling-gaps:hit-test X Y` reports the window address targeted at a
+global logical coordinate without moving the pointer or sending a click.
 
 Validation used an isolated compositor, a reserved top panel, and three synthetic
 terminals. Across 96 animation samples, ordinary windows retained identical current
@@ -129,6 +135,8 @@ the disposable compositor after testing. It also checks floating-window visibili
 and excludes stacked columns. Two synthetic monitors additionally check that
 cross-monitor focus and plugin reload preserve both gapless columns. It requires
 Kitty, Waybar, and grim.
+The probe also checks 108 edge/interior targets across left, middle and right
+full-width columns with border resizing enabled, plus floating-window hit priority.
 
 The remaining app redraw behavior belongs only to the deliberately resizing 100%
 window, not the ordinary column coming into view.

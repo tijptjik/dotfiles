@@ -86,6 +86,25 @@ try:
     print('PASS: 96 animation samples, ordinary sizes invariant, only wide window animates, fullscreen always zero',flush=True)
     print('monitor reservations:',[(m['reserved']) for m in json.loads(ctl('-j','monitors'))],flush=True)
     print('wide animation sizes:',len({tuple(f['wide']) for f in frames}),flush=True)
+    # Full-width content covers neighboring logical footprints at screen edges.
+    # Test both sides and both client orders, with the real border-grab settings.
+    evaluate('hl.config({general={resize_on_border=true,extend_border_grab_area=15}})')
+    edge_samples=[]
+    for address in (b,a,c):
+        focus(address);evaluate('hl.dispatch(hl.dsp.layout("colresize 1"))')
+        time.sleep(.7)
+        wide=snap()[address]
+        x,y=wide['at'];width,height=wide['size']
+        for px in (x+.5,x+1,x+4,x+11,x+12,x+20,x+width/2,
+                   x+width-21,x+width-13,x+width-5,x+width-1,x+width-.5):
+            for py in (y+1,y+height/2,y+height-1):
+                target=json.loads(ctl('scrolling-gaps:hit-test',str(px),str(py)))
+                edge_samples.append({'point':[px,py],'expected':address,'actual':target})
+                assert target==address,edge_samples[-1]
+        evaluate('hl.dispatch(hl.dsp.layout("colresize 0.5"))')
+    (args.artifacts / 'edge-hit-tests.json').write_text(json.dumps(edge_samples,indent=2))
+    focus(a);evaluate('hl.dispatch(hl.dsp.layout("colresize 1"))');time.sleep(.7)
+    print('PASS: 108 edge/interior hit tests select visible content, never a covered neighbor',flush=True)
     # Floating clients must remain visible while the wide column is gapless.
     focus(c);evaluate('hl.dispatch(hl.dsp.window.float({action="set"}))')
     time.sleep(.7)
@@ -95,6 +114,8 @@ try:
     assert float_after['floating'] and not float_after['hidden']
     assert float_after['size']==float_before['size']
     assert float_after['fullscreen']==0 and float_after['fullscreenClient']==0
+    fx,fy=float_after['at'];fw,fh=float_after['size']
+    assert json.loads(ctl('scrolling-gaps:hit-test',str(fx+fw/2),str(fy+fh/2)))==c
     # Special workspaces must not resize the normal strip beneath them.
     evaluate('hl.dispatch(hl.dsp.window.move({workspace="special:gap-probe",follow=false,window="address:'+c+'"}))')
     focus(a);time.sleep(.7)

@@ -6,10 +6,10 @@ tooltjik monorepo under `apps/notjik`.
 
 On desktop clients (`fi` and `li`), `chezmoi apply` builds and installs Notjik
 from a shared tooltjik checkout. Both installers bootstrap it independently when
-absent. If the default `~/.local/share/tooltjik` checkout lacks the required app,
-the installer updates it with `git pull --ff-only`, requiring a clean checkout.
-Set `TOOLTJIK_REPO` to select another checkout. Explicit selections and
-`~/code/tooltjik` are never pulled; update those manually before applying.
+absent, using `~/code/tooltjik` on every host. Set `TOOLTJIK_REPO` to select
+another checkout. Existing checkouts are never pulled by installers; update
+them before applying. Older `~/.local/share/tooltjik` checkouts must be moved
+first; see the migration instructions in [Tjikup](tjikup.md).
 
 Notjik is enabled for graphical sessions and started when a
 session is active; an already running instance is not restarted, preserving

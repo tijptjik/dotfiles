@@ -75,8 +75,8 @@ the planned continuation. Other unfinished Git operations still require manual
 completion. Ordinary detached HEAD checkouts are not pushed.
 
 Dotjik is located via `chezmoi source-path` and its Git root; Systjik defaults to
-`~/.local/share/chezetc`. Tooltjik uses `TOOLTJIK_REPO`, then an existing
-`~/code/tooltjik`, then `~/.local/share/tooltjik`, matching installer selection.
+`~/.local/share/chezetc`. Tooltjik uses `TOOLTJIK_REPO` when set, otherwise
+`~/code/tooltjik` on every host, matching installer selection.
 `DOTJIK_REPO` and `SYSTJIK_REPO` override the other repository paths. Missing
 checkouts fail clearly rather than being cloned. The shortcuts share Tjikup's
 workflow and repository locks and report a busy checkout instead of racing it.
@@ -182,21 +182,38 @@ configuration repo. It checks the system adapter exists, installs the executable
 and icon, validates the workflow, and atomically links the default configuration.
 It can also be run before the first home apply once Chezetc is initialized.
 
-The managed installation hook and focused installer select `$TOOLTJIK_REPO`, an existing
-`~/code/tooltjik`, or `~/.local/share/tooltjik`. If absent they clone tooltjik.
-If the default `~/.local/share/tooltjik` lacks the required app, the shared
-bootstrap helper updates it with `git pull --ff-only`, requiring a clean checkout.
-The installer builds and installs only tjikup. Explicit selections and development
-checkouts are not pulled; update tooltjik explicitly to deploy a new runner
-version, for example:
+The managed installation hook and focused installer use `~/code/tooltjik` on
+every host, unless `$TOOLTJIK_REPO` explicitly selects another checkout. If absent
+they clone Tooltjik there. Existing checkouts are never pulled by installers;
+update Tooltjik explicitly to deploy a new runner version. The installer builds
+and installs only tjikup. For a checkout that can fast-forward:
 
 ```sh
-git -C ~/code/tooltjik pull --ff-only
+git -C ~/code/tooltjik fetch origin
+git -C ~/code/tooltjik merge --ff-only origin/main
 TOOLTJIK_REPO=~/code/tooltjik bash ~/.local/share/chezmoi/scripts/install-tjikup.sh
 ```
 
-Use `~/.local/share/tooltjik` instead on devices with the default cloned checkout. It fails clearly if the checkout does
-not yet contain tjikup. The command and notification icon are tooltjik-owned;
+Older installations may still have `~/.local/share/tooltjik`. If it exists and
+`~/code/tooltjik` does not, installers and fleet Git commands stop with migration
+guidance rather than creating a second clone. Move the existing checkout while
+no Tooltjik build or Git operation is running; this preserves commits, staged
+changes and untracked files. In Bash, when the destination is absent:
+
+```bash
+mkdir -p "$HOME/code"
+if [[ ! -e "$HOME/code/tooltjik" && ! -L "$HOME/code/tooltjik" ]]; then
+    mv -T -- "$HOME/.local/share/tooltjik" "$HOME/code/tooltjik" &&
+        ln -s -- "$HOME/code/tooltjik" "$HOME/.local/share/tooltjik"
+fi
+```
+
+The compatibility symlink keeps existing service paths valid. If both checkouts
+already exist, reconcile their histories and local changes before removing
+either. Linked Git worktrees require `git worktree move` instead of `mv`.
+
+The installer fails clearly if the checkout does not yet contain tjikup.
+The command and notification icon are tooltjik-owned;
 Chezmoi no longer installs runner code into `~/.local/lib/tjikup`. An old copy
 there is unused by the new self-contained executable and may be removed after
 migration. No blanket apply is needed to migrate the command.

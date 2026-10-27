@@ -5,9 +5,10 @@ Bartjik is the desktop bar on `fi` and `li`. Its configuration is managed in
 
 Every `tjikup` home apply runs `run_after_39-install-bartjik.fish.tmpl`, which
 builds and installs only Bartjik using `scripts/install-bartjik.sh`. It uses
-`TOOLTJIK_REPO`, an existing `~/code/tooltjik`, or the bootstrapped
-`~/.local/share/tooltjik` checkout, in that order. Development checkouts are
-never pulled automatically. Quickshell and Python 3 must already be installed.
+`TOOLTJIK_REPO` when set, otherwise `~/code/tooltjik` on every host. Missing
+checkouts are cloned there; existing checkouts are never pulled by installers.
+Older `~/.local/share/tooltjik` checkouts require the migration described in
+[Tjikup](tjikup.md). Quickshell and Python 3 must already be installed.
 
 The installer restores the managed Fish service wrapper, reloads systemd and
 enables Bartjik. It starts the service in an active graphical session; headless

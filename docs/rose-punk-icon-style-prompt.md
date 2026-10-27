@@ -71,13 +71,11 @@ the [study sheet](../.local/icon-reviews/docs/rose-punk-material-study.svg) coll
 - `scripts/icons/fullset.py` combines these layers and outputs the primary frameless theme. Rebuild the downstream assets:
 
 ```sh
-python3 scripts/icons/fullset.py
-python3 scripts/icons/build-fleet.py
+python3 -B scripts/icons/release.py build
+python3 -B scripts/icons/release.py check
+# Optional local visual reviews (some require historical snapshots):
 python3 scripts/icons/gallery.py
-python3 scripts/icons/palette-review.py
-python3 scripts/icons/material-review.py
 python3 scripts/icons/frameless-review.py
-python3 scripts/icons/homepage.py
 python3 -B -m unittest discover -s tests -p 'test_*icon*.py' -v
 ```
 
@@ -89,8 +87,8 @@ the original-icon review. Deployment is separate from generating the review.
 
 ## Active scope and revision 2
 
-The active catalog contains 106 apps and services. `scripts/icons/retired.json`
-archives 14 retired/unused entries; do not add them back when making a new study.
+The active catalog contains 107 apps and services. `scripts/icons/retired.json`
+archives 13 retired/unused entries; do not add them back when making a new study.
 Their source artwork and frozen snapshots are historical, not active choices.
 The revised clean forms are self-contained in `local/*.svg` with
 `data-material="authored"`, so the generic shading pass does not reintroduce the

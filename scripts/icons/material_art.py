@@ -254,6 +254,19 @@ COMMAND_ART['shortcuts'] += (path('m32 12 5 6h-3v6h-4v-6h-3Z', '#4b567b')
     + path('m56 42-6-5v3h-5v4h5v3Z', '#4b567b'))
 
 
+COMMAND_ART['fish'] = (
+    path('M26 22 32 8q9 3 12 14Z', 'url(#cmd-rose)')
+    + path('m27 42 8 14 8-13Z', 'url(#cmd-copper)')
+    + path('M23 27 5 17l4 15-4 15 18-10Z', 'url(#cmd-copper)')
+    + path('M18 30C23 15 43 14 56 28q5 4 0 8C43 50 23 49 18 34Z', 'url(#cmd-jade)')
+    + path('M35 32q-1 8 7 10l-1-10Z', 'url(#cmd-copper)')
+    + path('M43 24q-4 8 0 16', stroke='#347b87', width=1.2, opacity='.65')
+    + circle(49, 28, 3.3, '#fff0da')
+    + circle(50, 28.5, 1.8, '#34304f')
+    + path('M51 36q3 2 5-1', stroke='#34304f', width=1.2)
+    + path('M27 28q3 3 0 6m5-10q3 3 0 6', stroke='#347b87', width=.8, opacity='.4'))
+
+
 def command_artwork(key):
     return COMMAND_DEFS + '<g data-material="authored" stroke-linecap="round" stroke-linejoin="round">' + COMMAND_ART[key] + '</g>'
 

@@ -1,0 +1,529 @@
+{
+  "datagrip": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "kimi-ai": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "google-photos": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlephotos.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "096222b445207536884cf856c48d80dfed8ce5215707e9228966626a41b2188a"
+  },
+  "gmail": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gmail.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "a537f5d85d9a27efa3a5d6086e8df6072ee93f76b4d176639a5e483f74b74b9f"
+  },
+  "google-calendar": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlecalendar.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "39b434d3264d123629a12509e9f5bdf57bf9e5ed9a6eafffb714cff5f05f032f"
+  },
+  "monochrome-music": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "codex-lb": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "drizzle": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "homeworld-remastered-collection": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "steam": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "brave": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "plex": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/plex.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "129500c2bda2175c95402d12e0a96642de61a2561d45a4d9719edc8abd43c8ea"
+  },
+  "chatgpt": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "discord": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "chrome": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "tramoramic-experience": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "zapzap": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "spotify": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "transmission": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/transmission.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "17eb4ef8dbe807f4252d75631b345c83bf862584a5fe9f923afc9a4e693a2753"
+  },
+  "zed": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "gimp": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gimp.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "8401f27de7fb789ff458cd92a0c1c2e884cdd281af8b42508dfc9a19cdc31b9e"
+  },
+  "witcher-2": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "strata": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "jetbrains-toolbox": {
+    "source": "local icon theme: Neuwaita/scalable/apps/com.jetbrains.toolbox.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "05f9d7a34cbcefb1581b51f18bb76fe3424ce4a9304251c76f9dc8c92209803e"
+  },
+  "kitty": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "obsidian": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "mullvad": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/mullvad.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "bf228c15811759a3b1e5c28ee9f23d603c0ce5fe06982416d0105e0b154a128d"
+  },
+  "thunderbird": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/thunderbird.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "cfead1f62aaac0638f21053ed2ab78e938ef32a96b8a82c453a2afe2e1f6f1b2"
+  },
+  "files": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "settings": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "firefox": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/firefoxbrowser.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "5bb2f58d6b27b191af5d7793016b06de8ae571120f4f1d530c235b350ae83371"
+  },
+  "signal": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "telegram": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "vlc": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "sublime-text": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "zen": {
+    "source": "scripts/icons/build.py",
+    "license": "Original artwork"
+  },
+  "simplescreenrecorder": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/simplescreenrecorder.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "93a7082267f99938085e033f7dd2b74ca5691e8a82eeef0051b76025be4209a0"
+  },
+  "beekeeper-studio": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/beekeeperstudio.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "6e6651a37a034c4062ab5abdd2c5a03988e1f1b37a7f190ab5097aa0762580d5"
+  },
+  "bluetooth-adapters": {
+    "source": "/usr/share/icons/hicolor/scalable/devices/blueman-device.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "2060f5d232503facdd4add17cd3b748cf4353cceea05bab35c8db1bc7e4bf391"
+  },
+  "bluetooth-manager": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/blueman.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "b912b2896d2771855c789a32492d3ad612e576b685d1e71a0ab6da250109ffdf"
+  },
+  "ghostty": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/ghostty.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "a1f7de256a7b070cf112c3d5d254938b48186d2486054fb0832da4a83719387f"
+  },
+  "fcitx-5-configuration": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/fcitx.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "52965f102842d0d547a272ef30aa0548384bb1e8c6256da814cdf617ce53f198"
+  },
+  "system-monitor": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.SystemMonitor.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "67961ef5b942fc35bd779131db6476d2740c4dc4785c40c719a10ee836f3ab70"
+  },
+  "grass": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/grass.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "c9b415ffaf63fa44e09e299617903874589a78c72bf76310cee11d77fb01d2dc"
+  },
+  "htop": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/htop.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "91bd25b2d2717993f6989e49bbedcadd0c9583f9b5b58a28f6d2d5e5c5e28703"
+  },
+  "java-monitor": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/openjdk.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "31c94bd8f864b018d9733c251df186f36e9a0036e43f78d0656895108d438bb3"
+  },
+  "keyboard-layout-viewer": {
+    "source": "/usr/share/icons/Adwaita/scalable/devices/input-keyboard.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "66d19f83de1cc1dd8d66748b42a87f12ec178133c8e20899601069d19e3b3370"
+  },
+  "mpv-media-player": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/mpv.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "bf6082c81dcc8b8c6351326b53530f461258af9ca71c4642372654eba29c598f"
+  },
+  "lutris": {
+    "source": "local icon theme: Neuwaita/scalable/apps/net.lutris.Lutris.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "1d6a52c9ff8d99e741a73f1bddabeea1c53031cc51867619b9384a3904c2f2de"
+  },
+  "nm-gui": {
+    "source": "/usr/share/icons/Adwaita/symbolic/devices/network-wireless-symbolic.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "7fb1e3868058a2e653169335dbe7f75c2c6784c486ed9862170dba23013ef36d"
+  },
+  "neovim": {
+    "source": "local icon theme: Neuwaita/scalable/apps/nvim.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "acca7f960640a16b1436a8238ad6ce12d52fe08e1f5c8e516de4c8422b3839d7"
+  },
+  "fedora-media-writer": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/fedora.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "c234757373cab5ed80d7b2df8ff26ea039bcec16a9e9a47adbd29f5d0e94489a"
+  },
+  "problem-reporting": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/org.freedesktop.GnomeAbrt.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "b3a2663da0b9b88d0127c903739150eac4dfb8370660dec0462ee6ac9fe78376"
+  },
+  "parental-controls": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/org.freedesktop.MalcontentControl.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "f2d313bf6cef4eee7b389c70ff7272b1108ce7879dd49e37fa564a25eb01e5b6"
+  },
+  "calendar": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "characters": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Characters.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "f6abe898604ffb4b99303ecc58d8cf6ffc52d4ffc30e94d005b31f629aab5bd8"
+  },
+  "color-profile-viewer": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/gnome-color-manager.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "5c18875d183efb84236abb58addf421430a7932a61f3846f2831894d18834cac"
+  },
+  "connections": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.Connections.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "a1955c4ff32d4dfaf22608d54b7cf8f8d90133d46d0b18e9a3cc60fc428fbdfd"
+  },
+  "contacts": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Contacts.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "ea6eae5d1cec3811f52815bab6b97c913131208db0c9795cf7a7ef44e3bf0f86"
+  },
+  "audio-player": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.Decibels.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "07e7fc4effa73552e66e022546ae2decf5e7e5a13b9426466e3db3fe2bd4fa2b"
+  },
+  "disks": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.DiskUtility.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "828fc5825d70c533bc5e1fdf3a69ab6983c903b3f5792adcc65de86b42814525"
+  },
+  "document-viewer": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Papers.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "5de5f5e8c717cca208b2570ae8e1b2fee5b86c250c5580cb4bfda7095952dc26"
+  },
+  "file-roller": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.FileRoller.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "e5f6e87be2faae493f3bb03a6bf3b4ae77842d8b85a28c9cb669ae263d83538b"
+  },
+  "logs": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Logs.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "3881813834dfef871158d162becd02b89358ca789dbcd187768370822c65abb5"
+  },
+  "image-viewer": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Loupe.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "aa174060286b71d568ecc75bbba1f73fcecc307ffa0372a082f477ac35a67ef6"
+  },
+  "maps": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Maps.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "ba6134012f13e0c781b9e3dc418e7ee85959872e47b1e518d2e711b66df344a2"
+  },
+  "video-player": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.Showtime.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "295c86d33c7c59dea35b160f60f057930acf50ca5ef645d6ed6667c3176ad587"
+  },
+  "document-scanner": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.SimpleScan.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "c5f4d360a18bd1f24c9a76fc837845989caa1451581aa3367306f2e2244cc566"
+  },
+  "camera": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Snapshot.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "211dc4d770441ddcb439822aa50df2c9d117be8b8a3527eb5d086a2e83e9c292"
+  },
+  "software": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Software.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "e0c6307cdbbce00af5282dfb4d6bfea3d32275580362324962487cd5f044c660"
+  },
+  "terminal": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Terminal.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "a98f915e603f78b99e6ce568501660e6b2833efc688f7992248a4ba26a8a3a52"
+  },
+  "text-editor": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.TextEditor.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "fef016c7696a0d6fb064c7d26f9d7fcf8217d4ff4e37bb553e128e224b1867e7"
+  },
+  "tour": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.Tour.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "c6dbd9c3e2c3f6d5e8477ce7f6650d64fe5156a318fc41fc47aaa7daf172dedc"
+  },
+  "weather": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Weather.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "42de1ed2b0f9534e05e9ccd8a9532958de27722c978364cce2155ae82bc996f8"
+  },
+  "help": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "disk-usage-analyzer": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.baobab.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "0af8d9f03130722757c811728c76a4bb5907ccd8e9e1027f61f370900fe74db3"
+  },
+  "clocks": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.clocks.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "37b4e3b04eeef2f0a8223988ed3353bebc540521cdb39514f3f0922928b26f5c"
+  },
+  "eye-of-gnome": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.eog.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "12d135dbed180824600416f3059deefe68e005b97ed99c7322e67321d47494d0"
+  },
+  "fonts": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.font-viewer.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "5cd874259de58bbab6c54ef2a2aad46095b743a15e1a4ffcbb8d6fc86c9ae747"
+  },
+  "thumbnails": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.gthumb.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "c3c482d15e9d5a63bff59178a21144c12efe910f969ea909fe4830a2a50b73c8"
+  },
+  "tweaks": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.tweaks.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "ba4ad0b409029e6a90207e875bb26130cbe69651956fb325eb06a8127aa9fcba"
+  },
+  "volume-control": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/org.pulseaudio.pavucontrol.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "6f8879e9083ee2a23121fa29835dec46a9d070f11627b335ba51778b7e5f8b51"
+  },
+  "qgis-desktop": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/qgis.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "902702e1ca21f8fb9860c5f9bd5aea07c1940e4930cfe83ca74da840bb9d6dba"
+  },
+  "rygel-preferences": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/rygel.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "a8c6e82aadbf3627aeb9c9e3d3295c9b9c8609822db95ae968d28135767cb383"
+  },
+  "scrcpy": {
+    "source": "local icon theme: Neuwaita/scalable/apps/scrcpy.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "0405f360d4390f769cd090b8e1f5c8c9257cd8c1774651f5495fa8334d30f756"
+  },
+  "solaar": {
+    "source": "/usr/share/icons/hicolor/scalable/apps/solaar.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "f4428b1f9b37e17e8e81dfdcb83c0a917fa1d55ea0ff29bba3703b4a8a60cc6c"
+  },
+  "uuctl": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "dconf-editor": {
+    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/ca.desrt.dconf-editor.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "c1325ed5ced05406135dec97e03cb6f79b48a76605e74ecac3f434bc6610f8f0"
+  },
+  "gpu-screen-recorder": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "flatseal": {
+    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/com.github.tchx84.Flatseal.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "ce576a50466f35dcad5723472b0aafaee0fcec4b884abeda44e97489fd670fc4"
+  },
+  "obs-studio": {
+    "source": "local icon theme: Neuwaita/scalable/apps/com.obsproject.Studio.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "2a2ca67053def59e3045968a5552e46af040f51e018e7c5ee686a2de4c83144a"
+  },
+  "rustdesk": {
+    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/com.rustdesk.RustDesk.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "fd74e32e142f06cc3ac42ba8dba65b6c3a6c11ea690f70bcc80dd0e84838103a"
+  },
+  "bottles": {
+    "source": "local icon theme: Neuwaita/scalable/apps/com.usebottles.bottles.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "bcdd0eeeea23b3de648d7586f89e36ed524cbc3cf84c165cfcb2e03b77d89139"
+  },
+  "handbrake": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "metadata-cleaner": {
+    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/fr.romainvigier.MetadataCleaner.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "7e02712b8cfcd9a881aed34adfe62053c96cf5f8e8294a182ac2a9e94ef3ee2f"
+  },
+  "bluejay": {
+    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/io.github.ebonjaeger.bluejay.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "884a2e417810e313c5d210da43e62394af27f26fe5928ceaa025253918d71490"
+  },
+  "azahar": {
+    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/org.azahar_emu.Azahar.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "b7941099d70483350c3f1af82bdf55cda68203f12f2e8a9b09b23749de3a5caf"
+  },
+  "cheese": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Cheese.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "6392091f5932f4e90c2bcf2b523a4844bb1ba044bcfd91245cbca7bad649be32"
+  },
+  "passwords-and-keys": {
+    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/org.gnome.seahorse.Application.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "2ca3df61dca71c4e16f5de4b87270d51b7b19f2a3e1c8e46c94591381150aa2c"
+  },
+  "yuzu": {
+    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/org.yuzu_emu.yuzu.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "05d2f036dc9028074749f9c91e5efb63dc438bc19bcf4870f0b39df2a0c92617"
+  },
+  "koreader": {
+    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/rocks.koreader.KOReader.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "b285123a86736a5c317de1e9362c6a84fcebd7075c1f947586541d81f99ef29d"
+  },
+  "zoom": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/zoom.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "da5b2f13d38ca61c88a227f58e3bebcbcbb55412d97678ecff49ae7c603f9a7b"
+  },
+  "vscode": {
+    "source": "local icon theme: Neuwaita/scalable/apps/com.visualstudio.code.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "0d9532c4c3eed55dfb601e705b1849caf4db0368616b2bc65e5c4a1c7f4a523a"
+  },
+  "slack": {
+    "source": "local icon theme: Neuwaita/scalable/apps/com.slack.Slack.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "62de3bd8000db312bc19c97358af1487978388d6f3ef993da9a78833c60ced77"
+  },
+  "teams": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "notion": {
+    "source": "local icon theme: Neuwaita/scalable/apps/notion-app.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "2d5d1379ba6c90623da1432ad3fe3843234039ffb2b591dd44843eda3d2b8b6b"
+  },
+  "figma": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/figma.svg",
+    "license": "CC0-1.0 (brand rights remain with their owners)",
+    "sha256": "2f86fca501dfed321a62f28743f29d9dd738dac91668eac5260ab746d1ef8840"
+  },
+  "edge": {
+    "source": "scripts/icons/extra_art.py",
+    "license": "Original artwork"
+  },
+  "blender": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/blender.svg",
+    "license": "CC0-1.0",
+    "sha256": "ec86e2c9cf9fc25f5c8d3bf2e8d201c0dce6683137f37a1e61f992da6566bff5"
+  },
+  "inkscape": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.inkscape.Inkscape.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "a6e0688e44f3d21d315727230f21bf99595177d215c96608fd56d7b24f5341b7"
+  },
+  "libreoffice": {
+    "source": "local icon theme: Neuwaita/scalable/apps/libreoffice-startcenter.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "a29f5cfd0854d06b5f4892630f0241224da94cdb0b502ad3c5f45c71981b8f57"
+  },
+  "audacity": {
+    "source": "local icon theme: Neuwaita/scalable/apps/org.audacityteam.Audacity.svg",
+    "license": "See bundled upstream theme licenses; source metadata retained",
+    "sha256": "a7b452b1e97a4e96d693ad0a94da77c7365451fecccf1561f535ff35abf2579c"
+  }
+}

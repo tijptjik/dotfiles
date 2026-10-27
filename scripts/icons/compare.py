@@ -3,7 +3,7 @@
 from pathlib import Path
 from html import escape
 from build import ART, ROOT, icon
-from illustrated import icon as illustrated_icon
+from illustrated import DEST
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
         b='../home/dot_local/share/icons/rose-punk-illustrated/scalable/apps/'+key+'.svg'
         cards.append(f'<article><h2>{escape(name)}</h2><div class="pair"><figure><img src="{a}" alt="{escape(name)} outline"><figcaption>A · Outline</figcaption></figure><figure><img src="{b}" alt="{escape(name)} illustrated"><figcaption>B · Illustrated</figcaption></figure></div></article>')
         x=24+i%5*240;y=120+i//5*160
-        for column,content in enumerate((icon(mark),illustrated_icon(key,mark))):
+        for column,content in enumerate((icon(mark),(DEST / f'{key}.svg').read_text())):
             inner=content.split('>',1)[1].rsplit('</svg>',1)[0]
             # Namespace gradients per embedded icon in the combined document.
             for ident in ('tile','enamel','ink','gem'):

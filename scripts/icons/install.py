@@ -63,7 +63,7 @@ def main():
                         if any(fnmatch.fnmatchcase(source.name, p) for p in patterns)), None)
             if not key:
                 continue
-            if not (data / f'icons/rose-punk/scalable/apps/{key}.svg').is_file():
+            if not (data / f'icons/rose-punk-illustrated/scalable/apps/{key}.svg').is_file():
                 raise RuntimeError(f'Missing deployed icon: {key}')
             target = data / 'applications' / source.name
             text = source.read_text()

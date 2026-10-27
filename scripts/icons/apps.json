@@ -1,27 +1,394 @@
 {
-  "zapzap": ["com.rtosta.zapzap.desktop"],
-  "files": ["org.gnome.Nautilus.desktop"],
-  "codex-lb": ["FFPWA-01KVFQER39ASXCZ26D7724G54G.desktop", "FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N.desktop"],
-  "chrome": ["google-chrome*.desktop", "com.google.Chrome.desktop", "com.google.Chrome.canary.desktop"],
-  "sublime-text": ["sublime_text.desktop"],
-  "mullvad": ["mullvad-vpn.desktop"],
-  "signal": ["org.signal.Signal.desktop"],
-  "telegram": ["org.telegram.desktop*"],
-  "spotify": ["com.spotify.Client.desktop", "spotify.desktop"],
-  "chatgpt": ["chatgpt.desktop", "codex-desktop.desktop"],
-  "zen": ["zen-browser.desktop", "Zen.desktop"],
-  "kitty": ["kitty.desktop"],
-  "zed": ["dev.zed.Zed*.desktop", "zed.desktop"],
-  "brave": ["brave-browser*.desktop", "com.brave.Browser.desktop"],
-  "firefox": ["org.mozilla.firefox.desktop", "firefox.desktop"],
-  "datagrip": ["DataGrip-*.desktop", "jetbrains-datagrip-*.desktop"],
-  "drizzle": ["FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD.desktop"],
-  "obsidian": ["md.obsidian.Obsidian.desktop"],
-  "steam": ["steam.desktop"],
-  "vlc": ["vlc.desktop", "org.videolan.VLC.desktop"],
-  "discord": ["com.discordapp.Discord.desktop", "discord.desktop"],
-  "thunderbird": ["net.thunderbird.Thunderbird.desktop", "thunderbird.desktop"],
-  "gimp": ["gimp.desktop", "org.gimp.GIMP.desktop"],
-  "settings": ["org.gnome.Settings.desktop"],
-  "transmission": ["transmission-gtk.desktop", "com.transmissionbt.Transmission.desktop"]
+  "zapzap": [
+    "com.rtosta.zapzap.desktop"
+  ],
+  "files": [
+    "org.gnome.Nautilus.desktop"
+  ],
+  "codex-lb": [
+    "FFPWA-01KVFQER39ASXCZ26D7724G54G.desktop",
+    "FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N.desktop"
+  ],
+  "chrome": [
+    "com.google.Chrome.canary.desktop",
+    "com.google.Chrome.desktop",
+    "google-chrome*.desktop",
+    "google-chrome-beta.desktop",
+    "google-chrome-canary.desktop",
+    "google-chrome.desktop"
+  ],
+  "sublime-text": [
+    "sublime_text.desktop"
+  ],
+  "mullvad": [
+    "mullvad-vpn.desktop"
+  ],
+  "signal": [
+    "org.signal.Signal.desktop"
+  ],
+  "telegram": [
+    "org.telegram.desktop",
+    "org.telegram.desktop*",
+    "org.telegram.desktop._3e485da34fc040f9218e3891ecde1e6c.desktop",
+    "org.telegram.desktop.desktop"
+  ],
+  "spotify": [
+    "com.spotify.Client.desktop",
+    "spotify.desktop"
+  ],
+  "chatgpt": [
+    "chatgpt.desktop",
+    "codex-desktop.desktop"
+  ],
+  "zen": [
+    "Zen.desktop",
+    "zen-browser.desktop"
+  ],
+  "kitty": [
+    "kitty.desktop"
+  ],
+  "zed": [
+    "dev.zed.Zed*.desktop",
+    "dev.zed.Zed-Nightly.desktop",
+    "dev.zed.Zed-Preview.desktop",
+    "dev.zed.Zed.desktop",
+    "zed.desktop"
+  ],
+  "brave": [
+    "brave-browser*.desktop",
+    "brave-browser-beta.desktop",
+    "brave-browser.desktop",
+    "com.brave.Browser.desktop"
+  ],
+  "firefox": [
+    "firefox.desktop",
+    "org.mozilla.firefox.desktop"
+  ],
+  "datagrip": [
+    "DataGrip-*.desktop",
+    "DataGrip-f9444743-cbfb-4faf-be44-0d64569a3172.desktop",
+    "jetbrains-datagrip-*.desktop",
+    "jetbrains-datagrip-b9472e91-7c8f-48dc-94d5-f799d202bccf.desktop"
+  ],
+  "drizzle": [
+    "FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD.desktop"
+  ],
+  "obsidian": [
+    "md.obsidian.Obsidian.desktop"
+  ],
+  "steam": [
+    "Proton Experimental.desktop",
+    "Steam Linux Runtime - Sniper.desktop",
+    "steam.desktop"
+  ],
+  "vlc": [
+    "org.videolan.VLC.desktop",
+    "vlc.desktop"
+  ],
+  "discord": [
+    "com.discordapp.Discord.desktop",
+    "discord.desktop"
+  ],
+  "thunderbird": [
+    "net.thunderbird.Thunderbird.desktop",
+    "thunderbird.desktop"
+  ],
+  "gimp": [
+    "gimp.desktop",
+    "org.gimp.GIMP.desktop"
+  ],
+  "settings": [
+    "org.gnome.Settings.desktop"
+  ],
+  "transmission": [
+    "com.transmissionbt.Transmission.desktop",
+    "transmission-gtk.desktop"
+  ],
+  "kimi-ai": [
+    "FFPWA-01KA90ZNGJ0N77XPVQM2DRB17P.desktop",
+    "FFPWA-01KC3KT4CTVR59SN6N4ECVGRAE.desktop"
+  ],
+  "google-photos": [
+    "FFPWA-01KC3V7SZSJ8PMK49J7QBTP2FK.desktop",
+    "FFPWA-01KCGW1793YX2BA145Z4NWQ2XY.desktop",
+    "brave-ncmjhecbjeaamljdfahankockkkdmedg-Default.desktop"
+  ],
+  "gmail": [
+    "FFPWA-01KC5NHD5A581XBAPMZG1PET4K.desktop"
+  ],
+  "google-calendar": [
+    "FFPWA-01KCGZY23320CJPTJNB8ZVMVPH.desktop"
+  ],
+  "monochrome-music": [
+    "FFPWA-01KFA5CCJHYYD2WY97911P3XG7.desktop"
+  ],
+  "homeworld-remastered-collection": [
+    "Homeworld Remastered Collection.desktop"
+  ],
+  "plex": [
+    "brave-dpjgkjccaekddppdhcjcahhloipkffle-Default.desktop",
+    "tv.plex.PlexDesktop.desktop"
+  ],
+  "tramoramic-experience": [
+    "com.google.Chrome.flextop.chrome-gakhpnjihiibcacdgpnogfoiheeifpdm-Default.desktop"
+  ],
+  "witcher-2": [
+    "gog_com-The_Witcher_2_Assassins_Of_Kings_Enhanced_Edition_1.desktop"
+  ],
+  "strata": [
+    "io.github.lgse.Strata.desktop"
+  ],
+  "jetbrains-toolbox": [
+    "jetbrains-toolbox.desktop"
+  ],
+  "simplescreenrecorder": [
+    "be.maartenbaert.simplescreenrecorder.desktop"
+  ],
+  "beekeeper-studio": [
+    "beekeeper-studio.desktop"
+  ],
+  "bluetooth-adapters": [
+    "blueman-adapters.desktop"
+  ],
+  "bluetooth-manager": [
+    "blueman-manager.desktop"
+  ],
+  "ghostty": [
+    "com.mitchellh.ghostty.desktop"
+  ],
+  "fcitx-5-configuration": [
+    "fcitx5-configtool.desktop"
+  ],
+  "system-monitor": [
+    "gnome-system-monitor-kde.desktop",
+    "org.gnome.SystemMonitor.desktop"
+  ],
+  "grass": [
+    "grass.desktop"
+  ],
+  "htop": [
+    "htop.desktop"
+  ],
+  "java-monitor": [
+    "java-25-openjdk-jconsole.desktop"
+  ],
+  "keyboard-layout-viewer": [
+    "kbd-layout-viewer5.desktop"
+  ],
+  "mpv-media-player": [
+    "mpv.desktop"
+  ],
+  "lutris": [
+    "net.lutris.Lutris.desktop"
+  ],
+  "nm-gui": [
+    "nmgui.desktop"
+  ],
+  "neovim": [
+    "nvim.desktop"
+  ],
+  "fedora-media-writer": [
+    "org.fedoraproject.MediaWriter.desktop"
+  ],
+  "problem-reporting": [
+    "org.freedesktop.GnomeAbrt.desktop"
+  ],
+  "parental-controls": [
+    "org.freedesktop.MalcontentControl.desktop"
+  ],
+  "calendar": [
+    "org.gnome.Calendar.desktop"
+  ],
+  "characters": [
+    "org.gnome.Characters.desktop"
+  ],
+  "color-profile-viewer": [
+    "org.gnome.ColorProfileViewer.desktop"
+  ],
+  "connections": [
+    "org.gnome.Connections.desktop"
+  ],
+  "contacts": [
+    "org.gnome.Contacts.desktop"
+  ],
+  "audio-player": [
+    "org.gnome.Decibels.desktop"
+  ],
+  "disks": [
+    "org.gnome.DiskUtility.desktop"
+  ],
+  "document-viewer": [
+    "org.gnome.Evince.desktop",
+    "org.gnome.Papers.desktop"
+  ],
+  "file-roller": [
+    "org.gnome.FileRoller.desktop"
+  ],
+  "logs": [
+    "org.gnome.Logs.desktop"
+  ],
+  "image-viewer": [
+    "org.gnome.Loupe.desktop"
+  ],
+  "maps": [
+    "org.gnome.Maps.desktop"
+  ],
+  "video-player": [
+    "org.gnome.Showtime.desktop"
+  ],
+  "document-scanner": [
+    "org.gnome.SimpleScan.desktop"
+  ],
+  "camera": [
+    "org.gnome.Snapshot.desktop"
+  ],
+  "software": [
+    "org.gnome.Software.desktop"
+  ],
+  "terminal": [
+    "org.gnome.Terminal.desktop"
+  ],
+  "text-editor": [
+    "org.gnome.TextEditor.desktop"
+  ],
+  "tour": [
+    "org.gnome.Tour.desktop"
+  ],
+  "weather": [
+    "org.gnome.Weather.desktop"
+  ],
+  "help": [
+    "org.gnome.Yelp.desktop"
+  ],
+  "disk-usage-analyzer": [
+    "org.gnome.baobab.desktop"
+  ],
+  "clocks": [
+    "org.gnome.clocks.desktop"
+  ],
+  "eye-of-gnome": [
+    "org.gnome.eog.desktop"
+  ],
+  "fonts": [
+    "org.gnome.font-viewer.desktop"
+  ],
+  "thumbnails": [
+    "org.gnome.gthumb.desktop"
+  ],
+  "tweaks": [
+    "org.gnome.tweaks.desktop"
+  ],
+  "volume-control": [
+    "org.pulseaudio.pavucontrol.desktop"
+  ],
+  "qgis-desktop": [
+    "org.qgis.qgis.desktop"
+  ],
+  "rygel-preferences": [
+    "rygel-preferences.desktop"
+  ],
+  "scrcpy": [
+    "scrcpy-console.desktop",
+    "scrcpy.desktop"
+  ],
+  "solaar": [
+    "solaar.desktop"
+  ],
+  "uuctl": [
+    "uuctl.desktop"
+  ],
+  "dconf-editor": [
+    "ca.desrt.dconf-editor.desktop"
+  ],
+  "gpu-screen-recorder": [
+    "com.dec05eba.gpu_screen_recorder.desktop"
+  ],
+  "flatseal": [
+    "com.github.tchx84.Flatseal.desktop"
+  ],
+  "obs-studio": [
+    "com.obsproject.Studio.desktop"
+  ],
+  "rustdesk": [
+    "com.rustdesk.RustDesk.desktop"
+  ],
+  "bottles": [
+    "com.usebottles.bottles.desktop"
+  ],
+  "handbrake": [
+    "fr.handbrake.ghb.desktop"
+  ],
+  "metadata-cleaner": [
+    "fr.romainvigier.MetadataCleaner.desktop"
+  ],
+  "bluejay": [
+    "io.github.ebonjaeger.bluejay.desktop"
+  ],
+  "azahar": [
+    "org.azahar_emu.Azahar.desktop"
+  ],
+  "cheese": [
+    "org.gnome.Cheese.desktop"
+  ],
+  "passwords-and-keys": [
+    "org.gnome.seahorse.Application.desktop"
+  ],
+  "yuzu": [
+    "org.yuzu_emu.yuzu.desktop"
+  ],
+  "koreader": [
+    "rocks.koreader.KOReader.desktop"
+  ],
+  "zoom": [
+    "us.zoom.Zoom.desktop"
+  ],
+  "vscode": [
+    "code-insiders.desktop",
+    "code.desktop",
+    "com.visualstudio.code.desktop"
+  ],
+  "slack": [
+    "com.slack.Slack.desktop",
+    "slack.desktop"
+  ],
+  "teams": [
+    "com.microsoft.Teams.desktop",
+    "teams-for-linux.desktop",
+    "teams.desktop"
+  ],
+  "notion": [
+    "notion-app.desktop",
+    "notion.desktop"
+  ],
+  "figma": [
+    "figma-linux.desktop",
+    "figma.desktop"
+  ],
+  "edge": [
+    "com.microsoft.Edge.desktop",
+    "microsoft-edge-beta.desktop",
+    "microsoft-edge-dev.desktop",
+    "microsoft-edge.desktop"
+  ],
+  "blender": [
+    "blender.desktop",
+    "org.blender.Blender.desktop"
+  ],
+  "inkscape": [
+    "inkscape.desktop",
+    "org.inkscape.Inkscape.desktop"
+  ],
+  "libreoffice": [
+    "libreoffice-base.desktop",
+    "libreoffice-calc.desktop",
+    "libreoffice-draw.desktop",
+    "libreoffice-impress.desktop",
+    "libreoffice-math.desktop",
+    "libreoffice-startcenter.desktop",
+    "libreoffice-writer.desktop"
+  ],
+  "audacity": [
+    "audacity.desktop",
+    "org.audacityteam.Audacity.desktop"
+  ]
 }

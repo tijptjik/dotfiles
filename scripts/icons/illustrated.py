@@ -14,6 +14,8 @@ def icon(key, mark):
         node.set('stroke', '#35213f' if key not in LINE_MARKS else 'url(#ink)')
         node.set('stroke-width', '1.8' if key not in LINE_MARKS else '3.4')
         node.set('fill', 'none')
+        if detail == 'accent':
+            node.set('stroke', '#d1c0ee')
         if detail == 'dot':
             node.set('fill', '#35213f')
             node.set('stroke', 'none')
@@ -53,9 +55,9 @@ def icon(key, mark):
 
 
 def main():
-    DEST.mkdir(parents=True, exist_ok=True)
-    for key, (_, mark) in ART.items():
-        (DEST / f'{key}.svg').write_text(icon(key, mark))
+    # Rebuild the selected complete set, including the corrected upstream identities.
+    from fullset import main as build_fullset
+    build_fullset()
 
 
 if __name__ == '__main__':

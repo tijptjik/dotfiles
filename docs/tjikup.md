@@ -192,6 +192,10 @@ Fleet steps use their configured verbs and labels (for example, `PULL ✓ Dotjik
 with elapsed wall time. Steps that already print their own status do not add a
 duplicate scheduler row; unchanged pushes are marked skipped. Parallel output
 has one live row per task, with a spinner and elapsed time until completion.
+Active rows hide the cursor and use synchronized terminal updates to prevent
+erase/redraw flicker on supporting terminals. The cursor returns for prompts,
+after the last active row, and when the progress context exits, including Ctrl-C.
+This renderer lives in Tooltjik; reinstall the runner after updating its source.
 Redirected output contains final rows without cursor controls.
 Buffered failures show the failed step first, followed by
 a short diagnostic and the path to a private full-output log under

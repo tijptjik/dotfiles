@@ -3,6 +3,10 @@
 **/__pycache__
 **/__pycache__/**
 **/*.pyc
+# Retired panels are archived by the Bartjik installer. Local source caches
+# must not make Chezmoi recreate their parent directories on every apply.
+.config/quickshell/network
+.config/quickshell/audio
 .var/app/org.yuzu_emu.yuzu/config/yuzu/**
 .mozilla/firefox/*.default-release/storage/**
 .mozilla/firefox/Crash Reports/**

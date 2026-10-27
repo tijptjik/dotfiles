@@ -97,6 +97,45 @@ class BartjikInstallTests(unittest.TestCase):
         self.assertIn('notjik', bar['needs'])
         self.assertIn('user-systemd', bar['resources'])
 
+    @unittest.skipUnless(shutil.which('chezmoi'), 'Chezmoi required')
+    def test_retired_panels_are_not_recreated_from_source_caches(self):
+        for host in ('fi', 'li', 'si'):
+            with self.subTest(host=host):
+                root = self.root / host
+                source = root / 'source'
+                destination = root / 'destination'
+                destination.mkdir(parents=True)
+                for panel in ('network', 'audio'):
+                    cache = source / 'dot_config/quickshell' / panel / '__pycache__'
+                    cache.mkdir(parents=True)
+                    (cache / 'pointer.cpython-313.pyc').write_bytes(b'stale cache')
+                shutil.copy(ROOT / 'home/.chezmoiignore', source / '.chezmoiignore')
+                config = root / 'chezmoi.json'
+                config.write_text(json.dumps({'data': {
+                    'isClient': host != 'si', 'isServer': host == 'si',
+                }}))
+                command = [
+                    'chezmoi', '--config', str(config), '--source', str(source),
+                    '--destination', str(destination),
+                    '--persistent-state', str(root / 'state.db'),
+                    '--cache', str(root / 'cache'), '--no-tty',
+                ]
+                # A missing archived panel must stay absent on repeated applies.
+                for _ in range(2):
+                    result = subprocess.run(command + ['apply'], capture_output=True,
+                                            text=True, timeout=10)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    for panel in ('network', 'audio'):
+                        self.assertFalse((destination / '.config/quickshell' / panel).exists())
+                # Existing legacy settings belong to the migration, not Chezmoi.
+                legacy = destination / '.config/quickshell/network/settings.json'
+                legacy.parent.mkdir(parents=True, exist_ok=True)
+                legacy.write_text('personal settings\n')
+                result = subprocess.run(command + ['apply'], capture_output=True,
+                                        text=True, timeout=10)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(legacy.read_text(), 'personal settings\n')
+
     @unittest.skipUnless(shutil.which('chezmoi') and shutil.which('fish'), 'Chezmoi and Fish required')
     def test_client_only_hook_and_server_exclusions(self):
         for host in ('fi', 'li', 'si'):

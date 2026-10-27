@@ -20,6 +20,9 @@ stops directly launched Waybar and its old audio/network panels, and moves
 old configuration and the custom launcher/runtime into timestamped directories
 under `~/.local/state/bartjik/migration/`. This preserves local crypto data.
 Repeated runs do not create new backups unless legacy files reappear.
+The retired Quickshell `network` and `audio` directories are explicitly ignored
+by Chezmoi, including on clients. Leftover source-tree Python caches must not
+recreate those directories and trigger conflict prompts after migration.
 Tinty no longer launches Waybar, and Chezetc no longer installs or builds it.
 The archived source/build caches and any already-installed distro package are
 inert; the Waybar service remains masked.

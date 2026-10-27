@@ -8,7 +8,7 @@ not required to build or deploy icons. The links below open that local archive.
 set, to be generated from the final approved frameless originals. Final artwork
 sign-off is still pending.
 
-The selected illustrated direction contains **106 app and service icons**,
+The selected illustrated direction contains **107 app and service icons**,
 including artwork for all **40 fleet labels**. The original launcher inventory
 covered 127 desktop IDs in 102 app families. The coverage audit includes
 user, system and
@@ -22,7 +22,7 @@ Printable contact sheets: [1](../.local/icon-reviews/docs/rose-punk-icons-catalo
 [4](../.local/icon-reviews/docs/rose-punk-icons-catalog-4.svg).
 
 [Review the primary frameless set](../.local/icon-reviews/docs/rose-punk-icons-frameless.html),
-with all 106 icons enlarged and balanced without the shared plum tile. The
+with all 107 icons enlarged and balanced without the shared plum tile. The
 comparison retains historical framed snapshots; these are not the future
 Rose Punk Framed set.
 
@@ -38,9 +38,9 @@ There are no unused extra-coverage apps in the active catalog; Blender and Figma
 LibreOffice, Edge, Teams, Notion, Slack and VS Code were dropped from the themed
 catalog. Removed applications also have their artwork and aliases retired.
 
-[Review the 92 refined icons](../.local/icon-reviews/docs/rose-punk-icons-gallery.html?refined=1), including
+[Review the 95 refined icons](../.local/icon-reviews/docs/rose-punk-icons-gallery.html?refined=1), including
 separate Zed Stable (white) and Preview (electric blue) entries. Each retained
-channel has its own desktop mapping; Nightly is retired. Zen uses concentric rings; Strata uses its
+channel has its own desktop mapping; Nightly is restored in gold. Zen uses concentric rings; Strata uses its
 actual installed upstream logo. Flat OBS, mpv, Sublime and Zed references are
 retained under `scripts/icons/upstream/`, with provenance and hashes recorded.
 The other focused redraws use editable SVG sources under `scripts/icons/local/`.
@@ -68,7 +68,7 @@ The preceding desktop refinements remain in place:
 GIMP and Flatpak have complementary colours; Mullvad has a slightly smoother neck;
 Spotify and Solaar have ivory marks. Text Editor is crisper and Tippecanoe uses
 gentler map colours. Runtjik joins the Tjik family in periwinkle with a pale pink
-Command symbol. Zed Preview is electric periwinkle-blue (`#5685ff`); gold stays reserved for archived Nightly.
+Command symbol. Zed Preview is electric periwinkle-blue (`#5685ff`); gold identifies Zed Nightly.
 
 The preceding shared-identity pass remains in place:
 Plex now uses a Hong Kong-centred blue globe with yellow continents and a small ivory play triangle in front. Its simplified public-domain Natural Earth coastlines are projected at 114.1694° E, 22.3193° N by `scripts/icons/plex-globe.py` (requires Shapely). Telegram is a paper plane with solid blue wings, a shaded central fold, matched rose-red
@@ -81,7 +81,7 @@ common tile and use the desktop study's optical sizing. Grimmory has its own
 grimoire; Profilarr uses five mugshot portraits; Shelfmark is a ribbon bookmark.
 Homepage assets and source configuration are prepared for a later deployment;
 the live site has not been changed. `scripts/icons/homepage.json` keeps this
-service inventory separate from the 106 desktop icons. The
+service inventory separate from the 107 desktop icons. The
 [Homepage refinement review](../.local/icon-reviews/docs/rose-punk-homepage-coherence-review.html) compares
 five further changes: calmer Seerr iris bands, more natural Profilarr faces and
 shoulders, clearer Radarr/Sonarr markings and softer rose Scrutiny frames.
@@ -108,6 +108,14 @@ and database connection settings were preserved. Azahar was subsequently uninsta
 data and settings were retained.
 
 
+## Upcoming release
+
+Zed Nightly is included in the next Rose Punk release, in theme gold (`#f6c177`).
+Ship `zed-nightly.svg` and its `dev.zed.Zed-Nightly` and `rose-punk-zed-nightly`
+aliases with the primary theme. Stable remains ivory; Preview remains electric
+blue. Nightly must also appear in the frameless SVG archive. The three-channel
+regression check protects the distinct colours and desktop mappings.
+
 ## Camera-led material pass
 
 [Review the active catalog](../.local/icon-reviews/docs/rose-punk-material-review.html) or
@@ -120,9 +128,9 @@ its knot silhouette. Chrome, the disk-usage chart and Rust have new colour and
 form treatments; ZapZap uses a handset bubble, Zoom its camera app symbol, and
 Prowlarr a cute, freestanding tiger face.
 
-The active set contains 106 icons. Thirteen retired or unused entries are removed
+The active set contains 107 icons. Thirteen retired or unused entries are removed
 from the catalog, app mappings, aliases and current previews: Bluejay, Blender,
-Bottles, Cheese, dconf Editor, Figma, Ghostty, GRASS GIS, HandBrake, Monochrome Music, NM GUI, Thunderbird and Zed Nightly. `scripts/icons/retired.json` preserves their
+Bottles, Cheese, dconf Editor, Figma, Ghostty, GRASS GIS, HandBrake, Monochrome Music, NM GUI and Thunderbird. `scripts/icons/retired.json` preserves their
 catalog and attribution records. Source artwork and historical snapshots are
 archived, including the corrected cheese holes and cleaner bottles. They are
 not active theme entries. QGIS remains for the retained Li application;
@@ -145,7 +153,7 @@ the original reference and its hash remain in the provenance record.
 
 [Open the color and icon review](../.local/icon-reviews/docs/rose-punk-color-review.html), or view the
 [fleet overview](../.local/icon-reviews/docs/assets/icon-review/index.html). The review compares original app icons (packaged assets or upstream app marks,
-with unchanged colors and geometry) with the current 106-icon set and previews
+with unchanged colors and geometry) with the current 107-icon set and previews
 the 40 fleet labels. Original review references are archived locally in `.local/icon-reviews/docs/assets/icon-review/originals/`;
 its `manifest.json` records each source and SHA-256. The generator verifies those
 hashes and marks missing originals explicitly, without substituting earlier
@@ -273,7 +281,7 @@ isolated migration and preference-preservation tests.
 
 ## Primary frameless set and secondary framed build
 
-[Review all 106 primary frameless icons](../.local/icon-reviews/docs/rose-punk-icons-frameless.html),
+[Review all 107 primary frameless icons](../.local/icon-reviews/docs/rose-punk-icons-frameless.html),
 [view the contact sheet](../.local/icon-reviews/docs/rose-punk-icons-frameless.svg), or
 [download their SVGs](../.local/icon-reviews/docs/assets/icon-frameless-review/rose-punk-frameless.zip).
 The managed `rose-punk` directory contains the frameless originals and uses

@@ -235,13 +235,14 @@
     "name": "Zed",
     "installed": true,
     "desktop_ids": [
-      "dev.zed.Zed-Nightly.desktop",
-      "dev.zed.Zed-Preview.desktop",
       "dev.zed.Zed.desktop",
-      "zed.desktop"
+      "zed.desktop",
+      "dev.zed.desktop"
     ],
     "icon_names": [],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/zed.svg",
+    "reviewed": true
   },
   "gimp": {
     "name": "GIMP",
@@ -1370,5 +1371,31 @@
     ],
     "geometry": "upstream/audacity-source.svg",
     "mode": "illustration"
+  },
+  "zed-preview": {
+    "name": "Zed Preview",
+    "installed": true,
+    "desktop_ids": [
+      "dev.zed.Zed-Preview.desktop"
+    ],
+    "icon_names": [],
+    "mode": "illustrated-local",
+    "geometry": "local/zed-preview.svg",
+    "reviewed": true,
+    "review_batch": 14
+  },
+  "zed-nightly": {
+    "name": "Zed Nightly",
+    "installed": true,
+    "desktop_ids": [
+      "dev.zed.Zed-Nightly.desktop"
+    ],
+    "icon_names": [
+      "zed-nightly"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/zed-nightly.svg",
+    "reviewed": true,
+    "review_batch": 20
   }
 }

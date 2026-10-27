@@ -48,11 +48,9 @@
     "kitty.desktop"
   ],
   "zed": [
-    "dev.zed.Zed*.desktop",
-    "dev.zed.Zed-Nightly.desktop",
-    "dev.zed.Zed-Preview.desktop",
     "dev.zed.Zed.desktop",
-    "zed.desktop"
+    "zed.desktop",
+    "dev.zed.desktop"
   ],
   "brave": [
     "brave-browser*.desktop",
@@ -390,5 +388,11 @@
   "audacity": [
     "audacity.desktop",
     "org.audacityteam.Audacity.desktop"
+  ],
+  "zed-preview": [
+    "dev.zed.Zed-Preview.desktop"
+  ],
+  "zed-nightly": [
+    "dev.zed.Zed-Nightly.desktop"
   ]
 }

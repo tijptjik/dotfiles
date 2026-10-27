@@ -81,8 +81,11 @@
     "sha256": "17eb4ef8dbe807f4252d75631b345c83bf862584a5fe9f923afc9a4e693a2753"
   },
   "zed": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "https://zed.dev/brand",
+    "license": "Upstream Zed mark; themed adaptation, trademark rights retained",
+    "sha256": "1469ee9cab6ff99961fe0ed9c379ed5c7fad2f2ce1b7ace92ae43c79b1fd8e31",
+    "reference": "upstream/zed-official.svg",
+    "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00"
   },
   "gimp": {
     "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gimp.svg",
@@ -530,5 +533,28 @@
     "source": "local icon theme: Neuwaita/scalable/apps/org.audacityteam.Audacity.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
     "sha256": "a7b452b1e97a4e96d693ad0a94da77c7365451fecccf1561f535ff35abf2579c"
+  },
+  "zed-preview": {
+    "source": "scripts/icons/local/zed-preview.svg",
+    "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+    "sha256": "2f72e87a8ba209b903c6c2c63140954ddfea582c724068f43f8698163994e926",
+    "material_revision": 12,
+    "design_note": "Electric periwinkle-blue (#5685ff) Preview channel; official geometry preserved and gold reserved for Nightly.",
+    "adapted_from": {
+      "source": "https://zed.dev/brand",
+      "license": "Upstream Zed mark; themed adaptation, trademark rights retained",
+      "sha256": "95d5f2e5bb02ceb9235fc79d048c7df53ccd0bef80b51028c353aa2d599d258b",
+      "reference": "upstream/zed-official.svg",
+      "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00"
+    }
+  },
+  "zed-nightly": {
+    "source": "https://zed.dev/brand",
+    "license": "Upstream Zed mark; themed adaptation, trademark rights retained",
+    "sha256": "a6a42029b91171701b34f3e2cc3c0d3d33caf9ef57ecf67721db680c8e6cad1d",
+    "reference": "upstream/zed-official.svg",
+    "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00",
+    "material_revision": 18,
+    "design_note": "Restored Zed Nightly in theme gold (#f6c177); Stable stays ivory and Preview electric blue. Official shared Zed geometry retained."
   }
 }

@@ -48,8 +48,8 @@
   "com.usebottles.bottles": "bottles",
   "com.visualstudio.code": "vscode",
   "dev.zed.Zed": "zed",
-  "dev.zed.Zed-Nightly": "zed",
-  "dev.zed.Zed-Preview": "zed",
+  "dev.zed.Zed-Nightly": "zed-nightly",
+  "dev.zed.Zed-Preview": "zed-preview",
   "fcitx": "fcitx-5-configuration",
   "fcitx5-configtool": "fcitx-5-configuration",
   "figma": "figma",
@@ -167,5 +167,6 @@
   "uuctl": "uuctl",
   "vlc": "vlc",
   "zed": "zed",
+  "zed-nightly": "zed-nightly",
   "zen-browser": "zen"
 }

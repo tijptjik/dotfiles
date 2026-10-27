@@ -155,16 +155,19 @@ class RosePunkIconsTests(unittest.TestCase):
         colors = set()
         geometry = []
         for key, desktop in [('zed', 'dev.zed.Zed.desktop'),
-                             ('zed-preview', 'dev.zed.Zed-Preview.desktop')]:
+                             ('zed-preview', 'dev.zed.Zed-Preview.desktop'),
+                             ('zed-nightly', 'dev.zed.Zed-Nightly.desktop')]:
             self.assertIn(desktop, mapping[key])
             self.assertEqual([k for k, ids in mapping.items() if desktop in ids], [key])
             mark = ET.parse(ROOT / f'scripts/icons/local/{key}.svg').find('.//{*}path')
             colors.add(mark.get('fill'))
             geometry.append(mark.get('d'))
-        self.assertEqual(len(colors), 2)
+        self.assertEqual(len(colors), 3)
         self.assertEqual(len(set(geometry)), 1)
         preview = ET.parse(ROOT / 'scripts/icons/local/zed-preview.svg').find('.//{*}path')
         self.assertEqual(preview.get('fill'), '#5685ff')
+        nightly = ET.parse(ROOT / 'scripts/icons/local/zed-nightly.svg').find('.//{*}path')
+        self.assertEqual(nightly.get('fill'), '#f6c177')
 
     def test_retired_icons_are_not_reintroduced_by_aliases(self):
         retired = {'audacity', 'inkscape', 'libreoffice', 'edge', 'teams', 'notion', 'slack', 'vscode',

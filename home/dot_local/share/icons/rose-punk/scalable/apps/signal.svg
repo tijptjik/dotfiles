@@ -4,4 +4,4 @@
  <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
  <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
 </defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><defs /><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="30" r="20" fill="none" stroke="#c6d4f0" stroke-width="1.6" stroke-dasharray="3 4.85" /><path d="M45 30a13 13 0 0 1-18 12l-7 4 2-9a13 13 0 1 1 23-7Z" fill="#8ba4ed" /></g></g></svg>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs /><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="30" r="20" fill="none" stroke="#697fcb" stroke-width="1.6" stroke-dasharray="3 4.85" /><path d="M45 30a13 13 0 0 1-18 12l-7 4 2-9a13 13 0 1 1 23-7Z" fill="#6d82cf" /></g></g></svg>

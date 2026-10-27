@@ -48,6 +48,8 @@ class IconPublishTests(unittest.TestCase):
             registry = json.loads((site / 'public/rose-punk-releases/registry.json').read_text())
             self.assertEqual(registry['latest'], '0.1.0')
             self.assertEqual(len(registry['releases']), 1)
+            self.assertEqual({p.name for p in (site / 'public/rose-punk-releases').iterdir()},
+                             {'index.html', 'registry.json'})
             self.assertEqual((site / 'src/lib/content/rose-punk-icons.json').read_bytes(), b'[]\n')
             second = root / '0.2.0'
             import shutil
@@ -82,8 +84,8 @@ class IconPublishTests(unittest.TestCase):
             publish.register(snapshot, site)
             gallery = json.loads((site / 'src/lib/content/rose-punk-icons.json').read_text())
             self.assertEqual({entry['id'] for entry in gallery}, {'app', 'fish', 'runtjik'})
-            self.assertEqual((site / 'public/rose-punk-releases/0.1.0/gallery.json').read_bytes(), original)
-            publish.verify_snapshot(site / 'public/rose-punk-releases/0.1.0')
+            self.assertEqual((site / '.local/rose-punk-releases/0.1.0/gallery.json').read_bytes(), original)
+            publish.verify_snapshot(site / '.local/rose-punk-releases/0.1.0')
 
     def test_unpublished_registration_can_be_replaced_and_prunes_old_files(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -93,14 +95,14 @@ class IconPublishTests(unittest.TestCase):
             manifest = json.loads((snapshot / 'release.json').read_text())
             manifest['source_commit'] = 'different'
             (snapshot / 'release.json').write_bytes(publish.encoded(manifest))
-            target = site / 'public/rose-punk-releases/0.1.0'
+            target = site / '.local/rose-punk-releases/0.1.0'
             (target / 'obsolete.svg').write_text('old')
             with patch.object(publish, 'ensure_unpublished') as guard:
                 publish.register(snapshot, site)
             guard.assert_called_once_with(snapshot, site)
             self.assertFalse((target / 'obsolete.svg').exists())
             self.assertEqual((target / 'release.json').read_bytes(), (snapshot / 'release.json').read_bytes())
-            registry = json.loads((target.parent / 'registry.json').read_text())
+            registry = json.loads((site / 'public/rose-punk-releases/registry.json').read_text())
             self.assertEqual(registry['releases'][0]['sha256'], release.sha256((snapshot / 'release.json').read_bytes()))
 
     def test_published_registration_remains_unchanged(self):
@@ -108,7 +110,7 @@ class IconPublishTests(unittest.TestCase):
             root = Path(temporary)
             snapshot, site = self.snapshot(root), self.site(root)
             publish.register(snapshot, site)
-            target = site / 'public/rose-punk-releases/0.1.0/release.json'
+            target = site / '.local/rose-punk-releases/0.1.0/release.json'
             before = target.read_bytes()
             manifest = json.loads(before)
             manifest['source_commit'] = 'different'
@@ -265,6 +267,22 @@ class IconPublishTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'unrelated'):
                     publish.deploy(snapshot, root)
                 run.assert_not_called()
+
+    def test_upload_failure_never_deploys_site_or_records_success(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            snapshot = self.snapshot(root)
+            with patch.object(publish.subprocess, 'check_output', return_value=''), \
+                    patch.object(publish.subprocess, 'run', side_effect=[
+                        None, subprocess.CalledProcessError(1, 'rclone')]) as run:
+                with self.assertRaises(subprocess.CalledProcessError):
+                    publish.deploy(snapshot, root)
+            self.assertEqual(run.call_count, 2)
+            upload = run.call_args_list[1].args[0]
+            self.assertIn('--immutable', upload)
+            self.assertIn('rose-punk-releases/0.1.0', upload)
+            self.assertFalse((root / '0.1.0-deployment.json').exists())
+            self.assertTrue((root / '0.1.0-deployment-started.json').exists())
 
     def test_public_hash_mismatch_does_not_write_success_receipt(self):
         with tempfile.TemporaryDirectory() as temporary:

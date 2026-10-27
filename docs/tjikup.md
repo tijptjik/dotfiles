@@ -14,18 +14,30 @@ The fleet uses a bounded DAG scheduler in `scripts/fleet_update/dag.py`.
 [workflow.json](../scripts/fleet_update/workflow.json) declares repository and apply
 dependencies; [home-plan.json](../scripts/fleet_update/home-plan.json) declares home
 hook dependencies and shared resources. Ready tasks start as soon as their
-prerequisites succeed. System pull can overlap home capture/commit; each push
-can start after its own pull. Both pushes must succeed before apply starts. The apply stage then uses one graph
+prerequisites succeed. System pull can overlap home capture/commit; Tooltjik and
+home pulls can run concurrently after the capture commit. Each configuration-repository
+push can start after its own pull. Both pushes and
+the Tooltjik update must finish successfully before apply starts. The apply stage then uses one graph
 for home and system hooks, with shared resource locks and one worker limit.
 Chezmoi and Chezetc retain ownership of managed files and once/onchange state.
 
 Capture still validates every result before writing sources and commits only
-changed capture targets. Fcitx capture retains its private backups. Git uses
-`pull --rebase --autostash`; unknown upstream state is an error. A whole-workflow
+changed capture targets. Fcitx capture retains its private backups. Configuration
+repositories use `pull --rebase --autostash`; unknown upstream state is an error. A whole-workflow
 lock prevents overlapping Tjikup capture/pull/apply transactions in this checkout;
 individual Git commands also retain their repository locks. Failed tasks stop new
 work, drain running tasks, and block pending dependents. A configuration-refresh
 warning prevents subsequent apply stages.
+
+The **Fleet repositories** stage also checks Tooltjik at `$TOOLTJIK_REPO`, or
+`~/code/tooltjik` by default. Clean checkouts fetch their configured upstream and
+advance only by fast-forward. Dirty, detached, untracked-branch, locally ahead,
+or diverged checkouts produce a warning and retain the local source for installation.
+Tooltjik is never automatically committed, stashed, rebased, reset, or pushed.
+Fetch failures, busy checkouts, and unfinished Git operations block apply.
+A missing checkout is left to the existing installer bootstrap; legacy checkout
+migration rules still apply. Installers run after this stage and retain their
+source-fingerprint checks.
 
 Capture also copies the live `~/.local/share/applications/mimeinfo.cache` into
 its tracked source before apply. Desktop tools regenerate this file, so the live
@@ -178,8 +190,9 @@ exclusively.
 
 The Python package count uses quiet output. Python 3.13 remains pinned for
 PaddlePaddle: release 3.3.1 has CPython 3.13 wheels but no CPython 3.14 wheels.
-`--dry-run` executes only prerequisite checks and capture previews, without Git,
-apply, installs or cache writes. `tjikup --check` validates the outer runner JSON;
+`--dry-run` executes prerequisite checks, capture previews, and read-only Tooltjik
+inspection, without fetching, changing Git history, applying, installing, or writing
+caches. `tjikup --check` validates the outer runner JSON;
 the DAG and complete hook inventory are validated when the workflow starts.
 Regression tests cover overlap, resource exclusion, failure propagation, skip
 invalidation, dry-run behavior, and template rendering for fi/li/si. These checks
@@ -218,7 +231,8 @@ It can also be run before the first home apply once Chezetc is initialized.
 The managed installation hook and focused installer use `~/code/tooltjik` on
 every host, unless `$TOOLTJIK_REPO` explicitly selects another checkout. If absent
 they clone Tooltjik there. Existing checkouts are never pulled by installers;
-update Tooltjik explicitly to deploy a new runner version. The installer builds
+the fleet repository stage updates clean checkouts before installation. For a
+standalone installation, update Tooltjik explicitly first. The installer builds
 and installs only tjikup. For a checkout that can fast-forward:
 
 ```sh

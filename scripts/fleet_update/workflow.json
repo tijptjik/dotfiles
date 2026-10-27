@@ -53,7 +53,7 @@
     "skip_codes": [
       77
     ],
-    "section": "Dotfiles Repository",
+    "section": "Fleet repositories",
     "summary": false,
     "needs": [
       "capture"
@@ -85,6 +85,26 @@
     "verb": "PULL",
     "needs": [
       "checks"
+    ]
+  },
+  {
+    "id": "pull-tooltjik",
+    "command": [
+      "python3",
+      "{config_dir}/scripts/fleet-update.py",
+      "pull-tooltjik"
+    ],
+    "preview": [
+      "python3",
+      "{config_dir}/scripts/fleet-update.py",
+      "pull-tooltjik",
+      "--dry-run"
+    ],
+    "label": "Tooltjik",
+    "verb": "PULL",
+    "summary": false,
+    "needs": [
+      "commit"
     ]
   },
   {
@@ -153,7 +173,8 @@
     "section": "Dotfiles Apply",
     "needs": [
       "push-home",
-      "push-system"
+      "push-system",
+      "pull-tooltjik"
     ],
     "exclusive": true
   }

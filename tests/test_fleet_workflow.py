@@ -105,6 +105,7 @@ if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
             "TRACE": str(self.trace),
             "SYSTEM_TRACE": str(self.root / "system-hooks.log"),
         }
+        self.env.pop('TOOLTJIK_REPO', None)
         self.add_synthetic_hooks()
         # Root command boundary is stubbed; no test can invoke real sudo.
         sudo = self.bin / 'sudo'
@@ -180,7 +181,7 @@ else:
             "Dotjik\nhttps://github.com/tijptjik/dotfiles",
             "Prerequisites\n",
             "Commit Local Changes\n",
-            "Dotfiles Repository\n",
+            "Fleet repositories\n",
             "Dotfiles Apply\n",
             "Systjik\nhttps://github.com/tijptjik/systjik",
         ]
@@ -212,6 +213,18 @@ else:
         self.assertEqual(result.returncode, 1)
         self.assertIn("intentional home failure", result.stderr)
         self.assertNotIn("chezetc", [row[0] for row in self.events()])
+
+    def test_tooltjik_failure_blocks_all_apply(self):
+        path = self.repo / 'scripts/fleet_update/workflow.json'
+        plan = json.loads(path.read_text())
+        for step in plan:
+            if step['id'] == 'pull-tooltjik':
+                step['command'] = [sys.executable, '-c', 'raise SystemExit(9)']
+        path.write_text(json.dumps(plan))
+        result = self.run_fleet()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('Tooltjik', result.stdout)
+        self.assertFalse(any(row[0] in {'chezmoi', 'chezetc'} for row in self.events()))
 
     def test_pull_conflict_is_grouped_and_full_output_is_saved(self):
         self.env.update(FAIL_PULL="conflict", TJIKUP_COLUMNS="80", TJIKUP_COLOR="0")

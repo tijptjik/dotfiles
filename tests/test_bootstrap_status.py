@@ -39,7 +39,7 @@ class BootstrapStatusTests(unittest.TestCase):
                 env={**os.environ, 'HOME': tmp, 'TJIKUP_COLOR': '1', 'TERM': 'xterm-256color'},
                 capture_output=True, text=True, check=True)
             plain = ANSI.sub('', result.stdout)
-            self.assertRegex(plain, r'SKIP\s+✓\s+User fonts\s+no changes')
+            self.assertRegex(plain, r'SKIP\s+✓\s+Assets \(user fonts\)\s+no changes')
             self.assertIn('\x1b[', result.stdout)
             self.assertTrue((home/'.fonts').is_symlink())
 

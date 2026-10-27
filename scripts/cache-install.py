@@ -53,6 +53,7 @@ def cached_install(name, inputs, outputs, command):
             saved = {}
         if before and deployed and saved == {'inputs': before, 'outputs': deployed}:
             print(f'SKIP    ✓ {name} inputs and installed files unchanged')
+            print('__stage_note__:no changes')
             return 0
         result = subprocess.run(command, check=False)
         if result.returncode:

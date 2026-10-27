@@ -6,20 +6,17 @@ function __stage_use_color
     isatty stdout; or test "$TJIKUP_COLOR" = 1
 end
 
-function __stage_color --argument-names verb
-    switch "$verb"
-        case SKIP
-            echo 8
-        case CHECK WARN
-            echo 14
-        case COMPLETE
-            echo 10
-        case UPDATE INSTALL PULL REMOVE IMPORT ADD CONFIG BUILD RELOAD STOP FAILED ERROR LOG COMMIT PUSH
-            echo 9
-        case SYNC
-            echo 6
-        case '*'
-            echo 14
+function __stage_color --argument-names verb icon
+    if contains -- "$icon" '✗' X; or contains -- "$verb" FAILED ERROR
+        echo 9
+    else if test "$icon" = '!'; or test "$verb" = WARN
+        echo 11
+    else if test "$verb" = SKIP; or test "$icon" = '-'
+        echo 8
+    else if test "$icon" = '✓'
+        echo 10
+    else
+        echo 14
     end
 end
 
@@ -232,7 +229,7 @@ end
 function __stage_render_label --argument-names use_color stage_name icon subject
     __stage_event "$stage_name" "$icon" "$subject" ""
     set subject (string shorten --max (math (__stage_columns) - 1 - 9 - (string length --visible -- "$icon")) -- "$subject")
-    set -l color (__stage_color "$stage_name")
+    set -l color (__stage_color "$stage_name" "$icon")
     set -l padded_stage (printf "%-7s" "$stage_name")
 
     if test "$use_color" = 1
@@ -240,7 +237,7 @@ function __stage_render_label --argument-names use_color stage_name icon subject
         printf "%s" "$padded_stage"
         set_color normal
         printf " "
-        set_color (__stage_fish_color (__stage_icon_color "$icon"))
+        set_color (__stage_fish_color "$color")
         printf "%s" "$icon"
         set_color normal
         printf " "
@@ -252,15 +249,11 @@ function __stage_render_label --argument-names use_color stage_name icon subject
 end
 
 function __stage_render_label_note --argument-names use_color stage_name icon subject note
-    __stage_event "$stage_name" "$icon" "$subject" "$note"
-    set -l color (__stage_color "$stage_name")
-    if test (count $argv) -ge 6
-        set color (__stage_color "$argv[6]")
-    else if test "$stage_name" = PULL; and test "$note" = "no changes"
-        set color 14
-    else if test "$stage_name" = SYNC; and contains -- "$note" "no changes" "no updates"
-        set color 6
+    if test "$icon" = '✓'; and string match -qri '(^|; *)no (changes|updates)$' -- "$note"
+        set stage_name SKIP
     end
+    __stage_event "$stage_name" "$icon" "$subject" "$note"
+    set -l color (__stage_color "$stage_name" "$icon")
     set -l padded_stage (printf "%-7s" "$stage_name")
     set -l available (math (__stage_columns) - 1 - (string length --visible -- "$padded_stage $icon "))
     set note (string shorten --max (math "floor(($available - 2) / 2)") -- "$note")
@@ -275,7 +268,7 @@ function __stage_render_label_note --argument-names use_color stage_name icon su
         printf "%s" "$padded_stage"
         set_color normal
         printf " "
-        set_color (__stage_fish_color (__stage_icon_color "$icon"))
+        set_color (__stage_fish_color "$color")
         printf "%s" "$icon"
         set_color normal
         printf " "
@@ -310,7 +303,7 @@ end
 
 function __stage_spin_title --argument-names stage_name subject
     set subject (string shorten --max (math (__stage_columns) - 13) -- "$subject")
-    set -l color (__stage_color "$stage_name")
+    set -l color (__stage_color "$stage_name" "...")
     set -l padded_stage (printf "%-7s" "$stage_name")
 
     if __stage_use_color

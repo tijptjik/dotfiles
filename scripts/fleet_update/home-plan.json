@@ -16,7 +16,7 @@
     "resources": [
       "cargo"
     ],
-    "label": "Rust",
+    "label": "Rust (packages)",
     "verb": "SYNC"
   },
   {
@@ -26,7 +26,7 @@
     "resources": [
       "uv"
     ],
-    "label": "Python",
+    "label": "Python (environment)",
     "verb": "SYNC"
   },
   {
@@ -36,7 +36,7 @@
     "resources": [
       "dnf"
     ],
-    "label": "Device archives",
+    "label": "Assets (device archives)",
     "verb": "UPDATE"
   },
   {
@@ -48,7 +48,7 @@
     "resources": [
       "cargo"
     ],
-    "label": "llmtrim package",
+    "label": "llmtrim (package)",
     "verb": "SYNC"
   },
   {
@@ -61,7 +61,7 @@
     "resources": [
       "herdr"
     ],
-    "label": "llmtrim",
+    "label": "llmtrim (Herdr plugin)",
     "verb": "UPDATE",
     "terminal_when_missing": "~/.llmtrim/ca.pem"
   },
@@ -74,7 +74,7 @@
     "resources": [
       "herdr"
     ],
-    "label": "Herdr",
+    "label": "Herdr (plugins)",
     "verb": "UPDATE"
   },
   {
@@ -93,7 +93,7 @@
     "needs": [],
     "resources": [],
     "exclusive": true,
-    "label": "Chezetc wrapper",
+    "label": "Chezetc (wrapper)",
     "verb": "CONFIG"
   },
   {
@@ -118,7 +118,7 @@
     "resources": [
       "icons"
     ],
-    "label": "Icon cache",
+    "label": "Assets (icon cache)",
     "verb": "UPDATE"
   },
   {
@@ -171,7 +171,7 @@
     "resources": [
       "icons"
     ],
-    "label": "Rose Punk icons",
+    "label": "Assets (Rose Punk icons)",
     "verb": "UPDATE"
   },
   {
@@ -185,7 +185,7 @@
       "tailscale",
       "user-systemd"
     ],
-    "label": "Collie",
+    "label": "Collie (bridge)",
     "verb": "CONFIG"
   },
   {
@@ -197,7 +197,7 @@
     "resources": [
       "tailscale"
     ],
-    "label": "Vite",
+    "label": "Vite (bridge)",
     "verb": "CONFIG"
   },
   {
@@ -207,7 +207,7 @@
     "resources": [
       "fonts"
     ],
-    "label": "Fonts",
+    "label": "Assets (fonts)",
     "verb": "UPDATE"
   },
   {
@@ -217,7 +217,7 @@
     "resources": [
       "network"
     ],
-    "label": "Mullvad",
+    "label": "Mullvad (LAN)",
     "verb": "CONFIG"
   },
   {
@@ -227,7 +227,7 @@
     "resources": [
       "storage"
     ],
-    "label": "Prowlarr",
+    "label": "Prowlarr (notifications)",
     "verb": "CONFIG"
   },
   {
@@ -240,7 +240,7 @@
       "dnf",
       "user-systemd"
     ],
-    "label": "Secret service",
+    "label": "oo7 (secret service)",
     "verb": "CONFIG"
   },
   {
@@ -253,7 +253,7 @@
       "user-systemd",
       "storage"
     ],
-    "label": "Private storage",
+    "label": "Storage (private)",
     "verb": "SYNC"
   },
   {
@@ -269,7 +269,7 @@
     "resources": [
       "user-systemd"
     ],
-    "label": "User services",
+    "label": "Systemd (user services)",
     "verb": "RELOAD"
   }
 ]

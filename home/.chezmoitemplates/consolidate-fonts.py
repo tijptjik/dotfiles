@@ -74,7 +74,7 @@ if __name__ == '__main__':
             subprocess.run(['fish', '--no-config', '-c',
                             'source $argv[1]; status_msg $argv[2..-1]', '--',
                             str(args.status_helper), 'SKIP' if unchanged else 'SYNC',
-                            '✓', 'User fonts', 'no changes' if unchanged else result], check=True)
+                            '✓', 'Assets (user fonts)', 'no changes' if unchanged else result], check=True)
         else:
             print(result)
     except RuntimeError as exc:

@@ -4,6 +4,6 @@ if test "$FLEET_DEFER_HOOKS" = 1
 end
 {{ if .isClient -}}
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
-stage_dynamic_note "Rose Punk icons" UPDATE "Rose Punk icons" \
+stage_dynamic_note "Rose Punk icons" UPDATE "Assets (Rose Punk icons)" \
     python3 "{{ .chezmoi.sourceDir }}/../scripts/icons/install.py" --status-note
 {{ end -}}

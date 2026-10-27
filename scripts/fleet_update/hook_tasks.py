@@ -54,7 +54,15 @@ class HookTasks:
 
             def action(item=item, command=command, name=name, env=env):
                 if owns_terminal(item):
-                    code = runtime.run_stream(command, repo, env=env, timeout=item.get("timeout", 1800), check=False)
+                    lines = []
+
+                    def capture(line):
+                        lines.append(line)
+                        return line
+
+                    code = runtime.run_stream(command, repo, env=env, timeout=item.get("timeout", 1800),
+                                              check=False, formatter=capture)
+                    self.outputs[name] = "\n".join(lines)
                 else:
                     result = run_command(command, cwd=repo, env=env, timeout=item.get("timeout", 1800))
                     self.outputs[name] = result.stdout
@@ -80,7 +88,7 @@ class HookTasks:
             return
         self.results[name] = result
         output = self.outputs.get(name, "")
-        note, warnings = summary(output)
+        outcome = summary(output)
         if result.state == "failed":
             self.progress.finish(name, label, verb="FAILED", icon="✗", note=str(result.error))
             with self.progress.output():
@@ -90,11 +98,11 @@ class HookTasks:
         elif result.state == "blocked":
             self.progress.finish(name, label, verb="SKIP", icon="-", note="workflow failed")
         else:
-            self.progress.finish(name, label, verb=verb, icon="!" if warnings else "✓",
-                                 note=note or f"{result.seconds:.2f}s")
-            if warnings:
+            self.progress.finish(name, label, verb="SKIP" if result.state == "skipped" else outcome.verb,
+                                 icon=outcome.icon, note=outcome.note or f"{result.seconds:.2f}s")
+            if outcome.warnings:
                 with self.progress.output():
-                    print("\n".join(warnings), flush=True)
+                    print("\n".join(outcome.warnings), flush=True)
 
     def save_timings(self, tasks, **metadata):
         records = []

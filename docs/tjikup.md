@@ -163,6 +163,17 @@ Both layers share one `Home and system configuration` heading because completion
 order crosses application sections. Direct `chezmoi apply` and `chezetc apply`
 keep their native serial sequences and headings.
 
+Completed rows use the hooks' reported outcomes instead of the manifest's
+planned action. Explicit unchanged results are `SKIP`; a later skipped substep
+does not hide an earlier change. Multiple different actions are summarized as
+`APPLY`. Hooks that emit no status finish as `DONE`, which confirms completion
+without claiming a configuration change. Warnings and failures retain their
+diagnostics. Cached installers pass their unchanged result through the wrapper.
+
+Actions and icons share outcome colours: green for success, grey for skips,
+yellow for warnings, red for failures, and cyan while running. Service names are
+white; parenthesized subtypes and right-hand notes are dim. Pure asset tasks use
+`Assets` as the service, for example `Assets (fonts)` and `Assets (Rose Punk icons)`.
 Each combined apply prints a private `timings.json` path under
 `$XDG_STATE_HOME/tjikup/logs/apply-*` (default `~/.local/state/tjikup/logs`). The report
 records total apply time, home file/rendering time, task dependencies/resources,

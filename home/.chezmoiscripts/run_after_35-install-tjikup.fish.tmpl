@@ -5,5 +5,5 @@ end
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 # The same focused installer supports initial provisioning and fleet migration.
-stage 'Install tjikup' INSTALL Tjikup bash "{{ .chezmoi.sourceDir }}/../scripts/install-tjikup.sh"
+stage_dynamic_note 'Install tjikup' INSTALL Tjikup bash "{{ .chezmoi.sourceDir }}/../scripts/install-tjikup.sh"
 or exit $status

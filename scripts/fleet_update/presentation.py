@@ -1,13 +1,25 @@
 """Summarize hook status rows while retaining full output in per-run logs."""
 import re
+from dataclasses import dataclass
 
 ANSI = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 ROW = re.compile(r"^([A-Z]+)\s+(✓|!|✗|X|-|\.\.\.)\s+(.*)$")
+UNCHANGED = re.compile(r"(?:^|;\s*)no (?:changes|updates)$", re.IGNORECASE)
+
+
+@dataclass
+class Outcome:
+    verb: str = "DONE"
+    icon: str = "✓"
+    note: str = ""
+    warnings: tuple = ()
 
 
 def summary(output):
-    note = ""
+    """Use emitted results, never the action the manifest hoped to perform."""
+    rows = []
     warnings = []
+    failed = False
     for line in ANSI.sub("", output).replace("\r", "\n").splitlines():
         match = ROW.match(line.strip())
         if match:
@@ -16,9 +28,23 @@ def summary(output):
                 continue
             if icon in {"!", "✗", "X"} or verb in {"WARN", "FAILED", "ERROR"}:
                 warnings.append(line.strip())
+                failed = failed or icon in {"✗", "X"} or verb in {"FAILED", "ERROR"}
+                continue
             fields = re.split(r"\s{2,}", content, maxsplit=1)
-            if len(fields) == 2:
-                note = fields[1]
+            note = fields[1].strip() if len(fields) == 2 else ""
+            if icon == "✓" and UNCHANGED.search(note):
+                verb = "SKIP"
+            rows.append((verb, icon, note))
         elif re.search(r"\b(warning|error|failed)\b", line, re.IGNORECASE):
             warnings.append(line.strip())
-    return note, warnings
+    # A later skipped substep must not hide an earlier mutation. Conversely,
+    # a check and a set of skips do not establish that anything was updated.
+    changed = [row for row in rows if row[0] not in {"SKIP", "CHECK", "DONE", "COMPLETE"}]
+    selected = changed or [row for row in rows if row[0] == "CHECK"] or rows
+    verbs = list(dict.fromkeys(row[0] for row in selected))
+    verb = verbs[0] if len(verbs) == 1 else "APPLY" if changed else "DONE"
+    notes = list(dict.fromkeys(row[2] for row in selected if row[2]))
+    icon = "-" if selected and all(row[1] == "-" for row in selected) else "✓"
+    if warnings:
+        verb, icon = ("FAILED", "✗") if failed else ("WARN", "!")
+    return Outcome(verb, icon, "; ".join(notes), tuple(warnings))

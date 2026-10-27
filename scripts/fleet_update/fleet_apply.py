@@ -99,7 +99,7 @@ def apply(repo, system_repo=None):
             prepared.update({task.name: task for task in tasks})
 
         native = Task("system:files", prepare_system, needs=("home:chezetc-wrapper",), exclusive=True)
-        hooks.items[native.name] = {"label": "System files and hook preparation", "verb": "APPLY", "exclusive": True}
+        hooks.items[native.name] = {"label": "Chezetc (files and hooks)", "verb": "APPLY", "exclusive": True}
         system_tasks = []
         for item in system_plan:
             name = "system:" + item["id"]

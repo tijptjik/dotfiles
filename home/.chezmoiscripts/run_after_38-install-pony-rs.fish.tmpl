@@ -8,6 +8,6 @@ if not command -q cargo; or not command -q fortune
     stage 'Pony dependencies' INSTALL 'Rust and fortune' sudo dnf install -y cargo fortune-mod
     or exit $status
 end
-stage 'Native pony greeting' INSTALL pony-rs bash "{{ .chezmoi.sourceDir }}/../scripts/install-pony-rs.sh"
+stage_dynamic_note 'Native pony greeting' INSTALL pony-rs bash "{{ .chezmoi.sourceDir }}/../scripts/install-pony-rs.sh"
 or exit $status
 {{ end -}}

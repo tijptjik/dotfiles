@@ -1,6 +1,7 @@
 // Hyprland 0.56.2: per-window scrolling gap geometry, without fullscreen.
 #include <hyprland/src/plugins/PluginAPI.hpp>
 #include <hyprland/src/desktop/state/FocusState.hpp>
+#include <hyprland/src/desktop/history/WindowHistoryTracker.hpp>
 #include <hyprland/src/desktop/state/WindowState.hpp>
 #include <hyprland/src/desktop/state/ViewState.hpp>
 #include <hyprland/src/layout/target/WindowTarget.hpp>
@@ -22,20 +23,33 @@ SP<SHyprCtlCommand> stateCommand, hitTestCommand;
 bool enabled = true;
 
 // Focus belongs to each workspace, not to the desktop as a whole. Leaving a
-// monitor (or opening a scratchpad) must not resize its last-focused column.
-PHLWINDOW effectiveFocus(const Desktop::View::CWindow* window) {
-    if (!window || !window->m_workspace) return nullptr;
+// monitor, opening a scratchpad, or focusing a float must not resize its last
+// tiled column. Native history also preserves this selection across plugin reloads.
+PHLWINDOW effectiveFocus(PHLWORKSPACE workspace) {
+    if (!workspace || workspace->m_id <= 0) return nullptr;
+    const auto eligible = [&](const PHLWINDOW& window) {
+        return window && window->m_isMapped && !window->m_isFloating
+            && !window->isHidden() && window->m_workspace == workspace;
+    };
     const auto active = Desktop::focusState()->window();
-    if (active && active->m_workspace == window->m_workspace) return active;
-    return window->m_workspace->m_lastFocusedWindow.lock();
+    if (eligible(active)) return active;
+    const auto last = workspace->m_lastFocusedWindow.lock();
+    if (eligible(last)) return last;
+    const auto& history = Desktop::History::windowTracker()->fullHistory();
+    for (auto it = history.rbegin(); it != history.rend(); ++it) {
+        const auto candidate = it->lock();
+        if (eligible(candidate)) return candidate;
+    }
+    return nullptr;
 }
 
 bool gapless(const Desktop::View::CWindow* w) {
-    const auto focused = effectiveFocus(w);
     if (!enabled || !w || !w->m_isMapped || w->m_isFloating || w->m_group
-        || focused.get() != w || !w->m_workspace
+        || !w->m_workspace
         || w->m_workspace->m_id <= 0)
         return false;
+    const auto focused = effectiveFocus(w->m_workspace);
+    if (focused.get() != w) return false;
     const auto target = focused->layoutTarget();
     if (!target || !target->space() || !target->space()->algorithm()) return false;
     auto* scrolling = dynamic_cast<Layout::Tiled::CScrollingAlgorithm*>(target->space()->algorithm()->tiledAlgo().get());
@@ -78,8 +92,7 @@ PHLWINDOW windowAt(const Desktop::CViewHitTester* tester, const Vector2D& pos, u
     if (found && (found->m_isFloating || found->onSpecialWorkspace() || found->hasPopupAt(pos))) return found;
     const auto monitor = State::monitorState()->query().vec(pos).run();
     if (!monitor || !monitor->m_activeWorkspace) return found;
-    const auto last = monitor->m_activeWorkspace->m_lastFocusedWindow.lock();
-    const auto focused = effectiveFocus(last.get());
+    const auto focused = effectiveFocus(monitor->m_activeWorkspace);
     if (!gapless(focused.get()) || found == focused
         || (found && found->m_workspace != focused->m_workspace)
         || !focused->geometricBox(Desktop::View::IGeometric::GEOMETRIC_CURRENT).containsPoint(pos)) return found;
@@ -148,7 +161,7 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE owner) {
             return window ? std::format("\"0x{:x}\"", reinterpret_cast<uintptr_t>(window.get())) : std::string("null");
         }});
     refresh();
-    return {"scrolling-gaps", "Workspace-local gaps for 100% scrolling columns; no fullscreen", "Tijpfiles", "0.1.3"};
+    return {"scrolling-gaps", "Workspace-local gaps for 100% scrolling columns; no fullscreen", "Tijpfiles", "0.1.4"};
 }
 APICALL EXPORT void PLUGIN_EXIT() {
     enabled = false;

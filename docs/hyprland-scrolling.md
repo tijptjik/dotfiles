@@ -88,6 +88,9 @@ same workspace restores its ordinary gapped rectangle through `windowsMove`. Nar
 normal content dimensions throughout navigation. Neither client nor compositor
 fullscreen is used. Special workspaces preserve the underlying normal workspace's
 last-focused column, including during transient loss of focus and plugin reload.
+Floating windows are ignored when selecting that column: opening or focusing one
+keeps the last-focused tiled column gapless, including across plugin reloads.
+Focusing a narrower tiled column still restores ordinary gaps.
 Panel reservations, layer visibility, and floating windows
 retain normal behavior. Explicit user fullscreen is left to Hyprland.
 
@@ -139,8 +142,10 @@ the disposable compositor after testing. It also checks floating-window visibili
 and excludes stacked columns. Two synthetic monitors additionally check that
 cross-monitor focus and plugin reload preserve both gapless columns. It requires
 Kitty, Waybar, and grim.
-The probe also checks 108 edge/interior targets across left, middle and right
-full-width columns with border resizing enabled, plus floating-window hit priority.
+The probe also checks that floating focus and reload preserve the underlying
+geometry, while focusing a narrow tiled neighbor restores gaps. It checks 108
+edge/interior targets across left, middle and right full-width columns with
+border resizing enabled, plus floating-window hit priority.
 
 The remaining app redraw behavior belongs only to the deliberately resizing 100%
 window, not the ordinary column coming into view.

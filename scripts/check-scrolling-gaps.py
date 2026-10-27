@@ -116,6 +116,50 @@ try:
     assert float_after['fullscreen']==0 and float_after['fullscreenClient']==0
     fx,fy=float_after['at'];fw,fh=float_after['size']
     assert json.loads(ctl('scrolling-gaps:hit-test',str(fx+fw/2),str(fy+fh/2)))==c
+    # Focusing floats must preserve the last tiled column, not replace it.
+    tiled_before={w['address']:w for w in json.loads(ctl('scrolling-gaps:state'))}
+    def assert_float_preserves_tiling():
+        for _ in range(12):
+            current={w['address']:w for w in json.loads(ctl('scrolling-gaps:state'))}
+            assert current[a]['gapless'] and not current[c]['gapless'], current
+            for address in (a,b):
+                assert current[address]['goal']==tiled_before[address]['goal']
+                assert all(abs(x-y)<.01 for x,y in zip(current[address]['current'],tiled_before[address]['current']))
+            time.sleep(.025)
+    for address in (c,a,c):
+        focus(address)
+        assert_float_preserves_tiling()
+    ctl('plugin','unload',str(args.plugin.resolve()))
+    ctl('plugin','load',str(args.plugin.resolve()))
+    time.sleep(.7)
+    assert_float_preserves_tiling()
+    # A newly mapped float must behave the same as an existing one.
+    evaluate('hl.window_rule({name="floating-gap-probe",match={class="^floating-gap-probe$"},float=true,size={400,300}})')
+    popup=subprocess.Popen(['kitty','--config','NONE','--class','floating-gap-probe',
+        '-o','remember_window_size=no','-o','linux_display_server=wayland','sleep','120'],env=env,
+        stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+    procs.append(popup)
+    for _ in range(60):
+        opened=next((w for w in json.loads(ctl('-j','clients')) if w['class']=='floating-gap-probe'),None)
+        if opened: break
+        time.sleep(.1)
+    assert opened and opened['floating'], 'floating terminal did not map'
+    focus(a)
+    time.sleep(.7)
+    focus(opened['address'])
+    assert_float_preserves_tiling()
+    (args.artifacts / 'floating-focused-clients.json').write_text(ctl('-j','clients'))
+    subprocess.run(['grim',str(args.artifacts / 'floating-focused-gapless.png')],env=env,check=True)
+    popup.terminate();popup.wait(timeout=5)
+    focus(c)
+    assert_float_preserves_tiling()
+    # A float over a narrow column must not resurrect an older full-width one.
+    focus(b);time.sleep(.7)
+    focus(c);time.sleep(.3)
+    current={w['address']:w for w in json.loads(ctl('scrolling-gaps:state'))}
+    assert not any(w['gapless'] for w in current.values()), current
+    focus(a);time.sleep(.7)
+    print('PASS: floating open/focus/close and plugin reload preserve tiled geometry; narrow focus restores gaps',flush=True)
     # Special workspaces must not resize the normal strip beneath them.
     evaluate('hl.dispatch(hl.dsp.window.move({workspace="special:gap-probe",follow=false,window="address:'+c+'"}))')
     focus(a);time.sleep(.7)
@@ -138,7 +182,8 @@ try:
     evaluate('hl.workspace_rule({workspace="92",monitor="OTHER-PROBE"}); hl.dispatch(hl.dsp.focus({monitor="OTHER-PROBE"})); hl.dispatch(hl.dsp.focus({workspace=92}))')
     time.sleep(.3)
     procs.append(subprocess.Popen(['kitty','--config','NONE','--class','slides-probe',
-        '--title','other-monitor','-o','linux_display_server=wayland','sh','-c','sleep 120'],
+        '--title','other-monitor','-o','remember_window_size=no',
+        '-o','linux_display_server=wayland','sh','-c','sleep 120'],
         env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL))
     for _ in range(60):
         other=next((w for w in json.loads(ctl('-j','clients')) if w['title']=='other-monitor'),None)
@@ -153,7 +198,7 @@ try:
         focus(address)
         for _ in range(12):
             current={w['address']:w for w in json.loads(ctl('scrolling-gaps:state'))}
-            assert current[a]['gapless'] and current[d]['gapless'], current
+            assert current[a]['gapless'] and current[d]['gapless'], (current, json.loads(ctl('-j','clients')))
             assert current[a]['goal']==underlying[a]['goal']
             assert all(abs(x-y)<.01 for x,y in zip(current[a]['current'],underlying[a]['current']))
             time.sleep(.025)

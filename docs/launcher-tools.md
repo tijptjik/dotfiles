@@ -159,6 +159,13 @@ credentials stay in their existing user configuration directories.
 Installation checks use isolated temporary Vault CLI state and do not log in,
 unlock, or alter a vault.
 
+If GitHub release metadata is unavailable (including anonymous API rate limits),
+the hook keeps an existing managed CLI only when its installation has a valid
+digest receipt and its executable reports the matching version. It emits a
+warning and retries the release check on the next apply. Missing or unhealthy
+installs, invalid release metadata, and download/digest failures still stop apply.
+Authenticate `gh` as the invoking user to increase GitHub's API quota.
+
 Embedded Python installers are transported through Base64 in Fish hooks so
 newlines and Python escapes survive template rendering exactly. A successful
 Python exit alone is not treated as proof that launcher commands were installed.

@@ -21,5 +21,17 @@ if not contains -- /usr/local/bin $PATH
     fish_add_path /usr/local/bin; or exit $status
 end
 
-stage "Bitwarden CLIs" UPDATE "Bitwarden CLIs" update_bitwarden_clis
-or exit $status
+status_msg UPDATE "..." "Bitwarden CLIs"
+set -l update_output (update_bitwarden_clis 2>&1)
+set -l update_result $status
+switch $update_result
+    case 0
+        status_msg UPDATE "✓" "Bitwarden CLIs"
+    case 78
+        status_msg WARN "!" "Bitwarden CLIs" "release check deferred; managed installs kept"
+        printf '%s\n' $update_output
+    case '*'
+        status_msg FAILED "✗" "Bitwarden CLIs"
+        printf '%s\n' $update_output
+        exit $update_result
+end

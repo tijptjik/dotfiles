@@ -116,6 +116,8 @@ class GitHubApiTests(unittest.TestCase):
                  patch.object(api, 'github_json', side_effect=RuntimeError('GitHub rate-limited (HTTP 403)')), \
                  patch.object(sys, 'argv', [str(script), 'terminal']), \
                  patch.object(os, 'uname', return_value=SimpleNamespace(machine='x86_64')), \
+                 patch.object(Path, 'is_symlink', return_value=False), \
+                 patch.object(Path, 'exists', return_value=False), \
                  patch.object(Path, 'mkdir'), patch.object(subprocess, 'run') as command, \
                  contextlib.redirect_stdout(io.StringIO()) as output:
                 with self.assertRaises(SystemExit) as caught:

@@ -37,6 +37,26 @@ journalctl --user -u bartjik.service -n 50
 
 Bartjik uses its bundled rose-punk theme. `hrcb` edits its managed JSON config.
 The bars auto-hide: move the pointer to the bottom edge to reveal them.
+The workspace preview overlay has two solid bottom notches showing app icons for tiled
+scrolling windows outside the previewed workspace's viewport. The left notch shows
+windows offscreen to the left; the right notch shows those to the right. Each notch
+appears only when its side has items, with a gap between the two sides. Each
+window gets an icon, ordered by its position in the strip. Visible windows,
+floating windows and other workspaces are excluded. A border sliver of eight
+logical pixels or less counts as offscreen. Both notches disappear when empty.
+Set `modules.spaces.offscreen` to `false` to hide it.
+Click an offscreen icon to focus that exact window, slide the workspace to it,
+and close the preview.
+
+The managed `~/.local/bin/quickshell` wrapper selects the shared `RosePunk` Qt
+Quick Controls style from `~/.local/share/quickshell/styles/`. Bartjik, Notjik and
+Runtjik opt into it with `//@ pragma RespectSystemStyle` in their shell roots;
+Quickshell otherwise forces Fusion and ignores the requested style. This gives even
+attached `ToolTip` popups the dark rounded background, border, text and font by
+default, across Quickshell apps launched through `quickshell`. Other controls
+fall back to Fusion. App-specific themed tooltips can override these defaults;
+an explicit `QT_QUICK_CONTROLS_STYLE` also takes precedence. Launching
+`/usr/bin/quickshell` directly bypasses the wrapper.
 On `li`, the tray is the first island on the left, crypto is hidden, and the
 AI island shows only Codex quota to keep the layout compact.
 

@@ -69,4 +69,16 @@ The expected MIME defaults are `obsidian-appimage.desktop` and
 launcher. Test live with `obsidian-viewer /absolute/path/to/file.md`, including a
 second file while regular Obsidian remains open. Run the installer before the
 first launch; the viewer reports a clear error if it is absent. This setup was
-verified on `fi`; `li` and `si` were not exercised.
+launch-checked on `fi` and `li`; `si` was not exercised. Li's original Flatpak
+profile was copied to the previously absent native profile before removing the
+Flatpak app; the original profile and both registered vault paths were retained.
+
+## Media Extended encrypted-login warning
+
+During the Fi AppImage migration, Media Extended could not decrypt its
+`login.json.bin` saved-login file through Electron's OS password-store API.
+This concerns the plugin's saved media-site credentials, not Markdown notes,
+vault contents, or the main appearance settings. A different or unavailable
+password-store key can cause this; the exact key failure was not established.
+The encrypted file was left intact. Media sites may require signing in again
+inside the plugin if their saved login cannot be loaded; do not reset the vault.

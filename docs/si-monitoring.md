@@ -127,11 +127,11 @@ Homepage configuration assets under `/api/config/` are served with
 response, which hid the footer styling. The exact CSS URL was purged after
 adding the no-store header. Community is capped at 400px with 2rem top padding.
 
-## Prepared Rose Punk server icons — October 28, 2026
+## Rose Punk server icons — deployed October 28, 2026
 
 The source configuration uses `/images/rose-punk/*.svg` for all thirteen services
-and the Community link. The fourteen frameless icons are prepared locally;
-this commit does not deploy them to Si. The StarFix title and favicon remain.
+and the Community link. The fourteen frameless icons and the refreshed StarFix
+design were deployed to Si on October 28, 2026. The title and favicon remain.
 
 Rebuild the served SVGs offline:
 
@@ -165,9 +165,44 @@ They remain available on this checkout but are excluded from commits and are not
 production build inputs. Canonical editable SVGs and served assets remain in
 the repository.
 
-For deployment, compare and back up the runtime files first, then copy the
+For subsequent deployments, compare and back up the runtime files first, then copy the
 reviewed `services.yaml`, `bookmarks.yaml`, `custom.css`, and `images/rose-punk/`
 into `/mnt/storage/meta/appData/homepage`. The existing read-only
 `/app/public/images` mount serves this directory. Preserve other runtime
 configuration and services. After deployment, verify all fourteen SVG URLs,
 desktop/mobile layout, thirteen service monitors and Scrutiny metrics.
+
+## StarFix design refresh — October 28, 2026
+
+The deployed CSS gives the illustrations more space, replaces the dark icon
+backings with transparent canvases, and uses a warm ivory wordmark with a short
+media subtitle. Rose, cyan, lavender and amber rules distinguish the four
+sections. Cards use restrained plum surfaces, stronger names, quieter live
+status labels and a shared metrics strip. The Community link remains centred
+with a 400px group cap and 2rem top padding. Layout uses one, two or four columns;
+hover movement respects reduced-motion settings.
+
+The deployment changed only `services.yaml`, `bookmarks.yaml`, `custom.css` and
+the fourteen SVGs in the running Homepage appData directory. Settings, service
+links, monitor URLs and widget definitions were compared with the live files
+before the update; functional configuration matched after excluding icon paths.
+The image mount already existed, so no Compose changes or image updates were
+needed. `docker restart homepage` refreshed assets after installation. All other
+containers retained their IDs and start times.
+
+Backup and receipt:
+`/mnt/storage/meta/appData/homepage-backups/20261027T173128Z/`.
+`runtime-before.tar.gz` contains the previous four configuration files and
+images. Every archived file passed SHA-256 readback against its original before
+installation. The folder also retains the Compose file, before/after container
+inventories, installation hashes and `receipt.json`. To roll back the site,
+restore the runtime archive into the Homepage appData directory and restart only
+Homepage; retained new SVGs are harmless when the old config no longer uses them.
+
+Fresh browser verification on `https://home.type.hk` confirmed all fourteen SVGs
+returned HTTP 200 with the deployed hashes. The public stylesheet also matched,
+with Cloudflare `BYPASS` and `Cache-Control: no-store`. All thirteen monitors
+reported UP (Transmission's authenticated HTTP 401 is expected), and Scrutiny
+showed 8 passed, 0 failed and 0 unknown. Browser checks at 320, 390, 800 and 1568px
+found no horizontal overflow or clipped cards; section collapse/expand, centred
+Community and reduced-motion behaviour also passed. No console errors were seen.

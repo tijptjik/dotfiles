@@ -177,6 +177,31 @@ Actions and icons share outcome colours: green for success, grey for skips,
 yellow for warnings, red for failures, and cyan while running. Service names are
 white; parenthesized subtypes and right-hand notes are dim. Pure asset tasks use
 `Assets` as the service, for example `Assets (fonts)` and `Assets (Rose Punk icons)`.
+Kitty 0.40+ uses 32px colour icons in two-line rows, with normal-size text
+vertically centred beside them. Images use the Rose Punk theme where available
+and matching glyph tiles otherwise. They travel inline through the runner and
+SSH; Unicode placeholders make scrolling and progress redraws erase/move the
+images with their rows. Terminal cell dimensions keep the artwork at 32px.
+Image data is bundled in `scripts/fleet_update/icons32.json`, so the update
+does not need an image converter. To rebuild it after changing artwork, run
+`python3 scripts/icons/build-fleet.py` (requires Pillow, ImageMagick, and Nerd Fonts).
+
+Herdr 0.9.5+ also uses 32px colour icons and two-line rows. Its panes advertise
+`TERM_PROGRAM=herdr` and `HERDR_ENV=1`, with `TERM=xterm-256color`. Because its
+PTY ioctl omits pixels, Tjikup asks Herdr for cell dimensions once at renderer
+startup (a bounded `CSI 16 t` query, skipped if input is already pending).
+Herdr does not render Kitty's OSC 66 text sizing, so this path uses normal
+text beside the top-aligned icon instead of the centred-text protocol.
+Keep `[terminal] kitty_graphics = true` in Herdr's configuration. The 0.9.5
+path is verified locally; remote sessions also need the updated fleet scripts.
+
+Other terminals, tmux/screen sessions, and terminals without usable pixel geometry
+keep compact Nerd Font icons. Set `TJIKUP_KITTY_ICONS=0` to select this compact
+layout in Kitty, or `TJIKUP_ICONS=0` to disable all title icons. Running and
+completed rows use the same icons; outcome marks remain separate. Reports and
+redirected plain output retain text labels. `TJIKUP_ICONS=1` forces glyphs into
+a plain captured preview; it does not send image data to ordinary log output.
+
 Each combined apply prints a private `timings.json` path under
 `$XDG_STATE_HOME/tjikup/logs/apply-*` (default `~/.local/state/tjikup/logs`). The report
 records total apply time, home file/rendering time, task dependencies/resources,

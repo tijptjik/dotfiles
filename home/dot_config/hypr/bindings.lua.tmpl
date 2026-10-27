@@ -69,9 +69,10 @@ hl.bind(super("Q", "SHIFT"), hl.dsp.exit())
 -- Switch the default layout for an immediate scrolling/master comparison.
 hl.bind(super("F6"), function() hl.config({ general = { layout = "scrolling" } }) end)
 hl.bind(super("F7"), function() hl.config({ general = { layout = "master" } }) end)
+-- Show the active column and its neighbor as an equal split.
+hl.bind(super("Page_Up"), function() scrolling_shortcuts.pair("l") end)
+hl.bind(super("Page_Down"), function() scrolling_shortcuts.pair("r") end)
 -- Scrolling viewport controls.
-hl.bind(super("Page_Up"), hl.dsp.layout("move -col"))
-hl.bind(super("Page_Down"), hl.dsp.layout("move +col"))
 hl.bind(super("Home"), hl.dsp.layout("fit active"))
 hl.bind(super("End"), hl.dsp.layout("fit all"))
 hl.bind(super("mouse_up", "ALT"), hl.dsp.layout("move -col"))

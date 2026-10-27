@@ -17,7 +17,7 @@ Edit `home/dot_config/hypr/layouts.lua.tmpl`:
 | `column_width` | `0.5` of available width | `0.1` through `1.0` |
 | `explicit_column_widths` | `0.333, 0.5, 0.667, 1.0` | Native cycling presets; our arrow bindings use absolute widths |
 | `fullscreen_on_one_column` | `false` | A lone column keeps its configured width |
-| `focus_fit_method` | `0` (center the focused column) | `1` fits with minimal movement |
+| `focus_fit_method` | `1` (fit with minimal movement) | `0` centers the focused column |
 | `follow_focus` | `true` | `false` disables automatic viewport following |
 | `follow_min_visible` | `0.4` | Fraction required for soft focus following; explicit focus still follows |
 | `wrap_focus`, `wrap_swapcol` | `false` | Enable wrapping for layout-specific focus/swapcol commands |
@@ -167,11 +167,20 @@ changes, monitor changes, and stacking windows can resize its client width.
 | Super+Ctrl+Left / Right | Transfer the active window into an existing adjacent column |
 | Super+Ctrl+Shift+Left / Right | Extract the active window into its own column on that side |
 | Super+Alt+Up / Right / Down / Left | Set column width to 100% / 75% / 50% / 25% |
-| Super+Page Up / Page Down | Move viewport one column backward / forward |
+| Super+Page Up / Page Down | Show the active column with its left / right neighbor at 50% each |
 | Super+Alt+mouse wheel | Move viewport one column |
 | Super+Home | Fit active column |
 | Super+End | Fit all columns |
 | Three-finger horizontal swipe | Scroll viewport on a touchpad |
+
+The pair shortcuts resize only the active column and its immediate neighbor on
+the same workspace, then fit both onscreen and retain the original keyboard focus.
+The pointer moves into that window's final half to keep hover focus consistent.
+A missing neighbor,
+floating/fullscreen window, or special workspace
+makes the action a no-op. Stacked columns keep their stacks and share the 50%
+column width. Minimal-movement focus keeps the pair visible when selecting either
+half. Super+Alt+mouse wheel retains the original viewport navigation.
 
 At a horizontal strip edge, Super+Shift+Left/Right sends the whole column to
 the adjacent monitor's active ordinary workspace. Monitors are ordered by screen

@@ -86,6 +86,51 @@ function shortcuts.move_column(direction)
     require("scrolling_gaps").update()
 end
 
+function shortcuts.pair(direction)
+    local window, layout = current()
+    if not window or not window.workspace or window.workspace.id <= 0
+        or window.fullscreen ~= 0 or window.fullscreen_client ~= 0 then return end
+    local offset = direction == "l" and -1 or 1
+    local neighbor
+    for _, candidate in ipairs(hl.get_windows()) do
+        if candidate.mapped and not candidate.floating and candidate.workspace
+            and candidate.workspace.id == window.workspace.id then
+            local other = candidate.layout
+            if other and other.name == "scrolling" and other.column
+                and other.column.index == layout.column.index + offset then
+                neighbor = candidate
+                break
+            end
+        end
+    end
+    if not neighbor or neighbor.fullscreen ~= 0 or neighbor.fullscreen_client ~= 0 then return end
+
+    -- Resize only this pair. Fitting each half in turn aligns the viewport with
+    -- their shared outer edges, even when more columns exist on either side.
+    local fit_method = hl.get_config("scrolling:focus_fit_method")
+    local no_warps = hl.get_config("cursor:no_warps")
+    local follow_mouse = hl.get_config("input:follow_mouse")
+    -- Borrow focus without warping through intermediate column positions.
+    hl.config({ scrolling = { focus_fit_method = 1 }, cursor = { no_warps = true },
+        input = { follow_mouse = 0 } })
+    local ok, err = pcall(function()
+        hl.dispatch(hl.dsp.layout("colresize 0.5"))
+        hl.dispatch(hl.dsp.focus({ window = neighbor }))
+        hl.dispatch(hl.dsp.layout("colresize 0.5"))
+    end)
+    hl.dispatch(hl.dsp.focus({ window = window }))
+    hl.dispatch(hl.dsp.layout("fit_into_view"))
+    -- The old full-width center can become the gap between the two halves.
+    -- Move into the final active half, then restore keyboard focus explicitly:
+    -- hover hit testing can still see the old geometry during the animation.
+    local at, size = window.at, window.size
+    hl.dispatch(hl.dsp.cursor.move({ x = at.x + size.x / 2, y = at.y + size.y / 2 }))
+    hl.dispatch(hl.dsp.focus({ window = window }))
+    hl.config({ scrolling = { focus_fit_method = fit_method }, cursor = { no_warps = no_warps },
+        input = { follow_mouse = follow_mouse } })
+    if not ok then error(err) end
+end
+
 function shortcuts.transfer(direction)
     local window, layout = current()
     if not window then return end

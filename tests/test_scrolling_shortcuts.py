@@ -9,6 +9,91 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @unittest.skipUnless(shutil.which("lua"), "Lua required")
 class ScrollingShortcutsTests(unittest.TestCase):
+    def test_pair_preserves_other_columns_focus_and_settings(self):
+        script = r'''
+local windows, active, fit, no_warps, follow_mouse, offset, fail, calls
+local function fit_active()
+    local start=0
+    for _,w in ipairs(windows) do
+        if w==active then break end
+        start=start+w.layout.column.width
+    end
+    local finish=start+active.layout.column.width
+    if start<offset then offset=start end
+    if finish>offset+1 then offset=finish-1 end
+end
+hl={get_active_window=function() return active end,get_windows=function() return windows end,
+    get_config=function(key)
+        if key=='cursor:no_warps' then return no_warps end
+        if key=='input:follow_mouse' then return follow_mouse end
+        return fit
+    end,
+    config=function(o)
+        fit=o.scrolling.focus_fit_method;no_warps=o.cursor.no_warps;follow_mouse=o.input.follow_mouse
+    end,
+    dsp={layout=function(s) return s end,focus=function(o) return o end,
+        cursor={move=function(o) return {cursor=o} end}},
+    dispatch=function(action)
+        calls=calls+1
+        if type(action)=='table' then
+            if action.window then
+                assert(no_warps, 'temporary focus must not move the pointer')
+                active=action.window;fit_active()
+            end
+            if action.cursor then active=nil end -- hover can see the old geometry
+        elseif action=='colresize 0.5' then
+            if fail and active==windows[2] then error('resize failed') end
+            active.layout.column.width=.5;fit_active()
+        elseif action=='fit_into_view' then fit_active() end
+    end}
+local shortcuts=dofile(arg[1])
+local function setup(index)
+    windows={};fit=0;no_warps=false;follow_mouse=2;offset=2.8;calls=0;fail=false
+    for i,width in ipairs({.25,1,.75,1}) do
+        windows[i]={mapped=true,floating=false,fullscreen=0,fullscreen_client=0,workspace={id=1},
+            at={x=0,y=0},size={x=100,y=100},
+            layout={name='scrolling',column={index=i-1,width=width}}}
+    end
+    active=windows[index]
+end
+for _,direction in ipairs({'l','r'}) do
+    setup(3)
+    local original=active
+    shortcuts.pair(direction)
+    local neighbor=direction=='l' and 2 or 4
+    assert(active==original and fit==0 and not no_warps and follow_mouse==2)
+    assert(windows[3].layout.column.width==.5 and windows[neighbor].layout.column.width==.5)
+    assert(windows[1].layout.column.width==.25)
+    assert(windows[direction=='l' and 4 or 2].layout.column.width==1)
+    assert(offset==(direction=='l' and .25 or 1.25), 'pair must fill the viewport')
+end
+for _,kind in ipairs({'edge','floating','fullscreen','client_fullscreen','scratch','master',
+    'unmapped','absent','other_workspace','floating_neighbor','fullscreen_neighbor'}) do
+    setup(1)
+    local direction='r'
+    if kind=='edge' then direction='l'
+    elseif kind=='floating' then active.floating=true
+    elseif kind=='fullscreen' then active.fullscreen=1
+    elseif kind=='client_fullscreen' then active.fullscreen_client=1
+    elseif kind=='scratch' then active.workspace.id=-1
+    elseif kind=='master' then active.layout.name='master'
+    elseif kind=='unmapped' then active.mapped=false
+    elseif kind=='absent' then active=nil
+    elseif kind=='other_workspace' then windows[2].workspace.id=2
+    elseif kind=='floating_neighbor' then windows[2].floating=true
+    else windows[2].fullscreen=1 end
+    shortcuts.pair(direction);assert(calls==0 and fit==0,kind)
+end
+setup(3);fail=true
+local original=active
+assert(not pcall(shortcuts.pair,'l'))
+assert(active==original and fit==0 and not no_warps and follow_mouse==2)
+'''
+        subprocess.run(
+            ["lua", "-", str(ROOT / "home/dot_config/hypr/scrolling_shortcuts.lua")],
+            input=script, text=True, check=True,
+        )
+
     def test_column_operations(self):
         script = r'''
 local active, windows, calls

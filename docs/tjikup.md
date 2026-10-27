@@ -177,6 +177,18 @@ Python still uses `uv sync` to converge the declared environment and reports
 failures correctly. Font and icon tools use their native freshness checks instead
 of forced rebuilds.
 
+Herdr is checked on every routine `tjikup` (and direct `chezmoi apply`) on Fi,
+Li and Si, without requiring `--upgrade`. Previously its once-only installer
+installed a missing binary, and subsequent hooks only provisioned plugins;
+neither upgraded an existing binary. The recurring binary update now runs before
+Herdr plugin operations, using `herdr update` and its configured release channel.
+It reports the version change, an unchanged version, or an update failure.
+Updates run without `--handoff` and with stdin closed to avoid consenting to stop
+active panes. Inside Herdr, or when upstream requires stopping running sessions,
+the hook explicitly warns that the update is deferred. Rerun `tjikup` outside
+Herdr after closing those sessions when ready. Existing servers are not restarted
+automatically; a new shell in an existing server does not refresh that server.
+
 Tjikup, Notjik and Pony build/install steps compare source fingerprints against
 all declared installed outputs, including bytes, modes and symlink targets.
 Changed inputs, changed/deleted outputs, or a missing record trigger installation.

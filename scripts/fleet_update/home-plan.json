@@ -1,5 +1,15 @@
 [
   {
+    "id": "herdr-update",
+    "file": "run_after_28-update-herdr.fish.tmpl",
+    "needs": [],
+    "resources": [
+      "herdr"
+    ],
+    "label": "Herdr (binary)",
+    "verb": "UPDATE"
+  },
+  {
     "id": "rust",
     "file": "run_after_29-rust-packages.fish.tmpl",
     "needs": [],
@@ -45,7 +55,8 @@
     "id": "llmtrim",
     "file": "run_after_31-remove-llmtrim-herdr.fish.tmpl",
     "needs": [
-      "llmtrim-install"
+      "llmtrim-install",
+      "herdr-update"
     ],
     "resources": [
       "herdr"

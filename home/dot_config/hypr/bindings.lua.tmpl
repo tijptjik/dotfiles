@@ -92,8 +92,8 @@ hl.bind(super("O"), hl.dsp.window.pseudo())
 hl.bind(super("F"), hl.dsp.window.fullscreen({ mode = "maximized" }))
 
 -- Focus
-hl.bind(super("Left"), hl.dsp.focus({ direction = "l" }))
-hl.bind(super("Right"), hl.dsp.focus({ direction = "r" }))
+hl.bind(super("Left"), function() require("scrolling_gaps").focus("l") end)
+hl.bind(super("Right"), function() require("scrolling_gaps").focus("r") end)
 hl.bind(super("Up"), hl.dsp.focus({ direction = "u" }))
 hl.bind(super("Down"), hl.dsp.focus({ direction = "d" }))
 
@@ -217,8 +217,11 @@ hl.bind(super("N", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"
 -- Hamr Launcher
 hl.bind(super("Escape"), hl.dsp.exec_cmd("/usr/local/bin/hamr toggle"))
 
--- Toggle notification history; Bartjik owns its native edge activation and decay.
-hl.bind(super("M"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl history toggle"))
+-- Reveal Bartjik and toggle notification history; Bartjik owns its native decay.
+hl.bind(super("M"), function()
+    hl.exec_cmd("$HOME/.local/bin/bartjikctl show")
+    hl.exec_cmd("$HOME/.local/bin/notjikctl history toggle")
+end)
 
 hl.bind(super("comma"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate previous"))
 hl.bind(super("period"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate next"))

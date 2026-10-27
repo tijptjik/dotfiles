@@ -43,7 +43,7 @@ class IconContrastTests(unittest.TestCase):
             'gallery light': (236, 234, 240), 'warm light': (240, 235, 229),
             'white': (255, 255, 255), 'plum': (38, 35, 58), 'dark': (25, 23, 36),
         }
-        for key in ('signal', 'nginx'):
+        for key in ('signal', 'nginx', 'hyprvoice', 'tailscale'):
             folder = 'home/dot_local/share/icons/rose-punk/scalable/apps'
             image = frameless.render((ROOT / folder / f'{key}.svg').read_text(), 128)
             # Evaluate rendered ramps as well as flat fills. Edge antialiasing
@@ -59,6 +59,50 @@ class IconContrastTests(unittest.TestCase):
                     ratios.append((high + .05) / (low + .05))
                 with self.subTest(icon=key, surface=name):
                     self.assertGreaterEqual(min(ratios), 3)
+
+    def test_revised_light_surface_contours_have_three_to_one_contrast(self):
+        import xml.etree.ElementTree as ET
+        from PIL import ImageFilter
+
+        folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+        keys = ('strata', 'document-viewer', 'weather', 'help', 'power',
+                'sublime-text', 'python', 'qgis-desktop', 'software', 'llmtrim')
+        for key in keys:
+            root = ET.parse(folder / f'{key}.svg').getroot()
+            if key == 'llmtrim':
+                # Only the metal blades were revised; retain the gold handles.
+                for parent in root.iter():
+                    for child in list(parent):
+                        if child.tag.rsplit('}', 1)[-1] in ('path', 'circle') \
+                                and child.get('fill') != 'url(#metal)':
+                            parent.remove(child)
+            image = frameless.render(ET.tostring(root, encoding='unicode'), 256)
+            outside = image.getchannel('A').point(lambda a: 255 if a <= 16 else 0)
+            nearby = outside.filter(ImageFilter.MaxFilter(5))
+            # At 4x scale, sample opaque pigment within half an icon unit of
+            # transparent canvas. Bright backed fills are not exposed edges.
+            pixels, edges = image.load(), nearby.load()
+            pigments = [pixels[x, y][:3] for y in range(image.height)
+                        for x in range(image.width) if pixels[x, y][3] >= 250 and edges[x, y]]
+            self.assertTrue(pigments, key)
+            values = {rgb: luminance(rgb) for rgb in set(pigments)}
+            for surface in ((236, 234, 240), (240, 235, 229), (255, 255, 255)):
+                background = luminance(surface)
+                good = sum((max(values[rgb], background) + .05) /
+                           (min(values[rgb], background) + .05) >= 3 for rgb in pigments)
+                with self.subTest(icon=key, surface=surface):
+                    # Allow a small number of samples at antialiased joins.
+                    self.assertGreaterEqual(good / len(pigments), .99)
+
+    def test_discord_eyes_contrast_with_the_pink_face(self):
+        import xml.etree.ElementTree as ET
+
+        path = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps/discord.svg'
+        face, eyes = ET.parse(path).findall('.//{*}path')
+        values = [luminance(tuple(int(shape.get('fill')[i:i + 2], 16)
+                                  for i in (1, 3, 5))) for shape in (face, eyes)]
+        low, high = sorted(values)
+        self.assertGreaterEqual((high + .05) / (low + .05), 3)
 
     def test_bright_marks_contrast_with_their_own_dark_fills(self):
         import xml.etree.ElementTree as ET

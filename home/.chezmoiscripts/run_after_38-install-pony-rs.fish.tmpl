@@ -1,0 +1,13 @@
+#!/usr/bin/env fish
+if test "$FLEET_DEFER_HOOKS" = 1
+    exit 0
+end
+{{ if .isClient -}}
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+if not command -q cargo; or not command -q fortune
+    stage 'Pony dependencies' INSTALL 'Rust and fortune' sudo dnf install -y cargo fortune-mod
+    or exit $status
+end
+stage 'Native pony greeting' INSTALL pony-rs bash "{{ .chezmoi.sourceDir }}/../scripts/install-pony-rs.sh"
+or exit $status
+{{ end -}}

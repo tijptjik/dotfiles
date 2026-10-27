@@ -210,7 +210,25 @@ hl.window_rule({
 {{- else if .isLaptop }}
     workspace = "4",
 {{- end }}
-    match = { class = "^(org.telegram.desktop.*)" },
+    match = { class = "^(org.telegram.desktop.*)", initial_title = "^Telegram$" },
+})
+
+-- Telegram's export dialog draws its own frame inside the Wayland surface.
+-- A compositor frame exposes its asymmetric transparent margins. Do not give
+-- this fixed-size dialog the main window's forced size/position either.
+hl.window_rule({
+    name = "telegram-export-dialog",
+    float = true,
+    -- Avoid compositor scaling/settling on top of Telegram's own dialog drawing.
+    no_anim = true,
+    border_size = 0,
+    rounding = 0,
+    no_shadow = true,
+    no_blur = true,
+    match = {
+        class = "^(org.telegram.desktop.*)",
+        initial_title = "^TelegramDesktop$",
+    },
 })
 
 {{- if .isDesktop }}

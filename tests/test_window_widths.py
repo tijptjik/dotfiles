@@ -42,6 +42,13 @@ assert(rules.spotify.scrolling_width == 1.0)
 assert(rules["codex-lb"].scrolling_width == (arg[2] == "fi" and 1.0 or nil))
 assert(rules.zen.scrolling_width == 0.5)
 assert(rules.kitty.scrolling_width == 0.5)
+assert(rules.telegram.match.initial_title == "^Telegram$")
+local export = rules["telegram-export-dialog"]
+assert(export.match.class == rules.telegram.match.class)
+assert(export.match.initial_title == "^TelegramDesktop$")
+assert(export.float and export.border_size == 0 and export.rounding == 0)
+assert(export.no_shadow and export.no_blur and export.no_anim)
+assert(export.size == nil and export.move == nil and export.workspace == nil)
 assert(rules.spotify.workspace == (arg[2] == "fi" and "20 silent" or arg[2] == "li" and "10 silent" or nil))
 for app, width in pairs({files=0.75, sublime=1.0, obsidian=1.0, ["codex-lb"]=1.0, ["system-monitor"]=0.75}) do
     local base = app .. "-width"

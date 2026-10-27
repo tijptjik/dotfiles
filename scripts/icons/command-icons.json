@@ -5,6 +5,7 @@
       "/refresh"
     ],
     "description": "Jade and copper return arrows around ivory index cards",
+    "role": "control",
     "source": "scripts/icons/local/runtjik-refresh.svg",
     "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
     "license": "Original artwork",
@@ -36,6 +37,7 @@
       "/pin"
     ],
     "description": "Copper and rose thumbtack with a cool steel point",
+    "role": "control",
     "source": "scripts/icons/local/runtjik-pin.svg",
     "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
     "license": "Original artwork",
@@ -67,6 +69,7 @@
       "/grid"
     ],
     "description": "Four pigment-coloured application cards",
+    "role": "control",
     "source": "scripts/icons/local/runtjik-grid.svg",
     "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
     "license": "Original artwork",
@@ -98,6 +101,7 @@
       "/list"
     ],
     "description": "Ivory list slips with coordinated colour tabs",
+    "role": "control",
     "source": "scripts/icons/local/runtjik-list.svg",
     "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
     "license": "Original artwork",
@@ -129,6 +133,7 @@
       "/stats"
     ],
     "description": "Folded chart paper with jade, violet and copper bars",
+    "role": "control",
     "source": "scripts/icons/local/runtjik-stats.svg",
     "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
     "license": "Original artwork",
@@ -160,6 +165,7 @@
       "/config"
     ],
     "description": "Three steel slider rails with pigment-coloured controls",
+    "role": "control",
     "source": "scripts/icons/local/runtjik-config.svg",
     "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
     "license": "Original artwork",
@@ -188,10 +194,11 @@
   "runtjik-shortcuts": {
     "name": "Keyboard shortcuts",
     "commands": [
-      "/shortcuts",
-      "/bindings"
+      "/bindings",
+      "/shortcuts"
     ],
     "description": "Ivory and violet arrow-key caps",
+    "role": "control",
     "source": "scripts/icons/local/runtjik-shortcuts.svg",
     "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
     "license": "Original artwork",
@@ -214,6 +221,36 @@
         8.0,
         60.0,
         56.0
+      ]
+    }
+  },
+  "fish": {
+    "name": "Fish shell",
+    "commands": [],
+    "description": "Friendly jade fish with copper fins and a rose dorsal fin",
+    "role": "shell",
+    "source": "scripts/icons/local/fish.svg",
+    "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
+    "license": "Original artwork",
+    "sha256": "352b6f41d3a05e2458382fdea1aa6358f3b0b07104fa2a2dc899fb9d2c034a19",
+    "sizing": {
+      "source_bounds": [
+        5.0,
+        8.0,
+        58.5,
+        56.0
+      ],
+      "alpha_area": 1243.3146,
+      "scale": 1.046729,
+      "translate": [
+        -1.233645,
+        -1.495327
+      ],
+      "result_bounds": [
+        4.0,
+        6.875,
+        60.0,
+        57.125
       ]
     }
   }

@@ -19,23 +19,25 @@ COMMANDS = {
     'list': ('List view', ['/list'], 'Ivory list slips with coordinated colour tabs'),
     'stats': ('Usage statistics', ['/stats'], 'Folded chart paper with jade, violet and copper bars'),
     'config': ('Configuration', ['/config'], 'Three steel slider rails with pigment-coloured controls'),
-    'shortcuts': ('Keyboard shortcuts', ['/shortcuts', '/bindings'], 'Ivory and violet arrow-key caps'),
+    'shortcuts': ('Keyboard shortcuts', ['/bindings', '/shortcuts'], 'Ivory and violet arrow-key caps'),
 }
+SHELLS = {'fish': ('Fish shell', [], 'Friendly jade fish with copper fins and a rose dorsal fin')}
 
 
 def render():
     outputs, manifest = {}, {}
-    for key, (name, commands, description) in COMMANDS.items():
+    entries = [('runtjik-'+key, key, value, 'control') for key, value in COMMANDS.items()]
+    entries += [(key, key, value, 'shell') for key, value in SHELLS.items()]
+    for icon, key, (name, commands, description), role in entries:
         source = ('<svg xmlns="' + SVG + '" width="64" height="64" viewBox="0 0 64 64">'
                   + '<title>' + name + '</title><desc>Original Rose Punk artwork. ' + description + '.</desc>'
                   + '<rect id="tile" x="3" y="2" width="58" height="58"/>'
                   + command_artwork(key) + '</svg>')
         output, sizing = normalize(source)
-        icon = 'runtjik-' + key
         outputs[icon + '.svg'] = output.encode()
         outputs['symlink_rose-punk-' + icon + '.svg'] = (icon + '.svg\n').encode()
         manifest[icon] = {
-            'name': name, 'commands': commands, 'description': description,
+            'name': name, 'commands': commands, 'description': description, 'role': role,
             'source': 'scripts/icons/local/' + icon + '.svg',
             'authored_in': 'scripts/icons/material_art.py:COMMAND_ART',
             'license': 'Original artwork',
@@ -59,8 +61,9 @@ def preview(manifest):
     REVIEWS.mkdir(parents=True, exist_ok=True)
     camera = REVIEWS / 'assets/icon-material-review/before/camera.svg'
     camera_hash = hashlib.sha256(camera.read_bytes()).hexdigest()
-    sheet = ET.Element(f'{{{SVG}}}svg', {'width': '1100', 'height': '1080', 'viewBox': '0 0 1100 1080'})
-    ET.SubElement(sheet, f'{{{SVG}}}rect', {'width': '1100', 'height': '1080', 'fill': '#191724'})
+    height = 136 + (len(manifest)+1)*118
+    sheet = ET.Element(f'{{{SVG}}}svg', {'width': '1100', 'height': str(height), 'viewBox': f'0 0 1100 {height}'})
+    ET.SubElement(sheet, f'{{{SVG}}}rect', {'width': '1100', 'height': str(height), 'fill': '#191724'})
 
     def label(value, x, y, size=14, fill='#e0def4'):
         text = ET.SubElement(sheet, f'{{{SVG}}}text', {'x': str(x), 'y': str(y), 'font-family': 'sans-serif',
@@ -73,7 +76,7 @@ def preview(manifest):
     for size, x in sizes:
         label(str(size) + ' px', x, 94, 13, '#908caa')
     rows = [('Camera reference', 'unchanged frozen reference', camera)]
-    rows += [(entry['commands'][0], entry['name'], ROOT / entry['source']) for entry in manifest.values()]
+    rows += [(entry['commands'][0] if entry['commands'] else 'fish', entry['name'], ROOT / entry['source']) for entry in manifest.values()]
     for index, (name, description, path) in enumerate(rows):
         y = 106 + index * 118
         label(name, 24, y + 41, 16)
@@ -97,10 +100,10 @@ def preview(manifest):
             node.set('width', str(size))
             node.set('height', str(size))
             sheet.append(node)
-    label('Seven companion icons; application catalog and camera source are unchanged.', 24, 1060, 12, '#908caa')
+    label('Seven command companions and Fish; application catalog and camera source are unchanged.', 24, height-20, 12, '#908caa')
     output = ET.tostring(sheet, encoding='unicode')
     write_file(REVIEWS / 'rose-punk-command-icons.svg', (output + '\n').encode())
-    rasterize(output, 1100).save(REVIEWS / 'rose-punk-command-icons.png')
+    rasterize(output, max(1100,height)).save(REVIEWS / 'rose-punk-command-icons.png')
     assert hashlib.sha256(camera.read_bytes()).hexdigest() == camera_hash
     return REVIEWS / 'rose-punk-command-icons.png'
 
@@ -110,6 +113,6 @@ if __name__ == '__main__':
     parser.add_argument('--preview', action='store_true', help='Render five sizes beside the unchanged camera')
     args = parser.parse_args()
     manifest = build()
-    print(f'Built {len(manifest)} original Rose Punk command icons')
+    print(f'Built {len(COMMANDS)} original Rose Punk command icons and {len(SHELLS)} shell icon')
     if args.preview:
         print(preview(manifest))

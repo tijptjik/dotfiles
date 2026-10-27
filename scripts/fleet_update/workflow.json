@@ -53,7 +53,6 @@
     "skip_codes": [
       77
     ],
-    "section": "Fleet repositories",
     "summary": false,
     "needs": [
       "capture"
@@ -70,6 +69,9 @@
     "verb": "PULL",
     "needs": [
       "commit"
+    ],
+    "skip_codes": [
+      77
     ]
   },
   {
@@ -85,6 +87,9 @@
     "verb": "PULL",
     "needs": [
       "checks"
+    ],
+    "skip_codes": [
+      77
     ]
   },
   {

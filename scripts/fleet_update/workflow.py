@@ -12,7 +12,8 @@ import textwrap
 from .dag import Task, run, command as run_command
 from .core import UpdateError
 from tjikup import runtime
-from tjikup.progress import Progress
+from .repository_progress import RepositoryProgress
+from .presentation import summary
 
 
 class Stopped(Exception):
@@ -21,6 +22,9 @@ class Stopped(Exception):
 
 def failure_details(step, output, repo):
     """Keep Git advice out of the status rows without losing diagnostics."""
+    dirty = re.search(r"^fleet-update: (Dirty [^\n]+)", output, re.MULTILINE)
+    if dirty:
+        return [dirty.group(1)], "dirty checkout"
     conflicts = list(dict.fromkeys(re.findall(r"^CONFLICT[^\n]*", output, re.MULTILINE)))
     lines = conflicts or [line for line in output.splitlines()
                           if line.startswith(("fatal:", "error:", "Permission denied"))][:3]
@@ -37,12 +41,15 @@ def failure_details(step, output, repo):
     return lines, "merge conflict" if conflicts else "command failed"
 
 
-def show_failure(step, output, repo, error, seconds):
+def show_failure(step, output, repo, error, seconds, *, status=True):
     lines, reason = failure_details(step, output, repo)
     if not output:
         lines = [str(error)]
-    runtime.stage_label(step.get("verb", "FAILED"), "✗", step.get("label", step["id"]),
-                        f"{reason} · {seconds:.2f}s")
+    if status:
+        runtime.stage_label(step.get("verb", "FAILED"), "✗", step.get("label", step["id"]),
+                            f"{reason} · {seconds:.2f}s")
+    else:
+        print(f'{step.get("label", step["id"])} {step.get("verb", "FAILED")}: {reason}', flush=True)
     if output:
         try:
             state = Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state")
@@ -74,7 +81,22 @@ def workflow(repo, *, dry_run=False):
         outputs = {}
         skipped = set()
         steps = {step["id"]: step for step in plan}
-        progress = Progress()
+        progress = RepositoryProgress()
+        repository_steps = {
+            "pull-home": ("dotjik", "PULL"), "push-home": ("dotjik", "PUSH"),
+            "pull-system": ("systjik", "PULL"), "push-system": ("systjik", "PUSH"),
+            "pull-tooltjik": ("tooltjik", "PULL"), "dirty": ("dotjik", "PUSH"),
+        }
+        diagnostics = []
+
+        def settle_repositories():
+            if dry_run:
+                return
+            progress.open()
+            progress.settle()
+            for step, output, result in diagnostics:
+                show_failure(step, output, repo, result.error, result.seconds, status=False)
+            diagnostics.clear()
 
         def action(step):
             def execute():
@@ -104,7 +126,35 @@ def workflow(repo, *, dry_run=False):
         def event(name, result):
             step = steps[name]
             label, verb = step.get("label", name), step.get("verb", "UPDATE")
+            if not dry_run and name in repository_steps:
+                repository, operation = repository_steps[name]
+                output = outputs.get(name, "")
+                if name == "dirty" and result.state != "failed":
+                    return
+                state = result.state
+                if state == "done":
+                    outcome = summary(output) if output else None
+                    state = "unchanged" if name in skipped else "changed"
+                    if name == "pull-tooltjik" and outcome:
+                        state = ("changed" if outcome.verb == "PULL" else
+                                 "blocked" if outcome.verb == "WARN" or "not cloned" in output else "unchanged")
+                        if outcome.warnings:
+                            with progress.output():
+                                print(output, end="" if output.endswith("\n") else "\n", flush=True)
+                    # Tooltjik's command already records its detailed outcome.
+                    if name != "pull-tooltjik":
+                        runtime.record("SKIP" if state == "unchanged" else operation,
+                                       "✓", label, state)
+                elif state == "failed":
+                    details, reason = failure_details(step, output, repo)
+                    note = details[0] if details else str(result.error)
+                    runtime.record(operation, "✗", label, note)
+                    diagnostics.append((step, output, result))
+                progress.update(repository, operation, state)
+                return
             if result.state == "running":
+                if step.get("exclusive"):
+                    settle_repositories()
                 with progress.output():
                     if "section" in step:
                         runtime.section_header(step["section"])
@@ -115,11 +165,13 @@ def workflow(repo, *, dry_run=False):
                 return
             output = outputs.get(name, "")
             if result.state == "failed":
+                if name == "commit" and not dry_run:
+                    progress.update("dotjik", "PULL", "failed")
                 progress.discard(name)
                 with progress.output():
                     show_failure(step, output, repo, result.error, result.seconds)
             elif result.state == "blocked":
-                if step.get("summary", True):
+                if step.get("summary", True) and not step.get("exclusive"):
                     progress.finish(name, f"{verb.title()} {label}", verb="SKIP", icon="-", note="workflow stopped")
             else:
                 if output:
@@ -130,6 +182,8 @@ def workflow(repo, *, dry_run=False):
                         progress.finish(name, f"{verb.title()} {label}", verb="SKIP", note="no changes")
                     else:
                         progress.finish(name, label, verb=verb, note=f"{result.seconds:.2f}s")
+                if name == "commit" and not dry_run:
+                    progress.open()
 
         for step in plan:
             tasks.append(Task(step["id"], action(step), tuple(step.get("needs", [])),
@@ -138,6 +192,7 @@ def workflow(repo, *, dry_run=False):
                               exclusive=step.get("exclusive", False)))
         with progress:
             results = run(tasks, workers=4, event=event)
+            settle_repositories()
         errors = [result.error for result in results.values() if result.error]
         if errors:
             if all(isinstance(error, Stopped) for error in errors):

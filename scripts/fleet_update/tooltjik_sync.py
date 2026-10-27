@@ -59,7 +59,7 @@ def pull(*, dry_run=False):
             return 0
 
         if git(repo, "status", "--porcelain", "--untracked-files=all").stdout:
-            return warning("local changes; pull skipped")
+            raise UpdateError("Dirty Tooltjik: local changes; commit or stash before updating")
         branch = git(repo, "symbolic-ref", "--quiet", "--short", "HEAD", check=False)
         if branch.returncode:
             return warning("detached HEAD; pull skipped")
@@ -74,7 +74,7 @@ def pull(*, dry_run=False):
         git(repo, "fetch", "--no-recurse-submodules", "--", remote)
         # Fetch can take time. Recheck local work before moving the branch.
         if git(repo, "status", "--porcelain", "--untracked-files=all").stdout:
-            return warning("local changes appeared; pull skipped")
+            raise UpdateError("Dirty Tooltjik: local changes appeared; pull stopped")
         if git(repo, "symbolic-ref", "--quiet", "--short", "HEAD", check=False).stdout != branch.stdout:
             return warning("branch changed; pull skipped")
         target = git(repo, "rev-parse", "@{upstream}").stdout.strip()

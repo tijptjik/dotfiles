@@ -237,7 +237,7 @@ def git_dirty_paths(repo: Path) -> list[str]:
         check=False,
     )
     if result.returncode:
-        return []
+        raise UpdateError(f"cannot determine dirty status: {repo}")
     return [line[3:] for line in result.stdout.splitlines() if len(line) >= 4]
 
 
@@ -247,10 +247,8 @@ def warn_dirty_files(status_repo: Path, repo: Path) -> None:
         count = len(paths)
         name = repo.resolve().name
         name = {"chezmoi": "Chezmoi", "chezetc": "Chezetc"}.get(name, name)
-        stage_label(
-            "WARN", "!", f"Dirty {name}",
-            f"{count} {('file' if count == 1 else 'files')}"
-        )
+        raise UpdateError(f"Dirty {name}: {count} {('file' if count == 1 else 'files')}; "
+                          "commit or stash before updating")
 
 
 def changed_line_count(before: str, after: str) -> int:
@@ -511,8 +509,17 @@ def sync_repo(repo, action):
     with (repo / ".git" / "tjikup-sync.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         try:
+            warn_dirty_files(repo, repo)
             if action == "pull":
-                run(["git", "pull", "--rebase", "--autostash"], repo, capture_output=True)
+                before = git_ref(repo, "HEAD")
+                if before is None:
+                    raise UpdateError(f"cannot determine HEAD: {repo}")
+                run(["git", "pull", "--rebase", "--no-autostash"], repo, capture_output=True)
+                after = git_ref(repo, "HEAD")
+                if after is None:
+                    raise UpdateError(f"cannot determine pull result: {repo}")
+                if before == after:
+                    return 77
             elif action == "push":
                 ahead = git_ahead_count(repo)
                 if ahead is None:

@@ -57,7 +57,7 @@ class TooltjikSyncTests(unittest.TestCase):
         self.assertEqual((self.repo / 'file').read_text(), 'upstream\n')
         self.assertIn('SKIP    ✓ Tooltjik', self.invoke())
 
-    def test_dirty_staged_and_untracked_work_skip_without_fetching(self):
+    def test_dirty_staged_and_untracked_work_fail_without_fetching(self):
         for state in ('unstaged', 'staged', 'untracked'):
             with self.subTest(state=state):
                 path = self.repo / ('new' if state == 'untracked' else 'file')
@@ -65,9 +65,8 @@ class TooltjikSyncTests(unittest.TestCase):
                 if state == 'staged':
                     self.git('-C', str(self.repo), 'add', 'file')
                 before = self.git('-C', str(self.repo), 'status', '--porcelain')
-                output = self.invoke()
-                self.assertIn('WARN    ! Tooltjik', output)
-                self.assertIn('pull skipped', output)
+                with self.assertRaisesRegex(UpdateError, 'Dirty Tooltjik'):
+                    self.invoke()
                 self.assertEqual(self.git('-C', str(self.repo), 'status', '--porcelain'), before)
                 self.assertEqual(path.read_text(), 'personal work\n')
                 self.assertFalse((self.repo / '.git/FETCH_HEAD').exists())

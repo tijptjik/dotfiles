@@ -56,27 +56,22 @@ class ZedPropagationTests(unittest.TestCase):
 
 
 class DirtyStateTests(unittest.TestCase):
-    def test_warning_identifies_repository_and_count(self):
-        repo = Path.home() / ".local/share/chezmoi"
-        with patch.object(tjikup, "git_dirty_paths", return_value=["a", "b"]), \
-                patch.object(tjikup, "stage_label") as stage:
-            tjikup.warn_dirty_files(repo, repo)
-            stage.assert_called_once_with("WARN", "!", "Dirty Chezmoi", "2 files")
-
-    def test_other_repository_name_and_singular_count(self):
-        for name, label in (("chezetc", "Chezetc"), ("my-repo", "my-repo")):
+    def test_dirty_repository_is_a_failure(self):
+        for name, label in (("chezmoi", "Chezmoi"), ("chezetc", "Chezetc")):
             with self.subTest(name=name), \
-                    patch.object(tjikup, "git_dirty_paths", return_value=["a"]), \
-                    patch.object(tjikup, "stage_label") as stage:
+                    patch.object(tjikup, "git_dirty_paths", return_value=["a", "b"]), \
+                    self.assertRaisesRegex(UpdateError, f"Dirty {label}: 2 files"):
                 repo = Path("/tmp") / name
                 tjikup.warn_dirty_files(repo, repo)
-                stage.assert_called_once_with("WARN", "!", f"Dirty {label}", "1 file")
 
-    def test_clean_repository_has_no_warning(self):
-        with patch.object(tjikup, "git_dirty_paths", return_value=[]), \
-                patch.object(tjikup, "stage_label") as stage:
+    def test_clean_repository_passes(self):
+        with patch.object(tjikup, "git_dirty_paths", return_value=[]):
             tjikup.warn_dirty_files(Path("/tmp/repo"), Path("/tmp/repo"))
-            stage.assert_not_called()
+
+    def test_status_failure_is_not_clean(self):
+        with patch.object(tjikup.subprocess, "run", return_value=Mock(returncode=1)), \
+                self.assertRaisesRegex(UpdateError, "cannot determine dirty status"):
+            tjikup.git_dirty_paths(Path("/tmp/repo"))
 
 
 class PrerequisiteTests(unittest.TestCase):
@@ -171,6 +166,33 @@ class ConflictIntegrationTests(unittest.TestCase):
 
 
 class RepositorySyncTests(unittest.TestCase):
+    def test_pull_classifies_actual_head_changes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory)
+            (repo / ".git").mkdir()
+            for after, expected in (("old", 77), ("new", 0)):
+                with self.subTest(after=after), \
+                        patch.object(tjikup, "git_dirty_paths", return_value=[]), \
+                        patch.object(tjikup, "git_ref", side_effect=["old", after]), \
+                        patch.object(tjikup, "run") as command:
+                    self.assertEqual(tjikup.sync_repo(repo, "pull"), expected)
+                    command.assert_called_once_with(
+                        ["git", "pull", "--rebase", "--no-autostash"], repo, capture_output=True)
+
+    def test_dirty_work_blocks_pull_and_push_before_mutations(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory)
+            (repo / ".git").mkdir()
+            for action in ("pull", "push"):
+                with self.subTest(action=action), \
+                        patch.object(tjikup, "git_dirty_paths", return_value=["personal"]), \
+                        patch.object(tjikup, "run") as command, \
+                        self.assertRaisesRegex(UpdateError, "Dirty"):
+                    try:
+                        tjikup.sync_repo(repo, action)
+                    finally:
+                        command.assert_not_called()
+
     def test_second_sync_waits_for_the_same_repository(self):
         with tempfile.TemporaryDirectory() as directory:
             repo = Path(directory)
@@ -182,7 +204,9 @@ class RepositorySyncTests(unittest.TestCase):
                 started.set()
 
             with (repo / ".git" / "tjikup-sync.lock").open("a") as lock, \
-                    patch.object(tjikup, "run", side_effect=run_pull):
+                    patch.object(tjikup, "run", side_effect=run_pull), \
+                    patch.object(tjikup, "git_dirty_paths", return_value=[]), \
+                    patch.object(tjikup, "git_ref", return_value="head"):
                 tjikup.fcntl.flock(lock, tjikup.fcntl.LOCK_EX)
                 worker = threading.Thread(
                     target=lambda: (tjikup.sync_repo(repo, "pull"), completed.set())

@@ -23,7 +23,9 @@ Chezmoi and Chezetc retain ownership of managed files and once/onchange state.
 
 Capture still validates every result before writing sources and commits only
 changed capture targets. Fcitx capture retains its private backups. Configuration
-repositories use `pull --rebase --autostash`; unknown upstream state is an error. A whole-workflow
+repositories require a clean worktree after the scoped capture commit and use
+`pull --rebase --no-autostash`. Dirty tracked, staged, or untracked files fail
+pull/push and block apply; unknown worktree or upstream state is also an error. A whole-workflow
 lock prevents overlapping Tjikup capture/pull/apply transactions in this checkout;
 individual Git commands also retain their repository locks. Failed tasks stop new
 work, drain running tasks, and block pending dependents. A configuration-refresh
@@ -31,8 +33,9 @@ warning prevents subsequent apply stages.
 
 The **Fleet repositories** stage also checks Tooltjik at `$TOOLTJIK_REPO`, or
 `~/code/tooltjik` by default. Clean checkouts fetch their configured upstream and
-advance only by fast-forward. Dirty, detached, untracked-branch, locally ahead,
-or diverged checkouts produce a warning and retain the local source for installation.
+advance only by fast-forward. Dirty checkouts fail and block apply. Detached,
+untracked-branch, locally ahead, or diverged checkouts produce a warning and
+retain the local source for installation.
 Tooltjik is never automatically committed, stashed, rebased, reset, or pushed.
 Fetch failures, busy checkouts, and unfinished Git operations block apply.
 A missing checkout is left to the existing installer bootstrap; legacy checkout
@@ -214,15 +217,26 @@ that install to run again. Build directories and dependency caches are excluded
 from source fingerprints. New installer inputs/outputs must be added to its
 `cache-install.py` invocation.
 
-Fleet steps use their configured verbs and labels (for example, `PULL ✓ Dotjik`)
-with elapsed wall time. Steps that already print their own status do not add a
-duplicate scheduler row; unchanged pushes are marked skipped. Parallel output
-has one live row per task, with a spinner and elapsed time until completion.
-Active rows hide the cursor and use synchronized terminal updates to prevent
-erase/redraw flicker on supporting terminals. The cursor returns for prompts,
-after the last active row, and when the progress context exits, including Ctrl-C.
-This renderer lives in Tooltjik; reinstall the runner after updating its source.
-Redirected output contains final rows without cursor controls.
+The **Fleet repositories** panel keeps three rows in fixed order: `dotjik`,
+`systjik`, `tooltjik`, each with separate `PULL` and `PUSH` cells. Pending cells
+are dimmed, running cells are bright, completed operations with changes are
+blue, and completed operations without changes are teal. Failures turn red;
+blocked operations stay dimmed. Tooltjik PUSH remains dimmed because this workflow
+does not publish its development commits. Pull changes are determined from the
+checkout's HEAD before and after the operation, and pushes from outgoing commits.
+The scoped capture commit stays under **Commit Local Changes**; dirty checks are
+folded into repository results. Redirected output emits the three final rows
+with explicit state names and no cursor controls.
+Dirty checkout failures retain their concrete reason in the final Issues list.
+Blocked apply does not insert a separate step row into the repository panel.
+With the updated runner, reported repository failures do not add generic
+`Fleet update` and `Tjikup` failures; the command still exits nonzero.
+
+The fleet panel uses the Tooltjik runner's synchronized terminal frames and cursor
+handling. Hook progress continues to show a live row per task with a spinner and
+elapsed time. The cursor returns for prompts and when the progress context exits,
+including Ctrl-C. Fleet panel changes take effect directly from this checkout;
+changes to the reusable runner require reinstalling Tooltjik.
 Buffered failures show the failed step first, followed by
 a short diagnostic and the path to a private full-output log under
 `$XDG_STATE_HOME/tjikup/logs` (default `~/.local/state/tjikup/logs`). Git conflicts

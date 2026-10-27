@@ -71,6 +71,8 @@ with open(os.environ['TRACE'], 'a') as stream:
     stream.write(json.dumps([pathlib.Path(sys.argv[0]).name, pathlib.Path.cwd().name, sys.argv[1:]]) + '\\n')
 if pathlib.Path(sys.argv[0]).name == 'git':
     if sys.argv[1] == 'rev-list': print('0')
+    if sys.argv[1] == 'status' and pathlib.Path.cwd().name == os.environ.get('DIRTY_REPO'):
+        print('?? personal-work')
     if sys.argv[1] == 'diff': print('home/dot_config/fcitx5/private_profile')
     if sys.argv[1] == 'pull' and pathlib.Path.cwd().name == 'chezmoi':
         failure = os.environ.get('FAIL_PULL')
@@ -192,9 +194,9 @@ else:
         self.assertFalse(any(row.startswith("CHECK") and "Prerequisites" in row for row in rows))
         self.assertNotIn("Live configuration", result.stdout)
         self.assertNotIn("DAG     ", result.stdout)
-        self.assertIn("PULL    ✓ Dotjik", result.stdout)
-        self.assertIn("PULL    ✓ Systjik", result.stdout)
-        self.assertIn("SKIP    ✓ Push Dotjik", result.stdout)
+        self.assertIn("dotjik    PULL [unchanged]  PUSH [unchanged]", result.stdout)
+        self.assertIn("systjik   PULL [unchanged]  PUSH [unchanged]", result.stdout)
+        self.assertIn("tooltjik  PULL [blocked]  PUSH [disabled]", result.stdout)
         events = self.events()
         commit = next(
             row for row in events if row[0] == "git" and row[2][0] == "commit"
@@ -214,6 +216,21 @@ else:
         self.assertIn("intentional home failure", result.stderr)
         self.assertNotIn("chezetc", [row[0] for row in self.events()])
 
+    def test_dirty_configuration_repositories_fail_and_block_apply(self):
+        for checkout, label in (("chezmoi", "dotjik"), ("chezetc", "systjik")):
+            with self.subTest(checkout=checkout):
+                self.trace.unlink(missing_ok=True)
+                self.env.update(DIRTY_REPO=checkout, TJIKUP_COLOR="0")
+                result = self.run_fleet()
+                self.assertEqual(result.returncode, 1, result.stderr)
+                self.assertIn(f"{label:<8}  PULL [failed]", result.stdout)
+                self.assertIn("Dirty", result.stdout)
+                self.assertIn("dirty checkout", result.stdout)
+                self.assertNotIn("Apply Home and system", result.stdout)
+                self.assertFalse(any(row[0] in {"chezmoi", "chezetc"} for row in self.events()))
+                self.assertFalse(any(row[0] == "git" and row[1] == checkout
+                                     and row[2][0] in {"pull", "push"} for row in self.events()))
+
     def test_tooltjik_failure_blocks_all_apply(self):
         path = self.repo / 'scripts/fleet_update/workflow.json'
         plan = json.loads(path.read_text())
@@ -230,11 +247,11 @@ else:
         self.env.update(FAIL_PULL="conflict", TJIKUP_COLUMNS="80", TJIKUP_COLOR="0")
         result = self.run_fleet()
         self.assertEqual(result.returncode, 1, result.stderr)
-        self.assertIn("PULL    ✗ Dotjik", result.stdout)
+        self.assertIn("dotjik    PULL [failed]", result.stdout)
         self.assertIn("merge conflict", result.stdout)
         self.assertIn("home/dot_config/herdr/session.json.tmpl", result.stdout)
         self.assertIn("git rebase --continue", result.stdout)
-        self.assertLess(result.stdout.index("PULL    ✗ Dotjik"), result.stdout.index("CONFLICT"))
+        self.assertLess(result.stdout.index("dotjik    PULL [failed]"), result.stdout.index("CONFLICT"))
         self.assertNotIn("Created autostash", result.stdout + result.stderr)
         self.assertNotIn("hint:", result.stdout + result.stderr)
         self.assertNotIn("fleet-update:", result.stdout + result.stderr)

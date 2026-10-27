@@ -103,7 +103,11 @@ Home work defaults to four workers (`FLEET_JOBS=1` serializes it for diagnosis).
 Cargo, tooltjik checkout/install operations, DNF, user-systemd, Tailscale, fonts,
 and storage have resource exclusions. Herdr setup and wrapper setup run alone
 with terminal access. All other parallel hooks must be noninteractive; a command
-that requires credentials must have them available before dispatch. Home must
+that requires credentials must have them available before dispatch. Deferred
+hooks share a `Home configuration` heading because their completion order can
+cross application sections. The runner suppresses child section headings,
+including those from exclusive hooks; plain `chezmoi apply` keeps native headings.
+Home must
 finish before Chezetc starts: home installs/configures its wrapper and runner,
 and both layers can change packages, services and networking. Chezetc remains
 an exclusive node with its existing provisioning order and refresh/retry policy.

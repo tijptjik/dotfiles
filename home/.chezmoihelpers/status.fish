@@ -115,6 +115,9 @@ end
 # Public presentation API.  All setup sections use this rather than printing
 # headings or spacing themselves, so adjacent scripts compose predictably.
 function section_header --argument-names title
+    if test "$TJIKUP_NO_SECTIONS" = 1
+        return
+    end
     set -l color 12
     if test (count $argv) -gt 1
         set color $argv[2]

@@ -31,7 +31,7 @@ def apply_hooks(repo, env):
     # All scripts are rendered before starting mutations; errors fail the plan.
     tasks, outputs = [], {}
     child_env = {**env, "FLEET_DEFER_HOOKS": "0", "TJIKUP_NO_SPIN": "1",
-                 "TJIKUP_STATUS_LINES": "1"}
+                 "TJIKUP_STATUS_LINES": "1", "TJIKUP_NO_SECTIONS": "1"}
     log_root = Path(env.get("XDG_STATE_HOME") or Path.home() / ".local/state") / "tjikup/logs"
     log_root.mkdir(parents=True, exist_ok=True, mode=0o700)
     log_dir = Path(tempfile.mkdtemp(prefix="home-", dir=log_root))
@@ -113,6 +113,9 @@ def apply_hooks(repo, env):
                     with progress.output():
                         print("\n".join(warnings), flush=True)
 
+        # Completion order crosses hook-specific sections, including streamed
+        # exclusive hooks. Keep all deferred output under one accurate heading.
+        runtime.section_header("Home configuration")
         with progress:
             results = run(tasks, workers=int(os.environ.get("FLEET_JOBS", "4")), event=event)
         failures = [result.error for result in results.values() if result.error]

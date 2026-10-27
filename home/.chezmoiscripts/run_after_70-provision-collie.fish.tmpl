@@ -12,12 +12,6 @@ function tailnet_running
     command tailscale status --json 2>/dev/null | command jq -e '.BackendState == "Running"' >/dev/null 2>&1
 end
 
-function restore_tailnet_if_needed --argument-names should_restore
-    if test "$should_restore" = true
-        command tailscale down >/dev/null 2>&1
-    end
-end
-
 function tailnet_warning --argument-names subject
     set backend (command tailscale status --json 2>/dev/null | command jq -r '.BackendState // "Unavailable"')
     if test "$backend" = NeedsLogin
@@ -56,20 +50,17 @@ if collie_bridge_is_ready
     exit 0
 end
 
-set restore_tailnet false
 if not tailnet_running
     if not command timeout 15s tailscale up >/dev/null 2>&1
         tailnet_warning "Collie"
         exit 0
     end
-    set restore_tailnet true
 end
 
 if not command herdr plugin list --json | command jq -e '.result.plugins[]? | select(.plugin_id == "herdr.collie")' >/dev/null 2>&1
     status_msg CONFIG "..." "Collie plugin"
     if not command herdr plugin install AltanS/collie --yes
         status_msg FAILED "✗" "Collie plugin"
-        restore_tailnet_if_needed $restore_tailnet
         exit 1
     end
     status_msg CONFIG "✓" "Collie plugin"
@@ -77,7 +68,6 @@ end
 
 if not sudo loginctl enable-linger "$USER"
     status_msg FAILED "✗" "Collie reboot persistence"
-    restore_tailnet_if_needed $restore_tailnet
     exit 1
 end
 
@@ -85,9 +75,7 @@ if command herdr plugin action invoke restart --plugin herdr.collie >/dev/null
     status_msg CONFIG "✓" "Collie Bridge" "ready at :443"
 else
     status_msg FAILED "✗" "Collie Bridge"
-    restore_tailnet_if_needed $restore_tailnet
     exit 1
 end
 
-restore_tailnet_if_needed $restore_tailnet
 {{ end -}}

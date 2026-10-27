@@ -6,18 +6,17 @@ function __tjikup_host --description 'Run Tjikup on a fleet host with its termin
         return $status
     end
 
+    if contains -- "$target" fi li
+        set -l remote_command (string join ' ' -- tjikup (string escape -- $argv))
+        command fleet-ssh "$target" -t "$remote_command"
+        return $status
+    end
+
     set -l destination
     set -l ssh_options -t -x -o ConnectTimeout=10 -o ServerAliveInterval=30 -o ServerAliveCountMax=3
     switch $target
         case si
             set destination m@ssh.type.hk
-        case li
-            set destination io@li.local
-            if test -f "$HOME/.config/codex-lb/laptop-known-hosts"
-                set -a ssh_options -o 'UserKnownHostsFile=~/.ssh/known_hosts ~/.config/codex-lb/laptop-known-hosts'
-            end
-        case fi
-            set destination io@fi.local
         case '*'
             echo "Unknown Tjikup host: $target" >&2
             return 2

@@ -36,13 +36,11 @@ if vite_tailnet_route_is_ready
     exit 0
 end
 
-set restore_tailnet false
 if not tailnet_running
     if not command timeout 15s tailscale up >/dev/null 2>&1
         tailnet_warning "Vite Bridge"
         exit 0
     end
-    set restore_tailnet true
 end
 
 # The Vite development server on fi binds IPv6 loopback only. `localhost`
@@ -51,13 +49,7 @@ if command tailscale serve --https=8443 --bg --yes http://localhost:5173 >/dev/n
     status_msg CONFIG "✓" "Vite Bridge" "ready at :8443"
 else
     status_msg FAILED "✗" "Vite Bridge"
-    if $restore_tailnet
-        command tailscale down >/dev/null 2>&1
-    end
     exit 1
 end
 
-if $restore_tailnet
-    command tailscale down >/dev/null 2>&1
-end
 {{ end -}}

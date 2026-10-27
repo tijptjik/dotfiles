@@ -18,6 +18,7 @@ class ShortcutTests(unittest.TestCase):
                 "hostname": '#!/bin/sh\nprintf "%s\\n" "$TEST_HOST"\n',
                 "tjikup": '#!/usr/bin/python3\nimport json, sys\nprint(json.dumps(sys.argv[1:]))\nsys.exit(7)\n',
                 "ssh": '#!/usr/bin/python3\nimport json, subprocess, sys\nprint(json.dumps(sys.argv[1:]), flush=True)\nsys.exit(subprocess.call(["fish", "--no-config", "-c", sys.argv[-1]]))\n',
+                "fleet-ssh": '#!/usr/bin/python3\nimport json, subprocess, sys\nprint(json.dumps(sys.argv[1:]), flush=True)\nsys.exit(subprocess.call(["fish", "--no-config", "-c", sys.argv[-1]]))\n',
             }
             if bypass:
                 scripts["mullvad-exclude"] = '#!/bin/sh\necho bypass\nexec "$@"\n'
@@ -52,8 +53,11 @@ class ShortcutTests(unittest.TestCase):
                 if target == "si":
                     self.assertEqual(lines.pop(0), "bypass")
                 ssh_arguments = json.loads(lines[0])
-                self.assertEqual(ssh_arguments[:2], ["-t", "-x"])
-                self.assertEqual(ssh_arguments[-2], destination)
+                if target == "si":
+                    self.assertEqual(ssh_arguments[:2], ["-t", "-x"])
+                    self.assertEqual(ssh_arguments[-2], destination)
+                else:
+                    self.assertEqual(ssh_arguments[:2], [target, "-t"])
                 self.assertEqual(json.loads(lines[1]), arguments)
 
     def test_shortcuts_suppress_generic_done_notification(self):

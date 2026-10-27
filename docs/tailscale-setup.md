@@ -1,4 +1,47 @@
-# Tailscale for Li and Si
+# Tailscale and fleet SSH
+
+## Everyday access on Fi and Li
+
+Fi and Li keep their enrolled tailnet connections up, including after boot and
+desktop unlock. `tailscaled` is enabled at boot and persists `WantRunning=true`
+after `tailscale up`. The lock wrapper and application provisioning hooks no
+longer disconnect it. Chezetc converges this policy for both client machines.
+An expired login still requires interactive enrollment; the shortcuts never
+create a new enrollment automatically.
+
+```fish
+sshfi                         # connect to Fi
+sshli                         # connect to Li
+sshli hostname                # run a remote command
+fleet-ssh --transport lan li hostname
+fleet-ssh --transport tailnet fi hostname
+```
+
+The shortcuts call `~/.local/bin/fleet-ssh`. It starts the local daemon with
+noninteractive sudo if needed and resumes a stopped, enrolled tailnet. It reads
+the local Tailscale peer map, prefers tailnet IPv6, and falls back to Avahi LAN
+discovery over IPv6 then IPv4. Link-local IPv6 addresses retain their interface
+scope. It never hardcodes DHCP addresses or requires MagicDNS to replace Mullvad
+DNS. `fitjikup` and `litjikup` use the same resolver.
+
+Mullvad remains connected with LAN sharing enabled. Tailscaled runs in Mullvad's
+split-tunnel cgroup; ordinary traffic keeps its existing VPN policy. Tailscale
+DNS and advertised-route acceptance are disabled on both clients. IPv6 tailnet
+addresses are within Mullvad's permitted local ULA range; IPv4 tailnet addresses
+are in CGNAT space and may be blocked even with LAN sharing enabled.
+
+The helper probes TCP port 22 before selecting a route, then executes OpenSSH
+exactly once. Authentication errors and remote-command failures do not trigger a
+retry. OpenSSH checks the same pinned `fi.local` or `li.local` host identity on
+every transport, using `~/.config/fleet-ssh/known_hosts` and the user's existing
+known-hosts file. This is ordinary OpenSSH, not Tailscale SSH. The remote device
+must be awake with its SSH server and tailnet available; the helper cannot wake
+or reconnect an unreachable remote device.
+
+Existing Fish sessions that loaded the old hardcoded `sshfi` alias can run
+`functions -e sshfi sshli` to use the new autoloaded functions.
+
+## Enrollment
 
 This runbook adds Li and Si to the existing `type.hk` tailnet for private device
 connectivity and SSH. Tailscale is an additional path: keep Si's current public
@@ -39,7 +82,7 @@ sudo dnf config-manager addrepo \
 sudo dnf install tailscale
 ```
 
-On Li, Chezetc manages a `tailscaled` systemd drop-in that starts the daemon
+On Fi and Li, Chezetc manages a `tailscaled` systemd drop-in that starts the daemon
 through `mullvad-exclude`, keeping the daemon outside Mullvad while leaving
 ordinary Li traffic under its existing VPN policy. Before starting the service,
 check that the rendered drop-in is present:
@@ -48,7 +91,7 @@ check that the rendered drop-in is present:
 sudo systemctl cat tailscaled
 ```
 
-The effective `ExecStart` on Li should include
+The effective `ExecStart` on Fi and Li should include
 `/usr/bin/mullvad-exclude /usr/bin/tailscaled`. If it does not, stop here and
 reconcile Li's managed Chezetc configuration and apply only that reviewed
 drop-in; do not replace the unit manually. Si is a server and does not use this

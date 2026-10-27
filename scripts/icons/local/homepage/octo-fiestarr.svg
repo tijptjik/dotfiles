@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-material="authored">
+<title>octo-fiestarr</title><defs><linearGradient id="octo" gradientUnits="userSpaceOnUse" x1="12" y1="10" x2="48" y2="54"><stop stop-color="#86d0bc"/><stop offset="1" stop-color="#42a394"/></linearGradient></defs><g stroke-linecap="round" stroke-linejoin="round"><path d="M20 32c-8 0-12 3-12 9 0 8 10 9 13 3m5-8c-5 5-8 12-3 17 4 5 10 1 9-4m12-17c8 0 12 3 12 9 0 8-10 9-13 3m-5-8c5 5 8 12 3 17-4 5-10 1-9-4" fill="none" stroke="#439c92" stroke-width="5"/>
+<path d="M18 30V23a14 14 0 0 1 28 0v7q-1 13-14 13T18 30Z" fill="url(#octo)" stroke="#377f79" stroke-width="1.2"/>
+<path d="M16 26v-5a16 16 0 0 1 32 0v5" fill="none" stroke="#9b6b57" stroke-width="3"/>
+<rect x="12" y="24" width="7" height="12" rx="3" fill="#e6ae62" stroke="#91634e" stroke-width="1"/><rect x="45" y="24" width="7" height="12" rx="3" fill="#e6ae62" stroke="#91634e" stroke-width="1"/>
+<circle cx="26" cy="28" r="2" fill="#34304f"/><circle cx="38" cy="28" r="2" fill="#34304f"/><path d="M29 35q3 3 6 0" fill="none" stroke="#356966" stroke-width="1.4"/></g></svg>

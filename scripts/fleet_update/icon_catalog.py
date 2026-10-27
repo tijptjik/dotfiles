@@ -1,4 +1,8 @@
 """Fleet icon identities shared by terminal rendering and asset generation."""
+import json
+from pathlib import Path
+
+DOCKER_SERVICES = json.loads(Path(__file__).with_name("docker-services.json").read_text())
 # Use one-cell Nerd Font glyphs followed by a space, so titles stay aligned.
 SERVICE_ICONS = {
     "Applications": "\uf1b2", "Assets": "\uf187", "Bartjik": "\uf2d0",
@@ -17,4 +21,6 @@ SERVICE_ICONS = {
     "Vite": "\uf0e7", "Zed": "\uf044", "llmtrim": "\uf0c4",
 }
 ASSET_ICONS = {"fonts": "\uf031", "icon cache": "\uf00a", "Rose Punk icons": "\uf00a"}
+SERVICE_ICONS.update({name: entry["glyph"] for name, entry in DOCKER_SERVICES.items()})
+SERVICE_ICONS.update({"Plex": "\uf04b", "Docker images": "\uf308"})
 

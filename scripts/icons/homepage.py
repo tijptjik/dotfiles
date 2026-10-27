@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the fourteen frameless Si Homepage SVGs offline; never deploy them.
+"""Build frameless Si service SVGs offline; never deploy them.
 
 All inputs are editable source SVGs and the hash/attribution manifest beside
 this script. Optional visual reviews belong under ignored .local/icon-reviews/.
@@ -36,12 +36,16 @@ def render():
     manifest = json.loads((HERE / 'homepage.json').read_text())
     # Validate and render every source before updating the served SVGs.
     outputs = {key: artwork(entry) for key, entry in manifest.items()}
+    inventory = ROOT / 'scripts/fleet_update/docker-services.json'
+    if inventory.is_file():
+        for key, entry in json.loads(inventory.read_text()).items():
+            outputs[key] = outputs[entry['icon']]
     return {f'{key}.svg': text.encode() for key, text in outputs.items()}
 
 
 def main():
-    from icon_data import write_tree
     outputs = render()
+    from icon_data import write_tree
     write_tree(DEST, outputs)
     print(f'Built {len(outputs)} Homepage icons; no review assets or deployment')
 

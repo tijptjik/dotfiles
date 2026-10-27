@@ -21,8 +21,8 @@ def generated_outputs():
     import fullset
     import homepage
     icons, aliases = fullset.render()
-    sprites = fleet.render(icons)
     services = homepage.render()
+    sprites = fleet.render(icons, services)
     return {
         PRIMARY / 'scalable/apps': icons,
         homepage.DEST: services,

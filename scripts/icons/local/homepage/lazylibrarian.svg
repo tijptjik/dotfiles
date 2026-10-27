@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-material="authored">
+<title>lazylibrarian</title><defs></defs><g stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="26" fill="#34333b" stroke="#8f8496" stroke-width="1.2"/>
+<path d="m13 24 18-5 18 5-3 19-15-4-15 4Z" fill="#b98562"/><path d="M13 22q10-5 19 0 9-5 19 0l-3 16q-9-4-16 0-7-4-16 0Z" fill="#fff0da"/>
+<path d="M32 22v16m-14-10 9-1m-8 4 8-1m10-3 8 1m-8 2 7 1" stroke="#84766c" stroke-width="1"/>
+<g fill="#99bfcf" stroke="#c8b5d3" stroke-width="1.5"><path d="M17 38h12v7q-6 6-12 0Z"/><path d="M35 38h12v7q-6 6-12 0Z"/></g><path d="M29 40q3-3 6 0m-18-2-3-3m33 3 3-3" fill="none" stroke="#c8b5d3" stroke-width="1.5"/></g></svg>

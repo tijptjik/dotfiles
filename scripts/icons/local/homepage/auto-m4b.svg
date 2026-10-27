@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-material="authored">
+<title>auto-m4b</title><defs><linearGradient id="cloth" gradientUnits="userSpaceOnUse" x1="12" y1="10" x2="48" y2="54"><stop stop-color="#b29bd5"/><stop offset="1" stop-color="#806499"/></linearGradient></defs><g stroke-linecap="round" stroke-linejoin="round"><path d="M10 9h24q4 0 4 4v39H12q-4 0-4-4V13q0-4 4-4Z" fill="url(#cloth)" stroke="#68517f" stroke-width="1.2"/>
+<path d="M14 10v36m3 4h20" stroke="#d8c2df" stroke-width="1.1"/><path d="M23 17v11" stroke="#eee0cd" stroke-width="1.7"/><path d="m20 26 3 3 3-3" fill="none" stroke="#eee0cd" stroke-width="1.7"/>
+<rect x="22" y="31" width="34" height="23" rx="3" fill="#e9c692" stroke="#8f6f66" stroke-width="1.2"/>
+<rect x="27" y="35" width="24" height="10" rx="3" fill="#34304f"/><g fill="#98c1c6"><circle cx="32" cy="40" r="3"/><circle cx="46" cy="40" r="3"/></g>
+<path d="m31 54 3-6h10l3 6" fill="#b78968" stroke="#8f6f66" stroke-width=".8"/><path d="M43 13h9v10m-4-4 4 4 4-4" fill="none" stroke="#3a9385" stroke-width="2.4"/></g></svg>

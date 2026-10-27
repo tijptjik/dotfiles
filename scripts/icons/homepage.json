@@ -187,5 +187,159 @@
       "material_revision": 13,
       "design_note": "Solid blue wings; two continuously shaded paper faces meet along a straight nose-to-tail crease. Slightly deeper return-face shading sharpens the right wing fold. Matching rose-red and ivory wing bands. Shared with Homepage."
     }
+  },
+  "homepage": {
+    "name": "Homepage",
+    "geometry": "local/homepage/homepage.svg",
+    "sha256": "fe4305b372bb5a9340d44c760e36a3c8efd781475704986e6346ff3e2ffe77a8",
+    "reference": "homepage-upstream/si-services/homepage.png",
+    "reference_sha256": "e1feb712b750b4888bdc75510d48ea7724fc628e8ce006c735c00ca3150f27cc",
+    "source": "https://raw.githubusercontent.com/gethomepage/homepage/dev/public/apple-touch-icon.png",
+    "license": "GPL-3.0",
+    "material_revision": 1,
+    "design_note": "Official blue folded bookmark/ribbon; its swallowtail and turned-over return remain."
+  },
+  "unpackerr": {
+    "name": "Unpackerr",
+    "geometry": "local/homepage/unpackerr.svg",
+    "sha256": "3ef5a73f255f15794b077257775572264abac25faa2838b2833ccc10b516f226",
+    "reference": "homepage-upstream/si-services/unpackerr.png",
+    "reference_sha256": "e956f8c548233fdaf241c3851bd19a15c2f104250161b38f869f4a0741ba6740",
+    "source": "https://raw.githubusercontent.com/Unpackerr/unpackerr/main/frontend/src/assets/icon.png",
+    "license": "MIT",
+    "material_revision": 1,
+    "design_note": "Open strapped packing crate and three escaping arrows, following the upstream Unpackerr logo."
+  },
+  "bookshelf": {
+    "name": "Bookshelf",
+    "geometry": "local/homepage/bookshelf.svg",
+    "sha256": "1a010dc09a5c8833bf1f27b8fae15bc12d83c63d2d90fea5ac3d1352171e3e43",
+    "reference": "homepage-upstream/si-services/bookshelf-official.svg",
+    "reference_sha256": "bb2748b6adf431c5f7cbf946836d660d75602389df505620241c28d0abad3b24",
+    "source": "https://raw.githubusercontent.com/pennydreadful/bookshelf/develop/Logo/Readarr.svg",
+    "license": "GPL-3.0",
+    "material_revision": 1,
+    "design_note": "Bookshelf retains its inherited Readarr circular open-book geometry; ivory page block and two rose cloth covers."
+  },
+  "ephemera": {
+    "name": "Ephemera",
+    "geometry": "local/homepage/ephemera.svg",
+    "sha256": "542fe8b5f46d45dd4b972599040ba74ffe8be974996339c905d75037d15152f9",
+    "reference": "homepage-upstream/si-services/ephemera-favicon.svg",
+    "reference_sha256": "52e23d54b2391621eb179db83f60161152ab9053372ce238aab48f231e6d8237",
+    "source": "https://raw.githubusercontent.com/Nsoromma/ephemera-book-downloader/main/packages/web/public/favicon.svg",
+    "license": "MIT",
+    "material_revision": 1,
+    "design_note": "Ephemera favicon: the bowed open book and central spine. Filled ivory paper with violet binding preserves that geometry."
+  },
+  "lazylibrarian": {
+    "name": "LazyLibrarian",
+    "geometry": "local/homepage/lazylibrarian.svg",
+    "sha256": "d2d9db45ec45fd8f5c14f05f953f284834d3495ebdcfa6d21ab59d62567ebf7e",
+    "reference": "homepage-upstream/si-services/lazylibrarian.ico",
+    "reference_sha256": "f7ccc3ca24a769ec1b88f982cd325cdcd296cfbe58d23bf9c108fd8d9ec1c4b9",
+    "source": "https://raw.githubusercontent.com/DobyTang/LazyLibrarian/master/data/images/favicon.ico",
+    "license": "Original themed artwork; upstream identity reference retained, brand rights remain with their owners",
+    "material_revision": 1,
+    "design_note": "Upstream dark round reading badge and open book; original reading spectacles replace font-dependent lettering."
+  },
+  "lidarr": {
+    "name": "Lidarr",
+    "geometry": "local/homepage/lidarr.svg",
+    "sha256": "e25b9414d09403f230a1db1cf32396d73cfb5175ce2e10f78e85b2b1c0bf5689",
+    "reference": "homepage-upstream/si-services/lidarr.svg",
+    "reference_sha256": "2f55f69450a0ca03621e87550e81ec0f6798c4a578b54e4b988a9a7234a83647",
+    "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/lidarr.svg",
+    "license": "Reference collection Apache-2.0; brand rights remain with their owners",
+    "material_revision": 1,
+    "design_note": "Lidarr record and opposed green needle triangles; restrained record grooves replace the tiny upstream grid."
+  },
+  "navidrome": {
+    "name": "Navidrome",
+    "geometry": "local/homepage/navidrome.svg",
+    "sha256": "8aeeba2f576faa5eeeabd7895ce036f04eba299e5cc73c941a35a343196dc45e",
+    "reference": "homepage-upstream/si-services/navidrome.svg",
+    "reference_sha256": "cd8911581c1173c0696dadaeb02f9bb2eb1ff3b6bdf5c64c49b90f7cb70274cf",
+    "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/navidrome.svg",
+    "license": "Reference collection Apache-2.0; brand rights remain with their owners",
+    "material_revision": 1,
+    "design_note": "Official Navidrome disc, central label and paired incomplete grooves; static blue glass with mint engraved arcs."
+  },
+  "plex-rewind": {
+    "name": "Plex Rewind",
+    "geometry": "local/homepage/plex-rewind.svg",
+    "sha256": "c3cf0f5e4502634fd02a3ce1983fe658ac096158ca2b7ec79c88d8c8675e3a08",
+    "reference": "homepage-upstream/si-services/plex-rewind.svg",
+    "reference_sha256": "a05e09ecf0d0113848e58bf9451e2dac873e2d8f4317795f29791568f468e65f",
+    "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/plex-rewind.svg",
+    "license": "Reference collection Apache-2.0; brand rights remain with their owners",
+    "material_revision": 1,
+    "design_note": "The authentic opposing overlapping triangle/diamond mark, with amber and violet faces instead of grey metallic bevels."
+  },
+  "byparr": {
+    "name": "Byparr",
+    "geometry": "local/homepage/byparr.svg",
+    "sha256": "ed9b2e3ea824117b5c5823f1ff18fdd81832a7369b56eb990edf23a38dc8edd4",
+    "reference": "homepage-upstream/si-services/byparr.svg",
+    "reference_sha256": "5a42fe47ec03fe16757929c8cd092cc8b1201dd10d86dd3d4f78bf8f32500094",
+    "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/byparr.svg",
+    "license": "Reference collection Apache-2.0; brand rights remain with their owners",
+    "material_revision": 1,
+    "design_note": "Byparr cookie on its circular ivory plate; warm baked pigment, irregular biscuit edge and dark chocolate marks."
+  },
+  "flaresolverr": {
+    "name": "FlareSolverr",
+    "geometry": "local/homepage/flaresolverr.svg",
+    "sha256": "c058a6e667587d86988fabbb1a66b4a507c26dad6b72b1b29d750619361f72ea",
+    "reference": "homepage-upstream/si-services/flaresolverr.svg",
+    "reference_sha256": "c12ad8598f4faa9268557b51970b2c42c39461b8178ae88faef3a08088e44dbb",
+    "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/flaresolverr.svg",
+    "license": "Reference collection Apache-2.0; brand rights remain with their owners",
+    "material_revision": 1,
+    "design_note": "Original FlareSolverr cloud outline and two toothed gears; blue enamel and cool ink apertures."
+  },
+  "beets": {
+    "name": "Beets",
+    "geometry": "local/homepage/beets.svg",
+    "sha256": "59cfc9007a7d2305e8bcab61e626f287239177d75e2657192acd38f275912a21",
+    "reference": "homepage-upstream/si-services/beets.png",
+    "reference_sha256": "1e05dc1972e2de26e7b34f4b23534f23333e5d67ca44b8099a8c9c408ba9e463",
+    "source": "https://raw.githubusercontent.com/beetbox/beets/master/docs/_static/beets_logo_nobg.png",
+    "license": "MIT",
+    "material_revision": 1,
+    "design_note": "Recognizable upstream beet silhouette, tapering root and angular leaves; rose flesh and jade foliage."
+  },
+  "auto-m4b": {
+    "name": "Auto-M4B",
+    "geometry": "local/homepage/auto-m4b.svg",
+    "sha256": "59a4eada41cf94e2418aa9f811e979d3c231bd8c100b588cb3b495e2eed92289",
+    "reference": "homepage-upstream/si-services/auto-m4b-README.md",
+    "reference_sha256": "e647b3b4c33d12598682c02204ed8fab4519ffe265753fcfba2b946f23c460ea",
+    "source": "https://raw.githubusercontent.com/seanap/auto-m4b/main/README.md",
+    "license": "Original themed artwork; upstream identity reference retained, brand rights remain with their owners",
+    "material_revision": 1,
+    "design_note": "Original functional concept for the upstream audiobook conversion tool (no formal logo): bound book, conversion arrow and two-reel audio cassette."
+  },
+  "octo-fiestarr": {
+    "name": "Octo-Fiestarr",
+    "geometry": "local/homepage/octo-fiestarr.svg",
+    "sha256": "9aaac8bd0a4ced31a42090e00942e0febcc571facdac0fb3e33041cf8dc02fdb",
+    "reference": "homepage-upstream/si-services/octo-fiestarr-README.md",
+    "reference_sha256": "38cf9900a433a673115d3351bc84241d49c647e607e3c1097923b763460e0be8",
+    "source": "https://raw.githubusercontent.com/bransoned/octo-fiestarr/new-dev/README.md",
+    "license": "Original themed artwork; upstream identity reference retained, brand rights remain with their owners",
+    "material_revision": 1,
+    "design_note": "Original headphone-wearing octopus for Octo-Fiesta, whose upstream README describes a multi-provider music proxy and has no formal logo."
+  },
+  "mariadb": {
+    "name": "MariaDB",
+    "geometry": "local/homepage/mariadb.svg",
+    "sha256": "708b15159de67b3e2bb8eb525fe4e938418cd6d0f6f8c90816ad3b76571fbcd3",
+    "reference": "homepage-upstream/si-services/mariadb.svg",
+    "reference_sha256": "d576b0a2d83f4035b0e8d02b6534c996ac43f768745e95acd768ab17f8f772dc",
+    "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/mariadb.svg",
+    "license": "Reference collection Apache-2.0; brand rights remain with their owners",
+    "material_revision": 1,
+    "design_note": "Official MariaDB sea-lion curves, flippers, eye and whiskers; warm sand hide with cool ink contours."
   }
 }

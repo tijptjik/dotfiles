@@ -190,14 +190,18 @@ final network policy. Fedora release-upgrade prompting is exclusive and runs las
 after every peer task, so a reboot cannot interrupt in-flight work.
 
 Both layers share one `Home and system configuration` heading because completion
-order crosses application sections. Direct `chezmoi apply` and `chezetc apply`
+order crosses application sections. Si’s application update results retain
+separate `Docker services` and `Native applications` headings, with an individual
+icon and outcome for each service. Direct `chezmoi apply` and `chezetc apply`
 keep their native serial sequences and headings.
 
 Completed rows use the hooks' reported outcomes instead of the manifest's
 planned action. Explicit unchanged results are `SKIP`; a later skipped substep
 does not hide an earlier change. Multiple different actions are summarized as
-`APPLY`. Hooks that emit no status finish as `DONE`, which confirms completion
-without claiming a configuration change. Warnings and failures retain their
+`APPLY`. Hooks removed by a host condition render to only the standard deferral guard;
+these are silent skipped dependency nodes and are never executed. Other hooks
+that emit no status finish as `DONE`, which confirms completion without claiming
+a configuration change. Warnings and failures retain their
 diagnostics. Cached installers pass their unchanged result through the wrapper.
 
 Actions and icons share outcome colours: green for success, grey for skips,

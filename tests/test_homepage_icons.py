@@ -26,8 +26,8 @@ class HomepageIconTests(unittest.TestCase):
                            for name in ('services.yaml', 'bookmarks.yaml'))
         paths = re.findall(r'^\s+icon:\s*(\S+)', config, flags=re.M)
         self.assertEqual(len(paths), 14)
-        self.assertEqual(set(paths), {f'/images/rose-punk/{key}.svg' for key in self.manifest})
-        self.assertEqual({p.stem for p in DEST.glob('*.svg')}, set(self.manifest))
+        self.assertTrue(set(paths) <= {f'/images/rose-punk/{key}.svg' for key in self.manifest})
+        self.assertEqual({p.name for p in DEST.glob('*.svg')}, set(homepage.render()))
 
     def test_generated_art_matches_sources_and_shared_desktop_icons(self):
         for key, entry in self.manifest.items():
@@ -38,6 +38,25 @@ class HomepageIconTests(unittest.TestCase):
                     self.assertEqual(entry['geometry'], f"local/{entry['theme_key']}.svg")
                 else:
                     self.assertRegex(entry['reference_sha256'], r'^[a-f0-9]{64}$')
+                if 'reference' in entry:
+                    self.assertEqual(hashlib.sha256((HERE / entry['reference']).read_bytes()).hexdigest(),
+                                     entry['reference_sha256'])
+
+    def test_every_compose_service_has_an_explicit_source_and_runtime_sprite(self):
+        inventory = json.loads((ROOT / 'scripts/fleet_update/docker-services.json').read_text())
+        compose = (ROOT / 'home/dockers/docker-compose.yaml.tmpl').read_text()
+        services = set(re.findall(r'^  ([a-z][a-z0-9-]*):\s*$', compose, re.M))
+        self.assertEqual(services, set(inventory))
+        sprites = json.loads((ROOT / 'scripts/fleet_update/icons32.json').read_text())['sprites']
+        for name, entry in inventory.items():
+            with self.subTest(service=name):
+                self.assertIn(entry['icon'], self.manifest)
+                self.assertTrue(entry['glyph'])
+                self.assertIn(name, sprites)
+                if entry['icon'] != name:
+                    self.assertTrue(entry['reuse'])
+                self.assertEqual((DEST / f'{name}.svg').read_bytes(),
+                                 (DEST / (entry['icon'] + '.svg')).read_bytes())
 
     def test_changed_source_refuses_generation_before_writing_outputs(self):
         with tempfile.TemporaryDirectory() as directory:

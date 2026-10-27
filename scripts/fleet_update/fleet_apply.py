@@ -114,7 +114,10 @@ def apply(repo, system_repo=None):
             hooks.items[name] = item
             system_tasks.append(Task(name, lambda name=name: prepared[name].run(),
                 ("system:files", *("system:" + dep for dep in item.get("needs", []))),
-                tuple(item.get("resources", [])), exclusive=item.get("exclusive", False)))
+                tuple(item.get("resources", [])),
+                check=lambda name=name: prepared[name].check is not None and prepared[name].check(),
+                exclusive=lambda name=name: (prepared[name].exclusive() if callable(prepared[name].exclusive)
+                                              else prepared[name].exclusive)))
         tasks = combine(home_tasks, system_tasks, native,
                         {**{"home:" + item["id"]: item.get("barrier") for item in home_plan},
                          **{"system:" + item["id"]: item.get("barrier") for item in system_plan}})

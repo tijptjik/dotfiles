@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-material="authored">
+<title>unpackerr</title><defs><linearGradient id="up" gradientUnits="userSpaceOnUse" x1="12" y1="10" x2="48" y2="54"><stop stop-color="#8ad4df"/><stop offset="1" stop-color="#4796b3"/></linearGradient></defs><g stroke-linecap="round" stroke-linejoin="round"><path d="m9 28 23-9 23 9v22l-23 8-23-8Z" fill="#bc8b55" stroke="#655575" stroke-width="1.2"/>
+<path d="m9 28 23 8 23-8-23-9Z" fill="#725f43"/><path d="m32 36 23-8v22l-23 8Z" fill="#6f99a4"/>
+<path d="m13 32 6 2v18l-6-2m25-16 6-2v20l-6 2" fill="#f3bc6e"/><path d="m23 35 5 2v18l-5-2m25-22 3-1v18l-3 1" fill="#c4d7c7"/>
+<path d="M21 31Q16 23 18 15h-5L24 5l7 13-6-1q-2 8 0 14" fill="url(#up)" stroke="#4a6d86" stroke-width="1.1"/>
+<path d="M28 33q9-7 11-14l-5-1 10-8 7 14-5-2q-4 10-12 14" fill="#e6ae62" stroke="#926239" stroke-width="1.1"/>
+<path d="m32 39 13-5-2-5 15 5-9 12-1-5-13 3" fill="#46b6a2" stroke="#326f6a" stroke-width="1.1"/>
+<path d="m12 47 18 6m5 0 17-6" stroke="#645a59" stroke-width=".8"/></g></svg>

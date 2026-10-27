@@ -2,6 +2,7 @@
 from contextlib import redirect_stdout
 from dataclasses import fields
 import json
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -11,6 +12,21 @@ from .dag import Task, command as run_command
 from .icons import HookProgress
 from .presentation import ANSI, ROW, summary
 from tjikup import runtime
+
+
+def rendered_noop(content):
+    """Recognize a host guard's empty result, without duplicating role policy.
+
+    Only the exact shared Fish deferral preamble may be ignored. Any other
+    executable line keeps the hook active, including an explicit SKIP result.
+    """
+    lines = [line.strip() for line in content.splitlines()
+             if line.strip() and not line.lstrip().startswith("#")]
+    if (len(lines) >= 3 and
+            re.fullmatch(r'if test "\$FLEET_DEFER_(?:SYSTEM_)?HOOKS" = 1', lines[0]) and
+            lines[1:3] == ["exit 0", "end"]):
+        lines = lines[3:]
+    return not lines
 
 
 def owns_terminal(item):
@@ -39,6 +55,7 @@ class HookTasks:
                     "TJIKUP_NO_SPIN": "1", "TJIKUP_STATUS_LINES": "1", "TJIKUP_NO_SECTIONS": "1"}
         self.progress = HookProgress()
         self.items, self.outputs, self.results = {}, {}, {}
+        self.inactive = set()
 
     def prepare(self, repo, plan, render, *, prefix="", root=False, needs=()):
         """All rendering and syntax checks finish before callers dispatch tasks."""
@@ -48,6 +65,9 @@ class HookTasks:
             if item["file"] not in rendered:
                 rendered[item["file"]] = render(item)
             content = rendered[item["file"]]
+            inactive = not item["file"].endswith(".py") and rendered_noop(content)
+            if inactive:
+                self.inactive.add(name)
             script = self.temporary / (name.replace(":", "-") + (".py" if item["file"].endswith(".py") else ".fish"))
             if script.suffix == ".fish" and not item.get("exclusive") and not item.get("terminal_when_missing"):
                 content = "function sudo; command sudo -n $argv; end\n" + content
@@ -60,11 +80,16 @@ class HookTasks:
                 raise UpdateError(f"invalid rendered hook {item['file']}: {result.stderr}")
             command = (["fish", "--no-config"] if script.suffix == ".fish" else ["python3"]) + [str(script)]
             env = {**self.env, **item.get("env", {})}
+            if item.get("status_sections"):
+                # The parent records and decorates the individual service rows.
+                env["TJIKUP_STATUS_SECTIONS"] = "1"
+                env.pop("TJIKUP_REPORT_FILE", None)
             if root:
                 # Match Chezetc's root execution and SUDO_USER identity. Do not
                 # forward arbitrary user credentials or XDG/HOME into root.
                 names = ("PATH", "TJIKUP_COLOR", "TJIKUP_NO_SPIN", "TJIKUP_COLUMNS",
                          "TJIKUP_REPORT_FILE", "TJIKUP_STATUS_LINES", "TJIKUP_NO_SECTIONS",
+                         "TJIKUP_STATUS_SECTIONS",
                          "FLEET_DEFER_SYSTEM_HOOKS", *item.get("env", {}))
                 command = ["sudo", "-n", "-H", "--", "env", *[f"{key}={env[key]}" for key in names if key in env], *command]
 
@@ -91,12 +116,17 @@ class HookTasks:
                     raise UpdateError(f"{name}: hook failed ({code})")
 
             task = Task(name, action, tuple(prefix + n for n in item.get("needs", [])) + tuple(needs),
-                        tuple(item.get("resources", [])), exclusive=lambda item=item: owns_terminal(item))
+                        tuple(item.get("resources", [])), check=lambda inactive=inactive: inactive,
+                        exclusive=lambda item=item, inactive=inactive: not inactive and owns_terminal(item))
             self.items[name] = item
             prepared.append(task)
         return prepared
 
     def event(self, name, result):
+        if name in self.inactive:
+            if result.state != "running":
+                self.results[name] = result
+            return
         item = self.items.get(name, {"label": name})
         label, verb = item.get("label", name), item.get("verb", "UPDATE")
         if result.state == "running":
@@ -105,6 +135,11 @@ class HookTasks:
             return
         self.results[name] = result
         output = self.outputs.get(name, "")
+        if item.get("status_sections") and result.state in {"done", "failed"}:
+            self.progress.discard(name)
+            rendered = self.service_sections(name, output)
+            if result.state == "done" and rendered:
+                return
         outcome = summary(output)
         if result.state == "failed":
             self.progress.finish(name, label, verb="FAILED", icon="✗", note=str(result.error))
@@ -120,6 +155,34 @@ class HookTasks:
             if outcome.warnings:
                 with self.progress.output():
                     print("\n".join(outcome.warnings), flush=True)
+
+    def service_sections(self, name, output):
+        """Replay a completed server update atomically, retaining its headings.
+
+        Child hooks still run buffered and cannot interleave a Docker heading
+        with another task's rows. The private log retains all pending rows.
+        """
+        rendered = False
+        with self.progress.output():
+            for index, line in enumerate(ANSI.sub("", output).splitlines()):
+                if line.startswith("__tjikup_section__:"):
+                    title = line.partition(":")[2]
+                    if title in {"Docker services", "Native applications"}:
+                        runtime.section_header(title)
+                        rendered = True
+                    continue
+                match = ROW.match(line.strip())
+                if match:
+                    verb, icon, content = match.groups()
+                    if icon == "...":
+                        continue
+                    fields = re.split(r"\s{2,}", content, maxsplit=1)
+                    self.progress.finish(f"{name}:{index}", fields[0], verb=verb,
+                                         icon=icon, note=fields[1] if len(fields) == 2 else "")
+                    rendered = True
+                elif line.strip():
+                    print(line, flush=True)
+        return rendered
 
     def save_timings(self, tasks, **metadata):
         records = []

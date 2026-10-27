@@ -2,8 +2,8 @@
 
 Rose Punk is the primary transparent icon theme, installed under directory ID
 `rose-punk`. The current catalog contains 107 app and service icons. It also
-supplies all fleet terminal sprites; fourteen separate service illustrations
-are generated for Homepage. These share source artwork and palette rules, with
+supplies all fleet terminal sprites; 30 named SVG assets cover Homepage and
+Si’s complete service inventory, including two intentional helper aliases. These share source artwork and palette rules, with
 separate inventories and deployment paths.
 
 The [icon tooling guide](../scripts/icons/README.md) documents source ownership,
@@ -135,3 +135,35 @@ derivative of that snapshot; ordinary builds remain offline. See the
 Repeating `cut` can overwrite a snapshot and its site registration until that
 version is uploaded, pushed or deployed. Replacement requires a successful publication
 check; published versions require a new version number.
+
+## Si service icons and conditional update rows
+
+Every service declared in `home/dockers/docker-compose.yaml.tmpl`, including
+manual-profile helpers, has an explicit entry in
+`scripts/fleet_update/docker-services.json`. This inventory selects a source
+from `scripts/icons/homepage.json` and a compact fallback glyph.
+`profilarr-parser` shares Profilarr; `beets-audible` shares Beets. Each helper
+also receives its own served SVG filename.
+
+`release.py build` generates the frameless Homepage assets before baking
+32px fleet sprites, so Docker rows use the same artwork as the dashboard.
+`test_homepage_icons.py` rejects missing or stale Compose mappings, sources,
+aliases and sprites. This adds service coverage without changing the desktop
+catalog or an already-published release snapshot.
+
+The 2026-10-28 service study preserves online identity references, source hashes
+and licenses under `scripts/icons/homepage-upstream/si-services/`. New artwork
+was reviewed at 24, 32, 48, 64 and 96px on white, off-white, plum and near-black,
+against the unchanged Camera. The local review and critical adjacent-pigment
+contrast report are under
+`.local/icon-reviews/si-services-2026-10-28/index.html` and `verification.json`.
+Octo-Fiestarr and Auto-M4B use documented original functional illustrations
+because the inspected upstream projects had no formal icon.
+
+Si's application updater emits separate **Docker services** and **Native
+applications** sections. The fleet scheduler renders individual results with
+service artwork and records each result once. It omits hooks whose rendered
+Fish body contains only the standard deferral guard; skipped nodes remain in
+the dependency graph. Host predicates remain in the Chezmoi templates.
+Obsidian is client-only, llmtrim desktop-only, and Codex LB client-only; an
+explicit `SKIP ... client only` result is retained when a hook emits one.

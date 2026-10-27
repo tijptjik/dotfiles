@@ -38,16 +38,23 @@ SOURCES = {
 }
 
 
-def render(icons=None):
+def render(icons=None, services=None):
     glyphs = {**CATALOG['SERVICE_ICONS'], '*': '\uf013',
               **{f'Assets ({key})': value for key, value in CATALOG['ASSET_ICONS'].items()}}
-    missing = set(glyphs) - set(SOURCES)
+    docker = CATALOG['DOCKER_SERVICES']
+    sources = {**SOURCES, 'Plex': 'plex', 'Docker images': 'docker',
+               **{name: entry['icon'] for name, entry in docker.items()}}
+    missing = set(glyphs) - set(sources)
     if missing:
         raise ValueError(f'Fleet labels need explicit SVG mappings: {sorted(missing)}')
     sprites = {}
     for name in sorted(glyphs):
-        key = SOURCES[name]
-        source = (THEME / f'{key}.svg').read_bytes() if icons is None else icons[f'{key}.svg']
+        key = sources[name]
+        if name in docker or name == 'Plex':
+            folder = ROOT / 'home/dockers/homepage/images/rose-punk'
+            source = (folder / f'{key}.svg').read_bytes() if services is None else services[f'{key}.svg']
+        else:
+            source = (THEME / f'{key}.svg').read_bytes() if icons is None else icons[f'{key}.svg']
         png = subprocess.check_output(['magick', '-background', 'none', 'svg:-',
                                       '-resize', '32x32!', 'PNG32:-'], input=source)
         image = Image.open(io.BytesIO(png)).convert('RGBA')

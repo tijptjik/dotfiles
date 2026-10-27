@@ -1,0 +1,211 @@
+[
+  {
+    "id": "rust",
+    "file": "run_after_29-rust-packages.fish.tmpl",
+    "needs": [],
+    "resources": [
+      "cargo"
+    ]
+  },
+  {
+    "id": "python",
+    "file": "run_after_30-python-packages.fish.tmpl",
+    "needs": [],
+    "resources": [
+      "uv"
+    ]
+  },
+  {
+    "id": "archives",
+    "file": "run_after_31-device-archives.fish.tmpl",
+    "needs": [],
+    "resources": [
+      "dnf"
+    ]
+  },
+  {
+    "id": "llmtrim",
+    "file": "run_after_31-remove-llmtrim-herdr.fish.tmpl",
+    "needs": [
+      "rust"
+    ],
+    "resources": [
+      "cargo",
+      "herdr"
+    ],
+    "exclusive": true
+  },
+  {
+    "id": "herdr",
+    "file": "run_after_32-provision-herdr-plugins.fish.tmpl",
+    "needs": [
+      "llmtrim"
+    ],
+    "resources": [
+      "herdr"
+    ]
+  },
+  {
+    "id": "codex-lb",
+    "file": "run_after_33-codex-lb.fish.tmpl",
+    "needs": [],
+    "resources": [
+      "uv"
+    ]
+  },
+  {
+    "id": "chezetc-wrapper",
+    "file": "run_after_34-configure-chezetc.py",
+    "needs": [],
+    "resources": [],
+    "exclusive": true
+  },
+  {
+    "id": "tjikup",
+    "file": "run_after_35-install-tjikup.fish.tmpl",
+    "needs": [
+      "chezetc-wrapper"
+    ],
+    "resources": [
+      "tooltjik",
+      "icons"
+    ]
+  },
+  {
+    "id": "icons",
+    "file": "run_after_36-tjikup-icon-cache.fish",
+    "needs": [
+      "tjikup"
+    ],
+    "resources": [
+      "icons"
+    ]
+  },
+  {
+    "id": "notjik",
+    "file": "run_after_37-install-notjik.fish.tmpl",
+    "needs": [
+      "tjikup"
+    ],
+    "resources": [
+      "tooltjik",
+      "user-systemd"
+    ]
+  },
+  {
+    "id": "pony",
+    "file": "run_after_38-install-pony-rs.fish.tmpl",
+    "needs": [
+      "tjikup",
+      "rust"
+    ],
+    "resources": [
+      "tooltjik",
+      "cargo",
+      "dnf"
+    ]
+  },
+  {
+    "id": "bartjik",
+    "file": "run_after_39-install-bartjik.fish.tmpl",
+    "needs": [
+      "notjik"
+    ],
+    "resources": [
+      "tooltjik",
+      "user-systemd"
+    ]
+  },
+  {
+    "id": "rose-punk-icons",
+    "file": "run_after_40-rose-punk-icons.fish.tmpl",
+    "needs": [
+      "icons"
+    ],
+    "resources": [
+      "icons"
+    ]
+  },
+  {
+    "id": "collie",
+    "file": "run_after_70-provision-collie.fish.tmpl",
+    "needs": [
+      "herdr"
+    ],
+    "resources": [
+      "herdr",
+      "tailscale",
+      "user-systemd"
+    ]
+  },
+  {
+    "id": "vite",
+    "file": "run_after_71-configure-vite-tailnet-serve.fish.tmpl",
+    "needs": [
+      "collie"
+    ],
+    "resources": [
+      "tailscale"
+    ]
+  },
+  {
+    "id": "fonts",
+    "file": "run_after_72-refresh-user-fonts.fish",
+    "needs": [],
+    "resources": [
+      "fonts"
+    ]
+  },
+  {
+    "id": "mullvad",
+    "file": "run_after_73-mullvad-lan.fish.tmpl",
+    "needs": [],
+    "resources": [
+      "network"
+    ]
+  },
+  {
+    "id": "prowlarr",
+    "file": "run_after_73-prowlarr-notifications.fish.tmpl",
+    "needs": [],
+    "resources": [
+      "storage"
+    ]
+  },
+  {
+    "id": "secrets",
+    "file": "run_after_97-secret-service.fish.tmpl",
+    "needs": [
+      "notjik"
+    ],
+    "resources": [
+      "dnf",
+      "user-systemd"
+    ]
+  },
+  {
+    "id": "storage",
+    "file": "run_after_98-private-storage.fish.tmpl",
+    "needs": [
+      "secrets"
+    ],
+    "resources": [
+      "user-systemd",
+      "storage"
+    ]
+  },
+  {
+    "id": "services",
+    "file": "run_after_99-systemd-reload.fish.tmpl",
+    "needs": [
+      "codex-lb",
+      "storage",
+      "collie",
+      "notjik",
+      "bartjik"
+    ],
+    "resources": [
+      "user-systemd"
+    ]
+  }
+]

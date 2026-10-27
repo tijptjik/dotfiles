@@ -10,15 +10,66 @@ The workflow also declares repository banners and section headings. Capture,
 prerequisite and commit scripts own their detailed rows, so their steps disable
 the runner's duplicate summary rows.
 
-The workflow checks prerequisites, captures live settings, commits only changed
-capture targets, pulls both configuration repos concurrently, warns about dirty
-home sources, pushes ahead commits concurrently, then applies home followed by
-system configuration. Both repos are required. Capture validates every result
-before writing any source. Fcitx capture retains its existing private backup
-behavior. Git uses `pull --rebase --autostash`; unknown upstream state is an
-error. Each repository's Git operation holds a local lock, so overlapping
-Tjikup runs wait instead of changing the same worktree during a rebase. A
-configuration-refresh warning stops subsequent apply stages.
+The fleet uses a bounded DAG scheduler in `scripts/fleet_update/dag.py`.
+[workflow.json](../scripts/fleet_update/workflow.json) declares repository and apply
+dependencies; [home-plan.json](../scripts/fleet_update/home-plan.json) declares home
+hook dependencies and shared resources. Ready tasks start as soon as their
+prerequisites succeed. System pull can overlap home capture/commit; each push
+can start after its own pull. Both pushes must succeed before apply starts.
+
+Capture still validates every result before writing sources and commits only
+changed capture targets. Fcitx capture retains its private backups. Git uses
+`pull --rebase --autostash`; unknown upstream state is an error. A whole-workflow
+lock prevents overlapping Tjikup capture/pull/apply transactions in this checkout;
+individual Git commands also retain their repository locks. Failed tasks stop new
+work, drain running tasks, and block pending dependents. A configuration-refresh
+warning prevents subsequent apply stages.
+
+## Parallel apply and skip policy
+
+Tjikup lets Chezmoi perform its native bootstrap, before/once/onchange hooks and
+file convergence, while deferring the listed `run_after_*` hooks. It then renders
+and syntax-checks all deferred hooks before running their DAG. Rendering failure
+blocks all deferred work. Adding or removing an after-hook requires updating the
+manifest; a mismatch fails before home apply. Plain `chezmoi apply` retains its
+native serial hook behavior. Never set `FLEET_DEFER_HOOKS` manually: it is an
+internal hand-off flag, not a way to skip setup.
+
+Home work defaults to four workers (`FLEET_JOBS=1` serializes it for diagnosis).
+Cargo, tooltjik checkout/install operations, DNF, user-systemd, Tailscale, fonts,
+and storage have resource exclusions. Herdr setup and wrapper setup run alone
+with terminal access. All other parallel hooks must be noninteractive; a command
+that requires credentials must have them available before dispatch. Home must
+finish before Chezetc starts: home installs/configures its wrapper and runner,
+and both layers can change packages, services and networking. Chezetc remains
+an exclusive node with its existing provisioning order and refresh/retry policy.
+Its system package/release update policy has **not** changed.
+
+Routine `tjikup` installs missing Cargo tools and Codex LB without asking package
+registries for newer versions. Use `tjikup --upgrade` to retain those home package
+upgrade checks. Direct `chezmoi apply` retains the previous upgrade behavior.
+Python still uses `uv sync` to converge the declared environment and reports
+failures correctly. Font and icon tools use their native freshness checks instead
+of forced rebuilds.
+
+Tjikup, Notjik and Pony build/install steps compare source fingerprints against
+all declared installed outputs, including bytes, modes and symlink targets.
+Changed inputs, changed/deleted outputs, or a missing record trigger installation.
+Only successful installs with stable inputs create an atomic record under
+`$XDG_STATE_HOME/tjikup/install` (default `~/.local/state/tjikup/install`).
+Service/migration checks remain outside the build cache. The cache is local and
+does not stand in for checking runtime service state. Removing a record forces
+that install to run again. Build directories and dependency caches are excluded
+from source fingerprints. New installer inputs/outputs must be added to its
+`cache-install.py` invocation.
+
+Each DAG task reports elapsed wall time; parallel output is grouped per task.
+`--dry-run` executes only prerequisite checks and capture previews, without Git,
+apply, installs or cache writes. `tjikup --check` validates the outer runner JSON;
+the DAG and complete hook inventory are validated when the workflow starts.
+Regression tests cover overlap, resource exclusion, failure propagation, skip
+invalidation, dry-run behavior, and template rendering for fi/li/si. These checks
+do not constitute a live system apply or a measured production speedup.
 
 ## Installation and migration
 
@@ -44,16 +95,18 @@ Changing the workflow changes the next invocation. A run loads the configuration
 once, before any scripts execute. Pulls may update subsequent scripts, matching
 the existing fleet update behavior.
 
-The installer does not commit, pull, push, capture settings or apply either
+The installer does not commit, push, capture settings or apply either
 configuration repo. It checks the system adapter exists, installs the executable
 and icon, validates the workflow, and atomically links the default configuration.
 It can also be run before the first home apply once Chezetc is initialized.
 
 The managed installation hook and focused installer select `$TOOLTJIK_REPO`, an existing
 `~/code/tooltjik`, or `~/.local/share/tooltjik`. If absent they clone tooltjik.
-The installer builds and installs only tjikup, leaving other applications alone. Existing
-checkouts are not pulled by this hook; update tooltjik explicitly before
-applying to deploy a new runner version, for example:
+If the default `~/.local/share/tooltjik` lacks the required app, the shared
+bootstrap helper updates it with `git pull --ff-only`, requiring a clean checkout.
+The installer builds and installs only tjikup. Explicit selections and development
+checkouts are not pulled; update tooltjik explicitly to deploy a new runner
+version, for example:
 
 ```sh
 git -C ~/code/tooltjik pull --ff-only
@@ -66,14 +119,19 @@ Chezmoi no longer installs runner code into `~/.local/lib/tjikup`. An old copy
 there is unused by the new self-contained executable and may be removed after
 migration. No blanket apply is needed to migrate the command.
 
-Setup hooks render colored pending and completion rows directly, including during
-a plain `chezmoi apply`. They do not use Gum spinners, whose terminal capability
-queries can leave echoed replies in the output when stdin is redirected.
+Setup hooks use Charmbracelet’s `gum spin` with elapsed time on terminals,
+including during a plain `chezmoi apply`. Tooltjik downloads also show Git’s progress percentage,
+received bytes, and transfer rate. The percentage counts Git objects, not bytes:
+Git does not announce the final download size in advance. Gum runs in a private
+pseudo-terminal; its capability queries are answered there, and only display output reaches your terminal. It cannot consume prompt
+input or leak capability replies into the shell. Redirected logs use plain status
+rows; `TJIKUP_NO_SPIN=1` disables animation.
 
 ## Use and validation
 
 ```sh
-tjikup                         # use the installed fleet configuration
+tjikup                         # converge; skip installed home package upgrades
+tjikup --upgrade               # also check home package registries for upgrades
 tjikup --dry-run               # checks and capture preview only
 tjikup --skip-conflicts        # preserve conflicting home/system files
 tjikup --config ./tjikup.json --check
@@ -92,3 +150,6 @@ Tests import the external runner using `TOOLTJIK_REPO`, a sibling checkout,
 installed zipapp). Fleet tests use isolated homes, repositories and mocked
 commands. They do not validate real package updates or services on fi/li/si.
 See [completion notifications](tjikup-notifications.md) for desktop behavior.
+
+The client home apply also [installs Bartjik and retires Waybar](bartjik.md),
+including enabling its user service and starting it in an active desktop session.

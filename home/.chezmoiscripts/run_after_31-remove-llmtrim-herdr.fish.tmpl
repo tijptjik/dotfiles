@@ -1,4 +1,7 @@
 #!/usr/bin/env fish
+if test "$FLEET_DEFER_HOOKS" = 1
+    exit 0
+end
 {{ if .isDesktop -}}
 
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
@@ -16,7 +19,13 @@ function sync_llmtrim
     end
 
     set -l before_record (llmtrim_install_record)
-    cargo install --locked llmtrim
+    if test "$FLEET_UPGRADE" != 0; or not llmtrim_install_record >/dev/null; or not command -q llmtrim
+        set -l repair_args
+        if not command -q llmtrim
+            set repair_args --force
+        end
+        cargo install --locked $repair_args llmtrim; or return $status
+    end
     set -l after_record (llmtrim_install_record)
 
     if test "$before_record" = "$after_record"

@@ -33,7 +33,7 @@ or a mixture; overlapping selections are deduplicated. For example:
 | --- | --- | --- |
 | All | `.ssh`, `.gnupg`, `.local/share/icons`, `.local/share/backgrounds`, `.local/share/fonts` | Reviewed sync |
 | Clients | `.config/Bazecor`, `.var/app/rocks.koreader.KOReader/config/koreader` | Reviewed sync |
-| Clients | `.config/sublime-text`, `.config/waybar/crypto` | Exact mirror from `fi` |
+| Clients | `.config/sublime-text` | Exact mirror from `fi` |
 | Clients | `.duckdb` | Independent device backups |
 | Clients | Telegram global settings, Brave preferences, Steam client settings, FirefoxPWA registrations/preferences | Minimal encrypted device backups; daily/weekly/monthly retention |
 | Desktop | `.config/unity3d`, `.var/app/org.yuzu_emu.yuzu/config`, Yuzu data folders listed in the policy | Desktop backups |
@@ -165,7 +165,7 @@ Retention runs after a verified backup, independently per machine and folder:
 
 | Retention | Folders |
 | --- | --- |
-| Daily / weekly / monthly | `.codex-lb`, KOReader config, Sublime Text, SSH, GnuPG, Bazecor, Waybar crypto, Unity config, Yuzu config, keys, system saves, play time |
+| Daily / weekly / monthly | `.codex-lb`, KOReader config, Sublime Text, SSH, GnuPG, Bazecor, Unity config, Yuzu config, keys, system saves, play time |
 | Latest only | Fonts, icons, backgrounds, `.duckdb`, Yuzu user saves, load, screenshots |
 
 Daily/weekly/monthly means **at most three snapshots**: the latest successful
@@ -330,11 +330,10 @@ safe; review unrelated local changes before allowing tjikup to commit them.
 1. If tjikup already completed its home stages and stopped during system apply,
    run `chezetc apply` after installing the client installer fixes to complete
    that part; a full tjikup run is not required just for archive sync. The hooks
-   build Waybar and install Strata as the invoking desktop user, while package
-   dependencies use sudo. Material Symbols can use the Fedora 43 COPR chroot
-   when the current Fedora release is unavailable; an already-installed fallback
-   needs no repair. Check `~/.local/state/chezetc/waybar-build-failure.log` if the
-   custom Waybar build fails. The working system binary remains the fallback.
+   install Strata as the invoking desktop user, while package dependencies use
+   sudo. Bartjik is installed by the home apply hook; see [Bartjik](bartjik.md).
+   Material Symbols can use the Fedora 43 COPR chroot when the current Fedora
+   release is unavailable; an already-installed fallback needs no repair.
 2. Close Bazecor, KOReader and Sublime Text before applying their sync plans.
    Confirm fi has current successful backups; fi need not remain online while
    li downloads its snapshots from R2.
@@ -360,7 +359,7 @@ unread badge to show a primary-color dot beside the white WhatsApp tray icon.
 ### Server (`si`)
 
 1. Install the current repository changes and run `tjikup` after reviewing local
-   server edits. Client-only Waybar, Strata and ZapZap configuration is excluded.
+   server edits. Client-only Bartjik, Strata and ZapZap configuration is excluded.
 2. Run `device-archives ready` and inspect
    `systemctl --user list-timers backup-packages.timer`. Si has no mandatory
    initial-sync gate and backs up its own assigned folders daily at 00:30.

@@ -230,7 +230,7 @@ alias frcv='fish_config_edit variables'
 alias hrc='chezmoi edit $HOME/.config/hypr/hyprland.lua'
 alias hrcl='chezmoi edit $HOME/.config/hypr/hyprlock.conf'
 alias hrcp='chezmoi edit $HOME/.config/hypr/hyprpaper.conf'
-alias hrcb='chezmoi edit $HOME/.config/waybar/config'
+alias hrcb='chezmoi edit $HOME/.config/bartjik/config.json'
 
 # Shells
 alias zrc='chezmoi edit $HOME/.zshrc; and source ~/.zshrc'

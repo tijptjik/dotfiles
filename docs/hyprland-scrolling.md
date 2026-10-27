@@ -34,7 +34,7 @@ Window rules can set `scrolling_width` for app-specific initial widths.
 | --- | --- |
 | Super+F6 / Super+F7 | Switch default layout to scrolling / master |
 | Super+Left / Right | Focus window; viewport follows |
-| Super+Shift+arrows | Existing resize controls |
+| Super+Alt+arrows / Super+Shift+arrows | Resize windows (128px steps) |
 | Super+Ctrl+arrows | Existing move controls |
 | Super+[ / ] | Previous / next column width preset |
 | Super+Page Up / Page Down | Move viewport one column backward / forward |

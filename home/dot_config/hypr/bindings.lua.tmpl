@@ -106,10 +106,12 @@ hl.bind(super("Down", "CTRL"), hl.dsp.window.move({ direction = "d" }))
 -- Cycle Window
 hl.bind(super("TAB"), hl.dsp.window.swap({ next = true }))
 hl.bind(super("TAB", "SHIFT"), hl.dsp.window.swap({ prev = true }))
-hl.bind(super("Up", "ALT"), hl.dsp.layout("cyclenext"))
-hl.bind(super("Down", "ALT"), hl.dsp.layout("cycleprev"))
 
--- Resize Window
+-- Resize Window (layout-independent; keep Shift as an alias)
+hl.bind(super("Left", "ALT"), hl.dsp.window.resize({ x = -128, y = 0, relative = true }))
+hl.bind(super("Right", "ALT"), hl.dsp.window.resize({ x = 128, y = 0, relative = true }))
+hl.bind(super("Up", "ALT"), hl.dsp.window.resize({ x = 0, y = -128, relative = true }))
+hl.bind(super("Down", "ALT"), hl.dsp.window.resize({ x = 0, y = 128, relative = true }))
 hl.bind(super("Left", "SHIFT"), hl.dsp.window.resize({ x = -128, y = 0, relative = true }))
 hl.bind(super("Right", "SHIFT"), hl.dsp.window.resize({ x = 128, y = 0, relative = true }))
 hl.bind(super("Up", "SHIFT"), hl.dsp.window.resize({ x = 0, y = -128, relative = true }))

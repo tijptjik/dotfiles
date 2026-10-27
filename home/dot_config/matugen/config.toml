@@ -93,9 +93,6 @@ green = { color = "#00FF00", blend = false }
 # output_path = '~/.config/hypr/colors.conf'
 # post_hook = 'hyprctl reload'
 
-# [templates.waybar]
-# output_path = '~/.config/waybar/colors.css'
-# post_hook = '/bin/pkill -SIGUSR2 waybar'
 
 # [templates.kitty]
 # output_path = '~/.config/kitty/colors.conf'

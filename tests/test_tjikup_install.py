@@ -22,6 +22,8 @@ class InstallTests(unittest.TestCase):
         self.fleet = self.home / '.local/share/chezmoi'
         (self.fleet / 'scripts').mkdir(parents=True)
         shutil.copy2(REPO / 'scripts/install-tjikup.sh', self.fleet / 'scripts')
+        shutil.copy2(REPO / 'scripts/ensure-tooltjik.sh', self.fleet / 'scripts')
+        shutil.copy2(REPO / 'scripts/cache-install.py', self.fleet / 'scripts')
         (self.fleet / 'tjikup.json').write_text(
             '{"version":1,"steps":[{"id":"unused","command":["false"]}]}'
         )
@@ -40,7 +42,7 @@ class InstallTests(unittest.TestCase):
         self.env = {**os.environ, 'HOME': str(self.home),
                     'PATH': str(self.bin) + os.pathsep + os.environ['PATH'],
                     'TOOLTJIK_REPO': str(self.tools), 'TJIKUP_NOTIFY': '0'}
-        for name in ('XDG_CONFIG_HOME', 'XDG_DATA_HOME', 'TJIKUP_CONFIG'):
+        for name in ('XDG_CONFIG_HOME', 'XDG_DATA_HOME', 'XDG_STATE_HOME', 'TJIKUP_CONFIG'):
             self.env.pop(name, None)
 
     def install(self):
@@ -86,8 +88,9 @@ class InstallTests(unittest.TestCase):
         self.env.pop('TOOLTJIK_REPO')
         clone = self.bin / 'git'
         clone.write_text('#!/bin/sh\nset -eu\ntest "$1" = clone\n'
-                         'test "$2" = https://github.com/tijptjik/tooltjik.git\n'
-                         'cp -R "$TEST_TOOL_SOURCE" "$3"\n')
+                         'test "$2" = --progress\n'
+                         'test "$3" = https://github.com/tijptjik/tooltjik.git\n'
+                         'cp -R "$TEST_TOOL_SOURCE" "$4"\n')
         clone.chmod(0o755)
         self.env['TEST_TOOL_SOURCE'] = str(self.tools)
         result = self.install()

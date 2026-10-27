@@ -21,6 +21,7 @@ class NotjikInstallTests(unittest.TestCase):
         self.old.mkdir(parents=True)
         (self.old / 'dunstrc').write_text('personal settings\n')
         self.tools = self.root / 'tools'
+        (self.tools / '.git').mkdir(parents=True)
         build = self.tools / 'apps/notjik/scripts/build.sh'
         build.parent.mkdir(parents=True)
         build.write_text('echo build >> "$CALL_LOG"\n')
@@ -41,6 +42,10 @@ class NotjikInstallTests(unittest.TestCase):
         self.script = self.root / 'install.sh'
         self.script.write_text((ROOT / 'scripts/install-notjik.sh').read_text()
                                .replace('$HOME', '${NOTJIK_TEST_HOME}'))
+        (self.root / 'ensure-tooltjik.sh').write_text(
+            (ROOT / 'scripts/ensure-tooltjik.sh').read_text()
+            .replace('$HOME', '${NOTJIK_TEST_HOME}'))
+        shutil.copy2(ROOT / 'scripts/cache-install.py', self.root / 'cache-install.py')
         self.log = self.root / 'calls'
         self.env = {**os.environ, 'NOTJIK_TEST_HOME': str(self.home),
                     'TOOLTJIK_REPO': str(self.tools), 'CALL_LOG': str(self.log),

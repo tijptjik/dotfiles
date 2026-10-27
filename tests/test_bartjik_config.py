@@ -43,3 +43,24 @@ class BartjikConfigTests(unittest.TestCase):
                 self.assertEqual((left['alignment'], right['alignment']), ('r', 'l'))
                 self.assertIn('DP-2', config['perMonitor'])
                 self.assertIn('DP-2', left['perMonitor'])
+
+    def test_laptop_compact_modules(self):
+        left, right = self.render('li')['bars']
+        self.assertEqual(left['islands'][0], {
+            'id': 'applications', 'modules': ['tray'],
+        })
+        modules = [module for bar in (left, right)
+                   for island in bar['islands'] for module in island['modules']]
+        self.assertEqual(modules.count('tray'), 1)
+        self.assertNotIn('prices', modules)
+        self.assertNotIn('credit', modules)
+        ai = next(island for island in right['islands'] if island['id'] == 'ai')
+        self.assertEqual(ai['modules'], ['quota'])
+
+    def test_desktop_modules_unchanged(self):
+        for host in ('fi', 'si'):
+            with self.subTest(host=host):
+                left, right = self.render(host)['bars']
+                self.assertEqual(left['islands'][0]['modules'], ['prices'])
+                self.assertEqual(right['islands'][0]['modules'], ['tray'])
+                self.assertEqual(right['islands'][1]['modules'], ['quota', 'credit'])

@@ -147,3 +147,49 @@ if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
         self.assertEqual(result.returncode, 1)
         self.assertIn("intentional home failure", result.stderr)
         self.assertNotIn("chezetc", [row[0] for row in self.events()])
+
+    def add_synthetic_hooks(self):
+        plan = json.loads((REPO / 'scripts/fleet_update/home-plan.json').read_text())
+        hooks = self.repo / 'home/.chezmoiscripts'
+        hooks.mkdir(parents=True)
+        for task in plan:
+            name = task['file']
+            if name.endswith('.py'):
+                content = "import os\nif os.environ.get('FLEET_DEFER_HOOKS') == '1': raise SystemExit(0)\n"
+                content += f"with open(os.environ['HOOK_TRACE'], 'a') as stream: stream.write({name!r} + '\\n')\n"
+            else:
+                content = 'if test "$FLEET_DEFER_HOOKS" = 1; exit 0; end\n'
+                if task['id'] == 'rust':
+                    content += 'if test "$FAIL_HOOK" = 1; exit 9; end\n'
+                content += f'printf "%s\\n" "{name}" >> "$HOOK_TRACE"\n'
+            (hooks / name).write_text(content)
+        self.env['HOOK_TRACE'] = str(self.root / 'hooks.log')
+        executable = self.bin / 'chezmoi'
+        executable.write_text(f'#!{sys.executable}\n' + """
+import os, pathlib, subprocess, sys
+if 'execute-template' in sys.argv:
+    print(pathlib.Path(sys.argv[-1]).read_text(), end='')
+else:
+    hooks = pathlib.Path(sys.argv[sys.argv.index('--source') + 1]) / '.chezmoiscripts'
+    for hook in sorted(hooks.iterdir()):
+        interpreter = ['python3'] if hook.name.endswith('.py') else ['fish', '--no-config']
+        subprocess.run([*interpreter, str(hook)], check=True)
+""")
+        return plan
+
+    def test_deferred_hooks_run_exactly_once(self):
+        plan = self.add_synthetic_hooks()
+        result = self.run_fleet()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        calls = Path(self.env['HOOK_TRACE']).read_text().splitlines()
+        self.assertCountEqual(calls, [task['file'] for task in plan])
+        self.assertIn('chezetc', [row[0] for row in self.events()])
+
+    def test_hook_failure_blocks_system_apply(self):
+        self.add_synthetic_hooks()
+        self.env['FAIL_HOOK'] = '1'
+        result = self.run_fleet()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertNotIn('chezetc', [row[0] for row in self.events()])
+        calls = Path(self.env['HOOK_TRACE']).read_text().splitlines()
+        self.assertFalse(any('llmtrim' in name for name in calls))

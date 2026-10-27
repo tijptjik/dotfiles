@@ -1,4 +1,7 @@
 #!/usr/bin/env fish
+if test "$FLEET_DEFER_HOOKS" = 1
+    exit 0
+end
 {{ if .isServer -}}
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 set -l notify_source "{{ .chezmoi.homeDir }}/dockers/prowlarr-notify"

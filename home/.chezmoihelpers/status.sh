@@ -60,7 +60,13 @@ stage() {
   ) &
   pid="$!"
 
-  __stage_label "$stage_name" "..." "$subject"
+  if { [ -t 1 ] || [ "${TJIKUP_COLOR:-0}" = 1 ]; } &&
+      [ "${TJIKUP_NO_SPIN:-0}" != 1 ] && command -v python3 >/dev/null 2>&1 && command -v gum >/dev/null 2>&1; then
+    python3 "$(dirname -- "$__stage_fish_helper")/stage-progress.py" \
+      "$log_file" "$status_file" "$pid" "$stage_name $subject" </dev/null
+  else
+    __stage_label "$stage_name" "..." "$subject"
+  fi
 
   wait "$pid" 2>/dev/null || true
   code="$(cat "$status_file")"

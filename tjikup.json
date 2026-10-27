@@ -4,162 +4,33 @@
     "skip-conflicts": {
       "env": "FLEET_SKIP_CONFLICTS",
       "help": "skip conflicting files during home and system apply"
+    },
+    "upgrade": {
+      "env": "FLEET_UPGRADE",
+      "help": "check for home package upgrades as well as applying configuration"
     }
   },
   "steps": [
     {
-      "id": "checks",
+      "id": "fleet",
       "command": [
         "python3",
         "{config_dir}/scripts/fleet-update.py",
-        "check"
+        "workflow"
       ],
-      "label": "Prerequisites",
-      "verb": "CHECK",
-      "output": "stream",
       "preview": [
         "python3",
         "{config_dir}/scripts/fleet-update.py",
-        "check"
-      ],
-      "section": "Prerequisites",
-      "summary": false
-    },
-    {
-      "id": "capture",
-      "command": [
-        "python3",
-        "{config_dir}/scripts/fleet-update.py",
-        "capture"
-      ],
-      "label": "Live configuration",
-      "verb": "SYNC",
-      "output": "stream",
-      "preview": [
-        "python3",
-        "{config_dir}/scripts/fleet-update.py",
-        "capture",
+        "workflow",
         "--dry-run"
       ],
-      "section": "Commit Local Changes",
-      "summary": false
-    },
-    {
-      "id": "commit",
-      "command": [
-        "python3",
-        "{config_dir}/scripts/fleet-update.py",
-        "commit"
-      ],
-      "label": "Templates",
-      "verb": "COMMIT",
+      "label": "Fleet DAG",
       "output": "stream",
-      "skip_codes": [
-        77
-      ],
-      "section": "Dotfiles Repository",
-      "summary": false
-    },
-    {
-      "parallel": [
-        {
-          "id": "pull-home",
-          "command": [
-            "python3",
-            "{config_dir}/scripts/fleet-update.py",
-            "pull"
-          ],
-          "label": "Tijpfiles",
-          "verb": "PULL"
-        },
-        {
-          "id": "pull-system",
-          "command": [
-            "python3",
-            "{config_dir}/scripts/fleet-update.py",
-            "pull",
-            "--repo",
-            "~/.local/share/chezetc"
-          ],
-          "label": "Tijpcetera",
-          "verb": "PULL"
-        }
-      ]
-    },
-    {
-      "id": "dirty",
-      "command": [
-        "python3",
-        "{config_dir}/scripts/fleet-update.py",
-        "dirty"
-      ],
-      "label": "Local changes",
-      "verb": "CHECK",
-      "output": "stream",
-      "summary": false
-    },
-    {
-      "parallel": [
-        {
-          "id": "push-home",
-          "command": [
-            "python3",
-            "{config_dir}/scripts/fleet-update.py",
-            "push"
-          ],
-          "label": "Tijpfiles",
-          "verb": "PUSH",
-          "skip_codes": [
-            77
-          ]
-        },
-        {
-          "id": "push-system",
-          "command": [
-            "python3",
-            "{config_dir}/scripts/fleet-update.py",
-            "push",
-            "--repo",
-            "~/.local/share/chezetc"
-          ],
-          "label": "Tijpcetera",
-          "verb": "PUSH",
-          "skip_codes": [
-            77
-          ]
-        }
-      ]
-    },
-    {
-      "id": "apply-home",
-      "command": [
-        "python3",
-        "{config_dir}/scripts/fleet-update.py",
-        "apply"
-      ],
-      "label": "Dotfiles",
-      "verb": "APPLY",
-      "output": "stream",
-      "timeout": 1800,
+      "timeout": 7200,
       "stop_codes": [
         78
       ],
-      "section": "Dotfiles Apply"
-    },
-    {
-      "id": "apply-system",
-      "command": [
-        "python3",
-        "~/.local/share/chezetc/scripts/tjikup-apply.py"
-      ],
-      "label": "Chezetc",
-      "verb": "APPLY",
-      "output": "stream",
-      "timeout": 3700,
-      "banner": {
-        "title": "Tijpcetera",
-        "url": "https://github.com/tijptjik/etcfiles"
-      }
+      "summary": false
     }
   ],
   "banner": {

@@ -5,9 +5,11 @@ Quickshell notification server. Its source, tests and rose-punk demo live in the
 tooltjik monorepo under `apps/notjik`.
 
 On desktop clients (`fi` and `li`), `chezmoi apply` builds and installs Notjik
-from the tooltjik checkout provisioned by the earlier Tjikup hook. Set
-`TOOLTJIK_REPO` to select another checkout. Existing checkouts are never pulled
-by the install hook; update tooltjik before applying a new version.
+from a shared tooltjik checkout. Both installers bootstrap it independently when
+absent. If the default `~/.local/share/tooltjik` checkout lacks the required app,
+the installer updates it with `git pull --ff-only`, requiring a clean checkout.
+Set `TOOLTJIK_REPO` to select another checkout. Explicit selections and
+`~/code/tooltjik` are never pulled; update those manually before applying.
 
 Notjik is enabled for graphical sessions and started when a
 session is active; an already running instance is not restarted, preserving
@@ -28,7 +30,7 @@ uses the same `qt6ct` platform theme as the shell, so named sender icons resolve
 consistently; its override lives in `notjik.service.d/theme.conf`. Only one desktop notification
 server can own `org.freedesktop.Notifications`.
 
-Chezmoi manages `~/.config/notjik/config.json`, Hyprland bindings, the Waybar DND
+Chezmoi manages `~/.config/notjik/config.json`, Hyprland bindings, the Bartjik DND
 control and notification activation. Keep the JSON template in expanded two-space
 format and preserve its key order when editing: Chezmoi compares file bytes, so
 formatting-only rewrites of the live config can cause overwrite prompts. The client default is rose-punk, bottom

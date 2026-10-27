@@ -1,4 +1,7 @@
 #!/usr/bin/env fish
+if test "$FLEET_DEFER_HOOKS" = 1
+    exit 0
+end
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 {{ if or .isDesktop .isLaptop -}}
@@ -13,7 +16,11 @@ function sync_codex_lb
         uv venv --clear --python "$system_python" "$runtime"; or return $status
     end
 
-    uv pip install --python "$runtime/bin/python" --upgrade-package codex-lb codex-lb; or return $status
+    if not test -x "$runtime/bin/codex-lb"
+        uv pip install --python "$runtime/bin/python" --reinstall-package codex-lb codex-lb; or return $status
+    else if test "$FLEET_UPGRADE" != 0; or not "$runtime/bin/python" -c 'import importlib.metadata; importlib.metadata.version("codex-lb")' >/dev/null 2>&1
+        uv pip install --python "$runtime/bin/python" --upgrade-package codex-lb codex-lb; or return $status
+    end
 
     # Restart manually between sessions: restarting this proxy interrupts
     # active Codex requests, and startup may run database migrations.

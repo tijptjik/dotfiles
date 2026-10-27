@@ -1,0 +1,8 @@
+#!/usr/bin/env fish
+if test "$FLEET_DEFER_HOOKS" = 1
+    exit 0
+end
+{{ if .isClient -}}
+python3 "{{ .chezmoi.sourceDir }}/../scripts/icons/install.py"
+or exit $status
+{{ end -}}

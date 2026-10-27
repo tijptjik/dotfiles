@@ -54,7 +54,7 @@ Readmes are available in `/docs/{topic}.md`
 - [`transmission`](https://github.com/transmission/transmission)
 - [`uv`](https://github.com/astral-sh/uv)
 - [`vivid`](https://github.com/sharkdp/vivid)
-- [`waybar`](https://github.com/Alexays/Waybar)
+- [`bartjik`](https://github.com/tijptjik/tooltjik/tree/main/apps/bartjik)
 - [`zapzap`](https://github.com/rafatosta/zapzap)
 - [`zed`](https://zed.dev/)
 

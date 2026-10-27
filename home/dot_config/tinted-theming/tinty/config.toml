@@ -19,13 +19,6 @@ themes-dir = "themes/kitty"
 hook = "kitten @ load-config"
 supported-systems = ["base16", "base24"]
 
-[[items]]
-name = "base24-waybar"
-path = "https://github.com/tijptjik/base24-waybar.git"
-themes-dir = "colors"
-hook = "cp -f \"$TINTY_THEME_FILE_PATH\" \"$HOME/.config/waybar/colors.css\" && killall waybar; waybar"
-supported-systems =  ["base16", "base24"]
-
 # Notification colors are managed by notjik/config.json and its rose-punk theme.
 
 [[items]]

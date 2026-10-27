@@ -44,7 +44,8 @@ storage
 .config/systemd/user/hamr-gtk.service
 .local/bin/screen-record
 .config/xdg-desktop-portal
-.config/waybar
+.config/bartjik
+.config/systemd/user/bartjik.service
 .config/ZapZap
 .config/zed
 {{ end -}}

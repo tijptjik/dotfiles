@@ -529,7 +529,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "action",
-        choices=["check", "capture", "commit", "dirty", "pull", "push", "apply"],
+        choices=["check", "capture", "commit", "dirty", "pull", "push", "apply", "workflow"],
     )
     parser.add_argument(
         "--repo", type=Path, default=Path(__file__).resolve().parents[2]
@@ -537,8 +537,11 @@ def main():
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     repo = args.repo.resolve()
-    if args.dry_run and args.action != "capture":
-        parser.error("--dry-run is supported only by capture")
+    if args.dry_run and args.action not in {"capture", "workflow"}:
+        parser.error("--dry-run is supported only by capture and workflow")
+    if args.action == "workflow":
+        from .workflow import workflow
+        return workflow(repo, dry_run=args.dry_run)
     if args.action == "check":
         system_repo = Path.home() / ".local/share/chezetc"
         for required in (
@@ -562,10 +565,13 @@ def main():
     elif args.action in {"pull", "push"}:
         return sync_repo(repo, args.action)
     elif args.action == "apply":
+        from .home_apply import load_plan
+        load_plan(repo)
         if chezmoi_config_needs_init(repo):
             stage_label("WARN", "!", "Chezmoi config changed; run chezmoi init")
             return 78
-        env = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1"}
+        env = {**os.environ, "CHEZMOI_SKIP_SPLASH": "1", "TJIKUP_SKIP_PREFLIGHT": "1",
+               "FLEET_DEFER_HOOKS": "1"}
         # Bind apply explicitly to the source selected by the workflow.
         if not run_chezmoi_apply(
             repo,
@@ -574,4 +580,6 @@ def main():
             skip_conflicts=os.environ.get("FLEET_SKIP_CONFLICTS") == "1",
         ):
             return 78
+        from .home_apply import apply_hooks
+        apply_hooks(repo, env)
     return 0

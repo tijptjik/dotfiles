@@ -7,7 +7,9 @@ old executables, which are saved in `~/.local/state/chezetc/launcher-tools`.
 
 Gitfetch uses its own Python virtual environment. Hamr includes its bundled
 plugins next to the binaries; personal settings remain in `~/.config/hamr`.
-Hyprland starts the Hamr GTK user service. Super+Escape toggles the launcher;
+The client installer validates all installed commands before publishing compatibility
+links, then enables both Hamr user services and starts them when a graphical
+session is active. Hyprland also starts the Hamr GTK user service at login. Super+Escape toggles the launcher;
 Super+V opens its clipboard plugin. The old Quickshell startup is retired.
 
 `tjikup` checks GitHub for each tool's latest stable release and updates the
@@ -61,3 +63,7 @@ fallback while other devices migrate. Vault data and Secrets Manager
 credentials stay in their existing user configuration directories.
 Installation checks use isolated temporary Vault CLI state and do not log in,
 unlock, or alter a vault.
+
+Embedded Python installers are transported through Base64 in Fish hooks so
+newlines and Python escapes survive template rendering exactly. A successful
+Python exit alone is not treated as proof that launcher commands were installed.

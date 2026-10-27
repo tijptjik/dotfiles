@@ -1,5 +1,7 @@
-# Render status directly: Gum's terminal probes can leak replies into stdin
-# during direct chezmoi applies. Colour also works through tjikup's output pipe.
+set -g __stage_progress_helper (path dirname (status filename))/stage-progress.py
+
+# Gum runs through stage-progress.py to isolate terminal probes from stdin.
+# Colour also works through tjikup's output pipe.
 function __stage_use_color
     isatty stdout; or test "$TJIKUP_COLOR" = 1
 end
@@ -337,16 +339,22 @@ function __stage_run
     set -l log_file (mktemp)
     set -l status_file (mktemp)
 
-    begin
-        $command $args >$log_file 2>&1
-        echo $status >$status_file
-    end &
-    set -l pid $last_pid
+    # Fish blocks cannot run asynchronously. Background the renderer instead
+    # so commands (including Fish functions) keep running in this shell.
+    set -l progress_pid
+    if __stage_use_color; and test "$TJIKUP_NO_SPIN" != 1; and command -q python3; and command -q gum
+        python3 "$__stage_progress_helper" "$log_file" "$status_file" "$fish_pid" \
+            (__stage_spin_title "$stage_name" "$subject") </dev/null &
+        set progress_pid $last_pid
+    else
+        __stage_label "$stage_name" "..." "$subject"
+    end
 
-    # A pending row needs no terminal queries or ownership of stdin.
-    __stage_label "$stage_name" "..." "$subject"
-
-    wait $pid 2>/dev/null
+    $command $args >$log_file 2>&1
+    echo $status >$status_file
+    if test -n "$progress_pid"
+        wait $progress_pid 2>/dev/null
+    end
     set -l code (cat $status_file)
 
     if test "$code" -eq 0

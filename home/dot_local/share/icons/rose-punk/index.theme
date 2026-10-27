@@ -1,0 +1,12 @@
+[Icon Theme]
+Name=Rose Punk A — Outline
+Comment=Hand-drawn rose and lilac application icons
+Directories=scalable/apps
+Inherits=Neuwaita,Adwaita,hicolor
+
+[scalable/apps]
+Size=64
+MinSize=16
+MaxSize=512
+Type=Scalable
+Context=Applications

@@ -1,24 +1,20 @@
 #!/usr/bin/env bash
-# Provision the desktop notification app without pulling an existing checkout.
+# Provision the desktop notification app and its source checkout.
 set -euo pipefail
 
-tool_repo="${TOOLTJIK_REPO:-}"
-if [[ -z "$tool_repo" ]]; then
-    if [[ -d "$HOME/code/tooltjik/.git" ]]; then
-        tool_repo="$HOME/code/tooltjik"
-    else
-        tool_repo="$HOME/.local/share/tooltjik"
-    fi
-fi
-# The earlier tjikup install hook provisions the shared tooltjik checkout.
-if [[ ! -f "$tool_repo/apps/notjik/scripts/build.sh" ]]; then
-    echo "Update $tool_repo to a revision containing apps/notjik." >&2
-    exit 1
-fi
+source "$(dirname -- "${BASH_SOURCE[0]}")/ensure-tooltjik.sh"
+ensure_tooltjik apps/notjik/scripts/build.sh
 command -v quickshell >/dev/null
 command -v python3 >/dev/null
-(cd "$tool_repo/apps/notjik" && bash scripts/build.sh)
-bash "$tool_repo/scripts/install.sh" notjik
+python3 "$(dirname -- "${BASH_SOURCE[0]}")/cache-install.py" notjik \
+    --input "$tool_repo/apps/notjik" --input "$tool_repo/scripts/install.sh" \
+    --input "$(dirname -- "${BASH_SOURCE[0]}")/cache-install.py" \
+    --output "$HOME/.local/bin/notjik" --output "$HOME/.local/bin/notjikctl" \
+    --output "$HOME/.local/lib/notjik" \
+    --output "$HOME/.config/systemd/user/notjik.service" \
+    --output "$HOME/.config/systemd/user/notjik-telegram.service" \
+    --output "${XDG_DATA_HOME:-$HOME/.local/share}/dbus-1/services/org.freedesktop.Notifications.service" \
+    -- bash -c '(cd "$1/apps/notjik" && bash scripts/build.sh) && bash "$1/scripts/install.sh" notjik' _ "$tool_repo"
 
 # Retire the old server only after its replacement installed successfully.
 # Masking also prevents a packaged unit from being enabled again at login.

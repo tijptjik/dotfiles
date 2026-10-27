@@ -9,25 +9,14 @@ if [[ ! -f "$HOME/.local/share/chezetc/scripts/tjikup-apply.py" ]]; then
     exit 1
 fi
 
-tool_repo="${TOOLTJIK_REPO:-}"
-if [[ -z "$tool_repo" ]]; then
-    if [[ -d "$HOME/code/tooltjik/.git" ]]; then
-        tool_repo="$HOME/code/tooltjik"
-    else
-        tool_repo="$HOME/.local/share/tooltjik"
-    fi
-fi
-if [[ ! -d "$tool_repo/.git" ]]; then
-    mkdir -p -- "$(dirname -- "$tool_repo")"
-    git clone https://github.com/tijptjik/tooltjik.git "$tool_repo"
-fi
-if [[ ! -f "$tool_repo/apps/tjikup/scripts/install.sh" ]]; then
-    echo "Update $tool_repo to a revision containing apps/tjikup." >&2
-    exit 1
-fi
+source "$repo_dir/scripts/ensure-tooltjik.sh"
+ensure_tooltjik apps/tjikup/scripts/install.sh
 
-# Existing source checkouts are deliberately not pulled by an apply hook.
-bash "$tool_repo/apps/tjikup/scripts/install.sh"
+python3 "$repo_dir/scripts/cache-install.py" tjikup \
+    --input "$tool_repo/apps/tjikup" --input "$repo_dir/scripts/cache-install.py" \
+    --output "$HOME/.local/bin/tjikup" --output "$HOME/.local/share/icons/tjikup.png" \
+    --output "$HOME/.local/share/icons/hicolor/256x256/apps/tjikup-notification.png" \
+    -- bash "$tool_repo/apps/tjikup/scripts/install.sh"
 "$HOME/.local/bin/tjikup" --config "$repo_dir/tjikup.json" --check
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/tjikup"
 mkdir -p -- "$config_dir"

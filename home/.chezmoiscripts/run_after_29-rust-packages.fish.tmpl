@@ -1,4 +1,7 @@
 #!/usr/bin/env fish
+if test "$FLEET_DEFER_HOOKS" = 1
+    exit 0
+end
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 section_header "Packages"
@@ -20,8 +23,15 @@ function sync_rust_packages
         set -a before_records "$(cargo_install_record $package)"
     end
 
-    cargo install serie
-    cargo install dysk
+    for package in $rust_packages
+        if test "$FLEET_UPGRADE" != 0; or not cargo_install_record $package >/dev/null; or not command -q $package
+            set -l repair_args
+            if not command -q $package
+                set repair_args --force
+            end
+            cargo install $repair_args $package; or return $status
+        end
+    end
 
     set -l update_count 0
     for index in (seq (count $rust_packages))

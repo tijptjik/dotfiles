@@ -28,6 +28,30 @@ not those ordinary bindings. Workspace rules can override `layout`, with
 `layout_opts = { direction = "down" }` for a different scrolling direction.
 Window rules can set `scrolling_width` for app-specific initial widths.
 
+## App defaults
+
+Initial widths are set in `home/dot_config/hypr/windows.lua.tmpl`. On `fi`,
+primary is `DP-1` and secondary is `DP-2`:
+
+| App | Primary | Secondary |
+| --- | --- | --- |
+| Zed (stable, Preview, Nightly) | 100% | 100% |
+| Spotify | 100% | 100%; opens on workspace 20, the secondary display's tenth workspace |
+| Zen | 50% | 100% |
+| Kitty | 50% | 75% |
+
+On `li`, Zed and Spotify use 100%, Zen and Kitty use 50%, and Spotify opens
+on workspace 10. Other apps retain the 50% global default. Existing floating
+rules are unaffected. `scrolling_width` sets an initial column width, not
+fullscreen mode; a lone column still fills the workspace because
+`fullscreen_on_one_column` is enabled. Moving an existing window between displays
+does not reapply these initial-width rules.
+
+The secondary overrides use `match.workspace = "m[DP-2]"`, after the base app
+rules. Workspace IDs 1-10 remain on the primary display, and 11-20 on secondary.
+Apply window defaults with `chezmoi apply --include=files ~/.config/hypr/windows.lua`,
+then `hyprctl reload config-only` and `hyprctl configerrors`.
+
 ## Controls
 
 | Shortcut | Action |

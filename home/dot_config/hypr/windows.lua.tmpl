@@ -65,6 +65,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "kitty",
+    scrolling_width = 0.5,
     -- no_anim = true,
     match = { class = "kitty" },
 })
@@ -97,10 +98,11 @@ hl.window_rule({
 
 hl.window_rule({
     name = "zed",
+    scrolling_width = 1.0,
     border_size = 0,
     -- Keep Zed in SDR when monitor-level AutoHDR is enabled.
     no_auto_hdr = true,
-    match = { class = "^(dev.zed.Zed)$" },
+    match = { class = "^dev[.]zed[.]Zed(-Preview|-Nightly)?$" },
 })
 
 hl.window_rule({
@@ -146,10 +148,27 @@ hl.window_rule({
 
 hl.window_rule({
     name = "zen",
+    scrolling_width = 0.5,
     border_size = 0,
     match = { class = "zen" },
     suppress_event = "maximize fullscreen",
 })
+
+{{- if .isDesktop }}
+-- Match the workspace's monitor, not a numeric monitor ID (which can change).
+-- These static rules set initial widths; moving an existing window does not resize it.
+hl.window_rule({
+    name = "zen-secondary-width",
+    scrolling_width = 1.0,
+    match = { class = "zen", workspace = "m[DP-2]" },
+})
+
+hl.window_rule({
+    name = "kitty-secondary-width",
+    scrolling_width = 0.75,
+    match = { class = "kitty", workspace = "m[DP-2]" },
+})
+{{- end }}
 
 hl.window_rule({
     name = "telegram",
@@ -240,14 +259,18 @@ hl.window_rule({
     match = { class = "^(feishin)$" },
 })
 
-{{- if .isLaptop }}
 hl.window_rule({
     name = "spotify",
+    scrolling_width = 1.0,
+{{- if .isDesktop }}
+    -- Secondary display's tenth workspace (11-20).
+    workspace = "20 silent",
+{{- else if .isLaptop }}
     workspace = "10 silent",
+{{- end }}
     no_initial_focus = true,
     match = { class = "^(Spotify|spotify)$" },
 })
-{{- end }}
 
 hl.window_rule({
     name = "plex",

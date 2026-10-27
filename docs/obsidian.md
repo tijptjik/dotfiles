@@ -4,7 +4,7 @@ The desktop launchers have separate roles:
 
 - **Obsidian** (`md.obsidian.Obsidian.desktop`) runs the official AppImage and opens the normal
   vault, with its community plugins. It owns `obsidian://` links.
-- **Obsidian Markdown Viewer** (`obsidian-appimage.desktop`) runs
+- **Markdown Viewer** (`obsidian-appimage.desktop`) runs
   `~/.local/bin/obsidian-viewer` and owns `text/markdown`. It uses the installed
   AppImage from `~/.local/opt/obsidian/`, opens external files in reading mode,
   and disables community and core plugins. Both sidebars start collapsed.
@@ -24,6 +24,18 @@ vault, rather than the full-width mode; the viewer inherits this setting.
 It copies no plugin code, credentials, indexes, or workspace state from the main
 vault. Changes to the main theme/settings appear on the next viewer launch.
 Plugin-rendered content (for example Dataview queries) is unavailable by design.
+
+## Launch latency
+
+This is a standalone **profile of Obsidian/Electron**, not a separate lightweight
+Markdown renderer. Both launcher entries use the same installed AppImage.
+
+On Fi, theme preparation previously took 5.87–6.31 seconds before Electron was
+executed. An unanchored selector regex repeatedly rescanned the large trailing
+Style Settings comment. The one-pass tokenizer now preserves comments, quoted
+strings and declarations and rewrites only selector text. Preparation measured
+6.67–7.82 ms with the same installed Minimal theme. These measurements cover the
+wrapper preparation, not total Electron startup or first rendered pixels.
 
 ## Missing plugins or custom colours
 

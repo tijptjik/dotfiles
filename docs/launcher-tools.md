@@ -48,6 +48,34 @@ retiring old Hamr services, and requires `KillMode=process` before stopping an
 old GTK launcher so launched apps survive. Old config/state is retained.
 Runtjik does not implement clipboard history; it does not claim Super+V.
 
+## Duplicate desktop entries
+
+`cleanup-launcher-entries.py --apply` removes proven obsolete shortcuts, saving
+changed files under `~/.local/state/runtjik/desktop-entry-archives/` first. Tjikup's
+Runtjik installer runs this cleanup and regenerates the desktop MIME cache.
+
+- Brave ships both IDs but marks `com.brave.Browser.desktop` `NoDisplay=true`.
+  Our override removed that flag. Retain the configured `brave-browser.desktop`
+  and remove the local compatibility override so the RPM's hidden alias works.
+- Retire `dev.zed.desktop` in favour of Zed's `dev.zed.Zed.desktop`; keep Preview
+  separate. Retire the extra `com.google.Chrome.canary.desktop` in favour of the
+  package's `google-chrome-canary.desktop`.
+- Telegram generates `org.telegram.desktop._<MD5(binary path)>.desktop`.
+  `/opt/Telegram/Telegram` produces `3e485da34fc040f9218e3891ecde1e6c`; manage that
+  same ID and its MIME associations instead of producing a second shortcut.
+- The older Photos and Codex LB PWA IDs were absent from FirefoxPWA's registry.
+  Remove those stale shortcuts only when the registry confirms they are orphaned
+  and their replacement remains registered. Never delete a live registration.
+- Evince/GNOME Terminal were separately installed legacy programs. Retain
+  Papers and Kitty, removing the redundant packages after
+  checking the package-manager removal plan. Ptyxis was subsequently removed too:
+  Kitty handles Super+Return and Runtjik terminal commands, and nothing requires
+  Ptyxis. The PDF default remains Readest.
+
+Runtjik no longer merges or relabels live duplicates. Historical statistics from
+retired IDs remain associated with their surviving application. The generated
+`mimeinfo.cache` is ignored by Chezmoi so stale associations are not restored.
+
 ## GitHub release authentication
 
 All GitHub API lookups in the Chezmoi and Chezetc installers use the common

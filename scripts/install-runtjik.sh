@@ -9,6 +9,7 @@ python3 "$repo_dir/scripts/cache-install.py" runtjik \
     --input "$tool_repo/apps/runtjik" --input "$repo_dir/scripts/cache-install.py" \
     --output "$HOME/.local/bin/runtjik" --output "$HOME/.local/lib/runtjik" \
     -- bash -c 'bash "$1/apps/runtjik/scripts/build.sh" && bash "$1/apps/runtjik/scripts/install.sh"' _ "$tool_repo"
+python3 "$repo_dir/scripts/cleanup-launcher-entries.py" --apply
 "$HOME/.local/bin/runtjik" check
 # No GUI or user service is started on the server. On desktops, retire only the
 # launcher processes, preserving applications in the old Hamr service cgroup.

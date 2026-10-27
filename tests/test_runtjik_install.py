@@ -23,6 +23,7 @@ class RuntjikInstallTests(unittest.TestCase):
         self.script.write_text((ROOT / 'scripts/install-runtjik.sh').read_text()
                                .replace('$HOME', '${RUNTJIK_TEST_HOME}'))
         (scripts / 'ensure-tooltjik.sh').write_text('tool_repo="$TOOLTJIK_REPO"\nensure_tooltjik() { :; }\n')
+        (scripts / 'cleanup-launcher-entries.py').write_text('')
         (scripts / 'cache-install.py').write_text(
             'import subprocess,sys\nraise SystemExit(subprocess.call(sys.argv[sys.argv.index("--")+1:]))\n')
         tools = root / 'tools/apps/runtjik/scripts'

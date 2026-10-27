@@ -8,3 +8,12 @@
 .config/systemd/user/rclone-crypt.service
 .config/systemd/user/default.target.wants/rclone-crypt.service
 {{ end -}}
+
+# Retired duplicate desktop producers; canonical entries remain managed.
+{{ if .isClient -}}
+.local/share/applications/dev.zed.desktop
+.local/share/applications/zed.desktop
+.local/share/applications/com.brave.Browser.desktop
+.local/share/applications/com.google.Chrome.canary.desktop
+.local/share/applications/org.telegram.desktop
+{{ end -}}

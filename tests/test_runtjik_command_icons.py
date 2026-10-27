@@ -19,7 +19,8 @@ class CommandIconTests(unittest.TestCase):
         manifest = json.loads((ROOT/'scripts/icons/command-icons.json').read_text())
         commands = {command: key for key, entry in manifest.items() for command in entry['commands']}
         self.assertEqual(set(commands), {'/refresh','/pin','/grid','/list','/stats','/config','/shortcuts','/bindings'})
-        self.assertEqual(len(manifest), 7)
+        self.assertEqual(len(manifest), 8)
+        self.assertEqual({key for key,entry in manifest.items() if entry['role']=='shell'}, {'fish'})
         self.assertEqual(commands['/bindings'], commands['/shortcuts'])
 
     def test_sources_and_generated_theme_are_identical_self_contained_vectors(self):

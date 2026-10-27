@@ -13,6 +13,14 @@ loader.exec_module(viewer)
 
 
 class ViewerTests(unittest.TestCase):
+    def test_selector_rewrite_preserves_comments_strings_and_trailing_metadata(self):
+        metadata = '/* ' + '.minimal-theme { example } ' * 10000 + '*/'
+        css = '.minimal-theme { content: ".minimal-theme {"; --url: url("x{y}"); }' + metadata
+        result = viewer.bake_classes(css, {'minimal-theme'})
+        self.assertTrue(result.startswith(':is(body) { content: ".minimal-theme {";'))
+        self.assertTrue(result.endswith(metadata))
+        self.assertIn('url("x{y}")', result)
+
     def test_style_settings_without_plugins(self):
         css = '''/* @settings
 id: minimal-style

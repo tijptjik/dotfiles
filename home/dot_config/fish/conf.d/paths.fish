@@ -62,7 +62,11 @@ fish_add_path $HOME/.local/bin
 # `fish_user_paths`, which is universal and otherwise makes old worktrees win
 # command lookup in unrelated shells.
 function __fish_is_project_bin --argument-names candidate
+    # Only a repository root bin can be a project bin. Avoid launching Git
+    # for every ordinary PATH entry on every shell startup.
+    string match -rq '/bin/?$' -- "$candidate"; or return 1
     test -d "$candidate"; or return 1
+    test -e (path dirname "$candidate")/.git; or return 1
 
     set -l root (command git -C (path dirname "$candidate") rev-parse --show-toplevel 2>/dev/null)
     test -n "$root"; and test (path resolve "$candidate") = (path resolve "$root/bin")
@@ -95,5 +99,4 @@ function __fish_sync_project_bin --on-variable PWD
     end
 end
 
-__fish_prune_project_bins
-__fish_sync_project_bin
+# config.fish runs cleanup once, after virtualenv and fnm initialization.

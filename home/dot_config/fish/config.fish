@@ -20,25 +20,7 @@ end
 # INCLUDES
 # #######################
 
-set FISHCONFIG "$HOME/.config/fish/conf.d"
-
-# Environment Variables | FRCV
-source "$FISHCONFIG/variables.fish"
-
-# Secrets | FRCK
-source "$FISHCONFIG/secrets.fish"
-
-# Path Modifications | FRCP
-source "$FISHCONFIG/paths.fish"
-
-# Aliases | FRCA
-source "$FISHCONFIG/aliases.fish"
-
-# Functions | FRCF
-source "$FISHCONFIG/utils.fish"
-
-# Shell initialisations | FRCS
-source "$FISHCONFIG/shell.fish"
+# Fish loads conf.d automatically before this file. Do not source it twice.
 
 # Activate UV Shell - see utils.fish
 workon
@@ -50,7 +32,8 @@ end
 
 # `workon` and fnm can restore an inherited PATH after paths.fish has run.
 # Apply its worktree-bin cleanup once shell initialisation is complete.
-source "$FISHCONFIG/paths.fish"
+__fish_prune_project_bins
+__fish_sync_project_bin
 
 # LLMTrim is scoped to Herdr. Remove only its stale inherited environment from
 # ordinary shells; Herdr's launcher marks its panes so their proxy stays intact.

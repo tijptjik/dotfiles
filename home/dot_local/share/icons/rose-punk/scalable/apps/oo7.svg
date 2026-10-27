@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g id="frameless-artwork" transform="translate(-13.707165 -12.573209) scale(1.395639)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#material-oo7-1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x="8" y="8">
+  <defs><linearGradient id="material-oo7-1" x1="0.0" y1="0.0" x2="8.399999999999999" y2="24.0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f3a0ad" /><stop offset=".32" stop-color="#eb6f92" /><stop offset="1" stop-color="#b05b7d" /></linearGradient></defs><path d="M18.9 7a8 8 0 0 1 1.1 5v1a6 6 0 0 0 .8 3" />
+  <path d="M8 11a4 4 0 0 1 8 0v1a10 10 0 0 0 2 6" />
+  <path d="M12 11v2a14 14 0 0 0 2.5 8" />
+  <path d="M8 15a18 18 0 0 0 1.8 6" />
+  <path d="M4.9 19a22 22 0 0 1 -.9 -7v-1a8 8 0 0 1 12 -6.95" />
+</svg>
+</g></svg>

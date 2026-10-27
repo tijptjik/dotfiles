@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g id="frameless-artwork" transform="translate(-5.779915 -5.632337) scale(1.180622)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="body" x2="0" y2="1"><stop stop-color="#8b9fe4" /><stop offset="1" stop-color="#7387ca" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><rect x="11" y="13" width="42" height="38" rx="5" fill="url(#body)" /><path d="M11 23h42" fill="none" stroke="#b5cfdf" stroke-width="2" /><path d="m16 14 6 8m7-8 6 8m7-8 6 8" fill="none" stroke="#f5eedf" stroke-width="2.5" /><path d="m26 29 14 8-14 8Z" fill="#f7efdf" /></g></g></svg>

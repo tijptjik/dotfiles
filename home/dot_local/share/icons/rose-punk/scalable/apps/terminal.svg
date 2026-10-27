@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g id="frameless-artwork" transform="translate(-4.363636 -4.363636) scale(1.136364)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="terminal-glass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#394761" /><stop offset="1" stop-color="#2c344b" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="12" width="44" height="40" rx="4" fill="#8f9ebc" /><rect x="12" y="14" width="40" height="35" rx="2.5" fill="url(#terminal-glass)" /><path d="m20 23 8 8-8 8m15 0h9" fill="none" stroke="#f4eedf" stroke-width="3" /><circle cx="47" cy="46" r="0.8" fill="#91d4c1" /></g></g></svg>

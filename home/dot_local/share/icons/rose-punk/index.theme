@@ -1,7 +1,6 @@
 [Icon Theme]
-Name=Rose Punk (Outline archive)
-Hidden=true
-Comment=Hand-drawn rose and lilac application icons
+Name=Rose Punk
+Comment=Primary frameless Rose Punk application icons
 Directories=scalable/apps
 Inherits=Neuwaita,Adwaita,hicolor
 

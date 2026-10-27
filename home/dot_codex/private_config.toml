@@ -151,6 +151,9 @@ trust_level = "trusted"
 [projects."/home/io/Documents/Codex/2026-09-24/referenced-chatgpt-conversation-this-is-an"]
 trust_level = "trusted"
 
+[projects."/home/io/code/tooltjik"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 screen_reader_detection_done = true
@@ -169,7 +172,7 @@ sansFontSize = 12
 appearanceDiffMarkerStyle = "color"
 open-local-url-in-target-preference = "external-browser"
 git-commit-instructions = "use conventional commit style"
-conversationDetailMode = "STEPS_COMMANDS"
+conversationDetailMode = "STEPS_PROSE"
 keepRemoteControlAwakeWhilePluggedIn = true
 
 [desktop.open-in-target-preferences]
@@ -239,6 +242,9 @@ enabled = true
 enabled = true
 
 [plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."code-review@openai-bundled"]
 enabled = true
 
 [features]

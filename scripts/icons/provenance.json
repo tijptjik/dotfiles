@@ -231,13 +231,20 @@
     "material_revision": 7
   },
   "sublime-text": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/sublimetext.svg",
-    "license": "CC0-1.0",
-    "sha256": "b930796e77395e665744d7f37a075007feb41c75c711b8413a831faf1b23f449",
-    "reference": "upstream/sublime-official.svg",
-    "reference_sha256": "fb3faf9b15f0033177aebcb0a905d45a6e3ecb575b436685b3994761577c6c30",
-    "material_revision": 1,
-    "design_note": "Original pale amber ramp and silhouette retained with a narrow copper edge for visibility on light backgrounds."
+    "source": "scripts/icons/local/sublime-text.svg",
+    "license": "Sublime Text official brand artwork; underlying Sublime HQ rights retained; unofficial themed adaptation",
+    "sha256": "b7ba53f07ac61d89b66125348cb64d605766e030ae9c1a29a1bba862fb85efad",
+    "reference": "https://www.sublimetext.com/images/logo.svg",
+    "reference_sha256": "607c5dd40873c6ae788e676963a48701299a2f9b30a9615eb1234d81b700dfd2",
+    "material_revision": 3,
+    "design_note": "The three curved ribbon faces are taken from Sublime Text\u2019s official wordmark SVG. Amber front faces and a copper return fold sit on the quiet charcoal backing used in established Sublime desktop icons; no raised rim or theme-wide tile.",
+    "reference_file": "scripts/icons/upstream/sublime-brand.svg",
+    "inspiration": [
+      {
+        "url": "https://github.com/PapirusDevelopmentTeam/papirus-icon-theme/blob/master/Papirus/64x64/apps/sublime-text.svg",
+        "use": "Established charcoal app backing and folded ribbon presentation; no SVG paths copied"
+      }
+    ]
   },
   "zen": {
     "source": "scripts/icons/local/zen.svg",
@@ -521,13 +528,20 @@
     "material_revision": 8
   },
   "qgis-desktop": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/qgis.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "604e37e28a89ed9fb0f950cf66b9ac38c878b51d385bdf631e05ebf087053f87",
-    "reference": "upstream/qgis-desktop-source.svg",
-    "reference_sha256": "902702e1ca21f8fb9860c5f9bd5aea07c1940e4930cfe83ca74da840bb9d6dba",
-    "material_revision": 10,
-    "design_note": "Gold Q and arrow facets retained with a fine copper contour for visibility on light surfaces."
+    "source": "scripts/icons/local/qgis-desktop.svg",
+    "license": "QGIS official brand artwork; underlying QGIS project rights retained; unofficial themed adaptation",
+    "sha256": "297184d7f8e2208fd3412e693e57190d0f9c5872a7c7d295e285d80565ceb996",
+    "reference": "https://www.qgis.org/styleguide/visual/qgis-icon64.svg",
+    "reference_sha256": "31a00d54f861b236086b98b575cb3030f3e466b0f7d6ef7c64ca4df2981c29d0",
+    "material_revision": 12,
+    "design_note": "Official QGIS 64px geometry retains the connected Q and arrow. Jade, coral and amber faces have restrained material ramps and colored contour edges. No pencil strip, artificial arrow gap, diagonal gloss or ground shadow.",
+    "reference_file": "scripts/icons/upstream/qgis-brand64.svg",
+    "inspiration": [
+      {
+        "url": "https://www.qgis.org/styleguide/",
+        "use": "Official brand geometry and identifying structure"
+      }
+    ]
   },
   "scrcpy": {
     "source": "scripts/icons/local/scrcpy.svg",
@@ -679,13 +693,19 @@
     }
   },
   "power": {
-    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/power.svg",
-    "license": "MIT",
-    "sha256": "277021e5de98826dc43e31b950f87be8393b25b8bff16bd16df19624201ea000",
+    "source": "scripts/icons/local/power.svg",
+    "license": "Original artwork using the standard IEC power symbol",
+    "sha256": "42e439bed8df57981513f8b1dfb021bcb124b6c82cf0a05bc5f575c29ccccd8a",
     "reference": "scripts/icons/references/tabler-power.svg",
     "reference_sha256": "2a872241a3059da7e3157fc5fbd8b8dfd40a10825934a23dd5e7f43cb4ae1df9",
-    "material_revision": 1,
-    "design_note": "Original pale amber ramp and silhouette retained with a narrow copper edge for visibility on light backgrounds."
+    "material_revision": 3,
+    "design_note": "Original physical push-button illustration informed by established shutdown-button icons: rose face, violet side wall, restrained side grip and a single dark IEC power engraving. No separate ground shadow or shared tile.",
+    "inspiration": [
+      {
+        "url": "https://github.com/suru-plus/suru-plus/blob/master/Suru%2B%2B/apps/scalable/system-shutdown.svg",
+        "use": "Power button construction; no SVG paths copied"
+      }
+    ]
   },
   "docker": {
     "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/docker.svg",
@@ -722,13 +742,20 @@
     "design_note": "Muted jade pigment with a restrained tonal ramp for light and plum surfaces; original N silhouette retained."
   },
   "python": {
-    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/python.svg",
-    "license": "CC0-1.0",
-    "sha256": "64366a99ecdfccefcbf188ef0507da2e6706aae74e1b144f9b09507b687d681c",
-    "reference": "references/simple-python.svg",
-    "reference_sha256": "adca85e1d0bd6d796abea422d983fd131a432fe78efeac58af18461eb1548780",
-    "material_revision": 10,
-    "design_note": "Golden Python silhouette and original apertures retained; a fine copper edge defines the snakes against light surfaces."
+    "source": "scripts/icons/local/python.svg",
+    "license": "Python Software Foundation logo; PSF trademark and artwork rights retained; unofficial themed adaptation",
+    "sha256": "ea5f4f9c2f93b47045819bb1f9636e8a6a8c48aac471abdba366f5cb3cba9742",
+    "reference": "https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/files/python-logo-only.svg",
+    "reference_sha256": "baec8662a1461c2cacc326b54d2727cb2f1ce07ba02d00f5b826d035104f649f",
+    "material_revision": 12,
+    "design_note": "Exact smooth curves and eye apertures from the PSF two-snakes SVG. Blue and amber enamel faces use restrained ramps, violet/rose material edges and dark eyes; original cast shadow omitted.",
+    "reference_file": "scripts/icons/upstream/python-psf.svg",
+    "inspiration": [
+      {
+        "url": "https://www.python.org/community/logos/",
+        "use": "Official brand geometry and identifying structure"
+      }
+    ]
   },
   "rust": {
     "source": "scripts/icons/local/rust.svg",

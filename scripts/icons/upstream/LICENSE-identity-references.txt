@@ -1,0 +1,17 @@
+Official identity references used for unofficial Rose Punk adaptations
+
+python-psf.svg: Python Software Foundation
+Source: https://www.python.org/community/logos/
+Downloaded asset: https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/files/python-logo-only.svg
+Brand policy: https://www.python.org/psf/trademarks/
+
+sublime-brand.svg: Sublime HQ / Sublime Text
+Source and downloaded asset: https://www.sublimetext.com/images/logo.svg
+
+qgis-brand64.svg: QGIS project
+Source: https://www.qgis.org/styleguide/
+Downloaded asset: https://www.qgis.org/styleguide/visual/qgis-icon64.svg
+
+The original SVG files and any embedded source metadata are retained.
+Application names, marks and underlying artwork rights remain with their owners.
+These references do not grant a new license or imply endorsement of this theme.

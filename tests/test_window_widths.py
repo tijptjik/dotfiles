@@ -34,6 +34,7 @@ hl = {window_rule = function(rule)
     order[rule.name] = #order + 1
     table.insert(order, rule.name)
 end}
+package.path = arg[3] .. "/?.lua;" .. package.path
 dofile(arg[1])
 assert(rules.zed.scrolling_width == 1.0)
 assert(rules.zed.match.class == "^dev[.]zed[.]Zed(-Preview|-Nightly)?$")
@@ -70,4 +71,4 @@ end
 '''
                 check = root / 'check.lua'
                 check.write_text(script)
-                subprocess.run(['lua', str(check), str(rules), host], check=True)
+                subprocess.run(['lua', str(check), str(rules), host, str(ROOT / 'home/dot_config/hypr')], check=True)

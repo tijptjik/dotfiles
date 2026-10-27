@@ -8,6 +8,8 @@ local super_mod = "SUPER"
 local tools = "$HOME/.tools"
 local config = "$HOME/.config"
 local helpers = require("helpers")
+local scrolling_shortcuts = require("scrolling_shortcuts")
+require("workspace_reminder").start()
 
 -- #######################
 -- KEY BINDINGS : UTILS
@@ -67,15 +69,11 @@ hl.bind(super("Q", "SHIFT"), hl.dsp.exit())
 -- Switch the default layout for an immediate scrolling/master comparison.
 hl.bind(super("F6"), function() hl.config({ general = { layout = "scrolling" } }) end)
 hl.bind(super("F7"), function() hl.config({ general = { layout = "master" } }) end)
--- Scrolling controls; existing arrows still focus/move/resize windows.
-hl.bind(super("bracketleft"), hl.dsp.layout("colresize -conf"))
-hl.bind(super("bracketright"), hl.dsp.layout("colresize +conf"))
+-- Scrolling viewport controls.
 hl.bind(super("Page_Up"), hl.dsp.layout("move -col"))
 hl.bind(super("Page_Down"), hl.dsp.layout("move +col"))
 hl.bind(super("Home"), hl.dsp.layout("fit active"))
 hl.bind(super("End"), hl.dsp.layout("fit all"))
-hl.bind(super("bracketleft", "CTRL"), hl.dsp.layout("consume"))
-hl.bind(super("bracketright", "CTRL"), hl.dsp.layout("expel"))
 hl.bind(super("mouse_up", "ALT"), hl.dsp.layout("move -col"))
 hl.bind(super("mouse_down", "ALT"), hl.dsp.layout("move +col"))
 
@@ -91,31 +89,33 @@ hl.bind(super("O"), hl.dsp.window.pseudo())
 -- Toggle full screen.
 hl.bind(super("F"), hl.dsp.window.fullscreen({ mode = "maximized" }))
 
--- Focus
+-- Focus adjacent columns, or windows within the current column.
 hl.bind(super("Left"), function() require("scrolling_gaps").focus("l") end)
 hl.bind(super("Right"), function() require("scrolling_gaps").focus("r") end)
-hl.bind(super("Up"), hl.dsp.focus({ direction = "u" }))
-hl.bind(super("Down"), hl.dsp.focus({ direction = "d" }))
+hl.bind(super("Up"), hl.dsp.layout("focus u"))
+hl.bind(super("Down"), hl.dsp.layout("focus d"))
 
--- Move Window
-hl.bind(super("Left", "CTRL"), hl.dsp.window.move({ direction = "l" }))
-hl.bind(super("Right", "CTRL"), hl.dsp.window.move({ direction = "r" }))
-hl.bind(super("Up", "CTRL"), hl.dsp.window.move({ direction = "u" }))
-hl.bind(super("Down", "CTRL"), hl.dsp.window.move({ direction = "d" }))
+-- Reorder entire columns horizontally; reorder windows vertically with wrapping.
+hl.bind(super("Left", "SHIFT"), function() scrolling_shortcuts.move_column("l") end)
+hl.bind(super("Right", "SHIFT"), function() scrolling_shortcuts.move_column("r") end)
+hl.bind(super("Up", "SHIFT"), function() scrolling_shortcuts.reorder("u") end)
+hl.bind(super("Down", "SHIFT"), function() scrolling_shortcuts.reorder("d") end)
+
+-- Transfer into an existing adjacent column, or extract into a new column.
+hl.bind(super("Left", "CTRL"), function() scrolling_shortcuts.transfer("l") end)
+hl.bind(super("Right", "CTRL"), function() scrolling_shortcuts.transfer("r") end)
+hl.bind(super("Left", "SHIFT", "CTRL"), function() scrolling_shortcuts.extract("l") end)
+hl.bind(super("Right", "SHIFT", "CTRL"), function() scrolling_shortcuts.extract("r") end)
+
+-- Absolute column widths.
+hl.bind(super("Up", "ALT"), function() require("scrolling_gaps").resize(1.0) end)
+hl.bind(super("Right", "ALT"), function() require("scrolling_gaps").resize(0.75) end)
+hl.bind(super("Down", "ALT"), function() require("scrolling_gaps").resize(0.5) end)
+hl.bind(super("Left", "ALT"), function() require("scrolling_gaps").resize(0.25) end)
 
 -- Cycle Window
 hl.bind(super("TAB"), hl.dsp.window.swap({ next = true }))
 hl.bind(super("TAB", "SHIFT"), hl.dsp.window.swap({ prev = true }))
-
--- Resize Window (layout-independent; keep Shift as an alias)
-hl.bind(super("Left", "ALT"), hl.dsp.window.resize({ x = -128, y = 0, relative = true }))
-hl.bind(super("Right", "ALT"), hl.dsp.window.resize({ x = 128, y = 0, relative = true }))
-hl.bind(super("Up", "ALT"), hl.dsp.window.resize({ x = 0, y = -128, relative = true }))
-hl.bind(super("Down", "ALT"), hl.dsp.window.resize({ x = 0, y = 128, relative = true }))
-hl.bind(super("Left", "SHIFT"), hl.dsp.window.resize({ x = -128, y = 0, relative = true }))
-hl.bind(super("Right", "SHIFT"), hl.dsp.window.resize({ x = 128, y = 0, relative = true }))
-hl.bind(super("Up", "SHIFT"), hl.dsp.window.resize({ x = 0, y = -128, relative = true }))
-hl.bind(super("Down", "SHIFT"), hl.dsp.window.resize({ x = 0, y = 128, relative = true }))
 
 -- Window Mouse Manipulation
 hl.bind(super("mouse:272"), helpers.panel_aware_drag)

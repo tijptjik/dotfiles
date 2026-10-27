@@ -68,11 +68,20 @@ hl.curve("cubicBezier", {
     points = { { 0.22, 1 }, { 0.36, 1 } },
 })
 
+-- A non-overshooting curve for scrolling and the small gap-size adjustment.
+hl.curve("scrollingEase", {
+    type = "bezier",
+    points = { { 0.25, 0.1 }, { 0.25, 1 } },
+})
+
 hl.animation({ leaf = "windows", enabled = true, speed = 7, bezier = "myBezier" })
-hl.animation({ leaf = "windowsMove", enabled = true, speed = 3, bezier = "cubicBezier" })
+hl.animation({ leaf = "windowsMove", enabled = true, speed = 2.2, bezier = "scrollingEase" })
 hl.animation({ leaf = "windowsOut", enabled = true, speed = 7, bezier = "default", style = "popin 90%" })
-hl.animation({ leaf = "border", enabled = true, speed = 10, bezier = "default" })
+hl.animation({ leaf = "border", enabled = true, speed = 1.8, bezier = "scrollingEase" })
 hl.animation({ leaf = "fade", enabled = true, speed = 7, bezier = "default" })
+-- Keep focus decoration fades from trailing the moving window.
+hl.animation({ leaf = "fadeShadow", enabled = true, speed = 1.2, bezier = "scrollingEase" })
+hl.animation({ leaf = "fadeDim", enabled = true, speed = 1.2, bezier = "scrollingEase" })
 -- Layer-shell clients, including Bartjik, use this fade instead of a slide.
 hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 5, bezier = "cubicBezier" })
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 5, bezier = "cubicBezier" })
@@ -152,7 +161,8 @@ hl.config({
 hl.config({
     render = {
         cm_auto_hdr = 1,
-        direct_scanout = 1,
+        -- Avoid scanout/compositing switches for gapless desktop columns.
+        direct_scanout = 2, -- Games only.
     },
 })
 

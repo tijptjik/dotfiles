@@ -1,70 +1,35 @@
--- Focus-sensitive gaps for ordinary tiled scrolling columns. Never fullscreen.
+-- Navigation and sizing only. The scrolling-gaps plugin owns per-window geometry;
+-- never change workspace gaps here, since that resizes unrelated columns.
 local scrolling_gaps = {}
-local subscriptions
-local pending
-local rules = {}
-local enabled = {}
 
-function scrolling_gaps.update()
-    local window = hl.get_active_window()
-    -- Scratchpads and floating overlays are outside the scrolling flow. Focus
-    -- can briefly be nil while opening them; that must not reflow the strip.
+-- Kept for monitor-arrival callers; native layout mutations already recalculate.
+function scrolling_gaps.update() end
+-- Compatibility during a scoped apply while an older root config is still loaded.
+function scrolling_gaps.start() end
+
+local function strip(window)
     if not window or not window.mapped or window.floating or not window.workspace
         or window.workspace.id <= 0 then return end
     local layout = window.layout
-    if not layout or layout.name ~= "scrolling" then return end
-    local column = layout.column
-    local workspace = window.workspace.id
-    local gapless = window.fullscreen == 0 and window.fullscreen_client == 0
-        and column ~= nil and math.abs(column.width - 1.0) < 0.001
-        and #column.windows == 1
-    -- Each strip remembers its own mode. Only another tiled window in that
-    -- same workspace can change it; other monitors/workspaces are independent.
-    if gapless == (enabled[workspace] or false) then return end
-    enabled[workspace] = gapless
-    if rules[workspace] then
-        rules[workspace]:set_enabled(gapless)
-    elseif gapless then
-        -- Use a distinct selector, preserving the existing ID/monitor rules.
-        rules[workspace] = hl.workspace_rule({
-            workspace = "r[" .. workspace .. "-" .. workspace .. "] s[false]",
-            gaps_in = 0, gaps_out = 0, border_size = 0, no_rounding = true,
-        })
-    end
+    if not layout or layout.name ~= "scrolling" or not layout.column then return end
+    return window.workspace.id, layout.column
 end
 
-function scrolling_gaps.start()
-    if subscriptions then return end
-    local function schedule()
-        if pending then return end
-        pending = hl.timer(function()
-            pending = nil
-            scrolling_gaps.update()
-        end, { timeout = 20, type = "oneshot" })
-    end
-    subscriptions = {
-        hl.on("window.active", scrolling_gaps.update),
-        hl.on("window.open", schedule),
-        hl.on("window.close", schedule),
-    }
-    schedule()
+function scrolling_gaps.resize(width)
+    if not strip(hl.get_active_window()) then return end
+    return hl.dispatch(hl.dsp.layout("colresize " .. tostring(width)))
 end
 
--- Prefer native strip navigation while a neighboring column exists, and
--- retain ordinary monitor navigation at the ends of the strip.
 function scrolling_gaps.focus(direction)
-    local window = hl.get_active_window()
-    local layout = window and window.layout
-    if layout and layout.name == "scrolling" and layout.column and window.workspace then
-        local index = layout.column.index
+    local workspace, column = strip(hl.get_active_window())
+    if workspace then
         for _, candidate in ipairs(hl.get_windows()) do
-            local other = candidate.layout
-            if candidate.mapped and not candidate.floating and candidate.workspace
-                and candidate.workspace.id == window.workspace.id
-                and other and other.name == "scrolling" and other.column
-                and ((direction == "l" and other.column.index < index)
-                    or (direction == "r" and other.column.index > index)) then
-                return hl.dispatch(hl.dsp.layout("focus " .. direction))
+            local other_workspace, other = strip(candidate)
+            if other_workspace == workspace then
+                local delta = other.index - column.index
+                if (direction == "l" and delta < 0) or (direction == "r" and delta > 0) then
+                    return hl.dispatch(hl.dsp.layout("focus " .. direction))
+                end
             end
         end
     end

@@ -13,6 +13,8 @@
 -- GENERAL
 -- #######################
 
+local widths = require("scrolling_widths")
+
 -- SMART GAPS
 hl.window_rule({
     name = "smart-gaps",
@@ -63,7 +65,7 @@ hl.window_rule({
     match = { initial_title = "^bartjik-detached:.*$" },
 })
 
-hl.window_rule({
+widths.rule({
     name = "kitty",
     scrolling_width = 0.5,
     -- no_anim = true,
@@ -80,13 +82,13 @@ local app_widths = {
 }
 
 for _, app in ipairs(app_widths) do
-    hl.window_rule({
+    widths.rule({
         name = app.name .. "-width",
         scrolling_width = 0.5,
         match = { class = app.class },
     })
 {{- if .isDesktop }}
-    hl.window_rule({
+    widths.rule({
         name = app.name .. "-secondary-width",
         scrolling_width = app.secondary,
         match = { class = app.class, workspace = "m[DP-2]" },
@@ -120,7 +122,7 @@ hl.window_rule({
     match = { class = "kitty", title = "^(herdr ~)$" },
 })
 
-hl.window_rule({
+widths.rule({
     name = "zed",
     scrolling_width = 1.0,
     border_size = 0,
@@ -172,7 +174,7 @@ hl.window_rule({
     match = { class = "FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD" },
 })
 
-hl.window_rule({
+widths.rule({
     name = "zen",
     scrolling_width = 0.5,
     -- Use the shared compositor frame, just like Kitty.
@@ -182,14 +184,14 @@ hl.window_rule({
 
 {{- if .isDesktop }}
 -- Match the workspace's monitor, not a numeric monitor ID (which can change).
--- These static rules set initial widths; moving an existing window does not resize it.
-hl.window_rule({
+-- Arrival handling reuses these same matches and widths after monitor transfers.
+widths.rule({
     name = "zen-secondary-width",
     scrolling_width = 1.0,
     match = { class = "zen", workspace = "m[DP-2]" },
 })
 
-hl.window_rule({
+widths.rule({
     name = "kitty-secondary-width",
     scrolling_width = 0.75,
     match = { class = "kitty", workspace = "m[DP-2]" },
@@ -285,7 +287,7 @@ hl.window_rule({
     match = { class = "^(feishin)$" },
 })
 
-hl.window_rule({
+widths.rule({
     name = "spotify",
     scrolling_width = 1.0,
 {{- if .isDesktop }}

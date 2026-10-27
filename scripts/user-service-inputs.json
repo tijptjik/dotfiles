@@ -1,7 +1,7 @@
 {
-  "notjik.service": ["~/.local/bin/notjik", "~/.local/lib/notjik", "~/.config/notjik", "/usr/bin/quickshell"],
+  "notjik.service": ["~/.local/bin/notjik", "~/.local/lib/notjik", "~/.config/notjik", "/usr/bin/quickshell", "/usr/bin/python3"],
   "notjik-telegram.service": ["~/.local/bin/notjikctl", "~/.local/lib/notjik", "~/.local/share/notjik/telegram-venv"],
-  "bartjik.service": ["~/.local/bin/bartjik", "~/.local/lib/bartjik", "~/.config/bartjik", "/usr/bin/quickshell", "/usr/bin/fish"],
+  "bartjik.service": ["~/.local/bin/bartjik", "~/.local/lib/bartjik", "~/.config/bartjik", "/usr/bin/quickshell", "/usr/bin/fish", "/usr/bin/python3"],
   "codex-lb.service": ["~/.codex-lb/runtime"],
   "collie.service": ["~/.config/herdr/plugins/github/herdr.collie-*/bridge", "/usr/local/bin/bun"],
   "hyprvoice.service": ["~/.local/bin/hyprvoice", "~/.config/hyprvoice"],

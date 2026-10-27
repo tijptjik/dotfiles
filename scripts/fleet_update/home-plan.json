@@ -282,12 +282,24 @@
       "storage",
       "collie",
       "notjik",
-      "bartjik"
+      "bartjik",
+      "runtjik",
+      "greetjik",
+      "python",
+      "rose-punk-icons",
+      "fonts",
+      "vite",
+      "mullvad",
+      "prowlarr",
+      "sublime-text",
+      "obsidian",
+      "archives"
     ],
     "resources": [
       "user-systemd"
     ],
     "label": "Systemd (user services)",
-    "verb": "RELOAD"
+    "verb": "RELOAD",
+    "barrier": "updates-final"
   }
 ]

@@ -37,7 +37,8 @@ def plans(repo, system_repo):
     combine([Task("home:" + x["id"], None, tuple("home:" + n for n in x.get("needs", []))) for x in home],
             [Task("system:" + x["id"], None, ("system:files", *("system:" + n for n in x.get("needs", [])))) for x in system],
             Task("system:files", None, ("home:chezetc-wrapper",)),
-            {"system:" + x["id"]: x.get("barrier") for x in system})
+            {**{"home:" + x["id"]: x.get("barrier") for x in home},
+             **{"system:" + x["id"]: x.get("barrier") for x in system}})
     return home, system, policy
 
 
@@ -47,10 +48,17 @@ def combine(home_tasks, system_tasks, prepare, barriers=None):
     # Alternate layers so a long list of ready home hooks cannot postpone the
     # system package prerequisite chain until the end (or vice versa).
     tasks = [prepare, *(task for pair in zip_longest(system_tasks, home_tasks) for task in pair if task)]
-    for task in system_tasks:
+    for task in (*home_tasks, *system_tasks):
         # Final network policy and release checks follow home networking too.
         barrier = (barriers or {}).get(task.name)
-        if barrier == "network-final":
+        if barrier == "updates-final":
+            # Runtime refresh must follow every installer, including system
+            # packages. Network/release barriers already depend on home tasks.
+            task.needs = tuple(dict.fromkeys((*task.needs, *(
+                other.name for other in tasks if other is not task
+                and (barriers or {}).get(other.name) not in {"network-final", "final"}
+            ))))
+        elif barrier == "network-final":
             task.needs += home_names
         elif barrier == "final":
             task.needs = tuple(other.name for other in tasks if other is not task)
@@ -108,7 +116,8 @@ def apply(repo, system_repo=None):
                 ("system:files", *("system:" + dep for dep in item.get("needs", []))),
                 tuple(item.get("resources", [])), exclusive=item.get("exclusive", False)))
         tasks = combine(home_tasks, system_tasks, native,
-                        {"system:" + item["id"]: item.get("barrier") for item in system_plan})
+                        {**{"home:" + item["id"]: item.get("barrier") for item in home_plan},
+                         **{"system:" + item["id"]: item.get("barrier") for item in system_plan}})
         runtime.repo_header(title="Systjik", url="https://github.com/tijptjik/systjik")
         runtime.section_header("Home and system configuration")
         try:

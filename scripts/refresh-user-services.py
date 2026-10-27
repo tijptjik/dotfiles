@@ -123,6 +123,8 @@ def refresh(units, state, *, check=False):
         print(f"RESTART ✓ {unit} updated runtime active", flush=True)
     if not pending:
         print("__stage_note__:no runtime changes", flush=True)
+    elif not check:
+        print(f"__stage_note__:{pending} active units refreshed", flush=True)
 
 
 def main():

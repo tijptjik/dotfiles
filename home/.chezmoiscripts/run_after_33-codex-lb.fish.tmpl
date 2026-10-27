@@ -22,8 +22,7 @@ function sync_codex_lb
         uv pip install --python "$runtime/bin/python" --upgrade-package codex-lb codex-lb; or return $status
     end
 
-    # Restart manually between sessions: restarting this proxy interrupts
-    # active Codex requests, and startup may run database migrations.
+    # The final service hook activates changed runtimes after installation.
 end
 
 stage "Codex LB runtime" UPDATE "Codex LB" sync_codex_lb

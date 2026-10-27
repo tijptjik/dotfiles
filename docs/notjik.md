@@ -11,9 +11,11 @@ another checkout. Existing checkouts are never pulled by installers; update
 them before applying. Older `~/.local/share/tjikos` checkouts must be moved
 first; see the migration instructions in [Tjikup](tjikup.md).
 
-Notjik is enabled for graphical sessions and started when a
-session is active; an already running instance is not restarted, preserving
-in-flight replies and recordings. Server `si` skips this desktop hook and config.
+Notjik is enabled for graphical sessions and started when a session is active.
+The final service hook restarts a running instance when its installed runtime,
+configuration or unit changes, including the Telegram bridge if it is running.
+Finish in-flight replies and recordings before updating. Server `si` skips
+this desktop hook and config.
 
 For a manual installation from the tjikOS checkout:
 

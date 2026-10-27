@@ -19,6 +19,7 @@ systemctl --user disable --now codex-lb-laptop.service; or exit $status
 systemctl --user disable --now codex-lb-client.socket; or exit $status
 systemctl --user stop codex-lb-client.service; or exit $status
 {{ end -}}
+
 systemctl --user enable --now codex-lb.service; or exit $status
 {{ end -}}
 
@@ -167,3 +168,8 @@ else
     status_msg SKIP "-" "Google Drive backup" "credentials or first verified backup pending"
 end
 {{ end -}}
+
+# All installers finish before this hook in tjikup. Refresh changed active
+# runtimes as well as unit definitions; daemon-reload alone cannot do that.
+stage_dynamic_note 'Service runtimes' RESTART 'User services' python3 "{{ .chezmoi.sourceDir }}/../scripts/refresh-user-services.py"
+or exit $status

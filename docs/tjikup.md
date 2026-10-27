@@ -42,6 +42,33 @@ A missing checkout is left to the existing installer bootstrap; legacy checkout
 migration rules still apply. Installers run after this stage and retain their
 source-fingerprint checks.
 
+The final home service hook refreshes changed running user services after all
+home and system installers finish, before final network/release checks. It tracks
+unit definitions, entry points, installed code and configuration using content
+hashes in `~/.local/state/tjikup/user-services.json`. Notjik and its Telegram
+bridge, Bartjik, Codex LB, Collie, Hyprvoice, Hypridle, Hyprsunset, Hyprpaper,
+Hyprpolkitagent and oo7 are covered by
+[`user-service-inputs.json`](../scripts/user-service-inputs.json). Changed managed
+timers are rearmed without restarting their running jobs. Stopped services stay
+stopped, preserving idle/nightlight choices and headless sessions. Runtjik's
+installer already closes its resident launcher when its runtime changes; the
+next invocation launches the new version.
+
+The first refresh establishes the hash baseline by restarting covered active
+units once. Later unchanged applies skip them. Finish replies, recordings and
+Codex requests before updating: a changed service is restarted automatically.
+Backup/sync jobs, lock-screen activation, recording jobs and unrelated system
+daemons are outside this refresh; their existing lifecycle policies remain in
+effect. Failed restarts fail the apply and keep the previous hash for retry.
+The same refresh runs at the end of a direct `chezmoi apply`.
+
+Preview or refresh selected units without running the Git/update workflow:
+
+```sh
+python3 scripts/refresh-user-services.py --check
+python3 scripts/refresh-user-services.py --unit notjik.service --unit bartjik.service
+```
+
 The generated `~/.local/share/applications/mimeinfo.cache` is ignored by Chezmoi
 and excluded from capture. Desktop tools regenerate it from installed desktop
 entries, so Tjikup neither requires a tracked source nor captures or restores

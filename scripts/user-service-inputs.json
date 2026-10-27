@@ -1,0 +1,13 @@
+{
+  "notjik.service": ["~/.local/bin/notjik", "~/.local/lib/notjik", "~/.config/notjik", "/usr/bin/quickshell"],
+  "notjik-telegram.service": ["~/.local/bin/notjikctl", "~/.local/lib/notjik", "~/.local/share/notjik/telegram-venv"],
+  "bartjik.service": ["~/.local/bin/bartjik", "~/.local/lib/bartjik", "~/.config/bartjik", "/usr/bin/quickshell", "/usr/bin/fish"],
+  "codex-lb.service": ["~/.codex-lb/runtime"],
+  "collie.service": ["~/.config/herdr/plugins/github/herdr.collie-*/bridge", "/usr/local/bin/bun"],
+  "hyprvoice.service": ["~/.local/bin/hyprvoice", "~/.config/hyprvoice"],
+  "hypridle.service": ["/usr/bin/hypridle", "~/.config/hypr/hypridle.conf", "~/.local/bin/idle-inhibit"],
+  "hyprsunset.service": ["/usr/bin/hyprsunset", "~/.config/hypr/hyprsunset.conf", "~/.local/bin/nightlight"],
+  "hyprpaper.service": ["/usr/bin/hyprpaper", "~/.config/hypr/hyprpaper.conf"],
+  "hyprpolkitagent.service": ["/usr/libexec/hyprpolkitagent"],
+  "oo7-daemon.service": []
+}

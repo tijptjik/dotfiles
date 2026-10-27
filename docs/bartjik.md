@@ -12,8 +12,9 @@ Older `~/.local/share/tjikos` checkouts require the migration described in
 
 The installer restores the managed Fish service wrapper, reloads systemd and
 enables Bartjik. It starts the service in an active graphical session; headless
-runs leave startup to the next graphical login. Active Bartjik sessions are
-not restarted during routine applies.
+runs leave startup to the next graphical login. The final service hook restarts
+active Bartjik sessions when their installed runtime, configuration or unit
+changes. Identical reinstalls do not restart the bar.
 
 After installation succeeds, the migration masks the Waybar user service,
 stops directly launched Waybar and its old audio/network panels, and moves

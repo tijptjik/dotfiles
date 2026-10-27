@@ -113,7 +113,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=('check', 'build', 'package', 'cut', 'publish'), nargs='?', default='check')
     parser.add_argument('--output', type=Path, default=RELEASES, help='package output directory')
-    parser.add_argument('--version', help='immutable release version, e.g. 0.1.0-rc.1')
+    parser.add_argument('--version', help='release version (immutable once pushed or deployed), e.g. 0.1.0-rc.1')
     parser.add_argument('--site', type=Path, help='type.hk checkout to register the release in')
     parser.add_argument('--deploy', action='store_true', help='deploy type.hk and verify public hashes')
     args = parser.parse_args()
@@ -144,7 +144,8 @@ def main():
                 write_file(path, data)
         elif args.action == 'cut':
             from publish import cut, register, deploy
-            destination = cut(trees, files, args.output, args.version)
+            destination = cut(trees, files, args.output, args.version,
+                              args.site.resolve() if args.site else None)
             if args.site:
                 register(destination, args.site.resolve())
                 if args.deploy:
@@ -153,7 +154,7 @@ def main():
             package(trees, files, args.output)
         else:
             check_outputs(trees, files)
-    except (ValueError, OSError, ImportError, subprocess.CalledProcessError) as error:
+    except (ValueError, OSError, ImportError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
         parser.exit(1, str(error) + '\n')
     print({'check': 'All desktop, fleet, and Homepage outputs match their sources.',
            'build': 'Built desktop, fleet, and Homepage outputs; no deployment or approval.',

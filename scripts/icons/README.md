@@ -111,15 +111,22 @@ python3 -B scripts/icons/release.py cut --version 0.1.0-rc.1 \
   --site /home/io/code/type.hk --deploy
 ```
 
-Choose a fresh version for each release. `cut` is an explicit release decision:
+Choose a fresh version for each pushed or deployed release. `cut` is an explicit release decision:
 it authorizes deriving the framed counterpart of that exact frameless snapshot.
 It does not change the historical study approval file or install either theme.
 Ordinary `build`, `check` and `package` still never approve artwork or deploy.
 
 The output is `.local/icon-releases/<version>/`: both ZIPs (including aliases,
 attribution and licenses), a gallery snapshot, source/output hashes, renderer
-versions, source commit/dirty status and `SHA256SUMS`. Release versions cannot
-be overwritten. The existing offline check must pass; run `build` first if
+versions, source commit/dirty status and `SHA256SUMS`. Repeat `cut` with the same
+version to replace an unpublished snapshot and its local site registration.
+The old snapshot is retained until its replacement finishes building. Versions
+with deployment records or release files in the site's remote Git history
+cannot be overwritten. Replacement checks current remote refs; remote access
+errors block replacement. If a remote commit
+is missing locally, fetch it in the site checkout and retry. Pass the same
+`--site` when recutting to check its remotes and refresh its registry.
+The existing offline check must pass; run `build` first if
 intentional source edits made generated assets stale.
 
 Omit `--deploy` to prepare the registry without publishing. Omit `--site` too
@@ -136,8 +143,9 @@ The registry is served at `https://type.hk/rose-punk-releases/registry.json`;
 its download index is linked from the theme page. Existing versions are retained;
 the explicitly published version becomes `latest`. The gallery uses the same
 versioned assets. The command runs the site's `bun run check` and `bun run deploy`
-and then checks public download hashes. A deployment receipt is written only
-when those checks pass. Network or verification failure returns nonzero, even
+and then checks public download hashes. A deployment attempt marker locks the
+snapshot before uploading; a success receipt is written only when verification
+passes. Network or verification failure returns nonzero, even
 if Cloudflare already accepted the deployment; retry `publish` after resolving it.
 
 Deployment requires the site's Bun dependencies and Cloudflare credentials.

@@ -24,13 +24,54 @@ def validate_version(version):
         raise ValueError('Use a release version such as 0.1.0 or 0.1.0-rc.1')
 
 
-def cut(trees, files, output, version):
+def ensure_unpublished(snapshot, site=None):
+    """Only replace a version when neither deployment nor a remote push is present."""
+    version = snapshot.name
+    validate_version(version)
+    if any((snapshot.parent / (version + suffix)).exists()
+           for suffix in ('-deployment.json', '-deployment-started.json')):
+        raise ValueError(f'Release {version} has a deployment record; choose a new version or publish the existing snapshot')
+    if site is not None:
+        # Read current remote refs without modifying the site's checkout or index.
+        # Unknown remote objects fail closed; a normal git fetch makes them available.
+        remotes = subprocess.check_output(['git', 'remote'], cwd=site, text=True).splitlines()
+        heads = set()
+        for remote in remotes:
+            refs = subprocess.check_output(['git', 'ls-remote', '--heads', '--tags', remote],
+                                           cwd=site, text=True, timeout=30)
+            heads.update(line.split()[0] for line in refs.splitlines())
+        if heads:
+            try:
+                pushed = subprocess.check_output(
+                    ['git', 'log', '-1', '--format=%H', *sorted(heads), '--',
+                     f'public/rose-punk-releases/{version}/'], cwd=site, text=True).strip()
+            except subprocess.CalledProcessError as error:
+                raise ValueError('Cannot inspect remote release history; fetch in the site checkout and retry') from error
+            if pushed:
+                raise ValueError(f'Release {version} was pushed; choose a new version')
+
+
+def replace_snapshot(prepared, destination):
+    """Keep the previous snapshot until its complete replacement is ready."""
+    if not destination.exists():
+        prepared.rename(destination)
+        return
+    backup = prepared.parent / 'previous'
+    destination.rename(backup)
+    try:
+        prepared.rename(destination)
+    except OSError:
+        backup.rename(destination)
+        raise
+
+
+def cut(trees, files, output, version, site=None):
     """Explicit release action approves this snapshot for its framed derivative."""
     validate_version(version)
     destination = output / version
-    if destination.exists():
-        raise ValueError(f'Release already exists: {destination}; use a new version or publish the existing snapshot')
     release.check_outputs(trees, files)
+    if destination.exists() or (site is not None and (site / 'public/rose-punk-releases' / version).exists()):
+        ensure_unpublished(destination, site)
     output.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='.cut-', dir=output) as temporary:
         prepared = Path(temporary) / version
@@ -64,7 +105,7 @@ def cut(trees, files, output, version):
         write_file(prepared / 'release.json', encoded(manifest))
         checksums = {**manifest['artifacts'], 'release.json': release.sha256((prepared / 'release.json').read_bytes())}
         write_file(prepared / 'SHA256SUMS', ''.join(f'{digest}  {name}\n' for name, digest in sorted(checksums.items())).encode())
-        prepared.rename(destination)
+        replace_snapshot(prepared, destination)
     return destination
 
 
@@ -97,17 +138,19 @@ def register(snapshot, site):
     registry = json.loads(registry_path.read_text()) if registry_path.exists() else {'schema': 1, 'releases': []}
     version = manifest['version']
     target = registry_dir / version
-    # Never silently replace a published version; identical retry is safe.
+    # Identical retries are safe, even for a published version.
+    replace = not target.exists()
     if target.exists():
         verify_snapshot(target)
         if (target / 'release.json').read_bytes() != (snapshot / 'release.json').read_bytes():
-            raise ValueError(f'Published version {version} differs; choose a new version')
-    else:
+            ensure_unpublished(snapshot, site)
+            replace = True
+    if replace:
         registry_dir.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix='.register-', dir=registry_dir) as temporary:
             staging = Path(temporary) / version
             shutil.copytree(snapshot, staging)
-            staging.rename(target)
+            replace_snapshot(staging, target)
     entry = {'version': version, 'manifest': f'/rose-punk-releases/{version}/release.json',
              'sha256': release.sha256((snapshot / 'release.json').read_bytes()),
              'downloads': {name: f'/rose-punk-releases/{version}/{name}' for name in ('rose-punk.zip', 'rose-punk-framed.zip', 'SHA256SUMS')}}
@@ -136,6 +179,11 @@ def deploy(snapshot, site):
     if unrelated:
         raise ValueError('Commit or isolate unrelated type.hk changes before deployment:\n' + '\n'.join(unrelated))
     subprocess.run(['bun', 'run', 'check'], cwd=site, check=True)
+    # Cloudflare may accept a deployment even if the command or verification fails.
+    # Keep this marker on failure; publish can retry the same immutable snapshot.
+    write_file(snapshot.parent / (manifest['version'] + '-deployment-started.json'), encoded(
+        {'version': manifest['version'],
+         'manifest_sha256': release.sha256((snapshot / 'release.json').read_bytes())}))
     subprocess.run(['bun', 'run', 'deploy'], cwd=site, check=True)
     prefix = f'https://type.hk/rose-punk-releases/{manifest["version"]}/'
     # These downloads prove both variants and the exact manifest reached the origin.

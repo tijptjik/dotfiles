@@ -1,7 +1,9 @@
 """Release publication contracts without network or live site changes."""
 import io
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -66,7 +68,7 @@ class IconPublishTests(unittest.TestCase):
                 publish.register(snapshot, site)
             self.assertFalse((site / 'public').exists())
 
-    def test_existing_version_cannot_be_replaced(self):
+    def test_unpublished_registration_can_be_replaced_and_prunes_old_files(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             snapshot, site = self.snapshot(root), self.site(root)
@@ -74,8 +76,116 @@ class IconPublishTests(unittest.TestCase):
             manifest = json.loads((snapshot / 'release.json').read_text())
             manifest['source_commit'] = 'different'
             (snapshot / 'release.json').write_bytes(publish.encoded(manifest))
-            with self.assertRaisesRegex(ValueError, 'differs'):
+            target = site / 'public/rose-punk-releases/0.1.0'
+            (target / 'obsolete.svg').write_text('old')
+            with patch.object(publish, 'ensure_unpublished') as guard:
                 publish.register(snapshot, site)
+            guard.assert_called_once_with(snapshot, site)
+            self.assertFalse((target / 'obsolete.svg').exists())
+            self.assertEqual((target / 'release.json').read_bytes(), (snapshot / 'release.json').read_bytes())
+            registry = json.loads((target.parent / 'registry.json').read_text())
+            self.assertEqual(registry['releases'][0]['sha256'], release.sha256((snapshot / 'release.json').read_bytes()))
+
+    def test_published_registration_remains_unchanged(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            snapshot, site = self.snapshot(root), self.site(root)
+            publish.register(snapshot, site)
+            target = site / 'public/rose-punk-releases/0.1.0/release.json'
+            before = target.read_bytes()
+            manifest = json.loads(before)
+            manifest['source_commit'] = 'different'
+            (snapshot / 'release.json').write_bytes(publish.encoded(manifest))
+            with patch.object(publish, 'ensure_unpublished', side_effect=ValueError('was pushed')):
+                with self.assertRaisesRegex(ValueError, 'was pushed'):
+                    publish.register(snapshot, site)
+            self.assertEqual(target.read_bytes(), before)
+
+    def test_deployment_records_block_replacement(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            snapshot = self.snapshot(Path(temporary))
+            publish.ensure_unpublished(snapshot)
+            for suffix in ('-deployment.json', '-deployment-started.json'):
+                marker = snapshot.parent / ('0.1.0' + suffix)
+                marker.write_text('{}')
+                with self.subTest(suffix=suffix), self.assertRaisesRegex(ValueError, 'deployment record'):
+                    publish.ensure_unpublished(snapshot)
+                marker.unlink()
+
+    def test_guard_allows_local_commits_but_rejects_pushed_history(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            snapshot, site = self.snapshot(root), self.site(root)
+            remote = root / 'remote.git'
+
+            def git(*args):
+                return subprocess.check_output(['git', *args], cwd=site, text=True, stderr=subprocess.PIPE,
+                                               env={**os.environ, 'GIT_CONFIG_GLOBAL': '/dev/null',
+                                                    'GIT_CONFIG_NOSYSTEM': '1'})
+
+            git('init', '--quiet')
+            git('init', '--quiet', '--bare', str(remote))
+            git('remote', 'add', 'origin', str(remote))
+            publish.register(snapshot, site)
+            git('add', 'public/rose-punk-releases')
+            git('-c', 'user.name=Test', '-c', 'user.email=test@example.invalid', 'commit', '--quiet', '-m', 'release')
+            publish.ensure_unpublished(snapshot, site)
+            git('push', '--quiet', 'origin', 'HEAD:refs/heads/releases')
+            # ls-remote must find the push even without local tracking refs.
+            git('update-ref', '-d', 'refs/remotes/origin/releases')
+            with self.assertRaisesRegex(ValueError, 'was pushed'):
+                publish.ensure_unpublished(snapshot, site)
+
+    def test_recut_replaces_only_after_build_succeeds(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            snapshot = self.snapshot(root)
+            before = (snapshot / 'release.json').read_bytes()
+            with patch.object(publish, 'ensure_unpublished') as guard, \
+                    patch.object(release, 'check_outputs'), \
+                    patch.object(release, 'package', side_effect=ValueError('bad build')):
+                with self.assertRaisesRegex(ValueError, 'bad build'):
+                    publish.cut({}, {}, root, '0.1.0', root / 'site')
+            guard.assert_called_once_with(snapshot, root / 'site')
+            self.assertEqual((snapshot / 'release.json').read_bytes(), before)
+            inputs = root / 'inputs'
+            inputs.mkdir()
+            for name in ('catalog.json', 'homepage.json'):
+                (inputs / name).write_text('{}')
+
+            def package(trees, files, destination):
+                destination.mkdir()
+                (destination / 'rose-punk.zip').write_bytes(release.theme_zip({'index.theme': b'theme'}))
+                return {}
+
+            with patch.object(publish, 'ensure_unpublished'), \
+                    patch.object(release, 'check_outputs'), \
+                    patch.object(release, 'package', side_effect=package), \
+                    patch.object(publish, 'HERE', inputs), \
+                    patch.object(publish.subprocess, 'check_output', return_value='source'):
+                self.assertEqual(publish.cut({}, {}, root, '0.1.0'), snapshot)
+            self.assertNotEqual((snapshot / 'release.json').read_bytes(), before)
+            publish.verify_snapshot(snapshot)
+
+    def test_failed_directory_swap_restores_original(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            snapshot = self.snapshot(root)
+            staging = root / '.staging'
+            staging.mkdir()
+            prepared = staging / 'replacement'
+            prepared.mkdir()
+            rename = Path.rename
+
+            def fail_install(path, target):
+                if path == prepared:
+                    raise OSError('cannot install')
+                return rename(path, target)
+
+            with patch.object(Path, 'rename', fail_install):
+                with self.assertRaisesRegex(OSError, 'cannot install'):
+                    publish.replace_snapshot(prepared, snapshot)
+            publish.verify_snapshot(snapshot)
 
     def test_failed_site_check_never_deploys(self):
         import subprocess
@@ -87,6 +197,7 @@ class IconPublishTests(unittest.TestCase):
                     publish.deploy(snapshot, root)
                 self.assertEqual(run.call_count, 1)
                 self.assertFalse((root / '0.1.0-deployment.json').exists())
+                self.assertFalse((root / '0.1.0-deployment-started.json').exists())
 
     def test_unrelated_site_edits_block_deployment(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -108,6 +219,9 @@ class IconPublishTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, 'verification failed'):
                     publish.deploy(snapshot, root)
             self.assertFalse((root / '0.1.0-deployment.json').exists())
+            self.assertTrue((root / '0.1.0-deployment-started.json').exists())
+            with self.assertRaisesRegex(ValueError, 'deployment record'):
+                publish.ensure_unpublished(snapshot)
 
     def test_framed_archive_keeps_aliases_and_attribution(self):
         import framed

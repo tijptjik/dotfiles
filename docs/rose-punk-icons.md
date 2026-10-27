@@ -128,3 +128,6 @@ to cut both frameless and framed downloads, register them with the public icon
 gallery, and deploy type.hk. This explicit release action authorizes the framed
 derivative of that snapshot; ordinary builds remain offline. See the
 [release command and retry instructions](../scripts/icons/README.md#cut-and-publish-a-version).
+Repeating `cut` can overwrite a snapshot and its site registration until that
+version is pushed or deployed. Replacement requires a successful publication
+check; published versions require a new version number.

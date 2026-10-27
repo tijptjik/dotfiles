@@ -182,11 +182,13 @@ SSH; Unicode placeholders make scrolling and progress redraws erase/move the
 images with their rows. Terminal cell dimensions keep the artwork at 32px.
 Image data is bundled in `scripts/fleet_update/icons32.json`, so the update
 does not need an image converter. To rebuild it after changing artwork, run
-`python3 scripts/icons/build-fleet.py` (requires Pillow, ImageMagick, and Nerd Fonts).
+`python3 scripts/icons/build-fleet.py` (requires Pillow and ImageMagick).
 
 Colour image rows leave one terminal cell between the checkmark and icon canvas,
 and the same gap between the canvas and label. Chrome, Sublime Text and Obsidian
-use their Rose Punk application artwork.
+use their Rose Punk application artwork. Icon cache and Rose Punk icon rows use
+the four-tile icon-grid artwork, and
+Greetjik uses its named application artwork.
 
 Herdr 0.9.5+ also uses 32px colour icons and two-line rows. Its panes advertise
 `TERM_PROGRAM=herdr` and `HERDR_ENV=1`, with `TERM=xterm-256color`. Because its
@@ -209,8 +211,10 @@ Each combined apply prints a private `timings.json` path under
 records total apply time, home file/rendering time, task dependencies/resources,
 execution duration, dependency wait,
 resource/terminal wait, worker wait and start/finish offsets. System native file
-application and rendering are recorded together as a task. Hook output lives alongside it in private log files. Failure
-reports retain completed/failed/blocked task timing; cancellation preserves the
+application and rendering are recorded together as a task. Hook output lives
+alongside it in private log files, including interactive hooks. Those hooks stream
+prompts and diagnostics while structured status rows appear once in the scheduler.
+Failure reports retain completed/failed/blocked task timing; cancellation preserves the
 completed events and marks unfinished tasks interrupted. These measurements do
 not imply a live speedup until representative runs have been compared.
 
@@ -227,7 +231,7 @@ Herdr binary updates are manual on Fi, Li and Si. Neither `tjikup` (including
 requested. The once-only install hook still installs a missing binary, and
 recurring hooks continue provisioning Herdr plugins.
 
-Tjikup, Notjik and Pony build/install steps compare source fingerprints against
+Tjikup, Notjik and Greetjik build/install steps compare source fingerprints against
 all declared installed outputs, including bytes, modes and symlink targets.
 Changed inputs, changed/deleted outputs, or a missing record trigger installation.
 Only successful installs with stable inputs create an atomic record under

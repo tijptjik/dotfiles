@@ -123,11 +123,13 @@ class KittyIconTests(unittest.TestCase):
 
     def test_application_sprites_do_not_fall_back_to_the_gear(self):
         graphics = KittyIcons(io.StringIO())
-        for label in ('Google Chrome stable', 'Sublime Text', 'Obsidian'):
+        for label in ('Google Chrome stable', 'Sublime Text', 'Obsidian', 'Greetjik', 'Gitfetch',
+                      'Assets (icon cache)', 'Assets (Rose Punk icons)'):
             with self.subTest(label=label):
                 graphics.image(label, 12, 26)
                 self.assertIn((label, 12, 26), graphics.images)
                 self.assertNotEqual(graphics.sprites[label], graphics.sprites['*'])
+        self.assertNotIn('Pony', graphics.sprites)
 
     def test_image_has_equal_cell_gaps_before_and_after_in_both_terminals(self):
         for herdr in (False, True):

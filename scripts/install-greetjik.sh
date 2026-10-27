@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build and install the native pony renderer from the shared tools repository.
+# Build and install Greetjik from the shared tools repository.
 set -euo pipefail
 source "$(dirname -- "${BASH_SOURCE[0]}")/ensure-tooltjik.sh"
 ensure_tooltjik apps/greetjik/scripts/build.sh

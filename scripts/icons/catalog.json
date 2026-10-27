@@ -1446,5 +1446,15 @@
     "geometry": "local/zed-nightly.svg",
     "reviewed": true,
     "review_batch": 20
+  },
+  "gitfetch": {
+    "name": "Gitfetch",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "gitfetch"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/gitfetch.svg"
   }
 }

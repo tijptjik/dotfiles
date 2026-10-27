@@ -1,6 +1,13 @@
 # Gitfetch and Runtjik
 
-Gitfetch remains managed by Chezetc under `/opt/gitfetch`.
+Gitfetch is a retained, managed client tool on Fi and Li. Chezetc's recurring
+`run_56-install-launcher-tools` hook installs it when missing and checks stable
+upstream releases on each apply, after the Fedora package task. It lives under
+`/opt/gitfetch`, with `/usr/local/bin/gitfetch` and `~/.local/bin/gitfetch` pointing
+to the active version. The combined Chez workflow includes this dependency;
+there is no separate home installer. Run `gitfetch` manually to view GitHub
+statistics or `gitfetch --local` for the current repository.
+
 Runtjik is the independent Quickshell launcher in Tooltjik's `apps/runtjik`.
 It takes visual inspiration from Hamr, with a Rose Pine/Rose Punk icon grid,
 an optional list, automatic desktop indexing and Fish-history command whitelisting,

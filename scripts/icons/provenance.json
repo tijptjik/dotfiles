@@ -794,5 +794,11 @@
     "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00",
     "material_revision": 18,
     "design_note": "Restored Zed Nightly in theme gold (#f6c177); Stable stays ivory and Preview electric blue. Official shared Zed geometry retained."
+  },
+  "gitfetch": {
+    "source": "scripts/icons/local/gitfetch.svg",
+    "license": "Original Rose Punk artwork",
+    "sha256": "0c2f9f4ae1ba05a43bc4d276a6a466615bec9b6df5d2dbbe8d72aef5947cff2d",
+    "design_note": "Copper Git branch and jade fetch arrow on an indigo terminal."
   }
 }

@@ -45,6 +45,7 @@
   "firefox": "firefox",
   "flatpak": "flatpak",
   "gimp": "gimp",
+  "gitfetch": "gitfetch",
   "gnome-color-manager": "color-profile-viewer",
   "gnome-system-monitor-kde": "system-monitor",
   "google-chrome": "chrome",

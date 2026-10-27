@@ -55,7 +55,7 @@ class FleetIconTests(unittest.TestCase):
         self.assertNotEqual(title_icon("Assets (fonts)"), title_icon("Assets (icon cache)"))
         self.assertEqual(title_icon("Fedora (repositories)"), title_icon("Fedora (release)"))
         self.assertEqual(title_icon("New service"), "\uf013")
-        for label in ("Google Chrome stable", "Sublime Text", "Obsidian"):
+        for label in ("Google Chrome stable", "Sublime Text", "Obsidian", "Greetjik", "Gitfetch"):
             with self.subTest(label=label):
                 self.assertNotEqual(title_icon(label), title_icon("New service"))
 

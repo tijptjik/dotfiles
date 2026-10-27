@@ -20,12 +20,12 @@ THEME = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
 CATALOG = runpy.run_path(str(ROOT / 'scripts/fleet_update/icon_catalog.py'))
 SOURCES = {
     'Collie': 'collie', 'Docker': 'docker', 'Flatpak': 'flatpak', 'Herdr': 'herdr',
-    'llmtrim': 'llmtrim', 'Nginx': 'nginx', 'Notifications': 'notjik', 'Pony': 'greetjik',
+    'llmtrim': 'llmtrim', 'Nginx': 'nginx', 'Notifications': 'notjik', 'Greetjik': 'greetjik',
     'Power': 'power', 'Prowlarr': 'prowlarr', 'Python': 'python', 'Rust': 'rust',
     'Tailscale': 'tailscale', 'Tjikup': 'tjikup', 'Vite': 'vite',
     'Bartjik': 'bartjik', 'Notjik': 'notjik', 'Runtjik': 'runtjik',
     'Applications': 'software', 'Assets': 'file-roller', 'Assets (fonts)': 'fonts',
-    'Assets (icon cache)': 'image-viewer', 'Assets (Rose Punk icons)': 'image-viewer',
+    'Assets (icon cache)': 'runtjik-grid', 'Assets (Rose Punk icons)': 'runtjik-grid',
     'Chezetc': 'chezetc', 'Chezmoi': 'chezmoi', 'Codex Desktop': 'codex',
     'Codex LB': 'codex-lb', 'Fedora': 'fedora-media-writer', 'Hyprvoice': 'hyprvoice',
     'Launcher': 'software', 'Media': 'video-player', 'Mullvad': 'mullvad',
@@ -34,6 +34,7 @@ SOURCES = {
     'Telegram': 'telegram', 'Terminal': 'terminal', 'Tippecanoe': 'tippecanoe',
     'Transmission': 'transmission', 'Zed': 'zed', '*': 'settings',
     'Google Chrome stable': 'chrome', 'Sublime Text': 'sublime-text', 'Obsidian': 'obsidian',
+    'Gitfetch': 'gitfetch',
 }
 
 

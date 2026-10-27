@@ -109,6 +109,31 @@ class PresentationTests(unittest.TestCase):
             self.assertTrue(all('Using Python' in log.read_text() for log in logs))
 
     @unittest.skipUnless(shutil.which('fish'), 'Fish required')
+    def test_exclusive_hook_streams_diagnostics_and_summarizes_status_once(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            hooks = root / 'home/.chezmoiscripts'
+            hooks.mkdir(parents=True)
+            hook = hooks / 'run_after_release.fish'
+            hook.write_text("printf 'CHECK   ... Fedora release check    checking\\n'\n"
+                            "echo 'Checking release metadata'\n"
+                            "printf 'SKIP    ✓ Fedora upgrade    no changes\\n'\n")
+            plan = [{'id': 'release', 'label': 'Fedora (release)',
+                     'file': hook.name, 'exclusive': True}]
+            env = {**os.environ, 'XDG_STATE_HOME': str(root / 'state'),
+                   'TJIKUP_COLOR': '0', 'TJIKUP_PROGRESS': '0', 'TJIKUP_ICONS': '0'}
+            with patch('fleet_update.home_apply.load_plan', return_value=plan), \
+                    patch.dict(os.environ, env), contextlib.redirect_stdout(io.StringIO()) as output:
+                apply_hooks(root, env)
+            self.assertIn('Checking release metadata', output.getvalue())
+            self.assertEqual(output.getvalue().count('Fedora (release)'), 1)
+            self.assertNotIn('Fedora upgrade', output.getvalue())
+            self.assertNotIn('Fedora release check', output.getvalue())
+            log, = (root / 'state/tjikup/logs').glob('home-*/release.log')
+            self.assertIn('SKIP    ✓ Fedora upgrade    no changes', log.read_text())
+            self.assertIn('CHECK   ... Fedora release check', log.read_text())
+
+    @unittest.skipUnless(shutil.which('fish'), 'Fish required')
     def test_exclusive_heading_does_not_relabel_later_hooks(self):
         helper = Path(__file__).resolve().parents[1] / 'home/.chezmoihelpers/status.fish'
         with tempfile.TemporaryDirectory() as directory:

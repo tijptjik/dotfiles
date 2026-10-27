@@ -1,19 +1,35 @@
 """Prepare hook commands once, then run them under a shared scheduler/resource pool."""
+from contextlib import redirect_stdout
 from dataclasses import fields
 import json
 from pathlib import Path
 import subprocess
+import sys
 
 from .core import UpdateError
 from .dag import Task, command as run_command
 from .icons import HookProgress
-from .presentation import summary
+from .presentation import ANSI, ROW, summary
 from tjikup import runtime
 
 
 def owns_terminal(item):
     marker = item.get("terminal_when_missing")
     return item.get("exclusive", False) or (marker is not None and not Path(marker).expanduser().is_file())
+
+
+class TerminalOutput:
+    """Forward interactive output; the scheduler renders structured status rows."""
+    def __init__(self, stream):
+        self.stream = stream
+
+    def write(self, value):
+        if ROW.match(ANSI.sub("", value).strip()):
+            return len(value)
+        return self.stream.write(value)
+
+    def __getattr__(self, name):
+        return getattr(self.stream, name)
 
 
 class HookTasks:
@@ -60,16 +76,17 @@ class HookTasks:
                         lines.append(line)
                         return line
 
-                    code = runtime.run_stream(command, repo, env=env, timeout=item.get("timeout", 1800),
-                                              check=False, formatter=capture)
+                    with redirect_stdout(TerminalOutput(sys.stdout)):
+                        code = runtime.run_stream(command, repo, env=env, timeout=item.get("timeout", 1800),
+                                                  check=False, formatter=capture)
                     self.outputs[name] = "\n".join(lines)
                 else:
                     result = run_command(command, cwd=repo, env=env, timeout=item.get("timeout", 1800))
                     self.outputs[name] = result.stdout
-                    log = self.log_dir / (name.replace(":", "-") + ".log")
-                    log.write_text(result.stdout)
-                    log.chmod(0o600)
                     code = result.returncode
+                log = self.log_dir / (name.replace(":", "-") + ".log")
+                log.write_text(self.outputs[name])
+                log.chmod(0o600)
                 if code:
                     raise UpdateError(f"{name}: hook failed ({code})")
 

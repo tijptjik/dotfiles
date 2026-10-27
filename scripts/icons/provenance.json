@@ -123,9 +123,11 @@
   "zed": {
     "source": "https://zed.dev/brand",
     "license": "Upstream Zed mark; themed adaptation, trademark rights retained",
-    "sha256": "1469ee9cab6ff99961fe0ed9c379ed5c7fad2f2ce1b7ace92ae43c79b1fd8e31",
+    "sha256": "f19ae74815f9b754e74f54e974ad178aa95ca76e54b9d9eafd38854904e93b65",
     "reference": "upstream/zed-official.svg",
-    "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00"
+    "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00",
+    "material_revision": 2,
+    "design_note": "Original ivory Zed mark restored with a dark plum fill behind its open geometry; official geometry and material finish retained."
   },
   "gimp": {
     "source": "scripts/icons/local/gimp.svg",
@@ -208,8 +210,9 @@
   "signal": {
     "source": "scripts/icons/build.py",
     "license": "Original artwork",
-    "sha256": "d4877c7a0574c5a3060f8ae389e3c73f517f61cc7dfbadb88ee4e7ab192603ed",
-    "material_revision": 9
+    "sha256": "3353bb405c4b9a3a6f068531f8b9018ee49c0e312cc339991cd3dd70f2a39d04",
+    "material_revision": 10,
+    "design_note": "Deeper periwinkle dashed perimeter and blue bubble for light and plum surfaces; original silhouette and dash geometry retained."
   },
   "telegram": {
     "source": "/home/io/code/tooltjik/apps/bartjik/qml/icons/tray/telegram-outline.svg",
@@ -234,7 +237,9 @@
   "zen": {
     "source": "scripts/icons/local/zen.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "1a5ac894fc31fb65b71e3ce8f97237339c113a1cb106213ada6cb26ec6a1c8ad"
+    "sha256": "a84ddde0a9a1cf524a322701df2cc09e2405d39097dbe5ba2da9bb6037effec9",
+    "material_revision": 2,
+    "design_note": "Original rose, pale blush and ivory rings restored with their material finish over a dark plum circular fill."
   },
   "simplescreenrecorder": {
     "source": "scripts/icons/local/simplescreenrecorder.svg",
@@ -690,12 +695,14 @@
   "nginx": {
     "source": "scripts/icons/local/nginx.svg",
     "license": "Original themed interpretation; app identity rights remain with their owners",
-    "sha256": "956d4046f2be00b19986b14a64d3062ed7c40cb51105011e1e3b4f0e09661716",
+    "sha256": "f541fd8949095940f82dd741cfd104b7d3ba0483e46033ef0ba98f99be0c57c1",
     "adapted_from": {
       "source": "scripts/icons/local/nginx.svg",
       "license": "Original themed redraw; app identity rights remain with their owners",
       "sha256": "2d8fb2dfa31c3bf5c5fa797f20dac655c787be0886d77e228964c4b192a791c1"
-    }
+    },
+    "material_revision": 1,
+    "design_note": "Muted jade pigment with a restrained tonal ramp for light and plum surfaces; original N silhouette retained."
   },
   "python": {
     "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/python.svg",
@@ -762,9 +769,9 @@
   "zed-preview": {
     "source": "scripts/icons/local/zed-preview.svg",
     "license": "Themed vector artwork; underlying brand rights and source licenses retained",
-    "sha256": "2f72e87a8ba209b903c6c2c63140954ddfea582c724068f43f8698163994e926",
-    "material_revision": 12,
-    "design_note": "Electric periwinkle-blue (#5685ff) Preview channel; official geometry preserved and gold reserved for Nightly.",
+    "sha256": "ebb9c37ea347f096705e236725cea16065f647a65edaa03d2a56ee196cfb78bd",
+    "material_revision": 14,
+    "design_note": "Original electric periwinkle-blue (#5685ff) restored with a dark plum fill behind the official Zed geometry; gold reserved for Nightly.",
     "adapted_from": {
       "source": "https://zed.dev/brand",
       "license": "Upstream Zed mark; themed adaptation, trademark rights retained",
@@ -789,11 +796,11 @@
   "zed-nightly": {
     "source": "https://zed.dev/brand",
     "license": "Upstream Zed mark; themed adaptation, trademark rights retained",
-    "sha256": "a6a42029b91171701b34f3e2cc3c0d3d33caf9ef57ecf67721db680c8e6cad1d",
+    "sha256": "521b9331cd46a099b8e76753884ff8d1a65ea73f7f7be0d43e58208343ea9b94",
     "reference": "upstream/zed-official.svg",
     "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00",
-    "material_revision": 18,
-    "design_note": "Restored Zed Nightly in theme gold (#f6c177); Stable stays ivory and Preview electric blue. Official shared Zed geometry retained."
+    "material_revision": 20,
+    "design_note": "Original theme gold (#f6c177) restored with a dark plum fill behind the official Zed geometry; ivory Stable and electric-blue Preview preserved."
   },
   "gitfetch": {
     "source": "scripts/icons/local/gitfetch.svg",

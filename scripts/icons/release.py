@@ -113,7 +113,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=('check', 'build', 'package', 'cut', 'publish'), nargs='?', default='check')
     parser.add_argument('--output', type=Path, default=RELEASES, help='package output directory')
-    parser.add_argument('--version', help='release version (immutable once pushed or deployed), e.g. 0.1.0-rc.1')
+    parser.add_argument('--version', help='release version (immutable once uploaded, pushed or deployed), e.g. 0.1.0-rc.1')
     parser.add_argument('--site', type=Path, help='type.hk checkout to register the release in')
     parser.add_argument('--deploy', action='store_true', help='deploy type.hk and verify public hashes')
     args = parser.parse_args()

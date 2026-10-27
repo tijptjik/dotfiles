@@ -1,4 +1,4 @@
-"""Versioned icon releases and the static type.hk download registry."""
+"""Versioned R2 icon releases and the small type.hk download registry."""
 import html
 import io
 import json
@@ -49,6 +49,15 @@ def ensure_unpublished(snapshot, site=None):
                 raise ValueError('Cannot inspect remote release history; fetch in the site checkout and retry') from error
             if pushed:
                 raise ValueError(f'Release {version} was pushed; choose a new version')
+            # R2 releases leave only a small registry in Git. A pushed registry
+            # entry still locks its version, even though no blobs were committed.
+            for head in sorted(heads):
+                result = subprocess.run(
+                    ['git', 'show', f'{head}:public/rose-punk-releases/registry.json'],
+                    cwd=site, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                if result.returncode == 0 and any(
+                        item['version'] == version for item in json.loads(result.stdout)['releases']):
+                    raise ValueError(f'Release {version} was pushed; choose a new version')
 
 
 def replace_snapshot(prepared, destination):
@@ -70,7 +79,9 @@ def cut(trees, files, output, version, site=None):
     validate_version(version)
     destination = output / version
     release.check_outputs(trees, files)
-    if destination.exists() or (site is not None and (site / 'public/rose-punk-releases' / version).exists()):
+    if destination.exists() or (site is not None and any(
+            (site / folder / version).exists() for folder in
+            ('.local/rose-punk-releases', 'public/rose-punk-releases'))):
         ensure_unpublished(destination, site)
     output.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='.cut-', dir=output) as temporary:
@@ -137,7 +148,9 @@ def register(snapshot, site):
     registry_path = registry_dir / 'registry.json'
     registry = json.loads(registry_path.read_text()) if registry_path.exists() else {'schema': 1, 'releases': []}
     version = manifest['version']
-    target = registry_dir / version
+    # Retain an offline registration snapshot, never release payloads in public/.
+    # The site Worker serves versioned paths from tjikos-assets/typehk/.
+    target = site / '.local/rose-punk-releases' / version
     # Identical retries are safe, even for a published version.
     replace = not target.exists()
     if target.exists():
@@ -146,8 +159,8 @@ def register(snapshot, site):
             ensure_unpublished(snapshot, site)
             replace = True
     if replace:
-        registry_dir.mkdir(parents=True, exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix='.register-', dir=registry_dir) as temporary:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix='.register-', dir=target.parent) as temporary:
             staging = Path(temporary) / version
             shutil.copytree(snapshot, staging)
             replace_snapshot(staging, target)
@@ -190,14 +203,23 @@ def deploy(snapshot, site):
     write_file(snapshot.parent / (manifest['version'] + '-deployment-started.json'), encoded(
         {'version': manifest['version'],
          'manifest_sha256': release.sha256((snapshot / 'release.json').read_bytes())}))
+    # Upload and download-verify all artifacts before making registry links live.
+    # Immutable mode refuses different bytes under an existing release version.
+    subprocess.run(['python3', str(site / 'scripts/publish-assets.py'),
+                    '--source', str(snapshot), '--path',
+                    f'rose-punk-releases/{manifest["version"]}', '--immutable'], cwd=site, check=True)
     subprocess.run(['bun', 'run', 'deploy'], cwd=site, check=True)
     prefix = f'https://type.hk/rose-punk-releases/{manifest["version"]}/'
     # These downloads prove both variants and the exact manifest reached the origin.
     for name in ('release.json', 'rose-punk.zip', 'rose-punk-framed.zip'):
-        with urllib.request.urlopen(prefix + name, timeout=60) as response:
+        request = urllib.request.Request(prefix + name, headers={
+            'User-Agent': 'RosePunkReleaseVerifier/1.0 (+https://type.hk)'})
+        with urllib.request.urlopen(request, timeout=60) as response:
             if release.sha256(response.read()) != release.sha256((snapshot / name).read_bytes()):
                 raise ValueError(f'Deployment verification failed: {prefix}{name}')
-    with urllib.request.urlopen('https://type.hk/rose-punk-releases/registry.json', timeout=60) as response:
+    request = urllib.request.Request('https://type.hk/rose-punk-releases/registry.json', headers={
+        'User-Agent': 'RosePunkReleaseVerifier/1.0 (+https://type.hk)'})
+    with urllib.request.urlopen(request, timeout=60) as response:
         registry = json.load(response)
         if registry['latest'] != manifest['version']:
             raise ValueError('Public registry does not point to this release')

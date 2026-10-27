@@ -39,12 +39,13 @@
     "name": "Tautulli",
     "dashboard_icon": "tautulli.png",
     "geometry": "local/homepage/tautulli.svg",
-    "sha256": "d0df5ddfab4bb10ff6f6981a6b8b8b28bf5debf94c485c87711a182440d61f10",
+    "sha256": "7f6e783bcefa5b102ad8532a79fef004fc18a52030971f5de51123ad0d6f6200",
     "reference_sha256": "df274012843ef45553b68c0685ba919455ad5545ab121063ce7a170f3b302e56",
     "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/tautulli.png",
-    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
-    "material_revision": 2,
-    "reference_name": "tautulli.png"
+    "license": "Original themed concept; app identity rights remain with their owners",
+    "material_revision": 5,
+    "reference_name": "tautulli.png",
+    "design_note": "Selected concept D: playback meter with a dark plum dial, periwinkle/rose/gold progress arc, warm gold play button and three coloured status blocks. Original themed artwork; upstream Tautulli reference retained for attribution."
   },
   "grimmory": {
     "name": "Grimmory",

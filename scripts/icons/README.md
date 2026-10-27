@@ -109,57 +109,59 @@ checks the committed generated assets directly.
 
 ## Cut and publish a version
 
-From Tijpfiles, this single command cuts both installable themes, updates the
-static type.hk release registry and gallery, then deploys and verifies the public
-manifest and ZIP hashes:
+Release payloads live in `tjikos-assets/typehk/rose-punk-releases/<version>/`
+on Cloudflare R2. Git retains source artwork, producers and the small type.hk
+registry/gallery presentation manifests. Generated ZIPs, release gallery SVGs,
+checksums and renderer manifests stay outside the site's `public/` directory.
+
+From Tijpfiles, this command cuts both installable themes, prepares the type.hk
+registry and gallery, uploads the snapshot to R2, verifies every downloaded
+artifact by SHA-256, then deploys the site and verifies the public downloads:
 
 ```sh
 python3 -B scripts/icons/release.py cut --version 0.1.0-rc.1 \
   --site /home/io/code/type.hk --deploy
 ```
 
-Choose a fresh version for each pushed or deployed release. `cut` is an explicit release decision:
-it authorizes deriving the framed counterpart of that exact frameless snapshot.
-It does not change the historical study approval file or install either theme.
-Ordinary `build`, `check` and `package` still never approve artwork or deploy.
+Choose a fresh version for each uploaded, pushed or deployed release. `cut` is
+an explicit release decision: it authorizes deriving the framed counterpart of
+that exact frameless snapshot. It does not change the historical study approval
+file or install either theme. Ordinary `build`, `check` and `package` stay offline.
 
 The output is `.local/icon-releases/<version>/`: both ZIPs (including aliases,
 attribution and licenses), a gallery snapshot, source/output hashes, renderer
-versions, source commit/dirty status and `SHA256SUMS`. Repeat `cut` with the same
-version to replace an unpublished snapshot and its local site registration.
-The old snapshot is retained until its replacement finishes building. Versions
-with deployment records or release files in the site's remote Git history
-cannot be overwritten. Replacement checks current remote refs; remote access
-errors block replacement. If a remote commit
-is missing locally, fetch it in the site checkout and retry. Pass the same
-`--site` when recutting to check its remotes and refresh its registry.
-Restart a running Vite dev server after replacing a release directory if a new
-gallery image is missing: its cached public-file list can return the HTML
-fallback for a new SVG path. Rebuild before checking a Vite production preview.
-The existing offline check must pass; run `build` first if
-intentional source edits made generated assets stale.
+versions, source commit/dirty status and `SHA256SUMS`. Site registration keeps an
+offline copy under the site's ignored `.local/rose-punk-releases/`; only
+`public/rose-punk-releases/registry.json` and `index.html` are site release files.
 
-Omit `--deploy` to prepare the registry without publishing. Omit `--site` too
-for a completely local release rehearsal (`--output /tmp/icon-releases` can
-keep test versions separate). To retry a failed site build or deployment, use
-the existing immutable snapshot instead of cutting it again:
+Repeat `cut` with the same version only while it is unpublished. Its previous
+snapshot is retained until a replacement finishes building. Deployment attempt
+records and pushed registry entries lock versions. Remote access errors block
+replacement; fetch unknown remote commits in the site checkout and retry. R2
+uploads use checksum comparison and immutable mode, so different existing release
+bytes are rejected even if local records are missing. Pass the same `--site` when
+recutting. The offline check must pass; run `build` first if intentional source
+edits made generated outputs stale.
+
+Omit `--deploy` to prepare the registry without uploading or publishing. Omit
+`--site` too for a completely local rehearsal (`--output /tmp/icon-releases` can
+keep test versions separate). Retry an upload, build or deployment failure using
+the existing snapshot:
 
 ```sh
 python3 -B scripts/icons/release.py publish --version 0.1.0-rc.1 \
   --site /home/io/code/type.hk --deploy
 ```
 
-The registry is served at `https://type.hk/rose-punk-releases/registry.json`;
-its download index is linked from the theme page. Existing versions are retained;
-the explicitly published version becomes `latest`. The gallery uses the same
-versioned assets. The command runs the site's `bun run check` and `bun run deploy`
-and then checks public download hashes. A deployment attempt marker locks the
-snapshot before uploading; a success receipt is written only when verification
-passes. Network or verification failure returns nonzero, even
-if Cloudflare already accepted the deployment; retry `publish` after resolving it.
+The registry remains at `https://type.hk/rose-punk-releases/registry.json` and the
+gallery/download URLs stay unchanged. The site Worker streams their bytes from
+R2. Existing versions are retained; the explicitly published version becomes
+`latest`. A deployment attempt marker locks the snapshot before upload, and a
+success receipt is written only after public verification passes. Network or
+verification failure returns nonzero, even if Cloudflare accepted the deployment.
 
-Deployment requires the site's Bun dependencies and Cloudflare credentials.
-It refuses unrelated uncommitted site changes so a theme release cannot silently
-publish other unfinished pages. Commit or isolate those changes first. The
-command does not commit, tag, push, update Homepage on Si, or change installed
-desktop icons.
+Publication requires the site's Bun dependencies, Cloudflare credentials and the
+configured `r2-tijpdata` rclone remote with access to `tjikos-assets`. Upload
+receipts are kept under the site's ignored `.local/r2-receipts/`. The publisher
+refuses unrelated uncommitted site changes; commit or isolate them first. It does
+not commit, tag, push, update Homepage on Si, or change installed desktop icons.

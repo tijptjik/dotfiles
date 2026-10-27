@@ -11,6 +11,48 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @unittest.skipUnless(shutil.which('chezmoi') and shutil.which('lua'), 'Chezmoi and Lua required')
 class WindowWidthTests(unittest.TestCase):
+    def test_host_chat_startup(self):
+        for host in ('fi', 'li', 'si'):
+            with self.subTest(host=host), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                config = root / 'config.json'
+                config.write_text(json.dumps({'data': {
+                    'isDesktop': host == 'fi', 'isLaptop': host == 'li',
+                }}))
+                rendered = subprocess.check_output([
+                    'chezmoi', '--config', str(config), '--source', str(root),
+                    '--persistent-state', str(root / 'state.db'),
+                    'execute-template', '-f',
+                    str(ROOT / 'home/dot_config/hypr/execs.lua.tmpl'),
+                ], text=True)
+                startup = root / 'startup.lua'
+                startup.write_text(rendered)
+                check = root / 'check.lua'
+                check.write_text('''
+package.preload.helpers = function()
+    return setmetatable({}, {__index = function() return function() end end})
+end
+hl = {
+    on = function(event, callback)
+        assert(event == "hyprland.start")
+        callback()
+    end,
+    exec_cmd = print,
+}
+dofile(arg[1])
+''')
+                commands = subprocess.check_output(
+                    ['lua', str(check), str(startup)], text=True,
+                ).splitlines()
+                self.assertIn('uwsm app -- /opt/Telegram/Telegram', commands)
+                zapzap = [c for c in commands if '/bin/zapzap' in c]
+                signal = [c for c in commands if 'org.signal.Signal' in c]
+                self.assertEqual(zapzap, ['uwsm app -- /bin/zapzap' +
+                                         (' --hideStart' if host == 'li' else '')])
+                self.assertEqual(signal, [] if host == 'si' else [
+                    'uwsm app -- flatpak run org.signal.Signal' +
+                    (' --start-in-tray' if host == 'li' else '')])
+
     def test_host_width_and_placement_rules(self):
         for host in ('fi', 'li', 'si'):
             with self.subTest(host=host), tempfile.TemporaryDirectory() as directory:
@@ -49,7 +91,7 @@ if arg[2] == "fi" then
     assert(rules.telegram.size[1] == 944 and rules.telegram.size[2] == 1280)
     assert(rules.telegram.move[1] == "(1248)" and rules.telegram.move[2] == "(46)")
 elseif arg[2] == "li" then
-    assert(rules.telegram.workspace == "4")
+    assert(rules.telegram.workspace == "special:chat silent")
 end
 local export = rules["telegram-export-dialog"]
 assert(export.match.class == rules.telegram.match.class)

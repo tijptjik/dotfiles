@@ -49,9 +49,15 @@ startup.subscription = hl.on("hyprland.start", function()
 
     -- Chat
     hl.exec_cmd("uwsm app -- /opt/Telegram/Telegram")
+{{- if .isLaptop }}
+    -- Keep the laptop's other messengers available in the tray at login.
+    hl.exec_cmd("uwsm app -- /bin/zapzap --hideStart")
+    hl.exec_cmd("uwsm app -- flatpak run org.signal.Signal --start-in-tray")
+{{- else }}
     hl.exec_cmd("uwsm app -- /bin/zapzap")
 {{- if .isDesktop }}
     hl.exec_cmd("uwsm app -- flatpak run org.signal.Signal")
+{{- end }}
 {{- end }}
     hl.exec_cmd("uwsm app -- /bin/chatgpt")
 

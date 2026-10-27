@@ -41,6 +41,15 @@ class FleetWorkflowTests(unittest.TestCase):
         )
         shutil.copy(REPO / "tjikup.json", self.repo / "tjikup.json")
         (system / "scripts").mkdir()
+        for name in ('tjikup-plan.py', 'tjikup-plan.json'):
+            shutil.copy(REPO.parent / 'chezetc/scripts' / name, system / 'scripts' / name)
+        system_hooks = system / 'etc/.chezmoiscripts'
+        system_hooks.mkdir(parents=True)
+        system_plan = json.loads((system / 'scripts/tjikup-plan.json').read_text())
+        for item in system_plan:
+            (system_hooks / item['file']).write_text(
+                'if test "$FLEET_DEFER_SYSTEM_HOOKS" = 1; exit 0; end\n'
+                'printf "%s:%s\\n" "' + item['file'] + '" "$FLEET_SYSTEM_PHASE" >> "$SYSTEM_TRACE"\n')
         shutil.copy(
             REPO.parent / "chezetc/scripts/tjikup-apply.py",
             system / "scripts/tjikup-apply.py",
@@ -94,7 +103,37 @@ if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
             "XDG_STATE_HOME": str(self.home / ".local/state"),
             "TJIKUP_NOTIFY": "0",
             "TRACE": str(self.trace),
+            "SYSTEM_TRACE": str(self.root / "system-hooks.log"),
         }
+        self.add_synthetic_hooks()
+        # Root command boundary is stubbed; no test can invoke real sudo.
+        sudo = self.bin / 'sudo'
+        sudo.write_text(f'#!{sys.executable}\n' + """
+import os, sys
+args = sys.argv[1:]
+if args == ['-n', 'true']:
+    raise SystemExit(0)
+args = args[args.index('--') + 1:]
+os.execvp(args[0], args)
+""")
+        sudo.chmod(0o755)
+        chezetc = self.bin / 'chezetc'
+        chezetc.write_text(f'#!{sys.executable}\n' + """
+import json, os, pathlib, subprocess, sys
+if 'execute-template' in sys.argv:
+    if os.environ.get('FAIL_SYSTEM_RENDER'):
+        print('broken system rendering', file=sys.stderr); raise SystemExit(8)
+    print(pathlib.Path(sys.argv[-1]).read_text(), end='')
+else:
+    with open(os.environ['TRACE'], 'a') as stream:
+        stream.write(json.dumps(['chezetc', pathlib.Path.cwd().name, sys.argv[1:]]) + '\\n')
+    if os.environ.get('FAIL_SYSTEM'):
+        print('intentional system file failure', file=sys.stderr); raise SystemExit(8)
+    hooks = pathlib.Path(sys.argv[sys.argv.index('--source') + 1]) / '.chezmoiscripts'
+    for hook in sorted(hooks.iterdir()):
+        subprocess.run(['fish', '--no-config', str(hook)], check=True)
+""")
+        chezetc.chmod(0o755)
 
     def run_fleet(self, *flags):
         return subprocess.run(
@@ -216,7 +255,7 @@ if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
     def add_synthetic_hooks(self):
         plan = json.loads((REPO / 'scripts/fleet_update/home-plan.json').read_text())
         hooks = self.repo / 'home/.chezmoiscripts'
-        hooks.mkdir(parents=True)
+        hooks.mkdir(parents=True, exist_ok=True)
         for task in plan:
             name = task['file']
             if name.endswith('.py'):
@@ -231,10 +270,14 @@ if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
         self.env['HOOK_TRACE'] = str(self.root / 'hooks.log')
         executable = self.bin / 'chezmoi'
         executable.write_text(f'#!{sys.executable}\n' + """
-import os, pathlib, subprocess, sys
+import json, os, pathlib, subprocess, sys
 if 'execute-template' in sys.argv:
     print(pathlib.Path(sys.argv[-1]).read_text(), end='')
 else:
+    with open(os.environ['TRACE'], 'a') as stream:
+        stream.write(json.dumps(['chezmoi', pathlib.Path.cwd().name, sys.argv[1:]]) + '\\n')
+    if os.environ.get('FAIL_HOME'):
+        print('intentional home failure', file=sys.stderr); raise SystemExit(8)
     hooks = pathlib.Path(sys.argv[sys.argv.index('--source') + 1]) / '.chezmoiscripts'
     for hook in sorted(hooks.iterdir()):
         interpreter = ['python3'] if hook.name.endswith('.py') else ['fish', '--no-config']
@@ -250,11 +293,13 @@ else:
         self.assertCountEqual(calls, [task['file'] for task in plan])
         self.assertIn('chezetc', [row[0] for row in self.events()])
 
-    def test_hook_failure_blocks_system_apply(self):
+    def test_hook_failure_blocks_final_system_release(self):
         self.add_synthetic_hooks()
         self.env['FAIL_HOOK'] = '1'
         result = self.run_fleet()
         self.assertNotEqual(result.returncode, 0)
-        self.assertNotIn('chezetc', [row[0] for row in self.events()])
+        system_calls = Path(self.env['SYSTEM_TRACE'])
+        if system_calls.exists():
+            self.assertFalse(any(line.endswith(':release') for line in system_calls.read_text().splitlines()))
         calls = Path(self.env['HOOK_TRACE']).read_text().splitlines()
         self.assertFalse(any('llmtrim' in name for name in calls))

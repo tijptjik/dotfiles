@@ -51,7 +51,7 @@ name. The system GitHub repository is `tijptjik/systjik`; the personal repositor
 and checkout paths remain unchanged. These wrappers
 forward arguments and exit status directly to the original tools.
 
-The shortcuts synchronize this host's three checkouts. They do not create commits,
+The shortcuts synchronize this host's three checkouts. They do not commit new work,
 capture live settings, apply configuration, install tools, or contact other fleet
 hosts. `tjikup` remains the full update workflow. Push-only `tjix` permits dirty
 files but sends only committed history. `tjixx` requires all three working trees
@@ -61,7 +61,18 @@ hides ongoing work. It checks every repository before any network operation,
 pulls all three before pushing any, and stops on the first failure. A conflict
 is left available for normal Git resolution. Earlier successful pulls or pushes
 are not rolled back; the operation is not atomic across repositories. No force
-push is used. Each branch must have an upstream and no unfinished Git operation.
+push is used. Each branch must have an upstream.
+
+Both shortcuts detect an existing rebase before checking the branch, since a
+rebase temporarily detaches HEAD. After checking all three repositories, they run
+`git rebase --continue` with the existing commit message. Resolve conflicts and
+stage the intended resolutions with `git add` first; the shortcuts never stage,
+skip, abort, or amend automatically. A clean pause at an edit step can also
+continue. Unresolved conflicts or unstaged edits stop the command with guidance.
+If continuation hits another conflict or pause, no repositories are pushed;
+inspect the rebase, finish the next resolution and rerun. `--dry-run` only reports
+the planned continuation. Other unfinished Git operations still require manual
+completion. Ordinary detached HEAD checkouts are not pushed.
 
 Dotjik is located via `chezmoi source-path` and its Git root; Systjik defaults to
 `~/.local/share/chezetc`. Tooltjik uses `TOOLTJIK_REPO`, then an existing

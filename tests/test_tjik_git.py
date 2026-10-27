@@ -122,6 +122,97 @@ class FleetGitTests(unittest.TestCase):
         self.assertFalse((self.repos[0][1] / '.git/tjikup-workflow.lock').exists())
         self.assertEqual(self.run_git('--git-dir', str(self.root / 'dotjik.git'), 'rev-list', '--count', 'main'), '1')
 
+    def paused_conflict(self, *, apply_backend=False, another_conflict=False):
+        repo = self.repos[1][1]
+        peer = self.root / 'conflict-peer'
+        self.run_git('clone', str(self.root / 'systjik.git'), str(peer))
+        self.configure(peer)
+        self.commit(peer, 'base', 'remote conflict')
+        if another_conflict:
+            self.commit(peer, 'second', 'remote second')
+        self.run_git('-C', str(peer), 'push')
+        self.commit(repo, 'base', 'local conflict')
+        if another_conflict:
+            self.commit(repo, 'second', 'local second')
+        self.run_git('-C', str(repo), 'fetch')
+        command = ['git', '-C', str(repo), 'rebase']
+        if apply_backend:
+            command.append('--apply')
+        result = subprocess.run([*command, 'origin/main'], capture_output=True)
+        self.assertNotEqual(result.returncode, 0)
+        return repo
+
+    def stage_resolution(self, repo):
+        (repo / 'base').write_text('combined resolution')
+        self.run_git('-C', str(repo), 'add', 'base')
+
+    def test_push_continues_staged_resolution_and_keeps_message(self):
+        repo = self.paused_conflict()
+        self.stage_resolution(repo)
+        with patch.dict('os.environ', {'GIT_EDITOR': 'false'}):
+            self.sync()
+        self.assertEqual(self.run_git('-C', str(repo), 'symbolic-ref', '--short', 'HEAD'), 'main')
+        self.assertEqual(self.run_git('-C', str(repo), 'log', '-1', '--format=%s'), 'local conflict')
+        self.assertEqual(self.run_git('--git-dir', str(self.root / 'systjik.git'), 'show', 'main:base'), 'combined resolution')
+
+    def test_sync_continues_apply_backend_resolution(self):
+        repo = self.paused_conflict(apply_backend=True)
+        self.stage_resolution(repo)
+        self.sync(sync=True)
+        self.assertFalse((repo / '.git/rebase-apply').exists())
+        self.assertEqual(self.run_git('-C', str(repo), 'status', '--porcelain'), '')
+
+    def test_clean_edit_stop_continues(self):
+        repo = self.repos[1][1]
+        self.commit(repo, 'local', 'local')
+        with patch.dict('os.environ', {'GIT_SEQUENCE_EDITOR': "sed -i '1s/^pick/edit/'"}):
+            self.run_git('-C', str(repo), 'rebase', '-i', 'HEAD~1')
+        self.assertTrue((repo / '.git/rebase-merge').exists())
+        self.sync(sync=True)
+        self.assertFalse((repo / '.git/rebase-merge').exists())
+
+    def test_rebase_dry_run_does_not_continue_or_push(self):
+        repo = self.paused_conflict()
+        self.stage_resolution(repo)
+        before = self.run_git('-C', str(repo), 'status', '--porcelain')
+        with patch.object(tjik_git, 'git', wraps=tjik_git.git) as calls:
+            self.sync(sync=True, dry_run=True)
+            self.assertFalse(any(call.args[1] in ('rebase', 'pull', 'push') for call in calls.call_args_list))
+        self.assertTrue((repo / '.git/rebase-merge').exists())
+        self.assertEqual(self.run_git('-C', str(repo), 'status', '--porcelain'), before)
+
+    def test_unresolved_rebase_stops_before_continuation_or_network(self):
+        self.paused_conflict()
+        with patch.object(tjik_git, 'git', wraps=tjik_git.git) as calls:
+            with self.assertRaisesRegex(tjik_git.SyncError, 'unresolved conflicts'):
+                self.sync()
+            self.assertFalse(any(call.args[1] in ('rebase', 'pull', 'push') for call in calls.call_args_list))
+
+    def test_unstaged_edits_during_rebase_are_not_auto_staged(self):
+        repo = self.paused_conflict()
+        self.stage_resolution(repo)
+        (repo / 'base').write_text('extra unstaged edit')
+        with self.assertRaisesRegex(tjik_git.SyncError, 'unstaged changes'):
+            self.sync()
+        self.assertEqual(self.run_git('-C', str(repo), 'show', ':base'), 'combined resolution')
+
+    def test_another_conflict_during_continue_blocks_all_pushes(self):
+        repo = self.paused_conflict(another_conflict=True)
+        self.stage_resolution(repo)
+        with patch.object(tjik_git, 'git', wraps=tjik_git.git) as calls:
+            with self.assertRaises(tjik_git.SyncError):
+                self.sync()
+            self.assertFalse(any(call.args[1] in ('pull', 'push') for call in calls.call_args_list))
+        self.assertEqual(self.run_git('-C', str(repo), 'diff', '--name-only', '--diff-filter=U'), 'second')
+
+    def test_bad_later_checkout_blocks_rebase_continuation(self):
+        repo = self.paused_conflict()
+        self.stage_resolution(repo)
+        (self.repos[-1][1] / 'untracked').touch()
+        with self.assertRaisesRegex(tjik_git.SyncError, 'dirty'):
+            self.sync(sync=True)
+        self.assertTrue((repo / '.git/rebase-merge').exists())
+
     def test_conflicting_pull_stops_before_any_push(self):
         repo = self.repos[1][1]
         peer = self.root / 'peer'

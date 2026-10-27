@@ -11,6 +11,19 @@
 - **Plugins**: `~/.config/fish/fish_plugins`
 - **Update Script**: `~/.local/bin/fisher-update`
 
+### Command Notifications
+
+The `done` plugin sends local command completion notifications as `fish`, including
+inside Kitty. Notjik chooses a random image from its 28-fish collection for each
+new notification and keeps that fish when the notification is updated or viewed
+in history. Failure urgency, notification duration, sound, focus checks, and the
+Tjikup exclusions still follow `done`'s settings.
+
+`conf.d/done-notifications.fish` enables this when `notify-send` is available.
+SSH sessions retain terminal delivery, and an explicitly configured
+`__done_notification_command` is preserved. New shells load this automatically;
+in existing shells, run `source ~/.config/fish/conf.d/done-notifications.fish`.
+
 ### Fisher Plugin Management
 - **Automatic installation**: Fisher installs itself on first shell startup
 - **Plugin manifest**: All plugins from `fish_plugins` are automatically installed

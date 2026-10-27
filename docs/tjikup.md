@@ -25,6 +25,13 @@ individual Git commands also retain their repository locks. Failed tasks stop ne
 work, drain running tasks, and block pending dependents. A configuration-refresh
 warning prevents subsequent apply stages.
 
+Capture also copies the live `~/.local/share/applications/mimeinfo.cache` into
+its tracked source before apply. Desktop tools regenerate this file, so the live
+associations take precedence, including removed entries. The normal scoped capture
+commit includes these updates automatically. Missing caches are skipped, and
+`--dry-run` only previews changes. Plain `chezmoi apply` does not run this capture;
+use `tjikup` for automatic updates.
+
 ## Git-only shortcuts
 
 Available on `fi`, `li`, and `si`, from any working directory and shell:

@@ -91,6 +91,34 @@ class CombinedTests(unittest.TestCase):
             self.assertEqual([r['state'] for r in records], ['failed', 'blocked'])
             self.assertIsNone(records[1]['started'])
 
+    def test_service_refresh_waits_for_installers_before_network_and_release(self):
+        seen = set()
+        def finish(name):
+            seen.add(name)
+        def refresh():
+            self.assertTrue({'home-install', 'system-install'} <= seen)
+            seen.add('refresh')
+        home = [Task('home:wrapper', lambda: None),
+                Task('home:install', lambda: finish('home-install')),
+                Task('home:services', refresh)]
+        system = [Task('system:install', lambda: finish('system-install'), ('system:files',)),
+                  Task('system:network', lambda: self.assertIn('refresh', seen)),
+                  Task('system:release', lambda: None)]
+        tasks = combine(home, system, Task('system:files', lambda: None, ('home:wrapper',)),
+                        {'home:services': 'updates-final', 'system:network': 'network-final',
+                         'system:release': 'final'})
+        results = run(tasks, workers=4)
+        self.assertTrue(all(result.state == 'done' for result in results.values()), results)
+        self.assertGreaterEqual(results['home:services'].started, results['system:install'].finished)
+        self.assertGreaterEqual(results['system:network'].started, results['home:services'].finished)
+
+    def test_home_only_refresh_depends_on_every_installer(self):
+        home, _, _ = plans(ROOT, ROOT.parent / 'chezetc')
+        graph = {item['id']: item.get('needs', []) for item in home}
+        def ancestors(name):
+            return {name}.union(*(ancestors(parent) for parent in graph[name]))
+        self.assertEqual(ancestors('services'), set(graph))
+
     def test_real_manifests_have_a_valid_combined_graph(self):
         home, system, _ = plans(ROOT, ROOT.parent / 'chezetc')
         self.assertGreater(len(home), 15)

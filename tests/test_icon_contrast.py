@@ -60,7 +60,7 @@ class IconContrastTests(unittest.TestCase):
                 with self.subTest(icon=key, surface=name):
                     self.assertGreaterEqual(min(ratios), 3)
 
-    def test_revised_light_surface_contours_have_three_to_one_contrast(self):
+    def test_revised_contours_have_three_to_one_canvas_contrast(self):
         import xml.etree.ElementTree as ET
         from PIL import ImageFilter
 
@@ -86,7 +86,10 @@ class IconContrastTests(unittest.TestCase):
                         for x in range(image.width) if pixels[x, y][3] >= 250 and edges[x, y]]
             self.assertTrue(pigments, key)
             values = {rgb: luminance(rgb) for rgb in set(pigments)}
-            for surface in ((236, 234, 240), (240, 235, 229), (255, 255, 255)):
+            surfaces = [(236, 234, 240), (240, 235, 229), (255, 255, 255)]
+            if key in ('power', 'sublime-text', 'python', 'qgis-desktop'):
+                surfaces.extend(((38, 35, 58), (25, 23, 36)))
+            for surface in surfaces:
                 background = luminance(surface)
                 good = sum((max(values[rgb], background) + .05) /
                            (min(values[rgb], background) + .05) >= 3 for rgb in pigments)

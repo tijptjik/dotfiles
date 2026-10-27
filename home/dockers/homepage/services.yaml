@@ -1,69 +1,69 @@
 - Watch:
   - Starflix:
-      icon: plex.png
+      icon: /images/rose-punk/plex.svg
       href: https://watch.type.hk
       description: Plex
       siteMonitor: http://host.docker.internal:32400/identity
   - Request:
-      icon: seerr.png
+      icon: /images/rose-punk/seerr.svg
       href: https://request.type.hk
       description: Seerr
       siteMonitor: http://seerr:5055/api/v1/status
   - Stats:
-      icon: tautulli.png
+      icon: /images/rose-punk/tautulli.svg
       href: https://monitor.type.hk
       description: Tautulli
       siteMonitor: http://tautulli:8181/status
 - Read / Listen:
   - Amazimov:
-      icon: booklore.png
+      icon: /images/rose-punk/grimmory.svg
       href: https://read.type.hk
       description: Grimmory
       siteMonitor: http://grimmory:6060/api/v1/healthcheck
   - Audi-Bell's Theorem:
-      icon: audiobookshelf.png
+      icon: /images/rose-punk/audiobookshelf.svg
       href: https://listen.type.hk
       description: Audiobookshelf
       siteMonitor: http://audiobookshelf:80/healthcheck
   - Spotellite:
-      icon: feishin.png
+      icon: /images/rose-punk/feishin.svg
       href: https://dance.type.hk
       description: Feishin
       siteMonitor: http://feishin:9180/
 - Acquisition:
   - Movies:
-      icon: radarr.png
+      icon: /images/rose-punk/radarr.svg
       href: https://movies.type.hk
       description: Radarr
       siteMonitor: http://radarr:7878/ping
   - Shows:
-      icon: sonarr.png
+      icon: /images/rose-punk/sonarr.svg
       href: https://shows.type.hk
       description: Sonarr
       siteMonitor: http://sonarr:8989/ping
   - Books:
-      icon: shelfmark.png
+      icon: /images/rose-punk/shelfmark.svg
       href: https://mark.type.hk
       description: Shelfmark
       siteMonitor: http://shelfmark:8084/api/health
   - Torrent:
-      icon: transmission.png
+      icon: /images/rose-punk/transmission.svg
       href: https://torrent.type.hk
       description: Transmission
       siteMonitor: http://transmission:9091/transmission/web/
 - Admin:
   - Quality Profiles:
-      icon: profilarr.png
+      icon: /images/rose-punk/profilarr.svg
       href: https://profiles.type.hk
       description: Profilarr
       siteMonitor: http://profilarr:6868/api/v1/health
   - Indexers:
-      icon: prowlarr.png
+      icon: /images/rose-punk/prowlarr.svg
       href: https://indexer.type.hk
       description: Prowlarr
       siteMonitor: http://prowlarr:9696/ping
   - Storage:
-      icon: scrutiny.png
+      icon: /images/rose-punk/scrutiny.svg
       href: https://storage.type.hk
       description: Scrutiny
       widget:

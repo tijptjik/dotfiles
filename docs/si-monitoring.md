@@ -126,3 +126,48 @@ Homepage configuration assets under `/api/config/` are served with
 `Cache-Control: no-store`. Cloudflare previously cached a zero-byte custom.css
 response, which hid the footer styling. The exact CSS URL was purged after
 adding the no-store header. Community is capped at 400px with 2rem top padding.
+
+## Prepared Rose Punk server icons — October 28, 2026
+
+The source configuration uses `/images/rose-punk/*.svg` for all thirteen services
+and the Community link. The fourteen frameless icons are prepared locally;
+this commit does not deploy them to Si. The StarFix title and favicon remain.
+
+Rebuild the served SVGs offline:
+
+```sh
+python3 scripts/icons/homepage.py
+python3 -B -m unittest discover -s tests -p 'test_homepage_icons.py' -v
+```
+
+The builder requires Python, PyGObject/librsvg, pycairo and Pillow. It reads only
+editable SVGs and `scripts/icons/homepage.json`; source hashes are verified
+before any output is written. Its outputs belong under
+`home/dockers/homepage/images/rose-punk/`. It generates no galleries, screenshots
+or before/after assets. No desktop-theme rebuild or local review archive is
+needed. Source URLs, reference hashes, attribution and licences remain with the
+manifest and `scripts/icons/homepage-upstream/`.
+
+Plex, Transmission, Prowlarr and Telegram use the same editable sources as the
+desktop set in `scripts/icons/local/`. The ten service-specific sources live
+under `local/homepage/`. All share optical sizing on a transparent 64 × 64 grid;
+app-specific borders and backings remain part of the artwork.
+
+The finished service set includes a Hong Kong-centred Plex globe, a matte violet
+Seerr iris, a lavender grimoire, books with headphones, a mint record player,
+paired radar/sonar screens, a ribbon bookmark, five adult figures and rose
+monitoring glasses. The latest pass clarifies instrument markings, makes the
+figures' faces more natural and harmonises the rose accents.
+
+All icon comparison galleries, historical snapshots, original-image review
+copies and rendered previews are archived under ignored `.local/icon-reviews/`.
+They remain available on this checkout but are excluded from commits and are not
+production build inputs. Canonical editable SVGs and served assets remain in
+the repository.
+
+For deployment, compare and back up the runtime files first, then copy the
+reviewed `services.yaml`, `bookmarks.yaml`, `custom.css`, and `images/rose-punk/`
+into `/mnt/storage/meta/appData/homepage`. The existing read-only
+`/app/public/images` mount serves this directory. Preserve other runtime
+configuration and services. After deployment, verify all fourteen SVG URLs,
+desktop/mobile layout, thirteen service monitors and Scrutiny metrics.

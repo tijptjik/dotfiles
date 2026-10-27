@@ -111,7 +111,7 @@
     "license": "Themed adaptation of upstream Obsidian artwork; brand rights remain with Obsidian",
     "sha256": "be7d9eb7c082c9f0c0e89d525cd0416e3ea7aec23e4bf8c843782ee8af5c6b3a",
     "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/obsidian.svg",
-    "reference_file": "docs/assets/icon-review/originals/obsidian.svg",
+    "reference_file": ".local/icon-reviews/docs/assets/icon-review/originals/obsidian.svg",
     "reference_sha256": "8dd1855430357c5ce6f76e7722b5f6b68a712ad98d2be5be6ba77616bfc69754",
     "design_note": "Preserves the original chipped-stone contour and four curved facets; removes the generic pointed crystal and floating highlight strokes. Rose, violet and periwinkle pigment ramps separate the faces."
   },

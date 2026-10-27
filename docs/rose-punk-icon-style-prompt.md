@@ -1,5 +1,9 @@
 # Prompt for additional Rose Punk illustrated icons
 
+Icon galleries, comparison snapshots and rendered previews are local review
+artifacts under `.local/icon-reviews/docs/`, which Git ignores. They are
+not required to build or deploy icons. The links below open that local archive.
+
 Use this prompt with an SVG-capable designer or image model. Replace the bracketed fields and attach the official app icon plus a few finished icons from this repository.
 
 > Create an illustrated Rose Punk desktop icon for **[APP NAME]**.

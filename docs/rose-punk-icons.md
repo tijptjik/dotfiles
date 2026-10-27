@@ -1,16 +1,20 @@
 # Rose Punk illustrated application icons
 
+Icon galleries, comparison snapshots and rendered previews are local review
+artifacts under `.local/icon-reviews/docs/`, which Git ignores. They are
+not required to build or deploy icons. The links below open that local archive.
+
 The selected illustrated direction covers **127 Hamr desktop IDs**, grouped into
 **102 installed app families**, plus **10 additional widely used apps**. The
 coverage audit follows Hamr's inclusion rules, including user, system and
 Flatpak desktop directories. Hidden/NoDisplay entries are excluded. Alternate
 versions and duplicate desktop entries share one family icon.
 
-[Browse the searchable full catalog](rose-punk-icons-gallery.html), with previews
-from 24 to 96 px. [Review the five identity redraws](rose-punk-icons-redrawn.svg).
-Printable contact sheets: [1](rose-punk-icons-catalog-1.svg),
-[2](rose-punk-icons-catalog-2.svg), [3](rose-punk-icons-catalog-3.svg),
-[4](rose-punk-icons-catalog-4.svg).
+[Browse the searchable full catalog](../.local/icon-reviews/docs/rose-punk-icons-gallery.html), with previews
+from 24 to 96 px. [Review the five identity redraws](../.local/icon-reviews/docs/rose-punk-icons-redrawn.svg).
+Printable contact sheets: [1](../.local/icon-reviews/docs/rose-punk-icons-catalog-1.svg),
+[2](../.local/icon-reviews/docs/rose-punk-icons-catalog-2.svg), [3](../.local/icon-reviews/docs/rose-punk-icons-catalog-3.svg),
+[4](../.local/icon-reviews/docs/rose-punk-icons-catalog-4.svg).
 
 Firefox, Mullvad, Thunderbird, GIMP and Transmission now use authentic upstream
 logo geometry, replacing the unrecognizable earlier interpretations. Colors,

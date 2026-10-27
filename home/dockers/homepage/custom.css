@@ -257,3 +257,13 @@ a:focus-visible, button:focus-visible {
   background: var(--rp-panel);
   border-color: var(--rp-cyan);
 }
+
+/* Frameless SVGs use a 48px canvas with balanced visible artwork.
+ * Keep the surrounding link transparent instead of adding a background tile. */
+.service-card .service-icon { background: transparent; }
+.service-card .service-icon img {
+  width: 3rem !important;
+  height: 3rem !important;
+}
+#community-link .bookmark-icon,
+#community-link .bookmark-icon > div { width: 1.5rem; height: 1.5rem; }

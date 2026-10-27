@@ -1,0 +1,190 @@
+{
+  "plex": {
+    "name": "Plex",
+    "dashboard_icon": "plex.png",
+    "theme_key": "plex",
+    "geometry": "local/plex.svg",
+    "sha256": "6023a7627e9311de3742bf4e77573389a408d40773d3e4dd81d4713dad43c892",
+    "attribution": {
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/plex.svg",
+      "license": "CC0-1.0 (brand rights remain with their owners)",
+      "sha256": "6023a7627e9311de3742bf4e77573389a408d40773d3e4dd81d4713dad43c892",
+      "material_revision": 16,
+      "design_note": "Hong Kong-centred orthographic globe (114.1694 E, 22.3193 N), simplified Natural Earth land in Plex yellow and a centred ivory play triangle.",
+      "land_reference": {
+        "source": "https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_land.geojson",
+        "file": "upstream/plex-natural-earth-land.geojson",
+        "sha256": "9e0729ee253ca7d7a5c4ae9395fb1902264c5377c52e224d13dd85010e2835d9",
+        "license": "Natural Earth public domain: https://www.naturalearthdata.com/about/terms-of-use/",
+        "projection_center": [
+          114.1694,
+          22.3193
+        ]
+      }
+    }
+  },
+  "seerr": {
+    "name": "Seerr",
+    "dashboard_icon": "seerr.png",
+    "geometry": "local/homepage/seerr.svg",
+    "sha256": "6422344d47e02efe0963e7db3e25a8d35735defcd076f822221869f7df57d292",
+    "reference_sha256": "a631922a007a104cf79120691f599b56862f285dd765bab0b744da0079a705cc",
+    "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/seerr.png",
+    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+    "material_revision": 6,
+    "design_note": "Continuous, restrained lavender pigment bands replace isolated iris scratches; the crescent pupil and matte finish remain.",
+    "reference_name": "seerr.png"
+  },
+  "tautulli": {
+    "name": "Tautulli",
+    "dashboard_icon": "tautulli.png",
+    "geometry": "local/homepage/tautulli.svg",
+    "sha256": "d0df5ddfab4bb10ff6f6981a6b8b8b28bf5debf94c485c87711a182440d61f10",
+    "reference_sha256": "df274012843ef45553b68c0685ba919455ad5545ab121063ce7a170f3b302e56",
+    "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/tautulli.png",
+    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+    "material_revision": 2,
+    "reference_name": "tautulli.png"
+  },
+  "grimmory": {
+    "name": "Grimmory",
+    "dashboard_icon": "booklore.png",
+    "geometry": "local/homepage/grimmory.svg",
+    "sha256": "85eba0a6b04a8cf207f4f28f564300d858d89512f2d05b8e48bb748339f2338b",
+    "reference_sha256": "6b22ca9782d1ec9471fd477334d1581b0f901b187fcd4327ed832b5df19f5ca6",
+    "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/booklore.png",
+    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+    "material_revision": 3,
+    "design_note": "Lavender grimoire with page block, spine, moon emblem, clasp and ribbon.",
+    "reference_name": "booklore.png"
+  },
+  "audiobookshelf": {
+    "name": "Audiobookshelf",
+    "dashboard_icon": "audiobookshelf.png",
+    "geometry": "local/homepage/audiobookshelf.svg",
+    "sha256": "cf534ad8564e115da9c61110ad856970c3c93f7ea86fc57ea5a58092768abada",
+    "reference_sha256": "369cad08ad87c79ab8c65d381e19341114388f0519f8469c34220e04d5d1fc9d",
+    "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/audiobookshelf.png",
+    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+    "material_revision": 4,
+    "design_note": "Rose, jade and amber book spines with title rules and headphones; no anthropomorphic face.",
+    "reference_name": "audiobookshelf.png"
+  },
+  "feishin": {
+    "name": "Feishin",
+    "dashboard_icon": "feishin.png",
+    "geometry": "local/homepage/feishin.svg",
+    "sha256": "31574fa8ff9b37f3e6811d0e0dc425c46c33ab4d43f57485cc300e7122d3d74b",
+    "reference_sha256": "55d32064b7faa6bc6dd5e5a39f7266371041ca7cd4904e89e29f9b4e29acef0c",
+    "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/feishin.png",
+    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+    "material_revision": 3,
+    "design_note": "Mint record player with grooved platter, ivory tonearm and amber stylus; music-library metaphor.",
+    "reference_name": "feishin.png"
+  },
+  "radarr": {
+    "name": "Radarr",
+    "dashboard_icon": "radarr.png",
+    "geometry": "local/homepage/radarr.svg",
+    "sha256": "0b44bb32bc9efbf442bb269cca18a2bbd215914457636e2f1c754d31fe9bf499",
+    "reference_sha256": "2d1534f87513e2a7a3b699654dfed2ba70f6f65693ed4a015e497315135e2e67",
+    "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/radarr.png",
+    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+    "material_revision": 5,
+    "design_note": "Radar instrument paired with Sonarr: matching matte bezel and brighter blue screen. Stronger grid markings remain readable at small sizes; mint sweep and warm returns retain priority.",
+    "reference_name": "radarr.png"
+  },
+  "sonarr": {
+    "name": "Sonarr",
+    "dashboard_icon": "sonarr.png",
+    "geometry": "local/homepage/sonarr.svg",
+    "sha256": "7f84edc0fb1739cc0982e84b2a9422f3675dfcb2d49cf7bc575f01f9891d26a9",
+    "reference_sha256": "a6d3283d0232b5a0bd0572f3d26edcbe64d07d36f43c3fc28d4f0bc155eaf49a",
+    "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/sonarr.png",
+    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+    "material_revision": 5,
+    "design_note": "Sonar instrument paired with Radarr: matching matte bezel and brighter blue screen. Stronger horizon separates the amber submarine from the mint echo arcs.",
+    "reference_name": "sonarr.png"
+  },
+  "shelfmark": {
+    "name": "Shelfmark",
+    "dashboard_icon": "shelfmark.png",
+    "geometry": "local/homepage/shelfmark.svg",
+    "sha256": "889c6861cef89e5dbf31e31eb89260ee5719d77b77049d72a3205efa58cc4303",
+    "reference_sha256": "51ae49bb77c8bbb1803acd3a70118464331d1d69230836d37abb1521c8575df5",
+    "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/shelfmark.png",
+    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+    "material_revision": 3,
+    "design_note": "Rose ribbon bookmark with stitched margins, jade cord and tassel; matched to book materials.",
+    "reference_name": "shelfmark.png"
+  },
+  "transmission": {
+    "name": "Transmission",
+    "dashboard_icon": "transmission.png",
+    "theme_key": "transmission",
+    "geometry": "local/transmission.svg",
+    "sha256": "29b085ef5ab1fdc43210aabeeb302319afa4545c02ec9a9537899034c9a800d2",
+    "attribution": {
+      "source": "/usr/share/icons/hicolor/scalable/apps/transmission-gtk.svg",
+      "license": "Upstream Transmission application icon; themed adaptation. See bundled upstream licenses.",
+      "sha256": "29b085ef5ab1fdc43210aabeeb302319afa4545c02ec9a9537899034c9a800d2",
+      "reference": "upstream/transmission.svg",
+      "reference_sha256": "3e4d67e348c5f99498bcdfdd7608ec3e4a6d42a57a7418ca25c4b6348a21093a",
+      "material_revision": 11,
+      "design_note": "Familiar red handle and ivory housing retained; centered continuous arrow with inherited stripe and bevel fragments removed, stem ending cleanly at the arrow shoulders."
+    }
+  },
+  "profilarr": {
+    "name": "Profilarr",
+    "dashboard_icon": "profilarr.png",
+    "geometry": "local/homepage/profilarr.svg",
+    "sha256": "2fb5ca9f0b559173296a0ce7af53186e039a488957e024042b82ce12c8b6bef2",
+    "reference_sha256": "17d7b236529ef533fc70da2358459f7babddcd05f5bf4a0fd4519f352c3e640a",
+    "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/profilarr.png",
+    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+    "material_revision": 5,
+    "design_note": "Five adult figures retain a nearly square lineup, with more natural jaw and face proportions, shaped shoulders, restrained shirt seams and small shared placards.",
+    "reference_name": "profilarr.png"
+  },
+  "prowlarr": {
+    "name": "Prowlarr",
+    "dashboard_icon": "prowlarr.png",
+    "theme_key": "prowlarr",
+    "geometry": "local/prowlarr.svg",
+    "sha256": "54599b9c94db4b0ebe2bfc9856b44843bd17eeb94d149a4d7dfcdf2b00d21a95",
+    "attribution": {
+      "source": "scripts/icons/local/prowlarr.svg",
+      "license": "Original tiger-face interpretation; app identity rights remain with their owners",
+      "sha256": "54599b9c94db4b0ebe2bfc9856b44843bd17eeb94d149a4d7dfcdf2b00d21a95",
+      "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prowlarr.svg",
+      "reference_sha256": "324c3501087a8f6337d4c73ead8bd848b8c0491e062abececb2b9eea398c62a4",
+      "material_revision": 5
+    }
+  },
+  "scrutiny": {
+    "name": "Scrutiny",
+    "dashboard_icon": "scrutiny.png",
+    "geometry": "local/homepage/scrutiny.svg",
+    "sha256": "292102f5909103879339907e9b09c01272dc7296a14f2ae1aa3d6f2e901222b1",
+    "reference_sha256": "c0b0465ca41a4d3fde562d61009bc9dec55774df9a4b72a229b2004bceb66779",
+    "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/scrutiny.png",
+    "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+    "material_revision": 4,
+    "design_note": "Book-family rose frames replace the hotter flamingo pink. Blue lenses and slightly heavier ivory monitoring traces improve small-size coherence.",
+    "reference_name": "scrutiny.png"
+  },
+  "telegram": {
+    "name": "Telegram",
+    "dashboard_icon": "telegram.png",
+    "theme_key": "telegram",
+    "geometry": "local/telegram.svg",
+    "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
+    "attribution": {
+      "source": "/home/io/code/tooltjik/apps/bartjik/qml/icons/tray/telegram-outline.svg",
+      "license": "Original artwork",
+      "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
+      "material_revision": 13,
+      "design_note": "Solid blue wings; two continuously shaded paper faces meet along a straight nose-to-tail crease. Slightly deeper return-face shading sharpens the right wing fold. Matching rose-red and ivory wing bands. Shared with Homepage."
+    }
+  }
+}

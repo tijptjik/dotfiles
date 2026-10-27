@@ -38,6 +38,8 @@ def icon(mark):
  return '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">'+STYLE+'<rect x="3" y="3" width="58" height="58" rx="17" fill="#232032"/><path d="M17 4h30" stroke="#e56ea1" stroke-opacity=".28" stroke-width="1"/><g fill="none" stroke="#e56ea1" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">'+mark+'</g></svg>\n'
 
 def main():
+ from review_paths import prepare_review
+ prepare_review(ROOT)
  DEST.mkdir(parents=True,exist_ok=True)
  for key,(name,mark) in ART.items():
   (DEST/f'{key}.svg').write_text(icon(mark))
@@ -47,6 +49,6 @@ def main():
   rows.append(f'<g transform="translate({x+50} {y}) scale(1.5)">'+icon(mark).split('>',1)[1].rsplit('</svg>',1)[0]+'</g>')
   rows.append(f'<text x="{x+98}" y="{y+122}" text-anchor="middle" fill="#e5e5e5" font-size="16">{name}</text>')
  sheet='<svg xmlns="http://www.w3.org/2000/svg" width="1044" height="970" viewBox="0 0 1044 970"><rect width="1044" height="970" fill="#191724"/><g font-family="sans-serif"><text x="32" y="56" fill="#e56ea1" font-size="30">ROSE PUNK / APPLICATIONS</text><text x="32" y="90" fill="#c4b5db" font-size="15">01 — Local review · 25 marks · SVG originals · 64 px grid</text>'+''.join(rows)+'</g></svg>'
- (ROOT/'docs/rose-punk-icons-preview.svg').write_text(sheet)
+ (ROOT / '.local/icon-reviews/docs/rose-punk-icons-preview.svg').write_text(sheet)
 
 if __name__=='__main__':main()

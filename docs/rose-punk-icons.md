@@ -1,81 +1,66 @@
-# Rose Punk application icons
+# Rose Punk illustrated application icons
 
-The first review set contains 25 hand-drawn SVG marks based on the launcher
-screenshot, desktop startup apps and installed daily tools. This is a curated
-selection, not a measured usage ranking. See [the contact sheet](rose-punk-icons-preview.svg).
+The selected illustrated direction covers **127 Hamr desktop IDs**, grouped into
+**102 installed app families**, plus **10 additional widely used apps**. The
+coverage audit follows Hamr's inclusion rules, including user, system and
+Flatpak desktop directories. Hidden/NoDisplay entries are excluded. Alternate
+versions and duplicate desktop entries share one family icon.
 
-The artwork uses a 64-unit grid, a dark plum `#232032` rounded surface, rose
-`#e56ea1` outlines, pale lilac `#c4b5db` details and 2.6-unit rounded strokes.
-App silhouettes stay identifiable at launcher sizes. All artwork is editable
-in `scripts/icons/build.py`; run it to regenerate the SVGs and contact sheet.
-These are original desktop theme interpretations, not official brand assets.
-No image-generation service was used: these extend the repo's SVG icon system.
+[Browse the searchable full catalog](rose-punk-icons-gallery.html), with previews
+from 24 to 96 px. [Review the five identity redraws](rose-punk-icons-redrawn.svg).
+Printable contact sheets: [1](rose-punk-icons-catalog-1.svg),
+[2](rose-punk-icons-catalog-2.svg), [3](rose-punk-icons-catalog-3.svg),
+[4](rose-punk-icons-catalog-4.svg).
 
-Source assets live under `home/dot_local/share/icons/rose-punk/`. Unique
-`rose-punk-*` aliases in hicolor make them available without replacing the
-distribution icons. The Rose Punk theme supplies aliases for the original
-app icon names, then inherits Neuwaita and Adwaita for everything else. GTK4
-and the desktop icon-theme setting select it, so Hamr recent entries using
-system desktop paths receive the same artwork. `scripts/icons/apps.json` maps installed
-desktop IDs, including alternate installations and the two Codex LB entries.
+Firefox, Mullvad, Thunderbird, GIMP and Transmission now use authentic upstream
+logo geometry, replacing the unrecognizable earlier interpretations. Colors,
+tile shape and relief treatment follow the illustrated Rose Punk direction.
+Other illustrations preserve their app's visual identity while remapping its
+colors to the same rose/plum/lilac palette.
 
-Managed desktop entries reference the aliases directly. For desktop entries
-owned by packages, Flatpak or app installers, `scripts/icons/install.py` makes
-local copies, changing only the main `Icon` field. Exec, actions, names, and
-other settings are preserved. Absolute upstream icon paths are handled too.
-The client-only `run_after_40-rose-punk-icons` hook runs after file deployment,
-both in plain Chezmoi and in the Tjikup hook schedule. Repeated runs are safe.
-Hamr may need a daemon/UI restart to refresh its app index.
+The ten extras are **VS Code, Slack, Microsoft Teams, Notion, Figma, Microsoft
+Edge, Blender, Inkscape, LibreOffice and Audacity**. They were absent from the
+local launcher inventory. This is a practical widely used selection for broader
+coverage, not a measured global top-ten ranking. Artwork and aliases are
+installed; the applications themselves are not installed.
 
-Review:
+## Maintenance
+
+The [reusable design prompt](rose-punk-icon-style-prompt.md) describes the visual
+language and how to add icons. Source geometry, hashes and attribution are in
+`scripts/icons/upstream/`, `catalog.json` and `provenance.json`. Upstream license
+texts are bundled beside the SVGs. These are unofficial themed application
+marks; app identities and trademarks remain with their respective owners.
 
 ```sh
-xdg-open ~/.local/share/chezmoi/docs/rose-punk-icons-preview.svg
+python3 scripts/icons/fullset.py       # deterministic offline rebuild
+python3 scripts/icons/gallery.py       # catalog and contact sheets
+python3 scripts/icons/audit.py         # report uncovered local launcher entries
+python3 -B -m unittest discover -s tests -p 'test_rose_punk_icons.py' -v
 ```
 
-Installer-created overrides retain recovery data in
-`~/.local/state/rose-punk-icons/desktop-overrides.json`. To undo those overrides,
-run `python3 scripts/icons/install.py --restore`; it preserves entries edited
-since installation. To fully retire the set, also revert the managed desktop
-Icon fields and disable its apply hook, otherwise the next apply restores it.
+Chezmoi deploys the SVGs and aliases. Its client-only `run_after_40-rose-punk-icons`
+hook installs desktop overrides and refreshes caches; Tjikup includes this in
+its hook schedule. Original main `Icon` fields are replaced with unique
+`rose-punk-*` names, preserving Exec, actions and other desktop metadata.
+Aliases for original icon names also cover Hamr's stored recent system entries.
+The illustrated theme inherits Neuwaita, Adwaita and hicolor for unrelated icons.
 
-The palette compatibility fix was committed separately; the new icon set is
-left uncommitted for visual review.
-
-## Two review directions
-
-[Open the interactive A/B comparison](rose-punk-icons-compare.html), or view
-[the static comparison sheet](rose-punk-icons-compare.svg). Each pair shows
-A on the left and B on the right. The HTML preview includes 24, 32, 48, 64 and
-96 px sizes and dark/light backgrounds.
-
-- **A / Outline:** the original crisp rose and lilac line icons.
-- **B / Illustrated:** filled enamel shapes, layered plum tiles, highlights and
-  small relief shadows. These are editable SVG illustrations. The built-in
-  image generator was unavailable, so no generated raster artwork was used.
-
-Both sets contain all 25 apps. Original icon-name aliases and the unique
-`rose-punk-*` desktop IDs resolve within the selected theme.
-
-From the repository root, select a version for the live desktop:
+For focused deployment:
 
 ```sh
-python3 scripts/icons/choose.py a
+chezmoi apply --include=files,dirs,symlinks ~/.local/share/icons/rose-punk-illustrated ~/.local/share/icons/hicolor/scalable/apps
+python3 scripts/icons/install.py
 python3 scripts/icons/choose.py b
+systemctl --user restart hamr-daemon.service hamr-gtk.service
 ```
 
-Selection updates the managed GTK4 and dconf settings, applies the chosen
-icon theme and refreshes Hamr's UI. It persists across future Chezmoi/Tjikup
-runs. Other running applications may need reopening to pick up a theme switch.
+The original 25-app outline study is retained as an archive. `choose.py a` can
+still select it, but only the illustrated direction receives complete coverage.
+The chosen theme is saved in the managed GTK4 and dconf settings.
 
-Regenerate artwork and comparison assets:
-
-```sh
-python3 scripts/icons/build.py
-python3 scripts/icons/illustrated.py
-python3 scripts/icons/compare.py
-```
-
-B's editable rendering is in `scripts/icons/illustrated.py`; its installed
-assets live in `~/.local/share/icons/rose-punk-illustrated/`. Both directions
-remain uncommitted until a direction is selected for further development.
+Installer-created desktop overrides retain recovery data under
+`~/.local/state/rose-punk-icons/desktop-overrides.json`. `install.py --restore`
+restores only entries unchanged since installation. Full retirement also
+requires reverting managed Icon fields and disabling the apply hook, otherwise
+the next apply reinstates the theme.

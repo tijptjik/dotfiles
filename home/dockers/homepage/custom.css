@@ -104,12 +104,13 @@ body, #page_wrapper { background: var(--rp-bg); color: var(--rp-text); }
   background: linear-gradient(120deg, var(--group-wash), transparent 70%), var(--rp-panel);
   color: var(--rp-text);
   box-shadow: 0 5px 18px #08070e12;
-  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  transition: background-color 160ms ease, border-color 160ms ease;
 }
 #layout-groups .service-card:hover {
   background-color: var(--rp-raised);
   border-color: var(--group-accent);
-  transform: translateY(-2px);
+  /* The section collapse container clips cards that move above its top edge. */
+  transform: none;
 }
 .service-card .service-title { min-height: 4rem; align-items: center; gap: 0.75rem; }
 .service-card .service-icon {

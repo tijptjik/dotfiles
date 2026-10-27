@@ -62,10 +62,20 @@ body:not(.colorful-headings) h1 {color:inherit}
             viewer.prepare(source, state)
             config = state / 'vault/.obsidian'
             self.assertEqual(json.loads((config / 'community-plugins.json').read_text()), [])
-            self.assertEqual(json.loads((config / 'core-plugins.json').read_text()), [])
+            self.assertTrue(all(value is False for value in json.loads((config / 'core-plugins.json').read_text()).values()))
             self.assertFalse((config / 'plugins').exists())
             self.assertEqual(json.loads((config / 'appearance.json').read_text())['enabledCssSnippets'], ['present'])
+            workspace_path = config / 'workspace.json'
+            workspace = json.loads(workspace_path.read_text())
+            self.assertTrue(workspace['left']['collapsed'])
+            self.assertTrue(workspace['right']['collapsed'])
+            workspace['left']['collapsed'] = False
+            workspace['main']['test_preserved'] = 'open document'
+            workspace_path.write_text(json.dumps(workspace))
             viewer.prepare(source, state)
+            refreshed = json.loads(workspace_path.read_text())
+            self.assertTrue(refreshed['left']['collapsed'])
+            self.assertEqual(refreshed['main'], workspace['main'])
             self.assertEqual(before, {p.relative_to(source): p.read_bytes() for p in source.rglob('*') if p.is_file()})
 
 

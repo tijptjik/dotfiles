@@ -126,9 +126,24 @@ def prepare(source, state):
     appearance['enabledCssSnippets'] = enabled
     write_json(config / 'appearance.json', appearance)
     write_json(config / 'community-plugins.json', [])
-    write_json(config / 'core-plugins.json', [])
+    core = set(read_json(source / 'core-plugins.json', {}))
+    core.update(('canvas', 'properties', 'bookmarks', 'bases', 'webviewer'))
+    core.update(read_json(config / 'core-plugins.json', {}))
+    write_json(config / 'core-plugins.json', {name: False for name in sorted(core)})
     write_json(config / 'app.json', {'defaultViewMode': 'preview', 'showInlineTitle': True,
                                    'readableLineLength': True, 'livePreview': False})
+    workspace_path = config / 'workspace.json'
+    workspace = read_json(workspace_path, {
+        'main': {'id': 'viewer-main', 'type': 'split', 'direction': 'vertical',
+                 'children': [{'id': 'viewer-tabs', 'type': 'tabs', 'children': []}]},
+    })
+    for side in ('left', 'right'):
+        split = workspace.setdefault(side, {
+            'id': 'viewer-' + side, 'type': 'split', 'direction': 'horizontal',
+            'children': [], 'width': 300,
+        })
+        split['collapsed'] = True
+    write_json(workspace_path, workspace)
     profile = state / 'config' / 'obsidian'
     profile.mkdir(parents=True, exist_ok=True)
     if not (profile / 'obsidian.json').exists():

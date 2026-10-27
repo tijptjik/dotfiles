@@ -52,7 +52,7 @@ stale associations.
 Available on `fi`, `li`, and `si`, from any working directory and shell:
 
 ```sh
-tjix                 # push committed changes in Dotjik, Systjik, and Tooltjik
+tjix                 # push committed changes in Dotjik, Systjik, and TjikOS
 tjixx                # pull all three with rebase, then push all three
 tjix --dry-run       # show repositories and commands, without network or writes
 tjixx --dry-run      # also check that all three working trees are clean
@@ -103,8 +103,12 @@ the planned continuation. Other unfinished Git operations still require manual
 completion. Ordinary detached HEAD checkouts are not pushed.
 
 Dotjik is located via `chezmoi source-path` and its Git root; Systjik defaults to
-`~/.local/share/chezetc`. Tooltjik uses `TOOLTJIK_REPO` when set, otherwise
-`~/code/tooltjik` on every host, matching installer selection.
+`~/.local/share/chezetc`. Both Git-only shortcuts now target TjikOS at
+`~/code/tjikos` (`tijptjik/tjikos`), replacing the Tooltjik checkout. Set
+`TJIKOS_REPO` to select another checkout; `TOOLTJIK_REPO` remains a fallback
+override for compatibility. Existing Tooltjik checkout directories are not
+selected automatically. The full `tjikup` workflow and installers below still
+use their Tooltjik configuration.
 `DOTJIK_REPO` and `SYSTJIK_REPO` override the other repository paths. Missing
 checkouts fail clearly rather than being cloned. The shortcuts share Tjikup's
 workflow and repository locks and report a busy checkout instead of racing it.

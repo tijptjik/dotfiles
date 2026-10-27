@@ -1,4 +1,4 @@
-"""Git-only synchronization policy for Dotjik, Systjik and Tooltjik."""
+"""Git-only synchronization policy for Dotjik, Systjik and TjikOS."""
 import argparse
 import codecs
 from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
@@ -44,15 +44,10 @@ def repositories():
             raise SyncError('Cannot determine the Chezmoi source directory; set DOTJIK_REPO.')
         # .chezmoiroot can place the source directory below the Git root.
         dot = git(Path(result.stdout.strip()), 'rev-parse', '--show-toplevel')
-    tool = os.environ.get('TOOLTJIK_REPO')
-    if not tool:
-        tool = home / 'code/tooltjik'
-        legacy = home / '.local/share/tooltjik'
-        if not (tool.exists() or tool.is_symlink()) and (legacy.exists() or legacy.is_symlink()):
-            raise SyncError(f'Move {legacy} to {tool} before retrying (see docs/tjikup.md).')
+    tool = os.environ.get('TJIKOS_REPO') or os.environ.get('TOOLTJIK_REPO') or home / 'code/tjikos'
     return [('Dotjik', Path(dot).expanduser().resolve()),
             ('Systjik', Path(os.environ.get('SYSTJIK_REPO', home / '.local/share/chezetc')).expanduser().resolve()),
-            ('Tooltjik', Path(tool).expanduser().resolve())]
+            ('TjikOS', Path(tool).expanduser().resolve())]
 
 
 def git_path(repo, name):

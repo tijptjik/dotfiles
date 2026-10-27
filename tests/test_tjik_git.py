@@ -92,38 +92,37 @@ class FleetGitTests(unittest.TestCase):
 
         with patch.dict('os.environ', {'DOTJIK_REPO': '',
                                       'SYSTJIK_REPO': str(self.repos[1][1]),
+                                      'TJIKOS_REPO': '',
                                       'TOOLTJIK_REPO': str(self.repos[2][1])}), \
                 patch.object(tjik_git.subprocess, 'run', side_effect=run):
             self.assertEqual([repo for _, repo in tjik_git.repositories()],
                              [repo for _, repo in self.repos])
 
-    def test_tooltjik_defaults_to_code_even_before_checkout_exists(self):
+    def test_tjikos_defaults_to_code_even_before_checkout_exists(self):
         with patch.dict('os.environ', {'DOTJIK_REPO': str(self.repos[0][1]),
                                       'SYSTJIK_REPO': str(self.repos[1][1]),
+                                      'TJIKOS_REPO': '',
                                       'TOOLTJIK_REPO': ''}), \
                 patch.object(tjik_git.Path, 'home', return_value=self.root):
             self.assertEqual(tjik_git.repositories()[-1],
-                             ('Tooltjik', self.root / 'code/tooltjik'))
+                             ('TjikOS', self.root / 'code/tjikos'))
 
-    def test_legacy_tooltjik_requires_migration(self):
-        legacy = self.root / '.local/share/tooltjik'
-        legacy.mkdir(parents=True)
+    def test_tjikos_override_takes_precedence_over_legacy_override(self):
+        selected = self.root / 'custom-tjikos'
         with patch.dict('os.environ', {'DOTJIK_REPO': str(self.repos[0][1]),
-                                      'TOOLTJIK_REPO': ''}), \
-                patch.object(tjik_git.Path, 'home', return_value=self.root):
-            with self.assertRaisesRegex(tjik_git.SyncError, 'Move .*tooltjik'):
-                tjik_git.repositories()
-        self.assertTrue(legacy.exists())
-        self.assertFalse((self.root / 'code/tooltjik').exists())
+                                      'TJIKOS_REPO': str(selected),
+                                      'TOOLTJIK_REPO': str(self.repos[2][1])}):
+            self.assertEqual(tjik_git.repositories()[-1], ('TjikOS', selected))
 
-    def test_canonical_tooltjik_wins_when_legacy_also_exists(self):
+    def test_old_tooltjik_checkouts_do_not_change_tjikos_default(self):
         (self.root / '.local/share/tooltjik').mkdir(parents=True)
-        canonical = self.root / 'code/tooltjik'
-        canonical.mkdir(parents=True)
+        (self.root / 'code/tooltjik').mkdir(parents=True)
         with patch.dict('os.environ', {'DOTJIK_REPO': str(self.repos[0][1]),
+                                      'TJIKOS_REPO': '',
                                       'TOOLTJIK_REPO': ''}), \
                 patch.object(tjik_git.Path, 'home', return_value=self.root):
-            self.assertEqual(tjik_git.repositories()[-1], ('Tooltjik', canonical))
+            self.assertEqual(tjik_git.repositories()[-1],
+                             ('TjikOS', self.root / 'code/tjikos'))
 
     def test_push_only_leaves_uncommitted_changes(self):
         for _, repo in self.repos:

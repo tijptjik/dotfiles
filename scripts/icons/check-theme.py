@@ -34,7 +34,7 @@ def lookup(name, theme, roots, visited=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--theme', default='rose-punk-illustrated')
+    parser.add_argument('--theme', default='rose-punk')
     parser.add_argument('--json', action='store_true')
     args = parser.parse_args()
     home = Path.home()
@@ -59,7 +59,7 @@ def main():
             issues.append({'desktop': desktop, 'issue': kind, 'icon': name})
     for path in (data / 'icons/hicolor').rglob('*'):
         if path.is_symlink() and any(path.resolve().is_relative_to((data / 'icons' / name).resolve())
-                                    for name in ('rose-punk', 'rose-punk-illustrated')):
+                                    for name in ('rose-punk', 'rose-punk-illustrated', 'rose-punk-framed')):
             issues.append({'path': str(path), 'issue': 'theme artwork in hicolor'})
     if args.json:
         print(json.dumps(issues, indent=2))

@@ -7,14 +7,15 @@ from pathlib import Path
 
 from install import select_theme
 
-THEME = 'rose-punk-illustrated'
+THEME = 'rose-punk'
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('theme', nargs='?', default=THEME, help='installed theme ID (default: Rose Punk)')
     args = parser.parse_args()
-    theme = THEME if args.theme == 'Rose Punk' else args.theme
+    theme = {'Rose Punk': THEME, 'rose-punk-illustrated': THEME,
+             'Rose Punk Framed': 'rose-punk-framed'}.get(args.theme, args.theme)
     if theme in ('.', '..') or '/' in theme:
         parser.error('expected an installed theme name, not a path')
     home = Path.home()

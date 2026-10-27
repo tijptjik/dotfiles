@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Install theme metadata and retire overrides without changing the selected theme."""
 import argparse
+import configparser
 import hashlib
 import json
 import os
@@ -46,6 +47,32 @@ def select_theme(config, theme, graphical):
             ['gsettings', 'get', 'org.gnome.desktop.interface', 'icon-theme'], text=True).strip().strip("'")
         if current != theme:
             subprocess.run(['gsettings', 'set', 'org.gnome.desktop.interface', 'icon-theme', theme], check=True)
+            changed = True
+    return changed
+
+
+def migrate_legacy_theme(config, graphical):
+    """Rename the selected Rose Punk ID without changing other theme choices."""
+    changed = False
+    for relative, section, key in (
+        ('gtk-3.0/settings.ini', 'Settings', 'gtk-icon-theme-name'),
+        ('gtk-4.0/settings.ini', 'Settings', 'gtk-icon-theme-name'),
+        ('qt6ct/qt6ct.conf', 'Appearance', 'icon_theme'),
+    ):
+        path = config / relative
+        if not path.is_file():
+            continue
+        before = path.read_text()
+        settings = configparser.ConfigParser(interpolation=None, strict=False)
+        settings.read_string(before)
+        if settings.get(section, key, fallback='') == 'rose-punk-illustrated':
+            path.write_text(with_ini_setting(before, section, key, 'rose-punk'))
+            changed = True
+    if graphical:
+        current = subprocess.check_output(
+            ['gsettings', 'get', 'org.gnome.desktop.interface', 'icon-theme'], text=True).strip().strip("'")
+        if current == 'rose-punk-illustrated':
+            subprocess.run(['gsettings', 'set', 'org.gnome.desktop.interface', 'icon-theme', 'rose-punk'], check=True)
             changed = True
     return changed
 
@@ -163,7 +190,7 @@ def restore_overrides(data, state, managed, vendor_roots):
 
 def remove_theme_fallbacks(data):
     """Remove our symlinks, never vendor icon files or links to other themes."""
-    themes = [(data / 'icons' / name).resolve() for name in ('rose-punk', 'rose-punk-illustrated')]
+    themes = [(data / 'icons' / name).resolve() for name in ('rose-punk', 'rose-punk-illustrated', 'rose-punk-framed')]
     removed = 0
     for path in (data / 'icons/hicolor').rglob('*'):
         if path.is_symlink() and any(path.resolve().is_relative_to(theme) for theme in themes):
@@ -187,17 +214,27 @@ def main():
                Path('/var/lib/flatpak/exports/share/applications')]
     changed, issues = restore_overrides(data, state, managed_icons(source), vendors)
     removed = remove_theme_fallbacks(data)
-    for theme in ('rose-punk', 'rose-punk-illustrated'):
+    primary = configparser.ConfigParser(interpolation=None)
+    primary.read(data / 'icons/rose-punk/index.theme')
+    if (primary.get('Icon Theme', 'Name', fallback='') == 'Rose Punk'
+            and not primary.getboolean('Icon Theme', 'Hidden', fallback=False)):
+        config = Path(os.environ.get('XDG_CONFIG_HOME', home / '.config'))
+        migrated = migrate_legacy_theme(config, bool(os.environ.get('WAYLAND_DISPLAY') or os.environ.get('DISPLAY')))
+    else:
+        migrated = False
+    for theme in ('rose-punk', 'rose-punk-illustrated', 'rose-punk-framed'):
         if (data / 'icons' / theme / 'index.theme').exists():
             refresh_cache(['gtk-update-icon-cache', '--force', str(data / 'icons' / theme)])
     if (data / 'icons/hicolor').exists():
         refresh_cache(['gtk-update-icon-cache', '--force', '--ignore-theme-index', str(data / 'icons/hicolor')])
     if (data / 'applications').exists():
         refresh_cache(['update-desktop-database', str(data / 'applications')])
-    # Installation must never change the user's selected theme.
+    # Only a renamed Rose Punk ID is migrated; other theme choices stay intact.
     for name in issues:
         print(f'WARN    ! Icon override needs review: {name}')
     note = f'{changed} launcher overrides retired; {removed} fallback links removed' if changed or removed else 'no changes'
+    if migrated:
+        note = 'theme ID migrated' + (f'; {note}' if note != 'no changes' else '')
     print(f'__stage_note__:{note}' if args.status_note else f'Rose Punk setup: {note}')
 
 

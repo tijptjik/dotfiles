@@ -13,8 +13,7 @@
 .fonts/.uuid
 .config/sublime-text/Local/Auto Save Session.sublime_session
 {{ if eq .chezmoi.hostname "li" -}}
-# Li uses Chrome Beta/Flatpak; these native Chrome and old Cemu targets are absent.
-.local/share/applications/google-chrome.desktop
+# Li uses managed Chrome stable; Canary and the old Cemu target are absent.
 .local/share/applications/google-chrome-canary.desktop
 .local/share/applications/com.google.Chrome.canary.desktop
 .local/share/applications/discord.desktop
@@ -30,6 +29,7 @@ storage
 .local/bin/obsidian
 .local/share/applications/md.obsidian.Obsidian.desktop
 .local/share/applications/org.videolan.VLC.desktop
+.local/share/applications/vlc.desktop
 .config/private-storage
 .config/systemd/user/private-sync.*
 .config/systemd/user/private-backup.*

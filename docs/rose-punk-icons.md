@@ -4,9 +4,9 @@ Icon galleries, comparison snapshots and rendered previews are local review
 artifacts under `.local/icon-reviews/docs/`, which Git ignores. They are
 not required to build or deploy icons. The links below open that local archive.
 
-The selected illustrated direction covers **127 Hamr desktop IDs**, grouped into
+The selected illustrated direction covers **127 desktop IDs**, grouped into
 **102 installed app families**, plus **10 additional widely used apps**. The
-coverage audit follows Hamr's inclusion rules, including user, system and
+coverage audit follows desktop-entry visibility rules, including user, system and
 Flatpak desktop directories. Hidden/NoDisplay entries are excluded. Alternate
 versions and duplicate desktop entries share one family icon.
 

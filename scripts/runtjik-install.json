@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "banner": {"title": "Runtjik", "url": "https://github.com/tijptjik/tooltjik/tree/main/apps/runtjik"},
+  "steps": [{
+    "id": "runtjik",
+    "label": "Install Runtjik",
+    "command": ["bash", "{config_dir}/install-runtjik.sh"],
+    "output": "stream",
+    "timeout": 180
+  }]
+}

@@ -191,6 +191,19 @@
     "verb": "UPDATE"
   },
   {
+    "id": "runtjik",
+    "file": "run_after_41-install-runtjik.fish.tmpl",
+    "needs": [
+      "tjikup"
+    ],
+    "resources": [
+      "tooltjik",
+      "user-systemd"
+    ],
+    "label": "Runtjik",
+    "verb": "INSTALL"
+  },
+  {
     "id": "collie",
     "file": "run_after_70-provision-collie.fish.tmpl",
     "needs": [

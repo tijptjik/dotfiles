@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Report app-icon coverage using Hamr's desktop-entry inclusion rules."""
+"""Report app-icon coverage using desktop-entry visibility rules."""
 import configparser
 import fnmatch
 import json

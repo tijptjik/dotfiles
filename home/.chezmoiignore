@@ -54,8 +54,6 @@ storage
 .config/systemd/user/hyprlock-login.service
 .config/systemd/user/hyprvoice.service
 .config/systemd/user/screen-record.service
-.config/systemd/user/hamr-daemon.service
-.config/systemd/user/hamr-gtk.service
 .local/bin/screen-record
 .config/xdg-desktop-portal
 .config/bartjik

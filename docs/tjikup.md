@@ -385,3 +385,16 @@ See [completion notifications](tjikup-notifications.md) for desktop behavior.
 
 The client home apply also [installs Bartjik and retires Waybar](bartjik.md),
 including enabling its user service and starting it in an active desktop session.
+
+## Runtjik-only installation
+
+`runtjik` is included in the home hook graph on every host. Its installer verifies
+both Tooltjik source and deployed file fingerprints, rebuilding changed or stale
+installations and preserving `~/.config/runtjik/runtjik.conf`. The headless server
+receives the files and CLI without a GUI service.
+
+Use `tjikup --config scripts/runtjik-install.json` from the Dotjik checkout for
+a focused app-only installation. It uses the existing Tooltjik source and avoids
+repository capture/commit/sync; this is useful while unrelated work is dirty. It
+does not publish new app code or bypass the normal full-workflow clean-worktree
+requirements. See [launcher tools](launcher-tools.md) for migration details.

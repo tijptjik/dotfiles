@@ -1,57 +1,55 @@
-# Gitfetch and Hamr
+# Gitfetch and Runtjik
 
-Chezetc's client installer manages Gitfetch and Hamr in root-owned versioned
-folders under `/opt/gitfetch` and `/opt/hamr`. Commands in `/usr/local/bin`
-select the installed versions. Compatibility links in `~/.local/bin` replace
-old executables, which are saved in `~/.local/state/chezetc/launcher-tools`.
+Gitfetch remains managed by Chezetc under `/opt/gitfetch`.
+Runtjik is the independent Quickshell launcher in Tooltjik's `apps/runtjik`.
+It takes visual inspiration from Hamr, with a Rose Pine/Rose Punk icon grid,
+an optional list, automatic desktop indexing and Fish-history command whitelisting,
+local launch statistics,
+and Hyprland window switching. From 0.6.0, dismissal hides the UI and keeps the
+launcher warm after its first opening. Hidden instances have no mapped layer or
+outside-click bindings and do not periodically refresh the index. `runtjik quit`
+releases the resident processes; `/config ui.keep_alive false` restores exit on
+dismissal. Reopening reloads external TOML changes.
 
-Gitfetch uses its own Python virtual environment. Hamr includes its bundled
-plugins next to the binaries; personal settings remain in `~/.config/hamr`.
-The client installer validates all installed commands before publishing compatibility
-links, then enables both Hamr user services and starts them when a graphical
-session is active. Hyprland also starts the Hamr GTK user service at login. Super+Escape toggles the launcher;
-Super+V opens its clipboard plugin. The old Quickshell startup is retired.
+Super+Escape toggles Runtjik on key press, independent of which key is released first. Drag its header or frame to move
+the top-layer launcher card. It stays out of the normal window layout and uses
+its own styling, with compositor blur, dimming and animation disabled. Enter requests a new launch; Shift+Enter switches
+to a matching window or opens a titled instance picker. Tab and Shift+Tab move
+through results. Outside clicks hide the launcher and reach the underlying app;
+`/pin` keeps it visible until explicitly dismissed.
+`/refresh` rebuilds the index, including the command whitelist from saved Fish
+history. Ctrl+L toggles grid/list.
+`/shortcuts` and `/bindings` show keyboard help. `/config` browses featured
+settings; for example, `/config ui.columns 6` saves TOML and applies it live.
+Open/close requests are serialized and wait for readiness; failed starts exit and
+report `~/.local/state/runtjik/launcher.log` instead of leaving an invisible instance.
+The TOML config is `~/.config/runtjik/runtjik.conf`; the Tooltjik app README
+documents every setting, history storage, commands, and the future ZenTabs API.
 
-Hamr backgrounds and content panels are fully opaque: both
-`appearance.backgroundTransparency` and `appearance.contentTransparency` are
-explicitly zero, overriding Hamr's translucent defaults.
+`scripts/install-runtjik.sh` builds and installs the shared Tooltjik source.
+The regular fleet hook runs on every machine and verifies source and installed
+output fingerprints before skipping an unchanged installation. Headless hosts
+receive the command and files without starting a GUI. Client prerequisites are
+Quickshell, Python 3.11+, PyGObject, Gio, GTK 3 and GdkPixbuf SVG support.
 
-Hamr's expanded panel is centered on the primary displays of `fi` (1440 logical
-pixels high) and `li` (1200 logical pixels high at 2× scale). The shared
-`hamr-y-ratio` template allows for the 682px expanded panel: its top edge is 379px
-on `fi` and 259px on `li`. Hamr 1.1.0 restores saved positions when shown, so the
-position hook also updates only the primary monitor's entry in
-`~/.local/state/hamr/states.json`, restarting an active GTK UI to reload it.
-Other monitor positions and launcher state are preserved. Recheck the expanded
-height if fonts, UI scale, or the maximum results height change.
+For an app-only installation without the full repository sync/apply workflow:
 
-The GTK UI includes a local layout patch in `scripts/hamr/center-modes.patch`:
-list, grid, card, and form widths keep the saved horizontal center. Side previews
-remain beside the centered main launcher. The correction observes GTK's actual
-allocation after painting without scheduling continuous idle redraws; dragging
-still saves a new center normally.
+```sh
+tjikup --config scripts/runtjik-install.json
+```
 
-`scripts/install-hamr-layout.sh` builds only the patched GTK UI from Hamr 1.1.0's
-pinned release commit and lockfile. It requires Rust/Cargo, `gtk4-devel`, and
-`gtk4-layer-shell-devel`. A Chezmoi change hook rebuilds when the patch changes;
-the service drop-in selects `~/.local/share/hamr-layout/hamr-gtk`. The CLI, daemon,
-plugins, and upstream binaries remain managed by Chezetc. When upgrading Hamr,
-review/rebase this patch and update the pinned UI revision together. To revert
-the local UI, remove the `hamr-gtk.service.d/layout.conf` drop-in, reload systemd,
-and restart `hamr-gtk.service`.
-
-`tjikup` checks GitHub for each tool's latest stable release and updates the
-versioned install when needed. Hamr archives are verified against the release
-asset digest. Gitfetch is installed from the latest stable release tag after
-checking that the cloned commit matches GitHub's commit API. Reproducible
-downloads and build output do not require recurring backups. Preserve personal
-configuration.
+This workflow does not commit, fetch or push repositories; it uses the existing
+Tooltjik checkout, so distribute/review the intended source revision first.
+The installer preserves existing personal config, installs Runtjik before
+retiring old Hamr services, and requires `KillMode=process` before stopping an
+old GTK launcher so launched apps survive. Old config/state is retained.
+Runtjik does not implement clipboard history; it does not claim Super+V.
 
 ## GitHub release authentication
 
 All GitHub API lookups in the Chezmoi and Chezetc installers use the common
 `github_api.py` helper, bundled beside each temporary installer. This covers
-Strata, Tippecanoe, Hyprvoice, Tennis, Tinty, Hamr, Gitfetch, and Bitwarden's
+Strata, Tippecanoe, Hyprvoice, Tennis, Tinty, Gitfetch, and Bitwarden's
 `bw`/`bws` CLIs, including Gitfetch's release commit lookup. Keep the helper
 copies in both repositories identical when changing authentication behavior.
 

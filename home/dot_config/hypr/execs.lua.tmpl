@@ -30,7 +30,6 @@ startup.subscription = hl.on("hyprland.start", function()
     -- Bartjik is a user service. Its unit starts through Fish so the managed
     -- conf.d environment is available to its providers.
     hl.exec_cmd("systemctl --user start bartjik.service")
-    hl.exec_cmd("systemctl --user start hamr-gtk.service")
 
     hl.exec_cmd("dconf load /org/gnome/desktop/interface/ < ~/.config/dconf/interface.conf")
 

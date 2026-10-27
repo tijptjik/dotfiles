@@ -73,7 +73,7 @@ def cached_install(name, inputs, outputs, command):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('name', choices=['tjikup', 'notjik', 'pony-rs'])
+    parser.add_argument('name', choices=['tjikup', 'notjik', 'pony-rs', 'runtjik'])
     parser.add_argument('--input', action='append', required=True)
     parser.add_argument('--output', action='append', required=True)
     separator = sys.argv.index('--') if '--' in sys.argv else len(sys.argv)

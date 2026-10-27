@@ -215,19 +215,15 @@ hl.bind(super("N", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"
 -- KEY BINDINGS : LAUNCH
 -- #######################
 
--- Hamr Launcher
-hl.bind(super("Escape"), hl.dsp.exec_cmd("/usr/local/bin/hamr toggle"))
-
 -- Hold Bartjik until edge contact or another press, and toggle notification history.
 hl.bind(super("M"), hl.dsp.exec_cmd("$HOME/.local/bin/desktop-panels-toggle"))
 
 hl.bind(super("comma"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate previous"))
 hl.bind(super("period"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate next"))
 
--- Clipboard history
-hl.bind(super("V"), hl.dsp.exec_cmd("/usr/local/bin/hamr plugin clipboard"))
-
 -- Applications
+-- Runtjik opens on demand and stays warm after its first opening.
+hl.bind(super("Escape"), hl.dsp.exec_cmd("$HOME/.local/bin/runtjik toggle"))
 hl.bind(super("Return"), hl.dsp.exec_cmd("uwsm app -- kitty -o allow_remote_control=yes"))
 hl.bind(super("Backslash"), hl.dsp.exec_cmd("uwsm app -- /opt/Telegram/Telegram"))
 hl.bind(super("Backspace"), hl.dsp.exec_cmd("uwsm app -- zen-browser"))

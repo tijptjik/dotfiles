@@ -259,6 +259,53 @@ class FleetGitTests(unittest.TestCase):
                 self.assertIn(f'{name}: {stage} RUNNING', output.getvalue())
                 self.assertIn(f'{name}: {stage} OK', output.getvalue())
 
+    def test_success_output_is_quiet_unless_verbose(self):
+        original_git = tjik_git.git
+        noise = ('ControlSocket /tmp/test already exists, disabling multiplexing\n'
+                 'To example.invalid:repo.git\n   abc..def main -> main')
+
+        def git(repo, *args, **kwargs):
+            if args[0] in ('pull', 'push'):
+                return noise
+            return original_git(repo, *args, **kwargs)
+
+        (self.repos[0][1] / 'base').write_text('dirty')
+        for verbose in (False, True):
+            with self.subTest(verbose=verbose):
+                output = io.StringIO()
+                with contextlib.redirect_stdout(output), patch.object(tjik_git, 'git', side_effect=git):
+                    tjik_git.synchronize(self.repos, verbose=verbose)
+                rendered = output.getvalue()
+                self.assertIn('uncommitted changes are not pushed', rendered)
+                for name, repo in self.repos:
+                    self.assertIn(f'{name}: PUSH OK', rendered)
+                    self.assertEqual(str(repo) in rendered, verbose)
+                self.assertEqual(noise in rendered, verbose)
+
+    def test_default_cli_reports_failed_git_output(self):
+        repo = self.repos[1][1]
+        hook = self.root / 'systjik.git/hooks/pre-receive'
+        hook.write_text('#!/bin/sh\necho "deliberate remote rejection" >&2\nexit 1\n')
+        hook.chmod(0o755)
+        self.commit(repo, 'rejected', 'rejected')
+        output, errors = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(output), contextlib.redirect_stderr(errors), \
+                patch.object(tjik_git, 'repositories', return_value=self.repos), \
+                patch('sys.argv', ['tjik_git.py', 'push']):
+            self.assertEqual(tjik_git.main(), 1)
+        self.assertIn('systjik: PUSH FAILED', output.getvalue())
+        self.assertIn('dotjik: PUSH OK', output.getvalue())
+        self.assertIn('deliberate remote rejection', errors.getvalue())
+        self.assertIn('pre-receive hook declined', errors.getvalue())
+
+    def test_dry_run_keeps_repository_paths_and_commands(self):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            tjik_git.synchronize(self.repos, dry_run=True)
+        for name, repo in self.repos:
+            self.assertIn(f'{name}: {repo}', output.getvalue())
+            self.assertIn(f'{name}: git push', output.getvalue())
+
     def paused_conflict(self, *, apply_backend=False, another_conflict=False):
         repo = self.repos[1][1]
         peer = self.root / 'conflict-peer'

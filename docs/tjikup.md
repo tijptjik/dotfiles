@@ -55,6 +55,7 @@ tjix                 # push committed changes in Dotjik, Systjik, and Tooltjik
 tjixx                # pull all three with rebase, then push all three
 tjix --dry-run       # show repositories and commands, without network or writes
 tjixx --dry-run      # also check that all three working trees are clean
+tjix --verbose      # include repository paths and successful Git output
 dotjik diff          # compatibility wrapper for chezmoi
 systjik diff         # compatibility wrapper for chezetc
 ```
@@ -81,8 +82,10 @@ push is used. Each branch must have an upstream.
 
 On terminals, Charmbracelet Gum animates a row for each repository with `PULL`
 or `PUSH`, elapsed seconds, and `OK`/`FAILED` completion status. A shared renderer
-keeps the spinner rows together and prints Git output by repository after each
-stage. Redirected output, `TERM=dumb`, missing Gum, or `TJIKUP_NO_SPIN=1` use plain
+keeps the spinner rows together. Successful Git output and repository paths are
+hidden by default; `-v`/`--verbose` shows them. Failures always include Git's
+diagnostics, and dirty working trees still get a short notice. Redirected output,
+`TERM=dumb`, missing Gum, or `TJIKUP_NO_SPIN=1` use plain
 status lines. `--dry-run` describes the parallel stages without launching Gum or
 running network operations. Rebase continuation remains sequential before these
 stages.

@@ -196,7 +196,7 @@ class GitProgress:
                 print('\033[?25h', end='', flush=True)
 
 
-def parallel_operation(repos, operation, *, sync):
+def parallel_operation(repos, operation, *, sync, verbose=False):
     # A late invalid checkout still blocks the whole stage before launching Git.
     for _, repo in repos:
         preflight(repo, sync)
@@ -218,16 +218,17 @@ def parallel_operation(repos, operation, *, sync):
                     else:
                         progress.complete(index, True)
                 progress.draw()
-    # Keep command output together, outside the live display. Wait for every
-    # peer before reporting failure, releasing locks, or starting another stage.
-    for index, (name, _) in enumerate(repos):
-        if output.get(index):
-            print(f'{name}:\n{output[index]}', flush=True)
+    # Successful command output is optional; failures always retain diagnostics.
+    # Wait for every peer before reporting failure or starting another stage.
+    if verbose:
+        for index, (name, _) in enumerate(repos):
+            if output.get(index):
+                print(f'{name}:\n{output[index]}', flush=True)
     if errors:
         raise SyncError('\n'.join(errors))
 
 
-def synchronize(repos, *, sync=False, dry_run=False):
+def synchronize(repos, *, sync=False, dry_run=False, verbose=False):
     if len({path for _, path in repos}) != len(repos):
         raise SyncError('Repository paths must be distinct')
     with ExitStack() as stack:
@@ -246,10 +247,13 @@ def synchronize(repos, *, sync=False, dry_run=False):
         for name, repo in repos:
             changes = preflight(repo, sync, allow_rebase=True)
             if rebase_state(repo):
-                note = ' (will continue rebase with its existing commit message)'
+                note = 'will continue rebase with its existing commit message'
             else:
-                note = ' (uncommitted changes are not pushed)' if changes else ''
-            print(f'{name}: {repo}{note}', flush=True)
+                note = 'uncommitted changes are not pushed' if changes else ''
+            if verbose or dry_run:
+                print(f'{name}: {repo}' + (f' ({note})' if note else ''), flush=True)
+            elif note:
+                print(f'{name}: {note}', flush=True)
         if not dry_run:
             for _, repo in repos:
                 continue_rebase(repo)
@@ -263,7 +267,7 @@ def synchronize(repos, *, sync=False, dry_run=False):
                 for name, _ in repos:
                     print(f'{name}: git {shlex.join(operation)} (parallel {operation[0].upper()} stage)', flush=True)
             else:
-                parallel_operation(repos, operation, sync=sync)
+                parallel_operation(repos, operation, sync=sync, verbose=verbose)
     return 0
 
 
@@ -271,9 +275,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=['push', 'sync'])
     parser.add_argument('--dry-run', action='store_true', help='check repositories and show commands without network or changes')
+    parser.add_argument('-v', '--verbose', action='store_true', help='show repository paths and successful Git output')
     args = parser.parse_args()
     try:
-        return synchronize(repositories(), sync=args.action == 'sync', dry_run=args.dry_run)
+        return synchronize(repositories(), sync=args.action == 'sync', dry_run=args.dry_run,
+                           verbose=args.verbose)
     except (SyncError, OSError) as error:
         print(f'tjix: {error}', file=sys.stderr)
         return 1

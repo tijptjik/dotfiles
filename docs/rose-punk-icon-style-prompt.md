@@ -51,6 +51,15 @@ the [study sheet](../.local/icon-reviews/docs/rose-punk-material-study.svg) coll
 > coloured surfaces. Never use object-bounding-box gradients on perfectly
 > vertical or horizontal strokes; give those explicit user-space coordinates.
 >
+> **Light surfaces:** essential unbacked shapes must also read on off-white and
+> white. Preserve the original ivory/gold/blue Zed channel colours and Zen's
+> rose/blush/ivory rings; use dark plum fills behind those marks so the bright
+> pigments remain intact. Unbacked Signal and Nginx use deeper periwinkle and
+> jade pigments. Check the same artwork on plum and dark backgrounds at 24, 32
+> and 64 px. Target 3:1 pigment contrast against the actual adjacent surface,
+> including an icon's own dark fill; do not dull every colour to meet contrast
+> against a surface it no longer touches.
+>
 > **Deliverable:** one self-contained editable SVG, no embedded raster image,
 > scripts, external resources or font-dependent text. Preserve attribution and
 > licenses for adapted upstream geometry. Include a small-size preview and a

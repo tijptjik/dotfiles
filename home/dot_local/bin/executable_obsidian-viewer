@@ -1,0 +1,179 @@
+#!/usr/bin/env python3
+"""Open external Markdown with Obsidian in an isolated, plugin-free vault."""
+import colorsys
+import fcntl
+import json
+import os
+from pathlib import Path
+import re
+import shutil
+import sys
+from urllib.parse import unquote, urlparse
+
+
+def read_json(path, default=None):
+    return json.loads(path.read_text()) if path.exists() else default
+
+
+def write_json(path, value):
+    text = json.dumps(value, indent=2) + "\n"
+    if not path.exists() or path.read_text() != text:
+        temp = path.with_suffix('.tmp')
+        temp.write_text(text)
+        temp.replace(path)
+
+
+def theme_definitions(css):
+    """Read scalar Style Settings metadata; no YAML runtime dependency needed."""
+    definitions = {}
+    for block in re.findall(r'/\* @settings\s+(.*?)\*/', css, re.S):
+        group = re.search(r'^id: (.+)$', block, re.M)
+        if not group:
+            continue
+        # Minimal's setting fields use two tabs (options are nested deeper).
+        for match in re.finditer(r'(?m)^(\t\t| {4,8})id: ([\w-]+)\s*$', block):
+            indent, name = match.groups()
+            tail = block[match.end():]
+            end = re.search(r'(?m)^' + re.escape(indent) + r'id:', tail)
+            tail = tail[:end.start()] if end else tail
+            fields = dict(re.findall(r'(?m)^' + re.escape(indent) + r'([\w-]+): ([^\n]+)', tail))
+            definitions[group[1].strip() + '@@' + name] = {
+                k: v.strip().strip("\"'") for k, v in fields.items()
+            }
+    return definitions
+
+
+def compile_style(css, minimal, settings):
+    classes = {'minimal-theme', 'css-settings-manager'}
+    for key in ('lightStyle', 'darkStyle', 'lightScheme', 'darkScheme',
+                'chartWidth', 'tableWidth', 'imgWidth', 'iframeWidth', 'mapWidth'):
+        if minimal.get(key):
+            classes.add(minimal[key])
+    toggles = {
+        'borders-none': ('bordersToggle', True), 'colorful-headings': ('colorfulHeadings', False),
+        'colorful-frame': ('colorfulFrame', False), 'colorful-active': ('colorfulActiveStates', False),
+        'minimal-focus-mode': ('focusMode', False), 'links-int-on': ('underlineInternal', False),
+        'links-ext-on': ('underlineExternal', False), 'full-width-media': ('fullWidthMedia', False),
+        'img-grid': ('imgGrid', False), 'minimal-status-off': ('minimalStatus', True),
+        'full-file-names': ('trimNames', True), 'labeled-nav': ('labeledNav', False),
+        'minimal-folding': ('folding', False),
+    }
+    for cls, (key, inverse) in toggles.items():
+        if key in minimal and bool(minimal[key]) != inverse:
+            classes.add(cls)
+    variables = {'body': [], 'body.theme-light': [], 'body.theme-dark': []}
+    for prop, key, unit in [('font-ui-small', 'textSmall', 'px'), ('line-height', 'lineHeight', ''),
+                            ('line-width', 'lineWidth', 'rem'), ('line-width-wide', 'lineWidthWide', 'rem'),
+                            ('max-width', 'maxWidth', '%'), ('font-editor-override', 'editorFont', '')]:
+        if key in minimal:
+            variables['body'].append(f'--{prop}: {minimal[key]}{unit};')
+    for key, fields in theme_definitions(css).items():
+        name = key.split('@@')[1]
+        kind = fields.get('type', '')
+        value = settings.get(key, fields.get('default'))
+        if kind == 'class-toggle':
+            if value is True or value == 'true':
+                classes.add(name)
+        elif kind == 'class-select':
+            if value:
+                classes.add(str(value))
+        elif kind.startswith('variable'):
+            for suffix, selector in [('', 'body'), ('@@light', 'body.theme-light'), ('@@dark', 'body.theme-dark')]:
+                if key + suffix not in settings:
+                    continue
+                value = settings[key + suffix]
+                fmt = fields.get('format', '')
+                if fmt == 'hsl-split':
+                    rgb = str(value).lstrip('#')
+                    h, l, s = colorsys.rgb_to_hls(*(int(rgb[i:i+2], 16) / 255 for i in (0, 2, 4)))
+                    variables[selector].extend([f'--{name}-h: {h*360};', f'--{name}-s: {s*100}%;', f'--{name}-l: {l*100}%;'])
+                else:
+                    unit = fmt if kind in ('variable-number', 'variable-number-slider') else ''
+                    variables[selector].append(f'--{name}: {value}{unit};')
+    # Bake plugin-owned body classes into selectors, including :not() predicates.
+    # Keep comments and declarations untouched (URLs and decimal values are not selectors).
+    pattern = re.compile(r'\.(' + '|'.join(re.escape(c) for c in sorted(classes, key=len, reverse=True)) + r')(?![\w-])')
+    css = re.sub(r'([^{}]+)\{', lambda m: pattern.sub(':is(body)', m[1]) + '{', css)
+    return css + '\n' + '\n'.join(f'{sel} {{{" ".join(props)}}}' for sel, props in variables.items())
+
+
+def prepare(source, state):
+    config = state / 'vault' / '.obsidian'
+    config.mkdir(parents=True, exist_ok=True)
+    appearance = read_json(source / 'appearance.json', {})
+    theme = appearance.get('cssTheme', '')
+    if not theme or Path(theme).name != theme:
+        raise ValueError('The main vault must have a named theme installed')
+    theme_source = source / 'themes' / theme
+    css = (theme_source / 'theme.css').read_text()
+    compiled = compile_style(css,
+                             read_json(source / 'plugins/obsidian-minimal-settings/data.json', {}),
+                             read_json(source / 'plugins/obsidian-style-settings/data.json', {}))
+    dest = config / 'themes' / theme
+    dest.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(theme_source / 'manifest.json', dest / 'manifest.json')
+    (dest / 'theme.css').write_text(compiled)
+    snippets = config / 'snippets'
+    snippets.mkdir(exist_ok=True)
+    enabled = []
+    for name in appearance.get('enabledCssSnippets', []):
+        if Path(name).name != name:
+            continue
+        src = source / 'snippets' / (name + '.css')
+        if src.is_file():
+            shutil.copy2(src, snippets / src.name)
+            enabled.append(name)
+    appearance['enabledCssSnippets'] = enabled
+    write_json(config / 'appearance.json', appearance)
+    write_json(config / 'community-plugins.json', [])
+    write_json(config / 'core-plugins.json', [])
+    write_json(config / 'app.json', {'defaultViewMode': 'preview', 'showInlineTitle': True,
+                                   'readableLineLength': True, 'livePreview': False})
+    profile = state / 'config' / 'obsidian'
+    profile.mkdir(parents=True, exist_ok=True)
+    if not (profile / 'obsidian.json').exists():
+        write_json(profile / 'obsidian.json', {'vaults': {'markdownviewer01': {
+            'path': str(state / 'vault'), 'ts': 1, 'open': True}}, 'frame': 'native'})
+
+
+def main():
+    home = Path.home()
+    files = []
+    for arg in sys.argv[1:]:
+        parsed = urlparse(arg)
+        if parsed.scheme == 'file' and parsed.netloc in ('', 'localhost'):
+            arg = unquote(parsed.path)
+        elif parsed.scheme:
+            raise ValueError('Only local files are supported')
+        path = Path(arg).resolve()
+        if not path.is_file():
+            raise ValueError(f'File not found: {path}')
+        files.append(str(path))
+    images = list((home / '.local/opt/obsidian').glob('Obsidian-*.AppImage'))
+    if not images:
+        raise ValueError('Install the Obsidian AppImage in ~/.local/opt/obsidian first')
+    image = max(images, key=lambda p: tuple(int(n) for n in re.findall(r'\d+', p.name)))
+    state = home / '.local/share/obsidian-viewer'
+    state.mkdir(parents=True, exist_ok=True)
+    with (state / '.prepare.lock').open('w') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        prepare(home / '.obsidian/core/.obsidian', state)
+    env = os.environ.copy()
+    # Obsidian 1.14 also has an instance-wide CLI socket in XDG_RUNTIME_DIR.
+    # Isolate it as well as Electron's profile and singleton lock.
+    runtime = Path(env.get('XDG_RUNTIME_DIR', f'/run/user/{os.getuid()}'))
+    viewer_runtime = runtime / 'obsidian-viewer'
+    viewer_runtime.mkdir(mode=0o700, exist_ok=True)
+    if env.get('WAYLAND_DISPLAY') and not env['WAYLAND_DISPLAY'].startswith('/'):
+        env['WAYLAND_DISPLAY'] = str(runtime / env['WAYLAND_DISPLAY'])
+    env['XDG_RUNTIME_DIR'] = str(viewer_runtime)
+    env['XDG_CONFIG_HOME'] = str(state / 'config')
+    os.execve(str(image), [str(image), '--no-sandbox', '--password-store=gnome-libsecret', *files], env)
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except (OSError, ValueError) as error:
+        print(f'Obsidian viewer: {error}', file=sys.stderr)
+        sys.exit(1)

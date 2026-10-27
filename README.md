@@ -1,8 +1,14 @@
-# Tijpfiles
+# Dotjik
 
-Dotfiles managed by [Chezmoi](https://www.chezmoi.io/).
+Personal configuration managed by [Chezmoi](https://www.chezmoi.io/).
+Use `dotjik` as the command name; `chezmoi` continues to work.
+The GitHub repository remains `dotfiles` and the checkout remains `~/.local/share/chezmoi`.
 
-The system setup (repos, packages) is managed by [Chezetc](https://github.com/tijptjik/etcfiles) which needs to be setup **BEFORE** using Chezmoi.
+The system setup (repos, packages), **Systjik**, is managed by [Chezetc](https://github.com/tijptjik/etcfiles) which needs to be setup **BEFORE** using Chezmoi.
+
+Use `systjik` for system configuration (`chezetc` still works). The system repository
+remains `etcfiles`, with its checkout at `~/.local/share/chezetc`.
+See [Git shortcuts](docs/tjikup.md#git-only-shortcuts) for `tjix` and `tjixx`.
 
 ## Supported Devices
 

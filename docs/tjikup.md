@@ -25,6 +25,51 @@ individual Git commands also retain their repository locks. Failed tasks stop ne
 work, drain running tasks, and block pending dependents. A configuration-refresh
 warning prevents subsequent apply stages.
 
+## Git-only shortcuts
+
+Available on `fi`, `li`, and `si`, from any working directory and shell:
+
+```sh
+tjix                 # push committed changes in Dotjik, Systjik, and Tooltjik
+tjixx                # pull all three with rebase, then push all three
+tjix --dry-run       # show repositories and commands, without network or writes
+tjixx --dry-run      # also check that all three working trees are clean
+dotjik diff          # compatibility wrapper for chezmoi
+systjik diff         # compatibility wrapper for chezetc
+```
+
+Dotjik is the personal configuration name; Systjik is the system configuration
+name. The upstream tools (`chezmoi`, `chezetc`), GitHub repositories (`dotfiles`,
+`etcfiles`), existing aliases and checkout paths remain unchanged. These wrappers
+forward arguments and exit status directly to the original tools.
+
+The shortcuts synchronize this host's three checkouts. They do not create commits,
+capture live settings, apply configuration, install tools, or contact other fleet
+hosts. `tjikup` remains the full update workflow. Push-only `tjix` permits dirty
+files but sends only committed history. `tjixx` requires all three working trees
+(including untracked files) to be clean; commit or stash intentionally beforehand.
+It explicitly uses `git pull --rebase --no-autostash`, so it never temporarily
+hides ongoing work. It checks every repository before any network operation,
+pulls all three before pushing any, and stops on the first failure. A conflict
+is left available for normal Git resolution. Earlier successful pulls or pushes
+are not rolled back; the operation is not atomic across repositories. No force
+push is used. Each branch must have an upstream and no unfinished Git operation.
+
+Dotjik is located via `chezmoi source-path` and its Git root; Systjik defaults to
+`~/.local/share/chezetc`. Tooltjik uses `TOOLTJIK_REPO`, then an existing
+`~/code/tooltjik`, then `~/.local/share/tooltjik`, matching installer selection.
+`DOTJIK_REPO` and `SYSTJIK_REPO` override the other repository paths. Missing
+checkouts fail clearly rather than being cloned. The shortcuts share Tjikup's
+workflow and repository locks and report a busy checkout instead of racing it.
+Git settings are passed per invocation; no global Git configuration is changed.
+
+To install only the commands, without running provisioning hooks:
+
+```sh
+chezmoi apply --include=files ~/.local/bin/tjix ~/.local/bin/tjixx \
+  ~/.local/bin/dotjik ~/.local/bin/systjik ~/.local/lib/tjik_git.py
+```
+
 ## Parallel apply and skip policy
 
 Tjikup lets Chezmoi perform its native bootstrap, before/once/onchange hooks and

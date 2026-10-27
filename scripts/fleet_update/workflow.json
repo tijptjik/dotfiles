@@ -66,7 +66,7 @@
       "{config_dir}/scripts/fleet-update.py",
       "pull"
     ],
-    "label": "Tijpfiles",
+    "label": "Dotjik",
     "verb": "PULL",
     "needs": [
       "commit"
@@ -81,7 +81,7 @@
       "--repo",
       "~/.local/share/chezetc"
     ],
-    "label": "Tijpcetera",
+    "label": "Systjik",
     "verb": "PULL",
     "needs": [
       "checks"
@@ -109,7 +109,7 @@
       "{config_dir}/scripts/fleet-update.py",
       "push"
     ],
-    "label": "Tijpfiles",
+    "label": "Dotjik",
     "verb": "PUSH",
     "skip_codes": [
       77
@@ -127,7 +127,7 @@
       "--repo",
       "~/.local/share/chezetc"
     ],
-    "label": "Tijpcetera",
+    "label": "Systjik",
     "verb": "PUSH",
     "skip_codes": [
       77
@@ -168,7 +168,7 @@
     "output": "stream",
     "timeout": 3700,
     "banner": {
-      "title": "Tijpcetera",
+      "title": "Systjik",
       "url": "https://github.com/tijptjik/etcfiles"
     },
     "needs": [

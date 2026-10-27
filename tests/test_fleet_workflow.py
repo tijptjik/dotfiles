@@ -116,12 +116,12 @@ if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
             list((self.home / ".local/state/tjikup/backups/fcitx").glob("*.backup"))
         )
         headings = [
-            "Tijpfiles\nhttps://github.com/tijptjik/dotfiles",
+            "Dotjik\nhttps://github.com/tijptjik/dotfiles",
             "Prerequisites\n",
             "Commit Local Changes\n",
             "Dotfiles Repository\n",
             "Dotfiles Apply\n",
-            "Tijpcetera\nhttps://github.com/tijptjik/etcfiles",
+            "Systjik\nhttps://github.com/tijptjik/etcfiles",
         ]
         positions = [result.stdout.index(heading) for heading in headings]
         self.assertEqual(positions, sorted(positions))

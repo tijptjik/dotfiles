@@ -70,6 +70,30 @@ hl.window_rule({
     match = { class = "kitty" },
 })
 
+-- Common launcher apps: initial scrolling widths by display.
+local app_widths = {
+    { name = "files", class = "^(org[.]gnome[.]Nautilus|nautilus)$", secondary = 0.75 },
+    { name = "sublime", class = "^(sublime_text|Sublime_text)$", secondary = 1.0 },
+    { name = "obsidian", class = "^(obsidian|md[.]obsidian[.]Obsidian)$", secondary = 1.0 },
+    { name = "codex-lb", class = "^FFPWA-(01KVFSZ3Z9JKBJMMTW9DENGR0N|01KVFQER39ASXCZ26D7724G54G)$", secondary = 1.0 },
+    { name = "system-monitor", class = "^(org[.]gnome[.]SystemMonitor|gnome-system-monitor)$", secondary = 0.75 },
+}
+
+for _, app in ipairs(app_widths) do
+    hl.window_rule({
+        name = app.name .. "-width",
+        scrolling_width = 0.5,
+        match = { class = app.class },
+    })
+{{- if .isDesktop }}
+    hl.window_rule({
+        name = app.name .. "-secondary-width",
+        scrolling_width = app.secondary,
+        match = { class = app.class, workspace = "m[DP-2]" },
+    })
+{{- end }}
+end
+
 -- Playwright's headed Chrome windows must not interrupt the active workspace.
 hl.window_rule({
     name = "playwright-chrome",
@@ -115,6 +139,8 @@ hl.window_rule({
 hl.window_rule({
     name = "codex-lb",
 {{- if .isDesktop }}
+    -- Routing happens after width matching; use the destination display width.
+    scrolling_width = 1.0,
     workspace = "15 silent",
 {{- else if .isLaptop }}
     workspace = "6 silent",

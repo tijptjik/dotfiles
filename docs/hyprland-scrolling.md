@@ -39,13 +39,24 @@ primary is `DP-1` and secondary is `DP-2`:
 | Spotify | 100% | 100%; opens on workspace 20, the secondary display's tenth workspace |
 | Zen | 50% | 100% |
 | Kitty | 50% | 75% |
+| Files / Nautilus | 50% | 75% |
+| Sublime Text | 50% | 100% |
+| Obsidian | 50% | 100% |
+| Codex LB (both launcher entries) | 50% | 100% |
+| System Monitor | 50% | 75% |
 
-On `li`, Zed and Spotify use 100%, Zen and Kitty use 50%, and Spotify opens
+ZapZap, ChatGPT, and Signal keep their existing floating layouts on `fi`.
+The current Codex LB launcher is routed to workspace 15 and explicitly gets its
+secondary-display width even when launched from the primary display.
+
+On `li`, Zed and Spotify use 100%, the other listed apps use 50%, and Spotify opens
 on workspace 10. Other apps retain the 50% global default. Existing floating
 rules are unaffected. `scrolling_width` sets an initial column width, not
 fullscreen mode; a lone column still fills the workspace because
 `fullscreen_on_one_column` is enabled. Moving an existing window between displays
-does not reapply these initial-width rules.
+does not reapply these initial-width rules. Width matching happens before later
+launch overrides or session-restoration helpers transfer a window to another
+workspace; such transfers retain the width chosen on the initial workspace.
 
 The secondary overrides use `match.workspace = "m[DP-2]"`, after the base app
 rules. Workspace IDs 1-10 remain on the primary display, and 11-20 on secondary.

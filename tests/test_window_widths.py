@@ -38,9 +38,23 @@ dofile(arg[1])
 assert(rules.zed.scrolling_width == 1.0)
 assert(rules.zed.match.class == "^dev[.]zed[.]Zed(-Preview|-Nightly)?$")
 assert(rules.spotify.scrolling_width == 1.0)
+assert(rules["codex-lb"].scrolling_width == (arg[2] == "fi" and 1.0 or nil))
 assert(rules.zen.scrolling_width == 0.5)
 assert(rules.kitty.scrolling_width == 0.5)
 assert(rules.spotify.workspace == (arg[2] == "fi" and "20 silent" or arg[2] == "li" and "10 silent" or nil))
+for app, width in pairs({files=0.75, sublime=1.0, obsidian=1.0, ["codex-lb"]=1.0, ["system-monitor"]=0.75}) do
+    local base = app .. "-width"
+    local secondary = app .. "-secondary-width"
+    assert(rules[base].scrolling_width == 0.5)
+    if arg[2] == "fi" then
+        assert(rules[secondary].scrolling_width == width)
+        assert(rules[secondary].match.class == rules[base].match.class)
+        assert(rules[secondary].match.workspace == "m[DP-2]")
+        assert(order[secondary] > order[base])
+    else
+        assert(rules[secondary] == nil)
+    end
+end
 if arg[2] == "fi" then
     for app, width in pairs({zen=1.0, kitty=0.75}) do
         local name = app .. "-secondary-width"

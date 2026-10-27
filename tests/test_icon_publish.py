@@ -68,6 +68,23 @@ class IconPublishTests(unittest.TestCase):
                 publish.register(snapshot, site)
             self.assertFalse((site / 'public').exists())
 
+    def test_older_release_controls_stay_out_of_site_gallery(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            snapshot, site = self.snapshot(root), self.site(root)
+            entries = [{'id': key, 'name': key, 'src': f'/icons/{key}.svg'}
+                       for key in ('app', 'fish', 'runtjik', 'runtjik-refresh')]
+            original = publish.encoded(entries)
+            (snapshot / 'gallery.json').write_bytes(original)
+            manifest = json.loads((snapshot / 'release.json').read_text())
+            manifest['artifacts']['gallery.json'] = release.sha256(original)
+            (snapshot / 'release.json').write_bytes(publish.encoded(manifest))
+            publish.register(snapshot, site)
+            gallery = json.loads((site / 'src/lib/content/rose-punk-icons.json').read_text())
+            self.assertEqual({entry['id'] for entry in gallery}, {'app', 'fish', 'runtjik'})
+            self.assertEqual((site / 'public/rose-punk-releases/0.1.0/gallery.json').read_bytes(), original)
+            publish.verify_snapshot(site / 'public/rose-punk-releases/0.1.0')
+
     def test_unpublished_registration_can_be_replaced_and_prunes_old_files(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -167,7 +184,7 @@ class IconPublishTests(unittest.TestCase):
             self.assertNotEqual((snapshot / 'release.json').read_bytes(), before)
             publish.verify_snapshot(snapshot)
 
-    def test_cut_gallery_includes_apps_shells_controls_and_homepage(self):
+    def test_cut_gallery_excludes_controls_but_downloads_retain_them(self):
         import homepage
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -197,13 +214,15 @@ class IconPublishTests(unittest.TestCase):
                     patch.object(publish.subprocess, 'check_output', return_value='source'):
                 snapshot = publish.cut(trees, {}, root, '0.1.0')
             gallery = json.loads((snapshot / 'gallery.json').read_text())
-            self.assertEqual({entry['id'] for entry in gallery}, {'app', 'fish', 'runtjik-refresh', 'service'})
+            self.assertEqual({entry['id'] for entry in gallery}, {'app', 'fish', 'service'})
             for entry in gallery:
                 self.assertEqual((snapshot / 'icons' / (entry['id'] + '.svg')).read_bytes(), svg)
             manifest = publish.verify_snapshot(snapshot)
             self.assertIn('icons/fish.svg', manifest['artifacts'])
+            self.assertNotIn('icons/runtjik-refresh.svg', manifest['artifacts'])
             with zipfile.ZipFile(snapshot / 'rose-punk.zip') as archive:
                 self.assertEqual(archive.read('rose-punk/scalable/apps/fish.svg'), svg)
+                self.assertEqual(archive.read('rose-punk/scalable/apps/runtjik-refresh.svg'), svg)
 
     def test_failed_directory_swap_restores_original(self):
         with tempfile.TemporaryDirectory() as temporary:

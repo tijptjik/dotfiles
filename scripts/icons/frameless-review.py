@@ -12,7 +12,7 @@ import math
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import zipfile
-from icon_data import gallery_catalog
+from icon_data import gallery_catalog, write_tree
 
 # Keep these helpers available to existing review consumers loaded by file path.
 _spec = importlib.util.spec_from_file_location('icon_sizing', Path(__file__).with_name('frameless.py'))
@@ -92,16 +92,18 @@ def main():
     manifest = {'primary_theme': 'rose-punk', 'comparison': 'historical framed snapshots',
                 'canvas': 64, 'maximum_extent': 56, 'target_alpha_area': 2200,
                 'minimum_extent': 50, 'measurement_size': MEASURE_SIZE, 'icons': {}}
+    outputs = {}
     for key in keys:
         historical = ASSETS / 'framed' / f'{key}.svg'
         source = historical.read_bytes() if historical.is_file() else None
         # Historical framed snapshots stay frozen; the primary theme is canonical.
         output = (THEME / f'{key}.svg').read_text()
-        (ASSETS / 'frameless' / f'{key}.svg').write_text(output)
+        outputs[f'{key}.svg'] = output.encode()
         bounds = render(output).getchannel('A').getbbox()
         manifest['icons'][key] = {'result_bounds': [round(v * 64 / MEASURE_SIZE, 3) for v in bounds],
                                   'source_sha256': hashlib.sha256(source).hexdigest() if source else None,
                                   'frameless_sha256': hashlib.sha256(output.encode()).hexdigest()}
+    write_tree(ASSETS / 'frameless', outputs)
     (ASSETS / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     (ROOT / '.local/icon-reviews/docs/rose-punk-icons-frameless.html').write_text(review_page(keys, catalog))
     sheet = contact_sheet(keys, catalog, 'Rose Punk / Frameless set')

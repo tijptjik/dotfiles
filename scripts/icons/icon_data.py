@@ -16,7 +16,7 @@ def read_json(path):
 
 
 def gallery_catalog(folder=None):
-    """Describe every primary original, including shell and command companions."""
+    """Describe application and shell originals, excluding launcher controls."""
     folder = HERE if folder is None else folder
     catalog = read_json(folder / 'catalog.json')
     companions = read_json(folder / 'command-icons.json')
@@ -24,8 +24,10 @@ def gallery_catalog(folder=None):
     if overlap:
         raise ValueError('Duplicate gallery icon IDs: ' + ', '.join(sorted(overlap)))
     for key, entry in companions.items():
+        if entry.get('role') != 'shell':
+            continue
         catalog[key] = {'installed': False,
-                        'availability': 'Shell' if entry.get('role') == 'shell' else 'Launcher control',
+                        'availability': 'Shell',
                         **entry}
     return catalog
 

@@ -72,8 +72,11 @@ the icon build never writes `home/dot_local/share/icons/tjikup.png`.
 
 `gallery.py` produces the current catalog and contact sheets without requiring
 historical review files. Both the current previews and release gallery include
-application originals from `catalog.json` and shell/launcher companions from
-`command-icons.json`; their attribution manifests accompany the release ZIP.
+application originals from `catalog.json` and shell companions from
+`command-icons.json`. Runtjik's internal launcher controls stay in the installed
+theme and release ZIPs, but are excluded from application reviews and the
+type.hk gallery. Their dedicated study is `command_icons.py --preview`;
+their attribution manifests accompany the release ZIP.
 `frameless-review.py` exports the current originals
 with optional frozen comparisons. `palette-review.py`, `material-review.py`,
 `coherence-review.py`, and `homepage-coherence-review.py` are historical review

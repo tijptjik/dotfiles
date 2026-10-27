@@ -103,7 +103,9 @@ Ordinary release and review commands never create approval or the framed set.
 Seven original frameless SVGs cover `/refresh`, `/pin`, `/grid`, `/list`, `/stats`,
 `/config`, and `/shortcuts` (`/bindings` shares the shortcuts icon). They are
 companion controls rather than applications, so they do not change the app
-catalog. Their object forms and material paint live in `COMMAND_ART` in
+catalog or appear in application icon reviews or the type.hk gallery. They
+remain in the installed theme and release downloads, with their own size study.
+Their object forms and material paint live in `COMMAND_ART` in
 `scripts/icons/material_art.py`. The editable originals are
 `scripts/icons/local/runtjik-*.svg`; `scripts/icons/command-icons.json` records
 meanings, provenance, hashes and optical sizing.

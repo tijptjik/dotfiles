@@ -158,7 +158,13 @@ def register(snapshot, site):
     registry['latest'] = version
     write_file(resources_path, resources.encode())
     write_file(registry_path, encoded(registry))
-    write_file(site / 'src/lib/content/rose-punk-icons.json', (snapshot / 'gallery.json').read_bytes())
+    # Older immutable releases may include launcher controls in their gallery.
+    # Keep the release snapshot intact while applying current presentation rules.
+    controls = {key for key, entry in json.loads((HERE / 'command-icons.json').read_text()).items()
+                if entry.get('role') == 'control'}
+    gallery = json.loads((snapshot / 'gallery.json').read_text())
+    write_file(site / 'src/lib/content/rose-punk-icons.json', encoded([
+        entry for entry in gallery if entry['id'] not in controls]))
     rows = ''.join('<li><strong>' + html.escape(item['version']) + '</strong> ' + ' · '.join(
         f'<a href="{html.escape(url)}">{html.escape(name)}</a>' for name, url in item['downloads'].items()) + '</li>' for item in registry['releases'])
     write_file(registry_dir / 'index.html', ('<!doctype html><html lang="en"><meta charset="utf-8">'

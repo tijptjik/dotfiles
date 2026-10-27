@@ -95,6 +95,44 @@ class ThemeSetupTests(unittest.TestCase):
             installer.main()
         select.assert_not_called()
 
+    def test_renames_only_legacy_theme_settings_and_preserves_formatting(self):
+        config = self.root / 'config'
+        gtk = config / 'gtk-3.0/settings.ini'
+        gtk.parent.mkdir(parents=True)
+        before = '# personal settings\n[Settings]\ngtk-icon-theme-name=rose-punk-illustrated\nother=1\n'
+        gtk.write_text(before)
+        qt = config / 'qt6ct/qt6ct.conf'
+        qt.parent.mkdir(parents=True)
+        qt.write_text('[Appearance]\nicon_theme=Adwaita\n')
+        with patch.object(installer.subprocess, 'check_output', return_value="'rose-punk-illustrated'\n"), \
+                patch.object(installer.subprocess, 'run') as command:
+            self.assertTrue(installer.migrate_legacy_theme(config, True))
+        self.assertEqual(gtk.read_text(), before.replace('rose-punk-illustrated', 'rose-punk'))
+        self.assertEqual(qt.read_text(), '[Appearance]\nicon_theme=Adwaita\n')
+        self.assertFalse((config / 'gtk-4.0/settings.ini').exists())
+        command.assert_called_once_with(
+            ['gsettings', 'set', 'org.gnome.desktop.interface', 'icon-theme', 'rose-punk'], check=True)
+        self.assertFalse(installer.migrate_legacy_theme(config, False))
+
+    def test_migration_preserves_another_desktop_theme(self):
+        with patch.object(installer.subprocess, 'check_output', return_value="'Neuwaita'\n"), \
+                patch.object(installer.subprocess, 'run') as command:
+            self.assertFalse(installer.migrate_legacy_theme(self.root / 'absent', True))
+        command.assert_not_called()
+
+    def test_install_waits_for_primary_theme_before_migrating_old_id(self):
+        metadata = self.data / 'icons/rose-punk/index.theme'
+        metadata.parent.mkdir(parents=True)
+        for name, hidden, ready in (('Rose Punk (Outline archive)', True, False),
+                                    ('Rose Punk', False, True)):
+            with self.subTest(name=name):
+                metadata.write_text(f'[Icon Theme]\nName={name}\nHidden={str(hidden).lower()}\n')
+                with patch.dict(os.environ, {'XDG_DATA_HOME': str(self.data), 'XDG_STATE_HOME': str(self.state)}), \
+                        patch('sys.argv', ['install.py']), patch.object(installer, 'migrate_legacy_theme') as migrate, \
+                        patch.object(installer, 'refresh_cache'):
+                    installer.main()
+                self.assertEqual(migrate.called, ready)
+
     @unittest.skipUnless(shutil.which('chezmoi'), 'Chezmoi required')
     def test_managed_gtk_templates_preserve_another_theme(self):
         config = self.root / 'config.json'
@@ -113,7 +151,7 @@ class ThemeSetupTests(unittest.TestCase):
             self.assertNotIn('rose-punk', result)
 
     def test_named_theme_and_managed_launchers_do_not_force_artwork(self):
-        metadata = (ROOT / 'home/dot_local/share/icons/rose-punk-illustrated/index.theme').read_text()
+        metadata = (ROOT / 'home/dot_local/share/icons/rose-punk/index.theme').read_text()
         self.assertIn('\nName=Rose Punk\n', metadata)
         self.assertNotIn('icon-theme=', (ROOT / 'home/dot_config/dconf/interface.conf').read_text())
         for path in (ROOT / 'home/dot_local/share/applications').glob('*'):

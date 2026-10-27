@@ -39,7 +39,7 @@ functions -q pony; or exit 22
             root = Path(tmp)
             fortune = root / 'fortune'
             fortune.write_text('#!/bin/sh\nn=0\n[ ! -f "$HOME/count" ] || read -r n < "$HOME/count"\nn=$((n+1))\nprintf "%s\\n" "$n" > "$HOME/count"\nprintf "quote-%s\\n" "$n"\n')
-            renderer = root / 'pony-rs'
+            renderer = root / 'greetjik'
             renderer.write_text('#!/bin/sh\n/bin/cat\n')
             fortune.chmod(0o755)
             renderer.chmod(0o755)

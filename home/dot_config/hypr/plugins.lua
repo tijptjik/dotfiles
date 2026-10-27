@@ -16,3 +16,5 @@ if gap_binary then
     gap_binary:close()
     hl.plugin.load(gap_plugin)
 end
+
+require("chat_appearance")

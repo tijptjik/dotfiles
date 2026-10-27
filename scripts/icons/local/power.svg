@@ -1,6 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f6c177" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x="8" y="8">
-  <path d="M7 6a7.75 7.75 0 1 0 10 0" />
+<g data-material="authored"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#power-gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x="8" y="8" overflow="visible">
+  <defs><linearGradient id="power-gold" x1="0.0" y1="0.0" x2="8.399999999999999" y2="24.0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f9d39d" /><stop offset=".32" stop-color="#f6c177" /><stop offset="1" stop-color="#b8936a" /></linearGradient></defs><g stroke="#976b35" stroke-width="3.2"><path d="M7 6a7.75 7.75 0 1 0 10 0" />
+  <path d="M12 4l0 8" />
+</g><path d="M7 6a7.75 7.75 0 1 0 10 0" />
   <path d="M12 4l0 8" />
 </svg>
-</svg>
+</g></svg>

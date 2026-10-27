@@ -82,11 +82,11 @@
   "discord": {
     "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/discord.svg",
     "license": "CC0-1.0; themed adaptation",
-    "sha256": "bea6d159d4db2f83c4f60da4f4ca10032912d542f87e134243d559aacb1ae97c",
+    "sha256": "d2ebdadffdfc785c307f7a0cb1cdf4e0a327e3520fad8c4a1508764733e7eb56",
     "reference": "upstream/discord-official.svg",
     "reference_sha256": "a2625a85ff8a4aa0703ba7c9db39bc57257b3223cd8c19394e8ec491f50b9b83",
-    "material_revision": 17,
-    "design_note": "Rose Discord silhouette with electric blue eyes (#5685ff), shared with Zed Preview."
+    "material_revision": 18,
+    "design_note": "Rose Discord silhouette retained; deeper indigo eyes (#344278) provide 3.83:1 contrast against the pink face."
   },
   "chrome": {
     "source": "scripts/icons/local/chrome.svg",
@@ -145,9 +145,11 @@
   "strata": {
     "source": "/opt/strata/1.1.1/io.github.lgse.Strata.svg",
     "license": "Upstream installed Strata artwork; themed adaptation",
-    "sha256": "f766c99cf2c6b7f8f7a09dca0237a9e52cab4ebab43f848a25c083f1db9cc983",
+    "sha256": "2c95b0b16fbe56040f66a95b9d83467c8d39c44d22937ec812e0ddf046d30154",
     "reference": "upstream/strata-official.svg",
-    "reference_sha256": "5be5eebbe949e0bd112e676a911fae603ad7f603c99daa1cfbe96dd2a60b375f"
+    "reference_sha256": "5be5eebbe949e0bd112e676a911fae603ad7f603c99daa1cfbe96dd2a60b375f",
+    "material_revision": 1,
+    "design_note": "Ivory upper band retained with a narrow slate edge; deeper blue and cyan facets keep the unbacked logo visible on light surfaces."
   },
   "kitty": {
     "source": "scripts/icons/local/kitty.svg",
@@ -231,9 +233,11 @@
   "sublime-text": {
     "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/sublimetext.svg",
     "license": "CC0-1.0",
-    "sha256": "065fd6be01e2254edc1369f1fdf9b4cd57b17030316a01322203581618433220",
+    "sha256": "b930796e77395e665744d7f37a075007feb41c75c711b8413a831faf1b23f449",
     "reference": "upstream/sublime-official.svg",
-    "reference_sha256": "fb3faf9b15f0033177aebcb0a905d45a6e3ecb575b436685b3994761577c6c30"
+    "reference_sha256": "fb3faf9b15f0033177aebcb0a905d45a6e3ecb575b436685b3994761577c6c30",
+    "material_revision": 1,
+    "design_note": "Original pale amber ramp and silhouette retained with a narrow copper edge for visibility on light backgrounds."
   },
   "zen": {
     "source": "scripts/icons/local/zen.svg",
@@ -377,10 +381,11 @@
   "document-viewer": {
     "source": "scripts/icons/local/document-viewer.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "924d4959edf6ebe2c96e9c23ad5861f5e56b93e6fc840c725309e305823a57e5",
+    "sha256": "e51f35f4f61d78b0f2befaddea62bf0ff5ae8f040b46abe0d2eef5b1e01c9fe8",
     "reference": "local icon theme: Neuwaita/scalable/apps/org.gnome.Papers.svg",
     "reference_sha256": "5de5f5e8c717cca208b2570ae8e1b2fee5b86c250c5580cb4bfda7095952dc26",
-    "material_revision": 4
+    "material_revision": 5,
+    "design_note": "Narrow slate contours define all three paper sheets against light canvases while preserving ivory paper and original page illustrations."
   },
   "file-roller": {
     "source": "scripts/icons/local/file-roller.svg",
@@ -427,8 +432,9 @@
   "software": {
     "source": "scripts/icons/local/software.svg",
     "license": "Original themed interpretation; app identity rights remain with their owners",
-    "sha256": "9c8c215d1286dceb7162b3569e05aada5c367b35941c4ee0a522a16b97d383d8",
-    "material_revision": 9
+    "sha256": "eda0b0d6497c064c7905168474b37bcc9c420ae25ba03100fbc1eb17f7ab257a",
+    "material_revision": 10,
+    "design_note": "Deeper rose handle and a narrow matching bag contour define the shopping bag on light surfaces; pale windows and pink fill retained."
   },
   "terminal": {
     "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Terminal.svg",
@@ -458,13 +464,16 @@
   "weather": {
     "source": "scripts/icons/local/weather.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "a4f274912fab1265d78ebc64ee4bb29388d5cc3e8ff0cca0fff826f013e80361"
+    "sha256": "75b253e861e713509dbd6a0b10afd145ef7bbcfcae0df7d0f5e54250df774cc7",
+    "material_revision": 1,
+    "design_note": "White cloud and amber sun retained with narrow slate/copper edges; deeper amber rays stay visible on light backgrounds."
   },
   "help": {
     "source": "scripts/icons/extra_art.py",
     "license": "Original artwork",
-    "sha256": "1819df646655172b5df78be0a6c6156e8116466df09feea9cf3670517ea1ae28",
-    "material_revision": 9
+    "sha256": "60bbc922ca72996d1d6e2d92069c62857af5eb902eb5016ee1794e753f00c3af",
+    "material_revision": 10,
+    "design_note": "Amber and ivory buoy panels retained; thin copper inner and outer contours keep the entire ring readable on light surfaces."
   },
   "disk-usage-analyzer": {
     "source": "scripts/icons/local/disk-usage-analyzer.svg",
@@ -514,10 +523,11 @@
   "qgis-desktop": {
     "source": "/usr/share/icons/hicolor/scalable/apps/qgis.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "ec6d537358e1b5446843bdf9497ae4d68893e3264e9d5076a72d26278a3c8b4e",
+    "sha256": "604e37e28a89ed9fb0f950cf66b9ac38c878b51d385bdf631e05ebf087053f87",
     "reference": "upstream/qgis-desktop-source.svg",
     "reference_sha256": "902702e1ca21f8fb9860c5f9bd5aea07c1940e4930cfe83ca74da840bb9d6dba",
-    "material_revision": 9
+    "material_revision": 10,
+    "design_note": "Gold Q and arrow facets retained with a fine copper contour for visibility on light surfaces."
   },
   "scrcpy": {
     "source": "scripts/icons/local/scrcpy.svg",
@@ -615,7 +625,9 @@
     "license": "MIT",
     "sha256": "7bf18601cfa48626fc0aaa2e7fec82231b191f78f3873e6a4c6d8f680fb4a7d7",
     "reference": "scripts/icons/references/tabler-scissors.svg",
-    "reference_sha256": "a2e396becae03724ba9272489b293c94f96d3583e7a2c16c79c139cfe8427659"
+    "reference_sha256": "a2e396becae03724ba9272489b293c94f96d3583e7a2c16c79c139cfe8427659",
+    "material_revision": 1,
+    "design_note": "Narrow slate edges define the existing metal scissor blades on light surfaces; copper handles and original illustration retained. Authored in scripts/icons/material_art.py."
   },
   "chezetc": {
     "source": "scripts/icons/local/chezetc.svg",
@@ -632,9 +644,11 @@
   "hyprvoice": {
     "source": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/audio-lines.svg",
     "license": "ISC",
-    "sha256": "e6712b893adbd9ebedf01100cc82741329e1ad1fdd575b828897eb2411db2757",
+    "sha256": "880347c5ee963ad5cc919022822f28acb9569e0cd47fa60820256c6ab5858d0c",
     "reference": "scripts/icons/references/lucide-audio-lines.svg",
-    "reference_sha256": "3942b8a5d6bccc927a55f857f0d44b90e2663470cd2d569000c9b60c37578dfa"
+    "reference_sha256": "3942b8a5d6bccc927a55f857f0d44b90e2663470cd2d569000c9b60c37578dfa",
+    "material_revision": 1,
+    "design_note": "Deeper cyan ramp keeps every exposed waveform/dot pigment above 3:1 on light and dark canvases; geometry retained."
   },
   "oo7": {
     "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/fingerprint.svg",
@@ -667,9 +681,11 @@
   "power": {
     "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/power.svg",
     "license": "MIT",
-    "sha256": "b95c88db44169d9c75c6fdfc6bacd05950c45cd909ffb14d7b4fb578ea5fac93",
+    "sha256": "277021e5de98826dc43e31b950f87be8393b25b8bff16bd16df19624201ea000",
     "reference": "scripts/icons/references/tabler-power.svg",
-    "reference_sha256": "2a872241a3059da7e3157fc5fbd8b8dfd40a10825934a23dd5e7f43cb4ae1df9"
+    "reference_sha256": "2a872241a3059da7e3157fc5fbd8b8dfd40a10825934a23dd5e7f43cb4ae1df9",
+    "material_revision": 1,
+    "design_note": "Original pale amber ramp and silhouette retained with a narrow copper edge for visibility on light backgrounds."
   },
   "docker": {
     "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/docker.svg",
@@ -708,10 +724,11 @@
   "python": {
     "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/python.svg",
     "license": "CC0-1.0",
-    "sha256": "9805f13033c0bc69e2cec2347341ca2a92de890190b2515d88e01cec8da56113",
+    "sha256": "64366a99ecdfccefcbf188ef0507da2e6706aae74e1b144f9b09507b687d681c",
     "reference": "references/simple-python.svg",
     "reference_sha256": "adca85e1d0bd6d796abea422d983fd131a432fe78efeac58af18461eb1548780",
-    "material_revision": 9
+    "material_revision": 10,
+    "design_note": "Golden Python silhouette and original apertures retained; a fine copper edge defines the snakes against light surfaces."
   },
   "rust": {
     "source": "scripts/icons/local/rust.svg",
@@ -722,7 +739,9 @@
   "tailscale": {
     "source": "scripts/icons/local/tailscale.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "780627cfba26111dfff44d56c1ff1a4d588a0e793278d93fb24903223d6206ed"
+    "sha256": "2c7666c8aab07ec6c4bdc4101f1098743005034168046684acf9ce23dad0b34f",
+    "material_revision": 1,
+    "design_note": "Deeper cyan ramp keeps every exposed waveform/dot pigment above 3:1 on light and dark canvases; geometry retained."
   },
   "vite": {
     "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/vite.svg",

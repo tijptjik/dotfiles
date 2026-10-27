@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<g id="frameless-artwork" transform="translate(-8.727273 -8.727273) scale(1.272727)"><defs>
+<g id="frameless-artwork" transform="translate(-7.602210 -7.602210) scale(1.237569)"><defs>
  <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
  <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
  <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
-<linearGradient id="material-sublime-text-1" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="#f9d39d" /><stop offset=".32" stop-color="#f6c177" /><stop offset="1" stop-color="#b8936a" /></linearGradient></defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><g transform="translate(10 10) scale(1.833333)"><path d="M20.953.004a.397.397 0 0 0-.18.017L3.225 5.585c-.175.055-.323.214-.402.398a.42.42 0 0 0-.06.22v5.726a.42.42 0 0 0 .06.22c.079.183.227.341.402.397l7.454 2.364-7.454 2.363c-.255.08-.463.374-.463.655v5.688c0 .282.208.444.463.363l17.55-5.565c.237-.075.426-.336.452-.6.003-.022.013-.04.013-.065V12.06c0-.281-.208-.575-.463-.656L13.4 9.065l7.375-2.339c.255-.08.462-.375.462-.656V.384c0-.211-.117-.355-.283-.38z" fill="url(#material-sublime-text-1)" /></g>
-</g></svg>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><g data-material="authored"><defs><linearGradient id="sublime-text-gold" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="#f9d39d" /><stop offset=".32" stop-color="#f6c177" /><stop offset="1" stop-color="#b8936a" /></linearGradient></defs><g transform="translate(10 10) scale(1.833333)"><path d="M20.953.004a.397.397 0 0 0-.18.017L3.225 5.585c-.175.055-.323.214-.402.398a.42.42 0 0 0-.06.22v5.726a.42.42 0 0 0 .06.22c.079.183.227.341.402.397l7.454 2.364-7.454 2.363c-.255.08-.463.374-.463.655v5.688c0 .282.208.444.463.363l17.55-5.565c.237-.075.426-.336.452-.6.003-.022.013-.04.013-.065V12.06c0-.281-.208-.575-.463-.656L13.4 9.065l7.375-2.339c.255-.08.462-.375.462-.656V.384c0-.211-.117-.355-.283-.38z" fill="url(#sublime-text-gold)" stroke="#976b35" stroke-width=".65" stroke-linejoin="round" paint-order="stroke fill" /></g>
+</g></g></svg>

@@ -4,12 +4,12 @@
  <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
  <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
 </defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#material-hyprvoice-1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x="8" y="8">
-  <defs><linearGradient id="material-hyprvoice-1" x1="0.0" y1="0.0" x2="8.399999999999999" y2="24.0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c2dcd9" /><stop offset=".32" stop-color="#9ccfd8" /><stop offset="1" stop-color="#7b9cac" /></linearGradient></defs><path d="M2 10v3" />
+<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="hyprvoice-cyan" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="8.4" y2="24"><stop offset="0" stop-color="#538a96" /><stop offset="1" stop-color="#477c8a" /></linearGradient></defs><g data-material="authored"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#hyprvoice-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x="8" y="8">
+  <path d="M2 10v3" />
   <path d="M6 6v11" />
   <path d="M10 3v18" />
   <path d="M14 8v7" />
   <path d="M18 5v13" />
   <path d="M22 10v3" />
 </svg>
-</g></svg>
+</g></g></svg>

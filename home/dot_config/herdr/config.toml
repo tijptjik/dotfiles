@@ -13,6 +13,9 @@ row_gap = 1
 [ui.toast]
 delivery = "system"
 
+[ui.sound]
+path = "sounds/soft-chime.mp3"
+
 [[keys.command]]
 key = "prefix+f"
 type = "shell"

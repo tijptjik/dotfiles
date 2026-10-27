@@ -12,6 +12,13 @@
 .mozilla/firefox/Crash Reports/**
 .fonts/.uuid
 .config/sublime-text/Local/Auto Save Session.sublime_session
+{{ if eq .chezmoi.hostname "li" -}}
+# Li uses Chrome Beta/Flatpak; these native Chrome and old Cemu targets are absent.
+.local/share/applications/google-chrome.desktop
+.local/share/applications/google-chrome-canary.desktop
+.local/share/applications/com.google.Chrome.canary.desktop
+.local/share/applications/discord.desktop
+{{ end -}}
 {{ if .isClient -}}
 downloads
 dockers

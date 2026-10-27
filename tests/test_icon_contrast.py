@@ -16,6 +16,28 @@ def luminance(rgb):
 
 
 class IconContrastTests(unittest.TestCase):
+    def test_mole_body_and_steam_linkage_contrast_on_light_and_dark_surfaces(self):
+        import xml.etree.ElementTree as ET
+
+        folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+        surfaces = ('#eceaf0', '#f0ebe5', '#ffffff', '#26233a', '#191724')
+        for key in ('mullvad', 'steam'):
+            root = ET.parse(folder / f'{key}.svg')
+            # The first path is the exposed body/linkage. Ivory and amber
+            # details use their own dark edges rather than a muted pigment.
+            fill = root.find('.//{*}path').get('fill')
+            colors = ([stop.get('stop-color') for stop in
+                       root.findall(f".//*[@id='{fill[5:-1]}']/{{*}}stop")]
+                      if fill.startswith('url(#') else [fill])
+            self.assertTrue(colors, key)
+            for color in colors:
+                pigment = luminance(tuple(int(color[i:i + 2], 16) for i in (1, 3, 5)))
+                for surface in surfaces:
+                    background = luminance(tuple(int(surface[i:i + 2], 16) for i in (1, 3, 5)))
+                    low, high = sorted((pigment, background))
+                    with self.subTest(icon=key, pigment=color, surface=surface):
+                        self.assertGreaterEqual((high + .05) / (low + .05), 3)
+
     def test_revised_marks_have_three_to_one_pigment_contrast_on_both_surfaces(self):
         surfaces = {
             'gallery light': (236, 234, 240), 'warm light': (240, 235, 229),

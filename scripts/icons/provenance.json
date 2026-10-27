@@ -39,11 +39,12 @@
   "steam": {
     "source": "scripts/icons/local/steam.svg",
     "license": "Original artwork",
-    "sha256": "09dfcb5d840d7256811baa5b9e07e3fdf6bc69d2999d946a5cd3c52da0d05d81",
-    "material_revision": 9,
+    "sha256": "6e6270483377895c129737f7f3fc294c762dea9526a4a7251a5c004497210de2",
+    "material_revision": 10,
     "reference_file": ".local/icon-reviews/docs/assets/icon-review/originals/steam.png",
     "reference_sha256": "b7087da76b8315024887b9a9313be5b9e6ba87d25eb624eac2d6542a823bb87d",
-    "geometry_note": "Solid tapered connecting rod and continuous crank arm redrawn against the packaged Steam mark."
+    "geometry_note": "Solid tapered connecting rod and continuous crank arm redrawn against the packaged Steam mark.",
+    "design_note": "Deeper periwinkle linkage; the ivory crank arm has a narrow navy edge for visibility on light surfaces. Original blue and ivory identity retained."
   },
   "brave": {
     "source": "scripts/icons/local/brave.svg",
@@ -166,9 +167,9 @@
   "mullvad": {
     "source": "scripts/icons/local/mullvad.svg",
     "license": "Themed vector artwork; underlying brand rights and source licenses retained",
-    "sha256": "4653f48b137636b49511362f1089957d28531a851d2832aff88ef02e9475883b",
-    "material_revision": 12,
-    "design_note": "Only the busy right neck edge is smoothed; face and amber hat retained.",
+    "sha256": "57025e97df03c5bc857fa71446b23e83c342e9b67c8cfd4a0a1aca683d32e2e7",
+    "material_revision": 16,
+    "design_note": "Warm brown mole with a restrained ramp visible on light and dark surfaces; the authentic face, smoothed neck and amber hat are retained, with a brown hat edge for light surfaces. The mouth opening and shadow under the hat are filled with the dark plum background color (#26233a).",
     "adapted_from": {
       "source": "scripts/icons/local/mullvad.svg",
       "license": "Original themed interpretation; app identity rights remain with their owners",

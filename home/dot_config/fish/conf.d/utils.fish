@@ -13,18 +13,18 @@
 # A fresh quote and native Rust pony render add no container startup to Fish.
 function fish_greeting
     isatty stdin; and isatty stdout; or return
-    command -q pony-rs; or return
+    command -q greetjik; or return
     command -q fortune; or return
     pony
 end
 
 function pony --description "Show a fresh fortune with pony artwork"
-    if command -q pony-rs
-        command fortune | command pony-rs $argv
+    if command -q greetjik
+        command fortune | command greetjik $argv
     else if command -q ponysay
         command fortune | command ponysay $argv
     else
-        printf 'Install pony-rs with the Chezmoi setup first.\n' >&2
+        printf 'Install greetjik with the Chezmoi setup first.\n' >&2
         return 127
     end
 end

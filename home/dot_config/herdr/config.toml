@@ -1,6 +1,6 @@
 onboarding = false
 
-[experimental]
+[terminal]
 kitty_graphics = true
 
 [ui]

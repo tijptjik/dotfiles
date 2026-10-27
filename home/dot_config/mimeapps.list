@@ -8,6 +8,7 @@ application/x-zerosize=evince.desktop
 application/xhtml+xml=Zen.desktop
 image/jpeg=org.gnome.Loupe.desktop
 image/png=org.gnome.Loupe.desktop
+inode/directory=io.github.lgse.Strata.desktop
 text/css=Zen.desktop
 text/html=Zen.desktop
 x-scheme-handler/chrome=Zen.desktop

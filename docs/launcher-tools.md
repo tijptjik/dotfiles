@@ -21,6 +21,10 @@ configuration.
 
 ## Strata
 
+Strata is the default file manager: `inode/directory` resolves to
+`io.github.lgse.Strata.desktop`, and Hyprland's Super+E shortcut launches
+`uwsm app -- strata`. Its windows use the same scrolling widths as Nautilus.
+
 Chezetc checks GitHub's latest stable Strata release on each client apply. It
 installs a newer x86_64 release under `/opt/strata/<version>` after verifying
 the SHA-256 digest published in the GitHub release API, then updates

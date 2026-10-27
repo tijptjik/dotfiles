@@ -39,7 +39,7 @@ primary is `DP-1` and secondary is `DP-2`:
 | Spotify | 100% | 100%; opens on workspace 20, the secondary display's tenth workspace |
 | Zen | 50% | 100% |
 | Kitty | 50% | 75% |
-| Files / Nautilus | 50% | 75% |
+| Files / Strata / Nautilus | 50% | 75% |
 | Sublime Text | 50% | 100% |
 | Obsidian | 50% | 100% |
 | Codex LB (both launcher entries) | 50% | 100% |

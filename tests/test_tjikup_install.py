@@ -95,7 +95,7 @@ class InstallTests(unittest.TestCase):
         self.env['TEST_TOOL_SOURCE'] = str(self.tools)
         result = self.install()
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertTrue((self.home / '.local/share/tooltjik/.git').is_dir())
+        self.assertTrue((self.home / 'code/tooltjik/.git').is_dir())
         self.check_installed()
 
     def test_missing_system_adapter_leaves_command_untouched(self):

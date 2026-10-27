@@ -34,8 +34,10 @@ def repositories():
         dot = git(Path(result.stdout.strip()), 'rev-parse', '--show-toplevel')
     tool = os.environ.get('TOOLTJIK_REPO')
     if not tool:
-        development = home / 'code/tooltjik'
-        tool = development if (development / '.git').exists() else home / '.local/share/tooltjik'
+        tool = home / 'code/tooltjik'
+        legacy = home / '.local/share/tooltjik'
+        if not (tool.exists() or tool.is_symlink()) and (legacy.exists() or legacy.is_symlink()):
+            raise SyncError(f'Move {legacy} to {tool} before retrying (see docs/tjikup.md).')
     return [('Dotjik', Path(dot).expanduser().resolve()),
             ('Systjik', Path(os.environ.get('SYSTJIK_REPO', home / '.local/share/chezetc')).expanduser().resolve()),
             ('Tooltjik', Path(tool).expanduser().resolve())]

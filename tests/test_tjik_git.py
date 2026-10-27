@@ -68,6 +68,34 @@ class FleetGitTests(unittest.TestCase):
             self.assertEqual([repo for _, repo in tjik_git.repositories()],
                              [repo for _, repo in self.repos])
 
+    def test_tooltjik_defaults_to_code_even_before_checkout_exists(self):
+        with patch.dict('os.environ', {'DOTJIK_REPO': str(self.repos[0][1]),
+                                      'SYSTJIK_REPO': str(self.repos[1][1]),
+                                      'TOOLTJIK_REPO': ''}), \
+                patch.object(tjik_git.Path, 'home', return_value=self.root):
+            self.assertEqual(tjik_git.repositories()[-1],
+                             ('Tooltjik', self.root / 'code/tooltjik'))
+
+    def test_legacy_tooltjik_requires_migration(self):
+        legacy = self.root / '.local/share/tooltjik'
+        legacy.mkdir(parents=True)
+        with patch.dict('os.environ', {'DOTJIK_REPO': str(self.repos[0][1]),
+                                      'TOOLTJIK_REPO': ''}), \
+                patch.object(tjik_git.Path, 'home', return_value=self.root):
+            with self.assertRaisesRegex(tjik_git.SyncError, 'Move .*tooltjik'):
+                tjik_git.repositories()
+        self.assertTrue(legacy.exists())
+        self.assertFalse((self.root / 'code/tooltjik').exists())
+
+    def test_canonical_tooltjik_wins_when_legacy_also_exists(self):
+        (self.root / '.local/share/tooltjik').mkdir(parents=True)
+        canonical = self.root / 'code/tooltjik'
+        canonical.mkdir(parents=True)
+        with patch.dict('os.environ', {'DOTJIK_REPO': str(self.repos[0][1]),
+                                      'TOOLTJIK_REPO': ''}), \
+                patch.object(tjik_git.Path, 'home', return_value=self.root):
+            self.assertEqual(tjik_git.repositories()[-1], ('Tooltjik', canonical))
+
     def test_push_only_leaves_uncommitted_changes(self):
         for _, repo in self.repos:
             self.commit(repo, 'local', 'local')

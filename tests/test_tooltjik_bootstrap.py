@@ -1,4 +1,4 @@
-"""Exercise bootstrap upgrades against a local Git remote, without networking."""
+"""Exercise canonical checkout bootstrap against a local Git remote."""
 import os
 from pathlib import Path
 import subprocess
@@ -22,7 +22,7 @@ class BootstrapTests(unittest.TestCase):
         self.git('init', '-b', 'main', str(self.remote))
         (self.remote / 'README').write_text('old checkout\n')
         self.commit('initial')
-        self.checkout = self.home / '.local/share/tooltjik'
+        self.checkout = self.home / 'code/tooltjik'
         self.checkout.parent.mkdir(parents=True)
         self.git('clone', str(self.remote), str(self.checkout))
         app = self.remote / 'apps/notjik/scripts/build.sh'
@@ -55,7 +55,9 @@ class BootstrapTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue((self.checkout / 'apps/notjik/scripts/build.sh').is_file())
 
-    def test_old_default_checkout_is_fast_forwarded(self):
+    def test_complete_checkout_works_offline(self):
+        self.git('-C', str(self.checkout), 'fetch', 'origin')
+        self.git('-C', str(self.checkout), 'merge', '--ff-only', 'origin/main')
         result = self.bootstrap()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue((self.checkout / 'apps/notjik/scripts/build.sh').is_file())
@@ -70,20 +72,39 @@ class BootstrapTests(unittest.TestCase):
         self.assertIn('Update', result.stderr)
         self.assertFalse((self.checkout / 'apps/notjik').exists())
 
-    def test_development_checkout_is_not_updated(self):
-        development = self.home / 'code/tooltjik'
-        development.parent.mkdir()
-        self.checkout.rename(development)
+    def test_default_checkout_is_not_updated(self):
         result = self.bootstrap()
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn(str(development), result.stderr)
-        self.assertFalse((development / 'apps/notjik').exists())
+        self.assertIn(str(self.checkout), result.stderr)
+        self.assertFalse((self.checkout / 'apps/notjik').exists())
+
+    def test_legacy_checkout_requires_migration_without_cloning(self):
+        legacy = self.home / '.local/share/tooltjik'
+        legacy.parent.mkdir(parents=True)
+        self.checkout.rename(legacy)
+        (legacy / 'README').write_text('personal edits\n')
+        result = self.bootstrap()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn(f'Move {legacy}', result.stderr)
+        self.assertFalse(self.checkout.exists())
+        self.assertEqual((legacy / 'README').read_text(), 'personal edits\n')
+
+    def test_explicit_legacy_checkout_is_supported(self):
+        legacy = self.home / '.local/share/tooltjik'
+        legacy.parent.mkdir(parents=True)
+        self.checkout.rename(legacy)
+        app = legacy / 'apps/notjik/scripts/build.sh'
+        app.parent.mkdir(parents=True)
+        app.touch()
+        self.env['TOOLTJIK_REPO'] = str(legacy)
+        self.assertEqual(self.bootstrap().returncode, 0)
+        self.assertFalse(self.checkout.exists())
 
     def test_dirty_checkout_is_preserved(self):
         (self.checkout / 'README').write_text('personal edits\n')
         result = self.bootstrap()
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn('local changes', result.stderr)
+        self.assertIn('Update', result.stderr)
         self.assertEqual((self.checkout / 'README').read_text(), 'personal edits\n')
 
     def test_diverged_checkout_is_preserved(self):

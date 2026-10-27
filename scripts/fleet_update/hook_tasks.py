@@ -6,9 +6,9 @@ import subprocess
 
 from .core import UpdateError
 from .dag import Task, command as run_command
+from .icons import HookProgress
 from .presentation import summary
 from tjikup import runtime
-from tjikup.progress import Progress
 
 
 def owns_terminal(item):
@@ -21,7 +21,7 @@ class HookTasks:
         self.temporary, self.log_dir = Path(temporary), Path(log_dir)
         self.env = {**env, "FLEET_DEFER_HOOKS": "0", "FLEET_DEFER_SYSTEM_HOOKS": "0",
                     "TJIKUP_NO_SPIN": "1", "TJIKUP_STATUS_LINES": "1", "TJIKUP_NO_SECTIONS": "1"}
-        self.progress = Progress()
+        self.progress = HookProgress()
         self.items, self.outputs, self.results = {}, {}, {}
 
     def prepare(self, repo, plan, render, *, prefix="", root=False, needs=()):

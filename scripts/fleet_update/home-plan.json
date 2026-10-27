@@ -151,8 +151,8 @@
     "verb": "INSTALL"
   },
   {
-    "id": "pony",
-    "file": "run_after_38-install-pony-rs.fish.tmpl",
+    "id": "greetjik",
+    "file": "run_after_38-install-greetjik.fish.tmpl",
     "needs": [
       "tjikup",
       "rust"
@@ -162,7 +162,7 @@
       "cargo",
       "dnf"
     ],
-    "label": "Pony",
+    "label": "Greetjik",
     "verb": "INSTALL"
   },
   {

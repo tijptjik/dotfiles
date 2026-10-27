@@ -1,6 +1,6 @@
 [Icon Theme]
-Name=Rose Punk B — Illustrated
-Comment=Sculpted enamel Rose Punk app icons
+Name=Rose Punk
+Comment=Rose Punk application icons
 Directories=scalable/apps
 Inherits=Neuwaita,Adwaita,hicolor
 

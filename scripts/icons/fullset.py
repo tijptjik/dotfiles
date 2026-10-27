@@ -104,8 +104,6 @@ def main():
         ET.fromstring(output)
         (DEST/f'{key}.svg').write_text(output)
         (DEST/f'symlink_rose-punk-{key}.svg').write_text(key+'.svg\n')
-        fallback=ROOT/f'home/dot_local/share/icons/hicolor/scalable/apps/symlink_rose-punk-{key}.svg'
-        fallback.write_text(f'../../../rose-punk-illustrated/scalable/apps/{key}.svg\n')
         for name in entry['icon_names']:
             name=name.removesuffix('.svg').removesuffix('.png')
             if '/' not in name and name and not any(c.isspace() for c in name) and not name.startswith('rose-punk-'):

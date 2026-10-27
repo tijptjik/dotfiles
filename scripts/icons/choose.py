@@ -1,38 +1,34 @@
 #!/usr/bin/env python3
-"""Select a Rose Punk icon direction in dotfiles and the current GTK session."""
+"""Select an installed icon theme without pinning it in managed configuration."""
 import argparse
+import configparser
+import os
 from pathlib import Path
-import re
-import subprocess
 
-ROOT = Path(__file__).resolve().parents[2]
-THEMES = {'a': 'rose-punk', 'b': 'rose-punk-illustrated'}
+from install import select_theme
+
+THEME = 'rose-punk-illustrated'
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('version', choices=THEMES, help='a: outline; b: illustrated')
+    parser.add_argument('theme', nargs='?', default=THEME, help='installed theme ID (default: Rose Punk)')
     args = parser.parse_args()
-    theme = THEMES[args.version]
-    source = ROOT / 'home/dot_local/share/icons' / theme
-    if not (source / 'index.theme').exists():
-        parser.error(f'{theme} artwork is not installed in this checkout yet')
-    settings = ROOT / 'home/dot_config/gtk-4.0/settings.ini'
-    settings.write_text(re.sub(r'^gtk-icon-theme-name=.*$', 'gtk-icon-theme-name=' + theme,
-                              settings.read_text(), flags=re.M))
-    dconf = ROOT / 'home/dot_config/dconf/interface.conf'
-    dconf.write_text(re.sub(r"^icon-theme=.*$", "icon-theme='" + theme + "'",
-                           dconf.read_text(), flags=re.M))
+    theme = THEME if args.theme == 'Rose Punk' else args.theme
+    if theme in ('.', '..') or '/' in theme:
+        parser.error('expected an installed theme name, not a path')
     home = Path.home()
-    subprocess.run(['chezmoi', 'apply', '--include=files,dirs,symlinks',
-                    str(home / '.local/share/icons' / theme),
-                    str(home / '.config/gtk-4.0/settings.ini'),
-                    str(home / '.config/dconf/interface.conf')], check=True)
-    subprocess.run(['gtk-update-icon-cache', '--force', str(home / '.local/share/icons' / theme)], check=True)
-    subprocess.run(['gsettings', 'set', 'org.gnome.desktop.interface', 'icon-theme', theme], check=True)
-    if subprocess.run(['systemctl', '--user', '--quiet', 'is-active', 'hamr-gtk.service']).returncode == 0:
-        subprocess.run(['systemctl', '--user', 'restart', 'hamr-gtk.service'], check=True)
-    print(f'Version {args.version.upper()} selected: {theme}. Preference saved in dotfiles.')
+    data = Path(os.environ.get('XDG_DATA_HOME', home / '.local/share'))
+    roots = [data / 'icons', home / '.icons']
+    roots += [Path(p) / 'icons' for p in os.environ.get('XDG_DATA_DIRS', '/usr/local/share:/usr/share').split(':') if p]
+    metadata = next((root / theme / 'index.theme' for root in roots if (root / theme / 'index.theme').is_file()), None)
+    if metadata is None:
+        parser.error(f'icon theme is not installed: {theme}')
+    config = Path(os.environ.get('XDG_CONFIG_HOME', home / '.config'))
+    select_theme(config, theme, bool(os.environ.get('WAYLAND_DISPLAY') or os.environ.get('DISPLAY')))
+    details = configparser.ConfigParser(interpolation=None)
+    details.read(metadata)
+    print('Selected ' + details.get('Icon Theme', 'Name', fallback=theme))
 
 
 if __name__ == '__main__':

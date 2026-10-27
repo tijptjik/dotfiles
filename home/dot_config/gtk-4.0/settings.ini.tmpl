@@ -1,0 +1,14 @@
+[Settings]
+gtk-application-prefer-dark-theme=1
+gtk-theme-name=Adwaita
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle=hintmedium
+gtk-xft-rgba=rgb
+gtk-im-module=fcitx
+{{ $settings := joinPath .chezmoi.homeDir ".config/gtk-4.0/settings.ini" -}}
+{{ if stat $settings -}}
+{{ with regexFind "(?m)^gtk-icon-theme-name=.*$" (include $settings) -}}
+{{ . }}
+{{ end -}}
+{{ end -}}

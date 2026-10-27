@@ -9,13 +9,19 @@ import sys
 HERE = Path(__file__).resolve().parent
 
 
-def inventory():
-    roots=[Path.home()/'.local/share/applications', Path.home()/'.local/share/flatpak/exports/share/applications',
+def inventory(roots=None):
+    if roots is None:
+        roots=[Path.home()/'.local/share/applications', Path.home()/'.local/share/flatpak/exports/share/applications',
            Path('/usr/share/applications'),Path('/usr/local/share/applications'),
            Path('/var/lib/flatpak/exports/share/applications'),Path('/var/lib/snapd/desktop/applications')]
     rows={}
+    seen=set()
     for root in roots:
         for path in sorted(root.glob('*.desktop')):
+            # A hidden user override must also suppress the system launcher.
+            if path.name in seen:
+                continue
+            seen.add(path.name)
             config=configparser.ConfigParser(interpolation=None,strict=False)
             try:
                 config.read(path)

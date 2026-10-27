@@ -6,4 +6,4 @@ NoDisplay=true
 Exec=/bin/zen-browser %u
 Name=Zen
 Comment=Custom definition for Zen
-Icon=rose-punk-zen
+Icon=zen-browser

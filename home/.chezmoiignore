@@ -77,3 +77,6 @@ storage
 .local/bin/si-app-backup-pull
 .config/systemd/user/si-app-backup-*
 {{ end -}}
+
+# The runner installer owns its original notification fallback, not this theme.
+.local/share/icons/tjikup.png

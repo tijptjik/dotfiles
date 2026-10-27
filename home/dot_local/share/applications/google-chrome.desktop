@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Google Chrome
 Exec=/usr/bin/google-chrome-stable --disable-features=WaylandWpColorManagerV1 --force-color-profile=sRGB --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3 %U
-Icon=rose-punk-chrome
+Icon=google-chrome
 Terminal=false
 Type=Application
 Categories=Network;WebBrowser;

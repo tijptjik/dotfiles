@@ -39,28 +39,50 @@ python3 scripts/icons/audit.py         # report uncovered local launcher entries
 python3 -B -m unittest discover -s tests -p 'test_rose_punk_icons.py' -v
 ```
 
-Chezmoi deploys the SVGs and aliases. Its client-only `run_after_40-rose-punk-icons`
-hook installs desktop overrides and refreshes caches; Tjikup includes this in
-its hook schedule. Original main `Icon` fields are replaced with unique
-`rose-punk-*` names, preserving Exec, actions and other desktop metadata.
-Aliases for original icon names also cover Hamr's stored recent system entries.
-The illustrated theme inherits Neuwaita, Adwaita and hicolor for unrelated icons.
+Chezmoi deploys a named theme displayed as **Rose Punk**. Its stable directory ID
+is `rose-punk-illustrated`; keeping that ID avoids relocating artwork while it
+is being refined. The old outline study is hidden from theme selectors and is
+labelled `Rose Punk (Outline archive)`. Rose Punk inherits Neuwaita, Adwaita and
+hicolor for icons it does not provide.
 
-For focused deployment:
+Application launchers use ordinary upstream icon names. Rose Punk supplies
+aliases inside its own theme directory; it does not install its artwork into
+hicolor or force `rose-punk-*` names into desktop entries. Vendor icons in
+hicolor remain available as the original fallback when another theme is chosen.
+
+The client apply hook runs `scripts/icons/install.py` to migrate old overrides
+and refresh caches. It removes only hicolor symlinks that point into the two
+Rose Punk themes. It restores recorded launcher overlays, preserves edited
+launch commands, and changes only Icon fields in managed native launchers.
+Unresolved edited overrides are preserved and reported for review. Recovery
+records live in `~/.local/state/rose-punk-icons/`; `theme-switch-backups.json`
+contains launcher contents from before migration. `--restore` remains an alias
+for this cleanup. There is no blanket deletion of user icon files.
+
+Installation and ordinary apply do **not** select a theme. Managed GTK3/GTK4
+files preserve the existing icon-theme setting, dconf does not pin one, and
+Qt6ct is changed only by an explicit selection:
 
 ```sh
-chezmoi apply --include=files,dirs,symlinks ~/.local/share/icons/rose-punk-illustrated ~/.local/share/icons/hicolor/scalable/apps
-python3 scripts/icons/install.py
-python3 scripts/icons/choose.py b
-systemctl --user restart hamr-daemon.service hamr-gtk.service
+python3 scripts/icons/choose.py          # select Rose Punk
+python3 scripts/icons/choose.py Neuwaita # switch to another installed theme
+python3 scripts/icons/install.py        # migrate/refresh; retain that choice
+python3 scripts/icons/check-theme.py    # report overrides and missing fallbacks
 ```
 
-The original 25-app outline study is retained as an archive. `choose.py a` can
-still select it, but only the illustrated direction receives complete coverage.
-The chosen theme is saved in the managed GTK4 and dconf settings.
+Desktop settings applications can also select themes normally. Absolute icon
+paths supplied by applications can bypass theme lookup; `check-theme.py` reports
+these instead of silently rewriting launchers. Missing upstream/PWA fallback
+icons should be repaired individually, without putting Rose Punk artwork back
+into hicolor.
 
-Installer-created desktop overrides retain recovery data under
-`~/.local/state/rose-punk-icons/desktop-overrides.json`. `install.py --restore`
-restores only entries unchanged since installation. Full retirement also
-requires reverting managed Icon fields and disabling the apply hook, otherwise
-the next apply reinstates the theme.
+Tjikup notifications request the `tjikup-notification` icon by name. Its original
+fallback PNG belongs to the Tooltjik installer; the generated Rose Punk PNG is
+not deployed over it. Inline terminal sprites are a separate presentation layer,
+not desktop icon-theme lookup.
+
+For focused setup deployment, apply the two `index.theme` files, managed desktop
+entries, GTK3/GTK4 settings and the dconf interface file, then run `install.py`.
+No full desktop apply, artwork rebuild, or package update is required. Run
+`python3 -B -m unittest discover -s tests -p 'test_icon_theme_setup.py' -v` for
+isolated migration and preference-preservation tests.

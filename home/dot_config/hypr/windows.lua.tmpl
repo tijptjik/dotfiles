@@ -204,13 +204,18 @@ hl.window_rule({
 {{- if .isDesktop }}
     workspace = "special:chat silent",
     float = true,
-    -- Keep the 24px top gap and clear the 44px Bartjik row by 24px below.
-    size = { 944, 1324 },
-    move = { "(1248)", "(24)" },
+    -- Split the 44px height reduction evenly between the top and bottom.
+    size = { 944, 1280 },
+    move = { "(1248)", "(46)" },
 {{- else if .isLaptop }}
     workspace = "4",
 {{- end }}
-    match = { class = "^(org.telegram.desktop.*)", initial_title = "^Telegram$" },
+    -- Main titles can include unread counts (e.g. "Telegram (2)") or chats.
+    -- Exclude auxiliary surfaces instead of requiring one exact main title.
+    match = {
+        class = "^(org.telegram.desktop.*)",
+        initial_title = "negative:^(TelegramDesktop|Media viewer)$",
+    },
 })
 
 -- Telegram's export dialog draws its own frame inside the Wayland surface.

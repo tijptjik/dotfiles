@@ -42,7 +42,15 @@ assert(rules.spotify.scrolling_width == 1.0)
 assert(rules["codex-lb"].scrolling_width == (arg[2] == "fi" and 1.0 or nil))
 assert(rules.zen.scrolling_width == 0.5)
 assert(rules.kitty.scrolling_width == 0.5)
-assert(rules.telegram.match.initial_title == "^Telegram$")
+assert(rules.telegram.match.initial_title == "negative:^(TelegramDesktop|Media viewer)$")
+if arg[2] == "fi" then
+    assert(rules.telegram.workspace == "special:chat silent")
+    assert(rules.telegram.float)
+    assert(rules.telegram.size[1] == 944 and rules.telegram.size[2] == 1280)
+    assert(rules.telegram.move[1] == "(1248)" and rules.telegram.move[2] == "(46)")
+elseif arg[2] == "li" then
+    assert(rules.telegram.workspace == "4")
+end
 local export = rules["telegram-export-dialog"]
 assert(export.match.class == rules.telegram.match.class)
 assert(export.match.initial_title == "^TelegramDesktop$")

@@ -12,6 +12,10 @@ links, then enables both Hamr user services and starts them when a graphical
 session is active. Hyprland also starts the Hamr GTK user service at login. Super+Escape toggles the launcher;
 Super+V opens its clipboard plugin. The old Quickshell startup is retired.
 
+Hamr backgrounds and content panels are fully opaque: both
+`appearance.backgroundTransparency` and `appearance.contentTransparency` are
+explicitly zero, overriding Hamr's translucent defaults.
+
 Hamr's expanded panel is centered on the primary displays of `fi` (1440 logical
 pixels high) and `li` (1200 logical pixels high at 2× scale). The shared
 `hamr-y-ratio` template allows for the 682px expanded panel: its top edge is 379px

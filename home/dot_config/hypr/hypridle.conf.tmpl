@@ -51,8 +51,8 @@ general {
 
 listener {
     timeout = 60
-    on-timeout = hyprsunset --gamma 0.10
-    on-resume = hyprsunset --gamma 1.0
+    on-timeout = hyprctl hyprsunset gamma 10
+    on-resume = hyprctl hyprsunset gamma 100
 }
 
 listener {
@@ -69,7 +69,7 @@ listener {
 listener {
     timeout = 600
     on-timeout = hyprctl dispatch dpms off && sleep 0.2 && hyprctl dispatch dpms off
-    on-resume = hyprctl dispatch dpms on && hyprsunset gamma 1.0
+    on-resume = hyprctl dispatch dpms on && hyprctl hyprsunset gamma 100
 }
 
 listener {

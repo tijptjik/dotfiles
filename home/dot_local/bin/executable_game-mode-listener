@@ -22,7 +22,7 @@ libinput debug-events --device $keyboard_device_path --device $mouse_device_path
     # On any event, brighten the screen and restart the timer.
     # The check for 'type' is a simple way to filter for actual activity.
     if string match -q -- "*type*" "$event"
-        hyprsunset --gamma 1.0
+        hyprctl hyprsunset gamma 100
         systemctl --user restart dim-screen.timer
     end
 end

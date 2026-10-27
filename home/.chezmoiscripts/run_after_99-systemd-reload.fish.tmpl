@@ -63,7 +63,14 @@ end
 
 {{ if .isClient -}}
 
-set client_services "hyprpolkitagent.service" "hypridle.service" "hyprpaper.service"
+# Adopt the current idle choice once, then preserve it across applies/logins.
+# Never start hypridle during apply: an inactive daemon can be intentional.
+"$HOME/.local/bin/idle-inhibit" init; or exit $status
+systemctl --user enable hypridle.service; or exit $status
+"$HOME/.local/bin/nightlight" init; or exit $status
+systemctl --user enable hyprsunset.service; or exit $status
+
+set client_services "hyprpolkitagent.service" "hyprpaper.service"
 
 function configure_client_user_units
     # Enabling a graphical helper must not create a session during SSH/apply.

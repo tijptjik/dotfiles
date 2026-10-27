@@ -38,7 +38,7 @@ startup.subscription = hl.on("hyprland.start", function()
     hl.exec_cmd("mullvad connect")
 
     -- Night filter
-    hl.exec_cmd("uwsm app -- hyprsunset")
+    hl.exec_cmd("systemctl --user start hyprsunset.service")
 
     -- Clipboard Management
     hl.exec_cmd("uwsm app -- wl-paste --type text --watch cliphist store")

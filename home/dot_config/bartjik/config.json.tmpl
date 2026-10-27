@@ -321,7 +321,7 @@
     "idle": {
       "provider": "caffeine",
       "actions": {
-        "leftClick": "caffeine.toggle",
+        "leftClick": ["{{ .chezmoi.homeDir }}/.local/bin/idle-inhibit", "toggle"],
         "middleClick": [
           "systemctl",
           "suspend"
@@ -338,7 +338,7 @@
     "filter": {
       "provider": "nightlight",
       "actions": {
-        "leftClick": "nightlight.toggle",
+        "leftClick": ["{{ .chezmoi.homeDir }}/.local/bin/nightlight", "toggle"],
         "middleClick": null
       },
       "style": {

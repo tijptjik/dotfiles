@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<defs><linearGradient id="mint-clean" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="#91ddc7"/><stop offset="1" stop-color="#51bfa6"/></linearGradient></defs>
+<g data-material="authored" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="32" cy="32" r="21" fill="url(#mint-clean)"/>
+<path d="M19 25q14-5 27 2M21 33q12-4 22 2M24 41q8-3 16 1" fill="none" stroke="#fff5e9" stroke-width="3.2"/>
+</g>
+</svg>

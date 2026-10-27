@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""Build the illustrated catalog from vendored SVG geometry and original artwork."""
+"""Render the primary frameless catalog offline from validated, vendored sources."""
 import colorsys
-import copy
 import json
 from pathlib import Path
 import re
@@ -9,8 +8,12 @@ import xml.etree.ElementTree as ET
 from build import ART, ROOT
 from extra_art import ART as EXTRA
 from illustrated import icon as original_icon, DEST
+from palette import apply_paint_overrides, load_palette
+from materials import finish, source_pigment
+from frameless import normalize
+from material_art import artwork as material_artwork, details
+from icon_data import HERE, aliases_for, load_catalog, write_file, write_tree
 
-HERE = Path(__file__).resolve().parent
 SVG = 'http://www.w3.org/2000/svg'
 ET.register_namespace('', SVG)
 
@@ -65,24 +68,30 @@ def imported_icon(key, entry):
         node.attrib.pop('class',None)
         for child in list(node):
             if child.tag.split('}')[-1] == 'style':node.remove(child)
+    # A few upstream clip shapes refer to deleted editor paint servers.
+    # Clipping uses geometry, so normalize only unresolved clip paint, retaining
+    # the vendored source and all rendered shapes unchanged.
+    if key != 'camera':
+        known_ids = {node.get('id') for node in root.iter()}
+        for clip in root.iter(f'{{{SVG}}}clipPath'):
+            for node in clip.iter():
+                for attr in ('fill', 'stroke', 'style'):
+                    if node.get(attr):
+                        node.set(attr, re.sub(r'url\(#([^)]*)\)',
+                            lambda m: m.group() if m[1] in known_ids else '#ffffff', node.get(attr)))
     if entry['mode'] == 'brand':
         for node in root.iter():
             if node.tag.split('}')[-1] in ('path','circle','ellipse','polygon','rect'):
                 node.set('fill','url(#enamel)')
         root.set('fill','url(#enamel)')
-        # A small shadow gives the logo the same raised finish as the original B set.
-        shadow = copy.deepcopy(root)
-        shadow.set('y','10')
-        for node in shadow.iter():
-            if 'fill' in node.attrib:node.set('fill','#100d1c')
-        content = ET.tostring(shadow,encoding='unicode') + ET.tostring(root,encoding='unicode')
+        content = ET.tostring(root,encoding='unicode')
     else:
         content = ET.tostring(root,encoding='unicode')
         def rgb_to_hex(match):
             vals=[v.strip() for v in match.group(1).split(',')]
             return '#'+''.join(f"{max(0,min(255,round(float(v.rstrip('%'))*(2.55 if '%' in v else 1)))):02x}" for v in vals)
         content = re.sub(r'rgb\(([^)]+)\)', rgb_to_hex, content)
-        content = re.sub(r'#[0-9a-fA-F]{6}(?![\w-])|#[0-9a-fA-F]{3}(?![\w-])', tint, content)
+        content = re.sub(r'#[0-9a-fA-F]{6}(?![\w-])|#[0-9a-fA-F]{3}(?![\w-])', tint if key == 'camera' else source_pigment, content)
         content = content.replace('currentColor','#d1c0ee')
     # Prevent upstream gradient IDs from colliding with the tile gradients.
     if entry['mode'] != 'brand':
@@ -92,31 +101,56 @@ def imported_icon(key, entry):
     return original_icon(key,'').replace('</svg>',content+'</svg>')
 
 
-def main():
-    catalog=json.loads((HERE/'catalog.json').read_text())
-    aliases={name:key for name,key in json.loads((HERE/'theme-aliases.json').read_text()).items() if not any(c.isspace() for c in name)}
+def render():
+    catalog = load_catalog()
+    aliases = aliases_for(catalog)
+    outputs = {}
     original={**ART,**EXTRA}
+    config, _, _, _, family, recolor, adapted = load_palette()
     for key,entry in catalog.items():
-        if entry['mode']=='original':
-            output=original_icon(key,original[key][1])
+        authored = material_artwork(key)
+        if authored is not None:
+            output = original_icon(key, '').replace('</svg>', authored + '</svg>')
+        elif entry['mode']=='reference':
+            output=adapted(entry['reference'], family(key))
+        elif entry['mode']=='outline':
+            root=ET.fromstring((HERE/entry['geometry']).read_text())
+            root.set('x','8');root.set('y','8');root.set('width','48');root.set('height','48')
+            root.set('preserveAspectRatio','xMidYMid meet')
+            root.set('stroke','#b39bd9')
+            root.set('stroke-width','2')
+            output=original_icon(key,'').replace('</svg>',ET.tostring(root,encoding='unicode')+'</svg>')
+        elif entry['mode']=='illustrated-local':
+            root=ET.fromstring((HERE/entry['geometry']).read_text())
+            artwork=''.join(ET.tostring(n,encoding='unicode') for n in root)
+            output=original_icon(key,'').replace('</svg>',artwork+'</svg>')
+        elif entry['mode']=='identity':
+            output=recolor((HERE/entry['geometry']).read_text(),family(key))
+        elif entry['mode']=='original':
+            output=recolor(original_icon(key,original[key][1]),family(key))
         else:
-            output=imported_icon(key,entry)
+            imported = imported_icon(key, entry)
+            output = recolor(imported, family(key)) if key == 'camera' or entry['mode'] == 'brand' else imported
+        output = apply_paint_overrides(output, config.get('paint_overrides', {}))
+        output = finish(output, key)
+        if details(key):
+            output = output.rsplit('</svg>', 1)[0] + details(key) + '</svg>\n'
+        output, _ = normalize(output)
         ET.fromstring(output)
-        (DEST/f'{key}.svg').write_text(output)
-        (DEST/f'symlink_rose-punk-{key}.svg').write_text(key+'.svg\n')
-        for name in entry['icon_names']:
-            name=name.removesuffix('.svg').removesuffix('.png')
-            if '/' not in name and name and not any(c.isspace() for c in name) and not name.startswith('rose-punk-'):
-                aliases[name]=key
-        for desktop in entry['desktop_ids']:
-            name=desktop.removesuffix('.desktop')
-            if not any(c.isspace() for c in name):
-                aliases[name]=key
-    for alias,key in aliases.items():
+        outputs[f'{key}.svg'] = output.encode()
+        outputs[f'symlink_rose-punk-{key}.svg'] = (key + '.svg\n').encode()
+    for alias, key in aliases.items():
         if alias != key and alias not in catalog:
-            (DEST/f'symlink_{alias}.svg').write_text(key+'.svg\n')
-    (HERE/'theme-aliases.json').write_text(json.dumps(aliases,indent=2,sort_keys=True)+'\n')
-    print(f'Built {len(catalog)} illustrated icons and {len(aliases)} app-name aliases')
+            outputs[f'symlink_{alias}.svg'] = (key + '.svg\n').encode()
+    return outputs, aliases
+
+
+def main():
+    outputs, aliases = render()
+    write_tree(DEST, outputs)
+    write_file(HERE / 'theme-aliases.json', (json.dumps(aliases, indent=2, sort_keys=True) + '\n').encode())
+    catalog = load_catalog()
+    print(f'Built {len(catalog)} primary frameless icons and {len(aliases)} app-name aliases')
 
 
 if __name__=='__main__':main()

@@ -1,27 +1,4 @@
 {
-  "datagrip": {
-    "name": "DataGrip",
-    "installed": true,
-    "desktop_ids": [
-      "DataGrip-f9444743-cbfb-4faf-be44-0d64569a3172.desktop",
-      "jetbrains-datagrip-b9472e91-7c8f-48dc-94d5-f799d202bccf.desktop"
-    ],
-    "icon_names": [],
-    "mode": "original"
-  },
-  "kimi-ai": {
-    "name": "Kimi AI",
-    "installed": true,
-    "desktop_ids": [
-      "FFPWA-01KA90ZNGJ0N77XPVQM2DRB17P.desktop",
-      "FFPWA-01KC3KT4CTVR59SN6N4ECVGRAE.desktop"
-    ],
-    "icon_names": [
-      "FFPWA-01KA90ZNGJ0N77XPVQM2DRB17P",
-      "FFPWA-01KC3KT4CTVR59SN6N4ECVGRAE"
-    ],
-    "mode": "original"
-  },
   "google-photos": {
     "name": "Google Photos",
     "installed": true,
@@ -35,8 +12,10 @@
       "FFPWA-01KCGW1793YX2BA145Z4NWQ2XY",
       "brave-ncmjhecbjeaamljdfahankockkkdmedg-Default"
     ],
-    "geometry": "upstream/googlephotos.svg",
-    "mode": "brand"
+    "geometry": "local/google-photos.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 5
   },
   "gmail": {
     "name": "Gmail",
@@ -47,8 +26,10 @@
     "icon_names": [
       "FFPWA-01KC5NHD5A581XBAPMZG1PET4K"
     ],
-    "geometry": "upstream/gmail.svg",
-    "mode": "brand"
+    "geometry": "local/gmail.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 6
   },
   "google-calendar": {
     "name": "Google Calendar",
@@ -59,19 +40,10 @@
     "icon_names": [
       "FFPWA-01KCGZY23320CJPTJNB8ZVMVPH"
     ],
-    "geometry": "upstream/googlecalendar.svg",
-    "mode": "brand"
-  },
-  "monochrome-music": {
-    "name": "Monochrome Music",
-    "installed": true,
-    "desktop_ids": [
-      "FFPWA-01KFA5CCJHYYD2WY97911P3XG7.desktop"
-    ],
-    "icon_names": [
-      "FFPWA-01KFA5CCJHYYD2WY97911P3XG7"
-    ],
-    "mode": "original"
+    "geometry": "local/google-calendar.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 5
   },
   "codex-lb": {
     "name": "Codex LB",
@@ -81,7 +53,10 @@
       "FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N.desktop"
     ],
     "icon_names": [],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/codex-lb.svg",
+    "reviewed": true,
+    "review_batch": 4
   },
   "drizzle": {
     "name": "Drizzle Studio",
@@ -90,18 +65,9 @@
       "FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD.desktop"
     ],
     "icon_names": [],
-    "mode": "original"
-  },
-  "homeworld-remastered-collection": {
-    "name": "Homeworld Remastered",
-    "installed": true,
-    "desktop_ids": [
-      "Homeworld Remastered Collection.desktop"
-    ],
-    "icon_names": [
-      "steam_icon_244160"
-    ],
-    "mode": "original"
+    "mode": "original",
+    "reviewed": true,
+    "review_batch": 3
   },
   "steam": {
     "name": "Steam",
@@ -114,7 +80,10 @@
     "icon_names": [
       "steam"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11,
+    "geometry": "local/steam.svg"
   },
   "brave": {
     "name": "Brave",
@@ -128,7 +97,10 @@
       "brave-browser",
       "brave-browser-beta"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/brave.svg",
+    "reviewed": true,
+    "review_batch": 5
   },
   "plex": {
     "name": "Plex",
@@ -141,21 +113,24 @@
       "brave-dpjgkjccaekddppdhcjcahhloipkffle-Default",
       "tv.plex.PlexDesktop"
     ],
-    "geometry": "upstream/plex.svg",
-    "mode": "brand"
+    "geometry": "local/plex.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 18
   },
   "chatgpt": {
     "name": "ChatGPT",
     "installed": true,
     "desktop_ids": [
-      "chatgpt.desktop",
-      "codex-desktop.desktop"
+      "chatgpt.desktop"
     ],
     "icon_names": [
-      "chatgpt",
-      "codex-desktop"
+      "chatgpt"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 4,
+    "geometry": "local/chatgpt.svg"
   },
   "discord": {
     "name": "Discord",
@@ -166,7 +141,10 @@
     "icon_names": [
       "com.discordapp.Discord"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/discord.svg",
+    "reviewed": true,
+    "review_batch": 19
   },
   "chrome": {
     "name": "Google Chrome",
@@ -182,18 +160,10 @@
       "com.google.Chrome",
       "google-chrome-beta"
     ],
-    "mode": "original"
-  },
-  "tramoramic-experience": {
-    "name": "Tramoramic Experience",
-    "installed": true,
-    "desktop_ids": [
-      "com.google.Chrome.flextop.chrome-gakhpnjihiibcacdgpnogfoiheeifpdm-Default.desktop"
-    ],
-    "icon_names": [
-      "chrome-gakhpnjihiibcacdgpnogfoiheeifpdm-Default"
-    ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/chrome.svg",
+    "reviewed": true,
+    "review_batch": 5
   },
   "zapzap": {
     "name": "ZapZap",
@@ -204,7 +174,10 @@
     "icon_names": [
       "com.rtosta.zapzap"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/zapzap.svg",
+    "reviewed": true,
+    "review_batch": 10
   },
   "spotify": {
     "name": "Spotify",
@@ -215,7 +188,10 @@
     "icon_names": [
       "com.spotify.Client"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/spotify.svg",
+    "reviewed": true,
+    "review_batch": 16
   },
   "transmission": {
     "name": "Transmission",
@@ -228,8 +204,10 @@
       "com.transmissionbt.Transmission",
       "transmission-gtk"
     ],
-    "geometry": "upstream/transmission.svg",
-    "mode": "brand"
+    "geometry": "local/transmission.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 13
   },
   "zed": {
     "name": "Zed",
@@ -253,17 +231,10 @@
     "icon_names": [
       "gimp"
     ],
-    "geometry": "upstream/gimp.svg",
-    "mode": "brand"
-  },
-  "witcher-2": {
-    "name": "The Witcher 2",
-    "installed": true,
-    "desktop_ids": [
-      "gog_com-The_Witcher_2_Assassins_Of_Kings_Enhanced_Edition_1.desktop"
-    ],
-    "icon_names": [],
-    "mode": "original"
+    "geometry": "local/gimp.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 14
   },
   "strata": {
     "name": "Strata",
@@ -274,17 +245,9 @@
     "icon_names": [
       "io.github.lgse.Strata"
     ],
-    "mode": "original"
-  },
-  "jetbrains-toolbox": {
-    "name": "JetBrains Toolbox",
-    "installed": true,
-    "desktop_ids": [
-      "jetbrains-toolbox.desktop"
-    ],
-    "icon_names": [],
-    "geometry": "upstream/jetbrains-toolbox-source.svg",
-    "mode": "illustration"
+    "mode": "illustrated-local",
+    "geometry": "local/strata.svg",
+    "reviewed": true
   },
   "kitty": {
     "name": "kitty",
@@ -295,7 +258,10 @@
     "icon_names": [
       "kitty"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/kitty.svg",
+    "reviewed": true,
+    "review_batch": 4
   },
   "obsidian": {
     "name": "Obsidian",
@@ -306,7 +272,9 @@
     "icon_names": [
       "md.obsidian.Obsidian"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/obsidian.svg",
+    "reviewed": true
   },
   "mullvad": {
     "name": "Mullvad VPN",
@@ -317,20 +285,10 @@
     "icon_names": [
       "mullvad-vpn"
     ],
-    "geometry": "upstream/mullvad.svg",
-    "mode": "brand"
-  },
-  "thunderbird": {
-    "name": "Thunderbird",
-    "installed": true,
-    "desktop_ids": [
-      "net.thunderbird.Thunderbird.desktop"
-    ],
-    "icon_names": [
-      "thunderbird"
-    ],
-    "geometry": "upstream/thunderbird.svg",
-    "mode": "brand"
+    "geometry": "local/mullvad.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 14
   },
   "files": {
     "name": "Files",
@@ -341,7 +299,10 @@
     "icon_names": [
       "org.gnome.Nautilus"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/files.svg",
+    "reviewed": true,
+    "review_batch": 11
   },
   "settings": {
     "name": "Settings",
@@ -352,7 +313,10 @@
     "icon_names": [
       "org.gnome.Settings"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/settings.svg",
+    "reviewed": true,
+    "review_batch": 11
   },
   "firefox": {
     "name": "Firefox",
@@ -363,8 +327,10 @@
     "icon_names": [
       "firefox"
     ],
-    "geometry": "upstream/firefoxbrowser.svg",
-    "mode": "brand"
+    "geometry": "local/firefox.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 19
   },
   "signal": {
     "name": "Signal",
@@ -375,7 +341,10 @@
     "icon_names": [
       "org.signal.Signal"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/signal.svg",
+    "reviewed": true,
+    "review_batch": 11
   },
   "telegram": {
     "name": "Telegram",
@@ -388,7 +357,10 @@
     "icon_names": [
       "org.telegram.desktop"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/telegram.svg",
+    "reviewed": true,
+    "review_batch": 15
   },
   "vlc": {
     "name": "VLC media player",
@@ -401,7 +373,10 @@
       "org.videolan.VLC",
       "vlc"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/vlc.svg",
+    "reviewed": true,
+    "review_batch": 9
   },
   "sublime-text": {
     "name": "Sublime Text",
@@ -412,7 +387,9 @@
     "icon_names": [
       "sublime-text"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/sublime-text.svg",
+    "reviewed": true
   },
   "zen": {
     "name": "Zen Browser",
@@ -423,7 +400,9 @@
     "icon_names": [
       "zen-browser"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/zen.svg",
+    "reviewed": true
   },
   "simplescreenrecorder": {
     "name": "SimpleScreenRecorder",
@@ -434,20 +413,9 @@
     "icon_names": [
       "simplescreenrecorder"
     ],
-    "geometry": "upstream/simplescreenrecorder-source.svg",
-    "mode": "illustration"
-  },
-  "beekeeper-studio": {
-    "name": "Beekeeper Studio",
-    "installed": true,
-    "desktop_ids": [
-      "beekeeper-studio.desktop"
-    ],
-    "icon_names": [
-      "beekeeper-studio"
-    ],
-    "geometry": "upstream/beekeeperstudio.svg",
-    "mode": "brand"
+    "geometry": "local/simplescreenrecorder.svg",
+    "mode": "illustrated-local",
+    "reviewed": true
   },
   "bluetooth-adapters": {
     "name": "Bluetooth Adapters",
@@ -458,8 +426,10 @@
     "icon_names": [
       "blueman-device"
     ],
-    "geometry": "upstream/bluetooth-adapters-source.svg",
-    "mode": "illustration"
+    "geometry": "local/bluetooth-adapters.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 4
   },
   "bluetooth-manager": {
     "name": "Bluetooth Manager",
@@ -470,20 +440,10 @@
     "icon_names": [
       "blueman"
     ],
-    "geometry": "upstream/bluetooth-manager-source.svg",
-    "mode": "illustration"
-  },
-  "ghostty": {
-    "name": "Ghostty",
-    "installed": true,
-    "desktop_ids": [
-      "com.mitchellh.ghostty.desktop"
-    ],
-    "icon_names": [
-      "com.mitchellh.ghostty"
-    ],
-    "geometry": "upstream/ghostty.svg",
-    "mode": "brand"
+    "geometry": "local/bluetooth-manager.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 6
   },
   "fcitx-5-configuration": {
     "name": "Fcitx 5 Configuration",
@@ -494,8 +454,10 @@
     "icon_names": [
       "fcitx"
     ],
-    "geometry": "upstream/fcitx-5-configuration-source.svg",
-    "mode": "illustration"
+    "geometry": "local/fcitx-5-configuration.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 2
   },
   "system-monitor": {
     "name": "System Monitor",
@@ -507,20 +469,9 @@
     "icon_names": [
       "org.gnome.SystemMonitor"
     ],
-    "geometry": "upstream/system-monitor-source.svg",
-    "mode": "illustration"
-  },
-  "grass": {
-    "name": "GRASS",
-    "installed": true,
-    "desktop_ids": [
-      "grass.desktop"
-    ],
-    "icon_names": [
-      "grass"
-    ],
-    "geometry": "upstream/grass-source.svg",
-    "mode": "illustration"
+    "geometry": "local/system-monitor.svg",
+    "mode": "illustrated-local",
+    "reviewed": true
   },
   "htop": {
     "name": "Htop",
@@ -531,20 +482,10 @@
     "icon_names": [
       "htop"
     ],
-    "geometry": "upstream/htop-source.svg",
-    "mode": "illustration"
-  },
-  "java-monitor": {
-    "name": "Java Monitor",
-    "installed": true,
-    "desktop_ids": [
-      "java-25-openjdk-jconsole.desktop"
-    ],
-    "icon_names": [
-      "java-25-openjdk"
-    ],
-    "geometry": "upstream/openjdk.svg",
-    "mode": "brand"
+    "geometry": "local/htop.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "keyboard-layout-viewer": {
     "name": "Keyboard layout viewer",
@@ -555,8 +496,10 @@
     "icon_names": [
       "input-keyboard"
     ],
-    "geometry": "upstream/keyboard-layout-viewer-source.svg",
-    "mode": "illustration"
+    "geometry": "local/keyboard-layout-viewer.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "mpv-media-player": {
     "name": "mpv Media Player",
@@ -567,8 +510,9 @@
     "icon_names": [
       "mpv"
     ],
-    "geometry": "upstream/mpv-media-player-source.svg",
-    "mode": "illustration"
+    "geometry": "local/mpv-media-player.svg",
+    "mode": "illustrated-local",
+    "reviewed": true
   },
   "lutris": {
     "name": "Lutris",
@@ -579,20 +523,10 @@
     "icon_names": [
       "net.lutris.Lutris"
     ],
-    "geometry": "upstream/lutris-source.svg",
-    "mode": "illustration"
-  },
-  "nm-gui": {
-    "name": "NM GUI",
-    "installed": true,
-    "desktop_ids": [
-      "nmgui.desktop"
-    ],
-    "icon_names": [
-      "network-wireless-symbolic"
-    ],
-    "geometry": "upstream/nm-gui-source.svg",
-    "mode": "brand"
+    "geometry": "local/lutris.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 12
   },
   "neovim": {
     "name": "Neovim",
@@ -603,8 +537,10 @@
     "icon_names": [
       "nvim"
     ],
-    "geometry": "upstream/neovim-source.svg",
-    "mode": "illustration"
+    "geometry": "local/neovim.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 7
   },
   "fedora-media-writer": {
     "name": "Fedora Media Writer",
@@ -615,8 +551,10 @@
     "icon_names": [
       "org.fedoraproject.MediaWriter"
     ],
-    "geometry": "upstream/fedora.svg",
-    "mode": "brand"
+    "geometry": "local/fedora-media-writer.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 9
   },
   "problem-reporting": {
     "name": "Problem Reporting",
@@ -639,8 +577,10 @@
     "icon_names": [
       "org.freedesktop.MalcontentControl"
     ],
-    "geometry": "upstream/parental-controls-source.svg",
-    "mode": "illustration"
+    "geometry": "local/parental-controls.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 9
   },
   "calendar": {
     "name": "Calendar",
@@ -651,7 +591,10 @@
     "icon_names": [
       "org.gnome.Calendar"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/calendar.svg",
+    "reviewed": true,
+    "review_batch": 4
   },
   "characters": {
     "name": "Characters",
@@ -662,8 +605,10 @@
     "icon_names": [
       "org.gnome.Characters"
     ],
-    "geometry": "upstream/characters-source.svg",
-    "mode": "illustration"
+    "geometry": "local/characters.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 8
   },
   "color-profile-viewer": {
     "name": "Color Profile Viewer",
@@ -674,8 +619,10 @@
     "icon_names": [
       "gnome-color-manager"
     ],
-    "geometry": "upstream/color-profile-viewer-source.svg",
-    "mode": "illustration"
+    "geometry": "local/color-profile-viewer.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 6
   },
   "connections": {
     "name": "Connections",
@@ -686,8 +633,10 @@
     "icon_names": [
       "org.gnome.Connections"
     ],
-    "geometry": "upstream/connections-source.svg",
-    "mode": "illustration"
+    "geometry": "local/connections.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "contacts": {
     "name": "Contacts",
@@ -698,8 +647,10 @@
     "icon_names": [
       "org.gnome.Contacts"
     ],
-    "geometry": "upstream/contacts-source.svg",
-    "mode": "illustration"
+    "geometry": "local/contacts.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "audio-player": {
     "name": "Audio Player",
@@ -710,8 +661,10 @@
     "icon_names": [
       "org.gnome.Decibels"
     ],
-    "geometry": "upstream/audio-player-source.svg",
-    "mode": "illustration"
+    "geometry": "local/audio-player.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 4
   },
   "disks": {
     "name": "Disks",
@@ -722,8 +675,10 @@
     "icon_names": [
       "org.gnome.DiskUtility"
     ],
-    "geometry": "upstream/disks-source.svg",
-    "mode": "illustration"
+    "geometry": "local/disks.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 4
   },
   "document-viewer": {
     "name": "Document Viewer",
@@ -736,8 +691,10 @@
       "org.gnome.Evince",
       "org.gnome.Papers"
     ],
-    "geometry": "upstream/document-viewer-source.svg",
-    "mode": "illustration"
+    "geometry": "local/document-viewer.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 6
   },
   "file-roller": {
     "name": "File Roller",
@@ -748,8 +705,10 @@
     "icon_names": [
       "org.gnome.FileRoller"
     ],
-    "geometry": "upstream/file-roller-source.svg",
-    "mode": "illustration"
+    "geometry": "local/file-roller.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "logs": {
     "name": "Logs",
@@ -760,8 +719,10 @@
     "icon_names": [
       "org.gnome.Logs"
     ],
-    "geometry": "upstream/logs-source.svg",
-    "mode": "illustration"
+    "geometry": "local/logs.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 12
   },
   "image-viewer": {
     "name": "Image Viewer",
@@ -772,8 +733,10 @@
     "icon_names": [
       "org.gnome.Loupe"
     ],
-    "geometry": "upstream/image-viewer-source.svg",
-    "mode": "illustration"
+    "geometry": "local/image-viewer.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "maps": {
     "name": "Maps",
@@ -784,8 +747,9 @@
     "icon_names": [
       "org.gnome.Maps"
     ],
-    "geometry": "upstream/maps-source.svg",
-    "mode": "illustration"
+    "geometry": "local/maps.svg",
+    "mode": "illustrated-local",
+    "reviewed": true
   },
   "video-player": {
     "name": "Video Player",
@@ -796,8 +760,10 @@
     "icon_names": [
       "org.gnome.Showtime"
     ],
-    "geometry": "upstream/video-player-source.svg",
-    "mode": "illustration"
+    "geometry": "local/video-player.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 12
   },
   "document-scanner": {
     "name": "Document Scanner",
@@ -808,8 +774,10 @@
     "icon_names": [
       "org.gnome.SimpleScan"
     ],
-    "geometry": "upstream/document-scanner-source.svg",
-    "mode": "illustration"
+    "geometry": "local/document-scanner.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 12
   },
   "camera": {
     "name": "Camera",
@@ -832,8 +800,10 @@
     "icon_names": [
       "org.gnome.Software"
     ],
-    "geometry": "upstream/software-source.svg",
-    "mode": "illustration"
+    "geometry": "local/software.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "terminal": {
     "name": "Terminal",
@@ -844,8 +814,10 @@
     "icon_names": [
       "org.gnome.Terminal"
     ],
-    "geometry": "upstream/terminal-source.svg",
-    "mode": "illustration"
+    "geometry": "local/terminal.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "text-editor": {
     "name": "Text Editor",
@@ -856,8 +828,10 @@
     "icon_names": [
       "org.gnome.TextEditor"
     ],
-    "geometry": "upstream/text-editor-source.svg",
-    "mode": "illustration"
+    "geometry": "local/text-editor.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 14
   },
   "tour": {
     "name": "Tour",
@@ -880,8 +854,9 @@
     "icon_names": [
       "org.gnome.Weather"
     ],
-    "geometry": "upstream/weather-source.svg",
-    "mode": "illustration"
+    "geometry": "local/weather.svg",
+    "mode": "illustrated-local",
+    "reviewed": true
   },
   "help": {
     "name": "Help",
@@ -892,7 +867,10 @@
     "icon_names": [
       "org.gnome.Yelp"
     ],
-    "mode": "original"
+    "mode": "illustrated-local",
+    "geometry": "local/help.svg",
+    "reviewed": true,
+    "review_batch": 11
   },
   "disk-usage-analyzer": {
     "name": "Disk Usage Analyzer",
@@ -903,8 +881,10 @@
     "icon_names": [
       "org.gnome.baobab"
     ],
-    "geometry": "upstream/disk-usage-analyzer-source.svg",
-    "mode": "illustration"
+    "geometry": "local/disk-usage-analyzer.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 9
   },
   "clocks": {
     "name": "Clocks",
@@ -915,8 +895,10 @@
     "icon_names": [
       "org.gnome.clocks"
     ],
-    "geometry": "upstream/clocks-source.svg",
-    "mode": "illustration"
+    "geometry": "local/clocks.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 2
   },
   "eye-of-gnome": {
     "name": "Eye of GNOME",
@@ -927,8 +909,10 @@
     "icon_names": [
       "org.gnome.eog"
     ],
-    "geometry": "upstream/eye-of-gnome-source.svg",
-    "mode": "illustration"
+    "geometry": "local/eye-of-gnome.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "fonts": {
     "name": "Fonts",
@@ -939,8 +923,10 @@
     "icon_names": [
       "org.gnome.font-viewer"
     ],
-    "geometry": "upstream/fonts-source.svg",
-    "mode": "illustration"
+    "geometry": "local/fonts.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 4
   },
   "thumbnails": {
     "name": "Thumbnails",
@@ -951,8 +937,10 @@
     "icon_names": [
       "org.gnome.gthumb"
     ],
-    "geometry": "upstream/thumbnails-source.svg",
-    "mode": "illustration"
+    "geometry": "local/thumbnails.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "tweaks": {
     "name": "Tweaks",
@@ -963,8 +951,10 @@
     "icon_names": [
       "org.gnome.tweaks"
     ],
-    "geometry": "upstream/tweaks-source.svg",
-    "mode": "illustration"
+    "geometry": "local/tweaks.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 12
   },
   "volume-control": {
     "name": "Volume Control",
@@ -975,8 +965,10 @@
     "icon_names": [
       "org.pulseaudio.pavucontrol"
     ],
-    "geometry": "upstream/volume-control-source.svg",
-    "mode": "illustration"
+    "geometry": "local/volume-control.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 10
   },
   "qgis-desktop": {
     "name": "QGIS Desktop",
@@ -987,20 +979,10 @@
     "icon_names": [
       "qgis"
     ],
-    "geometry": "upstream/qgis-desktop-source.svg",
-    "mode": "illustration"
-  },
-  "rygel-preferences": {
-    "name": "Rygel Preferences",
-    "installed": true,
-    "desktop_ids": [
-      "rygel-preferences.desktop"
-    ],
-    "icon_names": [
-      "rygel"
-    ],
-    "geometry": "upstream/rygel-preferences-source.svg",
-    "mode": "illustration"
+    "geometry": "local/qgis-desktop.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 11
   },
   "scrcpy": {
     "name": "scrcpy",
@@ -1012,8 +994,10 @@
     "icon_names": [
       "scrcpy"
     ],
-    "geometry": "upstream/scrcpy-source.svg",
-    "mode": "illustration"
+    "geometry": "local/scrcpy.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 12
   },
   "solaar": {
     "name": "Solaar",
@@ -1024,8 +1008,10 @@
     "icon_names": [
       "solaar"
     ],
-    "geometry": "upstream/solaar-source.svg",
-    "mode": "illustration"
+    "geometry": "local/solaar.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 14
   },
   "uuctl": {
     "name": "uuctl",
@@ -1036,19 +1022,10 @@
     "icon_names": [
       "applications-system"
     ],
-    "mode": "original"
-  },
-  "dconf-editor": {
-    "name": "dconf Editor",
-    "installed": true,
-    "desktop_ids": [
-      "ca.desrt.dconf-editor.desktop"
-    ],
-    "icon_names": [
-      "ca.desrt.dconf-editor"
-    ],
-    "geometry": "upstream/dconf-editor-source.svg",
-    "mode": "illustration"
+    "mode": "illustrated-local",
+    "geometry": "local/uuctl.svg",
+    "reviewed": true,
+    "review_batch": 12
   },
   "gpu-screen-recorder": {
     "name": "GPU Screen Recorder",
@@ -1082,91 +1059,10 @@
     "icon_names": [
       "com.obsproject.Studio"
     ],
-    "geometry": "upstream/obs-studio-source.svg",
-    "mode": "illustration"
-  },
-  "rustdesk": {
-    "name": "RustDesk",
-    "installed": true,
-    "desktop_ids": [
-      "com.rustdesk.RustDesk.desktop"
-    ],
-    "icon_names": [
-      "com.rustdesk.RustDesk"
-    ],
-    "geometry": "upstream/rustdesk-source.svg",
-    "mode": "illustration"
-  },
-  "bottles": {
-    "name": "Bottles",
-    "installed": true,
-    "desktop_ids": [
-      "com.usebottles.bottles.desktop"
-    ],
-    "icon_names": [
-      "com.usebottles.bottles"
-    ],
-    "geometry": "upstream/bottles-source.svg",
-    "mode": "illustration"
-  },
-  "handbrake": {
-    "name": "HandBrake",
-    "installed": true,
-    "desktop_ids": [
-      "fr.handbrake.ghb.desktop"
-    ],
-    "icon_names": [
-      "fr.handbrake.ghb"
-    ],
-    "mode": "original"
-  },
-  "metadata-cleaner": {
-    "name": "Metadata Cleaner",
-    "installed": true,
-    "desktop_ids": [
-      "fr.romainvigier.MetadataCleaner.desktop"
-    ],
-    "icon_names": [
-      "fr.romainvigier.MetadataCleaner"
-    ],
-    "geometry": "upstream/metadata-cleaner-source.svg",
-    "mode": "illustration"
-  },
-  "bluejay": {
-    "name": "Bluejay",
-    "installed": true,
-    "desktop_ids": [
-      "io.github.ebonjaeger.bluejay.desktop"
-    ],
-    "icon_names": [
-      "io.github.ebonjaeger.bluejay"
-    ],
-    "geometry": "upstream/bluejay-source.svg",
-    "mode": "illustration"
-  },
-  "azahar": {
-    "name": "Azahar",
-    "installed": true,
-    "desktop_ids": [
-      "org.azahar_emu.Azahar.desktop"
-    ],
-    "icon_names": [
-      "org.azahar_emu.Azahar"
-    ],
-    "geometry": "upstream/azahar-source.svg",
-    "mode": "illustration"
-  },
-  "cheese": {
-    "name": "Cheese",
-    "installed": true,
-    "desktop_ids": [
-      "org.gnome.Cheese.desktop"
-    ],
-    "icon_names": [
-      "org.gnome.Cheese"
-    ],
-    "geometry": "upstream/cheese-source.svg",
-    "mode": "illustration"
+    "geometry": "local/obs-studio.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 7
   },
   "passwords-and-keys": {
     "name": "Passwords and Keys",
@@ -1177,8 +1073,9 @@
     "icon_names": [
       "org.gnome.seahorse.Application"
     ],
-    "geometry": "upstream/passwords-and-keys-source.svg",
-    "mode": "illustration"
+    "geometry": "local/passwords-and-keys.svg",
+    "mode": "illustrated-local",
+    "reviewed": true
   },
   "yuzu": {
     "name": "yuzu",
@@ -1213,164 +1110,290 @@
     "icon_names": [
       "us.zoom.Zoom"
     ],
-    "geometry": "upstream/zoom.svg",
-    "mode": "brand"
+    "geometry": "local/zoom.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 4
   },
-  "vscode": {
-    "name": "Visual Studio Code",
-    "installed": false,
+  "bartjik": {
+    "name": "Bartjik",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "bartjik"
+    ],
+    "geometry": "local/bartjik.svg",
+    "mode": "identity"
+  },
+  "notjik": {
+    "name": "Notjik",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "notjik"
+    ],
+    "geometry": "local/notjik.svg",
+    "mode": "identity"
+  },
+  "collie": {
+    "name": "Collie",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "collie"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/collie.svg",
+    "reviewed": true,
+    "review_batch": 16
+  },
+  "herdr": {
+    "name": "Herdr",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "herdr"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/herdr.svg",
+    "reviewed": true,
+    "review_batch": 5
+  },
+  "llmtrim": {
+    "name": "llmtrim",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "llmtrim"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/llmtrim.svg",
+    "reviewed": true,
+    "review_batch": 3
+  },
+  "chezetc": {
+    "name": "Chezetc",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "chezetc"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/chezetc.svg",
+    "reviewed": true,
+    "review_batch": 6
+  },
+  "chezmoi": {
+    "name": "Chezmoi",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "chezmoi"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/chezmoi.svg",
+    "reviewed": true,
+    "review_batch": 6
+  },
+  "hyprvoice": {
+    "name": "Hyprvoice",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "hyprvoice"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/hyprvoice.svg",
+    "reviewed": true,
+    "review_batch": 3
+  },
+  "oo7": {
+    "name": "oo7",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "oo7"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/oo7.svg",
+    "reviewed": true,
+    "review_batch": 3
+  },
+  "snapraid": {
+    "name": "SnapRAID",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "snapraid"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/snapraid.svg",
+    "reviewed": true,
+    "review_batch": 3
+  },
+  "tippecanoe": {
+    "name": "Tippecanoe",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "tippecanoe"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/tippecanoe.svg",
+    "reviewed": true,
+    "review_batch": 14
+  },
+  "power": {
+    "name": "Power",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "power"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/power.svg",
+    "reviewed": true,
+    "review_batch": 3
+  },
+  "docker": {
+    "name": "Docker",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "docker"
+    ],
+    "mode": "reference",
+    "reference": "simple-docker",
+    "geometry": "references/simple-docker.svg"
+  },
+  "flatpak": {
+    "name": "Flatpak",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "flatpak"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/flatpak.svg",
+    "reviewed": true,
+    "review_batch": 14
+  },
+  "nginx": {
+    "name": "Nginx",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "nginx"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/nginx.svg",
+    "reviewed": true,
+    "review_batch": 3
+  },
+  "python": {
+    "name": "Python",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "python"
+    ],
+    "mode": "illustrated-local",
+    "reference": "simple-python",
+    "geometry": "local/python.svg",
+    "reviewed": true,
+    "review_batch": 11
+  },
+  "rust": {
+    "name": "Rust",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "rust"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/rust.svg",
+    "reviewed": true,
+    "review_batch": 4
+  },
+  "tailscale": {
+    "name": "Tailscale",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "tailscale"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/tailscale.svg",
+    "reviewed": true
+  },
+  "vite": {
+    "name": "Vite",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "vite"
+    ],
+    "mode": "reference",
+    "reference": "simple-vite",
+    "geometry": "references/simple-vite.svg"
+  },
+  "prowlarr": {
+    "name": "Prowlarr",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "prowlarr"
+    ],
+    "mode": "illustrated-local",
+    "geometry": "local/prowlarr.svg",
+    "reviewed": true,
+    "review_batch": 7
+  },
+  "tjikup": {
+    "name": "Tjikup",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "tjikup",
+      "tjikup-notification"
+    ],
+    "geometry": "local/tjikup.svg",
+    "mode": "identity"
+  },
+  "greetjik": {
+    "name": "Greetjik",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "greetjik",
+      "pony",
+      "pony-rs",
+      "ponysay"
+    ],
+    "geometry": "local/greetjik.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 19
+  },
+  "codex": {
+    "name": "Codex",
+    "installed": true,
     "desktop_ids": [
-      "code-insiders.desktop",
-      "code.desktop",
-      "com.visualstudio.code.desktop"
+      "codex.desktop",
+      "codex-desktop.desktop",
+      "com.openai.Codex.desktop",
+      "com.openai.codex.desktop"
     ],
     "icon_names": [
-      "code",
-      "code-insiders",
-      "com.visualstudio.code"
+      "codex",
+      "codex-desktop",
+      "com.openai.Codex",
+      "com.openai.codex"
     ],
-    "geometry": "upstream/vscode-source.svg",
-    "mode": "illustration"
-  },
-  "slack": {
-    "name": "Slack",
-    "installed": false,
-    "desktop_ids": [
-      "com.slack.Slack.desktop",
-      "slack.desktop"
-    ],
-    "icon_names": [
-      "com.slack.Slack",
-      "slack"
-    ],
-    "geometry": "upstream/slack-source.svg",
-    "mode": "illustration"
-  },
-  "teams": {
-    "name": "Microsoft Teams",
-    "installed": false,
-    "desktop_ids": [
-      "com.microsoft.Teams.desktop",
-      "teams-for-linux.desktop",
-      "teams.desktop"
-    ],
-    "icon_names": [
-      "com.microsoft.Teams",
-      "teams",
-      "teams-for-linux"
-    ],
-    "mode": "original"
-  },
-  "notion": {
-    "name": "Notion",
-    "installed": false,
-    "desktop_ids": [
-      "notion-app.desktop",
-      "notion.desktop"
-    ],
-    "icon_names": [
-      "notion",
-      "notion-app"
-    ],
-    "geometry": "upstream/notion-source.svg",
-    "mode": "illustration"
-  },
-  "figma": {
-    "name": "Figma",
-    "installed": false,
-    "desktop_ids": [
-      "figma-linux.desktop",
-      "figma.desktop"
-    ],
-    "icon_names": [
-      "figma",
-      "figma-linux"
-    ],
-    "geometry": "upstream/figma.svg",
-    "mode": "brand"
-  },
-  "edge": {
-    "name": "Microsoft Edge",
-    "installed": false,
-    "desktop_ids": [
-      "com.microsoft.Edge.desktop",
-      "microsoft-edge-beta.desktop",
-      "microsoft-edge-dev.desktop",
-      "microsoft-edge.desktop"
-    ],
-    "icon_names": [
-      "com.microsoft.Edge",
-      "microsoft-edge",
-      "microsoft-edge-beta",
-      "microsoft-edge-dev"
-    ],
-    "mode": "original"
-  },
-  "blender": {
-    "name": "Blender",
-    "installed": false,
-    "desktop_ids": [
-      "blender.desktop",
-      "org.blender.Blender.desktop"
-    ],
-    "icon_names": [
-      "blender",
-      "org.blender.Blender"
-    ],
-    "geometry": "upstream/blender.svg",
-    "mode": "brand"
-  },
-  "inkscape": {
-    "name": "Inkscape",
-    "installed": false,
-    "desktop_ids": [
-      "inkscape.desktop",
-      "org.inkscape.Inkscape.desktop"
-    ],
-    "icon_names": [
-      "inkscape",
-      "org.inkscape.Inkscape"
-    ],
-    "geometry": "upstream/inkscape-source.svg",
-    "mode": "illustration"
-  },
-  "libreoffice": {
-    "name": "LibreOffice",
-    "installed": false,
-    "desktop_ids": [
-      "libreoffice-base.desktop",
-      "libreoffice-calc.desktop",
-      "libreoffice-draw.desktop",
-      "libreoffice-impress.desktop",
-      "libreoffice-math.desktop",
-      "libreoffice-startcenter.desktop",
-      "libreoffice-writer.desktop"
-    ],
-    "icon_names": [
-      "libreoffice-base",
-      "libreoffice-calc",
-      "libreoffice-draw",
-      "libreoffice-impress",
-      "libreoffice-math",
-      "libreoffice-startcenter",
-      "libreoffice-writer"
-    ],
-    "geometry": "upstream/libreoffice-source.svg",
-    "mode": "illustration"
-  },
-  "audacity": {
-    "name": "Audacity",
-    "installed": false,
-    "desktop_ids": [
-      "audacity.desktop",
-      "org.audacityteam.Audacity.desktop"
-    ],
-    "icon_names": [
-      "audacity",
-      "org.audacityteam.Audacity"
-    ],
-    "geometry": "upstream/audacity-source.svg",
-    "mode": "illustration"
+    "geometry": "local/codex.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 4
   },
   "zed-preview": {
     "name": "Zed Preview",
@@ -1383,6 +1406,32 @@
     "geometry": "local/zed-preview.svg",
     "reviewed": true,
     "review_batch": 14
+  },
+  "runtjik": {
+    "name": "Runtjik",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "runtjik"
+    ],
+    "introduced_batch": 14,
+    "geometry": "local/runtjik.svg",
+    "mode": "identity",
+    "reviewed": true,
+    "review_batch": 14
+  },
+  "mailtjik": {
+    "name": "Mailtjik",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "mailtjik"
+    ],
+    "introduced_batch": 15,
+    "geometry": "local/mailtjik.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 15
   },
   "zed-nightly": {
     "name": "Zed Nightly",

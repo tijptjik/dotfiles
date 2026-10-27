@@ -4,7 +4,7 @@ from pathlib import Path
 import json
 
 ROOT = Path(__file__).resolve().parents[2]
-DEST = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+DEST = ROOT / 'scripts/icons/archive/outline/scalable/apps'
 # Artwork is drawn on a 64-unit grid. Keep marks inside the 14..50 safe area.
 ART = {
 'zapzap': ('ZapZap', '<path d="M48 30a16 16 0 0 1-23 15l-10 4 3-10a16 16 0 1 1 30-9Z"/><path class="detail" d="m25 22 13 0-12 17h14"/>'),

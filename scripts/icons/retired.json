@@ -1,0 +1,288 @@
+{
+  "bottles": {
+    "reason": "Retired by the October 27 client application cleanup",
+    "catalog": {
+      "name": "Bottles",
+      "installed": true,
+      "desktop_ids": [
+        "com.usebottles.bottles.desktop"
+      ],
+      "icon_names": [
+        "com.usebottles.bottles"
+      ],
+      "geometry": "local/bottles.svg",
+      "mode": "illustrated-local",
+      "reviewed": true,
+      "review_batch": 4
+    },
+    "provenance": {
+      "source": "scripts/icons/local/bottles.svg",
+      "license": "Original themed artwork; app identity rights remain with their owners",
+      "sha256": "7a16ab6e061a0faae176376fecff68e12f44178defdaa7e6643b634c844187bc",
+      "material_revision": 2
+    }
+  },
+  "cheese": {
+    "reason": "Retired by the October 27 client application cleanup",
+    "catalog": {
+      "name": "Cheese",
+      "installed": true,
+      "desktop_ids": [
+        "org.gnome.Cheese.desktop"
+      ],
+      "icon_names": [
+        "org.gnome.Cheese"
+      ],
+      "geometry": "local/cheese.svg",
+      "mode": "illustrated-local",
+      "reviewed": true,
+      "review_batch": 4
+    },
+    "provenance": {
+      "source": "scripts/icons/local/cheese.svg",
+      "license": "Original themed artwork; app identity rights remain with their owners",
+      "sha256": "1342f5ea2ff5139b7921d0dc89fb80104891ae90da6d810d50b378c83b8adf91",
+      "material_revision": 2
+    }
+  },
+  "bluejay": {
+    "reason": "Retired by the October 27 client application cleanup",
+    "catalog": {
+      "name": "Bluejay",
+      "installed": true,
+      "desktop_ids": [
+        "io.github.ebonjaeger.bluejay.desktop"
+      ],
+      "icon_names": [
+        "io.github.ebonjaeger.bluejay"
+      ],
+      "geometry": "local/bluejay.svg",
+      "mode": "illustrated-local",
+      "reviewed": true,
+      "review_batch": 3
+    },
+    "provenance": {
+      "source": "scripts/icons/local/bluejay.svg",
+      "license": "Original themed interpretation; app identity rights remain with their owners",
+      "sha256": "ae9aca6f389532e04a0a24d67a45ec313d3c7cf9d8382ab6fcbeb52b32e11861",
+      "adapted_from": {
+        "source": "scripts/icons/local/bluejay.svg",
+        "license": "Original themed redraw; app identity rights remain with their owners",
+        "sha256": "87f7f88b7eee504758fed722ebe088e6938993652197e32c8877d43be5cc6029",
+        "adapted_from": {
+          "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/io.github.ebonjaeger.bluejay.svg",
+          "license": "See bundled upstream theme licenses; source metadata retained",
+          "sha256": "884a2e417810e313c5d210da43e62394af27f26fe5928ceaa025253918d71490"
+        }
+      },
+      "adaptation": "Isolated bird face; retained crown, eye and beak geometry, redrawn cheek without the triangular neck or circular badge."
+    }
+  },
+  "ghostty": {
+    "reason": "Retired by the October 27 client application cleanup",
+    "catalog": {
+      "name": "Ghostty",
+      "installed": true,
+      "desktop_ids": [
+        "com.mitchellh.ghostty.desktop"
+      ],
+      "icon_names": [
+        "com.mitchellh.ghostty"
+      ],
+      "geometry": "upstream/ghostty.svg",
+      "mode": "brand"
+    },
+    "provenance": {
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/ghostty.svg",
+      "license": "CC0-1.0 (brand rights remain with their owners)",
+      "sha256": "a1f7de256a7b070cf112c3d5d254938b48186d2486054fb0832da4a83719387f"
+    }
+  },
+  "handbrake": {
+    "reason": "Retired by the October 27 client application cleanup",
+    "catalog": {
+      "name": "HandBrake",
+      "installed": true,
+      "desktop_ids": [
+        "fr.handbrake.ghb.desktop"
+      ],
+      "icon_names": [
+        "fr.handbrake.ghb"
+      ],
+      "mode": "original"
+    },
+    "provenance": {
+      "source": "scripts/icons/extra_art.py",
+      "license": "Original artwork"
+    }
+  },
+  "thunderbird": {
+    "reason": "Retired by the October 27 client application cleanup",
+    "catalog": {
+      "name": "Thunderbird",
+      "installed": true,
+      "desktop_ids": [
+        "net.thunderbird.Thunderbird.desktop"
+      ],
+      "icon_names": [
+        "thunderbird"
+      ],
+      "geometry": "upstream/thunderbird.svg",
+      "mode": "brand"
+    },
+    "provenance": {
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/thunderbird.svg",
+      "license": "CC0-1.0 (brand rights remain with their owners)",
+      "sha256": "cfead1f62aaac0638f21053ed2ab78e938ef32a96b8a82c453a2afe2e1f6f1b2"
+    }
+  },
+  "dconf-editor": {
+    "reason": "Retired by the October 27 client application cleanup",
+    "catalog": {
+      "name": "dconf Editor",
+      "installed": true,
+      "desktop_ids": [
+        "ca.desrt.dconf-editor.desktop"
+      ],
+      "icon_names": [
+        "ca.desrt.dconf-editor"
+      ],
+      "geometry": "upstream/dconf-editor-source.svg",
+      "mode": "illustration"
+    },
+    "provenance": {
+      "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/ca.desrt.dconf-editor.svg",
+      "license": "See bundled upstream theme licenses; source metadata retained",
+      "sha256": "c1325ed5ced05406135dec97e03cb6f79b48a76605e74ecac3f434bc6610f8f0"
+    }
+  },
+  "nm-gui": {
+    "reason": "Retired by the October 27 client application cleanup",
+    "catalog": {
+      "name": "NM GUI",
+      "installed": true,
+      "desktop_ids": [
+        "nmgui.desktop"
+      ],
+      "icon_names": [
+        "network-wireless-symbolic"
+      ],
+      "geometry": "upstream/nm-gui-source.svg",
+      "mode": "brand"
+    },
+    "provenance": {
+      "source": "/usr/share/icons/Adwaita/symbolic/devices/network-wireless-symbolic.svg",
+      "license": "See bundled upstream theme licenses; source metadata retained",
+      "sha256": "7fb1e3868058a2e653169335dbe7f75c2c6784c486ed9862170dba23013ef36d"
+    }
+  },
+  "monochrome-music": {
+    "reason": "Removed FirefoxPWA registration and obsolete launcher",
+    "catalog": {
+      "name": "Monochrome Music",
+      "installed": true,
+      "desktop_ids": [
+        "FFPWA-01KFA5CCJHYYD2WY97911P3XG7.desktop"
+      ],
+      "icon_names": [
+        "FFPWA-01KFA5CCJHYYD2WY97911P3XG7"
+      ],
+      "mode": "original"
+    },
+    "provenance": {
+      "source": "scripts/icons/extra_art.py",
+      "license": "Original artwork"
+    }
+  },
+  "figma": {
+    "reason": "Unused extra coverage; not an installed or managed client app",
+    "catalog": {
+      "name": "Figma",
+      "installed": false,
+      "desktop_ids": [
+        "figma-linux.desktop",
+        "figma.desktop"
+      ],
+      "icon_names": [
+        "figma",
+        "figma-linux"
+      ],
+      "geometry": "upstream/figma.svg",
+      "mode": "brand"
+    },
+    "provenance": {
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/figma.svg",
+      "license": "CC0-1.0 (brand rights remain with their owners)",
+      "sha256": "2f86fca501dfed321a62f28743f29d9dd738dac91668eac5260ab746d1ef8840"
+    }
+  },
+  "blender": {
+    "reason": "Unused extra coverage; not an installed or managed client app",
+    "catalog": {
+      "name": "Blender",
+      "installed": false,
+      "desktop_ids": [
+        "blender.desktop",
+        "org.blender.Blender.desktop"
+      ],
+      "icon_names": [
+        "blender",
+        "org.blender.Blender"
+      ],
+      "geometry": "upstream/blender.svg",
+      "mode": "brand"
+    },
+    "provenance": {
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/blender.svg",
+      "license": "CC0-1.0",
+      "sha256": "ec86e2c9cf9fc25f5c8d3bf2e8d201c0dce6683137f37a1e61f992da6566bff5"
+    }
+  },
+  "grass": {
+    "reason": "Explicitly retired from the icon set by the user; no longer used",
+    "catalog": {
+      "name": "GRASS GIS",
+      "installed": true,
+      "desktop_ids": [
+        "grass.desktop"
+      ],
+      "icon_names": [
+        "grass"
+      ],
+      "geometry": "upstream/grass-source.svg",
+      "mode": "illustration",
+      "availability": "Launcher only"
+    },
+    "provenance": {
+      "source": "/usr/share/icons/hicolor/scalable/apps/grass.svg",
+      "license": "See bundled upstream theme licenses; source metadata retained",
+      "sha256": "c9b415ffaf63fa44e09e299617903874589a78c72bf76310cee11d77fb01d2dc"
+    }
+  },
+  "rygel-preferences": {
+    "reason": "Retired from icon consideration at user request; application not uninstalled.",
+    "catalog": {
+      "name": "Rygel Preferences",
+      "installed": true,
+      "desktop_ids": [
+        "rygel-preferences.desktop"
+      ],
+      "icon_names": [
+        "rygel"
+      ],
+      "geometry": "upstream/rygel-preferences-source.svg",
+      "mode": "illustration"
+    },
+    "provenance": {
+      "source": "/usr/share/icons/hicolor/scalable/apps/rygel.svg",
+      "license": "See bundled upstream theme licenses; source metadata retained",
+      "sha256": "a8c6e82aadbf3627aeb9c9e3d3295c9b9c8609822db95ae968d28135767cb383"
+    },
+    "original": {
+      "file": "rygel-preferences.svg",
+      "source": "/usr/share/icons/hicolor/scalable/apps/rygel.svg",
+      "kind": "Packaged original",
+      "sha256": "a8c6e82aadbf3627aeb9c9e3d3295c9b9c8609822db95ae968d28135767cb383"
+    }
+  }
+}

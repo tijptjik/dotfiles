@@ -1,0 +1,321 @@
+{
+  "families": {
+    "rose": [
+      "base13",
+      "base08",
+      "base0F",
+      "base0C"
+    ],
+    "magenta": [
+      "base13",
+      "base0E",
+      "base17",
+      "base16"
+    ],
+    "amber": [
+      "base13",
+      "base09",
+      "base0F",
+      "base0C"
+    ],
+    "blush": [
+      "base07",
+      "base0A",
+      "base08",
+      "base16"
+    ],
+    "teal": [
+      "base15",
+      "base14",
+      "base0B",
+      "base09"
+    ],
+    "cyan": [
+      "base07",
+      "base0C",
+      "base0B",
+      "base16"
+    ],
+    "blue": [
+      "base07",
+      "base0D",
+      "base16",
+      "base0C"
+    ],
+    "red": [
+      "base13",
+      "base12",
+      "base0F",
+      "base09"
+    ]
+  },
+  "assignments": {
+    "amber": [
+      "firefox",
+      "vlc",
+      "brave",
+      "flatpak",
+      "python",
+      "prowlarr",
+      "greetjik",
+      "files",
+      "file-roller",
+      "help",
+      "calendar",
+      "fonts",
+      "power",
+      "chezetc",
+      "llmtrim",
+      "solaar",
+      "sublime-text",
+      "tjikup",
+      "zed-nightly"
+    ],
+    "blue": [
+      "docker",
+      "fedora-media-writer",
+      "flatseal",
+      "codex-lb",
+      "signal",
+      "zoom",
+      "telegram",
+      "herdr",
+      "strata",
+      "system-monitor",
+      "disks",
+      "bluetooth-manager",
+      "bluetooth-adapters",
+      "connections",
+      "steam",
+      "qgis-desktop",
+      "zed-preview"
+    ],
+    "cyan": [
+      "notjik",
+      "hyprvoice",
+      "chezmoi",
+      "transmission",
+      "tailscale",
+      "weather",
+      "audio-player",
+      "scrcpy",
+      "neovim",
+      "volume-control",
+      "network",
+      "terminal",
+      "text-editor",
+      "snapraid",
+      "tippecanoe"
+    ],
+    "teal": [
+      "nginx",
+      "mullvad",
+      "spotify",
+      "zapzap",
+      "maps",
+      "collie",
+      "thumbnails",
+      "document-viewer",
+      "document-scanner",
+      "nss",
+      "tour"
+    ],
+    "magenta": [
+      "bartjik",
+      "vite",
+      "obsidian",
+      "discord",
+      "koreader",
+      "software",
+      "settings",
+      "gimp",
+      "camera",
+      "image-viewer",
+      "google-photos",
+      "runtjik"
+    ],
+    "rose": [
+      "chatgpt",
+      "kitty",
+      "codex-desktop",
+      "contacts",
+      "logs",
+      "characters",
+      "drizzle",
+      "passwords-and-keys",
+      "oo7",
+      "zen"
+    ],
+    "red": [
+      "rust",
+      "gmail",
+      "mailtjik",
+      "youtube",
+      "gpu-screen-recorder",
+      "obs-studio",
+      "problem-reporting",
+      "parental-controls",
+      "lutris"
+    ],
+    "blush": [
+      "zed",
+      "htop",
+      "chromium",
+      "chrome",
+      "plex",
+      "uuctl",
+      "video-player",
+      "mpv-media-player"
+    ]
+  },
+  "shape_choices": [
+    {
+      "name": "Collie",
+      "family": "teal",
+      "note": "Dog identity or the bridge / routing role; concept references, not an established logo.",
+      "refs": [
+        "tabler-dog",
+        "lucide-dog",
+        "tabler-route"
+      ]
+    },
+    {
+      "name": "Herdr",
+      "family": "blue",
+      "note": "Fence / corral versus grouped work; concepts awaiting an identity choice.",
+      "refs": [
+        "tabler-fence",
+        "lucide-fence",
+        "tabler-stack-2"
+      ]
+    },
+    {
+      "name": "llmtrim",
+      "family": "amber",
+      "note": "Scissors communicate trimming directly; a filter emphasizes reduction.",
+      "refs": [
+        "tabler-scissors",
+        "lucide-scissors",
+        "tabler-filter"
+      ]
+    },
+    {
+      "name": "Greetjik",
+      "family": "amber",
+      "note": "Selected custom Rainbow Dash-inspired mane in local/greetjik.svg.",
+      "refs": []
+    },
+    {
+      "name": "Tjikup",
+      "family": "amber",
+      "note": "Existing house + checkmark, versus update / sync references.",
+      "refs": [
+        "tjikup-existing",
+        "tabler-refresh",
+        "lucide-refresh-cw"
+      ]
+    },
+    {
+      "name": "Chezetc",
+      "family": "amber",
+      "note": "System configuration file versus a generic settings cog.",
+      "refs": [
+        "tabler-file-settings",
+        "tabler-settings"
+      ]
+    },
+    {
+      "name": "Chezmoi",
+      "family": "cyan",
+      "note": "Two upstream logo treatments; the generic house is a concept comparison.",
+      "refs": [
+        "chezmoi-blue",
+        "chezmoi-yellow",
+        "lucide-house"
+      ]
+    },
+    {
+      "name": "Hyprvoice",
+      "family": "cyan",
+      "note": "Microphone versus waveform: speech input or audio activity.",
+      "refs": [
+        "tabler-microphone",
+        "lucide-mic",
+        "lucide-audio-lines"
+      ],
+      "selected": "lucide-audio-lines"
+    },
+    {
+      "name": "oo7",
+      "family": "rose",
+      "note": "Key / keyring versus fingerprint for the secret-service role.",
+      "refs": [
+        "tabler-key",
+        "lucide-key-round",
+        "tabler-fingerprint"
+      ],
+      "selected": "tabler-fingerprint"
+    },
+    {
+      "name": "SnapRAID",
+      "family": "cyan",
+      "note": "Disk array versus protected storage; these are concepts, not SnapRAID logos.",
+      "refs": [
+        "tabler-server",
+        "lucide-hard-drive",
+        "tabler-shield-check"
+      ]
+    },
+    {
+      "name": "Tippecanoe",
+      "family": "cyan",
+      "note": "Map versus stacked tiles; geographic role, not a verified upstream logo.",
+      "refs": [
+        "tabler-map",
+        "tabler-stack-2",
+        "lucide-layers"
+      ]
+    },
+    {
+      "name": "Notifications",
+      "family": "cyan",
+      "note": "Bell options shown alongside the proposed reuse of Notjik in the fleet strip.",
+      "refs": [
+        "tabler-bell",
+        "lucide-bell-ring"
+      ]
+    },
+    {
+      "name": "Power",
+      "family": "amber",
+      "note": "Power switch versus energy bolt.",
+      "refs": [
+        "tabler-power",
+        "tabler-bolt"
+      ]
+    },
+    {
+      "name": "Codex Desktop",
+      "family": "rose",
+      "note": "Terminal prompt versus code brackets. These are generic concepts, not official Codex logos; the current ChatGPT treatment remains visible in the app comparison.",
+      "refs": [
+        "tabler-terminal-2",
+        "tabler-code"
+      ]
+    }
+  ],
+  "brand_refs": [
+    "simple-docker",
+    "simple-flatpak",
+    "simple-nginx",
+    "dashboard-prowlarr",
+    "simple-python",
+    "simple-rust",
+    "simple-tailscale",
+    "simple-vite"
+  ],
+  "paint_overrides": {
+    "#31748f": "#46b6a2",
+    "#2f87ab": "#73d3b8"
+  }
+}

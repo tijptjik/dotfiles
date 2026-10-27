@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <title>Bartjik</title>
+  <circle cx="32" cy="32" r="20" fill="#211c2c" stroke="#f43f97" stroke-width="4"/>
+  <circle cx="32" cy="32" r="6" fill="#f4dce9"/>
+</svg>

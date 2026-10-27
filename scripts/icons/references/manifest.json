@@ -1,0 +1,464 @@
+[
+  {
+    "id": "simple-docker",
+    "repo": "simple-icons/simple-icons",
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/docker.svg",
+    "license": "CC0-1.0",
+    "kind": "brand",
+    "path": "scripts/icons/references/simple-docker.svg",
+    "sha256": "12c23b2939ddfb640dac0d205abc57766052941e227441693cdd1e06ef06aa81"
+  },
+  {
+    "id": "simple-flatpak",
+    "repo": "simple-icons/simple-icons",
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/flatpak.svg",
+    "license": "CC0-1.0",
+    "kind": "brand",
+    "path": "scripts/icons/references/simple-flatpak.svg",
+    "sha256": "1bea9ecc81b9d6c99eb8ccbfb9caf873d587c762aa6843d4a71b13d6c079d04f"
+  },
+  {
+    "id": "simple-nginx",
+    "repo": "simple-icons/simple-icons",
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/nginx.svg",
+    "license": "CC0-1.0",
+    "kind": "brand",
+    "path": "scripts/icons/references/simple-nginx.svg",
+    "sha256": "9d9372faefa7e8a2a4a4bf1fd0990549ddaffbdbf612c3bf979c4f7e6da1d91b"
+  },
+  {
+    "id": "simple-python",
+    "repo": "simple-icons/simple-icons",
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/python.svg",
+    "license": "CC0-1.0",
+    "kind": "brand",
+    "path": "scripts/icons/references/simple-python.svg",
+    "sha256": "adca85e1d0bd6d796abea422d983fd131a432fe78efeac58af18461eb1548780"
+  },
+  {
+    "id": "simple-rust",
+    "repo": "simple-icons/simple-icons",
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/rust.svg",
+    "license": "CC0-1.0",
+    "kind": "brand",
+    "path": "scripts/icons/references/simple-rust.svg",
+    "sha256": "0aa3237b5b19a54862067760a0f522e1290f127202e86ac24486900e89061b55"
+  },
+  {
+    "id": "simple-tailscale",
+    "repo": "simple-icons/simple-icons",
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/tailscale.svg",
+    "license": "CC0-1.0",
+    "kind": "brand",
+    "path": "scripts/icons/references/simple-tailscale.svg",
+    "sha256": "c8813aa492e61cd76dbc4ebe833f6e19823c1ceeb6501df858a9ac66580bbd1f"
+  },
+  {
+    "id": "simple-vite",
+    "repo": "simple-icons/simple-icons",
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/vite.svg",
+    "license": "CC0-1.0",
+    "kind": "brand",
+    "path": "scripts/icons/references/simple-vite.svg",
+    "sha256": "4ac74e33a5f85c721d9f3980fd6793f6ddacea9274f295dde0b6d74903c6e609"
+  },
+  {
+    "id": "tabler-dog",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/dog.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-dog.svg",
+    "sha256": "0b9d24084db08758cdc9e0f8f05ce414b94d499aee85ba46d1a2073d4e9cf3e7"
+  },
+  {
+    "id": "tabler-fence",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/fence.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-fence.svg",
+    "sha256": "910fb0f242c6c0b6dc86e294c1d6de359e75d62f058354564bebccf51cd3872e"
+  },
+  {
+    "id": "tabler-horse",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/horse.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-horse.svg",
+    "sha256": "1cd61cafb3465be6e413ca92879b0f42a7870583312bdff36c81f698d45daf27"
+  },
+  {
+    "id": "tabler-horseshoe",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/horseshoe.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-horseshoe.svg",
+    "sha256": "dd2dcac69d14171122b75f269ce08cfdf1eaab851722ba465032510e1e5ba614"
+  },
+  {
+    "id": "tabler-scissors",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/scissors.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-scissors.svg",
+    "sha256": "a2e396becae03724ba9272489b293c94f96d3583e7a2c16c79c139cfe8427659"
+  },
+  {
+    "id": "tabler-filter",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/filter.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-filter.svg",
+    "sha256": "69bbcca665588bd0b64c44c42ced4538b3e3c75a59e3fc46e58b1f10d99d15ec"
+  },
+  {
+    "id": "tabler-refresh",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/refresh.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-refresh.svg",
+    "sha256": "9dd8ab8cac268489501cbb0a106d93cc3f367add493d20c47ec1e1d9804c760a"
+  },
+  {
+    "id": "tabler-circle-arrow-up",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/circle-arrow-up.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-circle-arrow-up.svg",
+    "sha256": "39c65d89a1681a2cd3e070f856366b788989296216c9de5be9693ed2a6b15506"
+  },
+  {
+    "id": "tabler-file-settings",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/file-settings.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-file-settings.svg",
+    "sha256": "2d73dc72a226cdd4749eabf873b819aa6646765e4339e38f7387fb620a1774ae"
+  },
+  {
+    "id": "tabler-settings",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/settings.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-settings.svg",
+    "sha256": "ef9cf42d822c00b4fad5bc5eeceddd4e1ec3774bb7ddd09891d0fba274bc3e95"
+  },
+  {
+    "id": "tabler-microphone",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/microphone.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-microphone.svg",
+    "sha256": "21aacc5c6cc7b28b03a179053a7aaf69eb6d23d333ab4b40504f2873fb07a5f8"
+  },
+  {
+    "id": "tabler-wave-sine",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/wave-sine.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-wave-sine.svg",
+    "sha256": "6ba787e7fdaa706e91a800e753f69b735261fcd017f90fbf1b8cbcc82de1ec48"
+  },
+  {
+    "id": "tabler-key",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/key.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-key.svg",
+    "sha256": "2aed9dbae011d377c94cfee3ea68326fa98a7510964a9995dfe59c6610219046"
+  },
+  {
+    "id": "tabler-fingerprint",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/fingerprint.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-fingerprint.svg",
+    "sha256": "cd1ff19081e56af42bd183a98eec4ba68d7a7affbfc37775b10604824489a96b"
+  },
+  {
+    "id": "tabler-server",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/server.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-server.svg",
+    "sha256": "6c4aa71ca6fd11a738abf7972ad893f808e2e25d6181b5b329784050f95490d2"
+  },
+  {
+    "id": "tabler-shield-check",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/shield-check.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-shield-check.svg",
+    "sha256": "7d12a28bb5b8ba69445a94118aa96b57a513f8d45e23974665f25c597eaccc30"
+  },
+  {
+    "id": "tabler-map",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/map.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-map.svg",
+    "sha256": "d37d1048d3608b037ced3617196a2f28f8dbf61db0d5ffc510fcb85b5fdd71ba"
+  },
+  {
+    "id": "tabler-stack-2",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/stack-2.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-stack-2.svg",
+    "sha256": "fbe45033ef093505d88dd56cc421290aebc51a5e9dd6c49b68bda588f4d952d9"
+  },
+  {
+    "id": "tabler-bell",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/bell.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-bell.svg",
+    "sha256": "7ef4f0c56a58fc7ea27ded1c2ee5bc753d63f8851ce85b33da48ddeefe53faf8"
+  },
+  {
+    "id": "tabler-power",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/power.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-power.svg",
+    "sha256": "2a872241a3059da7e3157fc5fbd8b8dfd40a10825934a23dd5e7f43cb4ae1df9"
+  },
+  {
+    "id": "tabler-bolt",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/bolt.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-bolt.svg",
+    "sha256": "5321162cf117d3a83aec6c8f67a3bb0398068edb487b524d280b8fb47d6b98ce"
+  },
+  {
+    "id": "tabler-git-branch",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/git-branch.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-git-branch.svg",
+    "sha256": "7c45a13d2b0e6a6915730471345ebf7fbe0374bcd61d19679d59c5ffa38a234b"
+  },
+  {
+    "id": "tabler-route",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/route.svg",
+    "license": "MIT",
+    "kind": "concept",
+    "path": "scripts/icons/references/tabler-route.svg",
+    "sha256": "383e4d1290ea525748767973343b3f20ea979b3638f9b3896b417e032c6ebe6f"
+  },
+  {
+    "id": "lucide-dog",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/dog.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-dog.svg",
+    "sha256": "8817ced475f62c704e0641aaa522d8c587b75b16b3b533997916c91e9e5de06a"
+  },
+  {
+    "id": "lucide-fence",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/fence.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-fence.svg",
+    "sha256": "05c0bafa899af230f7bd1db3d6fb01ced801281d1bdea72d82ac2847f530bdd2"
+  },
+  {
+    "id": "lucide-scissors",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/scissors.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-scissors.svg",
+    "sha256": "4c831fc2c903825f68565c28ffab945c34b2c60b6c564e2ae54250e1099fa550"
+  },
+  {
+    "id": "lucide-refresh-cw",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/refresh-cw.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-refresh-cw.svg",
+    "sha256": "2e10dd403c85a24f163d59fc6151aa21147fe9402e1305dfc8979208caee8944"
+  },
+  {
+    "id": "lucide-house",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/house.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-house.svg",
+    "sha256": "28216c479005731ef5e382e7d8627eda2b129b019eb1f3d9de9f5915576d448e"
+  },
+  {
+    "id": "lucide-mic",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/mic.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-mic.svg",
+    "sha256": "9b940cd735d1ffa270ba670c4e677d9a09400f3fa81d6b3f405b12a3b67a59a8"
+  },
+  {
+    "id": "lucide-audio-lines",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/audio-lines.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-audio-lines.svg",
+    "sha256": "3942b8a5d6bccc927a55f857f0d44b90e2663470cd2d569000c9b60c37578dfa"
+  },
+  {
+    "id": "lucide-key-round",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/key-round.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-key-round.svg",
+    "sha256": "f8cdea843754ed360e36b04bf6aa2c2b3610935dd39ffc685a36c4d0a05be248"
+  },
+  {
+    "id": "lucide-hard-drive",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/hard-drive.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-hard-drive.svg",
+    "sha256": "324363c40f54e4ca843de0ad1d023b063b70a26a83bb2e0a9e9f4aad9af37378"
+  },
+  {
+    "id": "lucide-layers",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/layers.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-layers.svg",
+    "sha256": "ce16d0a955e3581cda17f6b2fd5c5bc2034b405f9cecc31c8ebb8495b4afc1bb"
+  },
+  {
+    "id": "lucide-bell-ring",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/bell-ring.svg",
+    "license": "ISC",
+    "kind": "concept",
+    "path": "scripts/icons/references/lucide-bell-ring.svg",
+    "sha256": "57d5f12e0f4f89dfeb909ccbac79e6a822cf9d4bcff5111d74a00c3565828f70"
+  },
+  {
+    "id": "dashboard-prowlarr",
+    "repo": "homarr-labs/dashboard-icons",
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/prowlarr.svg",
+    "license": "Apache-2.0 (collection; brand rights retained)",
+    "kind": "brand",
+    "path": "scripts/icons/references/dashboard-prowlarr.svg",
+    "sha256": "6bec9346353dd21ac7ab10d7860cddae41f8359fdfd066a65ab6ffc70af592c5"
+  },
+  {
+    "id": "tabler-license",
+    "repo": "tabler/tabler-icons",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/LICENSE",
+    "license": "MIT",
+    "kind": "license",
+    "path": "scripts/icons/references/tabler-license.txt",
+    "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db"
+  },
+  {
+    "id": "lucide-license",
+    "repo": "lucide-icons/lucide",
+    "url": "https://raw.githubusercontent.com/lucide-icons/lucide/main/LICENSE",
+    "license": "ISC",
+    "kind": "license",
+    "path": "scripts/icons/references/lucide-license.txt",
+    "sha256": "b495047bd93a9b06913511076f504daba17d5bbeb3e0650f3bb53a4220329c57"
+  },
+  {
+    "id": "simple-license",
+    "repo": "simple-icons/simple-icons",
+    "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/LICENSE.md",
+    "license": "CC0-1.0",
+    "kind": "license",
+    "path": "scripts/icons/references/simple-license.txt",
+    "sha256": "9046848b63a5c92bff14e4accca80bd987e0623b74adf9226ce5198d312b79d5"
+  },
+  {
+    "id": "dashboard-license",
+    "repo": "homarr-labs/dashboard-icons",
+    "url": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/LICENSE",
+    "license": "Apache-2.0 (collection; brand rights retained)",
+    "kind": "license",
+    "path": "scripts/icons/references/dashboard-license.txt",
+    "sha256": "e58a8fa57781d1dc7158b333b68c99461031fd2c25dfbd23eac15a8e984cae56"
+  },
+  {
+    "id": "chezmoi-blue",
+    "url": "https://raw.githubusercontent.com/twpayne/chezmoi/master/assets/images/logo_blue_64.svg",
+    "license": "MIT",
+    "kind": "brand",
+    "path": "scripts/icons/references/chezmoi-blue.svg",
+    "sha256": "ed446da51fab14ecd106b00f5a25d62b4bab356726bf6a90691cf546781d73b7"
+  },
+  {
+    "id": "chezmoi-yellow",
+    "url": "https://raw.githubusercontent.com/twpayne/chezmoi/master/assets/images/logo_yellow_144.svg",
+    "license": "MIT",
+    "kind": "brand",
+    "path": "scripts/icons/references/chezmoi-yellow.svg",
+    "sha256": "5e0fb66006450e4c474a074abf0451817ce42b8525983490190c75cd91b88f76"
+  },
+  {
+    "id": "chezmoi-license",
+    "url": "https://raw.githubusercontent.com/twpayne/chezmoi/master/LICENSE",
+    "license": "MIT",
+    "kind": "license",
+    "path": "scripts/icons/references/chezmoi-license.txt",
+    "sha256": "6ce2375d89522ac7a1417320c8406886bc0ecb984baf41e3c27b8a07a81a30b2"
+  },
+  {
+    "id": "tjikup-existing",
+    "url": "local:~/.local/share/icons/hicolor/scalable/apps/tjikup.svg",
+    "license": "Existing local artwork",
+    "kind": "local",
+    "path": "scripts/icons/references/tjikup-existing.svg",
+    "sha256": "8d49cea426bfb4e9ef82da6f3936043e3bf2fa8d9d73fd2cbbdb11b574cfc9e3"
+  },
+  {
+    "id": "tabler-terminal-2",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/terminal-2.svg",
+    "kind": "concept",
+    "license": "MIT",
+    "path": "scripts/icons/references/tabler-terminal-2.svg",
+    "sha256": "ea232ff7461f39a6c65c5919c0f9b28de29d2586730a9eeef2b2428526ceb069"
+  },
+  {
+    "id": "tabler-code",
+    "url": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/code.svg",
+    "kind": "concept",
+    "license": "MIT",
+    "path": "scripts/icons/references/tabler-code.svg",
+    "sha256": "ff3d40c83c1a908bc3aa173671232e5015dba2f7f3538edc23fa2218a3d329e2"
+  }
+]

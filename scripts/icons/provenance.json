@@ -1,84 +1,124 @@
 {
-  "datagrip": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
-  },
-  "kimi-ai": {
-    "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
-  },
   "google-photos": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlephotos.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "096222b445207536884cf856c48d80dfed8ce5215707e9228966626a41b2188a"
+    "source": "scripts/icons/local/google-photos.svg",
+    "license": "Original themed interpretation; app identities remain with their respective owners",
+    "sha256": "5701ca700b25053e003eeb6109d97e250593f1ce64f33857a54a36f613e42ab5",
+    "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlephotos.svg",
+    "reference_sha256": "096222b445207536884cf856c48d80dfed8ce5215707e9228966626a41b2188a",
+    "material_revision": 3
   },
   "gmail": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gmail.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "a537f5d85d9a27efa3a5d6086e8df6072ee93f76b4d176639a5e483f74b74b9f"
+    "source": "scripts/icons/local/gmail.svg",
+    "license": "Original themed interpretation; app identities remain with their respective owners",
+    "sha256": "5d2e61bfd5040ad01e561c672b49c86339584aee6ef2fc9b67be00ad5e24798c",
+    "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gmail.svg",
+    "reference_sha256": "a537f5d85d9a27efa3a5d6086e8df6072ee93f76b4d176639a5e483f74b74b9f",
+    "material_revision": 4
   },
   "google-calendar": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlecalendar.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "39b434d3264d123629a12509e9f5bdf57bf9e5ed9a6eafffb714cff5f05f032f"
-  },
-  "monochrome-music": {
-    "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/google-calendar.svg",
+    "license": "Original themed interpretation; app identities remain with their respective owners",
+    "sha256": "b8054e039258d95814f86079db8373fa82e96510eb78a5130bf3caf8dc1d4975",
+    "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlecalendar.svg",
+    "reference_sha256": "39b434d3264d123629a12509e9f5bdf57bf9e5ed9a6eafffb714cff5f05f032f",
+    "material_revision": 3
   },
   "codex-lb": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/codex-lb.svg",
+    "license": "MIT (Lobe Icons); app identity rights remain with OpenAI",
+    "sha256": "17e629b9303c44b7483a722e9928fe853893ddf764fde2cf4aaeeaaf726f8441",
+    "material_revision": 2,
+    "reference": "https://github.com/lobehub/lobe-icons/blob/master/packages/static-svg/icons/codex.svg",
+    "reference_file": "scripts/icons/upstream/codex-lobe.svg",
+    "reference_sha256": "d08b4e824cd6727e89617f59e4737273ff53e44c1da849d016dd64dfd08b33e1"
   },
   "drizzle": {
     "source": "scripts/icons/build.py",
     "license": "Original artwork"
   },
-  "homeworld-remastered-collection": {
-    "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
-  },
   "steam": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/steam.svg",
+    "license": "Original artwork",
+    "sha256": "09dfcb5d840d7256811baa5b9e07e3fdf6bc69d2999d946a5cd3c52da0d05d81",
+    "material_revision": 9,
+    "reference_file": ".local/icon-reviews/docs/assets/icon-review/originals/steam.png",
+    "reference_sha256": "b7087da76b8315024887b9a9313be5b9e6ba87d25eb624eac2d6542a823bb87d",
+    "geometry_note": "Solid tapered connecting rod and continuous crank arm redrawn against the packaged Steam mark."
   },
   "brave": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/brave.svg",
+    "license": "CC0-1.0; themed adaptation",
+    "sha256": "504ce1b5e97854f6d7920c8a9e580daf528273c384bbae714ca33f74ad2b7492",
+    "reference": "upstream/brave-official.svg",
+    "reference_sha256": "48fa2ac9d7601b3a146ad7e16a908a52820e069398e0b5f84b2217dee98aa7fd",
+    "material_revision": 3
   },
   "plex": {
     "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/plex.svg",
     "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "129500c2bda2175c95402d12e0a96642de61a2561d45a4d9719edc8abd43c8ea"
+    "sha256": "6023a7627e9311de3742bf4e77573389a408d40773d3e4dd81d4713dad43c892",
+    "material_revision": 16,
+    "design_note": "Hong Kong-centred orthographic globe (114.1694 E, 22.3193 N), simplified Natural Earth land in Plex yellow and a centred ivory play triangle.",
+    "land_reference": {
+      "source": "https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_land.geojson",
+      "file": "upstream/plex-natural-earth-land.geojson",
+      "sha256": "9e0729ee253ca7d7a5c4ae9395fb1902264c5377c52e224d13dd85010e2835d9",
+      "license": "Natural Earth public domain: https://www.naturalearthdata.com/about/terms-of-use/",
+      "projection_center": [
+        114.1694,
+        22.3193
+      ]
+    }
   },
   "chatgpt": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/chatgpt.svg",
+    "license": "MIT; brand rights remain with their owners",
+    "reference": "upstream/openai.svg",
+    "reference_sha256": "802335af1ddb4e135468f689aabe7ac7798a3177c1b71bbd4549fc602e9264ed",
+    "sha256": "0b6d05bc27d9d50583e107bda5658176a7e2d669b76b34972ad8d1674729efdc",
+    "material_revision": 2
   },
   "discord": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/discord.svg",
+    "license": "CC0-1.0; themed adaptation",
+    "sha256": "bea6d159d4db2f83c4f60da4f4ca10032912d542f87e134243d559aacb1ae97c",
+    "reference": "upstream/discord-official.svg",
+    "reference_sha256": "a2625a85ff8a4aa0703ba7c9db39bc57257b3223cd8c19394e8ec491f50b9b83",
+    "material_revision": 17,
+    "design_note": "Rose Discord silhouette with electric blue eyes (#5685ff), shared with Zed Preview."
   },
   "chrome": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
-  },
-  "tramoramic-experience": {
-    "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/chrome.svg",
+    "license": "Original themed interpretation; app identities remain with their respective owners",
+    "sha256": "c81aa89fa57a7d2b04d79fd01bda6f240e4b00db6802ec862c82e1bc73017aa0",
+    "material_revision": 3
   },
   "zapzap": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/zapzap.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "6c8d32039debf6825eef4af2ee40d5cf3eecb477e463b09fb73fd633e4c45baf",
+    "material_revision": 8
   },
   "spotify": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/spotify.svg",
+    "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+    "sha256": "78d06dfa2e61eaeaaae40230e0c42292afc872d1474617851292fb4e9dc1d883",
+    "material_revision": 14,
+    "design_note": "Shared mint material ramp with Audio Player; ivory waves retained.",
+    "adapted_from": {
+      "source": "scripts/icons/local/spotify.svg",
+      "license": "Original themed redraw; app identity rights remain with their owners",
+      "sha256": "12dea27cfea0d77ebeafecccdacbef7fb9cd7218890018d1cb3442993307b16e"
+    }
   },
   "transmission": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/transmission.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "17eb4ef8dbe807f4252d75631b345c83bf862584a5fe9f923afc9a4e693a2753"
+    "source": "/usr/share/icons/hicolor/scalable/apps/transmission-gtk.svg",
+    "license": "Upstream Transmission application icon; themed adaptation. See bundled upstream licenses.",
+    "sha256": "29b085ef5ab1fdc43210aabeeb302319afa4545c02ec9a9537899034c9a800d2",
+    "reference": "../../.local/icon-reviews/docs/assets/icon-review/originals/transmission.svg",
+    "reference_sha256": "3e4d67e348c5f99498bcdfdd7608ec3e4a6d42a57a7418ca25c4b6348a21093a",
+    "material_revision": 11,
+    "design_note": "Familiar red handle and ivory housing retained; centered continuous arrow with inherited stripe and bevel fragments removed, stem ending cleanly at the arrow shoulders."
   },
   "zed": {
     "source": "https://zed.dev/brand",
@@ -88,26 +128,29 @@
     "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00"
   },
   "gimp": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gimp.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "8401f27de7fb789ff458cd92a0c1c2e884cdd281af8b42508dfc9a19cdc31b9e"
-  },
-  "witcher-2": {
-    "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/gimp.svg",
+    "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+    "sha256": "513df62f72bab1723c495135e765f399538555b6d6b8d153fe584facbd17ea06",
+    "material_revision": 12,
+    "design_note": "Original Wilber contour with lavender coat, ivory eyes, plum nose and amber brush.",
+    "adapted_from": {
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gimp.svg",
+      "license": "CC0-1.0 (brand rights remain with their owners)",
+      "sha256": "8401f27de7fb789ff458cd92a0c1c2e884cdd281af8b42508dfc9a19cdc31b9e"
+    }
   },
   "strata": {
-    "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
-  },
-  "jetbrains-toolbox": {
-    "source": "local icon theme: Neuwaita/scalable/apps/com.jetbrains.toolbox.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "05f9d7a34cbcefb1581b51f18bb76fe3424ce4a9304251c76f9dc8c92209803e"
+    "source": "/opt/strata/1.1.1/io.github.lgse.Strata.svg",
+    "license": "Upstream installed Strata artwork; themed adaptation",
+    "sha256": "f766c99cf2c6b7f8f7a09dca0237a9e52cab4ebab43f848a25c083f1db9cc983",
+    "reference": "upstream/strata-official.svg",
+    "reference_sha256": "5be5eebbe949e0bd112e676a911fae603ad7f603c99daa1cfbe96dd2a60b375f"
   },
   "kitty": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/kitty.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "514cf22526e81a32ca76d10d1228a5b870d5394e67fcd3bf29ea0213fd04b376",
+    "material_revision": 2
   },
   "obsidian": {
     "source": "scripts/icons/local/obsidian.svg",
@@ -119,127 +162,156 @@
     "design_note": "Preserves the original chipped-stone contour and four curved facets; removes the generic pointed crystal and floating highlight strokes. Rose, violet and periwinkle pigment ramps separate the faces."
   },
   "mullvad": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/mullvad.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "bf228c15811759a3b1e5c28ee9f23d603c0ce5fe06982416d0105e0b154a128d"
-  },
-  "thunderbird": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/thunderbird.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "cfead1f62aaac0638f21053ed2ab78e938ef32a96b8a82c453a2afe2e1f6f1b2"
+    "source": "scripts/icons/local/mullvad.svg",
+    "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+    "sha256": "4653f48b137636b49511362f1089957d28531a851d2832aff88ef02e9475883b",
+    "material_revision": 12,
+    "design_note": "Only the busy right neck edge is smoothed; face and amber hat retained.",
+    "adapted_from": {
+      "source": "scripts/icons/local/mullvad.svg",
+      "license": "Original themed interpretation; app identity rights remain with their owners",
+      "sha256": "6f340273224d38c863be29a3885ab6e5ac21afdc6413a00e5301a1c78a4130d5",
+      "adapted_from": {
+        "source": "scripts/icons/local/mullvad.svg",
+        "license": "Original themed redraw; app identity rights remain with their owners",
+        "sha256": "8acccb3686322ce00f88cd2d89a9488cc43c3b163b2ad1030478859520e2a302",
+        "adapted_from": {
+          "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/mullvad.svg",
+          "license": "CC0-1.0 (brand rights remain with their owners)",
+          "sha256": "bf228c15811759a3b1e5c28ee9f23d603c0ce5fe06982416d0105e0b154a128d"
+        }
+      },
+      "material_revision": 5
+    }
   },
   "files": {
     "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "license": "Original artwork",
+    "sha256": "fb4ca93335153e1315d2cb447cbf2bc8bc9ca59606f5c6c59e7eae9a3699fccb",
+    "material_revision": 9
   },
   "settings": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/settings.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "52050b97c0e67d052fa05c19b30751fd3d0eccf2f37c024105516c6b46df41a2",
+    "material_revision": 9
   },
   "firefox": {
     "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/firefoxbrowser.svg",
     "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "5bb2f58d6b27b191af5d7793016b06de8ae571120f4f1d530c235b350ae83371"
+    "sha256": "5a5349f12d2a2b28dac4832da2744c3f152533a18001af01b3c84166de9886db",
+    "reference": "upstream/firefoxbrowser.svg",
+    "reference_sha256": "5bb2f58d6b27b191af5d7793016b06de8ae571120f4f1d530c235b350ae83371",
+    "material_revision": 17,
+    "design_note": "Pale cream-amber upper-left fur and muzzle transitioning through warm orange; localized pigment variation rather than uniform orange. Blue-mint globe unchanged."
   },
   "signal": {
     "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "license": "Original artwork",
+    "sha256": "d4877c7a0574c5a3060f8ae389e3c73f517f61cc7dfbadb88ee4e7ab192603ed",
+    "material_revision": 9
   },
   "telegram": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "/home/io/code/tooltjik/apps/bartjik/qml/icons/tray/telegram-outline.svg",
+    "license": "Original artwork",
+    "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
+    "material_revision": 13,
+    "design_note": "Solid blue wings; two continuously shaded paper faces meet along a straight nose-to-tail crease. Slightly deeper return-face shading sharpens the right wing fold. Matching rose-red and ivory wing bands. Shared with Homepage."
   },
   "vlc": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/vlc.svg",
+    "license": "Original artwork",
+    "sha256": "be88f150bc3db2c2665414414b7137bf95b17427c468271e8b8087578c03fb0c",
+    "material_revision": 7
   },
   "sublime-text": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/sublimetext.svg",
+    "license": "CC0-1.0",
+    "sha256": "065fd6be01e2254edc1369f1fdf9b4cd57b17030316a01322203581618433220",
+    "reference": "upstream/sublime-official.svg",
+    "reference_sha256": "fb3faf9b15f0033177aebcb0a905d45a6e3ecb575b436685b3994761577c6c30"
   },
   "zen": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/zen.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "1a5ac894fc31fb65b71e3ce8f97237339c113a1cb106213ada6cb26ec6a1c8ad"
   },
   "simplescreenrecorder": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/simplescreenrecorder.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "93a7082267f99938085e033f7dd2b74ca5691e8a82eeef0051b76025be4209a0"
-  },
-  "beekeeper-studio": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/beekeeperstudio.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "6e6651a37a034c4062ab5abdd2c5a03988e1f1b37a7f190ab5097aa0762580d5"
+    "source": "scripts/icons/local/simplescreenrecorder.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "07f6b7ed5c596e836de23155dccd18a2211929c1b01b09891b18a0ae4f89fbf3"
   },
   "bluetooth-adapters": {
-    "source": "/usr/share/icons/hicolor/scalable/devices/blueman-device.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "2060f5d232503facdd4add17cd3b748cf4353cceea05bab35c8db1bc7e4bf391"
+    "source": "scripts/icons/local/bluetooth-adapters.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "751ac3f077da1b207db66bc51b4d68060d44921843a04761c563d1831810ed08",
+    "material_revision": 2
   },
   "bluetooth-manager": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/blueman.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "b912b2896d2771855c789a32492d3ad612e576b685d1e71a0ab6da250109ffdf"
-  },
-  "ghostty": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/ghostty.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "a1f7de256a7b070cf112c3d5d254938b48186d2486054fb0832da4a83719387f"
+    "source": "scripts/icons/local/bluetooth-manager.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "ad9efaa433297521afda3aec9cfe7184b6c2087917aef73f95960626e41d47c9",
+    "material_revision": 4
   },
   "fcitx-5-configuration": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/fcitx.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "52965f102842d0d547a272ef30aa0548384bb1e8c6256da814cdf617ce53f198"
+    "source": "scripts/icons/local/fcitx-5-configuration.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "fc4f2dd17afa855212dc0af8bb98c6ed2512ec5aed8b5d37a93f2eb55eda26e3"
   },
   "system-monitor": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.SystemMonitor.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "67961ef5b942fc35bd779131db6476d2740c4dc4785c40c719a10ee836f3ab70"
-  },
-  "grass": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/grass.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "c9b415ffaf63fa44e09e299617903874589a78c72bf76310cee11d77fb01d2dc"
+    "source": "scripts/icons/local/system-monitor.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "4c32ec89d12cc16d3a28dbc9ebe8e95ac0e600feab5eb171cbf15c149a0c6fda"
   },
   "htop": {
     "source": "/usr/share/icons/hicolor/scalable/apps/htop.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "91bd25b2d2717993f6989e49bbedcadd0c9583f9b5b58a28f6d2d5e5c5e28703"
-  },
-  "java-monitor": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/openjdk.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "31c94bd8f864b018d9733c251df186f36e9a0036e43f78d0656895108d438bb3"
+    "sha256": "41015dadb31482818929fc20c02682b6e3ae774d814b6716653881543d93cf29",
+    "reference": "upstream/htop-source.svg",
+    "reference_sha256": "91bd25b2d2717993f6989e49bbedcadd0c9583f9b5b58a28f6d2d5e5c5e28703",
+    "material_revision": 9
   },
   "keyboard-layout-viewer": {
     "source": "/usr/share/icons/Adwaita/scalable/devices/input-keyboard.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "66d19f83de1cc1dd8d66748b42a87f12ec178133c8e20899601069d19e3b3370"
+    "sha256": "f691ff8e979e67eb937a633230928efcc26843a9b37d1344a4fe5f413ab05c73",
+    "reference": "upstream/keyboard-layout-viewer-source.svg",
+    "reference_sha256": "66d19f83de1cc1dd8d66748b42a87f12ec178133c8e20899601069d19e3b3370",
+    "material_revision": 9
   },
   "mpv-media-player": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/mpv.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "bf6082c81dcc8b8c6351326b53530f461258af9ca71c4642372654eba29c598f"
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/mpv.svg",
+    "license": "CC0-1.0; simplified concentric-circle and play identity",
+    "sha256": "b342977dfe2561478ff9489672c3b63dd89c5bf76558f9fb7546b7efc77921a1",
+    "reference": "upstream/mpv-flat.svg",
+    "reference_sha256": "25b971f9513fe9cbe331b05f9b61a77f7699bb97c77bb687393e4ef867d65aa4"
   },
   "lutris": {
-    "source": "local icon theme: Neuwaita/scalable/apps/net.lutris.Lutris.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "1d6a52c9ff8d99e741a73f1bddabeea1c53031cc51867619b9384a3904c2f2de"
-  },
-  "nm-gui": {
-    "source": "/usr/share/icons/Adwaita/symbolic/devices/network-wireless-symbolic.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "7fb1e3868058a2e653169335dbe7f75c2c6784c486ed9862170dba23013ef36d"
+    "source": "scripts/icons/local/lutris.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "73885cf6171b5d9f48e1ffc47e144bea5ad783445e6e631ae1e8ee5ae06c1aa2",
+    "adapted_from": {
+      "source": "local icon theme: Neuwaita/scalable/apps/net.lutris.Lutris.svg",
+      "license": "See bundled upstream theme licenses; source metadata retained",
+      "sha256": "1d6a52c9ff8d99e741a73f1bddabeea1c53031cc51867619b9384a3904c2f2de"
+    },
+    "material_revision": 10
   },
   "neovim": {
-    "source": "local icon theme: Neuwaita/scalable/apps/nvim.svg",
+    "source": "scripts/icons/local/neovim.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "acca7f960640a16b1436a8238ad6ce12d52fe08e1f5c8e516de4c8422b3839d7"
+    "sha256": "131269605bd2751dff62bf8e07a639dff87d708ba614008724dd3be575f28c7e",
+    "reference": "local icon theme: Neuwaita/scalable/apps/nvim.svg",
+    "reference_sha256": "acca7f960640a16b1436a8238ad6ce12d52fe08e1f5c8e516de4c8422b3839d7",
+    "material_revision": 5
   },
   "fedora-media-writer": {
     "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/fedora.svg",
     "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "c234757373cab5ed80d7b2df8ff26ea039bcec16a9e9a47adbd29f5d0e94489a"
+    "sha256": "f2de75f6a7d6b62a82225fddd6bd64ee30c9bf18214bbd403790f6ad6bdd1b97",
+    "reference": "upstream/fedora.svg",
+    "reference_sha256": "c234757373cab5ed80d7b2df8ff26ea039bcec16a9e9a47adbd29f5d0e94489a",
+    "material_revision": 7
   },
   "problem-reporting": {
     "source": "/usr/share/icons/hicolor/scalable/apps/org.freedesktop.GnomeAbrt.svg",
@@ -247,78 +319,99 @@
     "sha256": "b3a2663da0b9b88d0127c903739150eac4dfb8370660dec0462ee6ac9fe78376"
   },
   "parental-controls": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/org.freedesktop.MalcontentControl.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "f2d313bf6cef4eee7b389c70ff7272b1108ce7879dd49e37fa564a25eb01e5b6"
+    "source": "scripts/icons/local/parental-controls.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "7995afbaa200742c63b6a44d7e358e52c43ed8bc6992324daf5d083bcdd15b04",
+    "material_revision": 7
   },
   "calendar": {
-    "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/calendar.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "b2f1bdc15d3d48794e11be044b4872f151561a4ce1dbf4791254fdf5e8d2b69c",
+    "material_revision": 2
   },
   "characters": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Characters.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "f6abe898604ffb4b99303ecc58d8cf6ffc52d4ffc30e94d005b31f629aab5bd8"
+    "source": "scripts/icons/local/characters.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "6744017dd66d624bb6af5b7140f06434f77bf24627ac0a97c8d457728a73b5df",
+    "material_revision": 6
   },
   "color-profile-viewer": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/gnome-color-manager.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "5c18875d183efb84236abb58addf421430a7932a61f3846f2831894d18834cac"
+    "source": "scripts/icons/local/color-profile-viewer.svg",
+    "license": "Original themed colour-flower interpretation; app identity rights remain with their owners",
+    "sha256": "58de98430ba79d1b626a3e3d219e175b31f13f00a98b8b9a3e8201946abe5c28",
+    "reference": "/usr/share/icons/hicolor/scalable/apps/gnome-color-manager.svg",
+    "reference_sha256": "5c18875d183efb84236abb58addf421430a7932a61f3846f2831894d18834cac",
+    "material_revision": 4
   },
   "connections": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.Connections.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "a1955c4ff32d4dfaf22608d54b7cf8f8d90133d46d0b18e9a3cc60fc428fbdfd"
+    "source": "scripts/icons/local/connections.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "1068edb882f1b5ce69dff40d1bfed911ef9aff23f641a6e00c89554f6d63bf64",
+    "material_revision": 9
   },
   "contacts": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Contacts.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "ea6eae5d1cec3811f52815bab6b97c913131208db0c9795cf7a7ef44e3bf0f86"
+    "source": "scripts/icons/local/contacts.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "3eb4df2f28228bca60f087ca5b4d7f1c756ce000a7994f533dca04b6e1cbfe6b",
+    "material_revision": 9
   },
   "audio-player": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.Decibels.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "07e7fc4effa73552e66e022546ae2decf5e7e5a13b9426466e3db3fe2bd4fa2b"
+    "source": "scripts/icons/local/audio-player.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "b260e3912cf4438eee11d37677002e7a7ebdaf9a7ea0a4c105d49951447f3f5b",
+    "material_revision": 2
   },
   "disks": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.DiskUtility.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "828fc5825d70c533bc5e1fdf3a69ab6983c903b3f5792adcc65de86b42814525"
+    "source": "scripts/icons/local/disks.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "ad0254adfcd92d9736dbfbf300b89c5f4db125f87be56b10adb7e668bd9babab",
+    "material_revision": 2
   },
   "document-viewer": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Papers.svg",
+    "source": "scripts/icons/local/document-viewer.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "5de5f5e8c717cca208b2570ae8e1b2fee5b86c250c5580cb4bfda7095952dc26"
+    "sha256": "924d4959edf6ebe2c96e9c23ad5861f5e56b93e6fc840c725309e305823a57e5",
+    "reference": "local icon theme: Neuwaita/scalable/apps/org.gnome.Papers.svg",
+    "reference_sha256": "5de5f5e8c717cca208b2570ae8e1b2fee5b86c250c5580cb4bfda7095952dc26",
+    "material_revision": 4
   },
   "file-roller": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.FileRoller.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "e5f6e87be2faae493f3bb03a6bf3b4ae77842d8b85a28c9cb669ae263d83538b"
+    "source": "scripts/icons/local/file-roller.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "36e032923cd1a39cd7bec12dad853371ef79bb42c17c6392f3bd8e578c31dd13",
+    "material_revision": 9
   },
   "logs": {
     "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Logs.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "3881813834dfef871158d162becd02b89358ca789dbcd187768370822c65abb5"
+    "sha256": "9d6f7bf053d7cc0064a2f116bc52be08322bef41ed8fd1263ab4a2150ec732f5",
+    "reference": "upstream/logs-source.svg",
+    "reference_sha256": "3881813834dfef871158d162becd02b89358ca789dbcd187768370822c65abb5",
+    "material_revision": 10
   },
   "image-viewer": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Loupe.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "aa174060286b71d568ecc75bbba1f73fcecc307ffa0372a082f477ac35a67ef6"
+    "source": "scripts/icons/local/image-viewer.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "34156f12f6cfe431aec6e918e80b25f539c7f55166543dca1a76d059db444183",
+    "material_revision": 9
   },
   "maps": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Maps.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "ba6134012f13e0c781b9e3dc418e7ee85959872e47b1e518d2e711b66df344a2"
+    "source": "scripts/icons/local/maps.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "80fd7f427577536fcb9aa11a2e9f53f024b874c6e0699cc4d32832b0aea6e55c"
   },
   "video-player": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.Showtime.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "295c86d33c7c59dea35b160f60f057930acf50ca5ef645d6ed6667c3176ad587"
+    "source": "scripts/icons/local/video-player.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "8bb90a0d6909956096237a47f277a2b88368746980ca3ec47e5ff2fdebd8041e",
+    "material_revision": 10
   },
   "document-scanner": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.SimpleScan.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "c5f4d360a18bd1f24c9a76fc837845989caa1451581aa3367306f2e2244cc566"
+    "source": "scripts/icons/local/document-scanner.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "633a2d5c7d497aff758d1987031d9ee8883cce4a5994a772fdc151ce9cd923a7",
+    "material_revision": 10
   },
   "camera": {
     "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Snapshot.svg",
@@ -326,19 +419,30 @@
     "sha256": "211dc4d770441ddcb439822aa50df2c9d117be8b8a3527eb5d086a2e83e9c292"
   },
   "software": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Software.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "e0c6307cdbbce00af5282dfb4d6bfea3d32275580362324962487cd5f044c660"
+    "source": "scripts/icons/local/software.svg",
+    "license": "Original themed interpretation; app identity rights remain with their owners",
+    "sha256": "9c8c215d1286dceb7162b3569e05aada5c367b35941c4ee0a522a16b97d383d8",
+    "material_revision": 9
   },
   "terminal": {
     "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Terminal.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "a98f915e603f78b99e6ce568501660e6b2833efc688f7992248a4ba26a8a3a52"
+    "sha256": "b46e85885025d3a880cc09a29e78bff8c8ea200d7631c064a1b002240152fe5b",
+    "reference": "upstream/terminal-source.svg",
+    "reference_sha256": "a98f915e603f78b99e6ce568501660e6b2833efc688f7992248a4ba26a8a3a52",
+    "material_revision": 9
   },
   "text-editor": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.TextEditor.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "fef016c7696a0d6fb064c7d26f9d7fcf8217d4ff4e37bb553e128e224b1867e7"
+    "source": "scripts/icons/local/text-editor.svg",
+    "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+    "sha256": "f5f7271e9c96517017df1b5a7a45352a2de755826d17706042f5d4252557d87f",
+    "material_revision": 12,
+    "design_note": "Crisp ivory notepad, clear lines and coral pencil.",
+    "adapted_from": {
+      "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.TextEditor.svg",
+      "license": "See bundled upstream theme licenses; source metadata retained",
+      "sha256": "fef016c7696a0d6fb064c7d26f9d7fcf8217d4ff4e37bb553e128e224b1867e7"
+    }
   },
   "tour": {
     "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.Tour.svg",
@@ -346,77 +450,92 @@
     "sha256": "c6dbd9c3e2c3f6d5e8477ce7f6650d64fe5156a318fc41fc47aaa7daf172dedc"
   },
   "weather": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Weather.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "42de1ed2b0f9534e05e9ccd8a9532958de27722c978364cce2155ae82bc996f8"
+    "source": "scripts/icons/local/weather.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "a4f274912fab1265d78ebc64ee4bb29388d5cc3e8ff0cca0fff826f013e80361"
   },
   "help": {
     "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
+    "license": "Original artwork",
+    "sha256": "1819df646655172b5df78be0a6c6156e8116466df09feea9cf3670517ea1ae28",
+    "material_revision": 9
   },
   "disk-usage-analyzer": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.baobab.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "0af8d9f03130722757c811728c76a4bb5907ccd8e9e1027f61f370900fe74db3"
+    "source": "scripts/icons/local/disk-usage-analyzer.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "46d26e13252b5ce00b41014b9fd10c870072946ef8e8bb3852d1e5e460c8efa7",
+    "material_revision": 7
   },
   "clocks": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.clocks.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "37b4e3b04eeef2f0a8223988ed3353bebc540521cdb39514f3f0922928b26f5c"
+    "source": "scripts/icons/local/clocks.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "85376ff202d118357f5940af4c1c12d70b1879611d8a11aec0ea80d9c2caed68"
   },
   "eye-of-gnome": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.eog.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "12d135dbed180824600416f3059deefe68e005b97ed99c7322e67321d47494d0"
+    "source": "scripts/icons/local/eye-of-gnome.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "dc961ae3114faa80f549effe38fca1fdb11664c06d17d1f492dbb92f8f48fe47",
+    "material_revision": 9
   },
   "fonts": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.font-viewer.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "5cd874259de58bbab6c54ef2a2aad46095b743a15e1a4ffcbb8d6fc86c9ae747"
+    "source": "scripts/icons/local/fonts.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "a6b8e16930f7b5535f03bc6aca81ab8f3f2505852db2353472050c0075543d0c",
+    "material_revision": 2
   },
   "thumbnails": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/org.gnome.gthumb.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "c3c482d15e9d5a63bff59178a21144c12efe910f969ea909fe4830a2a50b73c8"
+    "source": "scripts/icons/local/thumbnails.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "7d65084afc6b5a890c295db93ab6a2093303880b5c53f9cb46b5d70eaf1bff1b",
+    "material_revision": 9
   },
   "tweaks": {
     "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.tweaks.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "ba4ad0b409029e6a90207e875bb26130cbe69651956fb325eb06a8127aa9fcba"
+    "sha256": "bb546e1af72103ed53c6e60c99234c82981a69fd05376bc47492074f7fe0f919",
+    "reference": "upstream/tweaks-source.svg",
+    "reference_sha256": "ba4ad0b409029e6a90207e875bb26130cbe69651956fb325eb06a8127aa9fcba",
+    "material_revision": 10
   },
   "volume-control": {
     "source": "/usr/share/icons/hicolor/scalable/apps/org.pulseaudio.pavucontrol.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "6f8879e9083ee2a23121fa29835dec46a9d070f11627b335ba51778b7e5f8b51"
+    "sha256": "95bba0038ecfd6ab5708861eb2cf25338ad2cf28ca00d1dcfff0b0d25b98cbc8",
+    "reference": "upstream/volume-control-source.svg",
+    "reference_sha256": "6f8879e9083ee2a23121fa29835dec46a9d070f11627b335ba51778b7e5f8b51",
+    "material_revision": 8
   },
   "qgis-desktop": {
     "source": "/usr/share/icons/hicolor/scalable/apps/qgis.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "902702e1ca21f8fb9860c5f9bd5aea07c1940e4930cfe83ca74da840bb9d6dba"
-  },
-  "rygel-preferences": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/rygel.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "a8c6e82aadbf3627aeb9c9e3d3295c9b9c8609822db95ae968d28135767cb383"
+    "sha256": "ec6d537358e1b5446843bdf9497ae4d68893e3264e9d5076a72d26278a3c8b4e",
+    "reference": "upstream/qgis-desktop-source.svg",
+    "reference_sha256": "902702e1ca21f8fb9860c5f9bd5aea07c1940e4930cfe83ca74da840bb9d6dba",
+    "material_revision": 9
   },
   "scrcpy": {
-    "source": "local icon theme: Neuwaita/scalable/apps/scrcpy.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "0405f360d4390f769cd090b8e1f5c8c9257cd8c1774651f5495fa8334d30f756"
+    "source": "scripts/icons/local/scrcpy.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "13909aa9ca91548f91a25e54e119154ec2e8af21e88c4c9d8300b2099856f70a",
+    "material_revision": 10
   },
   "solaar": {
-    "source": "/usr/share/icons/hicolor/scalable/apps/solaar.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "f4428b1f9b37e17e8e81dfdcb83c0a917fa1d55ea0ff29bba3703b4a8a60cc6c"
+    "source": "scripts/icons/local/solaar.svg",
+    "license": "CC-BY-SA-3.0; adapted from Solaar by Daniel Pavel",
+    "sha256": "e17353cd344c4620a76ab3bd9d0d9f61804372813c6eb1ec16e2ea92a1ec3253",
+    "material_revision": 12,
+    "design_note": "Ivory central sun with teal hub; original geometry retained.",
+    "adapted_from": {
+      "source": "/usr/share/icons/hicolor/scalable/apps/solaar.svg",
+      "license": "See bundled upstream theme licenses; source metadata retained",
+      "sha256": "f4428b1f9b37e17e8e81dfdcb83c0a917fa1d55ea0ff29bba3703b4a8a60cc6c"
+    }
   },
   "uuctl": {
     "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
-  },
-  "dconf-editor": {
-    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/ca.desrt.dconf-editor.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "c1325ed5ced05406135dec97e03cb6f79b48a76605e74ecac3f434bc6610f8f0"
+    "license": "Original artwork",
+    "material_revision": 10,
+    "sha256": "0d92ccb2c309995e2de04630af110136127cd2a963b76646d04f2127411e07df"
   },
   "gpu-screen-recorder": {
     "source": "scripts/icons/extra_art.py",
@@ -428,48 +547,17 @@
     "sha256": "ce576a50466f35dcad5723472b0aafaee0fcec4b884abeda44e97489fd670fc4"
   },
   "obs-studio": {
-    "source": "local icon theme: Neuwaita/scalable/apps/com.obsproject.Studio.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "2a2ca67053def59e3045968a5552e46af040f51e018e7c5ee686a2de4c83144a"
-  },
-  "rustdesk": {
-    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/com.rustdesk.RustDesk.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "fd74e32e142f06cc3ac42ba8dba65b6c3a6c11ea690f70bcc80dd0e84838103a"
-  },
-  "bottles": {
-    "source": "local icon theme: Neuwaita/scalable/apps/com.usebottles.bottles.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "bcdd0eeeea23b3de648d7586f89e36ed524cbc3cf84c165cfcb2e03b77d89139"
-  },
-  "handbrake": {
-    "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
-  },
-  "metadata-cleaner": {
-    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/fr.romainvigier.MetadataCleaner.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "7e02712b8cfcd9a881aed34adfe62053c96cf5f8e8294a182ac2a9e94ef3ee2f"
-  },
-  "bluejay": {
-    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/io.github.ebonjaeger.bluejay.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "884a2e417810e313c5d210da43e62394af27f26fe5928ceaa025253918d71490"
-  },
-  "azahar": {
-    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/org.azahar_emu.Azahar.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "b7941099d70483350c3f1af82bdf55cda68203f12f2e8a9b09b23749de3a5caf"
-  },
-  "cheese": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Cheese.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "6392091f5932f4e90c2bcf2b523a4844bb1ba044bcfd91245cbca7bad649be32"
+    "source": "scripts/icons/local/obs-studio.svg",
+    "license": "CC0-1.0",
+    "sha256": "ec548e9d4797b775574e78242523e804903c0f258226ed8e038586a572377b6e",
+    "reference": "upstream/obs-flat.svg",
+    "reference_sha256": "85a9ce2350ae32ef8cb19477855ce156bb1f64ed9d8ca6128afce589f9f8631f",
+    "material_revision": 5
   },
   "passwords-and-keys": {
-    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/org.gnome.seahorse.Application.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "2ca3df61dca71c4e16f5de4b87270d51b7b19f2a3e1c8e46c94591381150aa2c"
+    "source": "scripts/icons/local/passwords-and-keys.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "278218276106b978f8040d76cd05239e9980d861794103c21a9ce17f09245375"
   },
   "yuzu": {
     "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/org.yuzu_emu.yuzu.svg",
@@ -482,57 +570,194 @@
     "sha256": "b285123a86736a5c317de1e9362c6a84fcebd7075c1f947586541d81f99ef29d"
   },
   "zoom": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/zoom.svg",
+    "source": "scripts/icons/local/zoom.svg",
     "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "da5b2f13d38ca61c88a227f58e3bebcbcbb55412d97678ecff49ae7c603f9a7b"
+    "sha256": "0cb3025266807165babbb9413f6824f53a5f9b1d736e019103e97d4212cf370c",
+    "material_revision": 2,
+    "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/zoom.svg"
   },
-  "vscode": {
-    "source": "local icon theme: Neuwaita/scalable/apps/com.visualstudio.code.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "0d9532c4c3eed55dfb601e705b1849caf4db0368616b2bc65e5c4a1c7f4a523a"
+  "bartjik": {
+    "source": "scripts/icons/local/bartjik.svg",
+    "license": "Original artwork based on user-provided reference",
+    "sha256": "dd06ca9fd9cbbca3fef2258a95d01392aec9e8d005c1a05dccb5def1a8c33973"
   },
-  "slack": {
-    "source": "local icon theme: Neuwaita/scalable/apps/com.slack.Slack.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "62de3bd8000db312bc19c97358af1487978388d6f3ef993da9a78833c60ced77"
+  "notjik": {
+    "source": "scripts/icons/local/notjik.svg",
+    "license": "Original artwork based on user-provided reference",
+    "sha256": "63c281d14390f2eff62bf7df136eed40e61049dd51b5ec58ed323769d6167caa",
+    "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik\u2019s circular dot."
   },
-  "teams": {
-    "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
+  "collie": {
+    "source": "scripts/icons/local/collie.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "33cf467b9c477d930f3dfb5b2a3c63f4b34bd75b4adc0441d9523afa29fb760b",
+    "reference": "scripts/icons/references/tabler-dog.svg",
+    "reference_sha256": "0b9d24084db08758cdc9e0f8f05ce414b94d499aee85ba46d1a2073d4e9cf3e7",
+    "material_revision": 14,
+    "design_note": "Sable collie portrait with tipped ears, cream blaze, layered muzzle and highlighted eyes at the detail level of Prowlarr."
   },
-  "notion": {
-    "source": "local icon theme: Neuwaita/scalable/apps/notion-app.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "2d5d1379ba6c90623da1432ad3fe3843234039ffb2b591dd44843eda3d2b8b6b"
+  "herdr": {
+    "source": "scripts/icons/local/herdr.svg",
+    "license": "Original themed interpretation; app identities remain with their respective owners",
+    "sha256": "80ca53c02c56f9f5321d1eb88e62e9f0fb7ed2ff60d91049d551788254f723b6",
+    "reference": "scripts/icons/references/tabler-fence.svg",
+    "reference_sha256": "910fb0f242c6c0b6dc86e294c1d6de359e75d62f058354564bebccf51cd3872e",
+    "material_revision": 3
   },
-  "figma": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/figma.svg",
-    "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "2f86fca501dfed321a62f28743f29d9dd738dac91668eac5260ab746d1ef8840"
+  "llmtrim": {
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/scissors.svg",
+    "license": "MIT",
+    "sha256": "7bf18601cfa48626fc0aaa2e7fec82231b191f78f3873e6a4c6d8f680fb4a7d7",
+    "reference": "scripts/icons/references/tabler-scissors.svg",
+    "reference_sha256": "a2e396becae03724ba9272489b293c94f96d3583e7a2c16c79c139cfe8427659"
   },
-  "edge": {
-    "source": "scripts/icons/extra_art.py",
-    "license": "Original artwork"
+  "chezetc": {
+    "source": "scripts/icons/local/chezetc.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "6effb5fddd41e8da4902c7a2099364650a4583672d689749779a8beffa26b24a",
+    "material_revision": 4
   },
-  "blender": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/blender.svg",
+  "chezmoi": {
+    "source": "scripts/icons/local/chezmoi.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "e25f397253c40b2b63b5e8256265bd5c4efa193746288d7f7d9716fd96672260",
+    "material_revision": 4
+  },
+  "hyprvoice": {
+    "source": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/audio-lines.svg",
+    "license": "ISC",
+    "sha256": "e6712b893adbd9ebedf01100cc82741329e1ad1fdd575b828897eb2411db2757",
+    "reference": "scripts/icons/references/lucide-audio-lines.svg",
+    "reference_sha256": "3942b8a5d6bccc927a55f857f0d44b90e2663470cd2d569000c9b60c37578dfa"
+  },
+  "oo7": {
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/fingerprint.svg",
+    "license": "MIT",
+    "sha256": "51d975d7313dceb64bf6dd2a2d3d48577e35b3ba99a3a869119b0ab3d2e663bd",
+    "reference": "scripts/icons/references/tabler-fingerprint.svg",
+    "reference_sha256": "cd1ff19081e56af42bd183a98eec4ba68d7a7affbfc37775b10604824489a96b"
+  },
+  "snapraid": {
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/server.svg",
+    "license": "MIT",
+    "sha256": "270ebf4e2878722d9b064b599976c28bea457e2c86351d3f20def59d75b99b84",
+    "reference": "scripts/icons/references/tabler-server.svg",
+    "reference_sha256": "6c4aa71ca6fd11a738abf7972ad893f808e2e25d6181b5b329784050f95490d2"
+  },
+  "tippecanoe": {
+    "source": "scripts/icons/local/tippecanoe.svg",
+    "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+    "sha256": "52111a5e6967751bb8a07965fb986587cf4c2cb97c8393882ed1fbb51b81d25f",
+    "material_revision": 12,
+    "design_note": "Softened folded map with muted water, sand and terracotta routes.",
+    "adapted_from": {
+      "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/map.svg",
+      "license": "MIT",
+      "sha256": "05d6d97df754d549147b3fcc1861f4c43a02628d58116675263287eabaab25b1",
+      "reference": "scripts/icons/references/tabler-map.svg",
+      "reference_sha256": "d37d1048d3608b037ced3617196a2f28f8dbf61db0d5ffc510fcb85b5fdd71ba"
+    }
+  },
+  "power": {
+    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/power.svg",
+    "license": "MIT",
+    "sha256": "b95c88db44169d9c75c6fdfc6bacd05950c45cd909ffb14d7b4fb578ea5fac93",
+    "reference": "scripts/icons/references/tabler-power.svg",
+    "reference_sha256": "2a872241a3059da7e3157fc5fbd8b8dfd40a10825934a23dd5e7f43cb4ae1df9"
+  },
+  "docker": {
+    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/docker.svg",
     "license": "CC0-1.0",
-    "sha256": "ec86e2c9cf9fc25f5c8d3bf2e8d201c0dce6683137f37a1e61f992da6566bff5"
+    "sha256": "12c23b2939ddfb640dac0d205abc57766052941e227441693cdd1e06ef06aa81"
   },
-  "inkscape": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.inkscape.Inkscape.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "a6e0688e44f3d21d315727230f21bf99595177d215c96608fd56d7b24f5341b7"
+  "flatpak": {
+    "source": "scripts/icons/local/flatpak.svg",
+    "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+    "sha256": "4653230c0b2d0457336b58d8a621d0acdba6ebb4442d5ae8d241f052cc3fab8f",
+    "material_revision": 12,
+    "design_note": "Original package contour with amber, blue and jade faces.",
+    "adapted_from": {
+      "source": "scripts/icons/local/flatpak.svg",
+      "license": "Original themed redraw; app identity rights remain with their owners",
+      "sha256": "e94603793f42560f01fa23ac1cd82a301ae1506d6964bc62c0e5166bd3d470e3",
+      "adapted_from": {
+        "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/flatpak.svg",
+        "license": "CC0-1.0",
+        "sha256": "1bea9ecc81b9d6c99eb8ccbfb9caf873d587c762aa6843d4a71b13d6c079d04f"
+      }
+    }
   },
-  "libreoffice": {
-    "source": "local icon theme: Neuwaita/scalable/apps/libreoffice-startcenter.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "a29f5cfd0854d06b5f4892630f0241224da94cdb0b502ad3c5f45c71981b8f57"
+  "nginx": {
+    "source": "scripts/icons/local/nginx.svg",
+    "license": "Original themed interpretation; app identity rights remain with their owners",
+    "sha256": "956d4046f2be00b19986b14a64d3062ed7c40cb51105011e1e3b4f0e09661716",
+    "adapted_from": {
+      "source": "scripts/icons/local/nginx.svg",
+      "license": "Original themed redraw; app identity rights remain with their owners",
+      "sha256": "2d8fb2dfa31c3bf5c5fa797f20dac655c787be0886d77e228964c4b192a791c1"
+    }
   },
-  "audacity": {
-    "source": "local icon theme: Neuwaita/scalable/apps/org.audacityteam.Audacity.svg",
-    "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "a7b452b1e97a4e96d693ad0a94da77c7365451fecccf1561f535ff35abf2579c"
+  "python": {
+    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/python.svg",
+    "license": "CC0-1.0",
+    "sha256": "9805f13033c0bc69e2cec2347341ca2a92de890190b2515d88e01cec8da56113",
+    "reference": "references/simple-python.svg",
+    "reference_sha256": "adca85e1d0bd6d796abea422d983fd131a432fe78efeac58af18461eb1548780",
+    "material_revision": 9
+  },
+  "rust": {
+    "source": "scripts/icons/local/rust.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "743e714cdac43ad3b234b68747b4b17cd50790b94cc0c9cfaa04991fd28e2494",
+    "material_revision": 2
+  },
+  "tailscale": {
+    "source": "scripts/icons/local/tailscale.svg",
+    "license": "Original themed redraw; app identity rights remain with their owners",
+    "sha256": "780627cfba26111dfff44d56c1ff1a4d588a0e793278d93fb24903223d6206ed"
+  },
+  "vite": {
+    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/vite.svg",
+    "license": "CC0-1.0",
+    "sha256": "4ac74e33a5f85c721d9f3980fd6793f6ddacea9274f295dde0b6d74903c6e609"
+  },
+  "prowlarr": {
+    "source": "scripts/icons/local/prowlarr.svg",
+    "license": "Original tiger-face interpretation; app identity rights remain with their owners",
+    "sha256": "54599b9c94db4b0ebe2bfc9856b44843bd17eeb94d149a4d7dfcdf2b00d21a95",
+    "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prowlarr.svg",
+    "reference_sha256": "324c3501087a8f6337d4c73ead8bd848b8c0491e062abececb2b9eea398c62a4",
+    "material_revision": 5
+  },
+  "tjikup": {
+    "source": "Original local artwork",
+    "license": "Original artwork",
+    "sha256": "880e8171200ce8f1495b7ad506cc7e705ca27ba0b3f50922dfa61d00602f5fd2"
+  },
+  "greetjik": {
+    "source": "scripts/icons/local/greetjik.svg",
+    "license": "Original fan artwork; Rainbow Dash character design belongs to Hasbro",
+    "sha256": "1353cc3698846df8d74aad480ae9acb5d240445b87fe064e4c6bf4161a686a7f",
+    "note": "Greetjik rainbow mane icon, renamed from Pony; historical pony command aliases remain compatible.",
+    "previous_identity": {
+      "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/horse.svg",
+      "license": "MIT",
+      "sha256": "fc9f3418d2f1b2d656808555b483ac8516dc9cf05cf9433b084db6e640243e04",
+      "reference": "scripts/icons/references/tabler-horse.svg",
+      "reference_sha256": "1cd61cafb3465be6e413ca92879b0f42a7870583312bdff36c81f698d45daf27",
+      "note": "Custom Pony service symbol using the attributed Tabler horse; not an official project logo."
+    },
+    "material_revision": 17,
+    "design_note": "Renamed Pony icon to Greetjik; existing rainbow-mane artwork retained."
+  },
+  "codex": {
+    "source": "scripts/icons/local/codex.svg",
+    "license": "MIT (Lobe Icons); app identity rights remain with OpenAI",
+    "sha256": "5822470412a23c8e3a3915b64c955f24ddc5d61a8c809aca8992908cb5d764fa",
+    "material_revision": 2,
+    "reference": "https://github.com/lobehub/lobe-icons/blob/master/packages/static-svg/icons/codex.svg",
+    "reference_file": "scripts/icons/upstream/codex-lobe.svg",
+    "reference_sha256": "d08b4e824cd6727e89617f59e4737273ff53e44c1da849d016dd64dfd08b33e1"
   },
   "zed-preview": {
     "source": "scripts/icons/local/zed-preview.svg",
@@ -547,6 +772,19 @@
       "reference": "upstream/zed-official.svg",
       "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00"
     }
+  },
+  "runtjik": {
+    "source": "scripts/icons/local/runtjik.svg",
+    "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+    "sha256": "ed33da8233177f17b0450c848a653e495b50acebb367af7f4b65751b52216326",
+    "material_revision": 12,
+    "design_note": "Theme periwinkle frame and pale pink Command symbol at 75 percent scale, with the shared dark inset and material shading."
+  },
+  "mailtjik": {
+    "source": "scripts/icons/local/mailtjik.svg",
+    "license": "Original artwork",
+    "sha256": "00beeec21482a42ca192a0c99dcc25f94e1189d6e0a5639198e69cafff1ec567",
+    "design_note": "Canonical rounded-square Tjik frame with a dark inset and blue, rose-red and white airmail dashes. The centered envelope flap uses the exact border white, joins the 45-degree points of the upper rounded corners and sits beneath the border."
   },
   "zed-nightly": {
     "source": "https://zed.dev/brand",

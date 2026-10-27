@@ -99,3 +99,49 @@ bash scripts/validate.sh
 Tests with frozen local review archives are optional. Release verification must
 also pass from a clean checkout without those archives; `release.py check`
 checks the committed generated assets directly.
+
+## Cut and publish a version
+
+From Tijpfiles, this single command cuts both installable themes, updates the
+static type.hk release registry and gallery, then deploys and verifies the public
+manifest and ZIP hashes:
+
+```sh
+python3 -B scripts/icons/release.py cut --version 0.1.0-rc.1 \
+  --site /home/io/code/type.hk --deploy
+```
+
+Choose a fresh version for each release. `cut` is an explicit release decision:
+it authorizes deriving the framed counterpart of that exact frameless snapshot.
+It does not change the historical study approval file or install either theme.
+Ordinary `build`, `check` and `package` still never approve artwork or deploy.
+
+The output is `.local/icon-releases/<version>/`: both ZIPs (including aliases,
+attribution and licenses), a gallery snapshot, source/output hashes, renderer
+versions, source commit/dirty status and `SHA256SUMS`. Release versions cannot
+be overwritten. The existing offline check must pass; run `build` first if
+intentional source edits made generated assets stale.
+
+Omit `--deploy` to prepare the registry without publishing. Omit `--site` too
+for a completely local release rehearsal (`--output /tmp/icon-releases` can
+keep test versions separate). To retry a failed site build or deployment, use
+the existing immutable snapshot instead of cutting it again:
+
+```sh
+python3 -B scripts/icons/release.py publish --version 0.1.0-rc.1 \
+  --site /home/io/code/type.hk --deploy
+```
+
+The registry is served at `https://type.hk/rose-punk-releases/registry.json`;
+its download index is linked from the theme page. Existing versions are retained;
+the explicitly published version becomes `latest`. The gallery uses the same
+versioned assets. The command runs the site's `bun run check` and `bun run deploy`
+and then checks public download hashes. A deployment receipt is written only
+when those checks pass. Network or verification failure returns nonzero, even
+if Cloudflare already accepted the deployment; retry `publish` after resolving it.
+
+Deployment requires the site's Bun dependencies and Cloudflare credentials.
+It refuses unrelated uncommitted site changes so a theme release cannot silently
+publish other unfinished pages. Commit or isolate those changes first. The
+command does not commit, tag, push, update Homepage on Si, or change installed
+desktop icons.

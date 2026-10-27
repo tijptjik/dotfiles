@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build, verify, or package Rose Punk offline without installing or approving it."""
+"""Build/check offline, or explicitly cut and publish versioned Rose Punk themes."""
 import argparse
 import hashlib
 import io
@@ -52,11 +52,11 @@ def theme_files(icons):
     return files
 
 
-def theme_zip(files):
+def theme_zip(files, theme="rose-punk"):
     output = io.BytesIO()
     with zipfile.ZipFile(output, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
         for name, data in sorted(files.items()):
-            info = zipfile.ZipInfo('rose-punk/' + name, (2026, 1, 1, 0, 0, 0))
+            info = zipfile.ZipInfo(theme + '/' + name, (2026, 1, 1, 0, 0, 0))
             info.create_system = 3
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
@@ -111,10 +111,30 @@ def package(trees, files, destination):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('check', 'build', 'package'), nargs='?', default='check')
+    parser.add_argument('action', choices=('check', 'build', 'package', 'cut', 'publish'), nargs='?', default='check')
     parser.add_argument('--output', type=Path, default=RELEASES, help='package output directory')
+    parser.add_argument('--version', help='immutable release version, e.g. 0.1.0-rc.1')
+    parser.add_argument('--site', type=Path, help='type.hk checkout to register the release in')
+    parser.add_argument('--deploy', action='store_true', help='deploy type.hk and verify public hashes')
     args = parser.parse_args()
+    if args.action in ('cut', 'publish') and not args.version:
+        parser.error('cut/publish requires --version')
+    if args.deploy and (args.action not in ('cut', 'publish') or not args.site):
+        parser.error('--deploy requires cut/publish and --site')
+    if args.action not in ('cut', 'publish') and (args.version or args.site):
+        parser.error('--version and --site require cut/publish')
+    if args.action == 'publish' and not args.site:
+        parser.error('publish requires --site')
     try:
+        if args.action == 'publish':
+            from publish import register, deploy, validate_version
+            validate_version(args.version)
+            destination = args.output / args.version
+            register(destination, args.site.resolve())
+            if args.deploy:
+                deploy(destination, args.site.resolve())
+            print('Release deployment verified.' if args.deploy else 'Registered existing release; not deployed.')
+            return
         trees, files = generated_outputs()
         if args.action == 'build':
             # Every input and producer has succeeded before any tracked output changes.
@@ -122,6 +142,13 @@ def main():
                 write_tree(folder, outputs)
             for path, data in files.items():
                 write_file(path, data)
+        elif args.action == 'cut':
+            from publish import cut, register, deploy
+            destination = cut(trees, files, args.output, args.version)
+            if args.site:
+                register(destination, args.site.resolve())
+                if args.deploy:
+                    deploy(destination, args.site.resolve())
         elif args.action == 'package':
             package(trees, files, args.output)
         else:
@@ -130,6 +157,7 @@ def main():
         parser.exit(1, str(error) + '\n')
     print({'check': 'All desktop, fleet, and Homepage outputs match their sources.',
            'build': 'Built desktop, fleet, and Homepage outputs; no deployment or approval.',
+           'cut': f'Cut release {args.version}; deployment verified.' if args.deploy else f'Prepared release {args.version}; not deployed.',
            'package': f'Wrote rose-punk.zip and release.json to {args.output}.'}[args.action])
 
 

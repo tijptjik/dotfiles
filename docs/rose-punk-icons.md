@@ -120,3 +120,11 @@ The size study is `.local/icon-reviews/docs/rose-punk-command-icons.svg` (and
 `.png`), showing 24, 32, 48, 64 and 96 px beside the unchanged frozen camera.
 Deployment copies the seven theme files and refreshes the selected theme cache;
 Runtjik resolves them through the same icon loader as application artwork.
+
+## Versioned publication to type.hk
+
+Use `python3 -B scripts/icons/release.py cut --version VERSION --site /home/io/code/type.hk --deploy`
+to cut both frameless and framed downloads, register them with the public icon
+gallery, and deploy type.hk. This explicit release action authorizes the framed
+derivative of that snapshot; ordinary builds remain offline. See the
+[release command and retry instructions](../scripts/icons/README.md#cut-and-publish-a-version).

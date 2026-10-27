@@ -16,9 +16,12 @@ the top-layer launcher card. It stays out of the normal window layout and uses
 its own styling, with compositor blur, dimming and animation disabled. Enter requests a new launch; Shift+Enter switches
 to a matching window or opens a titled instance picker. Tab and Shift+Tab move
 through results. Outside clicks hide the launcher and reach the underlying app;
-`/pin` keeps it visible until explicitly dismissed.
+`/pin` keeps it visible after outside clicks and app launches/switches, while
+remaining draggable between monitors (release on the destination screen).
 `/refresh` rebuilds the index, including the command whitelist from saved Fish
-history. Ctrl+L toggles grid/list.
+history. Default search shows applications; `/run` browses previously used
+commands and `/run name` filters them. GUI commands inherit application icons and
+launch directly. Ctrl+L toggles grid/list.
 `/shortcuts` and `/bindings` show keyboard help. `/config` browses featured
 settings; for example, `/config ui.columns 6` saves TOML and applies it live.
 Open/close requests are serialized and wait for readiness; failed starts exit and

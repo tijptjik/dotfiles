@@ -12,6 +12,8 @@ import tempfile
 import urllib.request
 import zipfile
 
+from github_api import github_json
+
 SPECS = {
     "bws": ("bitwarden/sdk-sm", r"bws-v(?P<version>\d+\.\d+\.\d+)",
             "bws-x86_64-unknown-linux-gnu-{version}.zip"),
@@ -22,16 +24,6 @@ SPECS = {
 
 def run(*args):
     subprocess.run(args, check=True)
-
-
-def github_json(url):
-    request = urllib.request.Request(url, headers={
-        "Accept": "application/vnd.github+json",
-        "User-Agent": "chezmoi-bitwarden-updater",
-        "X-GitHub-Api-Version": "2022-11-28",
-    })
-    with urllib.request.urlopen(request, timeout=30) as response:
-        return json.load(response)
 
 
 def latest_asset(tool):
@@ -139,4 +131,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except RuntimeError as error:
+        sys.exit(str(error))

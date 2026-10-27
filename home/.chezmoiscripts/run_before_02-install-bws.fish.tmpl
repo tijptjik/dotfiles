@@ -2,11 +2,18 @@
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 
 function update_bitwarden_clis
-    set -l installer (mktemp); or return 1
-    printf '%s\n' {{ include ".chezmoitemplates/install-bitwarden-cli.py" | quote }} > "$installer"
-    python3 "$installer"
+    set -l installer_dir (mktemp -d); or return 1
+    set -l installer "$installer_dir/installer.py"
+    printf '%s' {{ include ".chezmoitemplates/github_api.py" | b64enc | quote }} | base64 --decode > "$installer_dir/github_api.py"
+    and printf '%s' {{ include ".chezmoitemplates/install-bitwarden-cli.py" | b64enc | quote }} | base64 --decode > "$installer"
+    set -l write_result $status
+    if test $write_result -ne 0
+        rm -rf "$installer_dir"
+        return $write_result
+    end
+    python3 -B "$installer"
     set -l result $status
-    rm -f "$installer"
+    rm -rf "$installer_dir"
     return $result
 end
 

@@ -19,6 +19,24 @@ checking that the cloned commit matches GitHub's commit API. Reproducible
 downloads and build output do not require recurring backups. Preserve personal
 configuration.
 
+## GitHub release authentication
+
+All GitHub API lookups in the Chezmoi and Chezetc installers use the common
+`github_api.py` helper, bundled beside each temporary installer. This covers
+Strata, Tippecanoe, Hyprvoice, Tennis, Tinty, Hamr, Gitfetch, and Bitwarden's
+`bw`/`bws` CLIs, including Gitfetch's release commit lookup. Keep the helper
+copies in both repositories identical when changing authentication behavior.
+
+The helper tries `GH_TOKEN`, then `GITHUB_TOKEN`, then the invoking user's
+`gh auth token --hostname github.com`. Under sudo it reads that user's login
+instead of root's. For normal Tjikup/Chezetc runs, use
+`gh auth login --hostname github.com` as the desktop user; system hooks can
+discard token environment variables while switching accounts. Unauthenticated
+requests still work when no credentials are available, subject to GitHub's
+anonymous API quota. Failed lookups stop the affected installer with a concise
+error. Credentials stay in memory and are sent only to `https://api.github.com`;
+asset downloads and Git clones retain their existing authentication behavior.
+
 ## Strata
 
 Strata is the default file manager: `inode/directory` resolves to
@@ -33,6 +51,15 @@ versioned installs remain available for rollback. Existing user settings stay
 untouched; a previous user binary is saved under
 `~/.local/state/chezetc/strata`. The client installer checks Fedora dependencies
 on each apply.
+
+Strata's release lookup uses the shared Chezetc updater's GitHub credentials:
+`GH_TOKEN`, then `GITHUB_TOKEN`, or the desktop user's GitHub CLI login. For
+normal Tjikup/Chezetc runs, authenticate with `gh auth login --hostname github.com`
+as the desktop user. Without credentials, GitHub's anonymous API rate limit can
+block the lookup. Authentication or rate-limit failures stop the update with an
+actionable error and preserve the installed version; rerun after fixing login
+or after the API limit resets. Release downloads still require the published
+SHA-256 digest.
 
 ## Matugen templates
 

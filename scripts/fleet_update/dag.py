@@ -65,7 +65,7 @@ def run(tasks, *, workers=4, event=lambda *_: None):
     failed = False
     epoch = time.monotonic()
     waits = {name: dict(dependency_wait=0., resource_wait=0., worker_wait=0.) for name in nodes}
-    reasons = {name: "dependency_wait" for name in nodes}
+    reasons = {name: "dependency_wait" if task.needs else "worker_wait" for name, task in nodes.items()}
     last_tick = epoch
 
     def account():
@@ -77,6 +77,15 @@ def run(tasks, *, workers=4, event=lambda *_: None):
 
     def exclusive(task):
         return task.exclusive() if callable(task.exclusive) else task.exclusive
+
+    def classify_waits(terminal_busy=False):
+        for name, task in pending.items():
+            if not set(task.needs) <= results.keys():
+                reasons[name] = "dependency_wait"
+            elif terminal_busy or held.intersection(task.resources) or (exclusive(task) and running):
+                reasons[name] = "resource_wait"
+            else:
+                reasons[name] = "worker_wait"
 
     def execute(task):
         started = time.monotonic()
@@ -116,24 +125,21 @@ def run(tasks, *, workers=4, event=lambda *_: None):
                         if exclusive(task):
                             if running:
                                 continue
+                            account()
                             del pending[name]
+                            classify_waits(terminal_busy=True)
                             event(name, Result("running"))
                             complete(task, execute(task))
                             account()
                             break
+                        account()
                         held.update(task.resources)
                         del pending[name]
                         event(name, Result("running"))
                         running[pool.submit(execute, task)] = task
                 # Attribute queue time to its current limiting condition. The
                 # next completion wakes us; no polling or timing-based ordering.
-                for name, task in pending.items():
-                    if not set(task.needs) <= results.keys():
-                        reasons[name] = "dependency_wait"
-                    elif held.intersection(task.resources) or (exclusive(task) and running):
-                        reasons[name] = "resource_wait"
-                    else:
-                        reasons[name] = "worker_wait"
+                classify_waits()
                 if running:
                     completed, _ = wait(running, return_when=FIRST_COMPLETED)
                     account()

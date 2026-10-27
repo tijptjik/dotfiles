@@ -1,8 +1,10 @@
 """One resource-aware graph for home and system hooks; native tools apply files."""
 import importlib.util
+from itertools import zip_longest
 import os
 from pathlib import Path
 import tempfile
+import time
 
 from .core import UpdateError
 from .dag import Task, run, validate, command
@@ -30,17 +32,29 @@ def plans(repo, system_repo):
     policy = system_policy(system_repo)
     system = policy.load_plan(system_repo)
     validate([Task(x["id"], None, tuple(x.get("needs", []))) for x in system])
+    # Check cross-layer barriers before native file application as well.
+    combine([Task("home:" + x["id"], None, tuple("home:" + n for n in x.get("needs", []))) for x in home],
+            [Task("system:" + x["id"], None, ("system:files", *("system:" + n for n in x.get("needs", [])))) for x in system],
+            Task("system:files", None, ("home:chezetc-wrapper",)),
+            {"system:" + x["id"]: x.get("barrier") for x in system})
     return home, system, policy
 
 
-def combine(home_tasks, system_tasks, prepare):
+def combine(home_tasks, system_tasks, prepare, barriers=None):
     """File preparation gates system hooks; final network/reboot tasks join both layers."""
     home_names = tuple(task.name for task in home_tasks)
-    tasks = [prepare, *home_tasks, *system_tasks]
+    # Alternate layers so a long list of ready home hooks cannot postpone the
+    # system package prerequisite chain until the end (or vice versa).
+    tasks = [prepare, *(task for pair in zip_longest(system_tasks, home_tasks) for task in pair if task)]
     for task in system_tasks:
-        # System shutdown of fi's tailnet must follow all home networking too.
-        if task.name in {"system:tailscale", "system:release"}:
+        # Final network policy and release checks follow home networking too.
+        barrier = (barriers or {}).get(task.name)
+        if barrier == "network-final":
             task.needs += home_names
+        elif barrier == "final":
+            task.needs = tuple(other.name for other in tasks if other is not task)
+        elif barrier is not None:
+            raise UpdateError(f"Unknown task barrier: {barrier}")
     validate(tasks)
     return tasks
 
@@ -56,7 +70,9 @@ def apply(repo, system_repo=None):
             raise ValueError()
     except ValueError:
         raise UpdateError("FLEET_JOBS must be a positive integer") from None
+    started = time.monotonic()
     result = apply_files(repo)
+    home_file_seconds = time.monotonic() - started
     if result:
         return result
     env = os.environ.copy()
@@ -65,20 +81,22 @@ def apply(repo, system_repo=None):
     log_dir = Path(tempfile.mkdtemp(prefix="apply-", dir=log_root))
     with tempfile.TemporaryDirectory(prefix="tjikup-hooks-") as temporary:
         hooks = HookTasks(temporary, log_dir, env)
+        rendering = time.monotonic()
         home_tasks = hooks.prepare(repo, home_plan, lambda item: render_hook(repo, item, hooks.env), prefix="home:")
+        home_render_seconds = time.monotonic() - rendering
         home_tasks.sort(key=lambda task: task.name != "home:chezetc-wrapper")
         prepared = {}
 
         def prepare_system():
-            runtime.repo_header(title="Systjik", url="https://github.com/tijptjik/systjik")
             # Worker commands have no terminal. Check this exact execution mode
             # before starting system mutations, instead of hanging on a prompt.
             check = command(["sudo", "-n", "true"], cwd=system_repo)
             if check.returncode:
                 raise UpdateError("System workers require noninteractive sudo; configure the managed sudo policy first")
             policy.apply_files(system_repo)
+            rendered = policy.render_hooks(system_repo, system_plan, hooks.env)
             tasks = hooks.prepare(system_repo, system_plan,
-                                  lambda item: policy.render_hook(system_repo, item, hooks.env), prefix="system:", root=True)
+                                  lambda item: rendered[item["file"]], prefix="system:", root=True)
             prepared.update({task.name: task for task in tasks})
 
         native = Task("system:files", prepare_system, needs=("home:chezetc-wrapper",), exclusive=True)
@@ -90,13 +108,16 @@ def apply(repo, system_repo=None):
             system_tasks.append(Task(name, lambda name=name: prepared[name].run(),
                 ("system:files", *("system:" + dep for dep in item.get("needs", []))),
                 tuple(item.get("resources", [])), exclusive=item.get("exclusive", False)))
-        tasks = combine(home_tasks, system_tasks, native)
+        tasks = combine(home_tasks, system_tasks, native,
+                        {"system:" + item["id"]: item.get("barrier") for item in system_plan})
+        runtime.repo_header(title="Systjik", url="https://github.com/tijptjik/systjik")
         runtime.section_header("Home and system configuration")
         try:
             with hooks.progress:
                 results = run(tasks, workers=workers, event=hooks.event)
         finally:
-            timing = hooks.save_timings(tasks)
+            timing = hooks.save_timings(tasks, total_seconds=time.monotonic() - started,
+                                       home_file_seconds=home_file_seconds, home_render_seconds=home_render_seconds)
             print(f"Task timings: {timing}", flush=True)
         if any(result.state == "failed" for result in results.values()):
             return 1

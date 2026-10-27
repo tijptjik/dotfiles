@@ -1,7 +1,6 @@
 """Prepare hook commands once, then run them under a shared scheduler/resource pool."""
-from dataclasses import asdict
+from dataclasses import fields
 import json
-import os
 from pathlib import Path
 import subprocess
 
@@ -23,7 +22,7 @@ class HookTasks:
         self.env = {**env, "FLEET_DEFER_HOOKS": "0", "FLEET_DEFER_SYSTEM_HOOKS": "0",
                     "TJIKUP_NO_SPIN": "1", "TJIKUP_STATUS_LINES": "1", "TJIKUP_NO_SECTIONS": "1"}
         self.progress = Progress()
-        self.items, self.outputs, self.results, self.tasks = {}, {}, {}, []
+        self.items, self.outputs, self.results = {}, {}, {}
 
     def prepare(self, repo, plan, render, *, prefix="", root=False, needs=()):
         """All rendering and syntax checks finish before callers dispatch tasks."""
@@ -70,7 +69,6 @@ class HookTasks:
                         tuple(item.get("resources", [])), exclusive=lambda item=item: owns_terminal(item))
             self.items[name] = item
             prepared.append(task)
-        self.tasks.extend(prepared)
         return prepared
 
     def event(self, name, result):
@@ -98,14 +96,14 @@ class HookTasks:
                 with self.progress.output():
                     print("\n".join(warnings), flush=True)
 
-    def save_timings(self, tasks):
+    def save_timings(self, tasks, **metadata):
         records = []
         for task in tasks:
             result = self.results.get(task.name)
-            values = asdict(result) if result else {"state": "interrupted"}
-            values.pop("error", None)
+            values = ({field.name: getattr(result, field.name) for field in fields(result) if field.name != "error"}
+                      if result else {"state": "interrupted"})
             records.append({"id": task.name, "needs": list(task.needs), "resources": list(task.resources), **values})
         path = self.log_dir / "timings.json"
-        path.write_text(json.dumps({"version": 1, "tasks": records}, indent=2) + "\n")
+        path.write_text(json.dumps({"version": 1, **metadata, "tasks": records}, indent=2) + "\n")
         path.chmod(0o600)
         return path

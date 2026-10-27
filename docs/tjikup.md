@@ -15,7 +15,9 @@ The fleet uses a bounded DAG scheduler in `scripts/fleet_update/dag.py`.
 dependencies; [home-plan.json](../scripts/fleet_update/home-plan.json) declares home
 hook dependencies and shared resources. Ready tasks start as soon as their
 prerequisites succeed. System pull can overlap home capture/commit; each push
-can start after its own pull. Both pushes must succeed before apply starts.
+can start after its own pull. Both pushes must succeed before apply starts. The apply stage then uses one graph
+for home and system hooks, with shared resource locks and one worker limit.
+Chezmoi and Chezetc retain ownership of managed files and once/onchange state.
 
 Capture still validates every result before writing sources and commits only
 changed capture targets. Fcitx capture retains its private backups. Git uses
@@ -99,19 +101,45 @@ manifest; a mismatch fails before home apply. Plain `chezmoi apply` retains its
 native serial hook behavior. Never set `FLEET_DEFER_HOOKS` manually: it is an
 internal hand-off flag, not a way to skip setup.
 
-Home work defaults to four workers (`FLEET_JOBS=1` serializes it for diagnosis).
-Cargo, tooltjik checkout/install operations, DNF, user-systemd, Tailscale, fonts,
-and storage have resource exclusions. Herdr setup and wrapper setup run alone
-with terminal access. All other parallel hooks must be noninteractive; a command
-that requires credentials must have them available before dispatch. Deferred
-hooks share a `Home configuration` heading because their completion order can
-cross application sections. The runner suppresses child section headings,
-including those from exclusive hooks; plain `chezmoi apply` keeps native headings.
-Home must
-finish before Chezetc starts: home installs/configures its wrapper and runner,
-and both layers can change packages, services and networking. Chezetc remains
-an exclusive node with its existing provisioning order and refresh/retry policy.
-Its system package/release update policy has **not** changed.
+The combined home/system graph defaults to four workers (`FLEET_JOBS=1` serializes
+it for diagnosis). Cargo, uv, Tooltjik checkout/install operations, DNF, Flatpak,
+user/system systemd, Tailscale, fonts and storage have shared resource exclusions.
+Native file passes and wrapper setup own the terminal. llmtrim's package install
+is separate from setup; setup only owns the terminal when its CA is missing.
+Worker hooks must be noninteractive, and system workers require noninteractive
+sudo. The managed passwordless-sudo bootstrap remains Chezmoi's responsibility.
+
+System file application can begin after home files and the Chezetc wrapper are
+ready. It no longer waits for all home hooks. Chezetc retains its native
+configuration-refresh retry and before/once/onchange handling, while audited
+maintenance hooks are deferred to the shared graph. The system inventory lives
+in Chezetc's `scripts/tjikup-plan.json`; unknown, missing or undeferable hooks fail
+closed. System hooks are rendered through the wrapper in the correct template
+context and syntax-checked before any deferred system hook starts. Do not set
+`FLEET_DEFER_SYSTEM_HOOKS` manually.
+
+RPM maintenance follows repository setup. Flatpak maintenance waits for RPM
+packages so its executable is available on first apply; independent application
+installers and home hooks may overlap. Hooks that can install packages retain a
+DNF resource lock for their whole execution. Existing package transactions and
+upgrade policy, Plex exclusions and Nginx rebuild ordering remain intact. The
+Tailscale reconciliation waits for home/system work before enforcing the declared
+final network policy. Fedora release-upgrade prompting is exclusive and runs last,
+after every peer task, so a reboot cannot interrupt in-flight work.
+
+Both layers share one `Home and system configuration` heading because completion
+order crosses application sections. Direct `chezmoi apply` and `chezetc apply`
+keep their native serial sequences and headings.
+
+Each combined apply prints a private `timings.json` path under
+`$XDG_STATE_HOME/tjikup/logs/apply-*` (default `~/.local/state/tjikup/logs`). The report
+records total apply time, home file/rendering time, task dependencies/resources,
+execution duration, dependency wait,
+resource/terminal wait, worker wait and start/finish offsets. System native file
+application and rendering are recorded together as a task. Hook output lives alongside it in private log files. Failure
+reports retain completed/failed/blocked task timing; cancellation preserves the
+completed events and marks unfinished tasks interrupted. These measurements do
+not imply a live speedup until representative runs have been compared.
 
 Routine `tjikup` installs missing Cargo tools and Codex LB without asking package
 registries for newer versions. Use `tjikup --upgrade` to retain those home package
@@ -143,7 +171,7 @@ include the conflict details and an inspection command; a paused rebase also
 shows how to continue after resolving and staging the files. This presentation
 does not resolve conflicts or resume a rebase automatically. If saving the log
 fails, the complete output is printed instead. Deferred hooks leave one concise
-result each; their raw output is saved in private `home-*` directories under the
+result each; their raw output is saved in private `apply-*` directories under the
 same log root. Warnings and failure diagnostics remain visible. Successful tool
 chatter and duplicate `DAG` rows are hidden. Interactive hooks own the terminal
 exclusively.
@@ -164,7 +192,8 @@ Initialize both configuration repositories and the Chezetc wrapper before using
 the fleet workflow. The normal home apply hook installs the runner automatically.
 
 For an existing device, update the dotfiles and Chezetc checkouts to compatible
-revisions, then run the focused installer as the normal user:
+revisions, including Chezetc's `scripts/tjikup-plan.py` adapter and hook manifest,
+then run the focused installer as the normal user:
 
 ```sh
 git -C ~/.local/share/chezmoi pull --ff-only

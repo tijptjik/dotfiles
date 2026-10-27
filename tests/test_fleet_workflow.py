@@ -119,11 +119,13 @@ os.execvp(args[0], args)
         sudo.chmod(0o755)
         chezetc = self.bin / 'chezetc'
         chezetc.write_text(f'#!{sys.executable}\n' + """
-import json, os, pathlib, subprocess, sys
+import json, os, pathlib, re, subprocess, sys
 if 'execute-template' in sys.argv:
     if os.environ.get('FAIL_SYSTEM_RENDER'):
         print('broken system rendering', file=sys.stderr); raise SystemExit(8)
-    print(pathlib.Path(sys.argv[-1]).read_text(), end='')
+    directory = pathlib.Path(sys.argv[sys.argv.index('--source') + 1]) / '.chezmoiscripts'
+    names = re.findall(r'includeTemplate "[.]chezmoiscripts/([^"]+)"', sys.stdin.read())
+    print(json.dumps({name: (directory / name).read_text() for name in names}))
 else:
     with open(os.environ['TRACE'], 'a') as stream:
         stream.write(json.dumps(['chezetc', pathlib.Path.cwd().name, sys.argv[1:]]) + '\\n')
@@ -292,6 +294,33 @@ else:
         calls = Path(self.env['HOOK_TRACE']).read_text().splitlines()
         self.assertCountEqual(calls, [task['file'] for task in plan])
         self.assertIn('chezetc', [row[0] for row in self.events()])
+
+    def test_system_files_failure_blocks_every_deferred_system_hook(self):
+        self.env['FAIL_SYSTEM'] = '1'
+        result = self.run_fleet()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(Path(self.env['SYSTEM_TRACE']).exists())
+        self.assertIn('intentional system file failure', result.stderr + result.stdout)
+
+    def test_system_render_failure_blocks_every_deferred_system_hook(self):
+        self.env['FAIL_SYSTEM_RENDER'] = '1'
+        result = self.run_fleet()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(Path(self.env['SYSTEM_TRACE']).exists())
+        self.assertIn('broken system rendering', result.stderr + result.stdout)
+
+    def test_system_hooks_and_package_phases_run_exactly_once(self):
+        result = self.run_fleet()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        plan = json.loads((self.home / '.local/share/chezetc/scripts/tjikup-plan.json').read_text())
+        self.assertCountEqual(Path(self.env['SYSTEM_TRACE']).read_text().splitlines(),
+            [item['file'] + ':' + item.get('env', {}).get('FLEET_SYSTEM_PHASE', '') for item in plan])
+        reports = list((self.home / '.local/state/tjikup/logs').glob('apply-*/timings.json'))
+        self.assertEqual(len(reports), 1)
+        records = json.loads(reports[0].read_text())['tasks']
+        self.assertTrue(all(row['state'] == 'done' for row in records))
+        self.assertTrue(any(row['id'].startswith('home:') for row in records))
+        self.assertTrue(any(row['id'].startswith('system:') for row in records))
 
     def test_hook_failure_blocks_final_system_release(self):
         self.add_synthetic_hooks()

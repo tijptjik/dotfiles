@@ -64,7 +64,11 @@ as well as live Telegram cards.
 Opening a native Telegram notification invokes its chat action, focuses the existing
 Telegram window (revealing its workspace), and dismisses the notification.
 
-- Super+M shows Bartjik and toggles the history drawer. Bartjik also uses its native bottom-edge activation,
+- Super+M opens both Bartjik and history if either is closed, and closes both
+  when both are open. The shortcut reads their live state so edge activation
+  or dismissing history independently cannot invert the two panels. Bartjik stays open
+  until Super+M is pressed again or the pointer reaches its activation edge.
+  Edge contact restores normal auto-hide behavior. Bartjik uses native bottom-edge activation,
   stays open while its bar or panels are hovered, and hides after 1000 ms outside
   its 140px safe distance. Hyprland must not run a separate bar visibility timer.
 - Super+comma / Super+period browse older/newer notices.

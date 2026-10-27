@@ -123,6 +123,13 @@ manifest; a mismatch fails before home apply. Plain `chezmoi apply` retains its
 native serial hook behavior. Never set `FLEET_DEFER_HOOKS` manually: it is an
 internal hand-off flag, not a way to skip setup.
 
+Before the hook progress display starts, `Chezmoi files` and `Home hooks` each
+show an immediate status and a completion time. Interactive runs also print
+elapsed time every five seconds during these phases. These append-only updates
+avoid clearing Chezmoi diagnostics or prompts. Redirected logs retain the start
+and completion rows; `TJIKUP_PROGRESS=0` disables periodic updates. Preparation
+rows do not add duplicate stages to the final outcome report.
+
 The combined home/system graph defaults to four workers (`FLEET_JOBS=1` serializes
 it for diagnosis). Cargo, uv, Tooltjik checkout/install operations, DNF, Flatpak,
 user/system systemd, Tailscale, fonts and storage have shared resource exclusions.

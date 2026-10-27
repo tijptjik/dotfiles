@@ -10,6 +10,7 @@ from .core import UpdateError
 from .dag import Task, run, validate, command
 from .home_apply import load_plan, render_hook
 from .hook_tasks import HookTasks
+from .preparation import prepare
 from tjikup import runtime
 
 
@@ -71,8 +72,7 @@ def apply(repo, system_repo=None):
     except ValueError:
         raise UpdateError("FLEET_JOBS must be a positive integer") from None
     started = time.monotonic()
-    result = apply_files(repo)
-    home_file_seconds = time.monotonic() - started
+    result, home_file_seconds = prepare("Chezmoi files", "APPLY", lambda: apply_files(repo), exit_code=True)
     if result:
         return result
     env = os.environ.copy()
@@ -81,9 +81,8 @@ def apply(repo, system_repo=None):
     log_dir = Path(tempfile.mkdtemp(prefix="apply-", dir=log_root))
     with tempfile.TemporaryDirectory(prefix="tjikup-hooks-") as temporary:
         hooks = HookTasks(temporary, log_dir, env)
-        rendering = time.monotonic()
-        home_tasks = hooks.prepare(repo, home_plan, lambda item: render_hook(repo, item, hooks.env), prefix="home:")
-        home_render_seconds = time.monotonic() - rendering
+        home_tasks, home_render_seconds = prepare("Home hooks", "RENDER", lambda: hooks.prepare(
+            repo, home_plan, lambda item: render_hook(repo, item, hooks.env), prefix="home:"))
         home_tasks.sort(key=lambda task: task.name != "home:chezetc-wrapper")
         prepared = {}
 

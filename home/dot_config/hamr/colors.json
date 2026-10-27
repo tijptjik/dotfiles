@@ -2,6 +2,7 @@
   "background": "#7188FF",
   "on_background": "#E5E5E5",
 
+  "surface": "#191724",
   "surface_dim": "#191724",
   "surface_bright": "#232032",
   "on_surface": "#E5E5E5",

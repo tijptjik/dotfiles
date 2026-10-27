@@ -39,3 +39,10 @@ Bartjik uses its bundled rose-punk theme. `hrcb` edits its managed JSON config.
 The bars auto-hide: move the pointer to the bottom edge to reveal them.
 On `li`, the tray is the first island on the left, crypto is hidden, and the
 AI island shows only Codex quota to keep the layout compact.
+
+Signal and Zoom use managed outline tray icons, matching the existing monochrome
+messenger icons at 18 pixels. `modules.tray.iconOverrides` selects these SVGs by
+application ID or title when the applications register their tray items. Apply
+the Bartjik config and `signal-outline.svg` / `zoom-outline.svg` in
+`~/.local/share/icons/hicolor/scalable/apps/` together; Bartjik reloads the
+configuration without restarting the applications.

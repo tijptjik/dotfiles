@@ -178,6 +178,86 @@ for key in ('gimp', 'flatpak', 'mullvad', 'spotify', 'solaar', 'text-editor', 't
     ART.pop(key, None)
     DETAILS.pop(key, None)
 
+# Launcher controls are companion objects, separate from the application catalog.
+# Their authored pigment and surface detail must not pass through generic shading.
+COMMAND_DEFS = '''<defs>
+<linearGradient id="cmd-jade" gradientUnits="userSpaceOnUse" x1="8" y1="6" x2="45" y2="58"><stop stop-color="#8cdbc3"/><stop offset=".55" stop-color="#46b6a2"/><stop offset="1" stop-color="#347b87"/></linearGradient>
+<linearGradient id="cmd-copper" gradientUnits="userSpaceOnUse" x1="10" y1="8" x2="48" y2="57"><stop stop-color="#f0c889"/><stop offset=".55" stop-color="#e6ae62"/><stop offset="1" stop-color="#bd785f"/></linearGradient>
+<linearGradient id="cmd-rose" gradientUnits="userSpaceOnUse" x1="12" y1="7" x2="48" y2="55"><stop stop-color="#e9a4b9"/><stop offset=".55" stop-color="#df77ac"/><stop offset="1" stop-color="#a86192"/></linearGradient>
+<linearGradient id="cmd-violet" gradientUnits="userSpaceOnUse" x1="7" y1="6" x2="48" y2="57"><stop stop-color="#b8b7e7"/><stop offset=".55" stop-color="#8596ed"/><stop offset="1" stop-color="#626ca7"/></linearGradient>
+<linearGradient id="cmd-paper" gradientUnits="userSpaceOnUse" x1="9" y1="7" x2="48" y2="57"><stop stop-color="#fff0da"/><stop offset="1" stop-color="#e5d8c9"/></linearGradient>
+<linearGradient id="cmd-steel" gradientUnits="userSpaceOnUse" x1="16" y1="6" x2="41" y2="58"><stop stop-color="#cfddd9"/><stop offset=".5" stop-color="#9eb9ca"/><stop offset="1" stop-color="#667b9b"/></linearGradient>
+</defs>'''
+
+COMMAND_ART = {}
+COMMAND_ART['refresh'] = (
+    rect(22, 22, 22, 23, '#b9b9c7', 2)
+    + rect(19, 18, 22, 24, 'url(#cmd-paper)', 2)
+    + rect(24, 25, 12, 2.5, '#8596ed', 1)
+    + rect(24, 31, 9, 2.5, '#8596ed', 1)
+    + path('M8 31A24 24 0 0 1 46 12l5-5 4 17-17-3 4-4A17 17 0 0 0 15 31Z', 'url(#cmd-jade)')
+    + path('M56 33A24 24 0 0 1 18 52l-5 5-4-17 17 3-4 4a17 17 0 0 0 27-14Z', 'url(#cmd-copper)'))
+
+COMMAND_ART['pin'] = (
+    '<g transform="rotate(30 32 32)">'
+    + path('M29.5 37h5L33 56l-1 3-1-3Z', 'url(#cmd-steel)')
+    + path('M25 16h14l-2 13 9 7v5H18v-5l9-7Z', 'url(#cmd-rose)')
+    + path('M18 36h28v5H18Z', '#ad6190')
+    + rect(16, 6, 32, 13, 'url(#cmd-copper)', 6)
+    + path('M18 14q14 4 28 0v2q-1 3-6 3H24q-5 0-6-3Z', '#c98964')
+    + '</g>')
+
+COMMAND_ART['grid'] = ''
+for x, y, pigment, shade in [(7, 7, 'copper', '#bd785f'), (35, 7, 'jade', '#347b87'),
+                              (7, 35, 'violet', '#626ca7'), (35, 35, 'rose', '#a86192')]:
+    COMMAND_ART['grid'] += (rect(x, y, 22, 22, f'url(#cmd-{pigment})', 4)
+        + path(f'M{x} {y+17}q11 2 22 0v1q0 4-4 4H{x+4}q-4 0-4-4Z', shade, opacity='.45'))
+COMMAND_ART['grid'] += (circle(18, 17, 4.5, '#fff0da')
+    + path('m46 12 5 5-5 5-5-5Z', '#fff0da')
+    + rect(13, 42, 10, 7, '#fff0da', 1.3)
+    + path('M43 43h6v3h3v3H40v-3h3Z', '#fff0da'))
+
+COMMAND_ART['list'] = ''
+for y, pigment in [(8, 'jade'), (26, 'violet'), (44, 'copper')]:
+    COMMAND_ART['list'] += (rect(6, y, 52, 13, 'url(#cmd-paper)', 2)
+        + path(f'M6 {y+10}h52v1q0 2-2 2H8q-2 0-2-2Z', '#c5bebf')
+        + rect(6, y, 13, 11, f'url(#cmd-{pigment})', 2)
+        + rect(25, y+3, 23, 2.5, '#565b79', 1)
+        + rect(25, y+7, 16, 1.5, '#a5a4b5', .75))
+
+COMMAND_ART['stats'] = (
+    path('M13 6h30l9 9v41q0 2-2 2H13q-3 0-3-3V9q0-3 3-3Z', 'url(#cmd-paper)')
+    + path('M43 6v9h9Z', '#c9c8d7')
+    + rect(17, 14, 12, 2.5, '#777b9a', 1)
+    + rect(18, 35, 7, 15, 'url(#cmd-jade)', 1)
+    + rect(29, 27, 7, 23, 'url(#cmd-violet)', 1)
+    + rect(40, 20, 7, 30, 'url(#cmd-copper)', 1)
+    + rect(16, 50, 33, 2, '#565b79', 1)
+    + path('M11 55h40v1q0 2-2 2H13q-2 0-2-3Z', '#c8bdc1'))
+
+COMMAND_ART['config'] = ''
+for x, y, pigment, underside in [(12, 14, 'jade', '#347b87'), (32, 37, 'rose', '#a86192'),
+                                (52, 24, 'copper', '#bd785f')]:
+    COMMAND_ART['config'] += (rect(x-2.5, 6, 5, 52, '#34304f', 2.5)
+        + rect(x-1.2, 7, 2.4, 50, 'url(#cmd-steel)', 1.2)
+        + rect(x-7, y, 14, 11, f'url(#cmd-{pigment})', 2)
+        + path(f'M{x-7} {y+8}h14v1q0 2-2 2H{x-5}q-2 0-2-2Z', underside)
+        + rect(x-4, y+3, 8, 1.2, '#fff0da', .6, opacity='.65'))
+
+COMMAND_ART['shortcuts'] = ''
+for x, y, fill in [(23, 7, 'paper'), (4, 33, 'paper'), (23, 33, 'violet'), (42, 33, 'paper')]:
+    COMMAND_ART['shortcuts'] += (rect(x, y, 18, 22, '#626c94', 3)
+        + rect(x, y, 18, 18, f'url(#cmd-{fill})', 3))
+COMMAND_ART['shortcuts'] += (path('m32 12 5 6h-3v6h-4v-6h-3Z', '#4b567b')
+    + path('m8 42 6-5v3h5v4h-5v3Z', '#4b567b')
+    + path('m32 47-5-6h3v-5h4v5h3Z', '#fff0da')
+    + path('m56 42-6-5v3h-5v4h5v3Z', '#4b567b'))
+
+
+def command_artwork(key):
+    return COMMAND_DEFS + '<g data-material="authored" stroke-linecap="round" stroke-linejoin="round">' + COMMAND_ART[key] + '</g>'
+
+
 def artwork(key):
     if key not in ART:
         return None

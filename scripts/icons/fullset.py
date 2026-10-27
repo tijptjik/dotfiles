@@ -13,6 +13,7 @@ from materials import finish, source_pigment
 from frameless import normalize
 from material_art import artwork as material_artwork, details
 from icon_data import HERE, aliases_for, load_catalog, write_file, write_tree
+from command_icons import render as render_command_icons
 
 SVG = 'http://www.w3.org/2000/svg'
 ET.register_namespace('', SVG)
@@ -142,6 +143,8 @@ def render():
     for alias, key in aliases.items():
         if alias != key and alias not in catalog:
             outputs[f'symlink_{alias}.svg'] = (key + '.svg\n').encode()
+    command_outputs, _ = render_command_icons()
+    outputs.update(command_outputs)
     return outputs, aliases
 
 

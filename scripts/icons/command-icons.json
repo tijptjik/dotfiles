@@ -1,0 +1,220 @@
+{
+  "runtjik-refresh": {
+    "name": "Refresh index",
+    "commands": [
+      "/refresh"
+    ],
+    "description": "Jade and copper return arrows around ivory index cards",
+    "source": "scripts/icons/local/runtjik-refresh.svg",
+    "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
+    "license": "Original artwork",
+    "sha256": "b74a7fb99d7a36d162e572a9ffc77ce5d24574f4d1d58f4271cf0930c9dee146",
+    "sizing": {
+      "source_bounds": [
+        8.0,
+        7.0,
+        56.0,
+        57.0
+      ],
+      "alpha_area": 1495.1138,
+      "scale": 1.12,
+      "translate": [
+        -3.84,
+        -3.84
+      ],
+      "result_bounds": [
+        5.0,
+        4.0,
+        59.0,
+        60.0
+      ]
+    }
+  },
+  "runtjik-pin": {
+    "name": "Pin launcher",
+    "commands": [
+      "/pin"
+    ],
+    "description": "Copper and rose thumbtack with a cool steel point",
+    "source": "scripts/icons/local/runtjik-pin.svg",
+    "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
+    "license": "Original artwork",
+    "sha256": "0526558b7ff5494e4330fb4a916107886a6aa877b5cdd1d37b302e4b0b07dd20",
+    "sizing": {
+      "source_bounds": [
+        15.375,
+        3.625,
+        56.75,
+        55.375
+      ],
+      "alpha_area": 824.8468,
+      "scale": 1.082126,
+      "translate": [
+        -7.024155,
+        0.077295
+      ],
+      "result_bounds": [
+        9.5,
+        4.0,
+        54.375,
+        60.125
+      ]
+    }
+  },
+  "runtjik-grid": {
+    "name": "Grid view",
+    "commands": [
+      "/grid"
+    ],
+    "description": "Four pigment-coloured application cards",
+    "source": "scripts/icons/local/runtjik-grid.svg",
+    "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
+    "license": "Original artwork",
+    "sha256": "bca3c199581dad2cb01b1102a9591336ae31ec6905fd7dd46adaf240a733f30d",
+    "sizing": {
+      "source_bounds": [
+        7.0,
+        7.0,
+        57.0,
+        57.0
+      ],
+      "alpha_area": 1883.6154,
+      "scale": 1.080725,
+      "translate": [
+        -2.583202,
+        -2.583202
+      ],
+      "result_bounds": [
+        4.875,
+        4.875,
+        59.125,
+        59.125
+      ]
+    }
+  },
+  "runtjik-list": {
+    "name": "List view",
+    "commands": [
+      "/list"
+    ],
+    "description": "Ivory list slips with coordinated colour tabs",
+    "source": "scripts/icons/local/runtjik-list.svg",
+    "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
+    "license": "Original artwork",
+    "sha256": "3c29b8062ffcd16f738a43664fa8a12451d9d84a7f4d7d62e8330f25f8ab40f4",
+    "sizing": {
+      "source_bounds": [
+        6.0,
+        8.0,
+        58.0,
+        57.0
+      ],
+      "alpha_area": 2019.0199,
+      "scale": 1.043857,
+      "translate": [
+        -1.403427,
+        -1.925355
+      ],
+      "result_bounds": [
+        4.75,
+        6.375,
+        59.25,
+        57.625
+      ]
+    }
+  },
+  "runtjik-stats": {
+    "name": "Usage statistics",
+    "commands": [
+      "/stats"
+    ],
+    "description": "Folded chart paper with jade, violet and copper bars",
+    "source": "scripts/icons/local/runtjik-stats.svg",
+    "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
+    "license": "Original artwork",
+    "sha256": "d94a033356b4bc22051bffb8046b9874d34be5ac0bd9d5c88d44744054b206b2",
+    "sizing": {
+      "source_bounds": [
+        10.0,
+        6.0,
+        52.0,
+        58.0
+      ],
+      "alpha_area": 2140.1127,
+      "scale": 1.013895,
+      "translate": [
+        0.569252,
+        -0.444643
+      ],
+      "result_bounds": [
+        10.625,
+        5.625,
+        53.375,
+        58.375
+      ]
+    }
+  },
+  "runtjik-config": {
+    "name": "Configuration",
+    "commands": [
+      "/config"
+    ],
+    "description": "Three steel slider rails with pigment-coloured controls",
+    "source": "scripts/icons/local/runtjik-config.svg",
+    "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
+    "license": "Original artwork",
+    "sha256": "93930acdebe142083ab200b80274f66b39b059619f027f9c25a78861ca55e871",
+    "sizing": {
+      "source_bounds": [
+        5.0,
+        6.0,
+        59.0,
+        58.0
+      ],
+      "alpha_area": 1051.6728,
+      "scale": 1.037037,
+      "translate": [
+        -1.185185,
+        -1.185185
+      ],
+      "result_bounds": [
+        4.0,
+        5.0,
+        60.0,
+        59.0
+      ]
+    }
+  },
+  "runtjik-shortcuts": {
+    "name": "Keyboard shortcuts",
+    "commands": [
+      "/shortcuts",
+      "/bindings"
+    ],
+    "description": "Ivory and violet arrow-key caps",
+    "source": "scripts/icons/local/runtjik-shortcuts.svg",
+    "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
+    "license": "Original artwork",
+    "sha256": "353b6989fc4ad66ce40ef4baecedc58a31bb4ea591818afa5c83eb775073885e",
+    "sizing": {
+      "source_bounds": [
+        4.0,
+        7.0,
+        60.0,
+        55.0
+      ],
+      "alpha_area": 1553.7022,
+      "scale": 1.0,
+      "translate": [
+        0.0,
+        1.0
+      ],
+      "result_bounds": [
+        4.0,
+        8.0,
+        60.0,
+        56.0
+      ]
+    }
+  }
+}

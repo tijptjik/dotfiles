@@ -291,7 +291,21 @@ It can also be run before the first home apply once Chezetc is initialized.
 
 The managed installation hook and focused installer use `~/code/tooltjik` on
 every host, unless `$TOOLTJIK_REPO` explicitly selects another checkout. If absent
-they clone Tooltjik there. Existing checkouts are never pulled by installers;
+they clone Tooltjik there using `git@github.com:tijptjik/tooltjik.git` (SSH), so
+later pushes use the host's GitHub SSH key. Existing remotes are preserved;
+changing the clone URL does not migrate earlier HTTPS checkouts. On an affected
+host, stop any running Git sync and update the existing origin:
+
+```sh
+git -C ~/code/tooltjik remote set-url origin git@github.com:tijptjik/tooltjik.git
+git -C ~/code/tooltjik remote -v
+```
+
+If an explicit `remote.origin.pushurl` still uses HTTPS, update it with
+`git remote set-url --push` in that checkout too. `git://` is not SSH and cannot
+provide authenticated GitHub pushes.
+
+Existing checkouts are never pulled by installers;
 the fleet repository stage updates clean checkouts before installation. For a
 standalone installation, update Tooltjik explicitly first. The installer builds
 and installs only tjikup. For a checkout that can fast-forward:

@@ -49,11 +49,14 @@ class BootstrapTests(unittest.TestCase):
         self.env.update({
             'GIT_CONFIG_COUNT': '1',
             'GIT_CONFIG_KEY_0': f'url.{self.remote}.insteadOf',
-            'GIT_CONFIG_VALUE_0': 'https://github.com/tijptjik/tooltjik.git',
+            'GIT_CONFIG_VALUE_0': 'git@github.com:tijptjik/tooltjik.git',
         })
         result = self.bootstrap()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue((self.checkout / 'apps/notjik/scripts/build.sh').is_file())
+        self.assertEqual(self.git('-C', str(self.checkout), 'config', '--get',
+                                  'remote.origin.url'),
+                         'git@github.com:tijptjik/tooltjik.git')
 
     def test_complete_checkout_works_offline(self):
         self.git('-C', str(self.checkout), 'fetch', 'origin')

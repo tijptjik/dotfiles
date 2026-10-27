@@ -91,7 +91,7 @@ class InstallTests(unittest.TestCase):
         clone = self.bin / 'git'
         clone.write_text('#!/bin/sh\nset -eu\ntest "$1" = clone\n'
                          'test "$2" = --progress\n'
-                         'test "$3" = https://github.com/tijptjik/tooltjik.git\n'
+                         'test "$3" = git@github.com:tijptjik/tooltjik.git\n'
                          'cp -R "$TEST_TOOL_SOURCE" "$4"\n')
         clone.chmod(0o755)
         self.env['TEST_TOOL_SOURCE'] = str(self.tools)

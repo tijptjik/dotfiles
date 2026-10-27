@@ -13,7 +13,7 @@ ensure_tooltjik() {
     fi
     if [[ ! -e "$tool_repo/.git" ]]; then
         mkdir -p -- "$(dirname -- "$tool_repo")"
-        LC_ALL=C git clone --progress https://github.com/tijptjik/tooltjik.git "$tool_repo" || return
+        LC_ALL=C git clone --progress git@github.com:tijptjik/tooltjik.git "$tool_repo" || return
     fi
     if [[ ! -f "$tool_repo/$required" ]]; then
         echo "Update $tool_repo to a revision containing $required." >&2

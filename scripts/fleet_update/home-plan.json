@@ -108,7 +108,7 @@
       "chezetc-wrapper"
     ],
     "resources": [
-      "tooltjik",
+      "tjikos",
       "icons"
     ],
     "label": "Tjikup",
@@ -133,7 +133,7 @@
       "tjikup"
     ],
     "resources": [
-      "tooltjik",
+      "tjikos",
       "user-systemd"
     ],
     "label": "Notjik",
@@ -147,7 +147,7 @@
       "rust"
     ],
     "resources": [
-      "tooltjik",
+      "tjikos",
       "cargo",
       "dnf"
     ],
@@ -161,7 +161,7 @@
       "notjik"
     ],
     "resources": [
-      "tooltjik",
+      "tjikos",
       "user-systemd"
     ],
     "label": "Bartjik",
@@ -186,7 +186,7 @@
       "tjikup"
     ],
     "resources": [
-      "tooltjik",
+      "tjikos",
       "user-systemd"
     ],
     "label": "Runtjik",

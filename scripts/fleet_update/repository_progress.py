@@ -4,7 +4,7 @@ from tjikup.progress import Progress
 
 
 class RepositoryProgress(Progress):
-    repositories = ("dotjik", "systjik", "tooltjik")
+    repositories = ("dotjik", "systjik", "tjikos")
     colors = {"pending": "90", "disabled": "90", "blocked": "90",
               "running": "1", "changed": "94;1", "unchanged": "36",
               "failed": "31;1"}
@@ -13,14 +13,15 @@ class RepositoryProgress(Progress):
         super().__init__(**kwargs)
         self.states = {repo: {verb: "pending" for verb in ("PULL", "PUSH")}
                        for repo in self.repositories}
-        self.states["tooltjik"]["PUSH"] = "disabled"
+        self.states["tjikos"]["PUSH"] = "disabled"
         self.visible = False
         self.finished = False
 
     def line(self, repo):
         cells = self.states[repo]
+        name = "tjikOS" if repo == "tjikos" else repo
         if runtime.use_color():
-            label = f"{repo:<8}"
+            label = f"{name:<8}"
             if "failed" in cells.values():
                 label = f"\033[31;1m{label}\033[0m"
             return label + "  " + "  ".join(
@@ -29,9 +30,9 @@ class RepositoryProgress(Progress):
         if self.live:
             markers = {"pending": "·", "disabled": "-", "blocked": "-",
                        "running": "…", "changed": "↑", "unchanged": "✓", "failed": "✗"}
-            return f"{repo:<8}  " + "  ".join(
+            return f"{name:<8}  " + "  ".join(
                 f"{verb}{markers[state]}" for verb, state in cells.items())
-        return f"{repo:<8}  " + "  ".join(
+        return f"{name:<8}  " + "  ".join(
             f"{verb} [{state}]" for verb, state in cells.items())
 
     def _draw(self):

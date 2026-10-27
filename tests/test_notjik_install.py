@@ -42,13 +42,13 @@ class NotjikInstallTests(unittest.TestCase):
         self.script = self.root / 'install.sh'
         self.script.write_text((ROOT / 'scripts/install-notjik.sh').read_text()
                                .replace('$HOME', '${NOTJIK_TEST_HOME}'))
-        (self.root / 'ensure-tooltjik.sh').write_text(
-            (ROOT / 'scripts/ensure-tooltjik.sh').read_text()
+        (self.root / 'ensure-tjikos.sh').write_text(
+            (ROOT / 'scripts/ensure-tjikos.sh').read_text()
             .replace('$HOME', '${NOTJIK_TEST_HOME}'))
         shutil.copy2(ROOT / 'scripts/cache-install.py', self.root / 'cache-install.py')
         self.log = self.root / 'calls'
         self.env = {**os.environ, 'NOTJIK_TEST_HOME': str(self.home),
-                    'TOOLTJIK_REPO': str(self.tools), 'CALL_LOG': str(self.log),
+                    'TJIKOS_REPO': str(self.tools), 'CALL_LOG': str(self.log),
                     'XDG_STATE_HOME': str(self.root / 'state'),
                     'PATH': str(commands) + os.pathsep + os.environ['PATH']}
 

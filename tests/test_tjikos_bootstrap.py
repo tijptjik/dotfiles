@@ -17,12 +17,12 @@ class BootstrapTests(unittest.TestCase):
                     'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
                     'GIT_AUTHOR_NAME': 'Test', 'GIT_AUTHOR_EMAIL': 'test@example.org',
                     'GIT_COMMITTER_NAME': 'Test', 'GIT_COMMITTER_EMAIL': 'test@example.org'}
-        self.env.pop('TOOLTJIK_REPO', None)
+        self.env.pop('TJIKOS_REPO', None)
         self.remote = self.home / 'remote'
         self.git('init', '-b', 'main', str(self.remote))
         (self.remote / 'README').write_text('old checkout\n')
         self.commit('initial')
-        self.checkout = self.home / 'code/tooltjik'
+        self.checkout = self.home / 'code/tjikos'
         self.checkout.parent.mkdir(parents=True)
         self.git('clone', str(self.remote), str(self.checkout))
         app = self.remote / 'apps/notjik/scripts/build.sh'
@@ -40,23 +40,26 @@ class BootstrapTests(unittest.TestCase):
 
     def bootstrap(self):
         return subprocess.run(['bash', '-euc',
-            'source "$1"; ensure_tooltjik apps/notjik/scripts/build.sh',
-            'bootstrap', str(ROOT / 'scripts/ensure-tooltjik.sh')],
+            'source "$1"; ensure_tjikos apps/notjik/scripts/build.sh',
+            'bootstrap', str(ROOT / 'scripts/ensure-tjikos.sh')],
             env=self.env, capture_output=True, text=True)
 
     def test_missing_checkout_is_cloned(self):
-        self.checkout.rename(self.home / 'old-checkout')
+        old = self.home / 'code/tooltjik'
+        self.checkout.rename(old)
+        self.env['TOOLTJIK_REPO'] = str(old)
         self.env.update({
             'GIT_CONFIG_COUNT': '1',
             'GIT_CONFIG_KEY_0': f'url.{self.remote}.insteadOf',
-            'GIT_CONFIG_VALUE_0': 'git@github.com:tijptjik/tooltjik.git',
+            'GIT_CONFIG_VALUE_0': 'git@github.com:tijptjik/tjikos.git',
         })
         result = self.bootstrap()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue((self.checkout / 'apps/notjik/scripts/build.sh').is_file())
         self.assertEqual(self.git('-C', str(self.checkout), 'config', '--get',
                                   'remote.origin.url'),
-                         'git@github.com:tijptjik/tooltjik.git')
+                         'git@github.com:tijptjik/tjikos.git')
+        self.assertFalse((old / 'apps/notjik/scripts/build.sh').exists())
 
     def test_complete_checkout_works_offline(self):
         self.git('-C', str(self.checkout), 'fetch', 'origin')
@@ -69,7 +72,7 @@ class BootstrapTests(unittest.TestCase):
         self.assertEqual(self.bootstrap().returncode, 0)
 
     def test_explicit_checkout_is_not_updated(self):
-        self.env['TOOLTJIK_REPO'] = str(self.checkout)
+        self.env['TJIKOS_REPO'] = str(self.checkout)
         result = self.bootstrap()
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('Update', result.stderr)
@@ -82,7 +85,7 @@ class BootstrapTests(unittest.TestCase):
         self.assertFalse((self.checkout / 'apps/notjik').exists())
 
     def test_legacy_checkout_requires_migration_without_cloning(self):
-        legacy = self.home / '.local/share/tooltjik'
+        legacy = self.home / '.local/share/tjikos'
         legacy.parent.mkdir(parents=True)
         self.checkout.rename(legacy)
         (legacy / 'README').write_text('personal edits\n')
@@ -93,13 +96,13 @@ class BootstrapTests(unittest.TestCase):
         self.assertEqual((legacy / 'README').read_text(), 'personal edits\n')
 
     def test_explicit_legacy_checkout_is_supported(self):
-        legacy = self.home / '.local/share/tooltjik'
+        legacy = self.home / '.local/share/tjikos'
         legacy.parent.mkdir(parents=True)
         self.checkout.rename(legacy)
         app = legacy / 'apps/notjik/scripts/build.sh'
         app.parent.mkdir(parents=True)
         app.touch()
-        self.env['TOOLTJIK_REPO'] = str(legacy)
+        self.env['TJIKOS_REPO'] = str(legacy)
         self.assertEqual(self.bootstrap().returncode, 0)
         self.assertFalse(self.checkout.exists())
 

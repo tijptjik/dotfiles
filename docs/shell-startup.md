@@ -17,7 +17,7 @@ linked worktrees, instead of spawning Git for every PATH entry.
 The renderer was renamed from `pony-rs` to `greetjik`.
 The automatic greeting runs `fortune | greetjik` once per interactive terminal.
 Each shell gets a newly selected fortune and pony. The Rust renderer is installed
-from `tooltjik/apps/greetjik` by `scripts/install-greetjik.sh` and the client-only
+from `tjikos/apps/greetjik` by `scripts/install-greetjik.sh` and the client-only
 `run_after_38-install-greetjik` hook. The hook provisions Cargo and fortune-mod
 when missing. `pony` is also available on demand; it prefers greetjik and can use
 a native ponysay installation as a manual fallback. Startup skips the greeting
@@ -27,7 +27,7 @@ The Rust app embeds the complete pinned upstream catalogue (474 regular and 103
 extra ponies, each with a TTY variant). It accepts quotes on stdin, preserves ANSI
 artwork, and handles Unicode text. Rendering needs no resident process, Python,
 network request, cache refresh, or filesystem artwork lookup. Artwork licensing
-and attribution remain in tooltjik/apps/greetjik/assets. Ghostty provisioning was
+and attribution remain in `tjikos/apps/greetjik/assets`. Ghostty provisioning was
 removed; Kitty remains the managed terminal.
 
 ## Validation and measurements
@@ -78,8 +78,8 @@ of **479.20 ms for Docker** and **1.27 ms for greetjik** (about 378x faster for 
 pipeline). This excludes fortune generation, Fish initialization, and display
 presentation; it does not claim a 378x whole-terminal improvement.
 
-The [greetjik guide](https://github.com/tijptjik/tooltjik/tree/main/apps/greetjik)
+The [greetjik guide](https://github.com/tijptjik/tjikos/tree/main/apps/greetjik)
 contains usage, artwork coverage and licensing, the reproducible benchmark
 runner, and raw timing records. Bun was upgraded locally to **1.4.4** and the
-tooltjik package-manager pin now matches it; frozen-lockfile installation and
+tjikOS package-manager pin now matches it; frozen-lockfile installation and
 the greetjik Turborepo build/check both pass.

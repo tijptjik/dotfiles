@@ -22,7 +22,7 @@ class RuntjikInstallTests(unittest.TestCase):
         self.script = scripts / 'install-runtjik.sh'
         self.script.write_text((ROOT / 'scripts/install-runtjik.sh').read_text()
                                .replace('$HOME', '${RUNTJIK_TEST_HOME}'))
-        (scripts / 'ensure-tooltjik.sh').write_text('tool_repo="$TOOLTJIK_REPO"\nensure_tooltjik() { :; }\n')
+        (scripts / 'ensure-tjikos.sh').write_text('tool_repo="$TJIKOS_REPO"\nensure_tjikos() { :; }\n')
         (scripts / 'cleanup-launcher-entries.py').write_text('')
         (scripts / 'cache-install.py').write_text(
             'import subprocess,sys\nraise SystemExit(subprocess.call(sys.argv[sys.argv.index("--")+1:]))\n')
@@ -44,7 +44,7 @@ class RuntjikInstallTests(unittest.TestCase):
             path.write_text('#!/bin/sh\n' + body)
             path.chmod(0o755)
         self.env = {**os.environ, 'RUNTJIK_TEST_HOME': str(self.home),
-                    'TOOLTJIK_REPO': str(root / 'tools'), 'CALL_LOG': str(self.log),
+                    'TJIKOS_REPO': str(root / 'tools'), 'CALL_LOG': str(self.log),
                     'PATH': str(bindir) + os.pathsep + os.environ['PATH']}
 
     def run_install(self, **env):
@@ -79,7 +79,7 @@ class RuntjikInstallTests(unittest.TestCase):
         plan = json.loads((ROOT / 'scripts/fleet_update/home-plan.json').read_text())
         task = next(row for row in plan if row['id'] == 'runtjik')
         self.assertIn('tjikup', task['needs'])
-        self.assertIn('tooltjik', task['resources'])
+        self.assertIn('tjikos', task['resources'])
         hook = (ROOT / 'home/.chezmoiscripts' / task['file']).read_text()
         self.assertNotIn('.isClient', hook)
         self.assertIn('FLEET_DEFER_HOOKS', hook)

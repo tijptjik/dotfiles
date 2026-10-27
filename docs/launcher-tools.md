@@ -8,7 +8,7 @@ to the active version. The combined Chez workflow includes this dependency;
 there is no separate home installer. Run `gitfetch` manually to view GitHub
 statistics or `gitfetch --local` for the current repository.
 
-Runtjik is the independent Quickshell launcher in Tooltjik's `apps/runtjik`.
+Runtjik is the independent Quickshell launcher in tjikOS's `apps/runtjik`.
 It takes visual inspiration from Hamr, with a Rose Pine/Rose Punk icon grid,
 an optional list, automatic desktop indexing and Fish-history command whitelisting,
 local launch statistics,
@@ -33,10 +33,10 @@ launch directly. Ctrl+L toggles grid/list.
 settings; for example, `/config ui.columns 6` saves TOML and applies it live.
 Open/close requests are serialized and wait for readiness; failed starts exit and
 report `~/.local/state/runtjik/launcher.log` instead of leaving an invisible instance.
-The TOML config is `~/.config/runtjik/runtjik.conf`; the Tooltjik app README
+The TOML config is `~/.config/runtjik/runtjik.conf`; the tjikOS app README
 documents every setting, history storage, commands, and the future ZenTabs API.
 
-`scripts/install-runtjik.sh` builds and installs the shared Tooltjik source.
+`scripts/install-runtjik.sh` builds and installs the shared tjikOS source.
 The regular fleet hook runs on every machine and verifies source and installed
 output fingerprints before skipping an unchanged installation. Headless hosts
 receive the command and files without starting a GUI. Client prerequisites are
@@ -49,7 +49,7 @@ tjikup --config scripts/runtjik-install.json
 ```
 
 This workflow does not commit, fetch or push repositories; it uses the existing
-Tooltjik checkout, so distribute/review the intended source revision first.
+tjikOS checkout, so distribute/review the intended source revision first.
 The installer preserves existing personal config, installs Runtjik before
 retiring old Hamr services, and requires `KillMode=process` before stopping an
 old GTK launcher so launched apps survive. Old config/state is retained.

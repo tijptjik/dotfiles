@@ -31,11 +31,11 @@ printf 'license' > "$HOME/.local/share/licenses/greetjik/LICENSE"
 ''')
             scripts = root / 'scripts'
             scripts.mkdir()
-            for name in ('install-greetjik.sh', 'ensure-tooltjik.sh', 'cache-install.py'):
+            for name in ('install-greetjik.sh', 'ensure-tjikos.sh', 'cache-install.py'):
                 shutil.copy2(ROOT / 'scripts' / name, scripts / name)
             log = root / 'calls'
             env = {**os.environ, 'HOME': str(root / 'home'),
-                   'TOOLTJIK_REPO': str(tools), 'CALL_LOG': str(log),
+                   'TJIKOS_REPO': str(tools), 'CALL_LOG': str(log),
                    'XDG_STATE_HOME': str(root / 'state')}
             def run_install():
                 return subprocess.run(['bash', str(scripts / 'install-greetjik.sh')],

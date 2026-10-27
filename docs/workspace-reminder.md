@@ -11,7 +11,7 @@ reserve space, or change the ordinary bars' visibility.
 
 `home/dot_config/hypr/workspace_reminder.lua` observes Hyprland's keyboard event
 hook (XKB keycodes 133/134) and uses a one-shot timer. `bindings.lua` starts it.
-Bartjik, maintained in `/home/io/code/tooltjik/apps/bartjik`, supplies the
+Bartjik, maintained in `/home/io/code/tjikos/apps/bartjik`, supplies the
 `show-workspaces` and `hide-workspaces` commands and reuses its existing workspace
 module rendering in `WorkspaceReminder.qml`. Install that Bartjik version before
 applying these bindings. Reloading Hyprland clears an outstanding reminder.

@@ -15,12 +15,13 @@ class RepositoryProgressTests(unittest.TestCase):
             panel = RepositoryProgress(stream=io.StringIO(), live=True)
             panel.states["dotjik"] = {"PULL": "changed", "PUSH": "unchanged"}
             self.assertEqual(panel.line("dotjik"), "dotjik    PULL↑  PUSH✓")
-            self.assertLess(len(panel.line("tooltjik")), 24)
+            self.assertLess(len(panel.line("tjikos")), 24)
+            self.assertTrue(panel.line("tjikos").startswith("tjikOS"))
 
     def test_colors_for_each_state_and_fixed_order(self):
         with patch.dict(os.environ, {"TJIKUP_COLOR": "1"}):
             panel = RepositoryProgress(stream=io.StringIO(), live=False)
-            self.assertEqual(list(panel.states), ["dotjik", "systjik", "tooltjik"])
+            self.assertEqual(list(panel.states), ["dotjik", "systjik", "tjikos"])
             for state, code in (("pending", "90"), ("running", "1"),
                                 ("changed", "94;1"), ("unchanged", "36"),
                                 ("failed", "31;1")):

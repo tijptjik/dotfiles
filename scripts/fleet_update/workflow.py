@@ -85,7 +85,7 @@ def workflow(repo, *, dry_run=False):
         repository_steps = {
             "pull-home": ("dotjik", "PULL"), "push-home": ("dotjik", "PUSH"),
             "pull-system": ("systjik", "PULL"), "push-system": ("systjik", "PUSH"),
-            "pull-tooltjik": ("tooltjik", "PULL"), "dirty": ("dotjik", "PUSH"),
+            "pull-tjikos": ("tjikos", "PULL"), "dirty": ("dotjik", "PUSH"),
         }
         diagnostics = []
 
@@ -135,14 +135,14 @@ def workflow(repo, *, dry_run=False):
                 if state == "done":
                     outcome = summary(output) if output else None
                     state = "unchanged" if name in skipped else "changed"
-                    if name == "pull-tooltjik" and outcome:
+                    if name == "pull-tjikos" and outcome:
                         state = ("changed" if outcome.verb == "PULL" else
                                  "blocked" if outcome.verb == "WARN" or "not cloned" in output else "unchanged")
                         if outcome.warnings:
                             with progress.output():
                                 print(output, end="" if output.endswith("\n") else "\n", flush=True)
-                    # Tooltjik's command already records its detailed outcome.
-                    if name != "pull-tooltjik":
+                    # tjikOS's command already records its detailed outcome.
+                    if name != "pull-tjikos":
                         runtime.record("SKIP" if state == "unchanged" else operation,
                                        "✓", label, state)
                 elif state == "failed":

@@ -107,7 +107,7 @@ if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
             "TRACE": str(self.trace),
             "SYSTEM_TRACE": str(self.root / "system-hooks.log"),
         }
-        self.env.pop('TOOLTJIK_REPO', None)
+        self.env.pop('TJIKOS_REPO', None)
         self.add_synthetic_hooks()
         # Root command boundary is stubbed; no test can invoke real sudo.
         sudo = self.bin / 'sudo'
@@ -196,7 +196,7 @@ else:
         self.assertNotIn("DAG     ", result.stdout)
         self.assertIn("dotjik    PULL [unchanged]  PUSH [unchanged]", result.stdout)
         self.assertIn("systjik   PULL [unchanged]  PUSH [unchanged]", result.stdout)
-        self.assertIn("tooltjik  PULL [blocked]  PUSH [disabled]", result.stdout)
+        self.assertIn("tjikOS    PULL [blocked]  PUSH [disabled]", result.stdout)
         events = self.events()
         commit = next(
             row for row in events if row[0] == "git" and row[2][0] == "commit"
@@ -231,16 +231,16 @@ else:
                 self.assertFalse(any(row[0] == "git" and row[1] == checkout
                                      and row[2][0] in {"pull", "push"} for row in self.events()))
 
-    def test_tooltjik_failure_blocks_all_apply(self):
+    def test_tjikos_failure_blocks_all_apply(self):
         path = self.repo / 'scripts/fleet_update/workflow.json'
         plan = json.loads(path.read_text())
         for step in plan:
-            if step['id'] == 'pull-tooltjik':
+            if step['id'] == 'pull-tjikos':
                 step['command'] = [sys.executable, '-c', 'raise SystemExit(9)']
         path.write_text(json.dumps(plan))
         result = self.run_fleet()
         self.assertEqual(result.returncode, 1)
-        self.assertIn('Tooltjik', result.stdout)
+        self.assertIn('tjikOS', result.stdout)
         self.assertFalse(any(row[0] in {'chezmoi', 'chezetc'} for row in self.events()))
 
     def test_pull_conflict_is_grouped_and_full_output_is_saved(self):

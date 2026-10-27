@@ -44,12 +44,12 @@ class BartjikInstallTests(unittest.TestCase):
         self.script = self.root / 'install.sh'
         self.script.write_text((ROOT / 'scripts/install-bartjik.sh').read_text()
                                .replace('$HOME', '${BARTJIK_TEST_HOME}'))
-        (self.root / 'ensure-tooltjik.sh').write_text(
-            (ROOT / 'scripts/ensure-tooltjik.sh').read_text()
+        (self.root / 'ensure-tjikos.sh').write_text(
+            (ROOT / 'scripts/ensure-tjikos.sh').read_text()
             .replace('$HOME', '${BARTJIK_TEST_HOME}'))
         self.log = self.root / 'calls'
         self.env = {**os.environ, 'BARTJIK_TEST_HOME': str(self.home),
-                    'TOOLTJIK_REPO': str(self.tools), 'CALL_LOG': str(self.log),
+                    'TJIKOS_REPO': str(self.tools), 'CALL_LOG': str(self.log),
                     'XDG_STATE_HOME': str(self.root / 'state'),
                     'PATH': str(commands) + os.pathsep + os.environ['PATH']}
 

@@ -9,8 +9,8 @@ if [[ ! -f "$HOME/.local/share/chezetc/scripts/tjikup-apply.py" ]]; then
     exit 1
 fi
 
-source "$repo_dir/scripts/ensure-tooltjik.sh"
-ensure_tooltjik apps/tjikup/scripts/install.sh
+source "$repo_dir/scripts/ensure-tjikos.sh"
+ensure_tjikos apps/tjikup/scripts/install.sh
 
 # Reject stale checkouts before replacing a working executable or cache record.
 PYTHONPATH="$tool_repo/apps/tjikup/src" python3 -B "$repo_dir/scripts/tjikup_dependency.py"

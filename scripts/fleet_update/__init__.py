@@ -536,7 +536,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "action",
-        choices=["check", "capture", "commit", "dirty", "pull", "push", "pull-tooltjik", "apply", "workflow"],
+        choices=["check", "capture", "commit", "dirty", "pull", "push", "pull-tjikos", "apply", "workflow"],
     )
     parser.add_argument(
         "--repo", type=Path, default=Path(__file__).resolve().parents[2]
@@ -544,10 +544,10 @@ def main():
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     repo = args.repo.resolve()
-    if args.dry_run and args.action not in {"capture", "workflow", "pull-tooltjik"}:
-        parser.error("--dry-run is supported only by capture, workflow and pull-tooltjik")
-    if args.action == "pull-tooltjik":
-        from .tooltjik_sync import pull
+    if args.dry_run and args.action not in {"capture", "workflow", "pull-tjikos"}:
+        parser.error("--dry-run is supported only by capture, workflow and pull-tjikos")
+    if args.action == "pull-tjikos":
+        from .tjikos_sync import pull
         return pull(dry_run=args.dry_run)
     if args.action == "workflow":
         from .workflow import workflow

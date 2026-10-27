@@ -15,7 +15,7 @@ def check_runtime():
         print(
             "fleet-update: the Tjikup runner is missing or outdated "
             f"({error.name} is unavailable).\n"
-            "Update your Tooltjik checkout (TOOLTJIK_REPO or ~/code/tooltjik), "
+            "Update your tjikOS checkout (TJIKOS_REPO or ~/code/tjikos), "
             "then reinstall the runner:\n"
             f"  bash {shlex.quote(str(installer))}\n"
             "Updating dotfiles alone does not update the installed runner. "

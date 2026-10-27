@@ -2,8 +2,8 @@
 # Provision the desktop notification app and its source checkout.
 set -euo pipefail
 
-source "$(dirname -- "${BASH_SOURCE[0]}")/ensure-tooltjik.sh"
-ensure_tooltjik apps/notjik/scripts/build.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/ensure-tjikos.sh"
+ensure_tjikos apps/notjik/scripts/build.sh
 command -v quickshell >/dev/null
 command -v python3 >/dev/null
 python3 "$(dirname -- "${BASH_SOURCE[0]}")/cache-install.py" notjik \

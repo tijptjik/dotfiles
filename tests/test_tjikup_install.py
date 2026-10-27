@@ -23,7 +23,7 @@ class InstallTests(unittest.TestCase):
         self.fleet = self.home / '.local/share/chezmoi'
         (self.fleet / 'scripts').mkdir(parents=True)
         shutil.copy2(REPO / 'scripts/install-tjikup.sh', self.fleet / 'scripts')
-        shutil.copy2(REPO / 'scripts/ensure-tooltjik.sh', self.fleet / 'scripts')
+        shutil.copy2(REPO / 'scripts/ensure-tjikos.sh', self.fleet / 'scripts')
         shutil.copy2(REPO / 'scripts/cache-install.py', self.fleet / 'scripts')
         shutil.copy2(REPO / 'scripts/tjikup_dependency.py', self.fleet / 'scripts')
         (self.fleet / 'tjikup.json').write_text(
@@ -43,7 +43,7 @@ class InstallTests(unittest.TestCase):
         cache.chmod(0o755)
         self.env = {**os.environ, 'HOME': str(self.home),
                     'PATH': str(self.bin) + os.pathsep + os.environ['PATH'],
-                    'TOOLTJIK_REPO': str(self.tools), 'TJIKUP_NOTIFY': '0'}
+                    'TJIKOS_REPO': str(self.tools), 'TJIKUP_NOTIFY': '0'}
         for name in ('XDG_CONFIG_HOME', 'XDG_DATA_HOME', 'XDG_STATE_HOME', 'TJIKUP_CONFIG'):
             self.env.pop(name, None)
 
@@ -87,17 +87,17 @@ class InstallTests(unittest.TestCase):
         self.assertEqual(os.readlink(link), rendered)
 
     def test_absent_checkout_is_cloned_before_install(self):
-        self.env.pop('TOOLTJIK_REPO')
+        self.env.pop('TJIKOS_REPO')
         clone = self.bin / 'git'
         clone.write_text('#!/bin/sh\nset -eu\ntest "$1" = clone\n'
                          'test "$2" = --progress\n'
-                         'test "$3" = git@github.com:tijptjik/tooltjik.git\n'
+                         'test "$3" = git@github.com:tijptjik/tjikos.git\n'
                          'cp -R "$TEST_TOOL_SOURCE" "$4"\n')
         clone.chmod(0o755)
         self.env['TEST_TOOL_SOURCE'] = str(self.tools)
         result = self.install()
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertTrue((self.home / 'code/tooltjik/.git').is_dir())
+        self.assertTrue((self.home / 'code/tjikos/.git').is_dir())
         self.check_installed()
 
     def test_missing_system_adapter_leaves_command_untouched(self):
@@ -117,7 +117,7 @@ class InstallTests(unittest.TestCase):
         result = self.install()
         self.assertEqual(result.returncode, 1, result.stderr)
         self.assertIn('runner is missing or outdated', result.stderr)
-        self.assertIn('Update your Tooltjik checkout', result.stderr)
+        self.assertIn('Update your tjikOS checkout', result.stderr)
         self.assertNotIn('Traceback', result.stderr)
         self.assertEqual((executable.read_bytes(), record.read_bytes()), before)
 

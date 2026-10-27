@@ -1,24 +1,24 @@
 # Desktop notifications
 
-[Notjik](https://github.com/tijptjik/tooltjik/tree/main/apps/notjik) is the
+[Notjik](https://github.com/tijptjik/tjikos/tree/main/apps/notjik) is the
 Quickshell notification server. Its source, tests and rose-punk demo live in the
-tooltjik monorepo under `apps/notjik`.
+tjikOS monorepo under `apps/notjik`.
 
 On desktop clients (`fi` and `li`), `chezmoi apply` builds and installs Notjik
-from a shared tooltjik checkout. Both installers bootstrap it independently when
-absent, using `~/code/tooltjik` on every host. Set `TOOLTJIK_REPO` to select
+from a shared tjikOS checkout. Both installers bootstrap it independently when
+absent, using `~/code/tjikos` on every host. Set `TJIKOS_REPO` to select
 another checkout. Existing checkouts are never pulled by installers; update
-them before applying. Older `~/.local/share/tooltjik` checkouts must be moved
+them before applying. Older `~/.local/share/tjikos` checkouts must be moved
 first; see the migration instructions in [Tjikup](tjikup.md).
 
 Notjik is enabled for graphical sessions and started when a
 session is active; an already running instance is not restarted, preserving
 in-flight replies and recordings. Server `si` skips this desktop hook and config.
 
-For a manual installation from the tooltjik checkout:
+For a manual installation from the tjikOS checkout:
 
 ```sh
-bun run --filter @tooltjik/notjik build
+bun run --filter @tjikos/notjik build
 bash scripts/install.sh notjik
 systemctl --user daemon-reload
 systemctl --user enable --now notjik.service
@@ -54,7 +54,7 @@ portraits for `normal`, 12 red-alert portraits for `critical`, and 12 dreaming
 portraits for `low`. The draw stays stable during updates and in history; changing
 urgency selects from the new set. Older history gets a deterministic choice from
 the appropriate set without rewriting archived records. Artwork and generation
-prompts live in tooltjik's `apps/notjik/qml/icons/robots/manifest.json`.
+prompts live in tjikOS's `apps/notjik/qml/icons/robots/manifest.json`.
 
 Action sections collapse completely when idle. A thicker middle 30% of the
 bottom border, in the same dim border colour, marks cards with interactions. Hover or keyboard selection slides
@@ -119,7 +119,7 @@ Telegram window (revealing its workspace), and dismisses the notification.
 - `notjikctl demo robots --solo --interval 2s` previews the robot artwork.
 - `notjikctl demo clear --solo` dismisses the demo cards.
 - Recording and comparison demos are documented in
-  [Tooltjik's demo guide](https://github.com/tijptjik/tooltjik/blob/main/apps/notjik/docs/comparison.md).
+  [tjikOS's demo guide](https://github.com/tijptjik/tjikos/blob/main/apps/notjik/docs/comparison.md).
 - `notjikctl logs` reads the persistent event history.
 - `notjikctl status` reports pause and delivery state; `notjikctl resume` releases queued notices.
 
@@ -171,7 +171,7 @@ not prevent the scheduled job from running. The scheduler implementation lives i
 `saanseoi/apps/harbour-cli/src/lib/commands/schedule.ts`; the installed timers run
 that source directly.
 
-The built-in [`results-table` card](https://github.com/tijptjik/tooltjik/blob/main/apps/notjik/docs/cards.md#results-tables)
+The built-in [`results-table` card](https://github.com/tijptjik/tjikos/blob/main/apps/notjik/docs/cards.md#results-tables)
 is supplied by the Notjik package; no custom component registration is needed.
 Both scheduled jobs send this layout. Daily updates list published source releases
 as secondary rows beneath the publication total. Tiles refreshes list each region
@@ -210,7 +210,7 @@ with played peaks highlighted; it is available before audio download completes.
 Messages without usable waveform data retain a plain seek bar. The optional TDLib bridge uses a separate
 Telegram login and supplies attachments that Telegram Desktop's native
 notification payload does not include. Its source, setup script, user service,
-and tests live in `tooltjik/apps/notjik`.
+and tests live in `tjikos/apps/notjik`.
 
 After installing the updated Notjik build:
 
@@ -304,7 +304,7 @@ changes. The original body and Telegram controls remain available.
 
 Add rules to `home/dot_config/notjik/config.json.tmpl`. Each rule specifies `id`,
 `match`, a full-body `pattern`, numbered `captures`, a target `card`, and labeled
-`fields`. Tooltjik's `apps/notjik/examples/handlers.json` is the starting example;
+`fields`. tjikOS's `apps/notjik/examples/handlers.json` is the starting example;
 its README documents the registry and custom QML renderers. Shared rendering
-code stays in Tooltjik; personal source registrations stay in Chezmoi. Install a
-Tooltjik build with handler support before applying this configuration.
+code stays in tjikOS; personal source registrations stay in Chezmoi. Install a
+tjikOS build with handler support before applying this configuration.

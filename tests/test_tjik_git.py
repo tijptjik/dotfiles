@@ -53,7 +53,7 @@ class FleetGitTests(unittest.TestCase):
         self.env = patch.dict('os.environ', {'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_CONFIG_NOSYSTEM': '1'})
         self.env.start()
         self.addCleanup(self.env.stop)
-        for name in ('dotjik', 'systjik', 'tooltjik'):
+        for name in ('dotjik', 'systjik', 'tjikos'):
             remote = self.root / (name + '.git')
             self.run_git('init', '--bare', '--initial-branch=main', str(remote))
             repo = self.root / name
@@ -92,8 +92,7 @@ class FleetGitTests(unittest.TestCase):
 
         with patch.dict('os.environ', {'DOTJIK_REPO': '',
                                       'SYSTJIK_REPO': str(self.repos[1][1]),
-                                      'TJIKOS_REPO': '',
-                                      'TOOLTJIK_REPO': str(self.repos[2][1])}), \
+                                      'TJIKOS_REPO': str(self.repos[2][1])}), \
                 patch.object(tjik_git.subprocess, 'run', side_effect=run):
             self.assertEqual([repo for _, repo in tjik_git.repositories()],
                              [repo for _, repo in self.repos])
@@ -101,28 +100,27 @@ class FleetGitTests(unittest.TestCase):
     def test_tjikos_defaults_to_code_even_before_checkout_exists(self):
         with patch.dict('os.environ', {'DOTJIK_REPO': str(self.repos[0][1]),
                                       'SYSTJIK_REPO': str(self.repos[1][1]),
-                                      'TJIKOS_REPO': '',
-                                      'TOOLTJIK_REPO': ''}), \
+                                      'TJIKOS_REPO': ''}), \
                 patch.object(tjik_git.Path, 'home', return_value=self.root):
             self.assertEqual(tjik_git.repositories()[-1],
-                             ('TjikOS', self.root / 'code/tjikos'))
+                             ('tjikOS', self.root / 'code/tjikos'))
 
-    def test_tjikos_override_takes_precedence_over_legacy_override(self):
+    def test_tjikos_override_selects_checkout(self):
         selected = self.root / 'custom-tjikos'
         with patch.dict('os.environ', {'DOTJIK_REPO': str(self.repos[0][1]),
                                       'TJIKOS_REPO': str(selected),
                                       'TOOLTJIK_REPO': str(self.repos[2][1])}):
-            self.assertEqual(tjik_git.repositories()[-1], ('TjikOS', selected))
+            self.assertEqual(tjik_git.repositories()[-1], ('tjikOS', selected))
 
     def test_old_tooltjik_checkouts_do_not_change_tjikos_default(self):
         (self.root / '.local/share/tooltjik').mkdir(parents=True)
         (self.root / 'code/tooltjik').mkdir(parents=True)
         with patch.dict('os.environ', {'DOTJIK_REPO': str(self.repos[0][1]),
-                                      'TJIKOS_REPO': '',
-                                      'TOOLTJIK_REPO': ''}), \
+                                      'TOOLTJIK_REPO': str(self.root / 'code/tooltjik'),
+                                      'TJIKOS_REPO': ''}), \
                 patch.object(tjik_git.Path, 'home', return_value=self.root):
             self.assertEqual(tjik_git.repositories()[-1],
-                             ('TjikOS', self.root / 'code/tjikos'))
+                             ('tjikOS', self.root / 'code/tjikos'))
 
     def test_push_only_leaves_uncommitted_changes(self):
         for _, repo in self.repos:

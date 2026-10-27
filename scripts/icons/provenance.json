@@ -216,7 +216,7 @@
     "design_note": "Deeper periwinkle dashed perimeter and blue bubble for light and plum surfaces; original silhouette and dash geometry retained."
   },
   "telegram": {
-    "source": "/home/io/code/tooltjik/apps/bartjik/qml/icons/tray/telegram-outline.svg",
+    "source": "/home/io/code/tjikos/apps/bartjik/qml/icons/tray/telegram-outline.svg",
     "license": "Original artwork",
     "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
     "material_revision": 13,

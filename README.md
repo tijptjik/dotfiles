@@ -47,7 +47,7 @@ Readmes are available in `/docs/{topic}.md`
 - [`matugen`](https://github.com/InioX/matugen)
 - [`micro`](https://micro-editor.github.io/)
 - [`mullvad`](https://mullvad.net/)
-- [`notjik`](https://github.com/tijptjik/tooltjik/tree/main/apps/notjik) — [desktop notification setup](docs/notjik.md)
+- [`notjik`](https://github.com/tijptjik/tjikos/tree/main/apps/notjik) — [desktop notification setup](docs/notjik.md)
 - [`python`](https://www.python.org/)
 - [`quickshell`](https://github.com/quickshell-mirror/quickshell)
 - [`rclone`](https://github.com/rclone/rclone)
@@ -60,7 +60,7 @@ Readmes are available in `/docs/{topic}.md`
 - [`transmission`](https://github.com/transmission/transmission)
 - [`uv`](https://github.com/astral-sh/uv)
 - [`vivid`](https://github.com/sharkdp/vivid)
-- [`bartjik`](https://github.com/tijptjik/tooltjik/tree/main/apps/bartjik)
+- [`bartjik`](https://github.com/tijptjik/tjikos/tree/main/apps/bartjik)
 - [`zapzap`](https://github.com/rafatosta/zapzap)
 - [`zed`](https://zed.dev/)
 
@@ -127,7 +127,7 @@ tjikup --check
 tjikup --dry-run
 ```
 
-The home apply hook clones tooltjik if needed, installs its self-contained
+The home apply hook clones tjikOS if needed, installs its self-contained
 `tjikup` executable and links the fleet workflow. Python 3.10+ is sufficient for
 the runner; Bun and Go are not needed to build it. Open a new Fish shell after
 setup to load the managed PATH and fleet shortcuts. Later updates use `tjikup`.
@@ -170,7 +170,7 @@ Before making any changes, it is recommended to pull the latest version of the d
 
 #### `tjikup`
 
-`tjikup` is a configurable runner maintained in [tooltjik](https://github.com/tijptjik/tooltjik/tree/main/apps/tjikup). This repository supplies [the fleet workflow](tjikup.json): capture supported live settings, commit those templates, pull/push both configuration repos, then apply home and system configuration sequentially. Both repos are required. See [ownership, migration and validation](docs/tjikup.md).
+`tjikup` is a configurable runner maintained in [tjikOS](https://github.com/tijptjik/tjikos/tree/main/apps/tjikup). This repository supplies [the fleet workflow](tjikup.json): capture supported live settings, commit those templates, pull/push both configuration repos, then apply home and system configuration sequentially. Both repos are required. See [ownership, migration and validation](docs/tjikup.md).
 
 Status rows use the terminal width, align notes on the right, and shorten long text with an ellipsis. Full messages remain in the run report. Child apply commands inherit the terminal width; redirected output defaults to 80 columns.
 

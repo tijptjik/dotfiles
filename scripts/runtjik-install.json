@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "banner": {"title": "Runtjik", "url": "https://github.com/tijptjik/tooltjik/tree/main/apps/runtjik"},
+  "banner": {"title": "Runtjik", "url": "https://github.com/tijptjik/tjikos/tree/main/apps/runtjik"},
   "steps": [{
     "id": "runtjik",
     "label": "Install Runtjik",

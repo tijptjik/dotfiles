@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Provision Bartjik before retiring the previous desktop bar.
 set -euo pipefail
-source "$(dirname -- "${BASH_SOURCE[0]}")/ensure-tooltjik.sh"
-ensure_tooltjik apps/bartjik/scripts/build.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/ensure-tjikos.sh"
+ensure_tjikos apps/bartjik/scripts/build.sh
 command -v quickshell >/dev/null
 command -v python3 >/dev/null
 (cd "$tool_repo/apps/bartjik" && bash scripts/build.sh)

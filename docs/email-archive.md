@@ -1,11 +1,11 @@
 # Email archives: mailtjik
 
-The email application now lives in the independent **tooltjik** Turborepo at
-`/home/io/code/tooltjik`, under `apps/mailtjik/`.
+The email application now lives in the independent **tjikOS** Turborepo at
+`/home/io/code/tjikos`, under `apps/mailtjik/`.
 
-- [Application guide](https://github.com/tijptjik/tooltjik/blob/main/apps/mailtjik/README.md): installation,
+- [Application guide](https://github.com/tijptjik/tjikos/blob/main/apps/mailtjik/README.md): installation,
   archive preparation, live capture, searching, reading and recovery.
-- [VHS demo](https://github.com/tijptjik/tooltjik/blob/main/apps/mailtjik/docs/demo.gif): synthetic mail only.
+- [VHS demo](https://github.com/tijptjik/tjikos/blob/main/apps/mailtjik/docs/demo.gif): synthetic mail only.
 
 Run `mailtjik read` or `mailtjik archive`; `mailtjik` opens the mode chooser.
 Build and install from that repository with `bun install` and

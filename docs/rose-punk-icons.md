@@ -63,7 +63,7 @@ python3 scripts/icons/audit.py             # report local desktop coverage
 
 Absolute icon paths can bypass theme lookup. Keep original vendor/PWA icons as
 fallbacks and fix individual missing icons rather than copying themed artwork
-into hicolor. Tjikup requests `tjikup-notification` by name; Tooltjik's installer
+into hicolor. Tjikup requests `tjikup-notification` by name; tjikOS's installer
 owns its original fallback PNG. The icon build generates only the fleet sprite
 JSON, not a standalone managed `tjikup.png`.
 

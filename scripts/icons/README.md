@@ -65,7 +65,7 @@ while preserving other theme choices. `choose.py` explicitly selects a theme;
 `check-theme.py` reports host-specific lookup problems; `audit.py` reports local
 coverage. These commands are separate from the offline release gate.
 
-The standalone Tjikup notification fallback belongs to Tooltjik's installer;
+The standalone Tjikup notification fallback belongs to tjikOS's installer;
 the icon build never writes `home/dot_local/share/icons/tjikup.png`.
 
 ## Optional reviews and historical studies

@@ -12,17 +12,17 @@ from unittest.mock import patch
 
 import tjikup_support
 from fleet_update.core import UpdateError
-from fleet_update.tooltjik_sync import pull, checkout
+from fleet_update.tjikos_sync import pull, checkout
 
 
-class TooltjikSyncTests(unittest.TestCase):
+class TjikosSyncTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
-        self.repo = self.root / 'code/tooltjik'
+        self.repo = self.root / 'code/tjikos'
         self.remote = self.root / 'remote'
-        env = {'HOME': str(self.root), 'TOOLTJIK_REPO': '', 'TJIKUP_COLOR': '0', 'TJIKUP_COLUMNS': '160',
+        env = {'HOME': str(self.root), 'TJIKOS_REPO': '', 'TJIKUP_COLOR': '0', 'TJIKUP_COLUMNS': '160',
                'TJIKUP_REPORT_FILE': str(self.root / 'report'),
                'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
                'GIT_AUTHOR_NAME': 'Test', 'GIT_AUTHOR_EMAIL': 'test@example.org',
@@ -52,10 +52,10 @@ class TooltjikSyncTests(unittest.TestCase):
     def test_fast_forward_then_unchanged(self):
         self.update_remote()
         output = self.invoke()
-        self.assertIn('PULL    ✓ Tooltjik', output)
+        self.assertIn('PULL    ✓ tjikOS', output)
         self.assertIn('1 commit · fast-forward', output)
         self.assertEqual((self.repo / 'file').read_text(), 'upstream\n')
-        self.assertIn('SKIP    ✓ Tooltjik', self.invoke())
+        self.assertIn('SKIP    ✓ tjikOS', self.invoke())
 
     def test_dirty_staged_and_untracked_work_fail_without_fetching(self):
         for state in ('unstaged', 'staged', 'untracked'):
@@ -65,7 +65,7 @@ class TooltjikSyncTests(unittest.TestCase):
                 if state == 'staged':
                     self.git('-C', str(self.repo), 'add', 'file')
                 before = self.git('-C', str(self.repo), 'status', '--porcelain')
-                with self.assertRaisesRegex(UpdateError, 'Dirty Tooltjik'):
+                with self.assertRaisesRegex(UpdateError, 'Dirty tjikOS'):
                     self.invoke()
                 self.assertEqual(self.git('-C', str(self.repo), 'status', '--porcelain'), before)
                 self.assertEqual(path.read_text(), 'personal work\n')
@@ -113,7 +113,7 @@ class TooltjikSyncTests(unittest.TestCase):
         self.git('-C', str(self.repo), 'worktree', 'add', '-b', 'work', str(worktree))
         self.git('-C', str(worktree), 'branch', '--set-upstream-to', 'origin/main')
         self.update_remote()
-        with patch.dict(os.environ, {'TOOLTJIK_REPO': str(worktree)}):
+        with patch.dict(os.environ, {'TJIKOS_REPO': str(worktree)}):
             self.assertIn('PULL', self.invoke())
         self.assertEqual((worktree / 'file').read_text(), 'upstream\n')
         self.assertEqual((self.repo / 'file').read_text(), 'original\n')
@@ -131,15 +131,24 @@ class TooltjikSyncTests(unittest.TestCase):
         self.repo.rename(self.root / 'saved')
         self.assertIn('installer will bootstrap', self.invoke())
         self.assertFalse(self.repo.exists())
-        legacy = self.root / '.local/share/tooltjik'
+        legacy = self.root / '.local/share/tjikos'
         legacy.parent.mkdir(parents=True)
         (self.root / 'saved').rename(legacy)
         with self.assertRaisesRegex(UpdateError, 'Move'):
             checkout()
 
-    def test_apply_depends_on_tooltjik_without_committing_or_pushing_it(self):
+    def test_retired_checkout_and_override_are_not_selected(self):
+        old = self.root / 'code/tooltjik'
+        self.repo.rename(old)
+        with patch.dict(os.environ, {'TOOLTJIK_REPO': str(old)}):
+            self.assertEqual(checkout(), self.repo)
+            self.assertIn('installer will bootstrap', self.invoke())
+        self.assertFalse(self.repo.exists())
+        self.assertFalse((old / '.git/FETCH_HEAD').exists())
+
+    def test_apply_depends_on_tjikos_without_committing_or_pushing_it(self):
         plan = json.loads((Path(__file__).resolve().parents[1] / 'scripts/fleet_update/workflow.json').read_text())
         steps = {step['id']: step for step in plan}
-        self.assertIn('pull-tooltjik', steps['apply-fleet']['needs'])
-        self.assertEqual(steps['pull-tooltjik']['needs'], ['commit'])
-        self.assertEqual([step['id'] for step in plan if 'tooltjik' in step['id']], ['pull-tooltjik'])
+        self.assertIn('pull-tjikos', steps['apply-fleet']['needs'])
+        self.assertEqual(steps['pull-tjikos']['needs'], ['commit'])
+        self.assertEqual([step['id'] for step in plan if 'tjikos' in step['id']], ['pull-tjikos'])

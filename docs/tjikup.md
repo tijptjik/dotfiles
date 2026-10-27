@@ -1,6 +1,6 @@
 # Fleet updates with tjikup
 
-The reusable runner lives in [tooltjik/apps/tjikup](https://github.com/tijptjik/tooltjik/tree/main/apps/tjikup).
+The reusable runner lives in [tjikos/apps/tjikup](https://github.com/tijptjik/tjikos/tree/main/apps/tjikup).
 This repository owns [tjikup.json](../tjikup.json), the order of fleet operations,
 and [scripts/fleet_update](../scripts/fleet_update), which captures our live
 application settings and applies home configuration. Chezetc owns
@@ -14,10 +14,10 @@ The fleet uses a bounded DAG scheduler in `scripts/fleet_update/dag.py`.
 [workflow.json](../scripts/fleet_update/workflow.json) declares repository and apply
 dependencies; [home-plan.json](../scripts/fleet_update/home-plan.json) declares home
 hook dependencies and shared resources. Ready tasks start as soon as their
-prerequisites succeed. System pull can overlap home capture/commit; Tooltjik and
+prerequisites succeed. System pull can overlap home capture/commit; tjikOS and
 home pulls can run concurrently after the capture commit. Each configuration-repository
 push can start after its own pull. Both pushes and
-the Tooltjik update must finish successfully before apply starts. The apply stage then uses one graph
+the tjikOS update must finish successfully before apply starts. The apply stage then uses one graph
 for home and system hooks, with shared resource locks and one worker limit.
 Chezmoi and Chezetc retain ownership of managed files and once/onchange state.
 
@@ -31,12 +31,12 @@ individual Git commands also retain their repository locks. Failed tasks stop ne
 work, drain running tasks, and block pending dependents. A configuration-refresh
 warning prevents subsequent apply stages.
 
-The **Fleet repositories** stage also checks Tooltjik at `$TOOLTJIK_REPO`, or
-`~/code/tooltjik` by default. Clean checkouts fetch their configured upstream and
+The **Fleet repositories** stage also checks tjikOS at `$TJIKOS_REPO`, or
+`~/code/tjikos` by default. Clean checkouts fetch their configured upstream and
 advance only by fast-forward. Dirty checkouts fail and block apply. Detached,
 untracked-branch, locally ahead, or diverged checkouts produce a warning and
 retain the local source for installation.
-Tooltjik is never automatically committed, stashed, rebased, reset, or pushed.
+tjikOS is never automatically committed, stashed, rebased, reset, or pushed.
 Fetch failures, busy checkouts, and unfinished Git operations block apply.
 A missing checkout is left to the existing installer bootstrap; legacy checkout
 migration rules still apply. Installers run after this stage and retain their
@@ -52,7 +52,7 @@ stale associations.
 Available on `fi`, `li`, and `si`, from any working directory and shell:
 
 ```sh
-tjix                 # push committed changes in Dotjik, Systjik, and TjikOS
+tjix                 # push committed changes in Dotjik, Systjik, and tjikOS
 tjixx                # pull all three with rebase, then push all three
 tjix --dry-run       # show repositories and commands, without network or writes
 tjixx --dry-run      # also check that all three working trees are clean
@@ -103,12 +103,10 @@ the planned continuation. Other unfinished Git operations still require manual
 completion. Ordinary detached HEAD checkouts are not pushed.
 
 Dotjik is located via `chezmoi source-path` and its Git root; Systjik defaults to
-`~/.local/share/chezetc`. Both Git-only shortcuts now target TjikOS at
-`~/code/tjikos` (`tijptjik/tjikos`), replacing the Tooltjik checkout. Set
-`TJIKOS_REPO` to select another checkout; `TOOLTJIK_REPO` remains a fallback
-override for compatibility. Existing Tooltjik checkout directories are not
-selected automatically. The full `tjikup` workflow and installers below still
-use their Tooltjik configuration.
+`~/.local/share/chezetc`. Both Git-only shortcuts, the full `tjikup` workflow,
+and app installers target tjikOS at `~/code/tjikos` (`tijptjik/tjikos`). Set
+`TJIKOS_REPO` to select another checkout. The retired `TOOLTJIK_REPO` override
+and existing Tooltjik directories are not selected automatically.
 `DOTJIK_REPO` and `SYSTJIK_REPO` override the other repository paths. Missing
 checkouts fail clearly rather than being cloned. The shortcuts share Tjikup's
 workflow and repository locks and report a busy checkout instead of racing it.
@@ -139,7 +137,7 @@ and completion rows; `TJIKUP_PROGRESS=0` disables periodic updates. Preparation
 rows do not add duplicate stages to the final outcome report.
 
 The combined home/system graph defaults to four workers (`FLEET_JOBS=1` serializes
-it for diagnosis). Cargo, uv, Tooltjik checkout/install operations, DNF, Flatpak,
+it for diagnosis). Cargo, uv, tjikOS checkout/install operations, DNF, Flatpak,
 user/system systemd, Tailscale, fonts and storage have shared resource exclusions.
 Native file passes and wrapper setup own the terminal. llmtrim's package install
 is separate from setup; setup only owns the terminal when its CA is missing.
@@ -247,10 +245,10 @@ from source fingerprints. New installer inputs/outputs must be added to its
 `cache-install.py` invocation.
 
 The **Fleet repositories** panel keeps three rows in fixed order: `dotjik`,
-`systjik`, `tooltjik`, each with separate `PULL` and `PUSH` cells. Pending cells
+`systjik`, `tjikOS`, each with separate `PULL` and `PUSH` cells. Pending cells
 are dimmed, running cells are bright, completed operations with changes are
 blue, and completed operations without changes are teal. Failures turn red;
-blocked operations stay dimmed. Tooltjik PUSH remains dimmed because this workflow
+blocked operations stay dimmed. tjikOS PUSH remains dimmed because this workflow
 does not publish its development commits. Pull changes are determined from the
 checkout's HEAD before and after the operation, and pushes from outgoing commits.
 The scoped capture commit stays under **Commit Local Changes**; dirty checks are
@@ -261,11 +259,11 @@ Blocked apply does not insert a separate step row into the repository panel.
 With the updated runner, reported repository failures do not add generic
 `Fleet update` and `Tjikup` failures; the command still exits nonzero.
 
-The fleet panel uses the Tooltjik runner's synchronized terminal frames and cursor
+The fleet panel uses the tjikOS runner's synchronized terminal frames and cursor
 handling. Hook progress continues to show a live row per task with a spinner and
 elapsed time. The cursor returns for prompts and when the progress context exits,
 including Ctrl-C. Fleet panel changes take effect directly from this checkout;
-changes to the reusable runner require reinstalling Tooltjik.
+changes to the reusable runner require reinstalling tjikOS.
 Buffered failures show the failed step first, followed by
 a short diagnostic and the path to a private full-output log under
 `$XDG_STATE_HOME/tjikup/logs` (default `~/.local/state/tjikup/logs`). Git conflicts
@@ -280,7 +278,7 @@ exclusively.
 
 The Python package count uses quiet output. Python 3.13 remains pinned for
 PaddlePaddle: release 3.3.1 has CPython 3.13 wheels but no CPython 3.14 wheels.
-`--dry-run` executes prerequisite checks, capture previews, and read-only Tooltjik
+`--dry-run` executes prerequisite checks, capture previews, and read-only tjikOS
 inspection, without fetching, changing Git history, applying, installing, or writing
 caches. `tjikup --check` validates the outer runner JSON;
 the DAG and complete hook inventory are validated when the workflow starts.
@@ -318,16 +316,16 @@ configuration repo. It checks the system adapter exists, installs the executable
 and icon, validates the workflow, and atomically links the default configuration.
 It can also be run before the first home apply once Chezetc is initialized.
 
-The managed installation hook and focused installer use `~/code/tooltjik` on
-every host, unless `$TOOLTJIK_REPO` explicitly selects another checkout. If absent
-they clone Tooltjik there using `git@github.com:tijptjik/tooltjik.git` (SSH), so
+The managed installation hook and focused installer use `~/code/tjikos` on
+every host, unless `$TJIKOS_REPO` explicitly selects another checkout. If absent
+they clone tjikOS there using `git@github.com:tijptjik/tjikos.git` (SSH), so
 later pushes use the host's GitHub SSH key. Existing remotes are preserved;
 changing the clone URL does not migrate earlier HTTPS checkouts. On an affected
 host, stop any running Git sync and update the existing origin:
 
 ```sh
-git -C ~/code/tooltjik remote set-url origin git@github.com:tijptjik/tooltjik.git
-git -C ~/code/tooltjik remote -v
+git -C ~/code/tjikos remote set-url origin git@github.com:tijptjik/tjikos.git
+git -C ~/code/tjikos remote -v
 ```
 
 If an explicit `remote.origin.pushurl` still uses HTTPS, update it with
@@ -336,37 +334,42 @@ provide authenticated GitHub pushes.
 
 Existing checkouts are never pulled by installers;
 the fleet repository stage updates clean checkouts before installation. For a
-standalone installation, update Tooltjik explicitly first. The installer builds
+standalone installation, update tjikOS explicitly first. The installer builds
 and installs only tjikup. For a checkout that can fast-forward:
 
 ```sh
-git -C ~/code/tooltjik fetch origin
-git -C ~/code/tooltjik merge --ff-only origin/main
-TOOLTJIK_REPO=~/code/tooltjik bash ~/.local/share/chezmoi/scripts/install-tjikup.sh
+git -C ~/code/tjikos fetch origin
+git -C ~/code/tjikos merge --ff-only origin/main
+TJIKOS_REPO=~/code/tjikos bash ~/.local/share/chezmoi/scripts/install-tjikup.sh
 ```
 
 If startup reports `No module named 'tjikup.progress'` or says the runner is
 outdated, the fleet workflow requires a newer runner than the installed copy.
-Run the Tooltjik update and focused installer commands above on the affected
+Run the tjikOS update and focused installer commands above on the affected
 host, then run `tjikup --dry-run` before retrying `tjikup`. Use your
-`TOOLTJIK_REPO` path instead if you selected a different checkout. The runner
+`TJIKOS_REPO` path instead if you selected a different checkout. The runner
 passes its own bundled Python modules to fleet subprocesses, so updating the
-Tooltjik source alone is insufficient: reinstall the executable too.
+tjikOS source alone is insufficient: reinstall the executable too.
 `tjikup --check` only checks configuration syntax and cannot detect this mismatch.
 The focused installer checks the source dependency before replacing the runner,
 then checks the installed bundle before linking the configuration.
 
-Older installations may still have `~/.local/share/tooltjik`. If it exists and
-`~/code/tooltjik` does not, installers and fleet Git commands stop with migration
+Existing Tooltjik checkouts can remain in place while tjikOS is cloned into
+`~/code/tjikos`. Preserve their local work separately; installers do not rename
+those directories or rewrite their remotes. Replace any `TOOLTJIK_REPO` setting
+with `TJIKOS_REPO` pointing to the intended tjikOS checkout.
+
+If tjikOS was previously cloned to `~/.local/share/tjikos` and
+`~/code/tjikos` does not exist, installers and the fleet update stage stop with migration
 guidance rather than creating a second clone. Move the existing checkout while
-no Tooltjik build or Git operation is running; this preserves commits, staged
+no tjikOS build or Git operation is running; this preserves commits, staged
 changes and untracked files. In Bash, when the destination is absent:
 
 ```bash
 mkdir -p "$HOME/code"
-if [[ ! -e "$HOME/code/tooltjik" && ! -L "$HOME/code/tooltjik" ]]; then
-    mv -T -- "$HOME/.local/share/tooltjik" "$HOME/code/tooltjik" &&
-        ln -s -- "$HOME/code/tooltjik" "$HOME/.local/share/tooltjik"
+if [[ ! -e "$HOME/code/tjikos" && ! -L "$HOME/code/tjikos" ]]; then
+    mv -T -- "$HOME/.local/share/tjikos" "$HOME/code/tjikos" &&
+        ln -s -- "$HOME/code/tjikos" "$HOME/.local/share/tjikos"
 fi
 ```
 
@@ -375,13 +378,13 @@ already exist, reconcile their histories and local changes before removing
 either. Linked Git worktrees require `git worktree move` instead of `mv`.
 
 The installer fails clearly if the checkout does not yet contain tjikup.
-The command and notification icon are tooltjik-owned;
+The command and notification icon belong to tjikOS;
 Chezmoi no longer installs runner code into `~/.local/lib/tjikup`. An old copy
 there is unused by the new self-contained executable and may be removed after
 migration. No blanket apply is needed to migrate the command.
 
 Setup hooks use Charmbracelet’s `gum spin` with elapsed time on terminals,
-including during a plain `chezmoi apply`. Tooltjik downloads also show Git’s progress percentage,
+including during a plain `chezmoi apply`. tjikOS downloads also show Git’s progress percentage,
 received bytes, and transfer rate. The percentage counts Git objects, not bytes:
 Git does not announce the final download size in advance. Gum runs in a private
 pseudo-terminal; its capability queries are answered there, and only display output reaches your terminal. It cannot consume prompt
@@ -396,7 +399,7 @@ tjikup --upgrade               # also check home package registries for upgrades
 tjikup --dry-run               # checks and capture preview only
 tjikup --skip-conflicts        # preserve conflicting home/system files
 tjikup --config ./tjikup.json --check
-TOOLTJIK_REPO=~/code/tooltjik bash scripts/validate.sh
+TJIKOS_REPO=~/code/tjikos bash scripts/validate.sh
 ```
 
 The fleet declares `--skip-conflicts`; it is not hard-coded in the runner.
@@ -406,8 +409,8 @@ A different source checkout is selected through `--config`; legacy
 `TJIKUP_REPO`/`TJIKUPDATE_REPO` overrides are replaced by that explicit interface.
 Use `TJIKUP_CONFIG` for a persistent configuration override.
 
-Tests import the external runner using `TOOLTJIK_REPO`, a sibling checkout,
-`~/code/tooltjik`, or a caller-supplied `PYTHONPATH` (which can point at the
+Tests import the external runner using `TJIKOS_REPO`, a sibling checkout,
+`~/code/tjikos`, or a caller-supplied `PYTHONPATH` (which can point at the
 installed zipapp). Fleet tests use isolated homes, repositories and mocked
 commands. They do not validate real package updates or services on fi/li/si.
 See [completion notifications](tjikup-notifications.md) for desktop behavior.
@@ -418,12 +421,12 @@ including enabling its user service and starting it in an active desktop session
 ## Runtjik-only installation
 
 `runtjik` is included in the home hook graph on every host. Its installer verifies
-both Tooltjik source and deployed file fingerprints, rebuilding changed or stale
+both tjikOS source and deployed file fingerprints, rebuilding changed or stale
 installations and preserving `~/.config/runtjik/runtjik.conf`. The headless server
 receives the files and CLI without a GUI service.
 
 Use `tjikup --config scripts/runtjik-install.json` from the Dotjik checkout for
-a focused app-only installation. It uses the existing Tooltjik source and avoids
+a focused app-only installation. It uses the existing tjikOS source and avoids
 repository capture/commit/sync; this is useful while unrelated work is dirty. It
 does not publish new app code or bypass the normal full-workflow clean-worktree
 requirements. See [launcher tools](launcher-tools.md) for migration details.

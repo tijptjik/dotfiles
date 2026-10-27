@@ -93,19 +93,19 @@
     ]
   },
   {
-    "id": "pull-tooltjik",
+    "id": "pull-tjikos",
     "command": [
       "python3",
       "{config_dir}/scripts/fleet-update.py",
-      "pull-tooltjik"
+      "pull-tjikos"
     ],
     "preview": [
       "python3",
       "{config_dir}/scripts/fleet-update.py",
-      "pull-tooltjik",
+      "pull-tjikos",
       "--dry-run"
     ],
-    "label": "Tooltjik",
+    "label": "tjikOS",
     "verb": "PULL",
     "summary": false,
     "needs": [
@@ -179,7 +179,7 @@
     "needs": [
       "push-home",
       "push-system",
-      "pull-tooltjik"
+      "pull-tjikos"
     ],
     "exclusive": true
   }

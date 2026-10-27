@@ -183,7 +183,7 @@ function __systems_go --argument-names message
 end
 
 function __stage_print_row --argument-names icon row
-    if isatty stdout; or test "$TJIKUP_COLOR" = 1
+    if test "$TJIKUP_STATUS_LINES" != 1; and begin; isatty stdout; or test "$TJIKUP_COLOR" = 1; end
         if set -q __stage_pending_row
             printf '\r\033[2K'
             set -e __stage_pending_row

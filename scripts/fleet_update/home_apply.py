@@ -8,6 +8,8 @@ import tempfile
 from .core import UpdateError
 from .dag import Task, run, command as run_command, validate
 from tjikup import runtime
+from tjikup.progress import Progress
+from .presentation import summary
 
 
 def load_plan(repo):
@@ -28,7 +30,12 @@ def apply_hooks(repo, env):
     actual = {path.name for path in directory.glob("run_after_*")}
     # All scripts are rendered before starting mutations; errors fail the plan.
     tasks, outputs = [], {}
-    child_env = {**env, "FLEET_DEFER_HOOKS": "0", "TJIKUP_NO_SPIN": "1"}
+    child_env = {**env, "FLEET_DEFER_HOOKS": "0", "TJIKUP_NO_SPIN": "1",
+                 "TJIKUP_STATUS_LINES": "1"}
+    log_root = Path(env.get("XDG_STATE_HOME") or Path.home() / ".local/state") / "tjikup/logs"
+    log_root.mkdir(parents=True, exist_ok=True, mode=0o700)
+    log_dir = Path(tempfile.mkdtemp(prefix="home-", dir=log_root))
+    progress = Progress()
     with tempfile.TemporaryDirectory(prefix="tjikup-hooks-") as temporary:
         for item in manifest:
             source = directory / item["file"]
@@ -71,6 +78,9 @@ def apply_hooks(repo, env):
                 else:
                     result = run_command(command, cwd=repo, env=child_env, timeout=1800)
                     outputs[item["id"]] = result.stdout
+                    log_file = log_dir / (item["id"] + ".log")
+                    log_file.write_text(result.stdout)
+                    log_file.chmod(0o600)
                     code = result.returncode
                 if code:
                     raise UpdateError(f'{item["id"]}: hook failed ({code})')
@@ -79,19 +89,32 @@ def apply_hooks(repo, env):
                               tuple(item.get("resources", [])), exclusive=item.get("exclusive", False)))
 
         def event(name, result):
+            item = next(item for item in manifest if item["id"] == name)
+            label = item.get("label", name)
+            verb = item.get("verb", "UPDATE")
             if result.state == "running":
-                runtime.stage_started("DAG", name)
+                if not item.get("exclusive"):
+                    progress.start(name, label, verb)
                 return
-            if outputs.get(name):
-                print(outputs[name], end="" if outputs[name].endswith("\n") else "\n", flush=True)
+            output = outputs.get(name, "")
+            note, warnings = summary(output)
             if result.state == "failed":
-                runtime.stage_label("FAILED", "✗", name, str(result.error))
+                progress.finish(name, label, verb="FAILED", icon="✗", note=str(result.error))
+                with progress.output():
+                    if output:
+                        print(output, end="" if output.endswith("\n") else "\n", flush=True)
+                        print(f"Log: {log_dir / (name + '.log')}", flush=True)
             elif result.state == "blocked":
-                runtime.stage_skip(name, "workflow failed")
+                progress.finish(name, label, verb="SKIP", icon="-", note="workflow failed")
             else:
-                runtime.stage_result("DAG", name, f"{result.seconds:.2f}s")
+                progress.finish(name, label, verb=verb, icon="!" if warnings else "✓",
+                                note=note or f"{result.seconds:.2f}s")
+                if warnings:
+                    with progress.output():
+                        print("\n".join(warnings), flush=True)
 
-        results = run(tasks, workers=int(os.environ.get("FLEET_JOBS", "4")), event=event)
+        with progress:
+            results = run(tasks, workers=int(os.environ.get("FLEET_JOBS", "4")), event=event)
         failures = [result.error for result in results.values() if result.error]
         if failures:
             raise UpdateError(str(failures[0]))

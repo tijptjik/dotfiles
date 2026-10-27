@@ -30,6 +30,7 @@ def with_icon(text, icon):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--restore', action='store_true', help='restore entries unchanged since this installation')
+    parser.add_argument('--status-note', action='store_true', help='emit a compact note for the status presenter')
     args = parser.parse_args()
     home = Path.home()
     data = Path(os.environ.get('XDG_DATA_HOME', home / '.local/share'))
@@ -79,12 +80,20 @@ def main():
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(updated)
             count += 1
-    print(f'Rose Punk icons: updated {count} desktop entries')
     for theme in ('rose-punk', 'rose-punk-illustrated'):
         if (data / 'icons' / theme / 'index.theme').exists():
-            subprocess.run(['gtk-update-icon-cache', '--force', str(data / 'icons' / theme)], check=True)
-    subprocess.run(['gtk-update-icon-cache', '--force', '--ignore-theme-index', str(data / 'icons/hicolor')], check=True)
-    subprocess.run(['update-desktop-database', str(data / 'applications')], check=True)
+            refresh_cache(['gtk-update-icon-cache', '--force', str(data / 'icons' / theme)])
+    refresh_cache(['gtk-update-icon-cache', '--force', '--ignore-theme-index', str(data / 'icons/hicolor')])
+    refresh_cache(['update-desktop-database', str(data / 'applications')])
+    note = f'{count} desktop entries updated' if count else 'no changes'
+    print(f'__stage_note__:{note}' if args.status_note else f'Rose Punk icons: {note}')
+
+
+def refresh_cache(command):
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    if result.returncode:
+        print(result.stdout, end='')
+        result.check_returncode()
 
 
 if __name__ == '__main__':

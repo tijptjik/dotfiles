@@ -116,7 +116,15 @@ that install to run again. Build directories and dependency caches are excluded
 from source fingerprints. New installer inputs/outputs must be added to its
 `cache-install.py` invocation.
 
-Each DAG task reports elapsed wall time; parallel output is grouped per task.
+Parallel tasks each have a live terminal row with a spinner and elapsed time.
+Completion leaves one concise result; redirected output contains final rows
+without cursor controls. Interactive hooks own the terminal exclusively.
+Noninteractive hook output is saved under `~/.local/state/tjikup/logs/home-*`
+(or `$XDG_STATE_HOME/tjikup/logs`); warnings and failure diagnostics remain visible.
+Routine successful tool chatter and duplicate `DAG` rows are hidden.
+
+The Python package count uses quiet output. Python 3.13 remains pinned for
+PaddlePaddle: release 3.3.1 has CPython 3.13 wheels but no CPython 3.14 wheels.
 `--dry-run` executes only prerequisite checks and capture previews, without Git,
 apply, installs or cache writes. `tjikup --check` validates the outer runner JSON;
 the DAG and complete hook inventory are validated when the workflow starts.

@@ -5,7 +5,9 @@
     "needs": [],
     "resources": [
       "cargo"
-    ]
+    ],
+    "label": "Rust",
+    "verb": "SYNC"
   },
   {
     "id": "python",
@@ -13,7 +15,9 @@
     "needs": [],
     "resources": [
       "uv"
-    ]
+    ],
+    "label": "Python",
+    "verb": "SYNC"
   },
   {
     "id": "archives",
@@ -21,7 +25,9 @@
     "needs": [],
     "resources": [
       "dnf"
-    ]
+    ],
+    "label": "Device archives",
+    "verb": "UPDATE"
   },
   {
     "id": "llmtrim",
@@ -33,7 +39,9 @@
       "cargo",
       "herdr"
     ],
-    "exclusive": true
+    "exclusive": true,
+    "label": "llmtrim",
+    "verb": "UPDATE"
   },
   {
     "id": "herdr",
@@ -43,7 +51,9 @@
     ],
     "resources": [
       "herdr"
-    ]
+    ],
+    "label": "Herdr",
+    "verb": "UPDATE"
   },
   {
     "id": "codex-lb",
@@ -51,14 +61,18 @@
     "needs": [],
     "resources": [
       "uv"
-    ]
+    ],
+    "label": "Codex LB",
+    "verb": "UPDATE"
   },
   {
     "id": "chezetc-wrapper",
     "file": "run_after_34-configure-chezetc.py",
     "needs": [],
     "resources": [],
-    "exclusive": true
+    "exclusive": true,
+    "label": "Chezetc wrapper",
+    "verb": "CONFIG"
   },
   {
     "id": "tjikup",
@@ -69,7 +83,9 @@
     "resources": [
       "tooltjik",
       "icons"
-    ]
+    ],
+    "label": "Tjikup",
+    "verb": "INSTALL"
   },
   {
     "id": "icons",
@@ -79,7 +95,9 @@
     ],
     "resources": [
       "icons"
-    ]
+    ],
+    "label": "Icon cache",
+    "verb": "UPDATE"
   },
   {
     "id": "notjik",
@@ -90,7 +108,9 @@
     "resources": [
       "tooltjik",
       "user-systemd"
-    ]
+    ],
+    "label": "Notjik",
+    "verb": "INSTALL"
   },
   {
     "id": "pony",
@@ -103,7 +123,9 @@
       "tooltjik",
       "cargo",
       "dnf"
-    ]
+    ],
+    "label": "Pony",
+    "verb": "INSTALL"
   },
   {
     "id": "bartjik",
@@ -114,7 +136,9 @@
     "resources": [
       "tooltjik",
       "user-systemd"
-    ]
+    ],
+    "label": "Bartjik",
+    "verb": "INSTALL"
   },
   {
     "id": "rose-punk-icons",
@@ -124,7 +148,9 @@
     ],
     "resources": [
       "icons"
-    ]
+    ],
+    "label": "Rose Punk icons",
+    "verb": "UPDATE"
   },
   {
     "id": "collie",
@@ -136,7 +162,9 @@
       "herdr",
       "tailscale",
       "user-systemd"
-    ]
+    ],
+    "label": "Collie",
+    "verb": "CONFIG"
   },
   {
     "id": "vite",
@@ -146,7 +174,9 @@
     ],
     "resources": [
       "tailscale"
-    ]
+    ],
+    "label": "Vite",
+    "verb": "CONFIG"
   },
   {
     "id": "fonts",
@@ -154,7 +184,9 @@
     "needs": [],
     "resources": [
       "fonts"
-    ]
+    ],
+    "label": "Fonts",
+    "verb": "UPDATE"
   },
   {
     "id": "mullvad",
@@ -162,7 +194,9 @@
     "needs": [],
     "resources": [
       "network"
-    ]
+    ],
+    "label": "Mullvad",
+    "verb": "CONFIG"
   },
   {
     "id": "prowlarr",
@@ -170,7 +204,9 @@
     "needs": [],
     "resources": [
       "storage"
-    ]
+    ],
+    "label": "Prowlarr",
+    "verb": "CONFIG"
   },
   {
     "id": "secrets",
@@ -181,7 +217,9 @@
     "resources": [
       "dnf",
       "user-systemd"
-    ]
+    ],
+    "label": "Secret service",
+    "verb": "CONFIG"
   },
   {
     "id": "storage",
@@ -192,7 +230,9 @@
     "resources": [
       "user-systemd",
       "storage"
-    ]
+    ],
+    "label": "Private storage",
+    "verb": "SYNC"
   },
   {
     "id": "services",
@@ -206,6 +246,8 @@
     ],
     "resources": [
       "user-systemd"
-    ]
+    ],
+    "label": "User services",
+    "verb": "RELOAD"
   }
 ]

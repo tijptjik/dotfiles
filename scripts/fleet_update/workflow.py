@@ -10,6 +10,7 @@ import sys
 from .dag import Task, run, command as run_command
 from .core import UpdateError
 from tjikup import runtime
+from tjikup.progress import Progress
 
 
 class Stopped(Exception):
@@ -27,6 +28,8 @@ def workflow(repo, *, dry_run=False):
             fcntl.flock(lock, fcntl.LOCK_EX)
         tasks = []
         outputs = {}
+        steps = {step["id"]: step for step in plan}
+        progress = Progress()
 
         def action(step):
             def execute():
@@ -35,9 +38,6 @@ def workflow(repo, *, dry_run=False):
                     return
                 command = [arg.replace("{config_dir}", str(repo)) for arg in command]
                 command = [str(Path(arg).expanduser()) if arg.startswith("~/") else arg for arg in command]
-                runtime.section_header(step["section"]) if "section" in step else None
-                if "banner" in step:
-                    runtime.repo_header(**step["banner"])
                 # Apply owns the terminal; parallel Git operations use private output.
                 if step.get("exclusive"):
                     code = runtime.run_stream(command, repo, env=os.environ.copy(),
@@ -56,25 +56,35 @@ def workflow(repo, *, dry_run=False):
             return execute
 
         def event(name, result):
+            step = steps[name]
+            label, verb = step.get("label", name), step.get("verb", "UPDATE")
             if result.state == "running":
-                runtime.stage_started("DAG", name)
+                with progress.output():
+                    if "section" in step:
+                        runtime.section_header(step["section"])
+                    if "banner" in step:
+                        runtime.repo_header(**step["banner"])
+                if not dry_run and step.get("summary", True) and not step.get("exclusive"):
+                    progress.start(name, label, verb)
                 return
             output = outputs.get(name, "")
             if output:
-                print(output, end="" if output.endswith("\n") else "\n", flush=True)
+                with progress.output():
+                    print(output, end="" if output.endswith("\n") else "\n", flush=True)
             if result.state == "failed":
-                runtime.stage_label("FAILED", "✗", name, str(result.error))
+                progress.finish(name, label, verb="FAILED", icon="✗", note=str(result.error))
             elif result.state == "blocked":
-                runtime.stage_skip(name, "prerequisite failed or workflow stopped")
-            elif not dry_run:
-                runtime.stage_result("DAG", name, f"{result.seconds:.2f}s")
+                progress.finish(name, label, verb="SKIP", icon="-", note="prerequisite failed or workflow stopped")
+            elif not dry_run and step.get("summary", True):
+                progress.finish(name, label, verb=verb, note=f"{result.seconds:.2f}s")
 
         for step in plan:
             tasks.append(Task(step["id"], action(step), tuple(step.get("needs", [])),
                               tuple(step.get("resources", [])),
                               check=(lambda: True) if dry_run and "preview" not in step else None,
                               exclusive=step.get("exclusive", False)))
-        results = run(tasks, workers=4, event=event)
+        with progress:
+            results = run(tasks, workers=4, event=event)
         errors = [result.error for result in results.values() if result.error]
         if errors:
             if all(isinstance(error, Stopped) for error in errors):

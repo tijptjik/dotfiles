@@ -3,6 +3,7 @@ if test "$FLEET_DEFER_HOOKS" = 1
     exit 0
 end
 {{ if .isClient -}}
-python3 "{{ .chezmoi.sourceDir }}/../scripts/icons/install.py"
-or exit $status
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+stage_dynamic_note "Rose Punk icons" UPDATE "Rose Punk icons" \
+    python3 "{{ .chezmoi.sourceDir }}/../scripts/icons/install.py" --status-note
 {{ end -}}

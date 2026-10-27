@@ -33,6 +33,7 @@ SOURCES = {
     'SnapRAID': 'snapraid', 'Strata': 'strata', 'Systemd': 'system-monitor',
     'Telegram': 'telegram', 'Terminal': 'terminal', 'Tippecanoe': 'tippecanoe',
     'Transmission': 'transmission', 'Zed': 'zed', '*': 'settings',
+    'Google Chrome stable': 'chrome', 'Sublime Text': 'sublime-text', 'Obsidian': 'obsidian',
 }
 
 

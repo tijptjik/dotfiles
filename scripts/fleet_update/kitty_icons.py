@@ -220,7 +220,9 @@ class KittyIcons:
             self.stream.write(runtime.format_status(verb, icon, label, note) + '\n\n')
             return
         image_id, columns = self.image(label, *size)
-        row = runtime.format_status(verb, icon, ' ' * columns + label, note)
+        # The status prefix already leaves one cell before the image canvas.
+        # Reserve the same gap after it, including in narrow-row truncation.
+        row = runtime.format_status(verb, icon, ' ' * (columns + 1) + label, note)
         cells = styled_cells(row)
         prefix_width = len(f'{verb:<7} {icon} ')
         text = normal_text if self.herdr else centred

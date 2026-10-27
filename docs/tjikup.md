@@ -184,6 +184,10 @@ Image data is bundled in `scripts/fleet_update/icons32.json`, so the update
 does not need an image converter. To rebuild it after changing artwork, run
 `python3 scripts/icons/build-fleet.py` (requires Pillow, ImageMagick, and Nerd Fonts).
 
+Colour image rows leave one terminal cell between the checkmark and icon canvas,
+and the same gap between the canvas and label. Chrome, Sublime Text and Obsidian
+use their Rose Punk application artwork.
+
 Herdr 0.9.5+ also uses 32px colour icons and two-line rows. Its panes advertise
 `TERM_PROGRAM=herdr` and `HERDR_ENV=1`, with `TERM=xterm-256color`. Because its
 PTY ioctl omits pixels, Tjikup asks Herdr for cell dimensions once at renderer
@@ -217,17 +221,11 @@ Python still uses `uv sync` to converge the declared environment and reports
 failures correctly. Font and icon tools use their native freshness checks instead
 of forced rebuilds.
 
-Herdr is checked on every routine `tjikup` (and direct `chezmoi apply`) on Fi,
-Li and Si, without requiring `--upgrade`. Previously its once-only installer
-installed a missing binary, and subsequent hooks only provisioned plugins;
-neither upgraded an existing binary. The recurring binary update now runs before
-Herdr plugin operations, using `herdr update` and its configured release channel.
-It reports the version change, an unchanged version, or an update failure.
-Updates run without `--handoff` and with stdin closed to avoid consenting to stop
-active panes. Inside Herdr, or when upstream requires stopping running sessions,
-the hook explicitly warns that the update is deferred. Rerun `tjikup` outside
-Herdr after closing those sessions when ready. Existing servers are not restarted
-automatically; a new shell in an existing server does not refresh that server.
+Herdr binary updates are manual on Fi, Li and Si. Neither `tjikup` (including
+`--upgrade`) nor direct `chezmoi apply` updates an existing binary. Run
+`herdr update` outside Herdr when ready to update, closing active sessions if
+requested. The once-only install hook still installs a missing binary, and
+recurring hooks continue provisioning Herdr plugins.
 
 Tjikup, Notjik and Pony build/install steps compare source fingerprints against
 all declared installed outputs, including bytes, modes and symlink targets.

@@ -1,15 +1,5 @@
 [
   {
-    "id": "herdr-update",
-    "file": "run_after_28-update-herdr.fish.tmpl",
-    "needs": [],
-    "resources": [
-      "herdr"
-    ],
-    "label": "Herdr (binary)",
-    "verb": "UPDATE"
-  },
-  {
     "id": "sublime-text",
     "file": "run_after_29-install-sublime-text.fish.tmpl",
     "needs": [],
@@ -71,8 +61,7 @@
     "id": "llmtrim",
     "file": "run_after_31-remove-llmtrim-herdr.fish.tmpl",
     "needs": [
-      "llmtrim-install",
-      "herdr-update"
+      "llmtrim-install"
     ],
     "resources": [
       "herdr"

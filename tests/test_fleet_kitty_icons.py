@@ -121,6 +121,31 @@ class KittyIconTests(unittest.TestCase):
             with self.subTest(label=label):
                 self.assertEqual(len(zlib.decompress(base64.b64decode(encoded))), 32 * 32 * 4)
 
+    def test_application_sprites_do_not_fall_back_to_the_gear(self):
+        graphics = KittyIcons(io.StringIO())
+        for label in ('Google Chrome stable', 'Sublime Text', 'Obsidian'):
+            with self.subTest(label=label):
+                graphics.image(label, 12, 26)
+                self.assertIn((label, 12, 26), graphics.images)
+                self.assertNotEqual(graphics.sprites[label], graphics.sprites['*'])
+
+    def test_image_has_equal_cell_gaps_before_and_after_in_both_terminals(self):
+        for herdr in (False, True):
+            with self.subTest(herdr=herdr):
+                stream = io.StringIO()
+                graphics = KittyIcons(stream, herdr=herdr)
+                with patch('fleet_update.kitty_icons.cell_size', return_value=(12, 26)):
+                    graphics.print('SYNC', '✓', 'Python (environment)', '')
+                output = re.sub(r'\x1b_G[^\x1b]*\x1b\\', '', stream.getvalue())
+                output = re.sub(r'\x1b]66;[^;]*;([^\x1b]*)\x1b\\', r'\1', output)
+                output = re.sub(r'\x1b\[[0-9;]*m', '', output)
+                first_row = output.split('\r\n')[0]
+                placeholder = '\U0010eeee'
+                start, end = first_row.index(placeholder), first_row.rindex(placeholder)
+                self.assertEqual(first_row[:start], 'SYNC    ✓ ')
+                # Skip the last placeholder's two combining coordinates.
+                self.assertEqual(first_row[end + 3:].rstrip(), ' Python (environment)')
+
     def test_herdr_uses_its_cell_query_and_plain_text_with_scrolling_images(self):
         with patch.dict(os.environ, {'TERM': 'xterm-256color', 'TERM_PROGRAM': 'herdr', 'HERDR_ENV': '1'}), \
                 patch('fleet_update.kitty_icons.cell_size', return_value=None), \

@@ -77,9 +77,10 @@ then `hyprctl reload config-only` and `hyprctl configerrors`.
 ## Gap transitions
 
 The `scrolling-gaps` C++ plugin keeps workspace gaps and logical column footprints
-constant. Only the focused, single-window 100% scrolling column gets an expanded
-visual rectangle with no border or rounding. On blur, it returns to its ordinary
-gapped rectangle through `windowsMove`. Narrower and stacked columns retain their
+constant. Each workspace's last-focused, single-window 100% scrolling column gets
+an expanded visual rectangle with no border or rounding. Moving focus to another
+monitor or workspace preserves that geometry. Focusing another column within the
+same workspace restores its ordinary gapped rectangle through `windowsMove`. Narrower and stacked columns retain their
 normal content dimensions throughout navigation. Neither client nor compositor
 fullscreen is used. Special workspaces preserve the underlying normal workspace's
 last-focused column, including during transient loss of focus and plugin reload.
@@ -125,7 +126,9 @@ The packaged probe is `scripts/check-scrolling-gaps.py --instance SIGNATURE
 --plugin /path/to/scrolling-gaps-local.so --artifacts /tmp/gap-check`. It requires an
 empty disposable compositor, refuses the current desktop instance, and closes
 the disposable compositor after testing. It also checks floating-window visibility
-and excludes stacked columns. It requires Kitty, Waybar, and grim.
+and excludes stacked columns. Two synthetic monitors additionally check that
+cross-monitor focus and plugin reload preserve both gapless columns. It requires
+Kitty, Waybar, and grim.
 
 The remaining app redraw behavior belongs only to the deliberately resizing 100%
 window, not the ordinary column coming into view.

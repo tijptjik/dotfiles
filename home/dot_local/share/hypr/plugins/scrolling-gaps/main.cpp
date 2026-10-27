@@ -9,32 +9,26 @@
 #include <hyprland/src/output/Monitor.hpp>
 #include <cmath>
 #include <stdexcept>
+#include <unordered_set>
 
 namespace {
 HANDLE handle;
 CFunctionHook *positionHook, *borderHook, *roundingHook;
 CHyprSignalListener focusListener;
-PHLWORKSPACEREF previousWorkspace;
-PHLWINDOWREF normalFocus;
 SP<SHyprCtlCommand> stateCommand;
 bool enabled = true;
 
-// Scratchpads are overlays, not navigation away from the underlying strip.
-// Resolve its own last-focused window even after a plugin/config reload.
-PHLWINDOW effectiveFocus() {
+// Focus belongs to each workspace, not to the desktop as a whole. Leaving a
+// monitor (or opening a scratchpad) must not resize its last-focused column.
+PHLWINDOW effectiveFocus(const Desktop::View::CWindow* window) {
+    if (!window || !window->m_workspace) return nullptr;
     const auto active = Desktop::focusState()->window();
-    if (active && active->m_workspace) {
-        if (active->m_workspace->m_id > 0) return active;
-        const auto monitor = active->m_workspace->m_monitor.lock();
-        if (monitor && monitor->m_activeWorkspace)
-            return monitor->m_activeWorkspace->m_lastFocusedWindow.lock();
-    }
-    // Focus can briefly be null while a special workspace opens/closes.
-    return normalFocus.lock();
+    if (active && active->m_workspace == window->m_workspace) return active;
+    return window->m_workspace->m_lastFocusedWindow.lock();
 }
 
 bool gapless(const Desktop::View::CWindow* w) {
-    const auto focused = effectiveFocus();
+    const auto focused = effectiveFocus(w);
     if (!enabled || !w || !w->m_isMapped || w->m_isFloating || w->m_group
         || focused.get() != w || !w->m_workspace
         || w->m_workspace->m_id <= 0)
@@ -74,14 +68,15 @@ float rounding(Desktop::View::CWindow* w) {
 }
 
 void refresh() {
-    const auto active = Desktop::focusState()->window();
-    if (active && active->m_workspace && active->m_workspace->m_id > 0)
-        normalFocus = active;
-    const auto focused = effectiveFocus();
-    const auto current = focused ? focused->m_workspace : nullptr;
-    if (previousWorkspace && previousWorkspace->m_space) previousWorkspace->m_space->recalculate();
-    if (current && current != previousWorkspace && current->m_space) current->m_space->recalculate();
-    previousWorkspace = current;
+    // Include unfocused workspaces on load/unload too: their geometry may now
+    // qualify, or need restoration when the hooks are disabled.
+    std::unordered_set<int64_t> visited;
+    for (const auto& window : Desktop::windowState()->windows()) {
+        const auto workspace = window->m_workspace;
+        if (workspace && workspace->m_id > 0 && workspace->m_space
+            && visited.insert(workspace->m_id).second)
+            workspace->m_space->recalculate();
+    }
 }
 
 CFunctionHook* hook(const std::string& name, const std::string& signature, void* replacement) {
@@ -118,7 +113,7 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE owner) {
             return result + "]";
         }});
     refresh();
-    return {"scrolling-gaps", "Focus-local gaps for 100% scrolling columns; no fullscreen", "Tijpfiles", "0.1.1"};
+    return {"scrolling-gaps", "Workspace-local gaps for 100% scrolling columns; no fullscreen", "Tijpfiles", "0.1.2"};
 }
 APICALL EXPORT void PLUGIN_EXIT() {
     enabled = false;

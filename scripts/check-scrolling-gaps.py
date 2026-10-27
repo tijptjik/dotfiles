@@ -23,7 +23,10 @@ instance = next(i for i in instances if i['instance'] == args.instance)
 env = dict(os.environ, HYPRLAND_INSTANCE_SIGNATURE=instance['instance'], WAYLAND_DISPLAY=instance['wl_socket'])
 args.artifacts.mkdir(parents=True, exist_ok=True)
 def ctl(*values):
-    return subprocess.check_output(['hyprctl', *values], env=env, text=True)
+    result = subprocess.run(['hyprctl', *values], env=env, text=True, capture_output=True)
+    if result.returncode:
+        raise RuntimeError(f'hyprctl {values}: {result.stdout} {result.stderr}')
+    return result.stdout
 def evaluate(code):
     assert ctl('eval', code).strip() == 'ok'
 def focus(address):
@@ -107,11 +110,44 @@ try:
             assert not current[c]['gapless']
             time.sleep(.02)
     print('PASS: special workspace open/close preserves underlying rendered geometry',flush=True)
+    # Leaving the monitor must retain its last-focused column's geometry.
+    ctl('output', 'create', 'headless', 'OTHER-PROBE')
+    evaluate('hl.monitor({output="OTHER-PROBE",mode="800x600@60",position="1000x0",scale=1})')
+    time.sleep(.5)
+    evaluate('hl.workspace_rule({workspace="92",monitor="OTHER-PROBE"}); hl.dispatch(hl.dsp.focus({monitor="OTHER-PROBE"})); hl.dispatch(hl.dsp.focus({workspace=92}))')
+    time.sleep(.3)
+    procs.append(subprocess.Popen(['kitty','--config','NONE','--class','slides-probe',
+        '--title','other-monitor','-o','linux_display_server=wayland','sh','-c','sleep 120'],
+        env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL))
+    for _ in range(60):
+        other=next((w for w in json.loads(ctl('-j','clients')) if w['title']=='other-monitor'),None)
+        if other: break
+        time.sleep(.1)
+    assert other, 'second monitor terminal did not map'
+    assert other['workspace']['id']==92, other
+    d=other['address']
+    focus(d); evaluate('hl.dispatch(hl.dsp.layout("colresize 1"))')
+    time.sleep(.5)
+    for address in (a,d,a,d):
+        focus(address)
+        for _ in range(12):
+            current={w['address']:w for w in json.loads(ctl('scrolling-gaps:state'))}
+            assert current[a]['gapless'] and current[d]['gapless'], current
+            assert current[a]['goal']==underlying[a]['goal']
+            assert all(abs(x-y)<.01 for x,y in zip(current[a]['current'],underlying[a]['current']))
+            time.sleep(.025)
+    ctl('plugin','unload',str(args.plugin.resolve()))
+    ctl('plugin','load',str(args.plugin.resolve()))
+    time.sleep(.5)
+    current={w['address']:w for w in json.loads(ctl('scrolling-gaps:state'))}
+    assert current[a]['gapless'] and current[d]['gapless'], current
+    subprocess.run(['grim','-o','SLIDES-PROBE',str(args.artifacts / 'unfocused-monitor.png')],env=env,check=True)
+    print('PASS: cross-monitor focus and plugin reload preserve both gapless columns',flush=True)
     # A stack must remain gapped, even when its column width is 100%.
     focus(b);evaluate('hl.dispatch(hl.dsp.window.move({direction="l"}))')
     time.sleep(.7)
     state=json.loads(ctl('scrolling-gaps:state'))
-    assert not any(w['gapless'] for w in state)
+    assert not any(w['gapless'] for w in state if w['address'] != d)
     print('PASS: floating visibility and stacked-column exclusion',flush=True)
     print(ctl('plugin','unload',str(args.plugin.resolve())),flush=True)
 finally:

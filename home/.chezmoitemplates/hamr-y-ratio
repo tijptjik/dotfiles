@@ -1,0 +1,2 @@
+{{- /* Center the 682px expanded panel: (logical screen height - 682) / 2 / height. */ -}}
+{{- if .isLaptop -}}0.21583333333333335{{- else if .isDesktop -}}0.26319444444444445{{- else -}}0.2{{- end -}}

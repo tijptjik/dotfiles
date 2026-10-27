@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+{{ if .isClient -}}
+# Installer: {{ include "../scripts/install-hamr-layout.sh" | sha256sum }}
+# Patch: {{ include "../scripts/hamr/center-modes.patch" | sha256sum }}
+bash "{{ .chezmoi.sourceDir }}/../scripts/install-hamr-layout.sh"
+{{ end -}}

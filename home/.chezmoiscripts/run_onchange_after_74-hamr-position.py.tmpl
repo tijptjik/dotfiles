@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+"""Set the primary display's expanded Hamr position, preserving other UI state."""
+import json
+import os
+from pathlib import Path
+import subprocess
+
+{{ if .isClient -}}
+monitor = "{{ if .isLaptop }}eDP-1{{ else }}DP-1{{ end }}"
+position = {"xRatio": 0.5, "yRatio": {{ template "hamr-y-ratio" . }}}
+state_home = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state"))
+state_path = state_home / "hamr/states.json"
+states = json.loads(state_path.read_text()) if state_path.exists() else {}
+if states.get("launcher", {}).get("monitorPositions", {}).get(monitor) != position:
+    active = subprocess.run(
+        ["systemctl", "--user", "is-active", "--quiet", "hamr-gtk.service"],
+        check=False,
+    ).returncode == 0
+    if active:
+        subprocess.run(["systemctl", "--user", "stop", "hamr-gtk.service"], check=True)
+    try:
+        # Re-read after stopping: the UI may flush state during shutdown.
+        states = json.loads(state_path.read_text()) if state_path.exists() else {}
+        states.setdefault("launcher", {}).setdefault("monitorPositions", {})[monitor] = position
+        state_path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = state_path.with_suffix(".json.tmp")
+        temporary.write_text(json.dumps(states, indent=2) + "\n")
+        temporary.replace(state_path)
+    finally:
+        if active:
+            subprocess.run(["systemctl", "--user", "start", "hamr-gtk.service"], check=True)
+{{ end -}}

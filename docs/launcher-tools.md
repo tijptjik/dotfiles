@@ -12,6 +12,30 @@ links, then enables both Hamr user services and starts them when a graphical
 session is active. Hyprland also starts the Hamr GTK user service at login. Super+Escape toggles the launcher;
 Super+V opens its clipboard plugin. The old Quickshell startup is retired.
 
+Hamr's expanded panel is centered on the primary displays of `fi` (1440 logical
+pixels high) and `li` (1200 logical pixels high at 2× scale). The shared
+`hamr-y-ratio` template allows for the 682px expanded panel: its top edge is 379px
+on `fi` and 259px on `li`. Hamr 1.1.0 restores saved positions when shown, so the
+position hook also updates only the primary monitor's entry in
+`~/.local/state/hamr/states.json`, restarting an active GTK UI to reload it.
+Other monitor positions and launcher state are preserved. Recheck the expanded
+height if fonts, UI scale, or the maximum results height change.
+
+The GTK UI includes a local layout patch in `scripts/hamr/center-modes.patch`:
+list, grid, card, and form widths keep the saved horizontal center. Side previews
+remain beside the centered main launcher. The correction observes GTK's actual
+allocation after painting without scheduling continuous idle redraws; dragging
+still saves a new center normally.
+
+`scripts/install-hamr-layout.sh` builds only the patched GTK UI from Hamr 1.1.0's
+pinned release commit and lockfile. It requires Rust/Cargo, `gtk4-devel`, and
+`gtk4-layer-shell-devel`. A Chezmoi change hook rebuilds when the patch changes;
+the service drop-in selects `~/.local/share/hamr-layout/hamr-gtk`. The CLI, daemon,
+plugins, and upstream binaries remain managed by Chezetc. When upgrading Hamr,
+review/rebase this patch and update the pinned UI revision together. To revert
+the local UI, remove the `hamr-gtk.service.d/layout.conf` drop-in, reload systemd,
+and restart `hamr-gtk.service`.
+
 `tjikup` checks GitHub for each tool's latest stable release and updates the
 versioned install when needed. Hamr archives are verified against the release
 asset digest. Gitfetch is installed from the latest stable release tag after

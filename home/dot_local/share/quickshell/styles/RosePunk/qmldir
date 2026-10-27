@@ -1,0 +1,3 @@
+module RosePunk
+ToolTip 2.15 ToolTip.qml
+import QtQuick.Controls.Fusion auto

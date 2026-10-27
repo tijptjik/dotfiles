@@ -2,7 +2,7 @@
 
 The desktop launchers have separate roles:
 
-- **Obsidian** (`md.obsidian.Obsidian.desktop`) runs Flatpak and opens the normal
+- **Obsidian** (`md.obsidian.Obsidian.desktop`) runs the official AppImage and opens the normal
   vault, with its community plugins. It owns `obsidian://` links.
 - **Obsidian Markdown Viewer** (`obsidian-appimage.desktop`) runs
   `~/.local/bin/obsidian-viewer` and owns `text/markdown`. It uses the installed
@@ -38,10 +38,25 @@ Do not restore or overwrite the vault to fix this condition.
 
 ## Installation and checks
 
+On clients (`fi` and `li`), the home apply hook runs `scripts/install-obsidian.py`.
+It fetches the latest stable AppImage from `obsidianmd/obsidian-releases`, verifies
+the release asset's SHA-256 digest, and atomically switches
+`~/.local/bin/obsidian-appimage`. Both launchers use that same verified binary.
+An unsuccessful download leaves the previous binary and link intact. Existing
+versions and profiles are retained. Obsidian's built-in updater can also update
+the application code between AppImage releases.
+
+The normal native profile is `~/.config/obsidian`; the former Flatpak profile is
+`~/.var/app/md.obsidian.Obsidian/config/obsidian`. Uninstall Flatpak without
+`--delete-data`. If migrating another client, close Obsidian and copy the Flatpak
+profile to the native path only when the native profile does not already exist;
+otherwise inspect both before choosing. The vault itself stays in place.
+
 Install only these managed targets, without running unrelated hooks:
 
 ```sh
-chezmoi apply --include=files ~/.local/bin/obsidian-viewer ~/.local/share/applications/obsidian-appimage.desktop
+python3 scripts/install-obsidian.py
+chezmoi apply --include=files ~/.local/bin/obsidian ~/.local/bin/obsidian-viewer ~/.local/share/applications/md.obsidian.Obsidian.desktop ~/.local/share/applications/obsidian-appimage.desktop
 update-desktop-database ~/.local/share/applications
 xdg-mime query default text/markdown
 xdg-mime query default x-scheme-handler/obsidian
@@ -52,6 +67,6 @@ The expected MIME defaults are `obsidian-appimage.desktop` and
 `md.obsidian.Obsidian.desktop`, respectively. Regenerate `mimeinfo.cache` with
 `update-desktop-database`; do not overwrite a live generated cache to install a
 launcher. Test live with `obsidian-viewer /absolute/path/to/file.md`, including a
-second file while regular Obsidian remains open. The AppImage must already be
-installed; the launcher reports a clear error if it is absent. This setup was
+second file while regular Obsidian remains open. Run the installer before the
+first launch; the viewer reports a clear error if it is absent. This setup was
 verified on `fi`; `li` and `si` were not exercised.

@@ -10,6 +10,22 @@
     "verb": "UPDATE"
   },
   {
+    "id": "sublime-text",
+    "file": "run_after_29-install-sublime-text.fish.tmpl",
+    "needs": [],
+    "resources": ["dnf"],
+    "label": "Sublime Text",
+    "verb": "INSTALL"
+  },
+  {
+    "id": "obsidian",
+    "file": "run_after_30-install-obsidian.fish.tmpl",
+    "needs": [],
+    "resources": ["obsidian"],
+    "label": "Obsidian",
+    "verb": "INSTALL"
+  },
+  {
     "id": "rust",
     "file": "run_after_29-rust-packages.fish.tmpl",
     "needs": [],

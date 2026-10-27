@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=VLC media player
+Comment=Play media with the native VLC installation
+Exec=/usr/bin/qvlc %U
+TryExec=/usr/bin/qvlc
+Icon=rose-punk-vlc
+Terminal=false
+Categories=AudioVideo;Player;
+MimeType=video/mp4;video/x-matroska;video/webm;video/quicktime;video/x-msvideo;audio/mpeg;audio/flac;audio/ogg;audio/x-wav;application/ogg;

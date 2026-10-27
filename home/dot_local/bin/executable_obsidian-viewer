@@ -164,10 +164,9 @@ def main():
         if not path.is_file():
             raise ValueError(f'File not found: {path}')
         files.append(str(path))
-    images = list((home / '.local/opt/obsidian').glob('Obsidian-*.AppImage'))
-    if not images:
-        raise ValueError('Install the Obsidian AppImage in ~/.local/opt/obsidian first')
-    image = max(images, key=lambda p: tuple(int(n) for n in re.findall(r'\d+', p.name)))
+    image = home / '.local/bin/obsidian-appimage'
+    if not image.is_file():
+        raise ValueError('Install the official Obsidian AppImage with the Chezmoi install hook first')
     state = home / '.local/share/obsidian-viewer'
     state.mkdir(parents=True, exist_ok=True)
     with (state / '.prepare.lock').open('w') as lock:

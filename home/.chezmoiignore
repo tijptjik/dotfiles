@@ -20,6 +20,9 @@ storage
 .local/bin/set-webdav-user-password
 {{ end -}}
 {{ if .isServer -}}
+.local/bin/obsidian
+.local/share/applications/md.obsidian.Obsidian.desktop
+.local/share/applications/org.videolan.VLC.desktop
 .config/private-storage
 .config/systemd/user/private-sync.*
 .config/systemd/user/private-backup.*

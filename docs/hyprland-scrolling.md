@@ -22,8 +22,8 @@ Edit `home/dot_config/hypr/layouts.lua.tmpl`:
 | `follow_min_visible` | `0.4` | Fraction required for soft focus following; explicit focus still follows |
 | `wrap_focus`, `wrap_swapcol` | `false` | Enable wrapping for layout-specific focus/swapcol commands |
 
-Existing directional focus bindings use ordinary focus, so they can move between
-monitors. The wrap options concern `hl.dsp.layout("focus l/r")` and `swapcol`,
+Horizontal focus prefers scrolling layout focus when another column exists,
+then ordinary focus at the strip ends so it can move between monitors. The wrap options concern `hl.dsp.layout("focus l/r")` and `swapcol`,
 not those ordinary bindings. Workspace rules can override `layout`, with
 `layout_opts = { direction = "down" }` for a different scrolling direction.
 Window rules can set `scrolling_width` for app-specific initial widths.
@@ -62,6 +62,23 @@ The secondary overrides use `match.workspace = "m[DP-2]"`, after the base app
 rules. Workspace IDs 1-10 remain on the primary display, and 11-20 on secondary.
 Apply window defaults with `chezmoi apply --include=files ~/.config/hypr/windows.lua`,
 then `hyprctl reload config-only` and `hyprctl configerrors`.
+
+## Focus-sensitive gaps
+
+`scrolling_gaps.lua` keeps windows tiled, with compositor and client fullscreen
+states unchanged. When the focused scrolling column has width 1.0 and contains
+one window, a temporary workspace rule removes inner/outer gaps, borders, and
+rounding. Focusing a narrower tiled column in the same workspace disables that
+override and restores the existing rules. Each workspace remembers its own mode;
+scratch/special workspaces, floating overlays, temporary loss of window focus,
+and focus on other workspaces or displays do not change the underlying strip.
+Half-width columns temporarily expanded because they are alone are excluded.
+
+The override uses a separate workspace selector and never replaces monitor or
+placement rules. Consecutive 100% columns on the same workspace reuse it without
+an intermediate gap transition. Geometry uses ordinary window animations; there
+is no fullscreen transition or layer visibility change. Super+Left/Right prefer
+native scrolling focus within the strip and ordinary focus at its ends.
 
 ## Controls
 

@@ -7,7 +7,8 @@ StartLimitIntervalSec=0
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/mullvad-exclude /usr/bin/ssh -NT -o BatchMode=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=%h/.config/codex-lb/laptop-known-hosts -o ExitOnForwardFailure=yes -o ConnectTimeout=10 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o ForwardAgent=no -o ForwardX11=no -R 127.0.0.1:42455:127.0.0.1:2455 io@li.local
+# Keep the transport and forwarding lifetime owned by this service.
+ExecStart=/usr/bin/mullvad-exclude /usr/bin/ssh -NT -o ControlMaster=no -o ControlPath=none -o BatchMode=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=%h/.config/codex-lb/laptop-known-hosts -o ExitOnForwardFailure=yes -o ConnectTimeout=10 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o ForwardAgent=no -o ForwardX11=no -R 127.0.0.1:42455:127.0.0.1:2455 io@li.local
 Restart=always
 RestartSec=10
 

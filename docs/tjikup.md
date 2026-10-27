@@ -42,12 +42,10 @@ A missing checkout is left to the existing installer bootstrap; legacy checkout
 migration rules still apply. Installers run after this stage and retain their
 source-fingerprint checks.
 
-Capture also copies the live `~/.local/share/applications/mimeinfo.cache` into
-its tracked source before apply. Desktop tools regenerate this file, so the live
-associations take precedence, including removed entries. The normal scoped capture
-commit includes these updates automatically. Missing caches are skipped, and
-`--dry-run` only previews changes. Plain `chezmoi apply` does not run this capture;
-use `tjikup` for automatic updates.
+The generated `~/.local/share/applications/mimeinfo.cache` is ignored by Chezmoi
+and excluded from capture. Desktop tools regenerate it from installed desktop
+entries, so Tjikup neither requires a tracked source nor captures or restores
+stale associations.
 
 ## Git-only shortcuts
 

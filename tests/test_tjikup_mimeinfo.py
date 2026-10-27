@@ -1,59 +1,58 @@
-"""Generated MIME associations are captured before applying dotfiles."""
+"""Generated MIME associations stay outside Chezmoi capture."""
 
 import contextlib
 import io
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
 from unittest.mock import patch
 
 import tjikup_support
 import fleet_update
-from fleet_update.propagators.mimeinfo import PROPAGATOR
+
+
+REPO = Path(__file__).resolve().parents[1]
+CACHE_SOURCE = Path("home/dot_local/share/applications/mimeinfo.cache")
+CACHE_TARGET = Path(".local/share/applications/mimeinfo.cache")
 
 
 class MimeinfoCaptureTests(unittest.TestCase):
-    def setUp(self):
-        temporary = tempfile.TemporaryDirectory()
-        self.addCleanup(temporary.cleanup)
-        self.root = Path(temporary.name)
-        self.repo = self.root / "repo"
-        self.home = self.root / "home"
-        self.source = self.repo / PROPAGATOR.source
-        self.target = self.home / PROPAGATOR.target
-        self.source.parent.mkdir(parents=True)
-        self.target.parent.mkdir(parents=True)
-        self.before = "[MIME Cache]\nx-scheme-handler/obsidian=old.desktop;\n"
-        self.live = "[MIME Cache]\ntext/plain=new.desktop;other.desktop;\n"
-        self.source.write_text(self.before)
-        self.target.write_text(self.live)
+    def test_discovered_propagators_have_managed_sources(self):
+        for propagator in fleet_update.discover_propagators():
+            with self.subTest(propagator=propagator.name):
+                self.assertTrue((REPO / propagator.source).is_file())
+                self.assertNotEqual(propagator.target, CACHE_TARGET)
 
-    def capture(self, *, dry_run=False):
-        with patch.object(fleet_update, "discover_propagators", return_value=[PROPAGATOR]), \
-                patch.object(Path, "home", return_value=self.home), \
-                contextlib.redirect_stdout(io.StringIO()):
-            return fleet_update.capture(self.repo, dry_run=dry_run)
+    def test_capture_without_cache_source_leaves_generated_cache_alone(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            repo = root / "repo"
+            home = root / "home"
+            target = home / CACHE_TARGET
+            target.parent.mkdir(parents=True)
+            live = b"[MIME Cache]\ntext/plain=new.desktop;other.desktop;\n"
+            for propagator in fleet_update.discover_propagators():
+                source = REPO / propagator.source
+                if source.is_file():
+                    destination = repo / propagator.source
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copyfile(source, destination)
 
-    def test_capture_replaces_stale_associations_and_preserves_live_cache(self):
-        self.assertIn(PROPAGATOR, fleet_update.discover_propagators())
-        self.assertEqual(self.capture(), 0)
-        self.assertEqual(self.source.read_bytes(), self.target.read_bytes())
-        self.assertEqual(self.target.read_text(), self.live)
-        self.assertEqual(self.capture(), 0)
-
-    def test_dry_run_leaves_source_unchanged(self):
-        self.assertEqual(self.capture(dry_run=True), 0)
-        self.assertEqual(self.source.read_text(), self.before)
-
-    def test_missing_cache_is_skipped(self):
-        self.target.unlink()
-        self.assertEqual(self.capture(), 0)
-        self.assertEqual(self.source.read_text(), self.before)
-
-    def test_incomplete_cache_does_not_replace_source(self):
-        self.target.write_text("")
-        self.assertEqual(self.capture(), 1)
-        self.assertEqual(self.source.read_text(), self.before)
+            for cache_exists in (True, False):
+                if cache_exists:
+                    target.write_bytes(live)
+                else:
+                    target.unlink()
+                for dry_run in (True, False):
+                    with self.subTest(cache_exists=cache_exists, dry_run=dry_run), \
+                            patch.object(Path, "home", return_value=home), \
+                            contextlib.redirect_stdout(io.StringIO()):
+                        self.assertEqual(fleet_update.capture(repo, dry_run=dry_run), 0)
+                        self.assertFalse((repo / CACHE_SOURCE).exists())
+                        self.assertEqual(target.exists(), cache_exists)
+                        if cache_exists:
+                            self.assertEqual(target.read_bytes(), live)
 
 
 if __name__ == "__main__":

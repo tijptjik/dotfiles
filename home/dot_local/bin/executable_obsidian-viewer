@@ -43,6 +43,28 @@ def theme_definitions(css):
     return definitions
 
 
+def bake_classes(css, classes):
+    """Rewrite selector tokens in one pass; leave comments/strings/declarations intact."""
+    class_pattern = re.compile(r'\.(' + '|'.join(re.escape(c) for c in sorted(classes, key=len, reverse=True)) + r')(?![\w-])')
+    tokens = re.compile(r'/\*[\s\S]*?\*/|"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|[{}]')
+    output, pending = [], []
+    cursor = 0
+    for match in tokens.finditer(css):
+        pending.append((css[cursor:match.start()], True))
+        token = match[0]
+        if token in ('{', '}'):
+            output.extend(class_pattern.sub(':is(body)', text) if token == '{' and editable else text
+                          for text, editable in pending)
+            output.append(token)
+            pending = []
+        else:
+            pending.append((token, False))
+        cursor = match.end()
+    output.extend(text for text, _ in pending)
+    output.append(css[cursor:])
+    return ''.join(output)
+
+
 def compile_style(css, minimal, settings):
     classes = {'minimal-theme', 'css-settings-manager'}
     for key in ('lightStyle', 'darkStyle', 'lightScheme', 'darkScheme',
@@ -92,8 +114,7 @@ def compile_style(css, minimal, settings):
                     variables[selector].append(f'--{name}: {value}{unit};')
     # Bake plugin-owned body classes into selectors, including :not() predicates.
     # Keep comments and declarations untouched (URLs and decimal values are not selectors).
-    pattern = re.compile(r'\.(' + '|'.join(re.escape(c) for c in sorted(classes, key=len, reverse=True)) + r')(?![\w-])')
-    css = re.sub(r'([^{}]+)\{', lambda m: pattern.sub(':is(body)', m[1]) + '{', css)
+    css = bake_classes(css, classes)
     return css + '\n' + '\n'.join(f'{sel} {{{" ".join(props)}}}' for sel, props in variables.items())
 
 

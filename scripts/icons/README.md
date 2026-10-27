@@ -38,6 +38,7 @@ font discovery and installed fonts are not build inputs.
 | Part | Authoritative inputs | Generated output |
 | --- | --- | --- |
 | Desktop theme | `catalog.json`, `provenance.json`, `local/`, `upstream/`, `references/`, palette/material modules | `home/dot_local/share/icons/rose-punk/scalable/apps/` |
+| Shell and launcher companions | `command_icons.py`, `command-icons.json`, `material_art.py:COMMAND_ART` | Primary theme SVGs and `local/` source snapshots |
 | Aliases | Catalog icon names/desktop IDs and `alias-overrides.json` | `theme-aliases.json` and Chezmoi `symlink_*.svg` files |
 | Fleet terminal sprites | `fleet.py` SVG mapping and `scripts/fleet_update/icon_catalog.py` labels | `scripts/fleet_update/icons32.json` |
 | Homepage | `homepage.json` and its source SVG/hash declarations | `home/dockers/homepage/images/rose-punk/` |
@@ -70,7 +71,10 @@ the icon build never writes `home/dot_local/share/icons/tjikup.png`.
 ## Optional reviews and historical studies
 
 `gallery.py` produces the current catalog and contact sheets without requiring
-historical review files. `frameless-review.py` exports the current originals
+historical review files. Both the current previews and release gallery include
+application originals from `catalog.json` and shell/launcher companions from
+`command-icons.json`; their attribution manifests accompany the release ZIP.
+`frameless-review.py` exports the current originals
 with optional frozen comparisons. `palette-review.py`, `material-review.py`,
 `coherence-review.py`, and `homepage-coherence-review.py` are historical review
 tools: they can require local snapshots that are deliberately not release
@@ -126,6 +130,9 @@ cannot be overwritten. Replacement checks current remote refs; remote access
 errors block replacement. If a remote commit
 is missing locally, fetch it in the site checkout and retry. Pass the same
 `--site` when recutting to check its remotes and refresh its registry.
+Restart a running Vite dev server after replacing a release directory if a new
+gallery image is missing: its cached public-file list can return the HTML
+fallback for a new SVG path. Rebuild before checking a Vite production preview.
 The existing offline check must pass; run `build` first if
 intentional source edits made generated assets stale.
 

@@ -150,7 +150,7 @@ class IconPublishTests(unittest.TestCase):
             self.assertEqual((snapshot / 'release.json').read_bytes(), before)
             inputs = root / 'inputs'
             inputs.mkdir()
-            for name in ('catalog.json', 'homepage.json'):
+            for name in ('catalog.json', 'homepage.json', 'command-icons.json'):
                 (inputs / name).write_text('{}')
 
             def package(trees, files, destination):
@@ -166,6 +166,44 @@ class IconPublishTests(unittest.TestCase):
                 self.assertEqual(publish.cut({}, {}, root, '0.1.0'), snapshot)
             self.assertNotEqual((snapshot / 'release.json').read_bytes(), before)
             publish.verify_snapshot(snapshot)
+
+    def test_cut_gallery_includes_apps_shells_controls_and_homepage(self):
+        import homepage
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            inputs = root / 'inputs'
+            inputs.mkdir()
+            (inputs / 'catalog.json').write_bytes(publish.encoded({'app': {'name': 'Application'}}))
+            (inputs / 'command-icons.json').write_bytes(publish.encoded({
+                'fish': {'name': 'Fish shell', 'role': 'shell'},
+                'runtjik-refresh': {'name': 'Refresh index', 'role': 'control'}}))
+            (inputs / 'homepage.json').write_bytes(publish.encoded({'service': {'name': 'Service'}}))
+            svg = b'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M4 4h56v56H4Z"/></svg>'
+            trees = {publish.PRIMARY / 'scalable/apps': {
+                key + '.svg': svg for key in ('app', 'fish', 'runtjik-refresh')},
+                homepage.DEST: {'service.svg': svg}}
+
+            def package(trees, files, destination):
+                destination.mkdir()
+                payload = {'index.theme': b'theme', **{
+                    'scalable/apps/' + name: data
+                    for name, data in trees[publish.PRIMARY / 'scalable/apps'].items()}}
+                (destination / 'rose-punk.zip').write_bytes(release.theme_zip(payload))
+                return {}
+
+            with patch.object(release, 'check_outputs'), \
+                    patch.object(release, 'package', side_effect=package), \
+                    patch.object(publish, 'HERE', inputs), \
+                    patch.object(publish.subprocess, 'check_output', return_value='source'):
+                snapshot = publish.cut(trees, {}, root, '0.1.0')
+            gallery = json.loads((snapshot / 'gallery.json').read_text())
+            self.assertEqual({entry['id'] for entry in gallery}, {'app', 'fish', 'runtjik-refresh', 'service'})
+            for entry in gallery:
+                self.assertEqual((snapshot / 'icons' / (entry['id'] + '.svg')).read_bytes(), svg)
+            manifest = publish.verify_snapshot(snapshot)
+            self.assertIn('icons/fish.svg', manifest['artifacts'])
+            with zipfile.ZipFile(snapshot / 'rose-punk.zip') as archive:
+                self.assertEqual(archive.read('rose-punk/scalable/apps/fish.svg'), svg)
 
     def test_failed_directory_swap_restores_original(self):
         with tempfile.TemporaryDirectory() as temporary:

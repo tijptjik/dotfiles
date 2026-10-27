@@ -3,11 +3,13 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
+import sys
 import unittest
 import xml.etree.ElementTree as ET
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts/icons'))
 ASSETS = ROOT / '.local/icon-reviews/docs/assets/icon-frameless-review'
 spec = importlib.util.spec_from_file_location('frameless', ROOT / 'scripts/icons/frameless-review.py')
 frameless = importlib.util.module_from_spec(spec)
@@ -17,7 +19,7 @@ spec.loader.exec_module(frameless)
 @unittest.skipUnless(ASSETS.is_dir(), 'Optional local review archive is absent')
 class FramelessIconTests(unittest.TestCase):
     def test_complete_catalog_and_source_snapshot_hashes(self):
-        catalog = json.loads((ROOT / 'scripts/icons/catalog.json').read_text())
+        catalog = frameless.gallery_catalog(ROOT / 'scripts/icons')
         manifest = json.loads((ASSETS / 'manifest.json').read_text())['icons']
         self.assertEqual(set(catalog), set(manifest))
         self.assertEqual(set(catalog), {p.stem for p in (ASSETS / 'frameless').glob('*.svg')})

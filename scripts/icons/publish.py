@@ -12,7 +12,7 @@ import zipfile
 
 import framed
 import release
-from icon_data import HERE, PRIMARY, ROOT, write_file
+from icon_data import HERE, PRIMARY, ROOT, gallery_catalog, write_file
 
 
 def encoded(value):
@@ -83,7 +83,7 @@ def cut(trees, files, output, version, site=None):
                      for name, data in primary.items()}
         secondary['index.theme'] = framed.INDEX.encode()
         write_file(prepared / 'rose-punk-framed.zip', release.theme_zip(secondary, 'rose-punk-framed'))
-        catalog = json.loads((HERE / 'catalog.json').read_text())
+        catalog = gallery_catalog(HERE)
         services = json.loads((HERE / 'homepage.json').read_text())
         import homepage
         gallery = []

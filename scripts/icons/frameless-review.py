@@ -12,6 +12,7 @@ import math
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import zipfile
+from icon_data import gallery_catalog
 
 # Keep these helpers available to existing review consumers loaded by file path.
 _spec = importlib.util.spec_from_file_location('icon_sizing', Path(__file__).with_name('frameless.py'))
@@ -83,7 +84,7 @@ $('#background').addEventListener('change',e=>{const mode=e.target.value,light=m
 def main():
     from review_paths import prepare_review
     prepare_review(ROOT)
-    catalog = json.loads((ROOT / 'scripts/icons/catalog.json').read_text())
+    catalog = gallery_catalog(ROOT / 'scripts/icons')
     keys = [k for k in FEATURED if k in catalog]
     keys += sorted(set(catalog) - set(keys), key=lambda k: catalog[k]['name'].casefold())
     for folder in ('framed', 'frameless'):

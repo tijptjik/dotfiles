@@ -84,7 +84,7 @@ def environment():
 def package(trees, files, destination):
     check_outputs(trees, files)
     payload = theme_files(trees[PRIMARY / 'scalable/apps'])
-    for name in ('catalog.json', 'provenance.json'):
+    for name in ('catalog.json', 'provenance.json', 'command-icons.json'):
         payload['attribution/' + name] = (HERE / name).read_bytes()
     for folder in ('upstream', 'references'):
         for path in (HERE / folder).iterdir():

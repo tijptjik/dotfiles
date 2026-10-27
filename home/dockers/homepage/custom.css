@@ -1,143 +1,161 @@
-/* Rose Punk — palette shared with dot_config/vivid/themes/rose-punk.yml.
- * Homepage keeps ownership of links, disclosures, checks and widget data.
- */
+/* StarFix · Rose Punk. Homepage owns links, live status and widget data. */
 :root {
-  --rp-bg: #191724;
-  --rp-deep: #110f18;
-  --rp-panel: #1f1d2e;
-  --rp-raised: #26233a;
-  --rp-border: #555169;
-  --rp-text: #e5e5e5;
-  --rp-muted: #b1adc3;
-  --rp-rose: #eb6f92;
-  --rp-pink: #ff53a6;
+  --rp-bg: #17151f;
+  --rp-panel: #211e2e;
+  --rp-raised: #2b2539;
+  --rp-border: #484054;
+  --rp-text: #f2eaf0;
+  --rp-muted: #aaa0b6;
+  --rp-rose: #ed85aa;
   --rp-cyan: #9ccfd8;
-  --rp-blue: #8596ed;
+  --rp-blue: #a49bea;
+  --rp-amber: #f2c579;
 }
-
-body, #page_wrapper {
-  background: var(--rp-bg);
-  color: var(--rp-text);
-}
+body, #page_wrapper { background: var(--rp-bg); color: var(--rp-text); }
 #page_wrapper {
-  background-image: radial-gradient(ellipse at 8% 0%, #eb6f9210, transparent 45%);
+  background-image: radial-gradient(ellipse at 12% 0, #b75b831a, transparent 48%);
 }
 #inner_wrapper {
-  padding: clamp(1rem, 3vw, 3rem);
-  scrollbar-gutter: stable both-edges;
+  padding: clamp(1.25rem, 3vw, 3rem);
+  scrollbar-gutter: stable;
   scrollbar-color: var(--rp-border) var(--rp-bg);
 }
 #inner_wrapper > .container { height: auto; min-height: 100%; }
 #information-widgets, #layout-groups {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1480px;
   margin-inline: auto;
   box-sizing: border-box;
 }
 #information-widgets {
   margin-top: 0;
-  margin-bottom: 2.5rem;
-  padding: 1rem 0 2rem;
-  border-bottom: 1px solid #55516960;
+  margin-bottom: 2rem;
+  padding: 0.5rem 0 1.75rem;
+  border-bottom: 1px solid #8c6b8938;
 }
-#widgets-wrap { align-items: center; gap: 1rem; }
+#widgets-wrap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+}
 #widgets-wrap::before {
   content: "StarFix";
-  color: var(--rp-rose);
-  font-size: 3.5rem;
-  font-weight: 750;
+  color: var(--rp-text);
+  font-size: clamp(3.5rem, 5vw, 4.5rem);
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.07em;
+  letter-spacing: -0.075em;
 }
-#information-widgets-right { margin: 0 0 0 auto; flex-grow: 0; }
+#widgets-wrap::after {
+  content: "Watch. Read. Listen. Discover.";
+  grid-column: 1;
+  grid-row: 2;
+  color: var(--rp-muted);
+  font-size: 0.9375rem;
+  letter-spacing: 0.025em;
+}
+#information-widgets-right {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  margin: 0;
+  flex-grow: 0;
+  border-left: 2px solid var(--rp-rose);
+  padding: 0.375rem 0 0.375rem 1.25rem;
+}
 .information-widget-datetime span {
   color: var(--rp-muted);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.02em;
 }
 #layout-groups {
+  margin-block: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  align-items: start;
   gap: 2rem 1.5rem;
 }
 #layout-groups > .services-group { min-width: 0; padding: 0; }
-.services-group { --group-accent: var(--rp-rose); }
-.services-group:nth-child(2) { --group-accent: var(--rp-cyan); }
-.services-group:nth-child(3) { --group-accent: var(--rp-blue); }
-.services-group:nth-child(4) { --group-accent: #f6c177; }
-.services-group > button { padding: 0.5rem 0 0.75rem; }
+.services-group { --group-accent: var(--rp-rose); --group-wash: #ed85aa09; }
+.services-group:nth-child(2) { --group-accent: var(--rp-cyan); --group-wash: #9ccfd809; }
+.services-group:nth-child(3) { --group-accent: var(--rp-blue); --group-wash: #a49bea09; }
+.services-group:nth-child(4) { --group-accent: var(--rp-amber); --group-wash: #f2c57909; }
+.services-group > button {
+  padding: 0 0 1rem;
+  margin-bottom: 0.25rem;
+  border-top: 2px solid var(--group-accent);
+  padding-top: 1rem;
+}
 .services-group .service-group-name {
-  color: var(--rp-text);
-  font-size: 1rem;
-  font-weight: 650;
-  letter-spacing: 0.01em;
+  color: var(--group-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
   align-items: center;
-  gap: 0.65rem;
 }
-.service-group-name::before {
-  content: "";
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background: var(--group-accent);
-}
-.services-group > button > svg { color: var(--rp-muted); }
-.services-group .services-list { margin-top: 0.5rem; gap: 0.75rem; }
+.services-group > button > svg { color: var(--group-accent); }
+.services-group .services-list { margin-top: 0; gap: 0.75rem; }
 #layout-groups .service-card {
   margin: 0;
-  padding: 0.75rem;
-  border: 1px solid #55516955;
+  padding: 1rem;
+  border: 1px solid #6c5d7738;
   border-radius: 1rem;
-  background: var(--rp-panel);
+  background: linear-gradient(120deg, var(--group-wash), transparent 70%), var(--rp-panel);
   color: var(--rp-text);
-  box-shadow: 0 4px 16px #08080c18;
-  transition: background 160ms ease, border-color 160ms ease;
+  box-shadow: 0 5px 18px #08070e12;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 #layout-groups .service-card:hover {
-  background: var(--rp-raised);
+  background-color: var(--rp-raised);
   border-color: var(--group-accent);
+  transform: translateY(-2px);
 }
-.service-card .service-title { min-height: 4.5rem; align-items: center; }
+.service-card .service-title { min-height: 4rem; align-items: center; gap: 0.75rem; }
 .service-card .service-icon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 0.8rem;
-  background: var(--rp-deep);
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0;
+  background: transparent;
+}
+.service-card .service-icon img {
+  width: 3.5rem !important;
+  height: 3.5rem !important;
 }
 .service-card .service-title-text { min-width: 0; align-self: stretch; }
 .service-card .service-name {
-  padding: 0.8rem 0.5rem 0.5rem 0.8rem;
-  font-size: 0.95rem;
+  min-width: 0;
+  padding: 0.625rem 0 0.375rem;
+  font-size: 1rem;
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
   overflow-wrap: anywhere;
 }
 .service-card .service-description {
-  margin-top: 0.3rem;
+  margin-top: 0.35rem;
   color: var(--rp-muted);
   font-size: 0.75rem;
   font-weight: 400;
+  letter-spacing: 0;
 }
-/* Legible badges; the colour and dot follow the real monitor state. */
-.service-card .service-tags { top: 0.5rem; right: 0.5rem; margin-right: 0; }
+/* Keep actual pending/error states, tooltips and status text intact. */
+.service-card .service-tags { top: 0.625rem; right: 0.75rem; margin-right: 0; }
 .service-card .site-monitor-status {
   padding: 0;
   background: transparent;
-  border-radius: 999px;
+  border-radius: 0;
   overflow: visible;
 }
 .service-card .site-monitor-status > div {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.2rem 0.5rem;
-  border: 1px solid currentColor;
-  border-radius: 999px;
+  gap: 0.3rem;
+  padding: 0;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: 0.07em;
-  background: var(--rp-deep);
+  letter-spacing: 0.06em;
 }
 .service-card .site-monitor-status > div::before {
   content: "";
@@ -146,79 +164,52 @@ body, #page_wrapper {
   border-radius: 50%;
   background: currentColor;
 }
-/* Preserve error / pending colours and the actual status text and tooltip. */
-.service-card .site-monitor-status > .text-emerald-500\/80 {
-  color: var(--rp-cyan);
-  background: #9ccfd815;
-  border-color: #9ccfd850;
-}
-/* Scrutiny metrics share one quiet strip instead of three nested cards. */
+.service-card .site-monitor-status > .text-emerald-500\/80 { color: var(--rp-cyan); }
 .service[data-name="Storage"] .service-container {
-  margin-top: 0.65rem;
-  padding-top: 0.9rem;
-  padding-bottom: 0.35rem;
-  border-top: 1px solid #55516955;
+  margin-top: 0.875rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid #6c5d7745;
 }
 .service[data-name="Storage"] .service-block {
   margin: 0;
   padding: 0 0.5rem;
   min-width: 0;
-  gap: 0.3rem;
+  gap: 0.375rem;
   border-radius: 0;
   background: transparent;
   color: var(--rp-text);
 }
-.service[data-name="Storage"] .service-block + .service-block {
-  border-left: 1px solid #55516955;
-}
+.service[data-name="Storage"] .service-block + .service-block { border-left: 1px solid #6c5d7745; }
 .service[data-name="Storage"] .service-block-value {
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   line-height: 1.2;
-  font-weight: 600;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 .service[data-name="Storage"] .service-block-label {
   color: var(--rp-muted);
-  font-size: 0.7rem;
+  font-size: 0.6875rem;
   font-weight: 400;
   text-transform: none;
 }
 a:focus-visible, button:focus-visible {
-  outline: 2px solid var(--rp-pink);
-  outline-offset: -2px;
+  outline: 2px solid var(--rp-rose);
+  outline-offset: 3px;
   border-radius: 0.5rem;
 }
-#footer { opacity: 0.7; }
-@media (min-width: 640px) {
-  #layout-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (min-width: 1200px) {
-  #layout-groups { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-@media (max-width: 639px) {
-  #information-widgets { margin-bottom: 1.5rem; padding-bottom: 1.5rem; }
-  #widgets-wrap::before { font-size: 2.75rem; }
-  .information-widget-datetime span { font-size: 0.75rem; }
-}
-@media (prefers-reduced-motion: reduce) {
-  #layout-groups .service-card { transition: none; }
-}
-
-/* Center the link and its icon/text as a single unit across the grid. */
+/* A compact, centred footer, independent of the service columns. */
 .bookmark-group:has(#community-link) {
   grid-column: 1 / -1;
   width: 100%;
-  max-width: none;
+  max-width: 400px;
+  justify-self: center;
   margin: 0;
   padding: 2rem 0 0;
   box-sizing: border-box;
-  justify-self: stretch;
 }
 .bookmark-group:has(#community-link) > button,
 .bookmark-group:has(#community-link) .bookmark-group-name,
-#community-link .bookmark-description {
-  display: none;
-}
+#community-link .bookmark-description { display: none; }
 .bookmark-group:has(#community-link) ul {
   display: flex;
   justify-content: center;
@@ -229,41 +220,51 @@ a:focus-visible, button:focus-visible {
   display: block;
   width: fit-content;
   margin: 0;
-  padding: 0.75rem 1rem;
-  color: var(--rp-muted);
-  background: transparent;
-  border: 1px solid #55516955;
+  padding: 0.75rem 1.125rem;
+  color: var(--rp-text);
+  background: #ed85aa08;
+  border: 1px solid #ed85aa38;
   border-radius: 999px;
   box-shadow: none;
   text-align: center;
+  transition: background-color 160ms ease, border-color 160ms ease;
 }
-#community-link a > div {
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-}
-#community-link .bookmark-icon {
+#community-link a > div { justify-content: center; align-items: center; gap: 0.625rem; }
+#community-link .bookmark-icon, #community-link .bookmark-icon > div {
   display: flex;
-  width: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
   background: transparent;
 }
 #community-link .bookmark-text { flex: 0 0 auto; }
-#community-link .bookmark-name {
-  padding: 0;
-  font-size: 0.875rem;
+#community-link .bookmark-name { padding: 0; font-size: 0.8125rem; }
+#community-link a:hover { background: var(--rp-raised); border-color: var(--rp-rose); }
+#footer { opacity: 0.6; }
+@media (min-width: 640px) {
+  #layout-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-#community-link a:hover {
-  color: var(--rp-cyan);
-  background: var(--rp-panel);
-  border-color: var(--rp-cyan);
+@media (min-width: 1200px) {
+  #layout-groups { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
-
-/* Frameless SVGs use a 48px canvas with balanced visible artwork.
- * Keep the surrounding link transparent instead of adding a background tile. */
-.service-card .service-icon { background: transparent; }
-.service-card .service-icon img {
-  width: 3rem !important;
-  height: 3rem !important;
+@media (max-width: 639px) {
+  #inner_wrapper { padding: 1.25rem; }
+  #information-widgets { margin-bottom: 1.75rem; padding-bottom: 1.5rem; }
+  #widgets-wrap { grid-template-columns: 1fr; gap: 0.75rem; }
+  #widgets-wrap::before { font-size: 3.75rem; }
+  #widgets-wrap::after { grid-row: 2; font-size: 0.8125rem; }
+  #information-widgets-right {
+    grid-column: 1;
+    grid-row: 3;
+    border: 0;
+    padding: 0;
+    justify-content: flex-start;
+  }
+  .information-widget-datetime span { font-size: 0.6875rem; }
+  .service-card .service-title { min-height: 3.75rem; }
+  .service-card .service-icon, .service-card .service-icon img { width: 3rem !important; height: 3rem !important; }
+  #layout-groups { gap: 1.75rem; }
 }
-#community-link .bookmark-icon,
-#community-link .bookmark-icon > div { width: 1.5rem; height: 1.5rem; }
+@media (prefers-reduced-motion: reduce) {
+  #layout-groups .service-card, #community-link a { transition: none; }
+  #layout-groups .service-card:hover { transform: none; }
+}

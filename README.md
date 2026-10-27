@@ -4,10 +4,10 @@ Personal configuration managed by [Chezmoi](https://www.chezmoi.io/).
 Use `dotjik` as the command name; `chezmoi` continues to work.
 The GitHub repository remains `dotfiles` and the checkout remains `~/.local/share/chezmoi`.
 
-The system setup (repos, packages), **Systjik**, is managed by [Chezetc](https://github.com/tijptjik/etcfiles) which needs to be setup **BEFORE** using Chezmoi.
+The system setup (repos, packages), **Systjik**, is managed by [Chezetc](https://github.com/tijptjik/systjik) which needs to be setup **BEFORE** using Chezmoi.
 
 Use `systjik` for system configuration (`chezetc` still works). The system repository
-remains `etcfiles`, with its checkout at `~/.local/share/chezetc`.
+is `systjik`, with its checkout at `~/.local/share/chezetc`.
 See [Git shortcuts](docs/tjikup.md#git-only-shortcuts) for `tjix` and `tjixx`.
 
 ## Supported Devices
@@ -103,7 +103,7 @@ sudo hostnamectl set-hostname fi  # use li or si on those devices
 sudo dnf install git curl fish chezmoi gum age jq python3 python3-tomli python3-tomli-w
 mkdir -p "$HOME/.local/share"
 git clone git@github.com:tijptjik/dotfiles.git "$HOME/.local/share/chezmoi"
-git clone git@github.com:tijptjik/etcfiles.git "$HOME/.local/share/chezetc"
+git clone git@github.com:tijptjik/systjik.git "$HOME/.local/share/chezetc"
 ```
 
 GitHub SSH access must already be configured for the account. Both repositories
@@ -137,8 +137,8 @@ checkout and enables its desktop notification service. Install Quickshell and
 Python 3 through the system configuration first. See
 [desktop notifications](docs/notjik.md) for configuration and controls.
 
-For **Si**, follow Chezetc's [server bootstrap](https://github.com/tijptjik/etcfiles/blob/main/SERVER-BOOTSTRAP.md)
-and [rebuild guide](https://github.com/tijptjik/etcfiles/blob/main/SERVER-REBUILD.md)
+For **Si**, follow Chezetc's [server bootstrap](https://github.com/tijptjik/systjik/blob/main/SERVER-BOOTSTRAP.md)
+and [rebuild guide](https://github.com/tijptjik/systjik/blob/main/SERVER-REBUILD.md)
 for storage and service initialization before ordinary applies. Once the two
 configuration repos and Chezetc are initialized, the focused installer below
 also enables the runner without executing home or system hooks.

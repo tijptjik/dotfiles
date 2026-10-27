@@ -169,7 +169,7 @@
     "timeout": 3700,
     "banner": {
       "title": "Systjik",
-      "url": "https://github.com/tijptjik/etcfiles"
+      "url": "https://github.com/tijptjik/systjik"
     },
     "needs": [
       "apply-home"

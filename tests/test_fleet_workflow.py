@@ -121,7 +121,7 @@ if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
             "Commit Local Changes\n",
             "Dotfiles Repository\n",
             "Dotfiles Apply\n",
-            "Systjik\nhttps://github.com/tijptjik/etcfiles",
+            "Systjik\nhttps://github.com/tijptjik/systjik",
         ]
         positions = [result.stdout.index(heading) for heading in headings]
         self.assertEqual(positions, sorted(positions))

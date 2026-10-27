@@ -39,8 +39,9 @@ systjik diff         # compatibility wrapper for chezetc
 ```
 
 Dotjik is the personal configuration name; Systjik is the system configuration
-name. The upstream tools (`chezmoi`, `chezetc`), GitHub repositories (`dotfiles`,
-`etcfiles`), existing aliases and checkout paths remain unchanged. These wrappers
+name. The system GitHub repository is `tijptjik/systjik`; the personal repository remains
+`tijptjik/dotfiles`. The upstream tools (`chezmoi`, `chezetc`), existing aliases,
+and checkout paths remain unchanged. These wrappers
 forward arguments and exit status directly to the original tools.
 
 The shortcuts synchronize this host's three checkouts. They do not create commits,

@@ -32,14 +32,18 @@ def artwork(entry):
     return '\n'.join(line.rstrip() for line in output.splitlines()) + '\n'
 
 
-def main():
+def render():
     manifest = json.loads((HERE / 'homepage.json').read_text())
     # Validate and render every source before updating the served SVGs.
     outputs = {key: artwork(entry) for key, entry in manifest.items()}
-    DEST.mkdir(parents=True, exist_ok=True)
-    for key, text in outputs.items():
-        (DEST / f'{key}.svg').write_text(text)
-    print(f'Built {len(manifest)} Homepage icons; no review assets or deployment')
+    return {f'{key}.svg': text.encode() for key, text in outputs.items()}
+
+
+def main():
+    from icon_data import write_tree
+    outputs = render()
+    write_tree(DEST, outputs)
+    print(f'Built {len(outputs)} Homepage icons; no review assets or deployment')
 
 
 if __name__ == '__main__':

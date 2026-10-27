@@ -1,5 +1,7 @@
 """Run the configured fleet in a temporary home with stub Git/apply commands."""
 
+import contextlib
+import io
 import json
 import os
 from pathlib import Path
@@ -8,10 +10,12 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import tjikup_support
 import tjikup
 from fleet_update import discover_propagators
+from fleet_update.workflow import show_failure
 
 REPO = Path(__file__).resolve().parents[1]
 
@@ -56,6 +60,19 @@ with open(os.environ['TRACE'], 'a') as stream:
 if pathlib.Path(sys.argv[0]).name == 'git':
     if sys.argv[1] == 'rev-list': print('0')
     if sys.argv[1] == 'diff': print('home/dot_config/fcitx5/private_profile')
+    if sys.argv[1] == 'pull' and pathlib.Path.cwd().name == 'chezmoi':
+        failure = os.environ.get('FAIL_PULL')
+        if failure == 'conflict':
+            print('Created autostash: 1d36f4a')
+            print('CONFLICT (content): Merge conflict in home/dot_config/herdr/session.json.tmpl')
+            print('Rebasing (3/3)', file=sys.stderr)
+            print('error: could not apply 56f8046... sync: update templates', file=sys.stderr)
+            print('hint: Resolve all conflicts manually', file=sys.stderr)
+            raise SystemExit(1)
+        if failure == 'auth':
+            print('Permission denied (publickey).', file=sys.stderr)
+            print('fatal: Could not read from remote repository.', file=sys.stderr)
+            raise SystemExit(1)
 if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
     print('intentional home failure', file=sys.stderr); raise SystemExit(8)
 """
@@ -129,6 +146,10 @@ if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
         self.assertEqual(sum(row.startswith("COMMIT") for row in rows), 1)
         self.assertFalse(any(row.startswith("CHECK") and "Prerequisites" in row for row in rows))
         self.assertNotIn("Live configuration", result.stdout)
+        self.assertNotIn("DAG     ", result.stdout)
+        self.assertIn("PULL    ✓ Dotjik", result.stdout)
+        self.assertIn("PULL    ✓ Systjik", result.stdout)
+        self.assertIn("SKIP    ✓ Push Dotjik", result.stdout)
         events = self.events()
         commit = next(
             row for row in events if row[0] == "git" and row[2][0] == "commit"
@@ -147,6 +168,47 @@ if pathlib.Path(sys.argv[0]).name == 'chezmoi' and os.environ.get('FAIL_HOME'):
         self.assertEqual(result.returncode, 1)
         self.assertIn("intentional home failure", result.stderr)
         self.assertNotIn("chezetc", [row[0] for row in self.events()])
+
+    def test_pull_conflict_is_grouped_and_full_output_is_saved(self):
+        self.env.update(FAIL_PULL="conflict", TJIKUP_COLUMNS="80", TJIKUP_COLOR="0")
+        result = self.run_fleet()
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn("PULL    ✗ Dotjik", result.stdout)
+        self.assertIn("merge conflict", result.stdout)
+        self.assertIn("home/dot_config/herdr/session.json.tmpl", result.stdout)
+        self.assertIn("git rebase --continue", result.stdout)
+        self.assertLess(result.stdout.index("PULL    ✗ Dotjik"), result.stdout.index("CONFLICT"))
+        self.assertNotIn("Created autostash", result.stdout + result.stderr)
+        self.assertNotIn("hint:", result.stdout + result.stderr)
+        self.assertNotIn("fleet-update:", result.stdout + result.stderr)
+        self.assertNotIn("DAG     ", result.stdout)
+        logs = list((self.home / ".local/state/tjikup/logs").glob("pull-home-*.log"))
+        self.assertEqual(len(logs), 1)
+        self.assertEqual(logs[0].stat().st_mode & 0o777, 0o600)
+        log = logs[0].read_text()
+        self.assertIn("Created autostash: 1d36f4a", log)
+        self.assertIn("hint: Resolve all conflicts manually", log)
+        self.assertIn("fleet-update: command failed (1)", log)
+        self.assertFalse(any(row[0] in {"chezmoi", "chezetc"} for row in self.events()))
+
+    def test_other_git_failures_keep_the_reason_without_rebase_advice(self):
+        self.env.update(FAIL_PULL="auth", TJIKUP_COLOR="0")
+        result = self.run_fleet()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("fatal: Could not read from remote repository.", result.stdout)
+        self.assertNotIn("git rebase --continue", result.stdout)
+        self.assertNotIn("merge conflict", result.stdout)
+
+    def test_log_write_failure_preserves_all_diagnostics(self):
+        output = io.StringIO()
+        transcript = "first diagnostic\nsecond diagnostic\n"
+        with patch("fleet_update.workflow.tempfile.mkstemp", side_effect=OSError("disk full")), \
+                patch.dict(os.environ, self.env), contextlib.redirect_stdout(output):
+            show_failure({"id": "pull-home", "verb": "PULL", "label": "Dotjik"},
+                         transcript, self.repo, RuntimeError("failed"), 1)
+        self.assertIn("Could not save log: disk full", output.getvalue())
+        for line in transcript.splitlines():
+            self.assertIn(line, output.getvalue())
 
     def add_synthetic_hooks(self):
         plan = json.loads((REPO / 'scripts/fleet_update/home-plan.json').read_text())

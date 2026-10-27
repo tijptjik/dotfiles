@@ -4,8 +4,10 @@ import fcntl
 import json
 import os
 from pathlib import Path
-import subprocess
-import sys
+import re
+import shlex
+import tempfile
+import textwrap
 
 from .dag import Task, run, command as run_command
 from .core import UpdateError
@@ -15,6 +17,48 @@ from tjikup.progress import Progress
 
 class Stopped(Exception):
     pass
+
+
+def failure_details(step, output, repo):
+    """Keep Git advice out of the status rows without losing diagnostics."""
+    conflicts = list(dict.fromkeys(re.findall(r"^CONFLICT[^\n]*", output, re.MULTILINE)))
+    lines = conflicts or [line for line in output.splitlines()
+                          if line.startswith(("fatal:", "error:", "Permission denied"))][:3]
+    if not lines and output.strip():
+        lines = output.strip().splitlines()[-3:]
+    if conflicts and step.get("verb") == "PULL":
+        command = step["command"]
+        target = (Path(command[command.index("--repo") + 1]).expanduser()
+                  if "--repo" in command else repo)
+        lines.append(f"Inspect: git -C {shlex.quote(str(target))} status")
+        if "could not apply" in output.lower():
+            lines.append("After resolving and staging files, continue in that repository:")
+            lines.append("git rebase --continue")
+    return lines, "merge conflict" if conflicts else "command failed"
+
+
+def show_failure(step, output, repo, error, seconds):
+    lines, reason = failure_details(step, output, repo)
+    if not output:
+        lines = [str(error)]
+    runtime.stage_label(step.get("verb", "FAILED"), "✗", step.get("label", step["id"]),
+                        f"{reason} · {seconds:.2f}s")
+    if output:
+        try:
+            state = Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state")
+            directory = state / "tjikup/logs"
+            directory.mkdir(parents=True, exist_ok=True, mode=0o700)
+            descriptor, filename = tempfile.mkstemp(prefix=f'{step["id"]}-', suffix=".log", dir=directory)
+            with os.fdopen(descriptor, "w") as stream:
+                stream.write(output)
+            lines.append(f"Log: {filename}")
+        except OSError as log_error:
+            # Never discard evidence if the state directory is unwritable.
+            lines = [f"Could not save log: {log_error}", *output.splitlines()]
+    for line in lines:
+        print(textwrap.fill(line, width=runtime.terminal_columns() - 1,
+                            initial_indent="          ", subsequent_indent="          ",
+                            break_long_words=False, break_on_hyphens=False), flush=True)
 
 
 def workflow(repo, *, dry_run=False):
@@ -28,6 +72,7 @@ def workflow(repo, *, dry_run=False):
             fcntl.flock(lock, fcntl.LOCK_EX)
         tasks = []
         outputs = {}
+        skipped = set()
         steps = {step["id"]: step for step in plan}
         progress = Progress()
 
@@ -50,6 +95,7 @@ def workflow(repo, *, dry_run=False):
                 if code in step.get("stop_codes", []):
                     raise Stopped(f'{step["id"]}: configuration refresh required')
                 if code in step.get("skip_codes", []):
+                    skipped.add(step["id"])
                     return
                 if code:
                     raise UpdateError(f'{step["id"]}: command failed ({code})')
@@ -68,15 +114,22 @@ def workflow(repo, *, dry_run=False):
                     progress.start(name, label, verb)
                 return
             output = outputs.get(name, "")
-            if output:
-                with progress.output():
-                    print(output, end="" if output.endswith("\n") else "\n", flush=True)
             if result.state == "failed":
-                progress.finish(name, label, verb="FAILED", icon="✗", note=str(result.error))
+                progress.discard(name)
+                with progress.output():
+                    show_failure(step, output, repo, result.error, result.seconds)
             elif result.state == "blocked":
-                progress.finish(name, label, verb="SKIP", icon="-", note="prerequisite failed or workflow stopped")
-            elif not dry_run and step.get("summary", True):
-                progress.finish(name, label, verb=verb, note=f"{result.seconds:.2f}s")
+                if step.get("summary", True):
+                    progress.finish(name, f"{verb.title()} {label}", verb="SKIP", icon="-", note="workflow stopped")
+            else:
+                if output:
+                    with progress.output():
+                        print(output, end="" if output.endswith("\n") else "\n", flush=True)
+                if not dry_run and step.get("summary", True):
+                    if name in skipped:
+                        progress.finish(name, f"{verb.title()} {label}", verb="SKIP", note="no changes")
+                    else:
+                        progress.finish(name, label, verb=verb, note=f"{result.seconds:.2f}s")
 
         for step in plan:
             tasks.append(Task(step["id"], action(step), tuple(step.get("needs", [])),
@@ -89,5 +142,6 @@ def workflow(repo, *, dry_run=False):
         if errors:
             if all(isinstance(error, Stopped) for error in errors):
                 return 78
-            raise UpdateError(str(errors[0]))
+            # Each failure has already been rendered with its diagnostics.
+            return 1
     return 0

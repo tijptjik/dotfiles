@@ -127,12 +127,22 @@ that install to run again. Build directories and dependency caches are excluded
 from source fingerprints. New installer inputs/outputs must be added to its
 `cache-install.py` invocation.
 
-Parallel tasks each have a live terminal row with a spinner and elapsed time.
-Completion leaves one concise result; redirected output contains final rows
-without cursor controls. Interactive hooks own the terminal exclusively.
-Noninteractive hook output is saved under `~/.local/state/tjikup/logs/home-*`
-(or `$XDG_STATE_HOME/tjikup/logs`); warnings and failure diagnostics remain visible.
-Routine successful tool chatter and duplicate `DAG` rows are hidden.
+Fleet steps use their configured verbs and labels (for example, `PULL ✓ Dotjik`)
+with elapsed wall time. Steps that already print their own status do not add a
+duplicate scheduler row; unchanged pushes are marked skipped. Parallel output
+has one live row per task, with a spinner and elapsed time until completion.
+Redirected output contains final rows without cursor controls.
+Buffered failures show the failed step first, followed by
+a short diagnostic and the path to a private full-output log under
+`$XDG_STATE_HOME/tjikup/logs` (default `~/.local/state/tjikup/logs`). Git conflicts
+include the conflict details and an inspection command; a paused rebase also
+shows how to continue after resolving and staging the files. This presentation
+does not resolve conflicts or resume a rebase automatically. If saving the log
+fails, the complete output is printed instead. Deferred hooks leave one concise
+result each; their raw output is saved in private `home-*` directories under the
+same log root. Warnings and failure diagnostics remain visible. Successful tool
+chatter and duplicate `DAG` rows are hidden. Interactive hooks own the terminal
+exclusively.
 
 The Python package count uses quiet output. Python 3.13 remains pinned for
 PaddlePaddle: release 3.3.1 has CPython 3.13 wheels but no CPython 3.14 wheels.

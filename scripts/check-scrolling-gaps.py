@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import time
 
 parser = argparse.ArgumentParser(description=__doc__)
@@ -38,6 +39,17 @@ if json.loads(ctl('-j', 'clients')):
     'modules-left': ['custom/probe'], 'custom/probe': {'format': 'PANEL REMAINS VISIBLE'}}))
 (args.artifacts / 'panel.css').write_text('window#waybar {background:#00aa99;color:white;} * {font-family:monospace;font-size:14px;}')
 procs=[]
+geometry_probe = args.artifacts / 'terminal-geometry.py'
+geometry_probe.write_text('''import json, os, sys, time
+previous = None
+with open(sys.argv[1], 'w', buffering=1) as log:
+    for _ in range(18000):
+        size = tuple(os.get_terminal_size())
+        if size != previous:
+            log.write(json.dumps(size) + "\\n")
+            previous = size
+        time.sleep(.01)
+''')
 try:
     assert not ctl('configerrors').strip()
     print(ctl('plugin','load',str(args.plugin.resolve())),flush=True)
@@ -49,7 +61,7 @@ try:
     time.sleep(.3)
     evaluate('hl.dispatch(hl.dsp.focus({monitor="SLIDES-PROBE"})); hl.dispatch(hl.dsp.focus({workspace=91}))')
     for n in range(3):
-        procs.append(subprocess.Popen(['kitty','--config','NONE','--class','slides-probe','--title',f'slides-{n}','-o','remember_window_size=no','-o','linux_display_server=wayland','sh','-c','sleep 120'],env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL))
+        procs.append(subprocess.Popen(['kitty','--config','NONE','--class','slides-probe','--title',f'slides-{n}','-o','remember_window_size=no','-o','linux_display_server=wayland',sys.executable,str(geometry_probe),str(args.artifacts / f'terminal-{n}.jsonl')],env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL))
         for _ in range(60):
             clients=json.loads(ctl('-j','clients'))
             if len(clients)==n+1: break
@@ -65,6 +77,9 @@ try:
     time.sleep(.8)
     focus(a);evaluate('hl.dispatch(hl.dsp.layout("colresize 1"))');time.sleep(1)
     baseline=snap()
+    wide_log = args.artifacts / ('terminal-' + baseline[a]['title'].split('-')[-1] + '.jsonl')
+    initial_geometry = wide_log.read_text().splitlines()
+    terminal_columns = json.loads(initial_geometry[-1])[0]
     frames=[]
     for turn in range(4):
         evaluate('hl.dispatch(hl.dsp.layout("focus '+('r' if turn%2==0 else 'l')+'"))')
@@ -74,6 +89,8 @@ try:
                 assert state[neighbor]['size']==baseline[neighbor]['size'],(turn,frame,neighbor,state[neighbor]['size'],baseline[neighbor]['size'])
             assert all(x['fullscreen']==0 and x['fullscreenClient']==0 for x in state.values())
             rendered={x['address']:x for x in json.loads(ctl('scrolling-gaps:state'))}
+            assert abs(rendered[a]['current'][0] - baseline[a]['size'][0]) < .01, rendered[a]
+            assert abs(rendered[a]['goal'][0] - baseline[a]['size'][0]) < .01, rendered[a]
             for neighbor in (b,c):
                 assert all(abs(x-y)<.01 for x,y in zip(rendered[neighbor]['current'],baseline[neighbor]['size'])),rendered[neighbor]
             frames.append({'turn':turn,'frame':frame,'wide':rendered[a]['current'],'ordinary':rendered[b]['current']})
@@ -83,7 +100,9 @@ try:
     assert len({tuple(f['wide']) for f in frames})>2, 'expected animated intermediate sizes'
     (args.artifacts / 'animation-frames.json').write_text(json.dumps(frames,indent=2))
     subprocess.run(['grim',str(args.artifacts / 'focused-gapless.png')],env=env,check=True)
-    print('PASS: 96 animation samples, ordinary sizes invariant, only wide window animates, fullscreen always zero',flush=True)
+    for line in wide_log.read_text().splitlines()[len(initial_geometry):]:
+        assert json.loads(line)[0] == terminal_columns, ('terminal width changed', initial_geometry, line)
+    print('PASS: 96 animation samples, all widths and Kitty columns invariant; wide height still animates, fullscreen always zero',flush=True)
     print('monitor reservations:',[(m['reserved']) for m in json.loads(ctl('-j','monitors'))],flush=True)
     print('wide animation sizes:',len({tuple(f['wide']) for f in frames}),flush=True)
     # Full-width content covers neighboring logical footprints at screen edges.
@@ -101,6 +120,18 @@ try:
                 target=json.loads(ctl('scrolling-gaps:hit-test',str(px),str(py)))
                 edge_samples.append({'point':[px,py],'expected':address,'actual':target})
                 assert target==address,edge_samples[-1]
+        # Full-width clients on either side keep their native inner edge and
+        # never expand over the selected narrower client's content.
+        for neighbor in (a,b,c):
+            if neighbor == address:
+                continue
+            focus(neighbor)
+            state=snap()
+            assert state[address]['size'][0] == width, state[address]
+            nx,ny=state[neighbor]['at'];nw,nh=state[neighbor]['size']
+            for px in (nx+1,nx+nw/2,nx+nw-1):
+                assert json.loads(ctl('scrolling-gaps:hit-test',str(px),str(ny+nh/2))) == neighbor
+        focus(address)
         evaluate('hl.dispatch(hl.dsp.layout("colresize 0.5"))')
     (args.artifacts / 'edge-hit-tests.json').write_text(json.dumps(edge_samples,indent=2))
     focus(a);evaluate('hl.dispatch(hl.dsp.layout("colresize 1"))');time.sleep(.7)

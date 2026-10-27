@@ -84,7 +84,11 @@ The `scrolling-gaps` C++ plugin keeps workspace gaps and logical column footprin
 constant. Each workspace's last-focused, single-window 100% scrolling column gets
 an expanded visual rectangle with no border or rounding. Moving focus to another
 monitor or workspace preserves that geometry. Focusing another column within the
-same workspace restores its ordinary gapped rectangle through `windowsMove`. Narrower and stacked columns retain their
+same workspace restores its gapped positioning, height, border and rounding through
+`windowsMove`, while keeping its client width equal to the monitor's usable width.
+The edge facing the selected column stays at its native gapped position; the extra
+width extends away from that column, offscreen. This prevents terminal columns and
+wrapped text from changing merely because focus moved. Narrower and stacked columns retain their
 normal content dimensions throughout navigation. Neither client nor compositor
 fullscreen is used. Special workspaces preserve the underlying normal workspace's
 last-focused column, including during transient loss of focus and plugin reload.
@@ -132,9 +136,10 @@ window titles or application content.
 `hyprctl scrolling-gaps:hit-test X Y` reports the window address targeted at a
 global logical coordinate without moving the pointer or sending a click.
 
-Validation used an isolated compositor, a reserved top panel, and three synthetic
-terminals. Across 96 animation samples, ordinary windows retained identical current
-and goal sizes while the wide window animated; all fullscreen states stayed zero.
+Validation uses an isolated compositor, a reserved top panel, and three synthetic
+terminals. Across 96 animation samples, ordinary windows retain identical current
+and goal sizes while the wide window's height animates; its width and Kitty's
+reported terminal column count remain constant. All fullscreen states stay zero.
 The packaged probe is `scripts/check-scrolling-gaps.py --instance SIGNATURE
 --plugin /path/to/scrolling-gaps-local.so --artifacts /tmp/gap-check`. It requires an
 empty disposable compositor, refuses the current desktop instance, and closes
@@ -147,8 +152,8 @@ geometry, while focusing a narrow tiled neighbor restores gaps. It checks 108
 edge/interior targets across left, middle and right full-width columns with
 border resizing enabled, plus floating-window hit priority.
 
-The remaining app redraw behavior belongs only to the deliberately resizing 100%
-window, not the ordinary column coming into view.
+The 100% window still changes height during gap transitions. Explicit column-width
+changes, monitor changes, and stacking windows can resize its client width.
 
 ## Controls
 

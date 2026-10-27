@@ -43,14 +43,12 @@ PHLWINDOW effectiveFocus(PHLWORKSPACE workspace) {
     return nullptr;
 }
 
-bool gapless(const Desktop::View::CWindow* w) {
+bool fullWidth(const Desktop::View::CWindow* w) {
     if (!enabled || !w || !w->m_isMapped || w->m_isFloating || w->m_group
         || !w->m_workspace
         || w->m_workspace->m_id <= 0)
         return false;
-    const auto focused = effectiveFocus(w->m_workspace);
-    if (focused.get() != w) return false;
-    const auto target = focused->layoutTarget();
+    const auto target = const_cast<Desktop::View::CWindow*>(w)->layoutTarget();
     if (!target || !target->space() || !target->space()->algorithm()) return false;
     auto* scrolling = dynamic_cast<Layout::Tiled::CScrollingAlgorithm*>(target->space()->algorithm()->tiledAlgo().get());
     if (!scrolling) return false;
@@ -59,6 +57,10 @@ bool gapless(const Desktop::View::CWindow* w) {
     const auto data = scrolling->dataFor(target);
     return data && data->column && data->column->targetDatas.size() == 1
         && std::abs(data->column->getColumnWidth() - 1.F) < 0.001F;
+}
+
+bool gapless(const Desktop::View::CWindow* w) {
+    return fullWidth(w) && effectiveFocus(w->m_workspace).get() == w;
 }
 
 void position(Layout::CWindowTarget* target, const Layout::STargetBox& box, uint8_t flags) {
@@ -70,6 +72,18 @@ void position(Layout::CWindowTarget* target, const Layout::STargetBox& box, uint
         const auto area = w->m_workspace->m_monitor->logicalBoxMinusReserved();
         const auto normal = target->space()->workArea();
         adjusted.visualBox = {box.logicalBox.x - (normal.x - area.x), area.y, area.w, area.h};
+    } else if (fullWidth(w.get()) && w->m_workspace->m_monitor && !box.visualBox.empty()) {
+        // Focus changes must not reflow terminal columns. Native scrolling has
+        // already supplied the gapped visual box; retain its height and the edge
+        // facing the selected column, putting the extra width offscreen.
+        const auto area = w->m_workspace->m_monitor->logicalBoxMinusReserved();
+        const auto reserved = w->getFullWindowReservedArea();
+        const double width = area.w + reserved.topLeft.x + reserved.bottomRight.x;
+        const auto focused = effectiveFocus(w->m_workspace);
+        if (focused && focused->layoutTarget()
+            && box.logicalBox.x < focused->layoutTarget()->position().x)
+            adjusted.visualBox.x -= width - adjusted.visualBox.w;
+        adjusted.visualBox.w = width;
     }
     reinterpret_cast<void (*)(Layout::CWindowTarget*, const Layout::STargetBox&, uint8_t)>(positionHook->m_original)(target, adjusted, flags);
 }
@@ -161,7 +175,7 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE owner) {
             return window ? std::format("\"0x{:x}\"", reinterpret_cast<uintptr_t>(window.get())) : std::string("null");
         }});
     refresh();
-    return {"scrolling-gaps", "Workspace-local gaps for 100% scrolling columns; no fullscreen", "Tijpfiles", "0.1.4"};
+    return {"scrolling-gaps", "Stable-width scrolling columns with workspace-local gaps", "Tijpfiles", "0.1.5"};
 }
 APICALL EXPORT void PLUGIN_EXIT() {
     enabled = false;

@@ -99,9 +99,9 @@ guides describe their scope and recovery procedures.
 The new cold-bootstrap path is documented in [the device guide](docs/new-devices.md).
 It installs early Fedora dependencies, clones public sources over HTTPS, enrolls
 this hostname with `tjikup new device`, and unlocks the existing Bitwarden/age
-credentials before any file apply. The endpoint is not ready until the matching
-source revisions have been published and pinned; see the publication gate in
-the guide. Do not pipe an unreviewed script into a shell.
+credentials before any file apply. Download and review `https://sh.type.hk/init`;
+the script embeds exact published source revisions. See the guide for release
+verification and first-apply instructions.
 
 Existing Fi/Li/Si profiles remain separate from new desktop/laptop/server roles.
 New machines do not inherit their disk mounts or backup policies. Recipe

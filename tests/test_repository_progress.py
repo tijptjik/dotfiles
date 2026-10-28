@@ -14,7 +14,7 @@ class RepositoryProgressTests(unittest.TestCase):
         with patch.dict(os.environ, {"TJIKUP_COLOR": "0"}):
             panel = RepositoryProgress(stream=io.StringIO(), live=True)
             panel.states["dotjik"] = {"PULL": "changed", "PUSH": "unchanged"}
-            self.assertEqual(panel.line("dotjik"), "dotjik    PULL↑  PUSH✓")
+            self.assertEqual(panel.line("dotjik"), "dotjik    ✓ PULL - PUSH")
             self.assertLess(len(panel.line("tjikos")), 24)
             self.assertTrue(panel.line("tjikos").startswith("tjikOS"))
 
@@ -22,15 +22,30 @@ class RepositoryProgressTests(unittest.TestCase):
         with patch.dict(os.environ, {"TJIKUP_COLOR": "1"}):
             panel = RepositoryProgress(stream=io.StringIO(), live=False)
             self.assertEqual(list(panel.states), ["dotjik", "systjik", "tjikos"])
-            for state, code in (("pending", "90"), ("running", "1"),
-                                ("changed", "94;1"), ("unchanged", "36"),
-                                ("failed", "31;1")):
+            for state, code, marker in (("pending", "90", " "), ("running", "1", " "),
+                                        ("blocked", "90", " "), ("disabled", "90", " "),
+                                        ("changed", "94;1", "✓"), ("unchanged", "36", "-"),
+                                        ("failed", "31;1", "✗")):
                 for verb in ("PULL", "PUSH"):
                     with self.subTest(state=state, verb=verb):
                         panel.update("dotjik", verb, state)
                         line = panel.line("dotjik")
-                        self.assertIn(f"\033[{code}m{verb}\033[0m", line)
-                        self.assertEqual(ANSI.sub("", line), "dotjik    PULL  PUSH")
+                        self.assertIn(f"\033[{code}m{marker} {verb}\033[0m", line)
+                        expected = "dotjik    " + " ".join(
+                            f"{panel.markers.get(value, ' ')} {operation}"
+                            for operation, value in panel.states['dotjik'].items())
+                        self.assertEqual(ANSI.sub("", line), expected)
+
+    def test_resolved_and_unresolved_markers_keep_both_cells_aligned(self):
+        for color in ('0', '1'):
+            with self.subTest(color=color), patch.dict(os.environ, {'TJIKUP_COLOR': color}):
+                panel = RepositoryProgress(stream=io.StringIO(), live=True)
+                for state, marker in (('pending', ' '), ('running', ' '), ('blocked', ' '),
+                                      ('unchanged', '-'), ('changed', '✓'), ('failed', '✗')):
+                    panel.states['tjikos'] = {'PULL': state, 'PUSH': state}
+                    visible = ANSI.sub('', panel.line('tjikos'))
+                    self.assertEqual(visible, f'tjikOS    {marker} PULL {marker} PUSH')
+                    self.assertEqual(len(visible), 23)
 
     def test_blocked_push_does_not_hide_dirty_failure(self):
         panel = RepositoryProgress(stream=io.StringIO(), live=False)

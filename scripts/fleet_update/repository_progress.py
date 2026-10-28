@@ -8,6 +8,7 @@ class RepositoryProgress(Progress):
     colors = {"pending": "90", "disabled": "90", "blocked": "90",
               "running": "1", "changed": "94;1", "unchanged": "36",
               "failed": "31;1"}
+    markers = {"changed": "✓", "unchanged": "-", "failed": "✗"}
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -23,14 +24,12 @@ class RepositoryProgress(Progress):
             label = f"{name:<8}"
             if "failed" in cells.values():
                 label = f"\033[31;1m{label}\033[0m"
-            return label + "  " + "  ".join(
-                f"\033[{self.colors[state]}m{verb}\033[0m"
+            return label + "  " + " ".join(
+                f"\033[{self.colors[state]}m{self.markers.get(state, ' ')} {verb}\033[0m"
                 for verb, state in cells.items())
         if self.live:
-            markers = {"pending": "·", "disabled": "-", "blocked": "-",
-                       "running": "…", "changed": "↑", "unchanged": "✓", "failed": "✗"}
-            return f"{name:<8}  " + "  ".join(
-                f"{verb}{markers[state]}" for verb, state in cells.items())
+            return f"{name:<8}  " + " ".join(
+                f"{self.markers.get(state, ' ')} {verb}" for verb, state in cells.items())
         return f"{name:<8}  " + "  ".join(
             f"{verb} [{state}]" for verb, state in cells.items())
 

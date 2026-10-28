@@ -299,7 +299,9 @@ The **Fleet repositories** panel keeps three rows in fixed order: `dotjik`,
 are dimmed, running cells are bright, completed operations with changes are
 blue, and completed operations without changes are teal. Failures turn red;
 blocked operations stay dimmed. tjikOS PUSH follows the same state colors as
-the configuration repositories. Pull changes are determined from the
+the configuration repositories. Each operation reserves a marker before its
+label: `✓` for changes, `-` for no changes, `✗` for failure, and a blank while
+unresolved. Pull changes are determined from the
 checkout's HEAD before and after the operation, and pushes from outgoing commits.
 The scoped capture commit stays under **Commit Local Changes**; dirty checks are
 folded into repository results. Redirected output emits the three final rows

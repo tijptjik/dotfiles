@@ -81,7 +81,7 @@ def apply(repo, system_repo=None):
     except ValueError:
         raise UpdateError("FLEET_JOBS must be a positive integer") from None
     started = time.monotonic()
-    result, home_file_seconds = prepare("Chezmoi files", "APPLY", lambda: apply_files(repo), exit_code=True)
+    result, home_file_seconds = prepare("Chezmoi", "APPLY", lambda: apply_files(repo), exit_code=True)
     if result:
         return result
     env = os.environ.copy()
@@ -122,15 +122,18 @@ def apply(repo, system_repo=None):
         tasks = combine(home_tasks, system_tasks, native,
                         {**{"home:" + item["id"]: item.get("barrier") for item in home_plan},
                          **{"system:" + item["id"]: item.get("barrier") for item in system_plan}})
-        runtime.repo_header(title="Systjik", url="https://github.com/tijptjik/systjik")
-        runtime.section_header("Home and system configuration")
+        runtime.section_header("Dotjik + Systjik")
         try:
             with hooks.progress:
                 results = run(tasks, workers=workers, event=hooks.event)
         finally:
             timing = hooks.save_timings(tasks, total_seconds=time.monotonic() - started,
                                        home_file_seconds=home_file_seconds, home_render_seconds=home_render_seconds)
-            timing_report(timing)
+            receipt = os.environ.get("FLEET_TIMING_RECEIPT")
+            if receipt:
+                Path(receipt).write_text(str(timing))
+            else:
+                timing_report(timing)
         if any(result.state == "failed" for result in results.values()):
             return 1
     return 0

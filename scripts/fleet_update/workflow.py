@@ -13,7 +13,7 @@ from .dag import Task, run, command as run_command
 from .core import UpdateError
 from tjikup import runtime
 from .repository_progress import RepositoryProgress
-from .presentation import summary
+from .presentation import summary, timing_report
 
 
 class Stopped(Exception):
@@ -79,6 +79,7 @@ def workflow(repo, *, dry_run=False):
             fcntl.flock(lock, fcntl.LOCK_EX)
         tasks = []
         outputs = {}
+        timing_reports = {}
         skipped = set()
         steps = {step["id"]: step for step in plan}
         progress = RepositoryProgress()
@@ -107,8 +108,15 @@ def workflow(repo, *, dry_run=False):
                 command = [str(Path(arg).expanduser()) if arg.startswith("~/") else arg for arg in command]
                 # Apply owns the terminal; parallel Git operations use private output.
                 if step.get("exclusive"):
-                    code = runtime.run_stream(command, repo, env=os.environ.copy(),
-                                              timeout=step.get("timeout", 300), check=False)
+                    with tempfile.TemporaryDirectory(prefix="tjikup-report-") as temporary:
+                        receipt = Path(temporary) / "timing-path"
+                        env = {**os.environ, "FLEET_TIMING_RECEIPT": str(receipt)}
+                        try:
+                            code = runtime.run_stream(command, repo, env=env,
+                                                      timeout=step.get("timeout", 300), check=False)
+                        finally:
+                            if receipt.is_file():
+                                timing_reports[step["id"]] = Path(receipt.read_text())
                     output = ""
                 else:
                     result = run_command(command, cwd=repo, timeout=step.get("timeout", 300))
@@ -184,6 +192,10 @@ def workflow(repo, *, dry_run=False):
                         progress.finish(name, label, verb=verb, note=f"{result.seconds:.2f}s")
                 if name == "commit" and not dry_run:
                     progress.open()
+            if name in timing_reports:
+                with progress.output():
+                    print(flush=True)
+                    timing_report(timing_reports.pop(name))
 
         for step in plan:
             tasks.append(Task(step["id"], action(step), tuple(step.get("needs", [])),

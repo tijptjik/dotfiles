@@ -5,6 +5,12 @@ import os
 from pathlib import Path
 import tempfile
 import threading
+import time
+import subprocess
+import sys
+import pty
+import re
+import select
 import unittest
 from unittest.mock import patch
 
@@ -14,14 +20,14 @@ from fleet_update import fleet_apply
 
 
 class PreparationTests(unittest.TestCase):
-    def test_heartbeat_arrives_before_action_finishes_and_stops_afterward(self):
-        heartbeat = threading.Event()
+    def test_spinner_animates_and_yields_to_diagnostics_and_partial_prompts(self):
+        tick = threading.Event()
 
         class Output(io.StringIO):
             def write(self, value):
                 result = super().write(value)
-                if "elapsed" in value:
-                    heartbeat.set()
+                if "Chezmoi" in value and self.getvalue().count("Chezmoi") > 1:
+                    tick.set()
                 return result
 
         output = Output()
@@ -29,21 +35,72 @@ class PreparationTests(unittest.TestCase):
             report = Path(temporary) / "report"
             with patch.dict(os.environ, {"TJIKUP_PROGRESS": "1", "TERM": "xterm",
                                         "TJIKUP_COLOR": "0", "TJIKUP_REPORT_FILE": str(report)}), \
-                    contextlib.redirect_stdout(output):
+                    contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
                 def action():
-                    self.assertIn("starting", output.getvalue())
-                    self.assertTrue(heartbeat.wait(2), "no feedback while action is running")
+                    self.assertIn("Chezmoi", output.getvalue())
+                    self.assertTrue(tick.wait(2), "spinner did not animate")
                     print("native diagnostic", flush=True)
+                    print("continue? ", end="", file=sys.stderr, flush=True)
+                    before = output.getvalue().count("Chezmoi")
+                    time.sleep(.3)
+                    self.assertEqual(output.getvalue().count("Chezmoi"), before)
+                    print("yes", file=sys.stderr, flush=True)
                     return 0
 
-                result, seconds = prepare("Chezmoi files", "APPLY", action, interval=0.02)
+                result, seconds = prepare("Chezmoi", "APPLY", action)
                 self.assertFalse(report.exists())
             self.assertEqual(result, 0)
             self.assertGreater(seconds, 0)
-        lines = output.getvalue().splitlines()
-        self.assertIn("native diagnostic", lines)
-        self.assertIn("✓", lines[-1])
-        self.assertNotIn("\x1b", output.getvalue())
+        rendered = output.getvalue()
+        self.assertIn("native diagnostic", rendered)
+        self.assertIn("continue? yes", re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", rendered))
+        self.assertEqual(rendered.count("✓ Chezmoi"), 1)
+        self.assertIn("\r\x1b[1A", rendered)
+        self.assertIn("\x1b[?25h", rendered)
+        # No progress thread may continue writing after settlement.
+        settled = rendered
+        time.sleep(.15)
+        self.assertEqual(output.getvalue(), settled)
+
+    def test_native_stderr_prompt_is_visible_before_reading_input(self):
+        master, slave = pty.openpty()
+        self.addCleanup(os.close, master)
+        code = """
+from pathlib import Path
+import sys
+from fleet_update import run_stream
+from fleet_update.preparation import prepare
+child = "import sys; sys.stderr.write('continue? '); sys.stderr.flush(); answer=input(); print('confirmed:'+answer, file=sys.stderr, flush=True)"
+prepare('Chezmoi', 'APPLY', lambda: run_stream([sys.executable, '-c', child], Path.cwd()))
+"""
+        env = {**os.environ, 'PYTHONPATH': os.pathsep.join(sys.path),
+               'TJIKUP_PROGRESS': '1', 'TJIKUP_COLOR': '0', 'TERM': 'xterm'}
+        output = b''
+        with subprocess.Popen([sys.executable, '-B', '-c', code], stdin=slave,
+                              stdout=slave, stderr=slave, env=env) as process:
+            os.close(slave)
+            answered = False
+            deadline = time.monotonic() + 5
+            try:
+                while time.monotonic() < deadline:
+                    if select.select([master], [], [], .1)[0]:
+                        try:
+                            output += os.read(master, 65536)
+                        except OSError:
+                            break
+                        if b'continue? ' in output and not answered:
+                            os.write(master, b'yes\n')
+                            answered = True
+                    if process.poll() is not None:
+                        break
+                self.assertEqual(process.wait(timeout=1), 0, output.decode())
+            finally:
+                if process.poll() is None:
+                    process.kill()
+                    process.wait()
+        self.assertTrue(answered, output.decode())
+        self.assertIn(b'confirmed:yes', output)
+        self.assertEqual(output.count('✓ Chezmoi'.encode()), 1)
 
     def test_plain_output_and_failed_or_stopped_actions(self):
         for outcome, expected in [(0, "✓"), (78, "WARN"), (3, "FAILED"),
@@ -59,12 +116,12 @@ class PreparationTests(unittest.TestCase):
                         contextlib.redirect_stdout(output):
                     if isinstance(outcome, BaseException):
                         with self.assertRaises(type(outcome)):
-                            prepare("Chezmoi files", "APPLY", action, exit_code=True)
+                            prepare("Chezmoi", "APPLY", action, exit_code=True)
                     else:
-                        result, _ = prepare("Chezmoi files", "APPLY", action, exit_code=True)
+                        result, _ = prepare("Chezmoi", "APPLY", action, exit_code=True)
                         self.assertEqual(result, outcome)
                 lines = output.getvalue().splitlines()
-                self.assertEqual(len(lines), 2)
+                self.assertEqual(len(lines), 1)
                 self.assertIn(expected, lines[-1])
 
     def test_config_refresh_keeps_stop_code_and_never_prepares_hooks(self):
@@ -75,7 +132,7 @@ class PreparationTests(unittest.TestCase):
                 patch.object(fleet_apply, "HookTasks") as hooks, contextlib.redirect_stdout(output):
             self.assertEqual(fleet_apply.apply(Path("/unused")), 78)
             hooks.assert_not_called()
-        self.assertIn("Chezmoi files", output.getvalue())
+        self.assertIn("Chezmoi", output.getvalue())
         self.assertIn("WARN", output.getvalue())
 
 

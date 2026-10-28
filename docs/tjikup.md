@@ -156,12 +156,18 @@ manifest; a mismatch fails before home apply. Plain `chezmoi apply` retains its
 native serial hook behavior. Never set `FLEET_DEFER_HOOKS` manually: it is an
 internal hand-off flag, not a way to skip setup.
 
-Before the hook progress display starts, `Chezmoi files` and `Home hooks` each
-show an immediate status and a completion time. Interactive runs also print
-elapsed time every five seconds during these phases. These append-only updates
-avoid clearing Chezmoi diagnostics or prompts. Redirected logs retain the start
-and completion rows; `TJIKUP_PROGRESS=0` disables periodic updates. Preparation
+Before the hook graph starts, `Chezmoi` and `Home hooks` each use one spinner
+row that settles with its completion time. Native output clears the active row
+before printing; partial stderr prompts pause animation until their line ends.
+Redirected logs and `TJIKUP_PROGRESS=0` show only the completion row. Preparation
 rows do not add duplicate stages to the final outcome report.
+
+The task timings report is the last workflow row, separated by a blank line
+after the final `APPLY` result (or failure). Interactive output uses an OSC 8
+file link. In the managed Kitty configuration, Ctrl+Shift+click follows it.
+The stock keyboard link hints are cleared by `clear_all_shortcuts yes`.
+Remote file links use Kitty's remote-file handler, which can offer to download
+and open the report. Plain logs retain the full report path. The report is saved even when the hook graph fails.
 
 The combined home/system graph defaults to four workers (`FLEET_JOBS=1` serializes
 it for diagnosis). Cargo, uv, tjikOS checkout/install operations, DNF, Flatpak,
@@ -189,8 +195,10 @@ Tailscale reconciliation waits for home/system work before enforcing the declare
 final network policy. Fedora release-upgrade prompting is exclusive and runs last,
 after every peer task, so a reboot cannot interrupt in-flight work.
 
-Both layers share one `Home and system configuration` heading because completion
-order crosses application sections. Si’s application update results retain
+Both layers share one `Dotjik + Systjik` heading because completion
+order crosses repositories and application sections. This graph executes the
+deferred hooks collected from both repositories; a Systjik-only banner would
+mislabel the home tasks. Si’s application update results retain
 separate `Docker services` and `Native applications` headings, with an individual
 icon and outcome for each service. Direct `chezmoi apply` and `chezetc apply`
 keep their native serial sequences and headings.

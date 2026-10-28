@@ -1,47 +1,63 @@
-"""Visible preparation phases without taking cursor or terminal input ownership."""
+"""Preparation spinners that yield the terminal to native output and prompts."""
+from contextlib import redirect_stdout, redirect_stderr
 import sys
-import threading
 import time
 
-from tjikup import runtime
-from tjikup.progress import enabled
+from tjikup.progress import Progress
 
 
-def prepare(label, verb, action, *, exit_code=False, interval=5.0):
-    """Return the action's result and duration; keep native prompts/output intact.
+class PreparationProgress(Progress):
+    output_open = False
 
-    Append-only heartbeats cannot erase output written directly by Chezmoi to
-    stderr. These informational rows do not add stages to the outcome report.
-    """
-    stream = sys.stdout
+    def _cursor(self, hidden):
+        super()._cursor(hidden and not self.output_open)
+
+    def _draw(self):
+        if not self.output_open:
+            super()._draw()
+
+
+class PreparationOutput:
+    """Clear the active row before output; keep partial prompts unobstructed."""
+    def __init__(self, progress, stream):
+        self.progress, self.stream = progress, stream
+
+    def write(self, value):
+        if not value:
+            return 0
+        with self.progress.lock, self.progress._frame(active=False):
+            self.progress._clear()
+            result = self.stream.write(value)
+            self.stream.flush()
+            self.progress.output_open = not value.endswith('\n')
+            self.progress._draw()
+            return result
+
+    def __getattr__(self, name):
+        return getattr(self.stream, name)
+
+
+def prepare(label, verb, action, *, exit_code=False):
+    """Return the native result and duration, settling one informational row."""
     started = time.monotonic()
-    stopped = threading.Event()
-
-    def show(status, icon, note):
-        stream.write(runtime.format_status(status, icon, label, note) + "\n")
-        stream.flush()
-
-    def heartbeat():
-        while not stopped.wait(interval):
-            show(verb, "…", f"{time.monotonic() - started:.0f}s elapsed")
-
-    show(verb, "…", "starting")
-    thread = threading.Thread(target=heartbeat, daemon=True) if enabled() else None
-    if thread:
-        thread.start()
-    status, icon = "FAILED", "✗"
-    try:
-        result = action()
-        if exit_code and result:
-            status, icon = ("WARN", "!") if result == 78 else ("FAILED", "✗")
-        else:
-            status, icon = verb, "✓"
-        return result, time.monotonic() - started
-    except KeyboardInterrupt:
-        status, icon = "STOP", "!"
-        raise
-    finally:
-        stopped.set()
-        if thread:
-            thread.join()
-        show(status, icon, f"{time.monotonic() - started:.2f}s")
+    with PreparationProgress() as progress:
+        progress.start('preparation', label, verb)
+        status, icon = 'FAILED', '✗'
+        try:
+            with redirect_stdout(PreparationOutput(progress, sys.stdout)), \
+                    redirect_stderr(PreparationOutput(progress, sys.stderr)):
+                result = action()
+            if exit_code and result:
+                status, icon = ('WARN', '!') if result == 78 else ('FAILED', '✗')
+            else:
+                status, icon = verb, '✓'
+            return result, time.monotonic() - started
+        except KeyboardInterrupt:
+            status, icon = 'STOP', '!'
+            raise
+        finally:
+            if progress.output_open:
+                progress.stream.write('\n')
+                progress.output_open = False
+            progress.finish('preparation', label, verb=status, icon=icon,
+                            note=f'{time.monotonic() - started:.2f}s', record=False)

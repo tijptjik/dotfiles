@@ -185,11 +185,18 @@ else:
             "Commit Local Changes\n",
             "Fleet repositories\n",
             "Dotfiles Apply\n",
-            "Systjik\nhttps://github.com/tijptjik/systjik",
+            "Dotjik + Systjik\n",
         ]
         positions = [result.stdout.index(heading) for heading in headings]
         self.assertEqual(positions, sorted(positions))
+        self.assertNotIn("Systjik\nhttps://github.com/tijptjik/systjik", result.stdout)
         rows = result.stdout.splitlines()
+        report = next(i for i, row in enumerate(rows) if row.startswith("Task timings:"))
+        self.assertEqual(rows[report - 1], "")
+        self.assertTrue(rows[report - 2].startswith("APPLY"), result.stdout)
+        self.assertIn("Home and system", rows[report - 2])
+        self.assertFalse(any(row.startswith("APPLY") and "Home and system" in row
+                             for row in rows[report + 1:]))
         self.assertEqual(sum(row.startswith("COMMIT") for row in rows), 1)
         self.assertFalse(any(row.startswith("CHECK") and "Prerequisites" in row for row in rows))
         self.assertNotIn("Live configuration", result.stdout)
@@ -331,6 +338,12 @@ else:
         self.assertNotEqual(result.returncode, 0)
         self.assertFalse(Path(self.env['SYSTEM_TRACE']).exists())
         self.assertIn('intentional system file failure', result.stderr + result.stdout)
+        rows = result.stdout.splitlines()
+        report = next(i for i, row in enumerate(rows) if row.startswith('Task timings:'))
+        self.assertEqual(rows[report - 1], '')
+        completion = next(row for row in reversed(rows[:report]) if row.startswith('APPLY'))
+        self.assertIn('✗', completion)
+        self.assertIn('Home and system', completion)
 
     def test_system_render_failure_blocks_every_deferred_system_hook(self):
         self.env['FAIL_SYSTEM_RENDER'] = '1'

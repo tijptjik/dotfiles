@@ -488,6 +488,8 @@ def run_stream(
     skip_conflicts=False,
     formatter=None,
 ):
+    from .preparation import PreparationOutput
+    stderr_handler = sys.stderr.write if isinstance(sys.stderr, PreparationOutput) else None
     with apply_conflict_policy(command, skip_conflicts) as (command, stdin):
         return runtime.run_stream(
             command,
@@ -496,6 +498,7 @@ def run_stream(
             timeout=timeout,
             stdin=stdin,
             formatter=formatter or format_apply_output,
+            stderr_handler=stderr_handler,
         )
 
 

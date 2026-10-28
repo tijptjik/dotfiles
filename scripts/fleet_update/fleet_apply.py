@@ -11,6 +11,7 @@ from .dag import Task, run, validate, command
 from .home_apply import load_plan, render_hook
 from .hook_tasks import HookTasks
 from .preparation import prepare
+from .presentation import timing_report
 from tjikup import runtime
 
 
@@ -129,7 +130,7 @@ def apply(repo, system_repo=None):
         finally:
             timing = hooks.save_timings(tasks, total_seconds=time.monotonic() - started,
                                        home_file_seconds=home_file_seconds, home_render_seconds=home_render_seconds)
-            print(f"Task timings: {timing}", flush=True)
+            timing_report(timing)
         if any(result.state == "failed" for result in results.values()):
             return 1
     return 0

@@ -4,6 +4,7 @@ import io
 import os
 from pathlib import Path
 import shutil
+import re
 import subprocess
 import tempfile
 import unittest
@@ -12,13 +13,54 @@ from unittest.mock import patch
 import tjikup_support
 from fleet_update.home_apply import apply_hooks
 from fleet_update.core import UpdateError
-from fleet_update.presentation import summary
+from fleet_update.presentation import summary, timing_report
 from fleet_update.hook_tasks import HookTasks
 from fleet_update.dag import Result
 from tjikup import runtime
 
 
 class PresentationTests(unittest.TestCase):
+    def test_timing_report_is_compact_and_links_the_originating_host(self):
+        path = Path('/tmp/private report/apply-demo/timings.json')
+        output = io.StringIO()
+        with patch.dict(os.environ, {'TERM': 'xterm-kitty', 'TJIKUP_COLOR': '1',
+                                     'TJIKUP_PROGRESS': '1', 'TJIKUP_COLUMNS': '80'}), \
+                patch('fleet_update.presentation.socket.gethostname', return_value='si'):
+            timing_report(path, stream=output)
+        rendered = output.getvalue()
+        self.assertIn('file://si/tmp/private%20report/apply-demo/timings.json', rendered)
+        visible = re.sub(r'\x1b\]8;;.*?\x1b\\', '', rendered)
+        visible = re.sub(r'\x1b\[[0-9;]*m', '', visible).rstrip('\n')
+        self.assertIn('REPORT  ↗ Task timings', visible)
+        self.assertTrue(visible.endswith('apply-demo'))
+        self.assertNotIn('/tmp/', visible)
+        self.assertLessEqual(runtime.display_width(visible), 80)
+
+    def test_timing_report_keeps_full_paths_in_redirected_or_dumb_output(self):
+        for term, progress in [('xterm-kitty', '0'), ('dumb', '1')]:
+            with self.subTest(term=term, progress=progress), \
+                    patch.dict(os.environ, {'TERM': term, 'TJIKUP_PROGRESS': progress,
+                                            'TJIKUP_COLOR': '0'}):
+                output = io.StringIO()
+                timing_report(Path('/tmp/apply-demo/timings.json'), stream=output)
+                self.assertEqual(output.getvalue(), 'Task timings: /tmp/apply-demo/timings.json\n')
+
+    def test_narrow_timing_link_fits_without_colour_or_report_side_effects(self):
+        with tempfile.TemporaryDirectory() as directory:
+            report = Path(directory) / 'report.tsv'
+            report.write_text('original\n')
+            output = io.StringIO()
+            with patch.dict(os.environ, {'TERM': 'xterm-kitty', 'TJIKUP_PROGRESS': '1',
+                                         'TJIKUP_COLOR': '0', 'TJIKUP_COLUMNS': '24',
+                                         'TJIKUP_REPORT_FILE': str(report)}):
+                timing_report(Path(directory) / 'apply-demo/timings.json', stream=output)
+            rendered = output.getvalue()
+            visible = re.sub(r'\x1b\]8;;.*?\x1b\\', '', rendered).rstrip('\n')
+            self.assertEqual(visible, 'REPORT  ↗ Task timings')
+            self.assertNotIn('\x1b[', rendered)
+            self.assertLessEqual(runtime.display_width(visible), 24)
+            self.assertEqual(report.read_text(), 'original\n')
+
     def test_notes_and_warnings_survive_ansi_and_pending_rows(self):
         outcome = summary('\x1b[36mSYNC    ... Python\r\x1b[2KSYNC    ✓ Python    86 pkgs\nWARN    ! Missing optional tool\n')
         self.assertEqual(outcome.note, '86 pkgs')

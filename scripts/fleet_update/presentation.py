@@ -1,10 +1,36 @@
 """Summarize hook status rows while retaining full output in per-run logs."""
 import re
+import os
+from pathlib import Path
+import socket
+import sys
 from dataclasses import dataclass
+from urllib.parse import urlsplit
+
+from tjikup import runtime
 
 ANSI = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 ROW = re.compile(r"^([A-Z]+)\s+(✓|!|✗|X|-|\.\.\.)\s+(.*)$")
 UNCHANGED = re.compile(r"(?:^|;\s*)no (?:changes|updates)$", re.IGNORECASE)
+
+
+def timing_report(path, *, stream=None):
+    """Link the private report compactly; retain full paths in ordinary logs."""
+    stream = sys.stdout if stream is None else stream
+    path = Path(path).absolute()
+    interactive = stream.isatty() or os.environ.get("TJIKUP_PROGRESS") == "1"
+    if not interactive or os.environ.get("TERM") == "dumb":
+        print(f"Task timings: {path}", file=stream, flush=True)
+        return
+
+    title = "Task timings"
+    note = path.parent.name if runtime.terminal_columns() >= 40 else None
+    row = runtime.format_status("REPORT", "↗", title, note)
+    # Kitty routes non-local file URLs through its remote-file handler.
+    url = urlsplit(path.as_uri())._replace(netloc=socket.gethostname()).geturl()
+    label = f"\033[36m{title}\033[0m" if runtime.use_color() else title
+    link = f"\033]8;;{url}\033\\{label}\033]8;;\033\\"
+    print(row.replace(title, link, 1), file=stream, flush=True)
 
 
 @dataclass

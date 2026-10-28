@@ -239,7 +239,11 @@ completed rows use the same icons; outcome marks remain separate. Reports and
 redirected plain output retain text labels. `TJIKUP_ICONS=1` forces glyphs into
 a plain captured preview; it does not send image data to ordinary log output.
 
-Each combined apply prints a private `timings.json` path under
+Each combined apply links its private report as a compact `REPORT ↗ Task timings`
+row, with the run ID at the right. The link carries the originating hostname so
+Kitty can open remote reports through its remote-file handler. Ordinary redirected
+logs and dumb terminals retain the full `Task timings: /path/to/timings.json` line.
+Reports live under
 `$XDG_STATE_HOME/tjikup/logs/apply-*` (default `~/.local/state/tjikup/logs`). The report
 records total apply time, home file/rendering time, task dependencies/resources,
 execution duration, dependency wait,

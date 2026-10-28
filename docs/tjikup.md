@@ -248,8 +248,13 @@ redirected plain output retain text labels. `TJIKUP_ICONS=1` forces glyphs into
 a plain captured preview; it does not send image data to ordinary log output.
 
 Each combined apply links its private report as a compact `REPORT ↗ Task timings`
-row, with the run ID at the right. The link carries the originating hostname so
-Kitty can open remote reports through its remote-file handler. Ordinary redirected
+row, with the run ID at the right. Local links use standard hostless file URLs.
+The `fitjikup`, `litjikup` and `sitjikup` shortcuts collect a private local copy of
+remote timings through the same SSH transport, then link that copy. These links
+work in Kitty and Herdr after SSH exits. Update the shortcut on the calling machine
+and the fleet scripts on the remote machine together. Direct interactive SSH
+sessions retain hostname-qualified links for Kitty's remote-file handler; those
+require the SSH session to remain open. Ordinary redirected
 logs and dumb terminals retain the full `Task timings: /path/to/timings.json` line.
 Reports live under
 `$XDG_STATE_HOME/tjikup/logs/apply-*` (default `~/.local/state/tjikup/logs`). The report

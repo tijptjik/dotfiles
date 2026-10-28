@@ -18,6 +18,18 @@ def timing_report(path, *, stream=None):
     """Link the private report compactly; retain full paths in ordinary logs."""
     stream = sys.stdout if stream is None else stream
     path = Path(path).absolute()
+    # Remote shortcuts collect this private copy after SSH exits, then emit a
+    # local file link. Neither xdg-open nor Kitty can recover an expired SSH
+    # connection from a remote file:// hostname alone.
+    export = os.environ.get("TJIKUP_TIMING_EXPORT")
+    if export:
+        try:
+            content = path.read_bytes()
+            with os.fdopen(os.open(export, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "wb") as output:
+                output.write(content)
+            return
+        except OSError as error:
+            print(f"Could not collect task timings: {error}", file=stream, flush=True)
     interactive = stream.isatty() or os.environ.get("TJIKUP_PROGRESS") == "1"
     if not interactive or os.environ.get("TERM") == "dumb":
         print(f"Task timings: {path}", file=stream, flush=True)
@@ -26,8 +38,10 @@ def timing_report(path, *, stream=None):
     title = "Task timings"
     note = path.parent.name if runtime.terminal_columns() >= 40 else None
     row = runtime.format_status("REPORT", "↗", title, note)
-    # Kitty routes non-local file URLs through its remote-file handler.
-    url = urlsplit(path.as_uri())._replace(netloc=socket.gethostname()).geturl()
+    url = path.as_uri()
+    if os.environ.get("SSH_CONNECTION"):
+        # Direct interactive SSH sessions still need the originating hostname.
+        url = urlsplit(url)._replace(netloc=socket.gethostname()).geturl()
     label = f"\033[36m{title}\033[0m" if runtime.use_color() else title
     link = f"\033]8;;{url}\033\\{label}\033]8;;\033\\"
     print(row.replace(title, link, 1), file=stream, flush=True)

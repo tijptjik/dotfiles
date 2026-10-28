@@ -22,6 +22,8 @@ import time
 import zlib
 
 from tjikup import runtime
+from tjikup.progress import changed_spans
+from .icon_catalog import display_title
 
 SGR = re.compile(r'\x1b\[[0-9;]*m')
 DIACRITICS = '\u0305\u030d\u030e\u0310\u0312\u033d\u033e\u033f'
@@ -104,6 +106,13 @@ def cell_size(stream):
         size = read_size(file)
         if size:
             return size
+    # Buffered DAG children have neither inherited terminal fds nor /dev/tty.
+    # The parent renderer supplies geometry after checking terminal support.
+    hint = re.fullmatch(r'(\d+)x(\d+)', os.environ.get('TJIKUP_CELL_SIZE', ''))
+    if hint:
+        width, height = map(int, hint.groups())
+        if 4 <= width <= 128 and 16 <= height <= 256:
+            return width, height
     try:
         with open('/dev/tty', 'rb') as tty:
             return read_size(tty)
@@ -217,14 +226,32 @@ class KittyIcons:
         size = cell_size(self.stream) or self.geometry
         if size is None or size[0] < 4 or size[1] < 16:
             # Keep the two-line height during a temporary loss of geometry.
-            self.stream.write(runtime.format_status(verb, icon, label, note) + '\n\n')
+            self.stream.write(runtime.format_status(verb, icon, display_title(label), note) + '\n\n')
             return
         image_id, columns = self.image(label, *size)
         # The status prefix already leaves one cell before the image canvas.
         # Reserve the same gap after it, including in narrow-row truncation.
-        row = runtime.format_status(verb, icon, ' ' * (columns + 1) + label, note)
+        row = runtime.format_status(verb, icon, ' ' * (columns + 1) + display_title(label), note)
         prefix_width = len(f'{verb:<7} {icon} ')
         self._print_row(row, image_id, columns, prefix_width)
+
+    def patch(self, before, after):
+        """Patch text blocks without erasing or repainting either image row."""
+        size = cell_size(self.stream) or self.geometry
+        graphics = size is not None and size[0] >= 4 and size[1] >= 16
+        columns = 2 * math.ceil(32 / (2 * size[0])) if graphics else 0
+
+        def row(fields):
+            verb, icon, label, note = fields
+            title = display_title(label)
+            if graphics:
+                title = ' ' * (columns + 1) + title
+            return runtime.format_status(verb, icon, title, note)
+
+        text = normal_text if self.herdr or not graphics else centred
+        return ''.join(f'\033[{column + 1}G' + text(cells)
+                       for column, cells in changed_spans(row(before), row(after),
+                                                          group=1 if self.herdr or not graphics else 2))
 
     def print_text(self, label, row):
         """Repository operation cells keep their colours beside one title icon."""

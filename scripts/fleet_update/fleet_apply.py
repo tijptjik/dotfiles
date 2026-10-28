@@ -140,7 +140,7 @@ def apply(repo, system_repo=None):
         tasks = combine(home_tasks, system_tasks, native,
                         {**{"home:" + item["id"]: item.get("barrier") for item in home_plan},
                          **{"system:" + item["id"]: item.get("barrier") for item in system_plan}})
-        runtime.section_header("Home + system tasks")
+        runtime.section_header("Home + System Tasks")
         try:
             with hooks.progress:
                 results = run(tasks, workers=workers, event=hooks.event)

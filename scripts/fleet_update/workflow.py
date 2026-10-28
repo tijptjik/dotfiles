@@ -135,7 +135,12 @@ def workflow(repo, *, dry_run=False):
                                 timing_reports[step["id"]] = Path(receipt.read_text())
                     output = ""
                 else:
-                    result = run_command(command, cwd=repo, timeout=step.get("timeout", 300))
+                    env = dict(os.environ)
+                    if progress.graphics:
+                        width, height = progress.graphics.geometry
+                        env["TJIKUP_CELL_SIZE"] = f"{width}x{height}"
+                    result = run_command(command, cwd=repo, env=env,
+                                         timeout=step.get("timeout", 300))
                     code, output = result.returncode, result.stdout
                 outputs[step["id"]] = output
                 if code in step.get("stop_codes", []):

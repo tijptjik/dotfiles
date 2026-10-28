@@ -10,6 +10,8 @@ def check_runtime():
     try:
         from tjikup.progress import Progress
         from tjikup.runtime import run_stream
+        if not hasattr(Progress, "_refresh"):
+            raise ModuleNotFoundError("incremental progress is unavailable", name="tjikup.progress")
         if "stderr_handler" not in inspect.signature(run_stream).parameters:
             raise ModuleNotFoundError("stderr relay is unavailable", name="tjikup.runtime")
     except ModuleNotFoundError as error:

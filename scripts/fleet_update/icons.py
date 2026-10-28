@@ -5,8 +5,8 @@ from tjikup import runtime
 from tjikup.progress import Progress
 
 
-from .icon_catalog import ASSET_ICONS, SERVICE_ICONS
-from .kitty_icons import KittyIcons
+from .icon_catalog import ASSET_ICONS, SERVICE_ICONS, display_title
+from .kitty_icons import KittyIcons, cell_size
 
 
 def icons_enabled(stream, live):
@@ -34,10 +34,33 @@ class HookProgress(Progress):
         if self.graphics:
             self.height *= 2
 
+    def _refresh(self):
+        if self.graphics and self.height:
+            size = cell_size(self.stream) or self.graphics.geometry
+            if size != self.graphics.geometry:
+                self.graphics.geometry = size
+                with self._frame():
+                    self._clear()
+                    self._draw()
+                return
+        super()._refresh()
+
+    def _patch(self, before, after):
+        if self.graphics:
+            return self.graphics.patch(before, after)
+        def decorate(fields):
+            verb, icon, label, note = fields
+            title = display_title(label)
+            if icons_enabled(self.stream, self.live):
+                title = f"{title_icon(label)} {title}"
+            return verb, icon, title, note
+        return super()._patch(decorate(before), decorate(after))
+
     def _print(self, verb, icon, label, note):
         if self.graphics:
             self.graphics.print(verb, icon, label, note)
             return
+        title = display_title(label)
         if icons_enabled(self.stream, self.live):
-            label = f"{title_icon(label)} {label}"
-        super()._print(verb, icon, label, note)
+            title = f"{title_icon(label)} {title}"
+        super()._print(verb, icon, title, note)

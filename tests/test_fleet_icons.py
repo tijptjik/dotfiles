@@ -10,6 +10,7 @@ import tjikup_support
 from fleet_update.status import decorate_native_row
 from fleet_update.icons import HookProgress, title_icon
 from fleet_update.presentation import ANSI, summary
+from fleet_update.icon_catalog import display_title
 from tjikup import runtime
 
 
@@ -41,7 +42,7 @@ class FleetIconTests(unittest.TestCase):
             with self.subTest(env=env), patch.dict(os.environ, env, clear=True):
                 stream = io.StringIO()
                 HookProgress(stream=stream, live=False).finish("rust", "Rust (packages)", record=False)
-                self.assertIn("✓ Rust (packages)", ANSI.sub("", stream.getvalue()))
+                self.assertIn("✓ Rust (Packages)", ANSI.sub("", stream.getvalue()))
 
     def test_coloured_forwarded_rows_have_icons_and_fit_narrow_width(self):
         with patch.dict(os.environ, {"TERM": "xterm", "TJIKUP_COLOR": "1", "TJIKUP_COLUMNS": "40"}, clear=True):
@@ -72,6 +73,24 @@ class FleetIconTests(unittest.TestCase):
             self.assertFalse((Path(directory) / 'report').exists())
             pending = 'UPDATE  ... Bitwarden CLIs'
             self.assertEqual(decorate_native_row(pending), pending)
+
+    def test_display_titles_preserve_brands_acronyms_and_source_identity(self):
+        cases = {
+            'llmtrim (Herdr plugin)': 'Llmtrim (Herdr Plugin)',
+            'Assets (Rose Punk icons)': 'Assets (Rose Punk Icons)',
+            'Assets (icon cache)': 'Assets (Icon Cache)',
+            'Fedora (COPR repositories)': 'Fedora (COPR Repositories)',
+            'Fedora (RPM packages)': 'Fedora (RPM Packages)',
+            'Google Chrome stable': 'Google Chrome Stable',
+            'Gtk-bookmarks': 'GTK Bookmarks',
+            'Zapzap': 'ZapZap',
+            'Mullvad (LAN)': 'Mullvad (LAN)',
+            'Chezetc (system files and task preparation)': 'Chezetc (System Files and Task Preparation)',
+        }
+        for source, expected in cases.items():
+            with self.subTest(source=source):
+                self.assertEqual(display_title(source), expected)
+        self.assertEqual(display_title('/private/path with spaces'), '/private/path with spaces')
 
     def test_prerequisite_capture_and_repository_labels_have_explicit_sprites(self):
         import json

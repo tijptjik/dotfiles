@@ -39,7 +39,7 @@ def main():
         progress.finish('bitwarden', 'Bitwarden (CLIs)', verb='UPDATE', record=False)
         progress.finish('fonts', 'Assets (font folder migration)', verb='SKIP', note='no changes', record=False)
         prepare('Chezmoi (files and task preparation)', 'APPLY', lambda: 0)
-        rows('Home + system tasks', ['Chezetc (sudo launcher)'], 'CONFIG')
+        rows('Home + System Tasks', ['Chezetc (sudo launcher)'], 'CONFIG')
         progress.finish('system', 'Chezetc (system files and task preparation)', verb='APPLY', record=False)
     if args.section in ('capture', 'all'):
         rows('Commit Local Changes', ['Zed', 'Herdr', 'Solaar', 'Fcitx', 'Codex', 'Zapzap',

@@ -1,10 +1,12 @@
 """Exercise actual image packets, line accounting, and safe terminal fallback."""
 import base64
+import contextlib
 import io
 import json
 import os
 from pathlib import Path
 import re
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -91,6 +93,74 @@ class KittyIconTests(unittest.TestCase):
         with patch('fleet_update.kitty_icons.cell_size', return_value=None):
             self.assertIsNone(KittyIcons.available(io.StringIO(), True))
 
+    def test_animation_patches_text_without_erasing_images_or_labels(self):
+        for herdr in (False, True):
+            with self.subTest(herdr=herdr), \
+                    patch('fleet_update.kitty_icons.cell_size', return_value=(13, 26)), \
+                    patch('fleet_update.kitty_icons.in_herdr', return_value=herdr):
+                stream = io.StringIO()
+                progress = HookProgress(stream=stream, live=True)
+                with patch('tjikup.progress.time.monotonic', return_value=0):
+                    progress.start('python', 'Python (environment)', 'SYNC')
+                    progress.start('fedora', 'Fedora (RPM packages)')
+                stream.seek(0)
+                stream.truncate()
+                with patch('tjikup.progress.time.monotonic', return_value=.125):
+                    progress._refresh()
+                output = stream.getvalue()
+                for repaint in ('\x1b_G', '\U0010eeee', '\x1b[2K', '\n', 'Python', 'Fedora'):
+                    self.assertNotIn(repaint, output)
+                self.assertIn('\x1b[4A', output)
+                self.assertIn('\x1b[2A', output)
+                self.assertIn('⠙', output)
+                self.assertEqual(progress.height, 4)
+                if not herdr:
+                    self.assertIn('\x1b]66;', output)
+                    self.assertIn('\x1b[9G', output)
+
+    def test_detached_children_use_parent_geometry_without_terminal_queries(self):
+        with patch.dict(os.environ, {'TJIKUP_CELL_SIZE': '13x26'}), \
+                patch('fcntl.ioctl', side_effect=OSError('detached')), \
+                patch('builtins.open', side_effect=AssertionError('must not open tty')):
+            graphics = KittyIcons.available(io.StringIO(), False)
+            self.assertEqual(graphics.geometry, (13, 26))
+        for hint in ('0x0', '13x0', '9999x9999', 'garbage'):
+            with self.subTest(hint=hint), patch.dict(os.environ, {'TJIKUP_CELL_SIZE': hint}), \
+                    patch('fcntl.ioctl', side_effect=OSError('detached')), \
+                    patch('builtins.open', side_effect=OSError('no tty')):
+                self.assertIsNone(KittyIcons.available(io.StringIO(), False))
+
+    def test_workflow_passes_parent_geometry_to_buffered_children(self):
+        from fleet_update.workflow import workflow
+        import tjikup
+        scripts = Path(__file__).resolve().parents[1] / 'scripts'
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / '.git').mkdir()
+            child = root / 'child.py'
+            child.write_text("from fleet_update.icons import HookProgress\n"
+                             "p = HookProgress(live=False)\n"
+                             "p.finish('check', 'Bitwarden', verb='CHECK', record=False)\n"
+                             "p.finish('capture', 'Zed', verb='SKIP', record=False)\n")
+            (root / 'workflow.json').write_text(json.dumps([
+                {'id': 'samples', 'command': [sys.executable, str(child)], 'summary': False}]))
+            env = {'PYTHONPATH': str(scripts) + os.pathsep + str(Path(tjikup.__file__).resolve().parents[1])}
+            output = io.StringIO()
+            with patch.dict(os.environ, env), \
+                    patch('fleet_update.workflow.__file__', str(root / 'workflow.py')), \
+                    patch('fleet_update.fleet_apply.plans'), \
+                    patch('fleet_update.kitty_icons.cell_size', return_value=(13, 26)), \
+                    contextlib.redirect_stdout(output):
+                self.assertEqual(workflow(root), 0)
+            rendered = output.getvalue()
+            self.assertIn('s=52,v=52', rendered)
+            self.assertNotIn('\uf132', rendered)
+            self.assertNotIn('\uf044', rendered)
+            text = re.sub(r'\x1b]66;[^;]*;([^\x1b]*)\x1b\\', r'\1', rendered)
+            text = re.sub(r'\x1b\[[0-9;]*m', '', text)
+            self.assertIn('Bitwarden', text)
+            self.assertIn('Zed', text)
+
     def test_cell_geometry_uses_controlling_tty_for_forwarded_output(self):
         import struct
         with patch('builtins.open', unittest.mock.mock_open()), \
@@ -163,7 +233,7 @@ class KittyIconTests(unittest.TestCase):
                 start, end = first_row.index(placeholder), first_row.rindex(placeholder)
                 self.assertEqual(first_row[:start], 'SYNC    ✓ ')
                 # Skip the last placeholder's two combining coordinates.
-                self.assertEqual(first_row[end + 3:].rstrip(), ' Python (environment)')
+                self.assertEqual(first_row[end + 3:].rstrip(), ' Python (Environment)')
 
     def test_herdr_uses_its_cell_query_and_plain_text_with_scrolling_images(self):
         with patch.dict(os.environ, {'TERM': 'xterm-256color', 'TERM_PROGRAM': 'herdr', 'HERDR_ENV': '1'}), \
@@ -177,7 +247,7 @@ class KittyIconTests(unittest.TestCase):
             output = stream.getvalue()
             self.assertIn('\x1b_G', output)
             self.assertIn('Python', output)
-            self.assertIn('environment', output)
+            self.assertIn('Environment', output)
             self.assertNotIn('\x1b]66;', output)
             self.assertIn('\r\x1b[2A', output)
             self.assertEqual(progress.height, 0)

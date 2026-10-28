@@ -44,7 +44,7 @@ def apply_hooks(repo, env):
     with tempfile.TemporaryDirectory(prefix="tjikup-hooks-") as temporary:
         hooks = HookTasks(temporary, log_dir, env)
         tasks = hooks.prepare(repo, plan, lambda item: render_hook(repo, item, hooks.env))
-        runtime.section_header("Home configuration")
+        runtime.section_header("Home Configuration")
         try:
             with hooks.progress:
                 results = run(tasks, workers=int(os.environ.get("FLEET_JOBS", "4")), event=hooks.event)

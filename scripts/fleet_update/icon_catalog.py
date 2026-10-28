@@ -31,3 +31,25 @@ ASSET_ICONS = {"fonts": "\uf031", "font folder migration": "\uf031", "user fonts
 SERVICE_ICONS.update({name: entry["glyph"] for name, entry in DOCKER_SERVICES.items()})
 SERVICE_ICONS.update({"Plex": "\uf04b", "Docker images": "\uf308"})
 
+
+
+DISPLAY_NAMES = {
+    "llmtrim": "Llmtrim", "Google Chrome stable": "Google Chrome Stable",
+    "Gtk-bookmarks": "GTK Bookmarks", "Zapzap": "ZapZap",
+}
+
+
+def display_title(label):
+    """Title case display labels while preserving brands, acronyms and IDs."""
+    service, separator, subtype = label.partition(" (")
+    if service not in SERVICE_ICONS:
+        return label
+
+    def title(value):
+        minor = {"and", "of", "for", "to", "the"}
+        return " ".join(word if not word.islower() or (index and word in minor)
+                        else word.capitalize()
+                        for index, word in enumerate(value.split(" ")))
+
+    result = DISPLAY_NAMES.get(service, title(service))
+    return result + (separator + title(subtype) if separator else "")

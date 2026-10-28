@@ -53,7 +53,7 @@ class TjikosSyncTests(unittest.TestCase):
         self.update_remote()
         output = self.invoke()
         self.assertIn('PULL    ✓ tjikOS', output)
-        self.assertIn('1 commit · fast-forward', output)
+        self.assertIn('↓1 · fast-forward', output)
         self.assertEqual((self.repo / 'file').read_text(), 'upstream\n')
         self.assertIn('SKIP    ✓ tjikOS', self.invoke())
 

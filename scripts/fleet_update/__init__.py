@@ -352,6 +352,17 @@ def commit_templates(
     return changed_names
 
 
+def git_pulled_count(repo: Path, before: str) -> int:
+    # Count new upstream commits, excluding local commits rewritten by rebase.
+    result = subprocess.run(
+        ["git", "rev-list", "--count", f"{before}..@{{u}}"],
+        cwd=repo, text=True, capture_output=True, check=False,
+    )
+    if result.returncode or not result.stdout.strip().isdigit():
+        raise UpdateError(f"cannot determine pulled commit count: {repo}")
+    return int(result.stdout.strip())
+
+
 def git_ahead_count(repo: Path) -> int | None:
     result = subprocess.run(
         ["git", "rev-list", "--count", "@{u}..HEAD"],
@@ -522,6 +533,8 @@ def sync_repo(repo, action):
                 after = git_ref(repo, "HEAD")
                 if after is None:
                     raise UpdateError(f"cannot determine pull result: {repo}")
+                count = 0 if before == after else git_pulled_count(repo, before)
+                print(f"↓{count}", flush=True)
                 if before == after:
                     return 77
             elif action == "push":
@@ -529,8 +542,10 @@ def sync_repo(repo, action):
                 if ahead is None:
                     raise UpdateError(f"cannot determine upstream status: {repo}")
                 if not ahead:
+                    print("↑0", flush=True)
                     return 77
                 run(["git", "push"], repo, capture_output=True)
+                print(f"↑{ahead}", flush=True)
         finally:
             fcntl.flock(lock, fcntl.LOCK_UN)
     return 0

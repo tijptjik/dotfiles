@@ -22,6 +22,7 @@ class RepositoryProgress(Progress):
         self.visible = False
         self.finished = False
         self.notes = {}
+        self.counts = {}
         self.graphics = KittyIcons.available(self.stream, self.live)
 
     def print_repository(self, repo):
@@ -31,16 +32,24 @@ class RepositoryProgress(Progress):
         else:
             prefix = f"{title_icon(repo)} " if icons_enabled(self.stream, self.live) else ""
             icon_width = len(prefix)
-        row = self.line(repo, compact=runtime.terminal_columns() < 24 + icon_width)
-        if self.notes.get(repo):
+        row = self.line(repo)
+        if runtime.display_width(ANSI.sub('', row)) + icon_width >= runtime.terminal_columns():
+            row = self.line(repo, compact=True)
+        counts = " ".join(
+            f"{arrow}{self.counts[repo, verb]}"
+            for verb, arrow in (("PULL", "↓"), ("PUSH", "↑"))
+            if (repo, verb) in self.counts)
+        details = " · ".join(filter(None, (self.notes.get(repo), counts)))
+        if details:
             width = runtime.terminal_columns() - 1 - icon_width
             used = runtime.display_width(ANSI.sub('', row))
             available = width - used - 2
             if available > 0:
-                note = runtime.shorten_status(self.notes[repo], available)
+                note = runtime.shorten_status(details, available)
                 padding = ' ' * (width - used - runtime.display_width(note))
                 if runtime.use_color():
-                    note = f'\033[31m{note}\033[0m'
+                    color = '31' if self.notes.get(repo) else '90'
+                    note = f'\033[{color}m{note}\033[0m'
                 row += padding + note
         if self.graphics:
             self.graphics.print_text(repo, row)
@@ -81,12 +90,16 @@ class RepositoryProgress(Progress):
             self.rows["repositories"] = ("", "", 0)
             self._draw()
 
-    def update(self, repo, verb, state, *, note=None):
+    def update(self, repo, verb, state, *, note=None, count=None):
         with self.lock, self._frame():
             self._clear()
             # A failed dirty check and its blocked push share the same cell.
             if self.states[repo][verb] != "failed":
                 self.states[repo][verb] = state
+                if count is not None:
+                    self.counts[repo, verb] = count
+                else:
+                    self.counts.pop((repo, verb), None)
             if note is not None:
                 self.notes[repo] = note
             self._draw()

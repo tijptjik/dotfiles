@@ -10,6 +10,50 @@ from fleet_update.presentation import ANSI
 
 
 class RepositoryProgressTests(unittest.TestCase):
+    def test_commit_arrows_keep_counts_and_failure_status_distinct(self):
+        for color in ('0', '1'):
+            with self.subTest(color=color), patch.dict(os.environ, {
+                    'TJIKUP_COLOR': color, 'TJIKUP_COLUMNS': '80', 'TJIKUP_ICONS': '0'}):
+                output = io.StringIO()
+                panel = RepositoryProgress(stream=output, live=True)
+                panel.update('dotjik', 'PULL', 'changed', count=12)
+                panel.update('dotjik', 'PUSH', 'unchanged', count=0)
+                self.assertEqual(ANSI.sub('', panel.line('dotjik')), 'dotjik    ✓ PULL - PUSH')
+                output.seek(0)
+                output.truncate()
+                panel.print_repository('dotjik')
+                row = ANSI.sub('', output.getvalue()).rstrip('\n')
+                self.assertTrue(row.startswith('dotjik    ✓ PULL - PUSH  '))
+                self.assertTrue(row.endswith('↓12 ↑0'))
+                self.assertEqual(len(row), 79)
+                panel.update('dotjik', 'PUSH', 'failed')
+                self.assertEqual(ANSI.sub('', panel.line('dotjik')), 'dotjik    ✓ PULL ✗ PUSH')
+                panel.update('dotjik', 'PUSH', 'blocked', count=0)
+                self.assertNotIn(('dotjik', 'PUSH'), panel.counts)
+        with patch.dict(os.environ, {'TJIKUP_COLOR': '0', 'TJIKUP_COLUMNS': '80', 'TJIKUP_ICONS': '0'}):
+            output = io.StringIO()
+            panel = RepositoryProgress(stream=output, live=False)
+            panel.update('dotjik', 'PULL', 'changed', count=12)
+            panel.print_repository('dotjik')
+            row = output.getvalue().rstrip('\n')
+            self.assertTrue(row.startswith('dotjik    PULL [changed]  PUSH [pending]'))
+            self.assertTrue(row.endswith('↓12'))
+            self.assertEqual(len(row), 79)
+
+    def test_narrow_terminal_keeps_status_flags_when_details_do_not_fit(self):
+        with patch.dict(os.environ, {'TJIKUP_COLOR': '0', 'TJIKUP_ICONS': '0',
+                                    'TJIKUP_COLUMNS': '24'}):
+            output = io.StringIO()
+            panel = RepositoryProgress(stream=output, live=True)
+            panel.update('tjikos', 'PULL', 'changed', count=123)
+            panel.update('tjikos', 'PUSH', 'changed', count=456)
+            panel.print_repository('tjikos')
+            row = ANSI.sub('', output.getvalue().splitlines()[-1])
+            self.assertLessEqual(len(row), 23)
+            self.assertEqual(row, 'tjikOS    ✓ PULL ✓ PUSH')
+            self.assertNotIn('↓', row)
+            self.assertNotIn('↑', row)
+
     def test_dirty_count_is_right_aligned_and_survives_blocked_push(self):
         for width in ('40', '80'):
             with self.subTest(width=width), patch.dict(os.environ, {

@@ -354,6 +354,16 @@ the configuration repositories. Each operation reserves a marker before its
 label: `✓` for changes, `-` for no changes, `✗` for failure, and a blank while
 unresolved. Pull changes are determined from the
 checkout's HEAD before and after the operation, and pushes from outgoing commits.
+The left cells always retain their `PULL` and `PUSH` labels and status markers.
+Commit counts appear in the far-right details column: `↓N` for commits pulled
+and `↑N` for commits pushed, including zero when up to date. Counts share that
+column with dirty-file details and yield to the status flags in narrow terminals. Pull counts use new upstream commits and exclude
+local commits rewritten by a rebase. Failed, blocked, and unavailable operations
+retain their operation labels without claiming a successful count. Redirected
+rows retain `PULL`/`PUSH` labels and explicit states on the left, with arrow counts
+aligned on the right.
+Bitwarden CLI results include elapsed seconds for success, deferred release
+checks, and failure; deferred/failure diagnostics and exit behavior are preserved.
 The scoped capture commit stays under **Commit Local Changes**; dirty checks are
 folded into repository results. Redirected output emits the three final rows
 with explicit state names and no cursor controls.

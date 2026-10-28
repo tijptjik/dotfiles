@@ -92,13 +92,13 @@ def pull(*, dry_run=False):
         if ahead:
             if behind:
                 return warning("diverged history; pull skipped")
-            runtime.stage_skip("tjikOS", "local commits; ready to push")
+            runtime.stage_skip("tjikOS", "↓0 · local commits; ready to push")
             return 0
         if not behind:
-            runtime.stage_unchanged("tjikOS")
+            runtime.stage_unchanged("tjikOS", "↓0; no changes")
             return 0
         git(repo, "merge", "--ff-only", "--no-autostash", target)
-        runtime.stage_result("PULL", "tjikOS", f"{behind} {'commit' if behind == 1 else 'commits'} · fast-forward")
+        runtime.stage_result("PULL", "tjikOS", f"↓{behind} · fast-forward")
     return 0
 
 
@@ -120,8 +120,8 @@ def push(*, dry_run=False):
         if behind:
             raise UpdateError("tjikOS: upstream commits remain; synchronize the branch before pushing")
         if not ahead:
-            runtime.stage_unchanged("tjikOS")
+            runtime.stage_unchanged("tjikOS", "↑0; no changes")
             return 0
         git(repo, "push")
-        runtime.stage_result("PUSH", "tjikOS", f"{ahead} {'commit' if ahead == 1 else 'commits'}")
+        runtime.stage_result("PUSH", "tjikOS", f"↑{ahead}")
     return 0

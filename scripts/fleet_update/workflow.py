@@ -14,7 +14,7 @@ from .dag import Task, run, command as run_command
 from .core import UpdateError
 from tjikup import runtime
 from .repository_progress import RepositoryProgress
-from .presentation import DeferredSection, SectionOutput, summary, timing_report
+from .presentation import ANSI, DeferredSection, SectionOutput, summary, timing_report
 
 
 class Stopped(Exception):
@@ -23,6 +23,12 @@ class Stopped(Exception):
 
 DIRTY_CHANGES = re.compile(
     r'^fleet-update: (.+ has changes - commit or stash them first) \((\d+ files?)\)$', re.MULTILINE)
+
+
+def commit_count(output, operation):
+    arrow = "↓" if operation == "PULL" else "↑"
+    match = re.search(rf"(?:^|\s){arrow}(\d+)(?=\s|;|$)", ANSI.sub("", output))
+    return int(match[1]) if match else None
 
 
 def dirty_file_count(output):
@@ -178,8 +184,10 @@ def workflow(repo, *, dry_run=False):
                     return
                 state = result.state
                 status_note = None
+                count = None
                 if state == "done":
                     outcome = summary(output) if output else None
+                    count = commit_count(output, operation)
                     state = "unchanged" if name in skipped else "changed"
                     if name in {"pull-tjikos", "push-tjikos"} and outcome:
                         state = ("changed" if outcome.verb == operation else
@@ -190,7 +198,7 @@ def workflow(repo, *, dry_run=False):
                     # tjikOS's command already records its detailed outcome.
                     if name not in {"pull-tjikos", "push-tjikos"}:
                         runtime.record("SKIP" if state == "unchanged" else operation,
-                                       "✓", label, state)
+                                       "✓", label, state + (f"; {count} commits" if count is not None else ""))
                 elif state == "failed":
                     details, reason = failure_details(step, output, repo)
                     note = details[0] if details else str(result.error)
@@ -201,7 +209,7 @@ def workflow(repo, *, dry_run=False):
                     status_note = dirty_file_count(output)
                     if reason != "dirty checkout":
                         diagnostics.append((step, output, result))
-                progress.update(repository, operation, state, note=status_note)
+                progress.update(repository, operation, state, note=status_note, count=count)
                 return
             if result.state == "running":
                 if step.get("exclusive"):

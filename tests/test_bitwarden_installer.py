@@ -3,6 +3,7 @@ import contextlib
 import importlib.util
 import io
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -104,6 +105,54 @@ class BitwardenInstallerTests(unittest.TestCase):
              patch.object(installer, 'install_tool', side_effect=[False, RuntimeError('missing bw')]):
             with self.assertRaisesRegex(RuntimeError, 'missing bw'):
                 installer.main()
+
+
+import tjikup_support
+
+
+class BitwardenTimingTests(unittest.TestCase):
+    def test_shell_result_and_decorated_row_include_timing_for_every_outcome(self):
+        from fleet_update.status import decorate_native_row
+        from fleet_update.presentation import ANSI
+
+        template = (ROOT / 'home/.chezmoiscripts/run_before_02-install-bws.fish.tmpl').read_text()
+        template = template.replace('{{ .chezmoi.sourceDir }}', str(ROOT / 'home'))
+        # Run the real hook's status/timing control flow with a synthetic installer.
+        start = template.index('function update_bitwarden_clis')
+        end = template.index('\nif not contains -- /usr/local/bin')
+        template = template[:start] + (
+            'function update_bitwarden_clis\n'
+            '    sleep 0.03\n'
+            '    echo synthetic diagnostic\n'
+            '    return $SYNTHETIC_RESULT\n'
+            'end\n') + template[end:]
+        for code, verb, expected in ((0, 'UPDATE', 0), (78, 'WARN', 0), (3, 'FAILED', 3)):
+            with self.subTest(code=code), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                hook, report = root / 'hook.fish', root / 'report'
+                hook.write_text(template)
+                env = {**os.environ, 'SYNTHETIC_RESULT': str(code), 'TJIKUP_COLOR': '0',
+                       'TJIKUP_ICONS': '0', 'TJIKUP_COLUMNS': '200',
+                       'TJIKUP_REPORT_FILE': str(report)}
+                result = subprocess.run(['fish', '--no-config', str(hook)], env=env,
+                                        capture_output=True, text=True, timeout=5)
+                self.assertEqual(result.returncode, expected, result.stderr)
+                rows = report.read_text().splitlines()
+                self.assertEqual(len(rows), 1)
+                fields = rows[0].split('\t')
+                self.assertEqual(fields[0], verb)
+                timing = re.match(r'(\d+\.\d{2})s', fields[3])
+                self.assertIsNotNone(timing, rows[0])
+                self.assertGreater(float(timing[1]), 0)
+                native = next(line for line in result.stdout.splitlines()
+                              if line.startswith(verb) and '...' not in line)
+                with patch.dict(os.environ, env):
+                    decorated = ANSI.sub('', decorate_native_row(native))
+                self.assertIn(timing[0], decorated)
+                if code:
+                    self.assertIn('synthetic diagnostic', result.stdout)
+                if code == 78:
+                    self.assertIn('release check deferred; managed installs kept', fields[3])
 
 
 if __name__ == '__main__':

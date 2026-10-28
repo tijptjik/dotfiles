@@ -174,6 +174,7 @@ class RepositorySyncTests(unittest.TestCase):
                 with self.subTest(after=after), \
                         patch.object(tjikup, "git_dirty_paths", return_value=[]), \
                         patch.object(tjikup, "git_ref", side_effect=["old", after]), \
+                        patch.object(tjikup, "git_pulled_count", return_value=2), \
                         patch.object(tjikup, "run") as command:
                     self.assertEqual(tjikup.sync_repo(repo, "pull"), expected)
                     command.assert_called_once_with(

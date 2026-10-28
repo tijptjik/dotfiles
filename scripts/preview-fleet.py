@@ -37,7 +37,7 @@ def main():
     if args.section in ('setup', 'all'):
         rows('Prerequisites', ['Bitwarden', 'Chezmoi', 'Fish', 'UV', 'Gum', 'Bun'], 'SKIP')
         runtime.section_header('Dotfiles Apply')
-        progress.finish('bitwarden', 'Bitwarden (CLIs)', verb='UPDATE', record=False)
+        progress.finish('bitwarden', 'Bitwarden (CLIs)', verb='UPDATE', note='1.24s', record=False)
         progress.finish('fonts', 'Assets (font folder migration)', verb='SKIP', note='no changes', record=False)
         def native_preparation():
             for subject, verb in [
@@ -57,8 +57,8 @@ def main():
         with RepositoryProgress(live=False) as repositories:
             repositories.open()
             for repo in repositories.repositories:
-                repositories.update(repo, 'PULL', 'changed')
-                repositories.update(repo, 'PUSH', 'unchanged')
+                repositories.update(repo, 'PULL', 'changed', count=3)
+                repositories.update(repo, 'PUSH', 'unchanged', count=0)
             if args.dirty_files is not None:
                 repositories.update('dotjik', 'PULL', 'failed', note=f'{args.dirty_files} files')
                 for repo in repositories.repositories:

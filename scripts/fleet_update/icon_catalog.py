@@ -9,6 +9,7 @@ SERVICE_ICONS = {
     "Chezetc": "\uf013", "Chezmoi": "\uf015", "Codex Desktop": "\uf121",
     "Codex LB": "\uf121", "Collie": "\uf0c1", "Docker": "\uf308",
     "Fedora": "\uf30a", "Flatpak": "\uf49c", "Google Chrome stable": "\uf268",
+    "GDM": "\uf361",
     "Gitfetch": "\ue702", "Greetjik": "\uf075", "Herdr": "\uf12e",
     "Hyprvoice": "\uf130", "Launcher": "\uf135", "Media": "\uf008",
     "Mullvad": "\uf132", "Nginx": "\ue776", "Notjik": "\uf0f3",

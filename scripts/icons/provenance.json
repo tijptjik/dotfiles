@@ -899,5 +899,10 @@
     "license": "Original artwork",
     "sha256": "9e1c3215cc22559261c3c5703b22b00cf5ed1df40f4ccf8714a138edf2002281",
     "design_note": "Approved in workflow icon review; artwork unchanged."
+  },
+  "gnome": {
+    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gnome.svg",
+    "license": "CC0-1.0 (brand rights remain with the GNOME Foundation)",
+    "sha256": "9279436e987accc54ffff566c407f821a287c1518b3efe4b9979fe634fc7e146"
   }
 }

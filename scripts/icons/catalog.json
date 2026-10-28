@@ -1542,5 +1542,15 @@
     "review_batch": 21,
     "introduced_batch": 21,
     "review_note": "Approved by the user in workflow icon review."
+  },
+  "gnome": {
+    "name": "GNOME",
+    "installed": false,
+    "desktop_ids": [],
+    "icon_names": [
+      "gnome"
+    ],
+    "mode": "brand",
+    "geometry": "upstream/gnome.svg"
   }
 }

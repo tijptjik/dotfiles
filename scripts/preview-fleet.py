@@ -50,6 +50,7 @@ def main():
         prepare('Chezmoi (home directory)', 'APPLY', native_preparation)
         prepare('Chezetc (system)', 'CHECK', lambda: None)
         runtime.section_header('Home + System Tasks')
+        progress.finish('gdm-session', 'GDM (Hyprland login)', verb='DONE', record=False)
     if args.section in ('capture', 'all'):
         rows('Commit Local Changes', ['Zed', 'Herdr', 'Solaar', 'Fcitx', 'Codex', 'Zapzap',
                                      'Gtk-bookmarks', 'Local Changes'], 'SKIP')

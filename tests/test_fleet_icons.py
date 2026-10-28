@@ -108,7 +108,7 @@ class FleetIconTests(unittest.TestCase):
         self.assertNotEqual(title_icon("Assets (fonts)"), title_icon("Assets (icon cache)"))
         self.assertEqual(title_icon("Fedora (repositories)"), title_icon("Fedora (release)"))
         self.assertEqual(title_icon("New service"), "\uf013")
-        for label in ("Google Chrome stable", "Sublime Text", "Obsidian", "Greetjik", "Gitfetch"):
+        for label in ("Google Chrome stable", "Sublime Text", "Obsidian", "Greetjik", "Gitfetch", "GDM"):
             with self.subTest(label=label):
                 self.assertNotEqual(title_icon(label), title_icon("New service"))
 
@@ -149,7 +149,7 @@ class FleetIconTests(unittest.TestCase):
                               'scripts/fleet_update/icons32.json').read_text())['sprites']
         labels = ('Bitwarden', 'Chezmoi', 'Fish', 'UV', 'FNM', 'Gum', 'Bun',
                   'Zed', 'Herdr', 'Solaar', 'Fcitx', 'Codex', 'Zapzap',
-                  'Gtk-bookmarks', 'Local Changes', 'dotjik', 'systjik', 'tjikos')
+                  'Gtk-bookmarks', 'Local Changes', 'dotjik', 'systjik', 'tjikos', 'GDM')
         for label in labels:
             with self.subTest(label=label):
                 self.assertIn(label, sprites)

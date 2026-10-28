@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily Google Drive Restic backup
+
+[Timer]
+OnCalendar=*-*-* 02:00:00 Asia/Hong_Kong
+Persistent=true
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target

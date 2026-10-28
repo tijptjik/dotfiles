@@ -1,0 +1,17 @@
+# ~/.config/systemd/user/codex-lb.service
+[Unit]
+Description=Codex Load Balancer (local runtime)
+ConditionHost=|fi
+ConditionHost=|li
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/.codex-lb
+ExecStart=%h/.codex-lb/runtime/bin/codex-lb
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

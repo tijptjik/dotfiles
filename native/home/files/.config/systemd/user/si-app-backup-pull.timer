@@ -1,0 +1,11 @@
+[Unit]
+Description=Weekly independent si backup copy
+ConditionHost=fi
+
+[Timer]
+OnCalendar=Sun *-*-* 06:00:00 Asia/Hong_Kong
+Persistent=true
+RandomizedDelaySec=10min
+
+[Install]
+WantedBy=timers.target

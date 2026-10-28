@@ -1,0 +1,251 @@
+-- -*- mode: lua; -*-
+-- Sourced in ~/.config/hypr/hyprland.lua
+-- #######################
+-- KEY BINDINGS
+-- #######################
+
+local super_mod = "SUPER"
+local tools = "$HOME/.tools"
+local config = "$HOME/.config"
+local helpers = require("helpers")
+local scrolling_shortcuts = require("scrolling_shortcuts")
+require("workspace_reminder").start()
+
+-- #######################
+-- KEY BINDINGS : UTILS
+-- #######################
+
+local function bind_key(key, ...)
+    local modifiers = { ... }
+    if #modifiers == 0 then
+        return key
+    end
+
+    return table.concat(modifiers, " + ") .. " + " .. key
+end
+
+local function super(key, ...)
+    return bind_key(key, super_mod, ...)
+end
+
+local function ctrl(key, ...)
+    return bind_key(key, "CTRL", ...)
+end
+
+local function shift(key, ...)
+    return bind_key(key, "SHIFT", ...)
+end
+
+-- See https://wiki.hypr.land/Configuring/Basics/Binds/
+-- Note : Key mappings are managed with QMK
+
+-- Global Application Shortcuts -- i.e. call an application shortcut without focus
+hl.bind(super("R"), hl.dsp.pass({ window = "class:^(com\\.obsproject\\.Studio)$" }))
+
+-- #######################
+-- KEY BINDINGS : EXIT
+-- #######################
+
+-- Close
+hl.bind(super("Q"), hl.dsp.window.close())
+
+-- Lock
+{%- if is_client %}
+hl.bind(super("L"), hl.dsp.exec_cmd("$HOME/.local/bin/tailscale-lock --grace 5"))
+{%- else %}
+hl.bind(super("L"), hl.dsp.exec_cmd("hyprlock --grace 5"))
+{%- endif %}
+{%- if is_laptop %}
+hl.bind("XF86AudioMedia", hl.dsp.exec_cmd("hyprlock --config " .. config .. "/hypr/hyprlock.conf --grace 5"))
+{%- endif %}
+
+-- Exit
+hl.bind(super("Q", "SHIFT"), hl.dsp.exit())
+
+-- #######################
+-- KEY BINDINGS : WINDOW MANAGEMENT
+-- #######################
+
+-- Switch the default layout for an immediate scrolling/master comparison.
+hl.bind(super("F6"), function() hl.config({ general = { layout = "scrolling" } }) end)
+hl.bind(super("F7"), function() hl.config({ general = { layout = "master" } }) end)
+-- Show the active column and its neighbor as an equal split.
+hl.bind(super("Page_Up"), function() scrolling_shortcuts.pair("l") end)
+hl.bind(super("Page_Down"), function() scrolling_shortcuts.pair("r") end)
+-- Scrolling viewport controls.
+hl.bind(super("Home"), hl.dsp.layout("fit active"))
+hl.bind(super("End"), hl.dsp.layout("fit all"))
+hl.bind(super("mouse_up", "ALT"), hl.dsp.layout("move -col"))
+hl.bind(super("mouse_down", "ALT"), hl.dsp.layout("move +col"))
+
+-- Layout (master-specific controls)
+-- Swaps the current window with master. If the current window is the master, swaps it with the first child.
+hl.bind(super("Delete"), hl.dsp.layout("swapwithmaster"))
+-- Adds a master to the master side.
+hl.bind(super("Delete", "ALT"), hl.dsp.layout("addmaster"))
+-- Removes a master from the master side.
+hl.bind(super("Delete", "SHIFT"), hl.dsp.layout("removemaster"))
+-- Grow to fill available space, or not.
+hl.bind(super("O"), hl.dsp.window.pseudo())
+-- Toggle full screen.
+hl.bind(super("F"), hl.dsp.window.fullscreen({ mode = "maximized" }))
+
+-- Focus adjacent columns, or windows within the current column.
+hl.bind(super("Left"), function() require("scrolling_gaps").focus("l") end)
+hl.bind(super("Right"), function() require("scrolling_gaps").focus("r") end)
+hl.bind(super("Up"), hl.dsp.layout("focus u"))
+hl.bind(super("Down"), hl.dsp.layout("focus d"))
+
+-- Reorder entire columns horizontally; reorder windows vertically with wrapping.
+hl.bind(super("Left", "SHIFT"), function() scrolling_shortcuts.move_column("l") end)
+hl.bind(super("Right", "SHIFT"), function() scrolling_shortcuts.move_column("r") end)
+hl.bind(super("Up", "SHIFT"), function() scrolling_shortcuts.reorder("u") end)
+hl.bind(super("Down", "SHIFT"), function() scrolling_shortcuts.reorder("d") end)
+
+-- Transfer into an existing adjacent column, or extract into a new column.
+hl.bind(super("Left", "CTRL"), function() scrolling_shortcuts.transfer("l") end)
+hl.bind(super("Right", "CTRL"), function() scrolling_shortcuts.transfer("r") end)
+hl.bind(super("Left", "SHIFT", "CTRL"), function() scrolling_shortcuts.extract("l") end)
+hl.bind(super("Right", "SHIFT", "CTRL"), function() scrolling_shortcuts.extract("r") end)
+
+-- Absolute column widths.
+hl.bind(super("Up", "ALT"), function() require("scrolling_gaps").resize(1.0) end)
+hl.bind(super("Right", "ALT"), function() require("scrolling_gaps").resize(0.75) end)
+hl.bind(super("Down", "ALT"), function() require("scrolling_gaps").resize(0.5) end)
+hl.bind(super("Left", "ALT"), function() require("scrolling_gaps").resize(0.25) end)
+
+-- Cycle Window
+hl.bind(super("TAB"), hl.dsp.window.swap({ next = true }))
+hl.bind(super("TAB", "SHIFT"), hl.dsp.window.swap({ prev = true }))
+
+-- Window Mouse Manipulation
+hl.bind(super("mouse:272"), helpers.panel_aware_drag)
+hl.bind(super("mouse:273"), hl.dsp.window.resize())
+
+-- #######################
+-- KEY BINDINGS : WORKSPACE MANAGEMENT
+-- #######################
+
+-- Workspaces
+-- Special : Chat
+hl.bind(ctrl("Space"), function()
+    helpers.toggle_special_workspace()
+end)
+hl.bind(super("Space", "CTRL"), hl.dsp.window.move({ workspace = "special:chat", follow = true }))
+hl.bind(shift("Space", "CTRL"), function()
+    helpers.toggle_float()
+end)
+
+-- Special : Codex
+hl.bind(super("Space"), function()
+    helpers.toggle_special_workspace("codex")
+end)
+
+hl.bind(ctrl("Space", "ALT"), hl.dsp.workspace.toggle_special(""))
+hl.bind(super("Space", "CTRL", "ALT"), hl.dsp.window.move({ workspace = "special", follow = true }))
+
+-- Workspace Switching
+
+-- Switch workspaces with mod + [0-9]
+hl.bind(super("1"), hl.dsp.focus({ workspace = "r~1" }))
+hl.bind(super("2"), hl.dsp.focus({ workspace = "r~2" }))
+hl.bind(super("3"), hl.dsp.focus({ workspace = "r~3" }))
+hl.bind(super("4"), hl.dsp.focus({ workspace = "r~4" }))
+hl.bind(super("5"), hl.dsp.focus({ workspace = "r~5" }))
+hl.bind(super("6"), hl.dsp.focus({ workspace = "r~6" }))
+hl.bind(super("7"), hl.dsp.focus({ workspace = "r~7" }))
+hl.bind(super("8"), hl.dsp.focus({ workspace = "r~8" }))
+hl.bind(super("9"), hl.dsp.focus({ workspace = "r~9" }))
+hl.bind(super("0"), hl.dsp.focus({ workspace = "r~10" }))
+
+-- Workspace Window Sending
+hl.bind(super("1", "SHIFT"), hl.dsp.window.move({ workspace = "r~1", follow = false }))
+hl.bind(super("2", "SHIFT"), hl.dsp.window.move({ workspace = "r~2", follow = false }))
+hl.bind(super("3", "SHIFT"), hl.dsp.window.move({ workspace = "r~3", follow = false }))
+hl.bind(super("4", "SHIFT"), hl.dsp.window.move({ workspace = "r~4", follow = false }))
+hl.bind(super("5", "SHIFT"), hl.dsp.window.move({ workspace = "r~5", follow = false }))
+hl.bind(super("6", "SHIFT"), hl.dsp.window.move({ workspace = "r~6", follow = false }))
+hl.bind(super("7", "SHIFT"), hl.dsp.window.move({ workspace = "r~7", follow = false }))
+hl.bind(super("8", "SHIFT"), hl.dsp.window.move({ workspace = "r~8", follow = false }))
+hl.bind(super("9", "SHIFT"), hl.dsp.window.move({ workspace = "r~9", follow = false }))
+hl.bind(super("0", "SHIFT"), hl.dsp.window.move({ workspace = "r~10", follow = false }))
+
+-- Workspace Scrolling
+hl.bind(super("mouse_down"), hl.dsp.focus({ workspace = "e+1" }))
+hl.bind(super("mouse_up"), hl.dsp.focus({ workspace = "e-1" }))
+
+{%- if is_desktop %}
+-- Workspace Layout
+hl.bind(super("K"), function()
+    helpers.layout_zen_hypehk_mobile()
+end)
+{% endif %}
+-- #######################
+-- KEY BINDINGS : MEDIA
+-- #######################
+
+-- Volume
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
+
+-- Media Controls
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
+
+-- #######################
+-- KEY BINDINGS : HYPRSUNSET
+-- #######################
+
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locked = true, repeating = true })
+
+-- #######################
+-- KEY BINDINGS : HYPRVOICE
+-- #######################
+
+hl.bind(super("N"), function()
+    helpers.toggle_hyprvoice()
+end)
+hl.bind(super("N", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"))
+
+-- #######################
+-- KEY BINDINGS : LAUNCH
+-- #######################
+
+-- Hold Bartjik until edge contact or another press, and toggle notification history.
+hl.bind(super("M"), hl.dsp.exec_cmd("$HOME/.local/bin/desktop-panels-toggle"))
+
+hl.bind(super("comma"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate previous"))
+hl.bind(super("period"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate next"))
+
+-- Applications
+-- Runtjik opens on demand and stays warm after its first opening.
+hl.bind(super("Escape"), hl.dsp.exec_cmd("$HOME/.local/bin/runtjik toggle"))
+hl.bind(super("Return"), hl.dsp.exec_cmd("uwsm app -- kitty -o allow_remote_control=yes"))
+hl.bind(super("Backslash"), hl.dsp.exec_cmd("uwsm app -- /opt/Telegram/Telegram"))
+hl.bind(super("Backspace"), hl.dsp.exec_cmd("uwsm app -- zen-browser"))
+hl.bind(super("E"), hl.dsp.exec_cmd("uwsm app -- strata"))
+
+-- #######################
+-- KEY BINDINGS : SCREENSHOTS
+-- #######################
+
+{%- if is_desktop %}
+local screenshot_prepare = "hyprctl eval 'hl.monitor({output=\"DP-1\",sdrbrightness=0.8})';"
+local screenshot_restore = ";hyprctl reload"
+{%- else %}
+local screenshot_prepare = ""
+local screenshot_restore = ""
+{%- endif %}
+hl.bind(super("P"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m region --clipboard-only --freeze --silent" .. screenshot_restore))
+hl.bind(super("P", "CTRL"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m window --clipboard-only --freeze --silent" .. screenshot_restore))
+hl.bind(super("P", "SHIFT"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m region --freeze --silent" .. screenshot_restore))
+hl.bind(super("P", "SHIFT", "CTRL"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m window --freeze --silent" .. screenshot_restore))
+
+-- Toggle selected-region recording with a three-second countdown.
+hl.bind(super("G"), hl.dsp.exec_cmd("$HOME/.local/bin/screen-record"))
+hl.bind(super("G", "CTRL"), hl.dsp.exec_cmd("$HOME/.local/bin/screen-record window"))
+hl.bind(super("G", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/screen-record monitor"))

@@ -1,0 +1,410 @@
+-- -*- mode: lua; -*-
+-- Sourced in ~/.config/hypr/hyprland.lua
+-- #######################
+-- HYPRLAND :: WINDOWS
+-- #######################
+
+-- Author : Mart van de Ven
+-- Contact : https://type.hk
+
+-- See https://wiki.hypr.land/Configuring/Basics/Window-Rules/
+
+-- #######################
+-- GENERAL
+-- #######################
+
+local widths = require("scrolling_widths")
+
+-- SMART GAPS
+hl.window_rule({
+    name = "smart-gaps",
+    border_size = 0,
+    rounding = 0,
+    match = { float = false, workspace = "w[tv1]" },
+})
+
+hl.window_rule({
+    name = "smart-gaps-fs",
+    border_size = 0,
+    rounding = 0,
+    match = { float = false, workspace = "f[1]" },
+})
+
+-- FULL SCREEN
+hl.window_rule({
+    name = "fullscreen",
+    fullscreen = true,
+    idle_inhibit = "focus",
+    match = { fullscreen = true },
+})
+
+-- #######################
+-- APPS
+-- #######################
+
+hl.window_rule({
+    name = "notjik-detached",
+    float = true,
+    no_blur = true,
+    -- Transparent placement frames must not leave a compositor shadow.
+    no_shadow = true,
+    border_size = 0,
+    no_anim = true,
+    match = { initial_title = "^notjik-detached:.*$" },
+})
+
+hl.window_rule({
+    name = "bartjik-detached",
+    float = true,
+    -- The transparent placement frame must not blur its temporary window bounds.
+    no_blur = true,
+    -- Transparent placement frames must not leave a compositor shadow.
+    no_shadow = true,
+    border_size = 0,
+    no_anim = true,
+    match = { initial_title = "^bartjik-detached:.*$" },
+})
+
+widths.rule({
+    name = "kitty",
+    scrolling_width = 0.5,
+    -- no_anim = true,
+    match = { class = "kitty" },
+})
+
+-- Common launcher apps: initial scrolling widths by display.
+local app_widths = {
+    { name = "files", class = "^(io[.]github[.]lgse[.]Strata|org[.]gnome[.]Nautilus|nautilus)$", secondary = 0.75 },
+    { name = "sublime", class = "^(sublime_text|Sublime_text)$", secondary = 1.0 },
+    { name = "obsidian", class = "^(obsidian|md[.]obsidian[.]Obsidian)$", secondary = 1.0 },
+    { name = "codex-lb", class = "^FFPWA-(01KVFSZ3Z9JKBJMMTW9DENGR0N|01KVFQER39ASXCZ26D7724G54G)$", secondary = 1.0 },
+    { name = "system-monitor", class = "^(org[.]gnome[.]SystemMonitor|gnome-system-monitor)$", secondary = 0.75 },
+}
+
+for _, app in ipairs(app_widths) do
+    widths.rule({
+        name = app.name .. "-width",
+        scrolling_width = 0.5,
+        match = { class = app.class },
+    })
+{%- if is_desktop %}
+    widths.rule({
+        name = app.name .. "-secondary-width",
+        scrolling_width = app.secondary,
+        match = { class = app.class, workspace = "m[DP-2]" },
+    })
+{%- endif %}
+end
+
+-- Playwright's headed Chrome windows must not interrupt the active workspace.
+hl.window_rule({
+    name = "playwright-chrome",
+{%- if is_desktop %}
+    workspace = "10 silent",
+{%- elif is_laptop %}
+    workspace = "6 silent",
+{%- endif %}
+    no_initial_focus = true,
+    match = {
+        initial_class = "^google-chrome$",
+        initial_title = "^about:blank - Google Chrome$",
+    },
+})
+
+hl.window_rule({
+    name = "herdr",
+{%- if is_desktop %}
+    workspace = "12 silent",
+{%- elif is_laptop %}
+    workspace = "7 silent",
+{%- endif %}
+    no_initial_focus = true,
+    match = { class = "kitty", title = "^(herdr ~)$" },
+})
+
+widths.rule({
+    name = "zed",
+    scrolling_width = 1.0,
+    border_size = 0,
+    -- Keep Zed in SDR when monitor-level AutoHDR is enabled.
+    no_auto_hdr = true,
+    match = { class = "^dev[.]zed[.]Zed(-Preview|-Nightly)?$" },
+})
+
+hl.window_rule({
+    name = "zed@hype",
+    workspace = "2 silent",
+    no_initial_focus = true,
+    match = { class = "^(dev.zed.Zed)$", title = "^(hype ~)$" },
+})
+
+hl.window_rule({
+    name = "codex-lb",
+{%- if is_desktop %}
+    -- Routing happens after width matching; use the destination display width.
+    scrolling_width = 1.0,
+    workspace = "15 silent",
+{%- elif is_laptop %}
+    workspace = "6 silent",
+{%- endif %}
+    no_initial_focus = true,
+    match = { class = "FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N" },
+})
+
+hl.window_rule({
+    name = "chatgpt",
+    workspace = "special:codex silent",
+    no_initial_focus = true,
+    float = true,
+{%- if is_desktop %}
+    size = { 2219, 1338 },
+    move = { "(1155)", "(24)" },
+{%- endif %}
+    match = { class = "Chatgpt" },
+})
+
+hl.window_rule({
+    name = "drizzle-studio",
+{%- if is_desktop %}
+    workspace = "14 silent",
+{%- elif is_laptop %}
+    workspace = "7 silent",
+{%- endif %}
+    no_initial_focus = true,
+    match = { class = "FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD" },
+})
+
+widths.rule({
+    name = "zen",
+    scrolling_width = 0.5,
+    -- Use the shared compositor frame, just like Kitty.
+    match = { class = "zen" },
+    suppress_event = "maximize fullscreen",
+})
+
+{%- if is_desktop %}
+-- Match the workspace's monitor, not a numeric monitor ID (which can change).
+-- Arrival handling reuses these same matches and widths after monitor transfers.
+widths.rule({
+    name = "zen-secondary-width",
+    scrolling_width = 1.0,
+    match = { class = "zen", workspace = "m[DP-2]" },
+})
+
+widths.rule({
+    name = "kitty-secondary-width",
+    scrolling_width = 0.75,
+    match = { class = "kitty", workspace = "m[DP-2]" },
+})
+{%- endif %}
+
+hl.window_rule({
+    name = "telegram",
+    no_initial_focus = true,
+{%- if is_desktop %}
+    workspace = "special:chat silent",
+    float = true,
+    -- Split the 44px height reduction evenly between the top and bottom.
+    size = { 944, 1280 },
+    move = { "(1248)", "(46)" },
+{%- elif is_laptop %}
+    workspace = "special:chat silent",
+{%- endif %}
+    -- Main titles can include unread counts (e.g. "Telegram (2)") or chats.
+    -- Exclude auxiliary surfaces instead of requiring one exact main title.
+    match = {
+        class = "^(org.telegram.desktop.*)",
+        initial_title = "negative:^(TelegramDesktop|Media viewer)$",
+    },
+})
+
+-- Telegram's export dialog draws its own frame inside the Wayland surface.
+-- A compositor frame exposes its asymmetric transparent margins. Do not give
+-- this fixed-size dialog the main window's forced size/position either.
+hl.window_rule({
+    name = "telegram-export-dialog",
+    float = true,
+    -- Avoid compositor scaling/settling on top of Telegram's own dialog drawing.
+    no_anim = true,
+    border_size = 0,
+    rounding = 0,
+    no_shadow = true,
+    no_blur = true,
+    match = {
+        class = "^(org.telegram.desktop.*)",
+        initial_title = "^TelegramDesktop$",
+    },
+})
+
+{%- if is_desktop %}
+hl.window_rule({
+    name = "telegram-media-viewer",
+    workspace = "special:chat silent",
+    float = true,
+    size = { 3228, 1324 },
+    move = { "(112)", "(24)" },
+    match = { title = "^(Media viewer)$" },
+})
+{%- endif %}
+
+hl.window_rule({
+    name = "whatsapp",
+    no_initial_focus = true,
+{%- if is_desktop %}
+    workspace = "special:chat silent",
+    float = true,
+    size = { 1112, 1324 },
+    move = { "(112)", "(24)" },
+{%- elif is_laptop %}
+    workspace = "4",
+{%- endif %}
+    match = { class = "com.rtosta.zapzap" },
+})
+
+hl.window_rule({
+    name = "signal",
+    no_initial_focus = true,
+{%- if is_desktop %}
+    workspace = "special:chat silent",
+    float = true,
+    size = { 1112, 1324 },
+    move = { "(2218)", "(24)" },
+{%- elif is_laptop %}
+    workspace = "8",
+{%- endif %}
+    match = { class = "org.signal.Signal" },
+})
+
+hl.window_rule({
+    name = "discord",
+{%- if is_desktop %}
+    workspace = "19 silent",
+{%- elif is_laptop %}
+    workspace = "8 silent",
+{%- endif %}
+    no_initial_focus = true,
+    match = { class = "discord" },
+})
+
+hl.window_rule({
+    name = "obsidian",
+    workspace = "3",
+    match = { class = "obsidian" },
+})
+
+hl.window_rule({
+    name = "steam",
+    workspace = "9 silent",
+    no_initial_focus = true,
+    match = { class = "steam" },
+})
+
+hl.window_rule({
+    name = "feishin",
+{%- if is_desktop %}
+    workspace = "20 silent",
+{%- elif is_laptop %}
+    workspace = "10 silent",
+{%- endif %}
+    no_initial_focus = true,
+    match = { class = "^(feishin)$" },
+})
+
+widths.rule({
+    name = "spotify",
+    scrolling_width = 1.0,
+{%- if is_desktop %}
+    -- Secondary display's tenth workspace (11-20).
+    workspace = "20 silent",
+{%- elif is_laptop %}
+    workspace = "10 silent",
+{%- endif %}
+    no_initial_focus = true,
+    match = { class = "^(Spotify|spotify)$" },
+})
+
+hl.window_rule({
+    name = "plex",
+{%- if is_desktop %}
+    workspace = "8",
+{%- elif is_laptop %}
+    workspace = "10",
+{%- endif %}
+    fullscreen = true,
+    monitor = "0",
+    match = { title = "^(Plex*)" },
+})
+
+-- #######################
+-- CONTROL PANELS
+-- #######################
+
+hl.window_rule({
+    name = "pavucontrol",
+    float = true,
+    size = { 720, 800 },
+{%- if is_desktop %}
+    move = { "(2682)", "(574)" },
+{%- elif is_laptop %}
+    move = { "(1245)", "(600)" },
+{%- endif %}
+    match = { class = "org.pulseaudio.pavucontrol" },
+})
+
+hl.window_rule({
+    name = "mullvad",
+    animation = "fade",
+{%- if is_desktop %}
+    move = { "(2846)", "(803)" },
+{%- elif is_laptop %}
+    move = { "(4390)", "(816)" },
+{%- endif %}
+    match = { title = "^(Mullvad VPN)$" },
+})
+
+-- #######################
+-- GAMES
+-- #######################
+
+-- Steam Games / Gamescope
+hl.window_rule({
+    name = "steam-games",
+    fullscreen = true,
+    monitor = "0",
+{%- if is_desktop %}
+    workspace = "10",
+{%- elif is_laptop %}
+    workspace = "9",
+{%- endif %}
+    border_size = 0,
+    no_anim = true,
+    match = { class = "^steam_app\\d+|gamescope$" },
+})
+
+-- Nintendo Switch / Yuzu / Yakuza0
+hl.window_rule({
+    name = "console-games",
+    monitor = "HDMI-A-1",
+    workspace = "21",
+    tag = "+game",
+    match = { class = "yakuza0.exe|org.yuzu_emu.yuzu" },
+})
+
+-- #######################
+-- GENERIC MODALS
+-- #######################
+
+-- Float as many modals as possible :)
+hl.window_rule({
+    name = "float-generic-class",
+    float = true,
+    border_size = 0,
+    match = { class = "file_progress|confirm|dialog|download|notification|error|splash|confirmreset" },
+})
+
+hl.window_rule({
+    name = "float-title",
+    float = true,
+    border_size = 0,
+    match = { title = "Open File|Open Folder|branchdialog|file-roller|DevTools|^(Media viewer)$|^(Picture-in-Picture)$|^(File Operation Progress)$|^(Confirm to replace files)$|^(Sign in to Steam)$" },
+})

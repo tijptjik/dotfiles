@@ -1,0 +1,95 @@
+{% if is_client -%}
+{
+  "theme": "rose-punk",
+  "placement": {
+    "monitors": "primary",
+    "primaryMonitor": "{% if hostname == "fi" %}DP-1{% elif hostname == "li" %}eDP-1{% endif %}",
+    "edge": "b",
+    "position": "c",
+    "offsetX": 0,
+    "offsetY": -7,
+    "margin": 16,
+    "perMonitor": {}
+  },
+  "grouping": {
+    "enabled": true,
+    "windowSeconds": 120
+  },
+  "actions": {
+    "blacklist": [
+      "telegram",
+      "Telegram Desktop",
+      "Mullvad VPN",
+      "mullvad-vpn"
+    ],
+    "nativeHooks": [
+      {
+        "caller": "chatgpt",
+        "identifier": "default",
+        "command": [
+          "{{ user.home }}/.local/bin/show-codex"
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "lockScreen": "hide"
+  },
+  "stack": {
+    "animationMs": 220,
+    "heightPercent": 75
+  },
+  "history": {
+    "maxAgeDays": 7,
+    "maxEvents": 0,
+    "drawerLimit": 0
+  },
+  "handlers": [
+    {
+      "id": "starprowlarr-grab",
+      "match": {
+        "telegram": true,
+        "title": "StarProwlarr"
+      },
+      "pattern": "(?:📺[ \\t]*)?([\\s\\S]+?)\\n[ \\t]*\\n([0-9]{3,4}p|[248]K)[ \\t]*·[ \\t]*([^\\n·]+)[ \\t]*·[ \\t]*([^\\n]+)\\n(Grabbed) by (Sonarr|Radarr)[ \\t]*·[ \\t]*([^\\n]+)",
+      "card": "key-value",
+      "captures": {
+        "heading": 1,
+        "resolution": 2,
+        "source": 3,
+        "codec": 4,
+        "event": 5,
+        "application": 6,
+        "indexer": 7
+      },
+      "fields": [
+        {
+          "label": "Resolution",
+          "key": "resolution"
+        },
+        {
+          "label": "Source",
+          "key": "source"
+        },
+        {
+          "label": "Codec",
+          "key": "codec"
+        },
+        {
+          "label": "Event",
+          "key": "event"
+        },
+        {
+          "label": "Application",
+          "key": "application"
+        },
+        {
+          "label": "Indexer",
+          "key": "indexer"
+        }
+      ]
+    }
+  ],
+  "components": {}
+}
+{% endif -%}

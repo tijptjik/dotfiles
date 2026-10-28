@@ -1,0 +1,17 @@
+[Unit]
+Description=Hyprvoice voice-to-text daemon
+Documentation=https://github.com/leonardotrapani/hyprvoice
+PartOf=graphical-session.target
+After=graphical-session.target pipewire.service
+ConditionEnvironment=WAYLAND_DISPLAY
+ConditionFileIsExecutable=%h/.local/bin/hyprvoice
+Wants=pipewire.service
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/hyprvoice serve
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Verified per-device archives
+
+[Service]
+Type=oneshot
+TimeoutStartSec=infinity
+TimeoutStopSec=30
+UMask=0077
+ExecCondition=%h/.local/bin/synctjik ready
+ExecStart=%h/.local/bin/synctjik backup

@@ -1,0 +1,12 @@
+[Unit]
+Description=Selected-region screen recording
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/screen-record run
+KillMode=mixed
+KillSignal=SIGINT
+TimeoutStopSec=30
+UMask=0077

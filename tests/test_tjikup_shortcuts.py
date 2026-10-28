@@ -82,14 +82,8 @@ sys.exit(subprocess.call(["fish", "--no-config", "-c", sys.argv[-1]]))
                                  {'tasks': [{'id': 'real-result', 'state': 'failed'}]})
                 self.assertEqual(cached[0].stat().st_mode & 0o777, 0o600)
                 self.assertEqual(cached[0].parent.stat().st_mode & 0o777, 0o700)
-                if columns:
-                    self.assertIn(cached[0].as_uri(), result.stdout)
-                    visible = re.sub(r'\x1b\]8;;.*?\x1b\\', '', result.stdout)
-                    visible = re.sub(r'\x1b\[[0-9;]*m', '', visible)
-                    row = next(row for row in visible.splitlines() if row.startswith('REPORT'))
-                    self.assertLessEqual(len(row), columns)
-                else:
-                    self.assertIn(f'Task timings: {cached[0]}', result.stdout)
+                self.assertNotIn('REPORT', result.stdout)
+                self.assertNotIn('Task timings:', result.stdout)
                 self.assertFalse(Path('/tmp/tjikup-' + cached[0].parent.name + '.json').exists())
             elif broken_transfer:
                 self.assertNotIn('Task timings:', result.stdout)
@@ -108,7 +102,7 @@ sys.exit(subprocess.call(["fish", "--no-config", "-c", sys.argv[-1]]))
     def test_report_transfer_failure_preserves_update_status_and_emits_no_link(self):
         self.run_shortcut('si', 'other', report=True, broken_transfer=True)
 
-    def test_successful_remote_update_emits_a_compact_local_hyperlink(self):
+    def test_successful_remote_update_keeps_timings_private_and_silent(self):
         for columns in (24, 80):
             with self.subTest(columns=columns):
                 self.run_shortcut('si', 'other', report=True, columns=columns, update_status=0)

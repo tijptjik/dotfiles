@@ -38,7 +38,9 @@ end
 
 provision_herdr_plugin smarzban/herdr-file-viewer herdr-file-viewer "File viewer"
 or exit 1
-if command herdr plugin link "$HOME/.config/herdr/plugins/local/local-files" --enabled >/dev/null
+if command herdr plugin list --json | command jq -e --arg root "$HOME/.config/herdr/plugins/local/local-files" '.result.plugins[]? | select(.plugin_id == "local-files" and .enabled == true and .plugin_root == $root)' >/dev/null 2>&1
+    status_msg SKIP "✓" "Plugin : Local file links" "available"
+else if command herdr plugin link "$HOME/.config/herdr/plugins/local/local-files" --enabled >/dev/null
     status_msg CONFIG "✓" "Plugin : Local file links" "available"
 else
     status_msg FAILED "✗" "Plugin : Local file links" "registration failed"

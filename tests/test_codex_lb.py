@@ -39,7 +39,8 @@ class CodexLbTests(unittest.TestCase):
                 root = Path(tmp)
                 command = root / 'systemctl'
                 command.write_text('#!/bin/sh\necho "$*" >> "$CALL_LOG"\n'
-                                   'if [ -n "$FAIL_COMMAND" ] && [ "$2" = "$FAIL_COMMAND" ]; then exit 1; fi\n')
+                                   'if [ -n "$FAIL_COMMAND" ] && [ "$2" = "$FAIL_COMMAND" ]; then exit 1; fi\n'
+                                   'if [ "$2" = --quiet ] && [ "$4" = codex-lb.service ]; then exit 1; fi\n')
                 command.chmod(0o755)
                 script = self.render('run_after_99-systemd-reload.fish.tmpl', host)
                 # Exercise the Codex transition without the unrelated user-unit setup.

@@ -7,5 +7,7 @@ end
 if not /usr/bin/python3 -c 'import cryptography' >/dev/null 2>&1
     source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
     stage "device archive dependencies" INSTALL "Telegram theme reader" sudo dnf install -y python3-cryptography
+else
+    printf 'SKIP    ✓ Telegram theme reader    available\n'
 end
 {{ end -}}

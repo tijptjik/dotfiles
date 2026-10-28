@@ -7,6 +7,7 @@ source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
 {{ if or .isDesktop .isLaptop -}}
 function sync_codex_lb
     set -l runtime "$HOME/.codex-lb/runtime"
+    set -l changed 0
     set -l system_python /usr/bin/python3
     set -l system_version ($system_python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
     # Fedora upgrades remove the old interpreter. Recreate only the disposable
@@ -14,18 +15,30 @@ function sync_codex_lb
     # Codex LB's database and encryption key live outside this directory.
     if not test -x "$runtime/bin/python"; or not test ("$runtime/bin/python" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")' 2>/dev/null) = "$system_version"
         uv venv --clear --python "$system_python" "$runtime"; or return $status
+        set changed 1
     end
 
+    set -l before ("$runtime/bin/python" -c 'import importlib.metadata; print(importlib.metadata.version("codex-lb"))' 2>/dev/null)
     if not test -x "$runtime/bin/codex-lb"
         uv pip install --python "$runtime/bin/python" --reinstall-package codex-lb codex-lb; or return $status
+        set changed 1
     else if test "$FLEET_UPGRADE" != 0; or not "$runtime/bin/python" -c 'import importlib.metadata; importlib.metadata.version("codex-lb")' >/dev/null 2>&1
         uv pip install --python "$runtime/bin/python" --upgrade-package codex-lb codex-lb; or return $status
     end
 
+    set -l after ("$runtime/bin/python" -c 'import importlib.metadata; print(importlib.metadata.version("codex-lb"))')
+    or return $status
+    if test "$changed" = 0; and test "$before" = "$after"
+        printf '__stage_verb__:SKIP\n__stage_note__:no changes\n'
+    else if test -z "$before"
+        printf '__stage_verb__:INSTALL\n__stage_note__:runtime installed\n'
+    else
+        printf '__stage_verb__:UPDATE\n__stage_note__:runtime updated\n'
+    end
     # The final service hook activates changed runtimes after installation.
 end
 
-stage "Codex LB runtime" UPDATE "Codex LB" sync_codex_lb
+stage_dynamic_note "Codex LB runtime" UPDATE "Codex LB" sync_codex_lb
 {{ else -}}
 status_msg SKIP "-" "Codex LB" "client only"
 {{ end -}}

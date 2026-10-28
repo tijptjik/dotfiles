@@ -74,7 +74,7 @@ os.execvpe(sys.argv[3], sys.argv[3:], env)
             )
             wrapper.write_text(source)
             wrapper.chmod(0o755)
-            configure_chezetc(wrapper)
+            self.assertTrue(configure_chezetc(wrapper))
             expected = source.replace(
                 "PATH,EDITOR,VISUAL",
                 "PATH,EDITOR,VISUAL,TJIKUP_COLOR,TJIKUP_NO_SPIN,"
@@ -84,7 +84,7 @@ os.execvpe(sys.argv[3], sys.argv[3:], env)
             self.assertEqual(wrapper.read_text(), expected)
             self.assertEqual(wrapper.stat().st_mode & 0o777, 0o755)
             before = wrapper.stat().st_mtime_ns
-            configure_chezetc(wrapper)
+            self.assertFalse(configure_chezetc(wrapper))
             self.assertEqual(wrapper.read_text(), expected)
             self.assertEqual(wrapper.stat().st_mtime_ns, before)
 

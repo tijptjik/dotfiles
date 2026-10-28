@@ -2,12 +2,7 @@
 import re
 import os
 from pathlib import Path
-import socket
-import sys
 from dataclasses import dataclass
-from urllib.parse import urlsplit
-
-from tjikup import runtime
 
 ANSI = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 ROW = re.compile(r"^([A-Z]+)\s+(✓|!|✗|X|-|\.\.\.)\s+(.*)$")
@@ -15,36 +10,16 @@ UNCHANGED = re.compile(r"(?:^|;\s*)no (?:changes|updates)$", re.IGNORECASE)
 
 
 def timing_report(path, *, stream=None):
-    """Link the private report compactly; retain full paths in ordinary logs."""
-    stream = sys.stdout if stream is None else stream
-    path = Path(path).absolute()
-    # Remote shortcuts collect this private copy after SSH exits, then emit a
-    # local file link. Neither xdg-open nor Kitty can recover an expired SSH
-    # connection from a remote file:// hostname alone.
+    """Optionally collect private timings without adding a terminal row."""
     export = os.environ.get("TJIKUP_TIMING_EXPORT")
     if export:
         try:
-            content = path.read_bytes()
+            content = Path(path).read_bytes()
             with os.fdopen(os.open(export, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600), "wb") as output:
                 output.write(content)
-            return
-        except OSError as error:
-            print(f"Could not collect task timings: {error}", file=stream, flush=True)
-    interactive = stream.isatty() or os.environ.get("TJIKUP_PROGRESS") == "1"
-    if not interactive or os.environ.get("TERM") == "dumb":
-        print(f"Task timings: {path}", file=stream, flush=True)
-        return
-
-    title = "Task timings"
-    note = path.parent.name if runtime.terminal_columns() >= 40 else None
-    row = runtime.format_status("REPORT", "↗", title, note)
-    url = path.as_uri()
-    if os.environ.get("SSH_CONNECTION"):
-        # Direct interactive SSH sessions still need the originating hostname.
-        url = urlsplit(url)._replace(netloc=socket.gethostname()).geturl()
-    label = f"\033[36m{title}\033[0m" if runtime.use_color() else title
-    link = f"\033]8;;{url}\033\\{label}\033]8;;\033\\"
-    print(row.replace(title, link, 1), file=stream, flush=True)
+        except OSError:
+            # Optional timing collection must not obscure the workflow result.
+            pass
 
 
 @dataclass

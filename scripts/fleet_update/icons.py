@@ -28,6 +28,7 @@ class HookProgress(Progress):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.graphics = KittyIcons.available(self.stream, self.live)
+        self.reflow_enabled = not self.graphics or self.graphics.herdr
 
     def _draw(self):
         super()._draw()

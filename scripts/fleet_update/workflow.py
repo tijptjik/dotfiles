@@ -221,7 +221,6 @@ def workflow(repo, *, dry_run=False):
                     progress.open()
             if name in timing_reports:
                 with progress.output():
-                    print(flush=True)
                     timing_report(timing_reports.pop(name))
 
         for step in plan:

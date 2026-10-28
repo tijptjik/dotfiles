@@ -11,8 +11,7 @@ function __tjikup_host --description 'Run Tjikup on a fleet host with its termin
         return 2
     end
 
-    # Keep the report on the calling machine, so its link survives SSH exiting
-    # and works through Herdr's ordinary desktop file opener as well as Kitty.
+    # Keep private diagnostic timings local; do not add a report row to output.
     set -l state "$HOME/.local/state"
     if test -n "$XDG_STATE_HOME"
         set state "$XDG_STATE_HOME"
@@ -38,26 +37,13 @@ function __tjikup_host --description 'Run Tjikup on a fleet host with its termin
         set -l fetch (string join ' ' -- python3 -c (string escape -- "$collector") (string escape -- "$export_path"))
         if __tjikup_connect "$target" -T "$fetch" >"$directory/timings.json.part" 2>"$directory/transfer.log"
             command python3 -c '
-import json, os, sys
+import json, sys
 from pathlib import Path
 p = Path(sys.argv[1]) / "timings.json"
 part = p.with_suffix(".json.part")
 json.loads(part.read_text())
 part.replace(p)
 p.chmod(0o600)
-if sys.stdout.isatty() and os.environ.get("TERM") != "dumb":
-    columns = int(os.environ.get("TJIKUP_COLUMNS") or os.get_terminal_size().columns)
-    color = os.environ.get("TJIKUP_COLOR") != "0" and "NO_COLOR" not in os.environ
-    title = "\033[36mTask timings\033[0m" if color else "Task timings"
-    st = chr(27) + chr(92)
-    row = "REPORT  ↗ \033]8;;" + p.as_uri() + st + title + "\033]8;;" + st
-    if columns >= 40:
-        note = p.parent.name[:columns - 24]
-        row += " " * (columns - 23 - len(note))
-        row += "\033[2m" + note + "\033[0m" if color else note
-    print(row)
-else:
-    print("Task timings: " + str(p))
 ' "$directory"
             or echo "Could not read task timings: $directory" >&2
         else

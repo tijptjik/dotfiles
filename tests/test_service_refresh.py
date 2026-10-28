@@ -70,6 +70,16 @@ class ServiceRefreshTests(unittest.TestCase):
         self.run_refresh()
         self.assertEqual(self.restarts(), [])
 
+    def test_unchanged_runtime_reports_skip_without_reloading_manager(self):
+        self.run_refresh()
+        self.calls.clear()
+        with contextlib.redirect_stdout(io.StringIO()) as output:
+            refresh.refresh(self.units, self.state)
+        self.assertIn('__stage_verb__:SKIP', output.getvalue())
+        self.assertIn('__stage_note__:no runtime changes', output.getvalue())
+        self.assertNotIn(('daemon-reload',), self.calls)
+        self.assertEqual(self.restarts(), [])
+
     def test_runtime_and_unit_changes_refresh_only_affected_units(self):
         self.run_refresh()
         self.calls.clear()

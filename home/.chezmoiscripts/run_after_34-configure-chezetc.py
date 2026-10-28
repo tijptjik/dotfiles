@@ -23,9 +23,9 @@ TJIKUP_ENV = (
 )
 
 
-def configure_chezetc(wrapper: Path) -> None:
+def configure_chezetc(wrapper: Path) -> bool:
     if not wrapper.is_file():
-        return
+        return False
 
     source = wrapper.read_text()
     # Extend only the upstream wrapper's explicit allowlist. Do not preserve
@@ -61,11 +61,21 @@ def configure_chezetc(wrapper: Path) -> None:
                 staged.flush()
                 subprocess.run(["sudo", "install", "-o", "root", "-g", "root",
                                 "-m", "755", staged.name, str(wrapper)], check=True)
+    return updated != source
+
+
+def wrapper_snapshot(paths):
+    return [(path.read_bytes(), path.stat().st_mode) if path.is_file() else None for path in paths]
 
 
 if __name__ == "__main__":
     wrapper = Path("/opt/chezetc/chezetc")
     installer = Path.home() / ".local/share/systjik/scripts/install-chezetc-wrapper.sh"
+    paths = [Path("/usr/local/bin/chezetc"), wrapper]
+    before = wrapper_snapshot(paths)
     if installer.is_file():
         subprocess.run(["bash", str(installer)], check=True)
-    configure_chezetc(wrapper if wrapper.is_file() else Path.home() / ".tools/chezetc/chezetc")
+    changed = configure_chezetc(wrapper if wrapper.is_file() else Path.home() / ".tools/chezetc/chezetc")
+    changed = changed or before != wrapper_snapshot(paths)
+    verb, note = ("CONFIG", "wrapper updated") if changed else ("SKIP", "no changes")
+    print(f"{verb:<7} ✓ Chezetc    {note}", flush=True)

@@ -2,7 +2,17 @@
 if test "$FLEET_DEFER_HOOKS" = 1
     exit 0
 end
-
 if command -q fc-cache
-    fc-cache "$HOME/.local/share/fonts" >/dev/null 2>&1
+    set -l output (env LC_ALL=C fc-cache --verbose "$HOME/.local/share/fonts" 2>&1)
+    or begin
+        printf '%s\n' $output >&2
+        exit 1
+    end
+    if string match -q '*: caching, new cache contents:*' -- $output
+        printf 'UPDATE  ✓ Fonts    cache refreshed\n'
+    else
+        printf 'SKIP    ✓ Fonts    no changes\n'
+    end
+else
+    printf 'SKIP    - Fonts    unavailable\n'
 end

@@ -20,31 +20,15 @@ from tjikup import runtime
 
 
 class PresentationTests(unittest.TestCase):
-    def test_ssh_timing_report_is_compact_and_links_the_originating_host(self):
-        path = Path('/tmp/private report/apply-demo/timings.json')
-        output = io.StringIO()
-        with patch.dict(os.environ, {'TERM': 'xterm-kitty', 'TJIKUP_COLOR': '1',
-                                     'TJIKUP_PROGRESS': '1', 'TJIKUP_COLUMNS': '80',
-                                     'SSH_CONNECTION': '192.0.2.1 1000 192.0.2.2 22'}), \
-                patch('fleet_update.presentation.socket.gethostname', return_value='si'):
-            timing_report(path, stream=output)
-        rendered = output.getvalue()
-        self.assertIn('file://si/tmp/private%20report/apply-demo/timings.json', rendered)
-        visible = re.sub(r'\x1b\]8;;.*?\x1b\\', '', rendered)
-        visible = re.sub(r'\x1b\[[0-9;]*m', '', visible).rstrip('\n')
-        self.assertIn('REPORT  ↗ Task timings', visible)
-        self.assertTrue(visible.endswith('apply-demo'))
-        self.assertNotIn('/tmp/', visible)
-        self.assertLessEqual(runtime.display_width(visible), 80)
+    def test_timing_report_is_silent_in_terminals_and_logs(self):
+        for term, progress in [('xterm-kitty', '1'), ('xterm-kitty', '0'), ('dumb', '1')]:
+            with self.subTest(term=term, progress=progress), patch.dict(os.environ, {
+                    'TERM': term, 'TJIKUP_PROGRESS': progress, 'TJIKUP_TIMING_EXPORT': ''}):
+                output = io.StringIO()
+                timing_report('/tmp/private-report/timings.json', stream=output)
+                self.assertEqual(output.getvalue(), '')
 
-    def test_local_report_uses_a_portable_hostless_file_url(self):
-        with patch.dict(os.environ, {'TJIKUP_PROGRESS': '1', 'TERM': 'xterm-256color',
-                                     'SSH_CONNECTION': ''}):
-            output = io.StringIO()
-            timing_report('/tmp/private report/timings.json', stream=output)
-        self.assertIn('file:///tmp/private%20report/timings.json', output.getvalue())
-
-    def test_remote_shortcut_exports_private_report_instead_of_an_expiring_link(self):
+    def test_optional_timing_export_is_private_and_silent(self):
         with tempfile.TemporaryDirectory() as temporary:
             source = Path(temporary) / 'timings.json'
             source.write_text('{"tasks": []}\n')
@@ -56,42 +40,17 @@ class PresentationTests(unittest.TestCase):
             self.assertEqual(exported.stat().st_mode & 0o777, 0o600)
             self.assertEqual(output.getvalue(), '')
 
-    def test_export_never_overwrites_an_existing_file(self):
+    def test_optional_export_never_overwrites_existing_files_or_prints_a_report(self):
         with tempfile.TemporaryDirectory() as temporary:
             source = Path(temporary) / 'timings.json'
             source.write_text('{"tasks": []}\n')
             existing = Path(temporary) / 'existing'
             existing.write_text('preserve me')
             output = io.StringIO()
-            with patch.dict(os.environ, {'TJIKUP_TIMING_EXPORT': str(existing), 'TERM': 'dumb'}):
+            with patch.dict(os.environ, {'TJIKUP_TIMING_EXPORT': str(existing)}):
                 timing_report(source, stream=output)
             self.assertEqual(existing.read_text(), 'preserve me')
-            self.assertIn(f'Task timings: {source}', output.getvalue())
-
-    def test_timing_report_keeps_full_paths_in_redirected_or_dumb_output(self):
-        for term, progress in [('xterm-kitty', '0'), ('dumb', '1')]:
-            with self.subTest(term=term, progress=progress), \
-                    patch.dict(os.environ, {'TERM': term, 'TJIKUP_PROGRESS': progress,
-                                            'TJIKUP_COLOR': '0'}):
-                output = io.StringIO()
-                timing_report(Path('/tmp/apply-demo/timings.json'), stream=output)
-                self.assertEqual(output.getvalue(), 'Task timings: /tmp/apply-demo/timings.json\n')
-
-    def test_narrow_timing_link_fits_without_colour_or_report_side_effects(self):
-        with tempfile.TemporaryDirectory() as directory:
-            report = Path(directory) / 'report.tsv'
-            report.write_text('original\n')
-            output = io.StringIO()
-            with patch.dict(os.environ, {'TERM': 'xterm-kitty', 'TJIKUP_PROGRESS': '1',
-                                         'TJIKUP_COLOR': '0', 'TJIKUP_COLUMNS': '24',
-                                         'TJIKUP_REPORT_FILE': str(report)}):
-                timing_report(Path(directory) / 'apply-demo/timings.json', stream=output)
-            rendered = output.getvalue()
-            visible = re.sub(r'\x1b\]8;;.*?\x1b\\', '', rendered).rstrip('\n')
-            self.assertEqual(visible, 'REPORT  ↗ Task timings')
-            self.assertNotIn('\x1b[', rendered)
-            self.assertLessEqual(runtime.display_width(visible), 24)
-            self.assertEqual(report.read_text(), 'original\n')
+            self.assertEqual(output.getvalue(), '')
 
     def test_notes_and_warnings_survive_ansi_and_pending_rows(self):
         outcome = summary('\x1b[36mSYNC    ... Python\r\x1b[2KSYNC    ✓ Python    86 pkgs\nWARN    ! Missing optional tool\n')

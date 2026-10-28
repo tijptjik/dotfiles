@@ -47,13 +47,6 @@ link icon cleanup. Native output temporarily replaces the preparation spinner;
 the final Chezmoi row settles once without interleaving spinner redraws with
 native cursor controls. The apply wrapper adds no extra success summary.
 
-In Herdr, **Ctrl-click Task timings** to open the local report in the file
-viewer overlay. Herdr captures modified clicks and only opens HTTP(S) externally
-by default. The managed `local-files` plugin registers a handler for local
-`file:///` and `file://localhost/` links; it leaves other URL schemes and remote
-file hosts alone. Remote shortcuts first copy timing reports locally, then emit
-the local link. Report generation never opens a viewer automatically.
-
 Review sample rows without capture, Git, installation or configuration changes:
 
 ```sh
@@ -223,12 +216,8 @@ before printing; partial stderr prompts pause animation until their line ends.
 Redirected logs and `TJIKUP_PROGRESS=0` show only the completion row. Preparation
 rows do not add duplicate stages to the final outcome report.
 
-The task timings report is the last workflow row, separated by a blank line
-after the final `APPLY` result (or failure). Interactive output uses an OSC 8
-file link. In the managed Kitty configuration, Ctrl+Shift+click follows it.
-The stock keyboard link hints are cleared by `clear_all_shortcuts yes`.
-Remote file links use Kitty's remote-file handler, which can offer to download
-and open the report. Plain logs retain the full report path. The report is saved even when the hook graph fails.
+Task timings remain in the private run logs for diagnostics; no report row or
+file link is printed in local or remote output.
 
 The combined home/system graph defaults to four workers (`FLEET_JOBS=1` serializes
 it for diagnosis). Cargo, uv, tjikOS checkout/install operations, DNF, Flatpak,
@@ -313,15 +302,6 @@ completed rows use the same icons; outcome marks remain separate. Reports and
 redirected plain output retain text labels. `TJIKUP_ICONS=1` forces glyphs into
 a plain captured preview; it does not send image data to ordinary log output.
 
-Each combined apply links its private report as a compact `REPORT ↗ Task timings`
-row, with the run ID at the right. Local links use standard hostless file URLs.
-The `fitjikup`, `litjikup` and `sitjikup` shortcuts collect a private local copy of
-remote timings through the same SSH transport, then link that copy. These links
-work in Kitty and Herdr after SSH exits. Update the shortcut on the calling machine
-and the fleet scripts on the remote machine together. Direct interactive SSH
-sessions retain hostname-qualified links for Kitty's remote-file handler; those
-require the SSH session to remain open. Ordinary redirected
-logs and dumb terminals retain the full `Task timings: /path/to/timings.json` line.
 Reports live under
 `$XDG_STATE_HOME/tjikup/logs/apply-*` (default `~/.local/state/tjikup/logs`). The report
 records total apply time, home file/rendering time, task dependencies/resources,
@@ -337,9 +317,15 @@ not imply a live speedup until representative runs have been compared.
 Routine `tjikup` installs missing Cargo tools and Codex LB without asking package
 registries for newer versions. Use `tjikup --upgrade` to retain those home package
 upgrade checks. Direct `chezmoi apply` retains the previous upgrade behavior.
-Python still uses `uv sync` to converge the declared environment and reports
-failures correctly. Font and icon tools use their native freshness checks instead
-of forced rebuilds.
+Python checks `uv sync --check` first and only synchronizes an outdated environment.
+Codex LB compares package/runtime state, Herdr checks local plugin registration,
+and Tailscale reads current preferences before issuing setters. Font and icon tools
+use their native freshness checks and report `SKIP` when no cache is rebuilt.
+Archive dependencies, installed Sublime Text, unchanged wrapper configuration,
+private storage and unchanged service runtimes also report `SKIP`. Systemd timers
+and services are enabled/reloaded only when their state requires it. File and task
+preparation remains a `CHECK` on every run: native configuration tools reconcile
+file drift and the scheduler prepares a current graph before dispatching hooks.
 
 Herdr binary updates are manual on Fi, Li and Si. Neither `tjikup` (including
 `--upgrade`) nor direct `chezmoi apply` updates an existing binary. Run

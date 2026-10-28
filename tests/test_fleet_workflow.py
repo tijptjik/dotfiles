@@ -195,8 +195,8 @@ else:
         self.assertEqual(positions, sorted(positions))
         self.assertNotIn("Systjik\nhttps://github.com/tijptjik/systjik", result.stdout)
         rows = result.stdout.splitlines()
-        report = next(i for i, row in enumerate(rows) if row.startswith("Task timings:"))
-        self.assertEqual(rows[report - 1], "")
+        self.assertNotIn("Task timings:", result.stdout)
+        self.assertFalse(any(row.startswith("REPORT") for row in rows))
         self.assertFalse(any(row.startswith("APPLY") and "Home and system" in row
                              for row in rows))
         self.assertEqual(sum(row.startswith("COMMIT") for row in rows), 1)
@@ -404,9 +404,8 @@ else:
         self.assertFalse(Path(self.env['SYSTEM_TRACE']).exists())
         self.assertIn('intentional system file failure', result.stderr + result.stdout)
         rows = result.stdout.splitlines()
-        report = next(i for i, row in enumerate(rows) if row.startswith('Task timings:'))
-        self.assertEqual(rows[report - 1], '')
-        completion = next(row for row in reversed(rows[:report]) if row.startswith('APPLY'))
+        self.assertNotIn('Task timings:', result.stdout)
+        completion = next(row for row in reversed(rows) if row.startswith('APPLY'))
         self.assertIn('✗', completion)
         self.assertIn('Home and system', completion)
 

@@ -21,6 +21,30 @@ from fleet_update.dag import Task
 
 
 class PreparationTests(unittest.TestCase):
+    def test_live_stderr_follows_spinner_cleanup_through_stdout(self):
+        output, errors = io.StringIO(), io.StringIO()
+        with patch.dict(os.environ, {'TJIKUP_PROGRESS': '1', 'TJIKUP_ICONS': '0',
+                                    'TJIKUP_COLOR': '0', 'TERM': 'xterm'}), \
+                contextlib.redirect_stdout(output), contextlib.redirect_stderr(errors):
+            def action():
+                print('UPDATE  ... Bitwarden CLIs', file=sys.stderr, end='', flush=True)
+                rendered = output.getvalue()
+                self.assertIn('UPDATE  ... Bitwarden CLIs', rendered)
+                self.assertLess(rendered.index('\r\x1b[1A'), rendered.index('UPDATE'))
+                self.assertEqual(errors.getvalue(), '')
+                return 0
+            prepare('Chezmoi', 'APPLY', action)
+        self.assertEqual(errors.getvalue(), '')
+
+    def test_non_live_preparation_preserves_stderr_channel(self):
+        output, errors = io.StringIO(), io.StringIO()
+        with patch.dict(os.environ, {'TJIKUP_PROGRESS': '0', 'TJIKUP_ICONS': '0',
+                                    'TJIKUP_COLOR': '0'}), \
+                contextlib.redirect_stdout(output), contextlib.redirect_stderr(errors):
+            prepare('Chezmoi', 'APPLY', lambda: print('native diagnostic', file=sys.stderr))
+        self.assertEqual(errors.getvalue(), 'native diagnostic\n')
+        self.assertNotIn('native diagnostic', output.getvalue())
+
     def test_native_rows_suspend_spinner_until_final_settlement(self):
         output = io.StringIO()
         with patch.dict(os.environ, {'TJIKUP_PROGRESS': '1', 'TJIKUP_ICONS': '0',

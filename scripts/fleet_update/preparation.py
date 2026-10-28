@@ -32,8 +32,12 @@ class PreparationOutput:
             # prompts split across writes. Yield until the action finishes;
             # inserting spinner rows between fragments breaks their layout.
             self.progress.native_output = True
-            result = self.stream.write(value)
-            self.stream.flush()
+            # Cursor controls and native text must traverse the same pipe.
+            # stderr can otherwise reach the terminal before stdout's clear,
+            # leaving the spinner behind and erasing the new native row.
+            output = self.progress.stream if self.progress.live else self.stream
+            result = output.write(value)
+            output.flush()
             self.progress.output_open = not value.endswith('\n')
             return result
 

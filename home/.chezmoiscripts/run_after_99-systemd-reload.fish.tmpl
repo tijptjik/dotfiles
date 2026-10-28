@@ -11,21 +11,28 @@ section_header "Systemd User Units"
 
 {{ if or .isDesktop .isLaptop -}}
 # Each client owns its runtime and independently authenticated accounts.
-systemctl --user daemon-reload; or exit $status
 {{ if .isDesktop -}}
-systemctl --user disable --now codex-lb-laptop.service; or exit $status
+if systemctl --user --quiet is-enabled codex-lb-laptop.service 2>/dev/null; or systemctl --user --quiet is-active codex-lb-laptop.service 2>/dev/null
+    systemctl --user disable --now codex-lb-laptop.service; or exit $status
+end
 {{ else -}}
 # Release port 2455 before starting the laptop's local backend.
-systemctl --user disable --now codex-lb-client.socket; or exit $status
-systemctl --user stop codex-lb-client.service; or exit $status
+if systemctl --user --quiet is-enabled codex-lb-client.socket 2>/dev/null; or systemctl --user --quiet is-active codex-lb-client.socket 2>/dev/null
+    systemctl --user disable --now codex-lb-client.socket; or exit $status
+end
+if systemctl --user --quiet is-active codex-lb-client.service 2>/dev/null
+    systemctl --user stop codex-lb-client.service; or exit $status
+end
 {{ end -}}
 
-systemctl --user enable --now codex-lb.service; or exit $status
+if not systemctl --user --quiet is-enabled codex-lb.service; or not systemctl --user --quiet is-active codex-lb.service
+    systemctl --user enable --now codex-lb.service; or exit $status
+end
 {{ end -}}
 
 function user_units_need_reload
-    set -l need_reload (systemctl --user show --property=NeedDaemonReload --value 2>/dev/null)
-    test "$need_reload" = yes
+    set -l need_reload (systemctl --user show '*' --property=NeedDaemonReload --value 2>/dev/null)
+    contains -- yes $need_reload
 end
 
 function unit_needs_enable_now
@@ -67,9 +74,13 @@ end
 # Adopt the current idle choice once, then preserve it across applies/logins.
 # Never start hypridle during apply: an inactive daemon can be intentional.
 "$HOME/.local/bin/idle-inhibit" init; or exit $status
-systemctl --user enable hypridle.service; or exit $status
+if not systemctl --user --quiet is-enabled hypridle.service
+    systemctl --user enable hypridle.service; or exit $status
+end
 "$HOME/.local/bin/nightlight" init; or exit $status
-systemctl --user enable hyprsunset.service; or exit $status
+if not systemctl --user --quiet is-enabled hyprsunset.service
+    systemctl --user enable hyprsunset.service; or exit $status
+end
 
 set client_services "hyprpolkitagent.service" "hyprpaper.service"
 
@@ -104,7 +115,7 @@ end
 function configure_hyprvoice_unit
     if test -L "$HOME/.config/systemd/user/default.target.wants/hyprvoice.service"
         systemctl --user reenable hyprvoice.service; or return $status
-    else
+    else if not systemctl --user --quiet is-enabled hyprvoice.service
         systemctl --user enable hyprvoice.service; or return $status
     end
     if not test -x "$HOME/.local/bin/hyprvoice"

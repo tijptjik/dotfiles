@@ -141,6 +141,7 @@ class IdlePolicyRenderingTests(unittest.TestCase):
                 (bindir / "nightlight").symlink_to(stub)
                 harness = '''
 function systemctl
+    if contains -- is-enabled $argv; return 1; end
     if contains -- is-active $argv; return 0; end
     if contains -- show-environment $argv; echo WAYLAND_DISPLAY=wayland-1; return 0; end
     echo (string join ' ' -- $argv)

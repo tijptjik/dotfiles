@@ -24,7 +24,7 @@ def systemctl(*args):
 
 def properties(unit):
     try:
-        output = systemctl("show", unit, "--property=LoadState,ActiveState,Type,ExecStart")
+        output = systemctl("show", unit, "--property=LoadState,ActiveState,Type,ExecStart,NeedDaemonReload")
     except subprocess.CalledProcessError as error:
         if "LoadState=not-found" not in (error.stdout or ""):
             raise
@@ -86,11 +86,14 @@ def refresh(units, state, *, check=False):
             saved = {}
     except (FileNotFoundError, ValueError):
         saved = {}
-    if not check:
-        systemctl("daemon-reload")
+    reloaded = False
     pending = 0
     for unit, inputs in units.items():
         info = properties(unit)
+        if not check and info.get("NeedDaemonReload") == "yes":
+            systemctl("daemon-reload")
+            reloaded = True
+            info = properties(unit)
         if info.get("LoadState") != "loaded" or info.get("ActiveState") != "active":
             print(f"SKIP    - {unit} inactive or unavailable", flush=True)
             continue
@@ -122,7 +125,12 @@ def refresh(units, state, *, check=False):
             Path(staged).unlink(missing_ok=True)
         print(f"RESTART ✓ {unit} updated runtime active", flush=True)
     if not pending:
-        print("__stage_note__:no runtime changes", flush=True)
+        if reloaded:
+            print("__stage_verb__:CONFIG", flush=True)
+            print("__stage_note__:unit definitions reloaded", flush=True)
+        else:
+            print("__stage_verb__:SKIP", flush=True)
+            print("__stage_note__:no runtime changes", flush=True)
     elif not check:
         print(f"__stage_note__:{pending} active units refreshed", flush=True)
 

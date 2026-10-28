@@ -1,7 +1,7 @@
 # Chinese input on Hyprland
 
 Fcitx 5 starts with the Hyprland session. The common RPM list in
-`../chezetc/etc/.chezmoidata/packages.yaml` installs the engines, GTK/Qt modules,
+`system/etc/.chezmoidata/packages.json` installs the engines, GTK/Qt modules,
 configuration tool, and Chinese fonts on all managed hosts.
 
 The Default group contains US International with AltGr accents (`EN`), predictive Mandarin Pinyin

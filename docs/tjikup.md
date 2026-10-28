@@ -1,162 +1,80 @@
-# Fleet updates with tjikup
+# Tjikup recipes
 
-The reusable runner lives in [tjikos/apps/tjikup](https://github.com/tijptjik/tjikos/tree/main/apps/tjikup).
-This repository owns [tjikup.json](../tjikup.json), the order of fleet operations,
-and [scripts/fleet_update](../scripts/fleet_update), which captures our live
-application settings and applies home configuration. Chezetc owns
-`scripts/tjikup-apply.py`, including system configuration refresh and retry.
-The runner has no built-in Chezmoi, Chezetc, Git, host or credential policy.
-The workflow also declares repository banners and section headings. Capture,
-prerequisite and commit scripts own their detailed rows, so their steps disable
-the runner's duplicate summary rows.
+Tjikup is a Rust recipe runner in tjikOS. This repository supplies declarative
+recipes and application commands. The runner has no Python library API.
 
-FNM is no longer installed or initialized by home setup. Apply removes its
-legacy manager binaries and Fish snippet; existing downloaded Node.js versions
-are retained so running development sessions can finish. JavaScript commands use
-Bun or the separately installed system Node.js without automatic version switching.
+The root workflow is Dotjik's `tjikup.json`. It declares prerequisites, exact
+capture/autocommit files, repository synchronization, and explicit home/system
+file and native template recipes. It includes `tjikup/recipes.json` and `system/tjikup/recipes.json` from this checkout.
+The graph preserves shared resource exclusion and final service/network/release
+ordering across home and system tasks.
 
-## Status rows and icon review
+Regular maintenance templates live in `native/tasks/{home,system}`. Tjikup renders
+and syntax-checks them with MiniJinja, then executes their dependent recipes.
+Files and credentials use native manifests; no maintenance or bootstrap step
+requires Chezmoi. Recurring Bitwarden CLI and font preparation remain explicit
+Tjikup recipes.
 
-Prerequisites, captured application settings, preparation and fleet repository
-rows use the same Rose Punk icons as application tasks. Kitty shows 32 px
-images in two terminal lines; other terminals use compact glyphs. Redirected
-logs remain plain, and the report keeps undecorated labels and outcomes.
-Repository rows retain separate PULL and PUSH outcomes beside a single icon.
-An uncommitted-file failure puts its count (for example, `48 files`) in the
-right-aligned status column. It does not add an inline diagnostic block or log
-link; the final summary still receives the complete failure reason.
-
-Under **Managed Dotfiles**, Bitwarden updates its CLIs before Chezmoi needs
-secrets. **Assets (font folder migration)** consolidates legacy user font
-folders into `~/.local/share/fonts` and makes `~/.fonts` a compatibility symlink;
-it does not download fonts. The separate **Assets (fonts)** task later refreshes
-the font cache when font files change.
-
-**Chezmoi (home directory)** applies home files, then renders and
-syntax-checks the after-apply scripts. The former “Home hooks” row is folded
-into that operation. **Chezetc (system)** configures
-the sudo launcher and its explicit environment allowlist, then applies system
-files and prepares the system scripts, all under one row in **Managed Dotfiles**.
-**Home + system tasks** begins after both preparation rows finish and runs the
-remaining home and system scripts together. Launcher setup and system preparation
-retain separate dependency and timing records without duplicate display rows.
-
-Run-once preparation rows use the same icons: Bitwarden for the access token,
-Chezmoi for the decryption key, Fedora for system and essential packages,
-Chezetc for passwordless sudo, Fish for the default shell, and Assets for symbolic
-link icon cleanup. Native output temporarily replaces the preparation spinner;
-the final Chezmoi row settles once without interleaving spinner redraws with
-native cursor controls. The apply wrapper adds no extra success summary.
-
-Review sample rows without capture, Git, installation or configuration changes:
+Install the consolidated dotfiles changes and the Rust runner together. From Dotjik:
 
 ```sh
-python3 -B scripts/preview-fleet.py setup
-python3 -B scripts/preview-fleet.py capture
-python3 -B scripts/icons/workflow-review.py
+bash scripts/install-tjikup.sh
+tjikup --check
+tjikup --plan
 ```
 
-Run the first two in Kitty to inspect actual image rows. The last command writes
-a five-size dark/light comparison beside the unchanged camera reference to
-`.local/icon-reviews/docs/rose-punk-workflow-candidates.png` and `.svg`.
-Bitwarden and bookmarks have been approved; UV, FNM, Gum and Bun are revised
-candidates in the primary frameless theme. These commands do not cut a release, approve framed
-icons or deploy artwork.
+The installer validates the full graph before replacing the executable. Cargo
+is required to build from source. Initial provisioning still follows the existing
+bootstrap guides; install prerequisites and initialize Chezmoi and Bitwarden credentials before
+running the fleet workflow. Tjikup does not silently bootstrap missing managers,
+passwordless sudo, secrets or upstream branches.
 
-The fleet uses a bounded DAG scheduler in `scripts/fleet_update/dag.py`.
-[workflow.json](../scripts/fleet_update/workflow.json) declares repository and apply
-dependencies; [home-plan.json](../scripts/fleet_update/home-plan.json) declares home
-hook dependencies and shared resources. Ready tasks start as soon as their
-prerequisites succeed. System pull can overlap home capture/commit; tjikOS and
-home pulls can run concurrently after the capture commit. Each repository's
-push can start after its own pull. All three pushes
-must finish successfully before apply starts. The apply stage then uses one graph
-for home and system hooks, with shared resource locks and one worker limit.
-Chezmoi and Chezetc retain ownership of managed files and once/onchange state.
+`--dry-run` is now a strictly nonexecuting plan. `--upgrade` retains the package
+upgrade policy. `--skip-conflicts` preserves conflicting files. `--skip-repo-sync` bypasses
+repository pulls/pushes and their clean-worktree checks while retaining capture
+and its scoped commit; both switches are declarative workflow policy. Missing checkouts,
+detached branches and absent upstreams now fail explicitly before file apply.
+If a pull changes recipe configuration, rerun Tjikup to use the new graph.
 
-Capture still validates every result before writing sources and commits only
-changed capture targets. Fcitx capture retains its private backups. Configuration
-repositories require a clean worktree after the scoped capture commit and use
-`pull --rebase --no-autostash`. Dirty tracked, staged, or untracked files fail
-pull/push and block apply; unknown worktree or upstream state is also an error. A whole-workflow
-lock prevents overlapping Tjikup capture/pull/apply transactions in this checkout;
-individual Git commands also retain their repository locks. Failed tasks stop new
-work, drain running tasks, and block pending dependents. A configuration-refresh
-warning prevents subsequent apply stages.
+Capture remains a standalone Python command with the existing template-aware
+propagators and private backups. It has no dependency on the runner's internals.
+Autocommit and Git orchestration are native Rust actions, and only the explicitly
+listed tracked files may be automatically committed. Unrelated work is preserved.
 
-The **Repos** stage also checks tjikOS at `$TJIKOS_REPO`, or
-`~/code/tjikos` by default. Clean checkouts fetch their configured upstream and
-advance only by fast-forward. Dirty checkouts fail and block apply. Detached
-or untracked-branch checkouts produce a warning and retain the local source for
-installation. Locally ahead checkouts retain their commits during pull, then
-publish them with a normal `git push`. Diverged checkouts fail the push and block
-apply until their history is reconciled. tjikOS is never automatically committed,
-stashed, rebased, reset, or force-pushed.
-Fetch failures, busy checkouts, and unfinished Git operations block apply.
-A missing checkout is left to the existing installer bootstrap; legacy checkout
-migration rules still apply. Installers run after this stage and retain their
-source-fingerprint checks.
+Logs and timing receipts are private under `~/.local/state/tjikup/logs`. No live
+apply is part of tests. Test recipe rendering for fi/li/si, then perform a
+supervised update before treating the migration as live acceptance.
 
-The final home service hook refreshes changed running user services after all
-home and system installers finish, before final network/release checks. It tracks
-unit definitions, entry points, installed code and configuration using content
-hashes in `~/.local/state/tjikup/user-services.json`. Notjik and its Telegram
-bridge, Bartjik, Codex LB, Collie, Hyprvoice, Hypridle, Hyprsunset, Hyprpaper,
-Hyprpolkitagent and oo7 are covered by
-[`user-service-inputs.json`](../scripts/user-service-inputs.json). Changed managed
-timers are rearmed without restarting their running jobs. Stopped services stay
-stopped, preserving idle/nightlight choices and headless sessions. Runtjik's
-installer already closes its resident launcher when its runtime changes; the
-next invocation launches the new version.
-
-The first refresh establishes the hash baseline by restarting covered active
-units once. Later unchanged applies skip them. Finish replies, recordings and
-Codex requests before updating: a changed service is restarted automatically.
-Backup/sync jobs, lock-screen activation, recording jobs and unrelated system
-daemons are outside this refresh; their existing lifecycle policies remain in
-effect. Failed restarts fail the apply and keep the previous hash for retry.
-The same refresh runs at the end of a direct `chezmoi apply`.
-
-Preview or refresh selected units without running the Git/update workflow:
-
-```sh
-python3 scripts/refresh-user-services.py --check
-python3 scripts/refresh-user-services.py --unit notjik.service --unit bartjik.service
-```
-
-The generated `~/.local/share/applications/mimeinfo.cache` is ignored by Chezmoi
-and excluded from capture. Desktop tools regenerate it from installed desktop
-entries, so Tjikup neither requires a tracked source nor captures or restores
-stale associations.
+The complete schema and execution contract are documented in
+[tjikOS](https://github.com/tijptjik/tjikos/tree/main/apps/tjikup).
 
 ## Git-only shortcuts
 
 Available on `fi`, `li`, and `si`, from any working directory and shell:
 
 ```sh
-tjix                 # push committed changes in Dotjik, Systjik, and tjikOS
-tjixx                # pull all three with rebase, then push all three
+tjix                 # push committed changes in Dotjik and tjikOS
+tjixx                # pull both with rebase, then push both
 tjix --dry-run       # show repositories and commands, without network or writes
-tjixx --dry-run      # also check that all three working trees are clean
+tjixx --dry-run      # also check that both working trees are clean
 tjix --verbose      # include repository paths and successful Git output
-dotjik diff          # compatibility wrapper for chezmoi
-systjik diff         # compatibility wrapper for chezetc
+dotjik diff          # native home file plan
+systjik diff         # native system plan on Fi; legacy file diff on Li/Si
 ```
 
-Dotjik is the personal configuration name; Systjik is the system configuration
-name. The system GitHub repository is `tijptjik/systjik`; the personal repository remains
-`tijptjik/dotfiles`. The upstream tools (`chezmoi`, `chezetc`), existing aliases,
-and checkout paths remain unchanged. These wrappers
-forward arguments and exit status directly to the original tools.
+Dotjik (`tijptjik/dotfiles`) owns home and system configuration. Systjik's source
+and uncommitted changes now live under `system/`; its separate checkout is a
+recovery copy, not another sync target. `systjik` and `chezetc` are compatibility
+commands for file check/plan/diff/apply. Maintenance tasks run through `tjikup`.
 
-The shortcuts synchronize this host's three checkouts. They do not commit new work,
+The shortcuts synchronize this host's two checkouts. They do not commit new work,
 capture live settings, apply configuration, install tools, or contact other fleet
 hosts. `tjikup` remains the full update workflow. Push-only `tjix` permits dirty
-files but sends only committed history. `tjixx` requires all three working trees
+files but sends only committed history. `tjixx` requires both working trees
 (including untracked files) to be clean; commit or stash intentionally beforehand.
 It explicitly uses `git pull --rebase --no-autostash`, so it never temporarily
 hides ongoing work. It checks every repository before any network operation,
-pulls all three concurrently before pushing all three concurrently. Every pull
+pulls both concurrently before pushing both concurrently. Every pull
 must succeed before any push starts. If a stage fails, it waits for its running
 peers, reports the failures, and skips subsequent stages. A conflict
 is left available for normal Git resolution. Earlier successful pulls or pushes
@@ -174,7 +92,7 @@ running network operations. Rebase continuation remains sequential before these
 stages.
 
 Both shortcuts detect an existing rebase before checking the branch, since a
-rebase temporarily detaches HEAD. After checking all three repositories, they run
+rebase temporarily detaches HEAD. After checking both repositories, they run
 `git rebase --continue` with the existing commit message. Resolve conflicts and
 stage the intended resolutions with `git add` first; the shortcuts never stage,
 skip, abort, or amend automatically. A clean pause at an edit step can also
@@ -184,12 +102,11 @@ inspect the rebase, finish the next resolution and rerun. `--dry-run` only repor
 the planned continuation. Other unfinished Git operations still require manual
 completion. Ordinary detached HEAD checkouts are not pushed.
 
-Dotjik is located via `chezmoi source-path` and its Git root; Systjik defaults to
-`~/.local/share/systjik`. Both Git-only shortcuts, the full `tjikup` workflow,
+Dotjik is located via `chezmoi source-path` and its Git root. Both Git-only shortcuts, the full `tjikup` workflow,
 and app installers target tjikOS at `~/code/tjikos` (`tijptjik/tjikos`). Set
 `TJIKOS_REPO` to select another checkout. The retired `TOOLTJIK_REPO` override
 and existing Tooltjik directories are not selected automatically.
-`DOTJIK_REPO` and `SYSTJIK_REPO` override the other repository paths. Missing
+`DOTJIK_REPO` overrides the dotfiles path. `SYSTJIK_REPO` is set by the workflow to its `system/` directory. Missing
 checkouts fail clearly rather than being cloned. The shortcuts share Tjikup's
 workflow and repository locks and report a busy checkout instead of racing it.
 Git settings are passed per invocation; no global Git configuration is changed.
@@ -201,363 +118,184 @@ chezmoi apply --include=files ~/.local/bin/tjix ~/.local/bin/tjixx \
   ~/.local/bin/dotjik ~/.local/bin/systjik ~/.local/lib/tjik_git.py
 ```
 
-## Parallel apply and skip policy
+## Native file migration
 
-Tjikup lets Chezmoi perform its native bootstrap, before/once/onchange hooks and
-file convergence, while deferring the listed `run_after_*` hooks. It then renders
-and syntax-checks all deferred hooks before running their DAG. Rendering failure
-blocks all deferred work. Adding or removing an after-hook requires updating the
-manifest; a mismatch fails before home apply. Plain `chezmoi apply` retains its
-native serial hook behavior. Never set `FLEET_DEFER_HOOKS` manually: it is an
-internal hand-off flag, not a way to skip setup.
+Fi uses `system/native/fi/manifest.json` for 18 system targets: 14 files,
+two symlinks and two absent targets. Native home credentials are declared in
+`native/home/{fi,li,si}.json`: seven Fi files, five Li files and two Si files.
+The old home sources remain in the checkout for migration comparison and recovery;
+`home/.chezmoiignore` excludes every target. Old removal and external-repository
+rules are disabled, with equivalents declared in native policy. All remaining home files now use `native/home/files.json` with host context in
+`native/home/files-{fi,li,si}.json`. This includes Zed, Herdr and Docker templates.
+Only maintenance-task templates and Li/Si system templates still use Chezmoi.
 
-Before the hook graph starts, `Chezmoi` and `Home hooks` each use one spinner
-row that settles with its completion time. Native output clears the active row
-before printing; partial stderr prompts pause animation until their line ends.
-Redirected logs and `TJIKUP_PROGRESS=0` show only the completion row. Preparation
-rows do not add duplicate stages to the final outcome report.
-
-Task timings remain in the private run logs for diagnostics; no report row or
-file link is printed in local or remote output.
-
-The combined home/system graph defaults to four workers (`FLEET_JOBS=1` serializes
-it for diagnosis). Cargo, uv, tjikOS checkout/install operations, DNF, Flatpak,
-user/system systemd, Tailscale, fonts and storage have shared resource exclusions.
-Native file passes and wrapper setup own the terminal. llmtrim's package install
-is separate from setup; setup only owns the terminal when its CA is missing.
-Worker hooks must be noninteractive, and system workers require noninteractive
-sudo. The managed passwordless-sudo bootstrap remains Chezmoi's responsibility.
-
-System file application can begin after home files and the Chezetc wrapper are
-ready. It no longer waits for all home hooks. Chezetc retains its native
-configuration-refresh retry and before/once/onchange handling, while audited
-maintenance hooks are deferred to the shared graph. The system inventory lives
-in Chezetc's `scripts/tjikup-plan.json`; unknown, missing or undeferable hooks fail
-closed. System hooks are rendered through the wrapper in the correct template
-context and syntax-checked before any deferred system hook starts. Do not set
-`FLEET_DEFER_SYSTEM_HOOKS` manually.
-
-RPM maintenance follows repository setup. Flatpak maintenance waits for RPM
-packages so its executable is available on first apply; independent application
-installers and home hooks may overlap. Hooks that can install packages retain a
-DNF resource lock for their whole execution. Existing package transactions and
-upgrade policy, Plex exclusions and Nginx rebuild ordering remain intact. The
-Tailscale reconciliation waits for home/system work before enforcing the declared
-final network policy. Fedora release-upgrade prompting is exclusive and runs last,
-after every peer task, so a reboot cannot interrupt in-flight work.
-
-Both layers share one `Dotjik + Systjik` heading because completion
-order crosses repositories and application sections. This graph executes the
-deferred hooks collected from both repositories; a Systjik-only banner would
-mislabel the home tasks. Si’s application update results retain
-separate `Docker services` and `Native applications` headings, with an individual
-icon and outcome for each service. Direct `chezmoi apply` and `chezetc apply`
-keep their native serial sequences and headings.
-
-Completed rows use the hooks' reported outcomes instead of the manifest's
-planned action. Explicit unchanged results are `SKIP`; a later skipped substep
-does not hide an earlier change. Multiple different actions are summarized as
-`APPLY`. Hooks removed by a host condition render to only the standard deferral guard;
-these are silent skipped dependency nodes and are never executed. Other hooks
-that emit no status finish as `DONE`, which confirms completion without claiming
-a configuration change. Warnings and failures retain their
-diagnostics. Cached app installers report `INSTALL` for a first installation,
-`UPDATE` for changed or repaired installed files, and `SKIP` when installed bytes
-and modes are unchanged. A source change that rebuilds to identical output is
-also `SKIP`. Cache checks ignore generated Python bytecode, and still verify the
-installed files rather than trusting a version string. Dynamic stage wrappers
-carry these outcomes into both the terminal rows and report records.
-
-Actions and icons share outcome colours: green for success, grey for skips,
-yellow for warnings, red for failures, and cyan while running. Service names are
-white; parenthesized subtypes and right-hand notes are dim. Pure asset tasks use
-`Assets` as the service, for example `Assets (fonts)` and `Assets (Rose Punk icons)`.
-Kitty 0.40+ uses 32px colour icons in two-line rows, with normal-size text
-vertically centred beside them. Images use the Rose Punk theme where available
-and matching glyph tiles otherwise. They travel inline through the runner and
-SSH; Unicode placeholders make scrolling and progress redraws erase/move the
-images with their rows. Terminal cell dimensions keep the artwork at 32px.
-Image data is bundled in `scripts/fleet_update/icons32.json`, so the update
-does not need an image converter. To rebuild it after changing artwork, run
-`python3 scripts/icons/build-fleet.py` (requires Pillow and ImageMagick).
-
-Colour image rows leave one terminal cell between the checkmark and icon canvas,
-and the same gap between the canvas and label. Chrome, Sublime Text and Obsidian
-use their Rose Punk application artwork. Icon cache and Rose Punk icon rows use
-the four-tile icon-grid artwork, and
-Greetjik uses its named application artwork.
-
-Herdr 0.9.5+ also uses 32px colour icons and two-line rows. Its panes advertise
-`TERM_PROGRAM=herdr` and `HERDR_ENV=1`, with `TERM=xterm-256color`. Because its
-PTY ioctl omits pixels, Tjikup asks Herdr for cell dimensions once at renderer
-startup (a bounded `CSI 16 t` query, skipped if input is already pending).
-Herdr does not render Kitty's OSC 66 text sizing, so this path uses normal
-text beside the top-aligned icon instead of the centred-text protocol.
-Keep `[terminal] kitty_graphics = true` in Herdr's configuration. The 0.9.5
-path is verified locally; remote sessions also need the updated fleet scripts.
-
-Other terminals, tmux/screen sessions, and terminals without usable pixel geometry
-keep compact Nerd Font icons. Set `TJIKUP_KITTY_ICONS=0` to select this compact
-layout in Kitty, or `TJIKUP_ICONS=0` to disable all title icons. Running and
-completed rows use the same icons; outcome marks remain separate. Reports and
-redirected plain output retain text labels. `TJIKUP_ICONS=1` forces glyphs into
-a plain captured preview; it does not send image data to ordinary log output.
-
-Reports live under
-`$XDG_STATE_HOME/tjikup/logs/apply-*` (default `~/.local/state/tjikup/logs`). The report
-records total apply time, home file/rendering time, task dependencies/resources,
-execution duration, dependency wait,
-resource/terminal wait, worker wait and start/finish offsets. System native file
-application and rendering are recorded together as a task. Hook output lives
-alongside it in private log files, including interactive hooks. Those hooks stream
-prompts and diagnostics while structured status rows appear once in the scheduler.
-Failure reports retain completed/failed/blocked task timing; cancellation preserves the
-completed events and marks unfinished tasks interrupted. These measurements do
-not imply a live speedup until representative runs have been compared.
-
-Routine `tjikup` installs missing Cargo tools and Codex LB without asking package
-registries for newer versions. Use `tjikup --upgrade` to retain those home package
-upgrade checks. Direct `chezmoi apply` retains the previous upgrade behavior.
-Python checks `uv sync --check` first and only synchronizes an outdated environment.
-Codex LB compares package/runtime state, Herdr checks local plugin registration,
-and Tailscale reads current preferences before issuing setters. Font and icon tools
-use their native freshness checks and report `SKIP` when no cache is rebuilt.
-Archive dependencies, installed Sublime Text, unchanged wrapper configuration,
-private storage and unchanged service runtimes also report `SKIP`. Systemd timers
-and services are enabled/reloaded only when their state requires it. File and task
-preparation remains a `CHECK` on every run: native configuration tools reconcile
-file drift and the scheduler prepares a current graph before dispatching hooks.
-
-Herdr binary updates are manual on Fi, Li and Si. Neither `tjikup` (including
-`--upgrade`) nor direct `chezmoi apply` updates an existing binary. Run
-`herdr update` outside Herdr when ready to update, closing active sessions if
-requested. The once-only install hook still installs a missing binary, and
-recurring hooks continue provisioning Herdr plugins.
-
-Tjikup, Notjik and Greetjik build/install steps compare source fingerprints against
-all declared installed outputs, including bytes, modes and symlink targets.
-Changed inputs, changed/deleted outputs, or a missing record trigger installation.
-Only successful installs with stable inputs create an atomic record under
-`$XDG_STATE_HOME/tjikup/install` (default `~/.local/state/tjikup/install`).
-Service/migration checks remain outside the build cache. The cache is local and
-does not stand in for checking runtime service state. Removing a record forces
-that install to run again. Build directories and dependency caches are excluded
-from source fingerprints. New installer inputs/outputs must be added to its
-`cache-install.py` invocation.
-
-The **Repos** panel keeps three rows in fixed order: `dotjik`,
-`systjik`, `tjikOS`, each with separate `PULL` and `PUSH` cells. Pending cells
-are dimmed, running cells are bright, completed operations with changes are
-blue, and completed operations without changes are teal. Failures turn red;
-blocked operations stay dimmed. tjikOS PUSH follows the same state colors as
-the configuration repositories. Each operation reserves a marker before its
-label: `✓` for changes, `-` for no changes, `✗` for failure, and a blank while
-unresolved. Pull changes are determined from the
-checkout's HEAD before and after the operation, and pushes from outgoing commits.
-The left cells always retain their `PULL` and `PUSH` labels and status markers.
-Commit counts appear in the far-right details column: `↓N` for commits pulled
-and `↑N` for commits pushed, including zero when up to date. Counts share that
-column with dirty-file details and yield to the status flags in narrow terminals. Pull counts use new upstream commits and exclude
-local commits rewritten by a rebase. Failed, blocked, and unavailable operations
-retain their operation labels without claiming a successful count. Redirected
-rows retain `PULL`/`PUSH` labels and explicit states on the left, with arrow counts
-aligned on the right.
-Bitwarden CLI results include elapsed seconds for success, deferred release
-checks, and failure; deferred/failure diagnostics and exit behavior are preserved.
-The scoped capture commit stays under **Commit Local Changes**; dirty checks are
-folded into repository results. Redirected output emits the three final rows
-with explicit state names and no cursor controls.
-Dirty checkout failures use a single sentence in the final Issues list:
-`Dotjik has changes - commit or stash them first` (or `Systjik`). The file count
-stays in the repository row's right-aligned status column.
-Blocked apply does not insert a separate step row into the repository panel.
-With the updated runner, reported repository failures do not add generic
-`Fleet update` and `Tjikup` failures; the command still exits nonzero.
-
-The fleet panel uses the tjikOS runner's synchronized terminal frames and cursor
-handling. Hook progress continues to show a live row per task with a spinner and
-elapsed time. The cursor returns for prompts and when the progress context exits,
-including Ctrl-C. Fleet panel changes take effect directly from this checkout;
-changes to the reusable runner require reinstalling tjikOS.
-Buffered failures show the failed step first, followed by
-a short diagnostic and the path to a private full-output log under
-`$XDG_STATE_HOME/tjikup/logs` (default `~/.local/state/tjikup/logs`). Git conflicts
-include the conflict details and an inspection command; a paused rebase also
-shows how to continue after resolving and staging the files. This presentation
-does not resolve conflicts or resume a rebase automatically. If saving the log
-fails, the complete output is printed instead. Deferred hooks leave one concise
-result each; their raw output is saved in private `apply-*` directories under the
-same log root. Warnings and failure diagnostics remain visible. Successful tool
-chatter, completed `SKIP` rows (including `no changes`/`no updates` results), and
-duplicate `DAG` rows are hidden. Skipped tasks remain in reports and private hook
-logs; their running progress rows disappear when they finish. Section headings
-appear with the first visible result or diagnostic; all-skipped sections stay
-hidden. Available prerequisites are recorded as `SKIP`, so a healthy prerequisite
-phase produces no rows or heading. Missing prerequisites appear as `WARN` rows
-under **Prerequisites**; their setup hooks still run during apply.
-A successful Home + System Tasks phase with no visible results shows
-one `CHECK` row: a checkmark, the Tjikup icon, and `No changes needed`.
-Interactive hooks own the terminal exclusively.
-
-The Python package count uses quiet output. Python 3.13 remains pinned for
-PaddlePaddle: release 3.3.1 has CPython 3.13 wheels but no CPython 3.14 wheels.
-`--dry-run` executes prerequisite checks, capture previews, and read-only tjikOS
-inspection, without fetching, changing Git history, applying, installing, or writing
-caches. `tjikup --check` validates the outer runner JSON;
-the DAG and complete hook inventory are validated when the workflow starts.
-Regression tests cover overlap, resource exclusion, failure propagation, skip
-invalidation, dry-run behavior, and template rendering for fi/li/si. These checks
-do not constitute a live system apply or a measured production speedup.
-
-## Installation and migration
-
-For a clean Fedora device, start with the [initialization instructions](../README.md#installation-on-new-machine).
-Initialize both configuration repositories and the Chezetc wrapper before using
-the fleet workflow. The normal home apply hook installs the runner automatically.
-
-For an existing device, update the dotfiles and Chezetc checkouts to compatible
-revisions, including Chezetc's `scripts/tjikup-plan.py` adapter and hook manifest,
-then run the focused installer as the normal user:
+The first home apply checks each existing credential against its old Chezmoi
+render before adopting it, without target writes. Divergent local files block
+migration. Create-only Drive credentials preserve refreshed local content.
+Subsequent native applies use recorded hashes and reject unrecorded edits.
+Fish credentials use literal quoting and all native credentials use mode `0600`.
+The Bitwarden token stays in `~/.config/bws/environment` with mode `0600`;
+`BWS_ACCESS_TOKEN` may also be supplied in the environment. Authentication uses
+the existing Bitwarden Secrets Manager machine token and `/usr/local/bin/bws`.
 
 ```sh
-git -C ~/.local/share/dotjik pull --ff-only
-git -C ~/.local/share/systjik pull --ff-only
-bash ~/.local/share/dotjik/scripts/install-tjikup.sh
-~/.local/bin/tjikup --check
+python3 scripts/native-files.py home plan
+python3 scripts/native-files.py home apply
+python3 scripts/native-files.py system plan
+python3 scripts/native-files.py system apply
 ```
 
-`~/.config/tjikup/config.json` links to the workflow in the dotfiles source.
-Chezmoi and the installer use the same normalized link target to avoid spurious
-"changed since chezmoi last wrote it" conflicts. Keep this as a managed symlink;
-edit `tjikup.json` in the repository instead of re-adding the live config.
-Changing the workflow changes the next invocation. A run loads the configuration
-once, before any scripts execute. Pulls may update subsequent scripts, matching
-the existing fleet update behavior.
+These commands only manage files. System operations retain an explicit sudo
+boundary. Home state lives in `~/.local/state/tjikup/files/home`; system state
+lives in `/var/lib/tjikup/files`. Replacements have private backups and receipts;
+`tjikup files restore --receipt PATH --state-dir STATE` restores only unchanged
+post-apply targets. Backups contain private plaintext: never commit them.
+The initial home plan may report unmanaged-file conflicts until guarded adoption
+runs during apply. No blanket force flag is provided.
 
-The installer does not commit, push, capture settings or apply either
-configuration repo. It checks the system adapter exists, installs the executable
-and icon, validates the workflow, and atomically links the default configuration.
-It can also be run before the first home apply once Chezetc is initialized.
+`scripts/legacy-system.py` is a retired compatibility entry point forwarding to
+the native system-file helper for supported file operations. Neither Chezmoi nor
+`/opt/chezetc` is required.
+`system/setup.sh` installs the unified runner and compatibility command; it does
+not provision packages. Historical server bootstrap guides still need deliberate
+host-specific review before use. Keep the old Systjik checkout and its Git history
+as a recovery copy until the consolidated changes are committed and backed up.
 
-The managed installation hook and focused installer use `~/code/tjikos` on
-every host, unless `$TJIKOS_REPO` explicitly selects another checkout. If absent
-they clone tjikOS there using `git@github.com:tijptjik/tjikos.git` (SSH), so
-later pushes use the host's GitHub SSH key. Existing remotes are preserved;
-changing the clone URL does not migrate earlier HTTPS checkouts. On an affected
-host, stop any running Git sync and update the existing origin:
+Runner repository rows retain pulled/pushed commit totals in the status column
+(`↓3 ↑2`); skipped, failed or unmeasured operations use `–`.
+
+## Home files and captured settings
+
+The authoritative home tree is `native/home/files/`, using destination-style names.
+Templates end in `.j2` and use strict MiniJinja expressions. Static files remain
+literal, even when they contain another application's template syntax. Shared
+entry definitions in `native/home/files.json` declare modes, private directories,
+symlink targets, host selection and retired paths. Standalone credentials retain
+their earlier `native/home/{host}.json` manifests and state IDs.
+
+Fi's general manifest covers 744 targets: 374 regular files, 243 symlinks,
+111 directories and 16 removals. Together with its seven standalone credential
+files, 751 home targets belong to Tjikup. Li and Si use their own conditions and
+home directories; no local validation claims a remote deployment.
 
 ```sh
-git -C ~/code/tjikos remote set-url origin git@github.com:tijptjik/tjikos.git
-git -C ~/code/tjikos remote -v
+dotjik plan                    # both native home manifests
+dotjik apply                   # files only; no packages, Git sync or service tasks
+dotjik edit ~/.config/zed/settings.json
+dotjik source-path ~/.config/fish/config.fish
+python3 scripts/native-files.py home-files check
 ```
 
-If an explicit `remote.origin.pushurl` still uses HTTPS, update it with
-`git remote set-url --push` in that checkout too. `git://` is not SSH and cannot
-provide authenticated GitHub pushes.
+New files require an explicit entry in `native/home/files.json`; the old `add`
+operation is not an automatic file importer. `dotjik diff` is a metadata-only
+native plan and never prints secret content. `cm`, `ce`, apply/diff shortcuts and
+configuration-editing aliases now use Dotjik's native file commands.
 
-Existing checkouts are never pulled by installers;
-the fleet repository stage updates clean checkouts before installation. For a
-standalone installation, update tjikOS explicitly first. The installer builds
-and installs only tjikup. For a checkout that can fast-forward:
+Capture writes to the native sources and `native/home/data/`, and the scoped
+capture commit whitelist follows those paths. Zed capture protects Jinja control
+blocks and secret expressions; Herdr preserves `{{ user.home }}` expressions.
+GTK settings take their current icon theme from a private runtime context file,
+so applying base settings preserves a user's selected theme. Docker's secret
+strings use `compose_quote` to keep literal dollar signs through Compose parsing,
+and its rendered configuration is private (`0600`).
+
+Icon generators write SVG sources into the native tree and declare aliases in
+`files.json`. New icons inherit their registered directory's host condition;
+retired icons become explicit removals. Generator checks and release receipts
+include native ownership. A new theme directory needs explicit manifest policy
+before generation; generation does not approve artwork or apply home changes.
+
+Identical live files are adopted without writes. First-use metadata differences
+are accepted only after comparing the current bytes with their original source
+or Go template. Unknown local changes stop migration. Once adopted, normal native
+drift checks protect local edits. Directories are never recursively deleted.
+Existing private backup receipts and `tjikup files restore` remain the recovery
+mechanism for intentional changes.
+
+`native/home/repositories.json` replaces the old Obsidian external declaration.
+The `home:repositories` recipe creates missing checkouts and preserves existing
+Git work. `home:files` no longer invokes Chezmoi; maintenance recipes render natively without a home manager. Install the matching runner before enabling this
+workflow on another host:
 
 ```sh
-git -C ~/code/tjikos fetch origin
-git -C ~/code/tjikos merge --ff-only origin/main
-TJIKOS_REPO=~/code/tjikos bash ~/.local/share/dotjik/scripts/install-tjikup.sh
+bash scripts/install-tjikup.sh
+tjikup --check
+tjikup --plan
 ```
 
-If startup reports `No module named 'tjikup.progress'` or says the runner is
-outdated, the fleet workflow requires a newer runner than the installed copy.
-Run the tjikOS update and focused installer commands above on the affected
-host, then run `tjikup --dry-run` before retrying `tjikup`. Use your
-`TJIKOS_REPO` path instead if you selected a different checkout. The runner
-passes its own bundled Python modules to fleet subprocesses, so updating the
-tjikOS source alone is insufficient: reinstall the executable too.
-`tjikup --check` only checks configuration syntax and cannot detect this mismatch.
-The focused installer checks the source dependency before replacing the runner,
-then checks the installed bundle before linking the configuration.
+## Focused application and package phases
 
-Existing Tooltjik checkouts can remain in place while tjikOS is cloned into
-`~/code/tjikos`. Preserve their local work separately; installers do not rename
-those directories or rewrite their remotes. Replace any `TOOLTJIK_REPO` setting
-with `TJIKOS_REPO` pointing to the intended tjikOS checkout.
+The default run now installs missing applications, applies configuration, then
+updates installed packages. App-specific native file groups wait for their own
+installer. Shared directories, scripts, credentials and bootstrap inputs remain
+in the base group. Updates wait for all early work, including service activation.
 
-If tjikOS was previously cloned to `~/.local/share/tjikos` and
-`~/code/tjikos` does not exist, installers and the fleet update stage stop with migration
-guidance rather than creating a second clone. Move the existing checkout while
-no tjikOS build or Git operation is running; this preserves commits, staged
-changes and untracked files. In Bash, when the destination is absent:
+| Command | Work selected |
+| --- | --- |
+| `tjikup` | Existing capture/Git workflow, missing installs, configuration, updates last |
+| `tjikup --skip-package-updates` | Existing capture/Git workflow, missing installs and configuration |
+| `tjikup --apply-dotfiles` | Home configuration and active-service refresh |
+| `tjikup --apply-sysfiles` | System configuration and its service configuration |
+| `tjikup --apply-package-updates` | Updates of installed applications and libraries |
 
-```bash
-mkdir -p "$HOME/code"
-if [[ ! -e "$HOME/code/tjikos" && ! -L "$HOME/code/tjikos" ]]; then
-    mv -T -- "$HOME/.local/share/tjikos" "$HOME/code/tjikos" &&
-        ln -s -- "$HOME/code/tjikos" "$HOME/.local/share/tjikos"
-fi
-```
+The three positive selectors combine, for example `--apply-dotfiles
+--apply-sysfiles`. Add `--plan` to inspect any mode without executing checks or
+commands. `--skip-package-updates` conflicts with `--apply-package-updates`.
 
-The compatibility symlink keeps existing service paths valid. If both checkouts
-already exist, reconcile their histories and local changes before removing
-either. Linked Git worktrees require `git worktree move` instead of `mv`.
+Focused modes do not capture files, commit, pull, push, or run missing-package
+installers. Required applications are checked using local metadata; a missing
+application fails its configuration dependency with `not installed; run tjikup to
+install`. These checks never query release endpoints. Package-set scripts check
+each member separately so an update never installs an absent sibling.
 
-The installer fails clearly if the checkout does not yet contain tjikup.
-The command and notification icon belong to tjikOS;
-Chezmoi no longer installs runner code into `~/.local/lib/tjikup`. An old copy
-there is unused by the new self-contained executable and may be removed after
-migration. No blanket apply is needed to migrate the command.
+Installers invoked by the graph use `TJIKUP_MANAGED_CONFIG=1`: TjikOS deploys
+runtime files while native policy owns configuration and service units. Fresh
+service activation runs after configuration in a normal run; focused home applies
+refresh changed active units without starting stopped jobs. App updates verify
+their native group and refresh affected active services. Drift fails verification
+and remains available for review through `dotjik plan`; updates never force-adopt
+or overwrite it. Pinned archive jobs remain untouched.
 
-Setup hooks use Charmbracelet’s `gum spin` with elapsed time on terminals,
-including during a plain `chezmoi apply`. tjikOS downloads also show Git’s progress percentage,
-received bytes, and transfer rate. The percentage counts Git objects, not bytes:
-Git does not announce the final download size in advance. Gum runs in a private
-pseudo-terminal; its capability queries are answered there, and only display output reaches your terminal. It cannot consume prompt
-input or leak capability replies into the shell. Redirected logs use plain status
-rows; `TJIKUP_NO_SPIN=1` disables animation.
+`native/home/groups.json` declares available groups. Portable device policies may
+omit a known group; unknown group names are errors. Groups share the existing
+manifest ID and ownership state. Package presence policy is in
+`tjikup/package-checks.json`; the shared RPM/Flatpak inventory is
+`system/etc/.chezmoidata/packages.json`.
 
-## Use and validation
+Notjik service/activation defaults and the Runtjik default configuration now live
+in native policy. These newly adopted defaults use `create_only` to preserve any
+existing local customizations; existing managed configuration keeps its normal
+drift checks.
 
-```sh
-tjikup                         # converge; skip installed home package upgrades
-tjikup --upgrade               # also check home package registries for upgrades
-tjikup --dry-run               # checks and capture preview only
-tjikup --skip-conflicts        # preserve conflicting home/system files
-tjikup --skip-repo-sync        # apply local checkouts without syncing the three repos
-tjikup --config ./tjikup.json --check
-TJIKOS_REPO=~/code/tjikos bash scripts/validate.sh
-```
+## Native maintenance template completion
 
-The fleet declares `--skip-conflicts` and `--skip-repo-sync`; neither is hard-coded
-in the runner. `--skip-repo-sync` skips Dotjik, Systjik and tjikOS pulls and
-pushes, including their dirty-worktree checks, so repository sync failures do
-not block apply. Repository rows show `skipped`. Prerequisites, live settings
-capture, scoped capture commits and home/system apply still run using local
-sources; their own failures still stop the workflow. The flag also suppresses
-repository previews with `--dry-run` and can be combined with `--skip-conflicts`
-and `--upgrade`.
-Dry-run never commits, pulls, pushes, applies, or writes capture backups.
-`--check` validates configuration structure without invoking any commands.
-A different source checkout is selected through `--config`; legacy
-`TJIKUP_REPO`/`TJIKUPDATE_REPO` overrides are replaced by that explicit interface.
-Use `TJIKUP_CONFIG` for a persistent configuration override.
+Maintenance recipes now use `native/tasks/{home,system}/` and explicit native
+render inputs in `native/tasks/{home,system}.json`. All 52 Go maintenance templates
+have MiniJinja replacements; the two literal scripts are retained. The graph has
+no Chezmoi prerequisite or managers. Role, host, user and checkout paths come from
+`scripts/device-policy.py context`; package/repository inputs live in
+`native/tasks/data.json`. `scripts/check-task-templates.py` renders and syntax-checks
+all 54 outputs for Fi/Li/Si without executing tasks. Set `TJIKUP_BINARY` to test a
+new runner before installation.
 
-Tests import the external runner using `TJIKOS_REPO`, a sibling checkout,
-`~/code/tjikos`, or a caller-supplied `PYTHONPATH` (which can point at the
-installed zipapp). Fleet tests use isolated homes, repositories and mocked
-commands. They do not validate real package updates or services on fi/li/si.
-See [completion notifications](tjikup-notifications.md) for desktop behavior.
+Native home adoption compares current bytes against an isolated native staging
+render, then records only matching unowned files with their existing metadata.
+It never converts an already-owned drift conflict into an adoption. Changed files
+still require reconciliation; there is no force fallback to the old renderer.
+Bitwarden bootstrap executes a plain Fish script under `native/tasks/bootstrap/`.
+The existing age identity filename is retained; it is not a Chezmoi dependency.
 
-The client home apply also [installs Bartjik and retires Waybar](bartjik.md),
-including enabling its user service and starting it in an active desktop session.
+Li and Si system targets now have manifests under `system/native/{li,si}/`.
+`scripts/system-files.py` retains the sudo boundary and uses live OS release data.
+Si's six encrypted inputs stay encrypted in Git; `age` decrypts them into a private
+temporary policy tree, removed after plan/check/apply. Decryption failure stops
+before native deployment. Secret destinations use owner-only permissions.
+First deployment can report unmanaged-file conflicts where current metadata or
+contents differ; reconcile those explicitly. No live Li/Si system application is
+implied by the migration tests, which use synthetic encrypted contents and an
+isolated destination root. Keep the previous sources/history for recovery until
+fleet verification and the consolidated work are committed and backed up.
 
-## Runtjik-only installation
-
-`runtjik` is included in the home hook graph on every host. Its installer verifies
-both tjikOS source and deployed file fingerprints, rebuilding changed or stale
-installations and preserving `~/.config/runtjik/runtjik.conf`. The headless server
-receives the files and CLI without a GUI service.
-
-Use `tjikup --config scripts/runtjik-install.json` from the Dotjik checkout for
-a focused app-only installation. It uses the existing tjikOS source and avoids
-repository capture/commit/sync; this is useful while unrelated work is dirty. It
-does not publish new app code or bypass the normal full-workflow clean-worktree
-requirements. See [launcher tools](launcher-tools.md) for migration details.
+Old `home/` and `system/etc/` templates remain as historical comparison sources.
+Their names do not imply a runtime dependency. Do not use direct `chezmoi apply`
+or historical bootstrap instructions; use the Tjikup entry points.

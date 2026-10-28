@@ -13,7 +13,7 @@ from illustrated import icon as tile_icon
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 OUT = ROOT / '.local/icon-reviews/docs/assets/icon-review'
-THEME = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+THEME = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
 SVG = 'http://www.w3.org/2000/svg'
 COLOR = r'#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{3})(?![\w-])'
 PAINT = ('fill', 'stroke', 'style', 'stop-color', 'flood-color', 'lighting-color')
@@ -27,7 +27,7 @@ def apply_paint_overrides(text, overrides):
 
 def load_palette():
     config = json.loads((HERE / 'palette.json').read_text())
-    theme_path = ROOT / 'home/dot_config/vivid/themes/rose-punk.yml'
+    theme_path = ROOT / 'native/home/files/.config/vivid/themes/rose-punk.yml'
     colors = {k: '#' + v.lower() for k, v in re.findall(r'^  (base[0-9A-Fa-f]{2}): "([0-9A-Fa-f]{6})"', theme_path.read_text(), re.M)}
     colors = {token: config.get('paint_overrides', {}).get(value, value) for token, value in colors.items()}
     ramps = {name: [colors[token] for token in tokens] for name, tokens in config['families'].items()}

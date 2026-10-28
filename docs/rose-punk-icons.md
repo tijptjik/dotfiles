@@ -104,8 +104,11 @@ and offset from `scripts/icons/framed-layout.json`, centred on the flat tile at
 (32, 31). Aliases inherit the canonical icon’s layout. Layout edits invalidate
 sign-off, and source hashes require the fit to be reviewed after artwork changes.
 `python3 -B scripts/icons/framed.py check-layouts` validates every active layout
-and checks clearance against the rounded tile. It writes the managed `rose-punk-framed` theme and
-an installable ZIP/manifest under `.local/icon-reviews/docs/assets/icon-framed/`.
+and checks clearance against the rounded tile. After approval, `framed.py build`
+writes the `rose-punk-framed` theme and an installable ZIP/manifest under
+`.local/icon-reviews/docs/assets/icon-framed/`. Its native source directory and
+`index.theme` must first be registered in `native/home/files.json`; generated
+aliases live in that manifest, not in Chezmoi-encoded source files.
 Ordinary release and review commands never create approval or the framed set.
 
 ## Runtjik command companions
@@ -150,7 +153,7 @@ check; published versions require a new version number.
 
 Every service declared in `home/dockers/docker-compose.yaml.tmpl`, including
 manual-profile helpers, has an explicit entry in
-`scripts/fleet_update/docker-services.json`. This inventory selects a source
+`scripts/icons/docker-services.json`. This inventory selects a source
 from `scripts/icons/homepage.json` and a compact fallback glyph.
 `profilarr-parser` shares Profilarr; `beets-audible` shares Beets. Each helper
 also receives its own served SVG filename.

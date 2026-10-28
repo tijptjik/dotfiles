@@ -1,0 +1,116 @@
+{
+  "homepage": {
+    "icon": "homepage",
+    "glyph": "\uf015"
+  },
+  "scrutiny": {
+    "icon": "scrutiny",
+    "glyph": "\uf06e"
+  },
+  "seerr": {
+    "icon": "seerr",
+    "glyph": "\uf06e"
+  },
+  "profilarr": {
+    "icon": "profilarr",
+    "glyph": "\uf0c0"
+  },
+  "profilarr-parser": {
+    "icon": "profilarr",
+    "glyph": "\uf0c0",
+    "reuse": "Profilarr configuration parser shares its parent application identity."
+  },
+  "radarr": {
+    "icon": "radarr",
+    "glyph": "\uf008"
+  },
+  "unpackerr": {
+    "icon": "unpackerr",
+    "glyph": "\uf187"
+  },
+  "sonarr": {
+    "icon": "sonarr",
+    "glyph": "\uf26c"
+  },
+  "bookshelf": {
+    "icon": "bookshelf",
+    "glyph": "\uf02d"
+  },
+  "ephemera": {
+    "icon": "ephemera",
+    "glyph": "\uf02d"
+  },
+  "shelfmark": {
+    "icon": "shelfmark",
+    "glyph": "\uf02e"
+  },
+  "lazylibrarian": {
+    "icon": "lazylibrarian",
+    "glyph": "\uf02d"
+  },
+  "lidarr": {
+    "icon": "lidarr",
+    "glyph": "\uf001"
+  },
+  "octo-fiestarr": {
+    "icon": "octo-fiestarr",
+    "glyph": "\uf001"
+  },
+  "grimmory": {
+    "icon": "grimmory",
+    "glyph": "\uf02d"
+  },
+  "audiobookshelf": {
+    "icon": "audiobookshelf",
+    "glyph": "\uf025"
+  },
+  "navidrome": {
+    "icon": "navidrome",
+    "glyph": "\uf001"
+  },
+  "feishin": {
+    "icon": "feishin",
+    "glyph": "\uf001"
+  },
+  "tautulli": {
+    "icon": "tautulli",
+    "glyph": "\uf080"
+  },
+  "plex-rewind": {
+    "icon": "plex-rewind",
+    "glyph": "\uf04a"
+  },
+  "prowlarr": {
+    "icon": "prowlarr",
+    "glyph": "\uf002"
+  },
+  "transmission": {
+    "icon": "transmission",
+    "glyph": "\uf019"
+  },
+  "byparr": {
+    "icon": "byparr",
+    "glyph": "\uf563"
+  },
+  "flaresolverr": {
+    "icon": "flaresolverr",
+    "glyph": "\uf0c2"
+  },
+  "beets": {
+    "icon": "beets",
+    "glyph": "\uf001"
+  },
+  "beets-audible": {
+    "icon": "beets",
+    "glyph": "\uf001",
+    "reuse": "Beets audiobook tagger uses the Beets identity; service label distinguishes it."
+  },
+  "auto-m4b": {
+    "icon": "auto-m4b",
+    "glyph": "\uf025"
+  },
+  "mariadb": {
+    "icon": "mariadb",
+    "glyph": "\uf1c0"
+  }
+}

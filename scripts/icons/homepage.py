@@ -12,7 +12,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
-DEST = ROOT / 'home/dockers/homepage/images/rose-punk'
+DEST = ROOT / 'native/home/files/dockers/homepage/images/rose-punk'
 SVG = 'http://www.w3.org/2000/svg'
 ET.register_namespace('', SVG)
 _spec = importlib.util.spec_from_file_location('homepage_frameless', HERE / 'frameless.py')
@@ -36,7 +36,7 @@ def render():
     manifest = json.loads((HERE / 'homepage.json').read_text())
     # Validate and render every source before updating the served SVGs.
     outputs = {key: artwork(entry) for key, entry in manifest.items()}
-    inventory = ROOT / 'scripts/fleet_update/docker-services.json'
+    inventory = ROOT / 'scripts/icons/docker-services.json'
     if inventory.is_file():
         for key, entry in json.loads(inventory.read_text()).items():
             outputs[key] = outputs[entry['icon']]

@@ -43,11 +43,11 @@ class HomepageIconTests(unittest.TestCase):
                                      entry['reference_sha256'])
 
     def test_every_compose_service_has_an_explicit_source_and_runtime_sprite(self):
-        inventory = json.loads((ROOT / 'scripts/fleet_update/docker-services.json').read_text())
+        inventory = json.loads((ROOT / 'scripts/icons/docker-services.json').read_text())
         compose = (ROOT / 'home/dockers/docker-compose.yaml.tmpl').read_text()
         services = set(re.findall(r'^  ([a-z][a-z0-9-]*):\s*$', compose, re.M))
         self.assertEqual(services, set(inventory))
-        sprites = json.loads((ROOT / 'scripts/fleet_update/icons32.json').read_text())['sprites']
+        sprites = json.loads((ROOT / 'scripts/icons/icons32.json').read_text())['sprites']
         for name, entry in inventory.items():
             with self.subTest(service=name):
                 self.assertIn(entry['icon'], self.manifest)

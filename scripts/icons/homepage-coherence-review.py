@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSETS = ROOT / '.local/icon-reviews/docs/assets/icon-homepage-coherence-review'
-CURRENT = ROOT / 'home/dockers/homepage/images/rose-punk'
+CURRENT = ROOT / 'native/home/files/dockers/homepage/images/rose-punk'
 spec = importlib.util.spec_from_file_location('homepage_render', Path(__file__).with_name('frameless.py'))
 sizing = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(sizing)
@@ -41,7 +41,7 @@ def main():
             'after_sha256': hashlib.sha256(after.read_bytes()).hexdigest(),
             'source_sha256': entry['sha256'], 'critique': entry['design_note']}
         before_url = f'assets/icon-homepage-coherence-review/before/{key}.svg'
-        after_url = f'../home/dockers/homepage/images/rose-punk/{key}.svg'
+        after_url = f'../native/home/files/dockers/homepage/images/rose-punk/{key}.svg'
         cards.append(f'<article><h2>{escape(entry["name"])}</h2><div class="pair">'
                      f'<figure><img src="{before_url}" alt="Previous {entry["name"]}"><figcaption>Before</figcaption></figure>'
                      f'<figure><img src="{after_url}" alt="Refined {entry["name"]}"><figcaption>Refined</figcaption></figure></div>'

@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 from frameless import normalize, render as rasterize
 from material_art import command_artwork
-from icon_data import HERE, ROOT, PRIMARY, REVIEWS, write_file
+from icon_data import HERE, ROOT, PRIMARY, REVIEWS, write_file, write_tree
 
 DEST = PRIMARY / 'scalable/apps'
 SVG = 'http://www.w3.org/2000/svg'
@@ -49,8 +49,8 @@ def render():
 def build():
     outputs, manifest = render()
     # This companion build owns only these files, never the application folder.
+    write_tree(DEST, outputs, prune=False)
     for name, data in outputs.items():
-        write_file(DEST / name, data)
         if not name.startswith('symlink_'):
             write_file(HERE / 'local' / name, data)
     write_file(HERE / 'command-icons.json', (json.dumps(manifest, indent=2) + '\n').encode())

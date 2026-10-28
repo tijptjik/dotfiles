@@ -7,8 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSETS = ROOT / '.local/icon-reviews/docs/assets/icon-coherence-review'
-THEME = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
-HOMEPAGE = ROOT / 'home/dockers/homepage/images/rose-punk'
+THEME = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
+HOMEPAGE = ROOT / 'native/home/files/dockers/homepage/images/rose-punk'
 NOTES = {
     'spotify': 'Uses Audio Player’s exact mint ramp. Ivory waves are slightly heavier; the lighter palette has less contrast than the earlier dark jade.',
     'collie': 'Sable coat, tipped ears, cream blaze, layered muzzle and eye highlights. Detail is concentrated on expression, as with Prowlarr.',
@@ -57,7 +57,7 @@ def main():
                              for size in (24, 32, 48)) + '</div></article>')
     audit = []
     for key in sorted(catalog, key=lambda k: catalog[k]['name'].casefold()):
-        url = f'../home/dot_local/share/icons/rose-punk/scalable/apps/{key}.svg'
+        url = f'../native/home/files/.local/share/icons/rose-punk/scalable/apps/{key}.svg'
         name = escape(catalog[key]['name'])
         audit.append(f'<figure><div><img src="{url}" width="64" height="64" alt="{name} at 64 px">'
                      f'<img src="{url}" width="24" height="24" alt="{name} at 24 px"></div><figcaption>{name}</figcaption></figure>')
@@ -66,7 +66,7 @@ def main():
 :root{color-scheme:dark;--size:128px;--surface:#26233a;--ink:#eee9e6;--muted:#bbb3cb}*{box-sizing:border-box}body{margin:0;background:var(--surface);color:var(--ink);font:15px/1.6 system-ui}header,section{padding:24px 4vw}header{max-width:1050px}h1{font-weight:550;font-size:38px;line-height:1.2}h2{font-size:18px;font-weight:550}p{color:var(--muted)}a{color:#9ccfd8}nav{padding:14px 4vw;position:sticky;top:0;background:var(--surface);border-block:1px solid #77708466;display:flex;gap:20px;align-items:center;flex-wrap:wrap;z-index:1}select{padding:7px;background:var(--surface);color:var(--ink);border:1px solid #777084;border-radius:6px;font:inherit}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:24px}.cards article{padding:20px;background:#201c2d;border-radius:12px}.pair{display:flex;justify-content:space-evenly;gap:12px}figure{margin:0;text-align:center}.pair img{width:var(--size);height:var(--size);max-width:100%}figcaption{color:var(--muted);font-size:12px}.small{display:flex;gap:24px;justify-content:center;align-items:center}.critique{max-width:1050px}.critique li{margin:12px 0}.audit{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:28px 14px}.audit figure div{display:flex;justify-content:center;gap:12px;align-items:center;height:80px}.reference{display:flex;gap:25px;align-items:center;flex-wrap:wrap}.reference img{width:80px;height:80px}@media(max-width:500px){h1{font-size:30px}.cards{grid-template-columns:1fr}}
 </style><body><header><h1>One material language, different identities.</h1>
 <p>Review of all COUNT primary frameless icons and 14 Homepage icons. The common rules are filled silhouettes, clean internal features, restrained material shading, warm ivory highlights and useful detail. Material gradients describe a surface; they should not turn every mark into a glossy button.</p>
-<div class="reference"><figure><img src="../home/dot_local/share/icons/rose-punk/scalable/apps/camera.svg" alt="Camera reference"><figcaption>Material reference</figcaption></figure><figure><img src="../home/dot_local/share/icons/rose-punk/scalable/apps/prowlarr.svg" alt="Prowlarr reference"><figcaption>Mascot reference</figcaption></figure><figure><img src="../home/dot_local/share/icons/rose-punk/scalable/apps/audio-player.svg" alt="Audio Player reference"><figcaption>Mint reference</figcaption></figure></div></header>
+<div class="reference"><figure><img src="../native/home/files/.local/share/icons/rose-punk/scalable/apps/camera.svg" alt="Camera reference"><figcaption>Material reference</figcaption></figure><figure><img src="../native/home/files/.local/share/icons/rose-punk/scalable/apps/prowlarr.svg" alt="Prowlarr reference"><figcaption>Mascot reference</figcaption></figure><figure><img src="../native/home/files/.local/share/icons/rose-punk/scalable/apps/audio-player.svg" alt="Audio Player reference"><figcaption>Mint reference</figcaption></figure></div></header>
 <nav><label>Compare size <select id="size"><option>48</option><option>64</option><option>96</option><option selected>128</option></select> px</label><a href="#changes">Changes</a><a href="#critique">Critical findings</a><a href="#audit">Whole desktop set</a><a href="rose-punk-icons-frameless.html">Primary study</a><a href="rose-punk-homepage-review.html">Homepage originals</a></nav>
 <section id="critique" class="critique"><h2>Critical findings</h2><ul>
 <li><strong>Colour:</strong> Spotify now matches Audio Player exactly. The server artwork repeats mint, rose, amber, lavender and blue glass instead of introducing a separate palette per service. Electric blue remains a deliberate Zed Preview accent.</li>

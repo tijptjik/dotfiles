@@ -10,7 +10,7 @@ from material_art import ART, DETAILS
 
 ROOT = Path(__file__).resolve().parents[2]
 ASSETS = ROOT / '.local/icon-reviews/docs/assets/icon-material-review'
-THEME = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+THEME = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
 FEATURED = ['camera', 'cheese', 'bottles', 'disks', 'files', 'obsidian',
             'monochrome-music', 'file-roller', 'clocks', 'maps', 'software', 'weather',
             'snapraid', 'llmtrim', 'contacts', 'document-scanner', 'vlc', 'tippecanoe']
@@ -42,7 +42,7 @@ def main():
                          f'<figure><img src="assets/icon-material-review/{before_folder}/{key}.svg" alt="{escape(name)} before"><figcaption>Before</figcaption></figure>')
         cards.append(f'''<article data-name="{escape(name.casefold())}"><h2>{escape(name)}</h2><p class="kind">{kind}</p><div class="pair">
 {before_figure}
-<figure><img src="../home/dot_local/share/icons/rose-punk/scalable/apps/{key}.svg" alt="{escape(name)} reworked"><figcaption>{'Reference' if key == 'camera' else 'Reworked'}</figcaption></figure></div></article>''')
+<figure><img src="../native/home/files/.local/share/icons/rose-punk/scalable/apps/{key}.svg" alt="{escape(name)} reworked"><figcaption>{'Reference' if key == 'camera' else 'Reworked'}</figcaption></figure></div></article>''')
     html = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Rose Punk · The camera study</title><style>
 :root{color-scheme:dark;--icon-size:96px}*{box-sizing:border-box}body{margin:0;background:#191724;color:#eee9e6;font:15px/1.55 system-ui}header{padding:48px max(24px,5vw) 30px;max-width:1100px}header img{float:right;width:144px;height:144px;margin:0 0 20px 24px}h1{font-size:clamp(30px,4vw,48px);line-height:1.1;font-weight:550;margin:10px 0 20px}header p{max-width:710px;color:#bbb5c9}.eyebrow{color:#e6ae62;font-size:12px;letter-spacing:.16em;text-transform:uppercase}nav{position:sticky;top:0;z-index:1;background:#191724f5;border-block:1px solid #393348;padding:16px max(24px,5vw);display:flex;gap:20px;align-items:center;flex-wrap:wrap}input,select{font:inherit;background:#26233a;color:#eee9e6;border:1px solid #665875;border-radius:7px;padding:8px 12px}label{display:flex;gap:8px;align-items:center}input{max-width:100%}a{color:#9ccfd8}main{padding:24px max(24px,5vw);display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:16px}article{background:#201c2d;border:1px solid #393348;border-radius:14px;padding:20px}h2{font-size:16px;font-weight:550;margin:0}.kind{font-size:12px;color:#a49bae;margin:4px 0 18px}.pair{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:10px}figure{margin:0;text-align:center}figure img{width:var(--icon-size);height:var(--icon-size);max-width:100%;object-fit:contain}figcaption{margin-top:8px;font-size:11px;color:#aaa1b5}figure:last-child figcaption{color:#d2bd9f}article[hidden]{display:none}footer{padding:24px max(24px,5vw);color:#aaa1b5}#count{font-size:12px;color:#b3a9bf}@media(max-width:520px){header img{width:88px;height:88px}nav{gap:12px}main{grid-template-columns:1fr}}

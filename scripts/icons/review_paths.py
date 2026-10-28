@@ -9,7 +9,7 @@ def prepare_review(root):
     docs.mkdir(parents=True, exist_ok=True)
     # Existing gallery URLs remain relative to a docs/ directory. These local
     # links expose the current SVG sources without copying them into snapshots.
-    for name in ('home', 'scripts'):
+    for name in ('native', 'scripts'):
         link = archive / name
         if not link.exists() and not link.is_symlink():
             link.symlink_to(root / name, target_is_directory=True)

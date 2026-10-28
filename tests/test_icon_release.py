@@ -17,6 +17,90 @@ import release
 
 
 class IconReleaseTests(unittest.TestCase):
+    def native_fixture(self, root):
+        folder = root / 'native/home/files/dockers/homepage/images/rose-punk'
+        folder.mkdir(parents=True)
+        parent = {'path': '{{ user.home }}/dockers/homepage/images/rose-punk',
+                  'kind': 'directory', 'mode': '0755', 'when': 'hostname == "si"'}
+        unrelated = {'path': '{{ user.home }}/unrelated', 'kind': 'absent'}
+        manifest = root / 'native/home/files.json'
+        manifest.write_text(json.dumps([parent, unrelated]))
+        return folder, manifest, parent, unrelated
+
+    def test_native_sources_aliases_conditions_retirement_and_release_receipt(self):
+        with tempfile.TemporaryDirectory() as temporary, \
+                patch.object(icon_data, 'ROOT', Path(temporary)):
+            folder, manifest, parent, unrelated = self.native_fixture(Path(temporary))
+            outputs = {'app.svg': b'<svg/>', 'symlink_alias.svg': b'app.svg\n'}
+            icon_data.write_tree(folder, outputs)
+            self.assertEqual(icon_data.differences(folder, outputs), [])
+            self.assertEqual({p.name for p in folder.iterdir()}, {'app.svg'})
+            self.assertEqual(icon_data.native_aliases(folder), {'alias.svg': 'app.svg'})
+            entries = json.loads(manifest.read_text())
+            self.assertEqual(entries[:2], [parent, unrelated])
+            self.assertTrue(all(e['when'] == parent['when'] for e in entries[2:]))
+            self.assertEqual(icon_data.generated_files(folder, outputs), {
+                folder / 'app.svg': b'<svg/>', manifest: manifest.read_bytes()})
+            old_manifest = (manifest.read_bytes(), manifest.stat().st_mtime_ns)
+            icon_data.write_tree(folder, outputs)
+            self.assertEqual((manifest.read_bytes(), manifest.stat().st_mtime_ns), old_manifest)
+            icon_data.write_tree(folder, {'new.svg': b'new'})
+            self.assertFalse((folder / 'app.svg').exists())
+            self.assertEqual(icon_data.differences(folder, {'new.svg': b'new'}), [])
+            retired = [e for e in json.loads(manifest.read_text()) if e['path'].endswith(('/app.svg', '/alias.svg'))]
+            self.assertEqual(len(retired), 2)
+            self.assertTrue(all(e['kind'] == 'absent' and e['when'] == parent['when'] for e in retired))
+
+    def test_native_check_detects_alias_and_file_ownership_drift(self):
+        with tempfile.TemporaryDirectory() as temporary, \
+                patch.object(icon_data, 'ROOT', Path(temporary)):
+            folder, manifest, _, _ = self.native_fixture(Path(temporary))
+            outputs = {'app.svg': b'app', 'symlink_alias.svg': b'app.svg\n'}
+            icon_data.write_tree(folder, outputs)
+            entries = json.loads(manifest.read_text())
+            entries[-1]['target'] = 'wrong.svg'
+            manifest.write_text(json.dumps(entries))
+            self.assertIn('manifest changed or missing: alias.svg', icon_data.differences(folder, outputs))
+            entries = [entry for entry in entries if not entry['path'].endswith('/app.svg')]
+            manifest.write_text(json.dumps(entries))
+            self.assertIn('manifest changed or missing: app.svg', icon_data.differences(folder, outputs))
+
+    def test_partial_native_producer_preserves_other_icons_and_metadata(self):
+        with tempfile.TemporaryDirectory() as temporary, \
+                patch.object(icon_data, 'ROOT', Path(temporary)):
+            folder, manifest, _, _ = self.native_fixture(Path(temporary))
+            icon_data.write_tree(folder, {'app.svg': b'app', 'control.svg': b'control'})
+            entries = json.loads(manifest.read_text())
+            entries[-1].update(mode='0600', uid=123)
+            manifest.write_text(json.dumps(entries))
+            outputs = {'control.svg': b'updated', 'symlink_control-alias.svg': b'control.svg\n'}
+            (folder / 'symlink_control-alias.svg').write_bytes(b'control.svg\n')
+            icon_data.write_tree(folder, outputs, prune=False)
+            self.assertEqual((folder / 'app.svg').read_bytes(), b'app')
+            self.assertFalse((folder / 'symlink_control-alias.svg').exists())
+            entries = json.loads(manifest.read_text())
+            self.assertEqual(entries[-2]['mode'], '0600')
+            self.assertEqual(entries[-2]['uid'], 123)
+            self.assertEqual(icon_data.differences(folder, {**outputs, 'app.svg': b'app'}), [])
+
+    def test_native_validation_precedes_writes(self):
+        with tempfile.TemporaryDirectory() as temporary, \
+                patch.object(icon_data, 'ROOT', Path(temporary)):
+            folder, manifest, _, _ = self.native_fixture(Path(temporary))
+            with self.assertRaisesRegex(ValueError, 'Register native icon directory'):
+                icon_data.write_tree(folder.parent / 'unregistered', {'app.svg': b'app'})
+            self.assertFalse((folder.parent / 'unregistered').exists())
+            with self.assertRaisesRegex(ValueError, 'no generated original'):
+                icon_data.write_tree(folder, {'app.svg': b'app', 'symlink_alias.svg': b'unknown.svg\n'})
+            self.assertEqual(list(folder.iterdir()), [])
+            icon_data.write_tree(folder, {'app.svg': b'app'})
+            entries = json.loads(manifest.read_text())
+            entries[-1]['when'] = 'hostname == "fi"'
+            manifest.write_text(json.dumps(entries))
+            with self.assertRaisesRegex(ValueError, 'host condition'):
+                icon_data.write_tree(folder, {'app.svg': b'changed'})
+            self.assertEqual((folder / 'app.svg').read_bytes(), b'app')
+
     def test_rebuild_prunes_retired_svgs_and_check_detects_missing_changed_extra(self):
         with tempfile.TemporaryDirectory() as temporary:
             folder = Path(temporary)

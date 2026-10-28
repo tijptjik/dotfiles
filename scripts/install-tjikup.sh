@@ -13,7 +13,19 @@ ensure_tjikos apps/tjikup/scripts/install.sh
 
 # Reject stale checkouts before replacing a working executable or cache record.
 bash "$tool_repo/apps/tjikup/scripts/fetch-release.sh"
-"$tool_repo/apps/tjikup/dist/tjikup" --config "$repo_dir/tjikup.json" --check
+if ! "$tool_repo/apps/tjikup/dist/tjikup" --config "$repo_dir/tjikup.json" --check >/dev/null 2>&1; then
+    # A local migration can require features newer than the pinned release.
+    # Keep a proven-compatible installed runner; never downgrade it or record
+    # an install-cache success for a release that was not installed.
+    installed_runner="$HOME/.local/bin/tjikup"
+    if [[ -x "$installed_runner" ]] && "$installed_runner" --config "$repo_dir/tjikup.json" --check >/dev/null 2>&1; then
+        printf '%s\n' 'SKIP    ✓ Tjikup    awaiting compatible release; installed runner retained' \
+            '__stage_verb__:SKIP' '__stage_note__:awaiting compatible release'
+        exit 0
+    fi
+    echo 'Pinned Tjikup release cannot validate this workflow, and no compatible installed runner is available. Existing files were preserved; update the release pin.' >&2
+    exit 1
+fi
 
 python3 "$repo_dir/scripts/cache-install.py" tjikup \
     --input "$tool_repo/apps/tjikup" --input "$tool_repo/apps/tjikos-sh/release.json" --input "$repo_dir/scripts/cache-install.py" \

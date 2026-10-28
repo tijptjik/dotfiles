@@ -110,3 +110,30 @@ class PackagePhases(unittest.TestCase):
     def test_redispatch_preserves_phase_environment(self):
         helper = (ROOT / 'system/etc/.chezmoihelpers/desktop-user.fish').read_text()
         self.assertIn('TJIKUP_OPERATION,TJIKUP_MANAGED_CONFIG,TJIKUP_SELECTED_RUN,FLEET_UPGRADE', helper)
+
+class PackageListTests(unittest.TestCase):
+    def test_null_and_empty_remote_lists_do_not_skip_populated_remotes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);(root/'tjikup').mkdir();(root/'native/tasks').mkdir(parents=True)
+            (root/'tjikup/package-checks.json').write_text(json.dumps({'flatpak':{'packages':'flatpak'}}))
+            (root/'native/tasks/data.json').write_text(json.dumps({'packages':{
+                'common':{'flatpak':{'fedora':['one.App'],'flathub':None}},
+                'client':{'flatpak':{'fedora':[],'flathub':['two.App']}},
+                'server':{'flatpak':None}}}))
+            with patch.object(package,'ROOT',root), patch.object(package,'test',return_value=True) as check:
+                self.assertEqual(package.presence('flatpak','desktop'),[True,True])
+                self.assertEqual([call.args[0] for call in check.call_args_list],
+                                 [{'flatpak':'one.App'},{'flatpak':'two.App'}])
+                self.assertEqual(package.presence('flatpak','server'),[True])
+
+    def test_malformed_lists_fail_instead_of_treating_strings_as_package_names(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);(root/'tjikup').mkdir();(root/'native/tasks').mkdir(parents=True)
+            (root/'tjikup/package-checks.json').write_text(json.dumps({'flatpak':{'packages':'flatpak'}}))
+            for value in ['one.App', [3], False]:
+                with self.subTest(value=value):
+                    (root/'native/tasks/data.json').write_text(json.dumps({'packages':{'common':{'flatpak':value}}}))
+                    with patch.object(package,'ROOT',root), patch.object(package,'test') as check:
+                        with self.assertRaisesRegex(ValueError,'Invalid flatpak package list'):
+                            package.presence('flatpak','desktop')
+                        check.assert_not_called()

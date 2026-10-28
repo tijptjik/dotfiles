@@ -50,9 +50,15 @@ def presence(key, role):
         packages = json.loads((ROOT / 'native/tasks/data.json').read_text())['packages']
         for group in ('common', 'server' if role == 'server' else 'client'):
             values = packages.get(group, {}).get(ecosystem, [])
-            if isinstance(values, dict):
-                values = [value for items in values.values() for value in items]
-            checks.extend({ecosystem: value} for value in values)
+            buckets = values.values() if isinstance(values, dict) else [values]
+            for names in buckets:
+                # An empty YAML repository list becomes JSON null. It is an
+                # empty selection, not an error and not a package to install.
+                if names is None:
+                    continue
+                if not isinstance(names, list) or not all(isinstance(name, str) and name for name in names):
+                    raise ValueError(f'Invalid {ecosystem} package list in {group}')
+                checks.extend({ecosystem: name} for name in names)
     return [test(item) for item in checks]
 
 

@@ -92,10 +92,10 @@ class BartjikInstallTests(unittest.TestCase):
         self.assertNotIn('--user mask --now waybar.service', self.log.read_text())
 
     def test_fleet_plan_orders_bar_after_notifications(self):
-        plan = json.loads((ROOT / 'scripts/fleet_update/home-plan.json').read_text())
-        bar = next(item for item in plan if item['id'] == 'bartjik')
-        self.assertEqual(bar['file'], 'run_after_39-install-bartjik.fish.tmpl')
-        self.assertIn('notjik', bar['needs'])
+        plan = json.loads((ROOT / 'tjikup/recipes.json').read_text())["recipes"]
+        bar = next(item for item in plan if item['id'] == 'home:bartjik')
+        self.assertEqual(bar['apply'][-1].split('/')[-1].removeprefix('home-') + '.tmpl', 'run_after_39-install-bartjik.fish.tmpl')
+        self.assertIn('home:notjik', bar['needs'])
         self.assertIn('user-systemd', bar['resources'])
 
     @unittest.skipUnless(shutil.which('chezmoi'), 'Chezmoi required')
@@ -151,7 +151,7 @@ class BartjikInstallTests(unittest.TestCase):
                         '--persistent-state', str(self.root / 'state.db'),
                         'execute-template', '-f', str(ROOT / path),
                     ], text=True)
-                hook = render('home/.chezmoiscripts/run_after_39-install-bartjik.fish.tmpl')
+                hook = render('home/.chezmoitemplates/tjikup/run_after_39-install-bartjik.fish.tmpl')
                 subprocess.run(['fish', '--no-config', '-n'], input=hook, text=True, check=True)
                 self.assertEqual('install-bartjik.sh' in hook, host != 'si')
                 ignored = render('home/.chezmoiignore').splitlines()

@@ -13,7 +13,7 @@ def main():
     svg=[]
     for i,(key,(name,mark)) in enumerate(ART.items()):
         a='../scripts/icons/archive/outline/scalable/apps/'+key+'.svg'
-        b='../home/dot_local/share/icons/rose-punk/scalable/apps/'+key+'.svg'
+        b='../native/home/files/.local/share/icons/rose-punk/scalable/apps/'+key+'.svg'
         cards.append(f'<article><h2>{escape(name)}</h2><div class="pair"><figure><img src="{a}" alt="{escape(name)} outline"><figcaption>A · Outline</figcaption></figure><figure><img src="{b}" alt="{escape(name)} illustrated"><figcaption>B · Illustrated</figcaption></figure></div></article>')
         x=24+i%5*240;y=120+i//5*160
         for column,content in enumerate((icon(mark),(DEST / f'{key}.svg').read_text())):

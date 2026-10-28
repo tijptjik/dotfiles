@@ -112,6 +112,18 @@ class GitHubApiTests(unittest.TestCase):
         self.assertTrue(scripts)
         for script in scripts:
             self.assertIn('from github_api import github_json', script.read_text(), script.name)
+            if script.name == 'install-bitwarden-cli.py':
+                # Bitwarden discovers tags outside GitHub and distinguishes
+                # deferred upgrades from missing installations.
+                module = runpy.run_path(str(script))
+                lookup = module['latest_asset']
+                with patch.dict(lookup.__globals__, {'latest_tag': lambda tool: 'bws-v2.1.0',
+                        'github_json': MagicMock(side_effect=RuntimeError('GitHub rate-limited (HTTP 403)'))}), \
+                        patch.object(subprocess, 'run') as command:
+                    with self.assertRaisesRegex(module['ReleaseLookupError'], 'GitHub rate-limited'):
+                        lookup('bws')
+                    command.assert_not_called()
+                continue
             with self.subTest(script=script.name), \
                  patch.object(api, 'github_json', side_effect=RuntimeError('GitHub rate-limited (HTTP 403)')), \
                  patch.object(sys, 'argv', [str(script), 'terminal']), \

@@ -1,0 +1,13 @@
+[Unit]
+Description=Check shared video ingestion permissions every 15 minutes
+ConditionHost=si
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=15min
+RandomizedDelaySec=30s
+Persistent=true
+Unit=si-media-permissions.service
+
+[Install]
+WantedBy=timers.target

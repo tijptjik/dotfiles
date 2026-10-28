@@ -11,7 +11,7 @@ from palette import load_palette
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 OUT = ROOT / '.local/icon-reviews/docs/assets/icon-review'
-THEME = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+THEME = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
 
 
 def read_mapping(path, name):
@@ -36,7 +36,7 @@ def main():
     def img(path, alt, cls=''):
         return f'<img class="{cls}" src="{path}" alt="{escape(alt)}" loading="lazy">'
 
-    fleet = read_mapping(ROOT / 'scripts/fleet_update/icon_catalog.py', 'SERVICE_ICONS')
+    fleet = read_mapping(ROOT / 'scripts/icons/icon_catalog.py', 'SERVICE_ICONS')
     fleet_sources = read_mapping(HERE / 'fleet.py', 'SOURCES')
     fleet_cards = []
     for label in fleet:
@@ -80,7 +80,7 @@ def main():
 <section id="palette"><h2>Color and materials carry the family.</h2><p>Every symbol color and gradient stop comes from rose-punk.yml. The primary icons have transparent backgrounds; app-specific backings remain. Coordinated pigments describe individual materials; warm highlights and cool undersides provide relief. Fresh mint teal separates green identities from cyan and blue.</p><div class="swatches">''' + swatches + '''</div></section>
 <div class="toolbar"><input id="search" placeholder="Find a service or application" aria-label="Find a service or application"><label>Preview <select id="size"><option>24</option><option>32</option><option>48</option><option selected>64</option><option>96</option></select> px</label><label><input type="checkbox" id="before" checked style="min-width:0"> Compare current</label></div>
 <section id="fleet"><h2>The service family</h2><p>Recognizable app geometry where available. Local-tool shapes below are proposals using the first reference in each row; choosing another option records your preference for the next drawing pass.</p><div class="grid">''' + ''.join(fleet_cards) + '''</div><h3>Established app marks</h3><p>Downloaded geometry from Simple Icons and Dashboard Icons. Each preview links to its source. Theme colors are applied for comparison; the source files retain their original paint.</p><div class="brands">''' + ''.join(brands) + '''</div></section>
-<section id="apps" style="margin-top:48px"><h2>The complete application comparison</h2><p>Current rose / lilac treatment on the left; proposed color family on the right. Originals are shown on a light backing for contrast. Missing originals are marked explicitly. Use 24 or 32 px above to judge recognition at actual UI sizes.</p><div class="grid appgrid">''' + ''.join(app_cards) + '''</div></section><footer>Originals: <a href="assets/icon-review/originals/manifest.json">Sources and SHA-256</a> · Palette: <a href="../home/dot_config/vivid/themes/rose-punk.yml">rose-punk.yml</a> · <a href="../scripts/icons/references/manifest.json">Source URLs, licenses and SHA-256</a> · Rebuild: python3 scripts/icons/palette-review.py<br>This review lives in docs/assets/icon-review. It does not replace the managed icon theme.</footer></main>
+<section id="apps" style="margin-top:48px"><h2>The complete application comparison</h2><p>Current rose / lilac treatment on the left; proposed color family on the right. Originals are shown on a light backing for contrast. Missing originals are marked explicitly. Use 24 or 32 px above to judge recognition at actual UI sizes.</p><div class="grid appgrid">''' + ''.join(app_cards) + '''</div></section><footer>Originals: <a href="assets/icon-review/originals/manifest.json">Sources and SHA-256</a> · Palette: <a href="../native/home/files/.config/vivid/themes/rose-punk.yml">rose-punk.yml</a> · <a href="../scripts/icons/references/manifest.json">Source URLs, licenses and SHA-256</a> · Rebuild: python3 scripts/icons/palette-review.py<br>This review lives in docs/assets/icon-review. It does not replace the managed icon theme.</footer></main>
 <script>
 document.querySelector('#size').onchange=e=>document.documentElement.style.setProperty('--size',e.target.value+'px');
 document.querySelector('#before').onchange=e=>document.body.classList.toggle('hide-before',!e.target.checked);

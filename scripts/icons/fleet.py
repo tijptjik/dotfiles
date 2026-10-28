@@ -16,9 +16,10 @@ import zlib
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
-THEME = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
-CATALOG = runpy.run_path(str(ROOT / 'scripts/fleet_update/icon_catalog.py'))
+THEME = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
+CATALOG = runpy.run_path(str(ROOT / 'scripts/icons/icon_catalog.py'))
 SOURCES = {
+    'Zoom Workplace': 'zoom', 'ChatGPT Desktop': 'chatgpt',
     'Collie': 'collie', 'Docker': 'docker', 'Flatpak': 'flatpak', 'Herdr': 'herdr',
     'llmtrim': 'llmtrim', 'Nginx': 'nginx', 'Notifications': 'notjik', 'Greetjik': 'greetjik',
     'Power': 'power', 'Prowlarr': 'prowlarr', 'Python': 'python', 'Rust': 'rust',
@@ -60,7 +61,7 @@ def render(icons=None, services=None):
     for name in sorted(glyphs):
         key = sources[name]
         if name in docker or name == 'Plex':
-            folder = ROOT / 'home/dockers/homepage/images/rose-punk'
+            folder = ROOT / 'native/home/files/dockers/homepage/images/rose-punk'
             source = (folder / f'{key}.svg').read_bytes() if services is None else services[f'{key}.svg']
         else:
             source = (THEME / f'{key}.svg').read_bytes() if icons is None else icons[f'{key}.svg']
@@ -73,7 +74,7 @@ def render(icons=None, services=None):
 
 def main():
     from icon_data import write_file
-    target = ROOT / 'scripts/fleet_update/icons32.json'
+    target = ROOT / 'scripts/icons/icons32.json'
     data = render()
     write_file(target, data)
     print(f"Wrote {len(json.loads(data)['sprites'])} sprites to {target.relative_to(ROOT)}")

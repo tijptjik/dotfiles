@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-HOOK = ROOT / 'home/.chezmoiscripts/run_after_97-secret-service.fish.tmpl'
+HOOK = ROOT / 'home/.chezmoitemplates/tjikup/run_after_97-secret-service.fish.tmpl'
 
 
 @unittest.skipUnless(shutil.which('fish'), 'Fish required')

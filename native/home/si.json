@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "id": "home-credentials-si",
+  "host": "si",
+  "context": {
+    "user": {
+      "name": "m",
+      "home": "/home/m"
+    },
+    "is_client": false,
+    "anthropic_model_provider": "zai"
+  },
+  "bitwarden": {
+    "command": [
+      "/usr/local/bin/bws"
+    ],
+    "access_token_file": "{{ user.home }}/.config/bws/environment"
+  },
+  "entries": [
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/drive-restic/drive.conf",
+      "source": "templates/drive-restic/drive.conf.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "create_only": true
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/drive-restic/restic-password",
+      "source": "templates/drive-restic/restic-password.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true
+    }
+  ]
+}

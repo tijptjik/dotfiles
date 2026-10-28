@@ -1,0 +1,2 @@
+#!/bin/sh
+exec python3 "${DOTJIK_REPO:-${XDG_DATA_HOME:-$HOME/.local/share}/dotjik}/scripts/home-compat.py" "$@"

@@ -154,9 +154,11 @@ class ThemeSetupTests(unittest.TestCase):
         metadata = (ROOT / 'home/dot_local/share/icons/rose-punk/index.theme').read_text()
         self.assertIn('\nName=Rose Punk\n', metadata)
         self.assertNotIn('icon-theme=', (ROOT / 'home/dot_config/dconf/interface.conf').read_text())
-        for path in (ROOT / 'home/dot_local/share/applications').glob('*'):
+        for path in (ROOT / 'native/home/files/.local/share/applications').glob('*'):
             if path.is_file():
                 self.assertFalse(installer.main_icon(path.read_text()).startswith('rose-punk-'), path.name)
 
-        telegram = ROOT / 'home/dot_local/share/applications/executable_org.telegram.desktop'
-        self.assertEqual(installer.main_icon(telegram.read_text()), 'org.telegram.desktop')
+        telegram = list((ROOT / 'native/home/files/.local/share/applications').glob('org.telegram.desktop*.desktop'))
+        self.assertTrue(telegram)
+        for launcher in telegram:
+            self.assertEqual(installer.main_icon(launcher.read_text()), 'org.telegram.desktop')

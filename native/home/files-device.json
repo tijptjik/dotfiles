@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "id": "home-files-device",
+  "context": {},
+  "context_files": [
+    "data/shared.json"
+  ],
+  "entries_files": [
+    "portable-files.json"
+  ],
+  "partials": {
+    "archive_policy": "files/.config/archive-policy.json"
+  },
+  "bitwarden": {
+    "command": [
+      "/usr/local/bin/bws"
+    ],
+    "access_token_file": "{{ user.home }}/.config/bws/environment"
+  }
+}

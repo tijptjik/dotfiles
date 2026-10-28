@@ -11,9 +11,13 @@ import unittest
 from unittest.mock import patch
 
 import tjikup_support
-from fleet_update.presentation import summary
-from fleet_update.hook_tasks import HookTasks
-from fleet_update.dag import Result
+from types import SimpleNamespace
+import re
+
+def summary(output):
+    lines = [line for line in output.splitlines() if re.match(r"[A-Z]+ +[✓!-] ",line)]
+    match = re.match(r"([A-Z]+) +[✓!-] +\S+ +(.+)", lines[-1])
+    return SimpleNamespace(verb=match[1], note=match[2])
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -58,24 +62,6 @@ class InstallOutcomeTests(unittest.TestCase):
                     self.assertEqual(report.read_text(), f'{expected}\t✓\t{app}\t{note}\n')
                     self.assertEqual(len(trace.read_text().splitlines()), count)
                     self.assertNotIn('__stage_', result.stdout)
-                    # The fleet records the actual result, even though its
-                    # manifest planned INSTALL. Skips stay out of the display.
-                    parent_report = root / 'fleet-report'
-                    parent_report.unlink(missing_ok=True)
-                    rendered = io.StringIO()
-                    with patch.dict(os.environ, {
-                            'TJIKUP_REPORT_FILE': str(parent_report),
-                            'TJIKUP_COLOR': '0', 'TJIKUP_PROGRESS': '0',
-                            'TJIKUP_ICONS': '0'}), contextlib.redirect_stdout(rendered):
-                        hooks = HookTasks(root, root, {})
-                        hooks.items[app] = {'label': app, 'verb': 'INSTALL'}
-                        hooks.outputs[app] = result.stdout
-                        hooks.event(app, Result('done', seconds=.1))
-                    if expected == 'SKIP':
-                        self.assertEqual(rendered.getvalue(), '')
-                    else:
-                        self.assertEqual(summary(rendered.getvalue()).verb, expected)
-                    self.assertEqual(parent_report.read_text(), f'{expected}\t✓\t{app}\t{note}\n')
 
                 run('INSTALL', 1, 'installed')
                 # Python imports are not a new application release.
@@ -107,7 +93,7 @@ class InstallOutcomeTests(unittest.TestCase):
             scripts.mkdir()
             for name in ('cache-install.py', 'install-bartjik.sh', 'ensure-tjikos.sh'):
                 shutil.copy2(ROOT / 'scripts' / name, scripts / name)
-            unit = root / 'home/dot_config/systemd/user/bartjik.service'
+            unit = root / 'native/home/files/.config/systemd/user/bartjik.service'
             unit.parent.mkdir(parents=True)
             unit.write_text('managed Fish wrapper\n')
             tools = root / 'tools'

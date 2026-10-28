@@ -35,7 +35,7 @@ class NoChangeHooksTests(unittest.TestCase):
         return path
 
     def script(self, name):
-        path = ROOT / 'home/.chezmoiscripts' / name
+        path = ROOT / 'home/.chezmoitemplates/tjikup' / name
         if not name.endswith('.tmpl'):
             return path.read_text()
         rendered = subprocess.check_output([

@@ -14,7 +14,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location('tjik_git', ROOT / 'home/dot_local/lib/tjik_git.py')
+spec = importlib.util.spec_from_file_location('tjik_git', ROOT / 'native/home/files/.local/lib/tjik_git.py')
 tjik_git = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tjik_git)
 
@@ -80,22 +80,12 @@ class FleetGitTests(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()):
             return tjik_git.synchronize(self.repos, **kwargs)
 
-    def test_chezmoi_source_subdirectory_resolves_repository_root(self):
-        source = self.repos[0][1] / 'home'
-        source.mkdir()
-        original_run = subprocess.run
-
-        def run(command, **kwargs):
-            if command == ['chezmoi', 'source-path']:
-                return subprocess.CompletedProcess(command, 0, str(source) + '\n', '')
-            return original_run(command, **kwargs)
-
-        with patch.dict('os.environ', {'DOTJIK_REPO': '',
-                                      'SYSTJIK_REPO': str(self.repos[1][1]),
-                                      'TJIKOS_REPO': str(self.repos[2][1])}), \
-                patch.object(tjik_git.subprocess, 'run', side_effect=run):
-            self.assertEqual([repo for _, repo in tjik_git.repositories()],
-                             [repo for _, repo in self.repos])
+    def test_default_dotfiles_location_needs_no_chezmoi_query(self):
+        with patch.dict('os.environ', {'DOTJIK_REPO': '', 'TJIKOS_REPO': str(self.repos[2][1])}), \
+                patch.object(tjik_git.Path, 'home', return_value=self.root), \
+                patch.object(tjik_git.subprocess, 'run') as run:
+            self.assertEqual(tjik_git.repositories()[0], ('Dotjik', self.root / '.local/share/dotjik'))
+            run.assert_not_called()
 
     def test_tjikos_defaults_to_code_even_before_checkout_exists(self):
         with patch.dict('os.environ', {'DOTJIK_REPO': str(self.repos[0][1]),

@@ -1,0 +1,28 @@
+shell = "bash -c '{}'"
+default-scheme = "base24-rose-punk"
+
+hooks = [
+    "echo \"The current scheme is: $(tinty current)\"",
+    ]
+
+[[items]]
+name = "tinted-shell"
+path = "https://github.com/tinted-theming/tinted-shell"
+themes-dir = "scripts"
+hook = "source \"$TINTY_THEME_FILE_PATH\""
+supported-systems = ["base16", "base24"]
+
+[[items]]
+name = "tinted-terminal"
+path = "https://github.com/tinted-theming/tinted-terminal"
+themes-dir = "themes/kitty"
+hook = "kitten @ load-config"
+supported-systems = ["base16", "base24"]
+
+# Notification colors are managed by notjik/config.json and its rose-punk theme.
+
+[[items]]
+name = "tinted-sublime-text"
+path = "https://github.com/tijptjik/tinted-sublime-text.git"
+themes-dir = ""
+supported-systems =  ["base16", "base24"]

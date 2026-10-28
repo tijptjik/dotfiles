@@ -1,0 +1,4837 @@
+[
+  {
+    "path": "{{ user.home }}/.codex",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.codex/config.toml",
+    "kind": "file",
+    "source": "files/.codex/config.toml",
+    "mode": "0600",
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/Mullvad VPN",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0700"
+  },
+  {
+    "path": "{{ user.home }}/.config/Mullvad VPN/gui_settings.json",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/Mullvad VPN/gui_settings.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/ZapZap",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/ZapZap/ZapZap.conf",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/ZapZap/ZapZap.conf.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/archive-policy.json",
+    "kind": "file",
+    "source": "files/.config/archive-policy.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/autostart",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/autostart/blueman.desktop",
+    "kind": "file",
+    "source": "files/.config/autostart/blueman.desktop",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/autostart/solaar.desktop",
+    "kind": "file",
+    "source": "files/.config/autostart/solaar.desktop",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/bartjik",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/bartjik/config.json",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/bartjik/config.json.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/bat",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/bat/config",
+    "kind": "file",
+    "source": "files/.config/bat/config",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/bottom",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/bottom/bottom.toml",
+    "kind": "file",
+    "source": "files/.config/bottom/bottom.toml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/brave-flags.conf",
+    "kind": "file",
+    "source": "files/.config/brave-flags.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/chrome-canary-flags.conf",
+    "kind": "file",
+    "source": "files/.config/chrome-canary-flags.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/chrome-flags.conf",
+    "kind": "file",
+    "source": "files/.config/chrome-flags.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/chromium-flags.conf",
+    "kind": "file",
+    "source": "files/.config/chromium-flags.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/codex-desktop",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/codex-desktop/electron-flags.conf",
+    "kind": "file",
+    "source": "files/.config/codex-desktop/electron-flags.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/codex-lb",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/codex-lb/laptop-known-hosts",
+    "kind": "file",
+    "source": "files/.config/codex-lb/laptop-known-hosts",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/dconf",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/dconf/interface.conf",
+    "kind": "file",
+    "source": "files/.config/dconf/interface.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/direnv",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/direnv/direnvrc",
+    "kind": "file",
+    "source": "files/.config/direnv/direnvrc",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/document-archive-policy.json",
+    "kind": "file",
+    "source": "files/.config/document-archive-policy.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/drive-restic",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/drive-restic/create_drive.conf",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/.config/drive-restic/create_drive.conf.j2",
+    "mode": "0600",
+    "template": true,
+    "sensitive": true,
+    "create_only": true
+  },
+  {
+    "path": "{{ user.home }}/.config/fcitx5",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/fcitx5/conf",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/fcitx5/conf/chttrans.conf",
+    "kind": "file",
+    "source": "files/.config/fcitx5/conf/chttrans.conf",
+    "mode": "0600",
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config/fcitx5/conf/classicui.conf",
+    "kind": "file",
+    "source": "files/.config/fcitx5/conf/classicui.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fcitx5/conf/notifications.conf",
+    "kind": "file",
+    "source": "files/.config/fcitx5/conf/notifications.conf",
+    "mode": "0600",
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config/fcitx5/conf/pinyin.conf",
+    "kind": "file",
+    "source": "files/.config/fcitx5/conf/pinyin.conf",
+    "mode": "0600",
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config/fcitx5/config",
+    "kind": "file",
+    "source": "files/.config/fcitx5/config",
+    "mode": "0600",
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config/fcitx5/profile",
+    "kind": "file",
+    "source": "files/.config/fcitx5/profile",
+    "mode": "0600",
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config/fish",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/completions",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/completions/glow.fish",
+    "kind": "file",
+    "source": "files/.config/fish/completions/glow.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/completions/herdr.fish",
+    "kind": "file",
+    "source": "files/.config/fish/completions/herdr.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/completions/tinty.fish",
+    "kind": "file",
+    "source": "files/.config/fish/completions/tinty.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d/00-environment.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/00-environment.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d/aliases.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/aliases.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d/done-notifications.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/done-notifications.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d/fish_frozen_theme.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/fish_frozen_theme.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d/paths.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/paths.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d/shell.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/shell.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d/tjikup-notifications.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/tjikup-notifications.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d/utils.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/utils.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d/variables.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/variables.fish.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/config.fish",
+    "kind": "file",
+    "source": "files/.config/fish/config.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/fish_plugins",
+    "kind": "file",
+    "source": "files/.config/fish/fish_plugins",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/functions",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/functions/__fish_done_notify.fish",
+    "kind": "file",
+    "source": "files/.config/fish/functions/__fish_done_notify.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/functions/__tjikup_host.fish",
+    "kind": "file",
+    "source": "files/.config/fish/functions/__tjikup_host.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/functions/bun.fish",
+    "kind": "file",
+    "source": "files/.config/fish/functions/bun.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/functions/fitjikup.fish",
+    "kind": "file",
+    "source": "files/.config/fish/functions/fitjikup.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/functions/litjikup.fish",
+    "kind": "file",
+    "source": "files/.config/fish/functions/litjikup.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/functions/sitjikup.fish",
+    "kind": "file",
+    "source": "files/.config/fish/functions/sitjikup.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/functions/sshfi.fish",
+    "kind": "file",
+    "source": "files/.config/fish/functions/sshfi.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/functions/sshli.fish",
+    "kind": "file",
+    "source": "files/.config/fish/functions/sshli.fish",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fleet-ssh",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/fleet-ssh/known_hosts",
+    "kind": "file",
+    "source": "files/.config/fleet-ssh/known_hosts",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fontconfig",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/fontconfig/conf.d",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/fontconfig/conf.d/09-Directories.conf",
+    "kind": "file",
+    "source": "files/.config/fontconfig/conf.d/09-Directories.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fontconfig/conf.d/10-Nerd-Font-Symbols.conf",
+    "kind": "file",
+    "source": "files/.config/fontconfig/conf.d/10-Nerd-Font-Symbols.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fontconfig/conf.d/10-nerd-font-symbols.conf",
+    "kind": "file",
+    "source": "files/.config/fontconfig/conf.d/10-nerd-font-symbols.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fontconfig/conf.d/39-Aliases.conf",
+    "kind": "file",
+    "source": "files/.config/fontconfig/conf.d/39-Aliases.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fontconfig/conf.d/78-Reject.conf",
+    "kind": "file",
+    "source": "files/.config/fontconfig/conf.d/78-Reject.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/fontconfig/fonts.conf",
+    "kind": "file",
+    "source": "files/.config/fontconfig/fonts.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/gnome-initial-setup-done",
+    "kind": "file",
+    "source": "files/.config/gnome-initial-setup-done",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/gtk-3.0",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/gtk-3.0/bookmarks",
+    "kind": "file",
+    "source": "files/.config/gtk-3.0/bookmarks.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/gtk-3.0/gtk.css",
+    "kind": "file",
+    "source": "files/.config/gtk-3.0/gtk.css",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/gtk-3.0/settings.ini",
+    "kind": "file",
+    "source": "files/.config/gtk-3.0/settings.ini.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/gtk-4.0",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/gtk-4.0/gtk.css",
+    "kind": "file",
+    "source": "files/.config/gtk-4.0/gtk.css",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/gtk-4.0/servers",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/gtk-4.0/servers.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/gtk-4.0/settings.ini",
+    "kind": "file",
+    "source": "files/.config/gtk-4.0/settings.ini.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/config.toml",
+    "kind": "file",
+    "source": "files/.config/herdr/config.toml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/config",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/config/herdr-spreader",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/config/herdr-spreader/config.yaml",
+    "kind": "file",
+    "source": "files/.config/herdr/plugins/config/herdr-spreader/config.yaml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/config/herdr.collie",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/config/herdr.collie/.env",
+    "kind": "file",
+    "source": "files/.config/herdr/plugins/config/herdr.collie/.env.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/local",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/local/local-files",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/local/local-files/herdr-plugin.toml",
+    "kind": "file",
+    "source": "files/.config/herdr/plugins/local/local-files/herdr-plugin.toml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/local/local-files/open_file.py",
+    "kind": "file",
+    "source": "files/.config/herdr/plugins/local/local-files/open_file.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/session.json",
+    "kind": "file",
+    "source": "files/.config/herdr/session.json.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/sounds",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/sounds/soft-chime.mp3",
+    "kind": "file",
+    "source": "files/.config/herdr/sounds/soft-chime.mp3",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/bindings.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/bindings.lua.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/chat_appearance.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/chat_appearance.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/colors.conf",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/colors.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/colors.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/colors.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/devices.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/devices.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/env.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/env.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/execs.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/execs.lua.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/helpers.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/helpers.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/hypridle.conf",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/hypridle.conf.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/hypridle_game.conf",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/hypridle_game.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/hyprland.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/hyprland.lua.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/hyprlock.conf",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/hyprlock.conf.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/hyprpaper.conf",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/hyprpaper.conf.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/hyprsunset.conf",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/hyprsunset.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/layers.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/layers.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/layouts.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/layouts.lua.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/monitors.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/monitors.lua.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/plugins.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/plugins.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/scripts",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/scripts/debug_socket.fish",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/scripts/debug_socket.fish",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/scrolling_gaps.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/scrolling_gaps.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/scrolling_shortcuts.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/scrolling_shortcuts.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/scrolling_widths.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/scrolling_widths.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/shaders",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/shaders/chat-blur-dim.glsl",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/shaders/chat-blur-dim.glsl",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/variables.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/variables.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/windows.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/windows.lua.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/workspace_reminder.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/workspace_reminder.lua",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/workspaces.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/workspaces.lua.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/hyprfloat",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/hyprfloat/hyprfloat.json",
+    "kind": "file",
+    "source": "files/.config/hyprfloat/hyprfloat.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/hyprvoice",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/kitty",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/kitty/kitty.app.png",
+    "kind": "file",
+    "source": "files/.config/kitty/kitty.app.png",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/kitty/kitty.conf",
+    "kind": "file",
+    "source": "files/.config/kitty/kitty.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/kitty/notifications.py",
+    "kind": "file",
+    "source": "files/.config/kitty/notifications.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/lazygit",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/lazygit/config.yml",
+    "kind": "file",
+    "source": "files/.config/lazygit/config.yml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/matugen",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/matugen/config.toml",
+    "kind": "file",
+    "source": "files/.config/matugen/config.toml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/matugen/templates",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/matugen/templates/LICENSE",
+    "kind": "file",
+    "source": "files/.config/matugen/templates/LICENSE",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/matugen/templates/gtk-colors.css",
+    "kind": "file",
+    "source": "files/.config/matugen/templates/gtk-colors.css",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/matugen/templates/micro.micro",
+    "kind": "file",
+    "source": "files/.config/matugen/templates/micro.micro",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/matugen/templates/zed-colors.json",
+    "kind": "file",
+    "source": "files/.config/matugen/templates/zed-colors.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/micro",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/micro/bindings.json",
+    "kind": "file",
+    "source": "files/.config/micro/bindings.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/micro/colorschemes",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/micro/colorschemes/tijptjik.micro",
+    "kind": "file",
+    "source": "files/.config/micro/colorschemes/tijptjik.micro",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/micro/settings.json",
+    "kind": "file",
+    "source": "files/.config/micro/settings.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/mimeapps.list",
+    "kind": "file",
+    "source": "files/.config/mimeapps.list",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/monitors.xml",
+    "kind": "file",
+    "source": "files/.config/monitors.xml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/notjik",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/notjik/config.json",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/notjik/config.json.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/pipewire",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/pipewire/pipewire.conf.d",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/pipewire/pipewire.conf.d/90-playback-buffer.conf",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.config/pipewire/pipewire.conf.d/90-playback-buffer.conf.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/private-storage",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/private-storage/config.json",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/private-storage/config.json",
+    "mode": "0600",
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config/private-storage/create_drive.conf",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/private-storage/create_drive.conf.j2",
+    "mode": "0600",
+    "template": true,
+    "sensitive": true,
+    "create_only": true
+  },
+  {
+    "path": "{{ user.home }}/.config/private-storage/layout-ready",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/private-storage/layout-ready",
+    "mode": "0600",
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config/private-storage/sync-filter.txt",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/private-storage/sync-filter.txt",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/rclone",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/solaar",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/solaar/config.yaml",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/solaar/config.yaml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/starship.toml",
+    "kind": "file",
+    "source": "files/.config/starship.toml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/system-monitoring",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/system-monitoring/atop",
+    "kind": "file",
+    "source": "files/.config/system-monitoring/atop",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/system-monitoring/atop-service.conf",
+    "kind": "file",
+    "source": "files/.config/system-monitoring/atop-service.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/backup-packages.service",
+    "kind": "file",
+    "source": "files/.config/systemd/user/backup-packages.service.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/backup-packages.timer",
+    "kind": "file",
+    "source": "files/.config/systemd/user/backup-packages.timer.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/bartjik.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/bartjik.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup-failure.service",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/cloudflare-restic-backup-failure.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup.service",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/cloudflare-restic-backup.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup.timer",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/cloudflare-restic-backup.timer.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/codex-lb-client.service",
+    "kind": "file",
+    "source": "files/.config/systemd/user/codex-lb-client.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/codex-lb-client.socket",
+    "kind": "file",
+    "source": "files/.config/systemd/user/codex-lb-client.socket",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/codex-lb-laptop.service",
+    "kind": "file",
+    "source": "files/.config/systemd/user/codex-lb-laptop.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/codex-lb.service",
+    "kind": "file",
+    "source": "files/.config/systemd/user/codex-lb.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/dim-screen.service",
+    "kind": "file",
+    "source": "files/.config/systemd/user/dim-screen.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/dim-screen.timer",
+    "kind": "file",
+    "source": "files/.config/systemd/user/dim-screen.timer",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/drive-restic-backup-failure.service",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/drive-restic-backup-failure.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/drive-restic-backup.service",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/drive-restic-backup.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/drive-restic-backup.timer",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/drive-restic-backup.timer.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/hypridle.service.d",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/hypridle.service.d/idle-inhibit.conf",
+    "kind": "file",
+    "source": "files/.config/systemd/user/hypridle.service.d/idle-inhibit.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/hyprlock-login.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/hyprlock-login.service.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/hyprsunset.service.d",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/hyprsunset.service.d/nightlight.conf",
+    "kind": "file",
+    "source": "files/.config/systemd/user/hyprsunset.service.d/nightlight.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/hyprvoice.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/hyprvoice.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/notjik.service.d",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/notjik.service.d/theme.conf",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/notjik.service.d/theme.conf.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/private-backup.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/private-backup.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/private-backup.timer",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/private-backup.timer.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/private-storage-initialize.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/private-storage-initialize.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/private-sync.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/private-sync.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/private-sync.timer",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/private-sync.timer.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/screen-record.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/screen-record.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/si-app-backup-health.service",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/si-app-backup-health.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/si-app-backup-health.timer",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/si-app-backup-health.timer",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/si-app-backup-pull-failure.service",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/si-app-backup-pull-failure.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/si-app-backup-pull.service",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/si-app-backup-pull.service",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/si-app-backup-pull.timer",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/si-app-backup-pull.timer",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/tinted-theming",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/tinted-theming/tinty",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/tinted-theming/tinty/config.toml",
+    "kind": "file",
+    "source": "files/.config/tinted-theming/tinty/config.toml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/tjikup",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/tjikup/config.json",
+    "kind": "symlink",
+    "target": "{{ repo_dir }}/tjikup.json"
+  },
+  {
+    "path": "{{ user.home }}/.config/transmission",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/transmission/configure-archive-hook.sh",
+    "kind": "file",
+    "source": "files/.config/transmission/configure-archive-hook.sh",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/transmission/extract.fish",
+    "kind": "file",
+    "source": "files/.config/transmission/extract.fish",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/transmission/settings.json",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/transmission/settings.json.j2",
+    "mode": "0600",
+    "template": true,
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config/user-dirs.dirs",
+    "kind": "file",
+    "source": "files/.config/user-dirs.dirs.j2",
+    "mode": "0600",
+    "template": true,
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config/user-dirs.locale",
+    "kind": "file",
+    "source": "files/.config/user-dirs.locale",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/vivid",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/vivid/filetypes.yml",
+    "kind": "file",
+    "source": "files/.config/vivid/filetypes.yml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/vivid/themes",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/vivid/themes/rose-punk.yml",
+    "kind": "file",
+    "source": "files/.config/vivid/themes/rose-punk.yml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/xdg-desktop-portal",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/xdg-desktop-portal/hyprland-portals.conf",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/xdg-desktop-portal/hyprland-portals.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/zed",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/zed/keymap.json",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/zed/keymap.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/zed/settings.json",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/zed/settings.json.j2",
+    "mode": "0600",
+    "template": true,
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.config/zed/themes",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/zed/themes/rose-punk.json",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/zed/themes/rose-punk.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/zen",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/zen/userChrome.css",
+    "kind": "file",
+    "source": "files/.config/zen/userChrome.css",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.git-tijptjik.conf",
+    "kind": "file",
+    "source": "files/.git-tijptjik.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.gitconfig",
+    "kind": "file",
+    "source": "files/.gitconfig",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.gtkrc-2.0",
+    "kind": "file",
+    "source": "files/.gtkrc-2.0",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/brave-browser-stable",
+    "kind": "file",
+    "source": "files/.local/bin/brave-browser-stable",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/chezmoi-externals-backup",
+    "kind": "file",
+    "source": "files/.local/bin/chezmoi-externals-backup",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/cloudflare-restic-backup",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.local/bin/cloudflare-restic-backup",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/create-webdav-user",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/.local/bin/create-webdav-user",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/desktop-panels-toggle",
+    "kind": "file",
+    "source": "files/.local/bin/desktop-panels-toggle",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/device-archives",
+    "kind": "file",
+    "source": "files/.local/bin/device-archives",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/document-archives",
+    "kind": "file",
+    "source": "files/.local/bin/document-archives",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/dotjik",
+    "kind": "file",
+    "source": "files/.local/bin/dotjik",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/drive-restic-backup",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/.local/bin/drive-restic-backup",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/electron",
+    "kind": "file",
+    "source": "files/.local/bin/electron",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/fisher-update",
+    "kind": "file",
+    "source": "files/.local/bin/fisher-update",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/fleet-ssh",
+    "kind": "file",
+    "source": "files/.local/bin/fleet-ssh",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/game-mode-listener",
+    "kind": "file",
+    "source": "files/.local/bin/game-mode-listener",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/google-chrome-canary",
+    "kind": "file",
+    "source": "files/.local/bin/google-chrome-canary",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/google-chrome-stable",
+    "kind": "file",
+    "source": "files/.local/bin/google-chrome-stable",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/idle-inhibit",
+    "kind": "file",
+    "source": "files/.local/bin/idle-inhibit",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/mntcrypt",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/bin/mntcrypt",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/mntgiprivate",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/bin/mntgiprivate",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/mntgipublic",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/bin/mntgipublic",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/mntsiprivate",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/bin/mntsiprivate",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/mntsipublic",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/bin/mntsipublic",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/monitor-desktop-mode",
+    "kind": "file",
+    "source": "files/.local/bin/monitor-desktop-mode",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/monitor-game-mode",
+    "kind": "file",
+    "source": "files/.local/bin/monitor-game-mode",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/nightlight",
+    "kind": "symlink",
+    "target": "idle-inhibit"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/obsidian",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/bin/obsidian",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/obsidian-viewer",
+    "kind": "file",
+    "source": "files/.local/bin/obsidian-viewer",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/private-storage",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/bin/private-storage",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/quickshell",
+    "kind": "file",
+    "source": "files/.local/bin/quickshell",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/r2upload",
+    "kind": "file",
+    "source": "files/.local/bin/r2upload",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/readr",
+    "kind": "file",
+    "source": "files/.local/bin/readr",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/reclaim-diskspace",
+    "kind": "file",
+    "source": "files/.local/bin/reclaim-diskspace",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/screen-record",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/bin/screen-record",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/set-webdav-user-password",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/.local/bin/set-webdav-user-password",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/setup-system-monitoring",
+    "kind": "file",
+    "source": "files/.local/bin/setup-system-monitoring",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/show-codex",
+    "kind": "file",
+    "source": "files/.local/bin/show-codex",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/si-app-backup-pull",
+    "when": "hostname in [\"fi\"]",
+    "kind": "file",
+    "source": "files/.local/bin/si-app-backup-pull",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/systjik",
+    "kind": "file",
+    "source": "files/.local/bin/systjik",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/tailscale-lock",
+    "kind": "file",
+    "source": "files/.local/bin/tailscale-lock",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/tjix",
+    "kind": "file",
+    "source": "files/.local/bin/tjix",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/tjixx",
+    "kind": "file",
+    "source": "files/.local/bin/tjixx",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/zed-preview",
+    "kind": "symlink",
+    "target": "{{ user.home }}/.local/zed-preview.app/bin/zed"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/device_archives",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/device_archives/__init__.py",
+    "kind": "file",
+    "source": "files/.local/lib/device_archives/__init__.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/device_archives/cli.py",
+    "kind": "file",
+    "source": "files/.local/lib/device_archives/cli.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/device_archives/core.py",
+    "kind": "file",
+    "source": "files/.local/lib/device_archives/core.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/device_archives/editor.py",
+    "kind": "file",
+    "source": "files/.local/lib/device_archives/editor.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/device_archives/feedback.py",
+    "kind": "file",
+    "source": "files/.local/lib/device_archives/feedback.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/device_archives/telegram.py",
+    "kind": "file",
+    "source": "files/.local/lib/device_archives/telegram.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/device_archives/wizard.py",
+    "kind": "file",
+    "source": "files/.local/lib/device_archives/wizard.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/fleet_ssh.py",
+    "kind": "file",
+    "source": "files/.local/lib/fleet_ssh.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjik_git.py",
+    "kind": "file",
+    "source": "files/.local/lib/tjik_git.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/TelegramDesktop",
+    "kind": "directory",
+    "mode": "0700"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/TelegramDesktop/tdata",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/TelegramDesktop/tdata/rosepunk.tdesktop-palette",
+    "kind": "file",
+    "source": "files/.local/share/TelegramDesktop/tdata/rosepunk.tdesktop-palette",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/FFPWA-01KC5NHD5A581XBAPMZG1PET4K.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/FFPWA-01KC5NHD5A581XBAPMZG1PET4K.desktop",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/FFPWA-01KCGW1793YX2BA145Z4NWQ2XY.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/FFPWA-01KCGW1793YX2BA145Z4NWQ2XY.desktop",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/FFPWA-01KCGZY23320CJPTJNB8ZVMVPH.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/FFPWA-01KCGZY23320CJPTJNB8ZVMVPH.desktop",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/FFPWA-01KFA5CCJHYYD2WY97911P3XG7.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/FFPWA-01KFA5CCJHYYD2WY97911P3XG7.desktop",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD.desktop",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N.desktop",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/Zen.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/Zen.desktop",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/brave-browser.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/brave-browser.desktop.j2",
+    "mode": "0755",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/com.spotify.Client.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/com.spotify.Client.desktop.j2",
+    "mode": "0755",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/dev.zed.Zed-Preview.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/dev.zed.Zed-Preview.desktop.j2",
+    "mode": "0755",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/dev.zed.Zed.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/dev.zed.Zed.desktop.j2",
+    "mode": "0755",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/discord.desktop",
+    "when": "hostname in [\"fi\", \"si\"]",
+    "kind": "file",
+    "source": "files/.local/share/applications/discord.desktop.j2",
+    "mode": "0755",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/google-chrome-canary.desktop",
+    "when": "hostname in [\"fi\", \"si\"]",
+    "kind": "file",
+    "source": "files/.local/share/applications/google-chrome-canary.desktop.j2",
+    "mode": "0755",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/google-chrome.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/google-chrome.desktop",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/io.github.lgse.Strata.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/io.github.lgse.Strata.desktop",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/java-25-openjdk-jconsole.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/java-25-openjdk-jconsole.desktop",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/md.obsidian.Obsidian.desktop",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/share/applications/md.obsidian.Obsidian.desktop.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/obsidian-appimage.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/obsidian-appimage.desktop.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/org.telegram.desktop._3e485da34fc040f9218e3891ecde1e6c.desktop",
+    "kind": "file",
+    "source": "files/.local/share/applications/org.telegram.desktop._3e485da34fc040f9218e3891ecde1e6c.desktop",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/org.videolan.VLC.desktop",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/share/applications/org.videolan.VLC.desktop",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/vlc.desktop",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/share/applications/vlc.desktop",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/dbus-1",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/dbus-1/services",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/dbus-1/services/org.freedesktop.Notifications.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/share/dbus-1/services/org.freedesktop.Notifications.service.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/device-archives-policy",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/device-archives-policy/archive-policy.json",
+    "kind": "file",
+    "source": "files/.local/share/device-archives-policy/archive-policy.json.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/firefoxpwa",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/firefoxpwa/config.json",
+    "kind": "file",
+    "source": "files/.local/share/firefoxpwa/config.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/firefoxpwa/profiles",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/firefoxpwa/profiles/00000000000000000000000000",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/firefoxpwa/profiles/00000000000000000000000000/chrome",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/firefoxpwa/profiles/00000000000000000000000000/chrome/userChrome.css",
+    "kind": "file",
+    "source": "files/.local/share/firefoxpwa/profiles/00000000000000000000000000/chrome/userChrome.css",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/fonts",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/fonts/iconfyra-brands-solid.ttf",
+    "kind": "file",
+    "source": "files/.local/share/fonts/iconfyra-brands-solid.ttf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/hypr",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/hypr/plugins",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/hypr/plugins/scrolling-gaps",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/hypr/plugins/scrolling-gaps/build.sh",
+    "kind": "file",
+    "source": "files/.local/share/hypr/plugins/scrolling-gaps/build.sh",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/hypr/plugins/scrolling-gaps/main.cpp",
+    "kind": "file",
+    "source": "files/.local/share/hypr/plugins/scrolling-gaps/main.cpp",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/hypr/plugins/windowshade",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/hypr/plugins/windowshade/build.sh",
+    "kind": "file",
+    "source": "files/.local/share/hypr/plugins/windowshade/build.sh",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/hypr/plugins/windowshade/chat-render-isolation.patch",
+    "kind": "file",
+    "source": "files/.local/share/hypr/plugins/windowshade/chat-render-isolation.patch",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/Neuwaita",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/Neuwaita/scalable",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/Neuwaita/scalable/apps",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/Neuwaita/scalable/apps/kitty.svg",
+    "kind": "symlink",
+    "target": "../../../hicolor/scalable/apps/kitty.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/256x256",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/256x256/apps",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/256x256/apps/kitty.png",
+    "kind": "symlink",
+    "target": "{{ user.home }}/.config/kitty/kitty.app.png"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/256x256/apps/tjikup-notification.png",
+    "kind": "symlink",
+    "target": "../../../tjikup.png"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/512x512",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/512x512/apps",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/512x512/apps/dev.zed.Zed.png",
+    "kind": "symlink",
+    "target": "{{ user.home }}/.local/zed.app/share/icons/hicolor/512x512/apps/zed.png"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/scalable",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/scalable/apps",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/scalable/apps/kitty.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/hicolor/scalable/apps/kitty.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/scalable/apps/signal-outline.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/hicolor/scalable/apps/signal-outline.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/scalable/apps/vlc-outline.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/hicolor/scalable/apps/vlc-outline.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/scalable/apps/zoom-outline.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/hicolor/scalable/apps/zoom-outline.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/index.theme",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/index.theme",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KC3V7SZSJ8PMK49J7QBTP2FK.svg",
+    "kind": "symlink",
+    "target": "google-photos.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KC5NHD5A581XBAPMZG1PET4K.svg",
+    "kind": "symlink",
+    "target": "gmail.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KCGW1793YX2BA145Z4NWQ2XY.svg",
+    "kind": "symlink",
+    "target": "google-photos.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KCGZY23320CJPTJNB8ZVMVPH.svg",
+    "kind": "symlink",
+    "target": "google-calendar.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KVFQER39ASXCZ26D7724G54G.svg",
+    "kind": "symlink",
+    "target": "codex-lb.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD.svg",
+    "kind": "symlink",
+    "target": "drizzle.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N.svg",
+    "kind": "symlink",
+    "target": "codex-lb.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/applications-system.svg",
+    "kind": "symlink",
+    "target": "uuctl.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/audio-player.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/audio-player.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bartjik.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/bartjik.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/be.maartenbaert.simplescreenrecorder.svg",
+    "kind": "symlink",
+    "target": "simplescreenrecorder.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bitwarden.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/bitwarden.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/blueman-adapters.svg",
+    "kind": "symlink",
+    "target": "bluetooth-adapters.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/blueman-device.svg",
+    "kind": "symlink",
+    "target": "bluetooth-adapters.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/blueman-manager.svg",
+    "kind": "symlink",
+    "target": "bluetooth-manager.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/blueman.svg",
+    "kind": "symlink",
+    "target": "bluetooth-manager.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bluetooth-adapters.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/bluetooth-adapters.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bluetooth-manager.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/bluetooth-manager.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bookmarks.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/bookmarks.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/brave-browser-beta.svg",
+    "kind": "symlink",
+    "target": "brave.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/brave-browser.svg",
+    "kind": "symlink",
+    "target": "brave.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/brave-dpjgkjccaekddppdhcjcahhloipkffle-Default.svg",
+    "kind": "symlink",
+    "target": "plex.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/brave-ncmjhecbjeaamljdfahankockkkdmedg-Default.svg",
+    "kind": "symlink",
+    "target": "google-photos.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/brave.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/brave.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bun.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/bun.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/calendar.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/calendar.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/camera.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/camera.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/characters.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/characters.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chatgpt.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/chatgpt.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chezetc.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/chezetc.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chezmoi.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/chezmoi.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chrome.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/chrome.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/clocks.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/clocks.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/codex-desktop.svg",
+    "kind": "symlink",
+    "target": "codex.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/codex-lb.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/codex-lb.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/codex.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/codex.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/collie.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/collie.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/color-profile-viewer.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/color-profile-viewer.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.brave.Browser.svg",
+    "kind": "symlink",
+    "target": "brave.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.dec05eba.gpu_screen_recorder.svg",
+    "kind": "symlink",
+    "target": "gpu-screen-recorder.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.discordapp.Discord.svg",
+    "kind": "symlink",
+    "target": "discord.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.github.tchx84.Flatseal.svg",
+    "kind": "symlink",
+    "target": "flatseal.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.google.Chrome.canary.svg",
+    "kind": "symlink",
+    "target": "chrome.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.google.Chrome.svg",
+    "kind": "symlink",
+    "target": "chrome.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.obsproject.Studio.svg",
+    "kind": "symlink",
+    "target": "obs-studio.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.openai.Codex.svg",
+    "kind": "symlink",
+    "target": "codex.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.openai.codex.svg",
+    "kind": "symlink",
+    "target": "codex.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.rtosta.zapzap.svg",
+    "kind": "symlink",
+    "target": "zapzap.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.spotify.Client.svg",
+    "kind": "symlink",
+    "target": "spotify.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.transmissionbt.Transmission.svg",
+    "kind": "symlink",
+    "target": "transmission.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/connections.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/connections.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/contacts.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/contacts.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dev.zed.Zed-Nightly.svg",
+    "kind": "symlink",
+    "target": "zed-nightly.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dev.zed.Zed-Preview.svg",
+    "kind": "symlink",
+    "target": "zed-preview.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dev.zed.Zed.svg",
+    "kind": "symlink",
+    "target": "zed.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dev.zed.svg",
+    "kind": "symlink",
+    "target": "zed.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/discord.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/discord.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/disk-usage-analyzer.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/disk-usage-analyzer.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/disks.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/disks.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/docker.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/docker.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/document-scanner.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/document-scanner.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/document-viewer.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/document-viewer.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/drizzle.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/drizzle.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/eye-of-gnome.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/eye-of-gnome.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fcitx-5-configuration.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/fcitx-5-configuration.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fcitx.svg",
+    "kind": "symlink",
+    "target": "fcitx-5-configuration.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fcitx5-configtool.svg",
+    "kind": "symlink",
+    "target": "fcitx-5-configuration.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fedora-media-writer.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/fedora-media-writer.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/file-roller.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/file-roller.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/files.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/files.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/firefox.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/firefox.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fish.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/fish.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/flatpak.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/flatpak.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/flatseal.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/flatseal.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fnm.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/fnm.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fonts.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/fonts.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gimp.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/gimp.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gitfetch.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/gitfetch.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gmail.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/gmail.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gnome-color-manager.svg",
+    "kind": "symlink",
+    "target": "color-profile-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gnome-system-monitor-kde.svg",
+    "kind": "symlink",
+    "target": "system-monitor.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gnome.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/gnome.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/google-calendar.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/google-calendar.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/google-chrome-beta.svg",
+    "kind": "symlink",
+    "target": "chrome.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/google-chrome-canary.svg",
+    "kind": "symlink",
+    "target": "chrome.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/google-chrome.svg",
+    "kind": "symlink",
+    "target": "chrome.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/google-photos.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/google-photos.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gpu-screen-recorder.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/gpu-screen-recorder.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/greetjik.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/greetjik.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gum.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/gum.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/help.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/help.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/herdr.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/herdr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/htop.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/htop.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/hyprvoice.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/hyprvoice.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/image-viewer.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/image-viewer.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/input-keyboard.svg",
+    "kind": "symlink",
+    "target": "keyboard-layout-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/io.github.lgse.Strata.svg",
+    "kind": "symlink",
+    "target": "strata.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/kbd-layout-viewer5.svg",
+    "kind": "symlink",
+    "target": "keyboard-layout-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/keyboard-layout-viewer.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/keyboard-layout-viewer.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/kitty.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/kitty.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/koreader.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/koreader.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/llmtrim.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/llmtrim.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/logs.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/logs.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/lutris.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/lutris.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/mailtjik.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/mailtjik.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/maps.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/maps.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/md.obsidian.Obsidian.svg",
+    "kind": "symlink",
+    "target": "obsidian.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/mpv-media-player.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/mpv-media-player.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/mpv.svg",
+    "kind": "symlink",
+    "target": "mpv-media-player.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/mullvad-vpn.svg",
+    "kind": "symlink",
+    "target": "mullvad.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/mullvad.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/mullvad.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/neovim.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/neovim.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/net.lutris.Lutris.svg",
+    "kind": "symlink",
+    "target": "lutris.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/nginx.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/nginx.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/notjik.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/notjik.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/nvim.svg",
+    "kind": "symlink",
+    "target": "neovim.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/obs-studio.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/obs-studio.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/obsidian.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/obsidian.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/oo7.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/oo7.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.fedoraproject.MediaWriter.svg",
+    "kind": "symlink",
+    "target": "fedora-media-writer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.freedesktop.GnomeAbrt.svg",
+    "kind": "symlink",
+    "target": "problem-reporting.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.freedesktop.MalcontentControl.svg",
+    "kind": "symlink",
+    "target": "parental-controls.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Calendar.svg",
+    "kind": "symlink",
+    "target": "calendar.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Characters.svg",
+    "kind": "symlink",
+    "target": "characters.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.ColorProfileViewer.svg",
+    "kind": "symlink",
+    "target": "color-profile-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Connections.svg",
+    "kind": "symlink",
+    "target": "connections.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Contacts.svg",
+    "kind": "symlink",
+    "target": "contacts.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Decibels.svg",
+    "kind": "symlink",
+    "target": "audio-player.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.DiskUtility.svg",
+    "kind": "symlink",
+    "target": "disks.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Evince.svg",
+    "kind": "symlink",
+    "target": "document-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.FileRoller.svg",
+    "kind": "symlink",
+    "target": "file-roller.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Logs.svg",
+    "kind": "symlink",
+    "target": "logs.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Loupe.svg",
+    "kind": "symlink",
+    "target": "image-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Maps.svg",
+    "kind": "symlink",
+    "target": "maps.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Nautilus.svg",
+    "kind": "symlink",
+    "target": "files.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Papers.svg",
+    "kind": "symlink",
+    "target": "document-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Settings.svg",
+    "kind": "symlink",
+    "target": "settings.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Showtime.svg",
+    "kind": "symlink",
+    "target": "video-player.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.SimpleScan.svg",
+    "kind": "symlink",
+    "target": "document-scanner.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Snapshot.svg",
+    "kind": "symlink",
+    "target": "camera.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Software.svg",
+    "kind": "symlink",
+    "target": "software.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.SystemMonitor.svg",
+    "kind": "symlink",
+    "target": "system-monitor.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Terminal.svg",
+    "kind": "symlink",
+    "target": "terminal.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.TextEditor.svg",
+    "kind": "symlink",
+    "target": "text-editor.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Tour.svg",
+    "kind": "symlink",
+    "target": "tour.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Weather.svg",
+    "kind": "symlink",
+    "target": "weather.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Yelp.svg",
+    "kind": "symlink",
+    "target": "help.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.baobab.svg",
+    "kind": "symlink",
+    "target": "disk-usage-analyzer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.clocks.svg",
+    "kind": "symlink",
+    "target": "clocks.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.eog.svg",
+    "kind": "symlink",
+    "target": "eye-of-gnome.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.font-viewer.svg",
+    "kind": "symlink",
+    "target": "fonts.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.gthumb.svg",
+    "kind": "symlink",
+    "target": "thumbnails.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.seahorse.Application.svg",
+    "kind": "symlink",
+    "target": "passwords-and-keys.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.tweaks.svg",
+    "kind": "symlink",
+    "target": "tweaks.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.mozilla.firefox.svg",
+    "kind": "symlink",
+    "target": "firefox.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.pulseaudio.pavucontrol.svg",
+    "kind": "symlink",
+    "target": "volume-control.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.qgis.qgis.svg",
+    "kind": "symlink",
+    "target": "qgis-desktop.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.signal.Signal.svg",
+    "kind": "symlink",
+    "target": "signal.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.telegram.desktop._3e485da34fc040f9218e3891ecde1e6c.svg",
+    "kind": "symlink",
+    "target": "telegram.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.telegram.desktop.svg",
+    "kind": "symlink",
+    "target": "telegram.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.telegram.svg",
+    "kind": "symlink",
+    "target": "telegram.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.videolan.VLC.svg",
+    "kind": "symlink",
+    "target": "vlc.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.yuzu_emu.yuzu.svg",
+    "kind": "symlink",
+    "target": "yuzu.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/parental-controls.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/parental-controls.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/passwords-and-keys.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/passwords-and-keys.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/plex.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/plex.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/pony-rs.svg",
+    "kind": "symlink",
+    "target": "greetjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/pony.svg",
+    "kind": "symlink",
+    "target": "greetjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ponysay.svg",
+    "kind": "symlink",
+    "target": "greetjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/power.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/power.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/problem-reporting.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/problem-reporting.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/prowlarr.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/prowlarr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/python.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/python.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/qgis-desktop.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/qgis-desktop.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/qgis.svg",
+    "kind": "symlink",
+    "target": "qgis-desktop.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rocks.koreader.KOReader.svg",
+    "kind": "symlink",
+    "target": "koreader.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-audio-player.svg",
+    "kind": "symlink",
+    "target": "audio-player.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bartjik.svg",
+    "kind": "symlink",
+    "target": "bartjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bitwarden.svg",
+    "kind": "symlink",
+    "target": "bitwarden.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bluetooth-adapters.svg",
+    "kind": "symlink",
+    "target": "bluetooth-adapters.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bluetooth-manager.svg",
+    "kind": "symlink",
+    "target": "bluetooth-manager.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bookmarks.svg",
+    "kind": "symlink",
+    "target": "bookmarks.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-brave.svg",
+    "kind": "symlink",
+    "target": "brave.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bun.svg",
+    "kind": "symlink",
+    "target": "bun.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-calendar.svg",
+    "kind": "symlink",
+    "target": "calendar.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-camera.svg",
+    "kind": "symlink",
+    "target": "camera.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-characters.svg",
+    "kind": "symlink",
+    "target": "characters.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chatgpt.svg",
+    "kind": "symlink",
+    "target": "chatgpt.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chezetc.svg",
+    "kind": "symlink",
+    "target": "chezetc.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chezmoi.svg",
+    "kind": "symlink",
+    "target": "chezmoi.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chrome.svg",
+    "kind": "symlink",
+    "target": "chrome.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-clocks.svg",
+    "kind": "symlink",
+    "target": "clocks.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-codex-lb.svg",
+    "kind": "symlink",
+    "target": "codex-lb.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-codex.svg",
+    "kind": "symlink",
+    "target": "codex.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-collie.svg",
+    "kind": "symlink",
+    "target": "collie.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-color-profile-viewer.svg",
+    "kind": "symlink",
+    "target": "color-profile-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-connections.svg",
+    "kind": "symlink",
+    "target": "connections.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-contacts.svg",
+    "kind": "symlink",
+    "target": "contacts.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-discord.svg",
+    "kind": "symlink",
+    "target": "discord.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-disk-usage-analyzer.svg",
+    "kind": "symlink",
+    "target": "disk-usage-analyzer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-disks.svg",
+    "kind": "symlink",
+    "target": "disks.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-docker.svg",
+    "kind": "symlink",
+    "target": "docker.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-document-scanner.svg",
+    "kind": "symlink",
+    "target": "document-scanner.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-document-viewer.svg",
+    "kind": "symlink",
+    "target": "document-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-drizzle.svg",
+    "kind": "symlink",
+    "target": "drizzle.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-eye-of-gnome.svg",
+    "kind": "symlink",
+    "target": "eye-of-gnome.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-fcitx-5-configuration.svg",
+    "kind": "symlink",
+    "target": "fcitx-5-configuration.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-fedora-media-writer.svg",
+    "kind": "symlink",
+    "target": "fedora-media-writer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-file-roller.svg",
+    "kind": "symlink",
+    "target": "file-roller.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-files.svg",
+    "kind": "symlink",
+    "target": "files.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-firefox.svg",
+    "kind": "symlink",
+    "target": "firefox.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-fish.svg",
+    "kind": "symlink",
+    "target": "fish.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-flatpak.svg",
+    "kind": "symlink",
+    "target": "flatpak.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-flatseal.svg",
+    "kind": "symlink",
+    "target": "flatseal.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-fnm.svg",
+    "kind": "symlink",
+    "target": "fnm.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-fonts.svg",
+    "kind": "symlink",
+    "target": "fonts.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gimp.svg",
+    "kind": "symlink",
+    "target": "gimp.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gitfetch.svg",
+    "kind": "symlink",
+    "target": "gitfetch.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gmail.svg",
+    "kind": "symlink",
+    "target": "gmail.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gnome.svg",
+    "kind": "symlink",
+    "target": "gnome.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-google-calendar.svg",
+    "kind": "symlink",
+    "target": "google-calendar.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-google-photos.svg",
+    "kind": "symlink",
+    "target": "google-photos.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gpu-screen-recorder.svg",
+    "kind": "symlink",
+    "target": "gpu-screen-recorder.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-greetjik.svg",
+    "kind": "symlink",
+    "target": "greetjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gum.svg",
+    "kind": "symlink",
+    "target": "gum.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-help.svg",
+    "kind": "symlink",
+    "target": "help.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-herdr.svg",
+    "kind": "symlink",
+    "target": "herdr.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-htop.svg",
+    "kind": "symlink",
+    "target": "htop.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-hyprvoice.svg",
+    "kind": "symlink",
+    "target": "hyprvoice.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-image-viewer.svg",
+    "kind": "symlink",
+    "target": "image-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-keyboard-layout-viewer.svg",
+    "kind": "symlink",
+    "target": "keyboard-layout-viewer.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-kitty.svg",
+    "kind": "symlink",
+    "target": "kitty.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-koreader.svg",
+    "kind": "symlink",
+    "target": "koreader.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-llmtrim.svg",
+    "kind": "symlink",
+    "target": "llmtrim.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-logs.svg",
+    "kind": "symlink",
+    "target": "logs.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-lutris.svg",
+    "kind": "symlink",
+    "target": "lutris.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-mailtjik.svg",
+    "kind": "symlink",
+    "target": "mailtjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-maps.svg",
+    "kind": "symlink",
+    "target": "maps.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-mpv-media-player.svg",
+    "kind": "symlink",
+    "target": "mpv-media-player.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-mullvad.svg",
+    "kind": "symlink",
+    "target": "mullvad.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-neovim.svg",
+    "kind": "symlink",
+    "target": "neovim.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-nginx.svg",
+    "kind": "symlink",
+    "target": "nginx.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-notjik.svg",
+    "kind": "symlink",
+    "target": "notjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-obs-studio.svg",
+    "kind": "symlink",
+    "target": "obs-studio.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-obsidian.svg",
+    "kind": "symlink",
+    "target": "obsidian.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-oo7.svg",
+    "kind": "symlink",
+    "target": "oo7.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-parental-controls.svg",
+    "kind": "symlink",
+    "target": "parental-controls.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-passwords-and-keys.svg",
+    "kind": "symlink",
+    "target": "passwords-and-keys.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-plex.svg",
+    "kind": "symlink",
+    "target": "plex.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-pony.svg",
+    "kind": "symlink",
+    "target": "greetjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-power.svg",
+    "kind": "symlink",
+    "target": "power.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-problem-reporting.svg",
+    "kind": "symlink",
+    "target": "problem-reporting.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-prowlarr.svg",
+    "kind": "symlink",
+    "target": "prowlarr.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-python.svg",
+    "kind": "symlink",
+    "target": "python.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-qgis-desktop.svg",
+    "kind": "symlink",
+    "target": "qgis-desktop.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-config.svg",
+    "kind": "symlink",
+    "target": "runtjik-config.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-grid.svg",
+    "kind": "symlink",
+    "target": "runtjik-grid.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-list.svg",
+    "kind": "symlink",
+    "target": "runtjik-list.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-pin.svg",
+    "kind": "symlink",
+    "target": "runtjik-pin.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-refresh.svg",
+    "kind": "symlink",
+    "target": "runtjik-refresh.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-shortcuts.svg",
+    "kind": "symlink",
+    "target": "runtjik-shortcuts.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-stats.svg",
+    "kind": "symlink",
+    "target": "runtjik-stats.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik.svg",
+    "kind": "symlink",
+    "target": "runtjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-rust.svg",
+    "kind": "symlink",
+    "target": "rust.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-scrcpy.svg",
+    "kind": "symlink",
+    "target": "scrcpy.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-settings.svg",
+    "kind": "symlink",
+    "target": "settings.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-signal.svg",
+    "kind": "symlink",
+    "target": "signal.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-simplescreenrecorder.svg",
+    "kind": "symlink",
+    "target": "simplescreenrecorder.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-snapraid.svg",
+    "kind": "symlink",
+    "target": "snapraid.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-software.svg",
+    "kind": "symlink",
+    "target": "software.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-solaar.svg",
+    "kind": "symlink",
+    "target": "solaar.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-spotify.svg",
+    "kind": "symlink",
+    "target": "spotify.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-steam.svg",
+    "kind": "symlink",
+    "target": "steam.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-strata.svg",
+    "kind": "symlink",
+    "target": "strata.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-sublime-text.svg",
+    "kind": "symlink",
+    "target": "sublime-text.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-system-monitor.svg",
+    "kind": "symlink",
+    "target": "system-monitor.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tailscale.svg",
+    "kind": "symlink",
+    "target": "tailscale.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-telegram.svg",
+    "kind": "symlink",
+    "target": "telegram.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-terminal.svg",
+    "kind": "symlink",
+    "target": "terminal.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-text-editor.svg",
+    "kind": "symlink",
+    "target": "text-editor.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-thumbnails.svg",
+    "kind": "symlink",
+    "target": "thumbnails.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tippecanoe.svg",
+    "kind": "symlink",
+    "target": "tippecanoe.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tjikup.svg",
+    "kind": "symlink",
+    "target": "tjikup.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tour.svg",
+    "kind": "symlink",
+    "target": "tour.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-transmission.svg",
+    "kind": "symlink",
+    "target": "transmission.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tweaks.svg",
+    "kind": "symlink",
+    "target": "tweaks.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-uuctl.svg",
+    "kind": "symlink",
+    "target": "uuctl.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-uv.svg",
+    "kind": "symlink",
+    "target": "uv.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-video-player.svg",
+    "kind": "symlink",
+    "target": "video-player.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-vite.svg",
+    "kind": "symlink",
+    "target": "vite.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-vlc.svg",
+    "kind": "symlink",
+    "target": "vlc.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-volume-control.svg",
+    "kind": "symlink",
+    "target": "volume-control.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-weather.svg",
+    "kind": "symlink",
+    "target": "weather.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-yuzu.svg",
+    "kind": "symlink",
+    "target": "yuzu.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zapzap.svg",
+    "kind": "symlink",
+    "target": "zapzap.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zed-nightly.svg",
+    "kind": "symlink",
+    "target": "zed-nightly.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zed-preview.svg",
+    "kind": "symlink",
+    "target": "zed-preview.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zed.svg",
+    "kind": "symlink",
+    "target": "zed.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zen.svg",
+    "kind": "symlink",
+    "target": "zen.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zoom.svg",
+    "kind": "symlink",
+    "target": "zoom.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-config.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-config.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-grid.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-grid.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-list.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-list.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-pin.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-pin.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-refresh.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-refresh.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-shortcuts.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-shortcuts.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-stats.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-stats.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rust.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/rust.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/scrcpy-console.svg",
+    "kind": "symlink",
+    "target": "scrcpy.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/scrcpy.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/scrcpy.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/settings.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/settings.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/signal.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/signal.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/simplescreenrecorder.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/simplescreenrecorder.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/snapraid.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/snapraid.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/software.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/software.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/solaar.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/solaar.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/spotify.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/spotify.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/steam.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/steam.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/strata.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/strata.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/sublime-text.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/sublime-text.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/sublime_text.svg",
+    "kind": "symlink",
+    "target": "sublime-text.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/system-monitor.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/system-monitor.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tailscale.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/tailscale.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/telegram.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/telegram.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/terminal.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/terminal.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/text-editor.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/text-editor.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/thumbnails.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/thumbnails.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tippecanoe.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/tippecanoe.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tjikup-notification.svg",
+    "kind": "symlink",
+    "target": "tjikup.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tjikup.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/tjikup.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tour.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/tour.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/transmission-gtk.svg",
+    "kind": "symlink",
+    "target": "transmission.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/transmission.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/transmission.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tv.plex.PlexDesktop.svg",
+    "kind": "symlink",
+    "target": "plex.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tweaks.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/tweaks.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/us.zoom.Zoom.svg",
+    "kind": "symlink",
+    "target": "zoom.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/uuctl.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/uuctl.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/uv.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/uv.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/video-player.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/video-player.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/vite.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/vite.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/vlc.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/vlc.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/volume-control.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/volume-control.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/weather.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/weather.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/yuzu.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/yuzu.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zapzap.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/zapzap.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zed-nightly.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/zed-nightly.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zed-preview.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/zed-preview.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zed.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/zed.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zen-browser.svg",
+    "kind": "symlink",
+    "target": "zen.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zen.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/zen.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zoom.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/zoom.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/pytjik",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/pytjik/pyproject.toml",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/share/pytjik/pyproject.toml.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/quickshell",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/quickshell/styles",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/quickshell/styles/RosePunk",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/quickshell/styles/RosePunk/ToolTip.qml",
+    "kind": "file",
+    "source": "files/.local/share/quickshell/styles/RosePunk/ToolTip.qml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/quickshell/styles/RosePunk/qmldir",
+    "kind": "file",
+    "source": "files/.local/share/quickshell/styles/RosePunk/qmldir",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty/artifacts",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty/artifacts/current_scheme",
+    "kind": "file",
+    "source": "files/.local/share/tinted-theming/tinty/artifacts/current_scheme",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty/artifacts/tinted-shell-scripts-file.sh",
+    "kind": "file",
+    "source": "files/.local/share/tinted-theming/tinty/artifacts/tinted-shell-scripts-file.sh",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty/artifacts/tinted-terminal-themes-kitty-file.conf",
+    "kind": "file",
+    "source": "files/.local/share/tinted-theming/tinty/artifacts/tinted-terminal-themes-kitty-file.conf",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty/current_scheme",
+    "kind": "symlink",
+    "target": "{{ user.home }}/.local/share/tinted-theming/tinty/artifacts/current_scheme"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty/custom-schemes",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty/custom-schemes/base24",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty/custom-schemes/base24/rose-punk.yaml",
+    "kind": "file",
+    "source": "files/.local/share/tinted-theming/tinty/custom-schemes/base24/rose-punk.yaml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty/tinted-shell-scripts-file.sh",
+    "kind": "symlink",
+    "target": "{{ user.home }}/.local/share/tinted-theming/tinty/artifacts/tinted-shell-scripts-file.sh"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/tinted-theming/tinty/tinted-terminal-themes-kitty-file.conf",
+    "kind": "symlink",
+    "target": "{{ user.home }}/.local/share/tinted-theming/tinty/artifacts/tinted-terminal-themes-kitty-file.conf"
+  },
+  {
+    "path": "{{ user.home }}/.tmux.conf",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/.tmux.conf.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/dockers",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-audible-init",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-audible-init/install-deps.sh",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/beets-audible-init/install-deps.sh",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/README.md",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/beets-customizations/README.md",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/genres",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/genres/genres-tree.yaml",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/beets-customizations/genres/genres-tree.yaml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/genres/main.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/beets-customizations/genres/main.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/genres/tree2flat.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/beets-customizations/genres/tree2flat.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/plugins",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/plugins/__init__.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/beets-customizations/plugins/__init__.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/plugins/copyartifacts.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/beets-customizations/plugins/copyartifacts.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/plugins/extrafiles.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/beets-customizations/plugins/extrafiles.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/plugins/stylize",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/plugins/stylize/__init__.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/beets-customizations/plugins/stylize/__init__.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/beets-customizations/plugins/stylize/plugin.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/beets-customizations/plugins/stylize/plugin.py",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/docker-compose.yaml",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/docker-compose.yaml.j2",
+    "mode": "0600",
+    "template": true,
+    "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/bookmarks.yaml",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/bookmarks.yaml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/custom.css",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/custom.css",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/docker.yaml",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/docker.yaml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/audiobookshelf.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/audiobookshelf.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/auto-m4b.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/auto-m4b.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/beets-audible.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/beets-audible.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/beets.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/beets.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/bookshelf.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/bookshelf.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/byparr.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/byparr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/ephemera.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/ephemera.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/feishin.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/feishin.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/flaresolverr.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/flaresolverr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/grimmory.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/grimmory.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/homepage.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/homepage.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/lazylibrarian.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/lazylibrarian.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/lidarr.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/lidarr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/mariadb.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/mariadb.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/navidrome.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/navidrome.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/octo-fiestarr.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/octo-fiestarr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/plex-rewind.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/plex-rewind.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/plex.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/plex.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/profilarr-parser.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/profilarr-parser.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/profilarr.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/profilarr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/prowlarr.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/prowlarr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/radarr.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/radarr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/scrutiny.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/scrutiny.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/seerr.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/seerr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/shelfmark.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/shelfmark.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/sonarr.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/sonarr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/tautulli.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/tautulli.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/telegram.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/telegram.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/transmission.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/transmission.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/rose-punk/unpackerr.svg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/rose-punk/unpackerr.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/images/starfix.jpg",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/images/starfix.jpg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/services.yaml",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/services.yaml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/settings.yaml",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/settings.yaml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/homepage/widgets.yaml",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/homepage/widgets.yaml",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/lidarr-ffmpeg",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/lidarr-ffmpeg/Dockerfile",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/lidarr-ffmpeg/Dockerfile",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-database",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-database/README.md",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/profilarr-database/README.md",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-database/UPSTREAM-LICENSE",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/profilarr-database/UPSTREAM-LICENSE",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-database/legacy-migration.json",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/profilarr-database/legacy-migration.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-database/ops",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-database/ops/1.dictionarry-acquisitions.sql",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/profilarr-database/ops/1.dictionarry-acquisitions.sql",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-database/pcd.json",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/profilarr-database/pcd.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-database/policy.json",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/profilarr-database/policy.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-tools",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-tools/build-dictionarry.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/profilarr-tools/build-dictionarry.py",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-tools/check-policy.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/profilarr-tools/check-policy.py",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-tools/migrate-legacy-profiles.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/profilarr-tools/migrate-legacy-profiles.py",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/profilarr-tools/publish-database.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/profilarr-tools/publish-database.py",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/prowlarr-notify",
+    "when": "hostname in [\"si\"]",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/dockers/prowlarr-notify/README.md",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/prowlarr-notify/README.md",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/prowlarr-notify/format.jq",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/prowlarr-notify/format.jq",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/dockers/prowlarr-notify/telegram.sh",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/prowlarr-notify/telegram.sh",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/documents",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/documents/archives",
+    "kind": "symlink",
+    "target": "{{ user.home }}/.mnt/google/private/archives/documents"
+  },
+  {
+    "path": "{{ user.home }}/downloads",
+    "when": "hostname in [\"si\"]",
+    "kind": "symlink",
+    "target": "/mnt/storage/meta/downloads/"
+  },
+  {
+    "path": "{{ user.home }}/media",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/media/archives",
+    "kind": "symlink",
+    "target": "{{ user.home }}/.mnt/google/private/archives/media"
+  },
+  {
+    "path": "{{ user.home }}/projects",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/projects/archives",
+    "kind": "symlink",
+    "target": "{{ user.home }}/.mnt/google/private/archives/projects"
+  },
+  {
+    "path": "{{ user.home }}/resources",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/resources/archives",
+    "kind": "symlink",
+    "target": "{{ user.home }}/.mnt/google/private/archives/resources"
+  },
+  {
+    "path": "{{ user.home }}/storage",
+    "when": "hostname in [\"si\"]",
+    "kind": "symlink",
+    "target": "/mnt/storage/"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.config/fish/conf.d/fnm.fish"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.config/fnm/fnm"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.config/systemd/user/default.target.wants/hyprfloat.service",
+    "when": "hostname in [\"fi\", \"li\"]"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.config/systemd/user/default.target.wants/rclone-crypt.service",
+    "when": "hostname in [\"fi\", \"li\"]"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.config/systemd/user/graphical-session.target.wants/hyprfloat.service",
+    "when": "hostname in [\"fi\", \"li\"]"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.config/systemd/user/hyprfloat.service",
+    "when": "hostname in [\"fi\", \"li\"]"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.config/systemd/user/rclone-crypt.service",
+    "when": "hostname in [\"fi\", \"li\"]"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.fnm/fnm"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.local/share/applications/com.brave.Browser.desktop",
+    "when": "hostname in [\"fi\", \"li\"]"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.local/share/applications/com.google.Chrome.canary.desktop",
+    "when": "hostname in [\"fi\", \"li\"]"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.local/share/applications/dev.zed.desktop",
+    "when": "hostname in [\"fi\", \"li\"]"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.local/share/applications/org.telegram.desktop",
+    "when": "hostname in [\"fi\", \"li\"]"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.local/share/applications/zed.desktop",
+    "when": "hostname in [\"fi\", \"li\"]"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/.local/share/fnm/fnm"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/pyproject.toml"
+  },
+  {
+    "kind": "absent",
+    "path": "{{ user.home }}/uv.lock"
+  }
+]

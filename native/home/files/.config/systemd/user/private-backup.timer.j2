@@ -1,0 +1,14 @@
+[Unit]
+Description=Daily private-file backup
+
+[Timer]
+{% if is_desktop -%}
+OnCalendar=*-*-* 00:00:00
+{% else -%}
+OnCalendar=*-*-* 01:00:00
+{% endif -%}
+Persistent=true
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target

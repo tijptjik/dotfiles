@@ -1,7 +1,1 @@
-# Application archives are owned by device-archives, never by chezmoi apply.
-# See ~/.config/archive-policy.json and docs/device-archives.md.
-{{ if .isClient }}
-.obsidian:
-  type: git-repo
-  url: "git@github.com:tijptjik/obsidian.git"
-{{ end -}}
+# Home Git checkouts are owned by native/home/repositories.json and Tjikup recipes.

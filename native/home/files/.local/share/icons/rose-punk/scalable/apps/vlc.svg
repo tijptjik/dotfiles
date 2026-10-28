@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g id="frameless-artwork" transform="translate(-8.727273 -10.000000) scale(1.272727)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="cone" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#ffc876" /><stop offset="1" stop-color="#ef9b59" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><path d="m17 46-7 7q22 4 44 0l-7-7Z" fill="#e9a15e" />
+<path d="M29 12q3-2 6 0l12 36q-15 5-30 0Z" fill="url(#cone)" />
+<path d="m26 21-3 9q9 3 18 0l-3-9q-6 2-12 0ZM20 39l-3 9q15 5 30 0l-3-9q-12 4-24 0Z" fill="#fff3df" /></g></g></svg>

@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "id": "home-files-li",
+  "host": "li",
+  "context": {
+    "user": {
+      "name": "io",
+      "home": "/home/io"
+    },
+    "hostname": "li",
+    "is_client": true,
+    "is_desktop": false,
+    "is_laptop": true,
+    "is_server": false,
+    "anthropic_model_provider": "zai",
+    "repo_dir": "/home/io/.local/share/dotjik",
+    "live": {
+      "gtk3_icon_theme": "",
+      "gtk4_icon_theme": ""
+    }
+  },
+  "context_files": [
+    "data/shared.json",
+    "data/gtk-bookmarks.json",
+    "data/zapzap.json"
+  ],
+  "entries_files": [
+    "files.json"
+  ],
+  "partials": {
+    "archive_policy": "files/.config/archive-policy.json"
+  },
+  "bitwarden": {
+    "command": [
+      "/usr/local/bin/bws"
+    ],
+    "access_token_file": "{{ user.home }}/.config/bws/environment"
+  }
+}

@@ -3,12 +3,15 @@ import importlib.util
 import json
 from pathlib import Path
 import tempfile
+import sys
 import unittest
 from unittest.mock import patch
 import xml.etree.ElementTree as ET
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts/icons'))
+import icon_data
 spec = importlib.util.spec_from_file_location('framed_icons', ROOT / 'scripts/icons/framed.py')
 framed = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(framed)
@@ -22,7 +25,7 @@ class FramedIconTests(unittest.TestCase):
         self.primary = self.root / 'primary'
         self.primary.mkdir()
         self.catalog = {'sample': {}}
-        self.source = (ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps/firefox.svg').read_bytes()
+        self.source = (ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps/firefox.svg').read_bytes()
         (self.primary / 'sample.svg').write_bytes(self.source)
         (self.primary / 'symlink_org.example.App.svg').write_text('sample.svg\n')
         self.approval = self.root / 'approved.json'
@@ -62,6 +65,28 @@ class FramedIconTests(unittest.TestCase):
         self.layout.write_text(json.dumps({'schema': 1, 'icons': {'sample': self.entry, 'second': self.entry}}))
         with self.assertRaisesRegex(ValueError, 'changed since sign-off'):
             self.build()
+
+    def test_native_framed_build_requires_policy_and_records_aliases(self):
+        self.approve()
+        sources = self.root / 'native/home/files'
+        self.dest = sources / '.local/share/icons/rose-punk-framed'
+        with patch.object(framed, 'ROOT', self.root), patch.object(icon_data, 'ROOT', self.root):
+            sources.mkdir(parents=True)
+            manifest = sources.parent / 'files.json'
+            manifest.write_text('[]')
+            with self.assertRaisesRegex(ValueError, 'Register native icon directory'):
+                self.build()
+            self.assertFalse(self.assets.exists())
+            base = '{{ user.home }}/.local/share/icons/rose-punk-framed'
+            manifest.write_text(json.dumps([
+                {'path': base + '/scalable/apps', 'kind': 'directory', 'mode': '0755'},
+                {'path': base + '/index.theme', 'kind': 'file', 'mode': '0644',
+                 'source': 'files/.local/share/icons/rose-punk-framed/index.theme'}]))
+            self.build()
+            apps = self.dest / 'scalable/apps'
+            self.assertEqual({p.name for p in apps.iterdir()}, {'sample.svg'})
+            self.assertEqual(icon_data.native_aliases(apps), {'org.example.App.svg': 'sample.svg'})
+            self.assertTrue((self.dest / 'index.theme').is_file())
 
     def test_geometry_and_paints_are_preserved_under_one_transform(self):
         root = ET.fromstring(framed.frame(self.source))

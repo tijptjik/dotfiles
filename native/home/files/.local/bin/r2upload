@@ -1,0 +1,10 @@
+#!/usr/bin/env fish
+# The old shared-object uploader was unsafe across machines. Only configured,
+# per-device snapshots are supported now; retain harmless legacy flags.
+argparse encrypt skip-hints force verbose -- $argv; or exit 2
+if test (count $argv) -ne 1
+    echo 'Usage: r2upload DIRECTORY (configured archive-policy folder)' >&2
+    exit 2
+end
+set -l folder (string replace -r "^$HOME/" '' -- (realpath -- $argv[1]))
+exec "$HOME/.local/bin/device-archives" backup "$folder"

@@ -16,10 +16,12 @@ import tempfile
 import xml.etree.ElementTree as ET
 import zipfile
 
+from icon_data import native_aliases, write_file, write_tree
+
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
-PRIMARY = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
-DEST = ROOT / 'home/dot_local/share/icons/rose-punk-framed'
+PRIMARY = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
+DEST = ROOT / 'native/home/files/.local/share/icons/rose-punk-framed'
 APPROVAL = HERE / 'frameless-approved.json'
 LAYOUT = HERE / 'framed-layout.json'
 ASSETS = ROOT / '.local/icon-reviews/docs/assets/icon-framed'
@@ -184,11 +186,10 @@ def inventory(primary, catalog):
         check_fit(source, key, layout)
         frame(source, layout)
         icons[key] = digest(source)
-    for path in sorted(primary.glob('symlink_*.svg')):
-        target = path.read_text().strip()
+    for name, target in sorted(native_aliases(primary).items()):
         if target not in targets:
-            raise ValueError(f'Alias {path.name} has no catalog original: {target}')
-        aliases[path.name.removeprefix('symlink_')] = target
+            raise ValueError(f'Alias {name} has no catalog original: {target}')
+        aliases[name] = target
     return {'schema': 2, 'primary_theme': 'rose-punk',
             'icons': icons, 'aliases': aliases,
             'layout_sha256': digest(json.dumps(policy, sort_keys=True).encode()),
@@ -205,6 +206,17 @@ def require_approval(path, current):
 def build(primary, catalog, approval, dest, assets):
     current = inventory(primary, catalog)
     require_approval(approval, current)
+    sources = ROOT / 'native/home/files'
+    native = dest.is_relative_to(sources)
+    if native:
+        # Approval of artwork does not implicitly register new home-file policy.
+        native_aliases(dest / 'scalable/apps')
+        relative = dest.relative_to(sources).as_posix() + '/index.theme'
+        entries = json.loads((sources.parent / 'files.json').read_text())
+        indexes = [entry for entry in entries if entry['path'] == '{{ user.home }}/' + relative]
+        if len(indexes) != 1 or indexes[0].get('kind') != 'file' or \
+                indexes[0].get('source') != 'files/' + relative or indexes[0].get('template'):
+            raise ValueError('Register native framed index.theme before building')
     # Read every approved input and prepare every output before replacing anything.
     outputs = {}
     for key, expected in current['icons'].items():
@@ -243,9 +255,16 @@ def build(primary, catalog, approval, dest, assets):
                 info.compress_type = zipfile.ZIP_DEFLATED
                 info.external_attr = 0o644 << 16
                 archive.writestr(info, value)
-        if dest.exists():
-            shutil.rmtree(dest)
-        prepared.rename(dest)
+        if native:
+            native_outputs = {f'{key}.svg': value for key, value in outputs.items()}
+            native_outputs.update({f'symlink_{name}': (target + '\n').encode()
+                                   for name, target in current['aliases'].items()})
+            write_tree(dest / 'scalable/apps', native_outputs)
+            write_file(dest / 'index.theme', INDEX.encode())
+        else:
+            if dest.exists():
+                shutil.rmtree(dest)
+            prepared.rename(dest)
     (assets / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     return manifest
 

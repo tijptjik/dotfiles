@@ -1,0 +1,14 @@
+[Unit]
+Description=Hourly Google Drive synchronization
+
+[Timer]
+{% if is_desktop -%}
+OnCalendar=*-*-* *:05:00
+{% else -%}
+OnCalendar=*-*-* *:35:00
+{% endif -%}
+Persistent=true
+RandomizedDelaySec=60
+
+[Install]
+WantedBy=timers.target

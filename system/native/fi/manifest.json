@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "id": "system-fi",
+  "host": "fi",
+  "context": {
+    "is_desktop": true,
+    "is_laptop": false,
+    "is_client": true,
+    "is_server": false,
+    "os": "linux",
+    "distribution": "fedora",
+    "release": 45
+  },
+  "entries": [
+    {
+      "kind": "file",
+      "path": "/etc/dnf/dnf.conf",
+      "source": "files/dnf/dnf.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/dnf/repos.override.d/60-chezetc-docker.repo",
+      "source": "files/dnf/repos.override.d/60-chezetc-docker.repo.j2",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/fail2ban/jail.local",
+      "source": "files/fail2ban/jail.local",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/fstab",
+      "source": "files/fstab.j2",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/gdm/custom.conf",
+      "source": "files/gdm/custom.conf.j2",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/pam.d/hyprlock",
+      "source": "files/pam.d/hyprlock",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_config",
+      "source": "files/ssh/ssh_config.j2",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_config.d/10-connection-reuse.conf",
+      "source": "files/ssh/ssh_config.d/10-connection-reuse.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_config.d/30-libvirt-ssh-proxy.conf",
+      "source": "files/ssh/ssh_config.d/30-libvirt-ssh-proxy.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_config.d/50-redhat.conf",
+      "source": "files/ssh/ssh_config.d/50-redhat.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/sysctl.conf",
+      "source": "files/sysctl.conf.j2",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/tailscaled.service.d/override.conf",
+      "source": "files/systemd/system/tailscaled.service.d/override.conf.j2",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/xdg/monitors.xml",
+      "source": "files/xdg/monitors.xml.j2",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/yum.repos.d/firefoxpwa.repo",
+      "source": "files/yum.repos.d/firefoxpwa.repo",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "symlink",
+      "path": "/etc/ssh/ssh_config.d/20-systemd-ssh-proxy.conf",
+      "target": "../../../usr/lib/systemd/ssh_config.d/20-systemd-ssh-proxy.conf",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "symlink",
+      "path": "/etc/usr/local/bin/bun",
+      "target": "/home/root/.bun/bin/bun",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "absent",
+      "path": "/etc/snapraid.conf"
+    },
+    {
+      "kind": "absent",
+      "path": "/etc/yum.repos.d/plex.repo"
+    }
+  ]
+}

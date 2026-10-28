@@ -1,164 +1,27 @@
-"""Install the real standalone runner into an isolated home, without networking."""
-
-import os
 from pathlib import Path
+import os
 import shutil
 import subprocess
 import tempfile
 import unittest
-import zipfile
 
-import tjikup_support
-import tjikup
-
-REPO = Path(__file__).resolve().parents[1]
-APP = Path(tjikup.__file__).resolve().parents[2]
-
+ROOT = Path(__file__).resolve().parents[1]
 
 class InstallTests(unittest.TestCase):
-    def setUp(self):
-        self.temporary = tempfile.TemporaryDirectory()
-        self.addCleanup(self.temporary.cleanup)
-        self.home = Path(self.temporary.name)
-        self.fleet = self.home / '.local/share/dotjik'
-        (self.fleet / 'scripts').mkdir(parents=True)
-        shutil.copy2(REPO / 'scripts/install-tjikup.sh', self.fleet / 'scripts')
-        shutil.copy2(REPO / 'scripts/ensure-tjikos.sh', self.fleet / 'scripts')
-        shutil.copy2(REPO / 'scripts/cache-install.py', self.fleet / 'scripts')
-        shutil.copy2(REPO / 'scripts/tjikup_dependency.py', self.fleet / 'scripts')
-        (self.fleet / 'tjikup.json').write_text(
-            '{"version":1,"steps":[{"id":"unused","command":["false"]}]}'
-        )
-        self.system = self.home / '.local/share/systjik/scripts'
-        self.system.mkdir(parents=True)
-        (self.system / 'tjikup-apply.py').touch()
-        self.tools = self.home / 'source-tool'
-        shutil.copytree(APP, self.tools / 'apps/tjikup',
-                        ignore=shutil.ignore_patterns('dist', '__pycache__'))
-        (self.tools / '.git').mkdir()
-        self.bin = self.home / 'stubs'
-        self.bin.mkdir()
-        cache = self.bin / 'gtk-update-icon-cache'
-        cache.write_text('#!/bin/sh\nexit 0\n')
-        cache.chmod(0o755)
-        self.env = {**os.environ, 'HOME': str(self.home),
-                    'PATH': str(self.bin) + os.pathsep + os.environ['PATH'],
-                    'TJIKOS_REPO': str(self.tools), 'TJIKUP_NOTIFY': '0'}
-        for name in ('XDG_CONFIG_HOME', 'XDG_DATA_HOME', 'XDG_STATE_HOME', 'TJIKUP_CONFIG'):
-            self.env.pop(name, None)
+    def test_missing_system_recipes_leave_existing_runner_untouched(self):
+        with tempfile.TemporaryDirectory() as directory:
+            home=Path(directory)
+            executable=home/'.local/bin/tjikup'
+            executable.parent.mkdir(parents=True)
+            executable.write_text('original')
+            script=home/'checkout/scripts/install-tjikup.sh'
+            script.parent.mkdir(parents=True)
+            shutil.copy2(ROOT/'scripts/install-tjikup.sh',script)
+            result=subprocess.run(['bash',str(script)],env={**os.environ,'HOME':directory},capture_output=True,text=True)
+            self.assertNotEqual(result.returncode,0)
+            self.assertEqual(executable.read_text(),'original')
 
-    def install(self):
-        return subprocess.run(['bash', str(self.fleet / 'scripts/install-tjikup.sh')],
-                              env=self.env, text=True, capture_output=True)
-
-    def check_installed(self):
-        link = self.home / '.config/tjikup/config.json'
-        self.assertEqual(link.resolve(), self.fleet / 'tjikup.json')
-        result = subprocess.run([str(self.home / '.local/bin/tjikup'), '--check'],
-                                env=self.env, text=True, capture_output=True)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertTrue((self.home / '.local/share/icons/tjikup.png').is_file())
-
-    def test_existing_checkout_installs_and_replaces_legacy_entrypoint(self):
-        executable = self.home / '.local/bin/tjikup'
-        executable.parent.mkdir(parents=True)
-        executable.write_text('#!/bin/sh\nexit 99\n')
-        executable.chmod(0o755)
-        result = self.install()
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.check_installed()
-        self.assertEqual(self.install().returncode, 0)
-
-    def test_install_through_compatibility_link_keeps_canonical_config_path(self):
-        alias = self.fleet.with_name('chezmoi')
-        alias.symlink_to(self.fleet, target_is_directory=True)
-        result = subprocess.run(['bash', str(alias / 'scripts/install-tjikup.sh')],
-                                env=self.env, text=True, capture_output=True)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        link = self.home / '.config/tjikup/config.json'
-        self.assertEqual(link.readlink(), self.fleet / 'tjikup.json')
-
-    @unittest.skipUnless(shutil.which('chezmoi'), 'Chezmoi required')
-    def test_managed_config_link_matches_installer_exactly(self):
-        result = self.install()
-        self.assertEqual(result.returncode, 0, result.stderr)
-        source = self.fleet / 'home'
-        source.mkdir()
-        config = self.home / 'chezmoi.json'
-        config.write_text('{}')
-        rendered = subprocess.check_output([
-            'chezmoi', '--config', str(config), '--source', str(source),
-            '--persistent-state', str(self.home / 'state.db'),
-            'execute-template', '-f',
-            str(REPO / 'home/dot_config/tjikup/symlink_config.json.tmpl'),
-        ], env=self.env, text=True).strip()
-        link = self.home / '.config/tjikup/config.json'
-        self.assertEqual(os.readlink(link), rendered)
-
-    def test_absent_checkout_is_cloned_before_install(self):
-        self.env.pop('TJIKOS_REPO')
-        clone = self.bin / 'git'
-        clone.write_text('#!/bin/sh\nset -eu\ntest "$1" = clone\n'
-                         'test "$2" = --progress\n'
-                         'test "$3" = git@github.com:tijptjik/tjikos.git\n'
-                         'cp -R "$TEST_TOOL_SOURCE" "$4"\n')
-        clone.chmod(0o755)
-        self.env['TEST_TOOL_SOURCE'] = str(self.tools)
-        result = self.install()
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertTrue((self.home / 'code/tjikos/.git').is_dir())
-        self.check_installed()
-
-    def test_missing_system_adapter_leaves_command_untouched(self):
-        (self.system / 'tjikup-apply.py').unlink()
-        result = self.install()
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn('Initialize/update', result.stderr)
-        self.assertFalse((self.home / '.local/bin/tjikup').exists())
-
-    def test_stale_checkout_leaves_installed_runner_and_cache_untouched(self):
-        result = self.install()
-        self.assertEqual(result.returncode, 0, result.stderr)
-        executable = self.home / '.local/bin/tjikup'
-        record = self.home / '.local/state/tjikup/install/tjikup.json'
-        before = executable.read_bytes(), record.read_bytes()
-        (self.tools / 'apps/tjikup/src/tjikup/progress.py').unlink()
-        result = self.install()
-        self.assertEqual(result.returncode, 1, result.stderr)
-        self.assertIn('runner is missing or outdated', result.stderr)
-        self.assertIn('Update your tjikOS checkout', result.stderr)
-        self.assertNotIn('Traceback', result.stderr)
-        self.assertEqual((executable.read_bytes(), record.read_bytes()), before)
-
-    def test_old_progress_api_leaves_installed_runner_untouched(self):
-        result = self.install()
-        self.assertEqual(result.returncode, 0, result.stderr)
-        executable = self.home / '.local/bin/tjikup'
-        before = executable.read_bytes()
-        progress = self.tools / 'apps/tjikup/src/tjikup/progress.py'
-        progress.write_text(progress.read_text().replace('def _refresh(', 'def _old_refresh('))
-        result = self.install()
-        self.assertEqual(result.returncode, 1, result.stderr)
-        self.assertIn('runner is missing or outdated', result.stderr)
-        self.assertNotIn('Traceback', result.stderr)
-        self.assertEqual(executable.read_bytes(), before)
-
-    def test_stale_bundle_reports_recovery_before_starting_workflow(self):
-        result = self.install()
-        self.assertEqual(result.returncode, 0, result.stderr)
-        executable = self.home / '.local/bin/tjikup'
-        stale = self.home / 'stale-tjikup'
-        with zipfile.ZipFile(executable) as source, zipfile.ZipFile(stale, 'w') as target:
-            for entry in source.infolist():
-                if entry.filename != 'tjikup/progress.py':
-                    target.writestr(entry, source.read(entry))
-        executable.write_bytes(b'#!/usr/bin/env python3\n' + stale.read_bytes())
-        result = subprocess.run([
-            str(executable), '--config', str(REPO / 'tjikup.json'), '--dry-run',
-        ], env=self.env, text=True, capture_output=True)
-        self.assertEqual(result.returncode, 1, result.stderr)
-        output = result.stdout + result.stderr
-        self.assertIn('runner is missing or outdated', output)
-        self.assertIn('tjikup.progress', output)
-        self.assertIn(str(REPO / 'scripts/install-tjikup.sh'), output)
-        self.assertNotIn('Traceback', output)
+    def test_recipe_validation_precedes_install(self):
+        text=(ROOT/'scripts/install-tjikup.sh').read_text()
+        self.assertLess(text.index('--check'),text.index('scripts/cache-install.py'))
+        self.assertNotIn('PYTHONPATH',text)

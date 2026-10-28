@@ -1,9 +1,0 @@
-#!/usr/bin/env fish
-if test "$FLEET_DEFER_HOOKS" = 1
-    exit 0
-end
-{{ if .isClient -}}
-source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
-stage_dynamic_note 'Install Notjik' INSTALL Notjik bash "{{ .chezmoi.sourceDir }}/../scripts/install-notjik.sh"
-or exit $status
-{{ end -}}

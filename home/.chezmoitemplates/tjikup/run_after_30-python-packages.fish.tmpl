@@ -1,0 +1,33 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+{{ if .isClient -}}
+function sync_python_environment
+    # This is an after script so chezmoi has already deployed the project files
+    # under ~/.local/share/pytjik before uv reads them.
+    #
+    # PaddlePaddle supports CPython through 3.13. Request it explicitly so an
+    # installed system Python 3.14 does not make the sync unsatisfiable.
+    set -l project "$HOME/.local/share/pytjik"
+    set -lx UV_PROJECT_ENVIRONMENT "$HOME/.venv"
+    set -l verb SKIP
+    if not uv sync --check --project "$project" --python 3.13 --no-python-downloads >/dev/null 2>&1
+        uv sync --project "$project" --python 3.13; or return $status
+        set verb SYNC
+    end
+
+    set -l packages (uv pip list --quiet --python "$UV_PROJECT_ENVIRONMENT/bin/python" --format=json)
+    or return $status
+    set -l package_count (printf '%s\n' $packages | string match -ra '"name":' | count)
+    printf '__stage_verb__:%s\n' "$verb"
+    if test "$verb" = SKIP
+        printf '__stage_note__:%s pkgs; no changes\n' "$package_count"
+    else
+        printf '__stage_note__:%s pkgs\n' "$package_count"
+    end
+end
+
+stage_dynamic_note "Python environment" SYNC "Python" sync_python_environment
+{{ else -}}
+status_msg SKIP "-" "Python" "client only"
+{{ end -}}

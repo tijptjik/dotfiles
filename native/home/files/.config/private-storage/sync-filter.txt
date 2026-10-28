@@ -1,0 +1,10 @@
+# Reproducible work trees and live repository metadata stay local.
+- .git/**
+- node_modules/**
+- .venv/**
+- __pycache__/**
+- .cache/**
+- .Trash-*/**
+- .DS_Store
+- *.part
+- *.crdownload

@@ -10,7 +10,7 @@ REPO=Path(__file__).resolve().parents[1]
 
 class HyprvoiceStartupTests(unittest.TestCase):
     def test_missing_binary_headless_session_and_real_start_failure(self):
-        hook=(REPO/'home/.chezmoiscripts/run_after_99-systemd-reload.fish.tmpl').read_text()
+        hook=(REPO/'home/.chezmoitemplates/tjikup/run_after_99-systemd-reload.fish.tmpl').read_text()
         function=hook[hook.index('function configure_hyprvoice_unit'):hook.index('configure_hyprvoice_unit; or exit')]
         harness='''
 function systemctl

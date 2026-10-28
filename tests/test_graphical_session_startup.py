@@ -9,7 +9,7 @@ REPO=Path(__file__).resolve().parents[1]
 
 class GraphicalStartupTests(unittest.TestCase):
     def test_only_running_wayland_session_starts_helpers(self):
-        text=(REPO/'home/.chezmoiscripts/run_after_99-systemd-reload.fish.tmpl').read_text()
+        text=(REPO/'home/.chezmoitemplates/tjikup/run_after_99-systemd-reload.fish.tmpl').read_text()
         function=text[text.index('function configure_client_user_units'):text.index('if user_units_need_reload; or units_need_enable_now $client_services')]
         harness='''
 function systemctl

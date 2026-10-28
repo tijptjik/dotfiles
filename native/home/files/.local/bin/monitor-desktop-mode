@@ -1,0 +1,19 @@
+#!/usr/bin/env fish
+
+# Restore the configured desktop monitor layout. In particular, this disables
+# HDMI-A-1 and restores DP-1 and DP-2 from ~/.config/hypr/monitors.lua.
+set -l state_home "$HOME/.local/state"
+
+if set -q XDG_STATE_HOME; and test -n "$XDG_STATE_HOME"
+    set state_home "$XDG_STATE_HOME"
+end
+
+set -l state_file "$state_home/hypr/display-mode"
+command rm -f "$state_file"
+
+if not command hyprctl reload
+    notify-send 'Display mode' 'Could not restore the desktop monitor layout.'
+    exit 1
+end
+
+notify-send 'Display mode' 'Desktop mode: TV disabled.'

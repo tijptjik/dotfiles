@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "id": "home-files-si",
+  "host": "si",
+  "context": {
+    "user": {
+      "name": "m",
+      "home": "/home/m"
+    },
+    "hostname": "si",
+    "is_client": false,
+    "is_desktop": false,
+    "is_laptop": false,
+    "is_server": true,
+    "anthropic_model_provider": "zai",
+    "repo_dir": "/home/m/.local/share/dotjik",
+    "live": {
+      "gtk3_icon_theme": "",
+      "gtk4_icon_theme": ""
+    }
+  },
+  "context_files": [
+    "data/shared.json",
+    "data/gtk-bookmarks.json",
+    "data/zapzap.json"
+  ],
+  "entries_files": [
+    "files.json"
+  ],
+  "partials": {
+    "archive_policy": "files/.config/archive-policy.json"
+  },
+  "bitwarden": {
+    "command": [
+      "/usr/local/bin/bws"
+    ],
+    "access_token_file": "{{ user.home }}/.config/bws/environment"
+  }
+}

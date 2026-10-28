@@ -1,0 +1,5 @@
+#!/usr/bin/env fish
+
+# Compatibility entry point for existing lock bindings. Tailnet availability
+# is independent of desktop locking; tailscaled restores its enrolled state.
+exec hyprlock $argv

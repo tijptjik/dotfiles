@@ -6,7 +6,7 @@
 
 ## Project Structure & Module Organization
 
-This repository manages Tijpfiles with Chezmoi. `.chezmoiroot` selects `home/` as the source root. Application configuration lives in `home/dot_config/`; command entry points and Python libraries live in `home/dot_local/bin/` and `home/dot_local/lib/`. Chezmoi hooks, shared data, and helpers live in `home/.chezmoiscripts/`, `home/.chezmoidata/`, and `home/.chezmoihelpers/`. Docker service definitions and assets live in `home/dockers/`. Use `docs/` for topic guides, `tests/` for regression tests, and `scripts/` for repository tooling.
+This repository owns home and system policy for Tjikup. Native manifests live in `native/` and `system/native/`; Chezmoi remains for unported templates. System recipes and sources live under `system/`. `.chezmoiroot` selects `home/` as the source root. Authoritative home configuration lives in `native/home/files/` with ordinary destination names and `.j2` templates. `native/home/files.json` declares ownership and host conditions; captured JSON data lives in `native/home/data/`. The old `home/` file sources are retained only for migration comparison. Chezmoi hooks, shared data, and helpers live in `home/.chezmoiscripts/`, `home/.chezmoidata/`, and `home/.chezmoihelpers/`. Docker service definitions and assets live in `home/dockers/`. Use `docs/` for topic guides, `tests/` for regression tests, and `scripts/` for repository tooling.
 
 ## Development & Validation Commands
 
@@ -15,8 +15,8 @@ There is no application build step. Run commands from the repository root:
 - `bash scripts/validate.sh`: check Python syntax, non-template Bash/Fish syntax, and run regression tests; requires Python 3 and Fish.
 - `python3 -B -m unittest discover -s tests -v`: run the full test suite.
 - `python3 -B -m unittest discover -s tests -p 'test_tjikup.py' -v`: run focused tests.
-- `chezmoi diff`: inspect pending changes to managed files.
-- `chezmoi apply`: apply configuration and execute applicable hooks on the local machine.
+- `dotjik plan`: inspect pending native file changes without displaying contents.
+- `dotjik apply`: apply declared home files only; tasks run through Tjikup.
 - `tjikup --dry-run`: preview supported live-configuration synchronization. Ordinary `tjikup` also commits, pulls, pushes, and applies changes.
 
 ## Coding Style & Naming Conventions

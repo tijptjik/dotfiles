@@ -21,7 +21,7 @@ _spec.loader.exec_module(_sizing)
 MEASURE_SIZE, normalize, render = _sizing.MEASURE_SIZE, _sizing.normalize, _sizing.render
 
 ROOT = Path(__file__).resolve().parents[2]
-THEME = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+THEME = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
 ASSETS = ROOT / '.local/icon-reviews/docs/assets/icon-frameless-review'
 SVG = 'http://www.w3.org/2000/svg'
 ET.register_namespace('', SVG)

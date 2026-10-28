@@ -76,13 +76,13 @@ class RuntjikInstallTests(unittest.TestCase):
         self.assertNotIn('--user start', calls)
 
     def test_hook_runs_on_all_hosts_and_is_in_graph(self):
-        plan = json.loads((ROOT / 'scripts/fleet_update/home-plan.json').read_text())
-        task = next(row for row in plan if row['id'] == 'runtjik')
-        self.assertIn('tjikup', task['needs'])
+        plan = json.loads((ROOT / 'tjikup/recipes.json').read_text())["recipes"]
+        task = next(row for row in plan if row['id'] == 'home:runtjik')
+        self.assertIn('home:tjikup', task['needs'])
         self.assertIn('tjikos', task['resources'])
-        hook = (ROOT / 'home/.chezmoiscripts' / task['file']).read_text()
+        hook = (ROOT / 'home/.chezmoitemplates/tjikup' / (task['apply'][-1].split('/')[-1].removeprefix('home-') + '.tmpl')).read_text()
         self.assertNotIn('.isClient', hook)
-        self.assertIn('FLEET_DEFER_HOOKS', hook)
+        self.assertNotIn('FLEET_DEFER_HOOKS', hook)
 
 
 if __name__ == '__main__':

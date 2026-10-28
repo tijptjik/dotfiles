@@ -7,8 +7,8 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).parents[1] / 'home/dot_local/lib'))
 import tjikup_support
-from fleet_update.propagators.zapzap import ZapZapPropagator
-from fleet_update.core import UpdateError
+from fleet_capture.propagators.zapzap import ZapZapPropagator
+from fleet_capture.core import UpdateError
 
 
 class ZapZapTests(unittest.TestCase):
@@ -20,7 +20,7 @@ class ZapZapTests(unittest.TestCase):
                 before = json.loads(source.read_text())['zapzapConfigs']
                 text = '[main]\ngeometry=@ByteArray(\\x1\\0' + host + ')\nwindowState=@Variant(\\0)\n'
                 live.write_text(text)
-                with patch('fleet_update.propagators.zapzap.socket.gethostname', return_value=host+'.local'):
+                with patch('fleet_capture.propagators.zapzap.socket.gethostname', return_value=host+'.local'):
                     ZapZapPropagator().propagate(source, live, output)
                 after = json.loads(output.read_text())['zapzapConfigs']
                 self.assertEqual(after[host], text)

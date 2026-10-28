@@ -10,7 +10,7 @@ import subprocess
 import zipfile
 import zlib
 
-from icon_data import HERE, PRIMARY, ROOT, differences, load_catalog, write_file, write_tree
+from icon_data import HERE, PRIMARY, ROOT, differences, generated_files, load_catalog, write_file, write_tree
 
 RELEASES = ROOT / '.local/icon-releases'
 
@@ -30,7 +30,7 @@ def generated_outputs():
         HERE / 'apps.json': (json.dumps({key: entry['desktop_ids'] for key, entry in load_catalog().items()},
                                       indent=2) + '\n').encode(),
         HERE / 'theme-aliases.json': (json.dumps(aliases, indent=2, sort_keys=True) + '\n').encode(),
-        ROOT / 'scripts/fleet_update/icons32.json': sprites,
+        ROOT / 'scripts/icons/icons32.json': sprites,
     }
 
 
@@ -44,7 +44,7 @@ def check_outputs(trees, files):
 
 
 def theme_files(icons, services=None):
-    """Materialize Chezmoi aliases as regular SVGs in the installable download."""
+    """Materialize renderer aliases as regular SVGs in the installable download."""
     files = {'index.theme': (PRIMARY / 'index.theme').read_bytes()}
     for name, data in icons.items():
         if name.startswith('symlink_'):
@@ -93,7 +93,7 @@ def package(trees, files, destination):
     payload = theme_files(trees[PRIMARY / 'scalable/apps'], trees.get(homepage.DEST))
     for name in ('catalog.json', 'provenance.json', 'command-icons.json', 'homepage.json', 'framed-layout.json'):
         payload['attribution/' + name] = (HERE / name).read_bytes()
-    payload['attribution/docker-services.json'] = (ROOT / 'scripts/fleet_update/docker-services.json').read_bytes()
+    payload['attribution/docker-services.json'] = (ROOT / 'scripts/icons/docker-services.json').read_bytes()
     for folder in ('upstream', 'references', 'homepage-upstream'):
         for path in (HERE / folder).rglob('*'):
             if path.is_file() and ('license' in path.name.lower() or path.name == 'NOTICE.md'):
@@ -104,11 +104,12 @@ def package(trees, files, destination):
         'in attribution/provenance.json; vendored license texts accompany it.\n').encode()
     download = theme_zip(payload)
     inputs = [p for p in HERE.rglob('*') if p.is_file() and '__pycache__' not in p.parts]
-    inputs += [ROOT / 'home/dot_config/vivid/themes/rose-punk.yml',
-               ROOT / 'scripts/fleet_update/icon_catalog.py',
-               ROOT / 'scripts/fleet_update/docker-services.json', PRIMARY / 'index.theme']
-    generated = {**files, **{folder / name: data for folder, outputs in trees.items()
-                             for name, data in outputs.items()}}
+    inputs += [ROOT / 'native/home/files/.config/vivid/themes/rose-punk.yml',
+               ROOT / 'scripts/icons/icon_catalog.py',
+               ROOT / 'scripts/icons/docker-services.json', PRIMARY / 'index.theme']
+    generated = dict(files)
+    for folder, outputs in trees.items():
+        generated.update(generated_files(folder, outputs))
     manifest = {'schema': 1, 'theme': 'rose-punk', 'environment': environment(),
                 'archive': {'file': 'rose-punk.zip', 'sha256': sha256(download)},
                 'inputs': {str(p.relative_to(ROOT)): sha256(p.read_bytes()) for p in sorted(inputs)},

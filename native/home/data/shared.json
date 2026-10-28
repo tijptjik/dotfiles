@@ -1,0 +1,39 @@
+{
+  "ports": {
+    "audiobookshelf": 13378,
+    "beets": 8337,
+    "bookshelf": 8787,
+    "byparr": 8191,
+    "calibre": 8083,
+    "devPort": 8080,
+    "ephemera": 8286,
+    "feishin": 9180,
+    "flaresolverr": 8192,
+    "grimmory": 6060,
+    "homepage": 3000,
+    "lazylibrarian": 5299,
+    "lidarr": 8686,
+    "mariadb": 3306,
+    "navidrome": 4533,
+    "octoFiestarr": 5274,
+    "plexRewind": 8383,
+    "profilarr": 6868,
+    "prowlarr": 9696,
+    "radarr": 7878,
+    "scrutiny": 8085,
+    "seerr": 5055,
+    "shelfmark": 8084,
+    "sonarr": 8989,
+    "tautulli": 8181,
+    "transmissionP2P": 51413,
+    "transmissionWeb": 9091
+  },
+  "paths": {
+    "appCache": "/mnt/storage/meta/appCache",
+    "appData": "/mnt/storage/meta/appData",
+    "dlCache": "/mnt/storage/meta/downloads/cache",
+    "downloads": "/mnt/storage/meta/downloads",
+    "drops": "/mnt/storage/meta/downloads/drops",
+    "publicRoot": "/mnt/storage/public"
+  }
+}

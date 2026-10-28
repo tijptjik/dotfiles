@@ -97,7 +97,7 @@ class NotjikInstallTests(unittest.TestCase):
                         '--persistent-state', str(self.root / 'state.db'),
                         'execute-template', '-f', str(ROOT / path),
                     ], text=True)
-                hook = render('home/.chezmoiscripts/run_after_37-install-notjik.fish.tmpl')
+                hook = render('home/.chezmoitemplates/tjikup/run_after_37-install-notjik.fish.tmpl')
                 subprocess.run(['fish', '--no-config', '-n'], input=hook, text=True, check=True)
                 self.assertEqual('install-notjik.sh' in hook, host != 'si')
                 ignored = render('home/.chezmoiignore').splitlines()

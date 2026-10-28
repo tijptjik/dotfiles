@@ -1,0 +1,1500 @@
+{
+  "version": 2,
+  "recipes": [
+    {
+      "id": "system:files",
+      "label": "System configuration",
+      "needs": [
+        "home:native-files"
+      ],
+      "timeout": 1800,
+      "display": {
+        "section": "Recipes",
+        "quiet": true,
+        "icon": "Chezetc"
+      },
+      "check": [
+        "python3",
+        "{config_dir}/../../scripts/native-files.py",
+        "system",
+        "check"
+      ],
+      "apply": [
+        "python3",
+        "{config_dir}/../../scripts/native-files.py",
+        "system",
+        "apply"
+      ],
+      "resources": [
+        "system-files"
+      ],
+      "optional": false
+    },
+    {
+      "id": "system:render",
+      "label": "Prepare system recipes",
+      "needs": [
+        "system:files"
+      ],
+      "render": {
+        "manager": "system",
+        "templates": [
+          {
+            "name": "system-run_10-install-copr-repos.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_10-install-copr-repos.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_20-install-repos.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_20-install-repos.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_21-install-chrome.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_21-install-chrome.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_30-system-update.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_30-system-update.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_35-si-nss-systemd.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_35-si-nss-systemd.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_36-si-power-policy.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_36-si-power-policy.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_37-si-media-permissions.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_37-si-media-permissions.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_38-si-snapraid-status.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_38-si-snapraid-status.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_38-si-transmission-cleanup.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_38-si-transmission-cleanup.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_39-si-notifications.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_39-si-notifications.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_40-enable-docker.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_40-enable-docker.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_50-install-telegram.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_50-install-telegram.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_51-install-zoom.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_51-install-zoom.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_52-install-codex-desktop.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_52-install-codex-desktop.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_53-install-strata.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_53-install-strata.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_54-install-hyprvoice.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_54-install-hyprvoice.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_55-install-tippecanoe.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_55-install-tippecanoe.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_56-install-launcher-tools.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_56-install-launcher-tools.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_57-install-terminal-tools.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_57-install-terminal-tools.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_58-hyprland-gdm-session.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_58-hyprland-gdm-session.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_60-install-zed.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_60-install-zed.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_90-build-nginx-dav-ext.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_90-build-nginx-dav-ext.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_after_95-si-app-updates.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_after_95-si-app-updates.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "system-run_70-enable-tailscaled.fish",
+            "source": "{config_dir}/../etc/.chezmoitemplates/tjikup/run_70-enable-tailscaled.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          }
+        ]
+      },
+      "timeout": 300,
+      "display": {
+        "section": "Recipes",
+        "quiet": true,
+        "icon": "Chezetc"
+      },
+      "optional": false
+    },
+    {
+      "id": "system:copr",
+      "label": "Fedora (COPR repositories)",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:copr.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_10-install-copr-repos.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Fedora"
+      },
+      "optional": true
+    },
+    {
+      "id": "system:repos",
+      "label": "Fedora (repositories)",
+      "needs": [
+        "system:render",
+        "system:copr"
+      ],
+      "resources": [
+        "dnf",
+        "flatpak"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:repos.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_20-install-repos.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Fedora"
+      },
+      "optional": true
+    },
+    {
+      "id": "system:chrome",
+      "label": "Google Chrome stable",
+      "needs": [
+        "system:render",
+        "system:repos"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:chrome.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_21-install-chrome.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Google Chrome stable"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:rpm",
+      "label": "Fedora (RPM packages)",
+      "needs": [
+        "system:render",
+        "system:repos"
+      ],
+      "resources": [
+        "dnf",
+        "system-systemd",
+        "network",
+        "tailscale",
+        "storage"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:rpm.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "FLEET_SYSTEM_PHASE=rpm",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_30-system-update.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_SYSTEM_PHASE": "rpm"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Fedora"
+      },
+      "optional": true,
+      "after": [
+        "system:chrome"
+      ]
+    },
+    {
+      "id": "system:flatpak",
+      "label": "Flatpak (system packages)",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "flatpak"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:flatpak.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "FLEET_SYSTEM_PHASE=flatpak",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_30-system-update.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_SYSTEM_PHASE": "flatpak"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Flatpak"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:nss",
+      "label": "NSS (system integration)",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "system-systemd"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:nss.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_35-si-nss-systemd.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "NSS"
+      },
+      "optional": true
+    },
+    {
+      "id": "system:power",
+      "label": "Power (server policy)",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "system-systemd"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:power.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_36-si-power-policy.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Power"
+      },
+      "optional": true,
+      "roles": [
+        "server"
+      ],
+      "hosts": [
+        "si"
+      ]
+    },
+    {
+      "id": "system:media-permissions",
+      "label": "Media (permissions)",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "system-systemd",
+        "storage"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:media-permissions.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_37-si-media-permissions.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Media"
+      },
+      "optional": true,
+      "roles": [
+        "server"
+      ],
+      "hosts": [
+        "si"
+      ]
+    },
+    {
+      "id": "system:snapraid",
+      "label": "SnapRAID (status)",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "system-systemd",
+        "storage"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:snapraid.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_38-si-snapraid-status.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "SnapRAID"
+      },
+      "optional": true,
+      "roles": [
+        "server"
+      ],
+      "hosts": [
+        "si"
+      ]
+    },
+    {
+      "id": "system:transmission",
+      "label": "Transmission",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "system-systemd",
+        "storage"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:transmission.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_38-si-transmission-cleanup.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Transmission"
+      },
+      "optional": true,
+      "roles": [
+        "server"
+      ],
+      "hosts": [
+        "si"
+      ]
+    },
+    {
+      "id": "system:notifications",
+      "label": "Notifications (server)",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "system-systemd"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:notifications.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_39-si-notifications.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Notifications"
+      },
+      "optional": true,
+      "roles": [
+        "server"
+      ],
+      "hosts": [
+        "si"
+      ]
+    },
+    {
+      "id": "system:docker",
+      "label": "Docker",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "system-systemd",
+        "storage"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:docker.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_40-enable-docker.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Docker"
+      },
+      "optional": true
+    },
+    {
+      "id": "system:telegram",
+      "label": "Telegram",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "telegram"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:telegram.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_50-install-telegram.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Telegram"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:zoom",
+      "label": "Zoom Workplace",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:zoom.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_51-install-zoom.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Zoom Workplace"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:codex-desktop",
+      "label": "Codex Desktop",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:codex-desktop.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_52-install-codex-desktop.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Codex Desktop"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:strata",
+      "label": "Strata",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:strata.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_53-install-strata.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Strata"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:hyprvoice",
+      "label": "Hyprvoice",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "client-cli"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:hyprvoice.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_54-install-hyprvoice.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Hyprvoice"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:tippecanoe",
+      "label": "Tippecanoe",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:tippecanoe.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_55-install-tippecanoe.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Tippecanoe"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:launcher",
+      "label": "Gitfetch",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "dnf",
+        "user-systemd"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:launcher.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_56-install-launcher-tools.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Gitfetch"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:terminal",
+      "label": "Terminal (Tennis and Tinty)",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "client-cli"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:terminal.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_57-install-terminal-tools.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Terminal"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:gdm-session",
+      "label": "GDM (Hyprland login)",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "system-systemd"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:gdm-session.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_58-hyprland-gdm-session.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "GDM"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:zed",
+      "label": "Zed",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "zed"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:zed.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_60-install-zed.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Zed"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "system:nginx",
+      "label": "Nginx",
+      "needs": [
+        "system:render",
+        "system:rpm"
+      ],
+      "resources": [
+        "dnf",
+        "system-systemd"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:nginx.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_90-build-nginx-dav-ext.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Nginx"
+      },
+      "optional": true,
+      "roles": [
+        "server"
+      ],
+      "hosts": [
+        "si"
+      ]
+    },
+    {
+      "id": "system:apps",
+      "label": "Applications (server)",
+      "needs": [
+        "system:render",
+        "system:docker",
+        "system:media-permissions",
+        "system:snapraid",
+        "system:transmission",
+        "system:notifications",
+        "system:nginx"
+      ],
+      "resources": [
+        "dnf",
+        "storage",
+        "system-systemd"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:apps.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_after_95-si-app-updates.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Applications"
+      },
+      "optional": true,
+      "roles": [
+        "server"
+      ],
+      "hosts": [
+        "si"
+      ]
+    },
+    {
+      "id": "system:tailscale",
+      "label": "Tailscale",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "tailscale",
+        "network",
+        "system-systemd"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:tailscale.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_70-enable-tailscaled.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Tailscale"
+      },
+      "optional": true,
+      "after": [
+        "home:archives",
+        "home:bartjik",
+        "home:native-files",
+        "home:codex-lb",
+        "home:collie",
+        "home:fonts",
+        "home:greetjik",
+        "home:herdr",
+        "home:icons",
+        "home:llmtrim",
+        "home:llmtrim-install",
+        "home:mullvad",
+        "home:notjik",
+        "home:obsidian",
+        "home:prowlarr",
+        "home:python",
+        "home:rose-punk-icons",
+        "home:runtjik",
+        "home:rust",
+        "home:secrets",
+        "home:services",
+        "home:storage",
+        "home:sublime-text",
+        "home:tjikup",
+        "home:vite",
+        "system:apps",
+        "system:chrome",
+        "system:codex-desktop",
+        "system:copr",
+        "system:docker",
+        "system:flatpak",
+        "system:hyprvoice",
+        "system:launcher",
+        "system:media-permissions",
+        "system:nginx",
+        "system:notifications",
+        "system:nss",
+        "system:power",
+        "system:repos",
+        "system:rpm",
+        "system:snapraid",
+        "system:strata",
+        "system:telegram",
+        "system:terminal",
+        "system:tippecanoe",
+        "system:transmission",
+        "system:zed",
+        "system:zoom"
+      ]
+    },
+    {
+      "id": "system:release",
+      "label": "Fedora (release)",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_REPORT_FILE={run_dir}/system:release.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "FLEET_SYSTEM_PHASE=release",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_30-system-update.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_SYSTEM_PHASE": "release"
+      },
+      "timeout": 7200,
+      "interactive": true,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Fedora"
+      },
+      "optional": true,
+      "after": [
+        "home:archives",
+        "home:bartjik",
+        "home:native-files",
+        "home:codex-lb",
+        "home:collie",
+        "home:fonts",
+        "home:greetjik",
+        "home:herdr",
+        "home:icons",
+        "home:llmtrim",
+        "home:llmtrim-install",
+        "home:mullvad",
+        "home:notjik",
+        "home:obsidian",
+        "home:prowlarr",
+        "home:python",
+        "home:rose-punk-icons",
+        "home:runtjik",
+        "home:rust",
+        "home:secrets",
+        "home:services",
+        "home:storage",
+        "home:sublime-text",
+        "home:tjikup",
+        "home:vite",
+        "system:apps",
+        "system:chrome",
+        "system:codex-desktop",
+        "system:copr",
+        "system:docker",
+        "system:flatpak",
+        "system:gdm-session",
+        "system:hyprvoice",
+        "system:launcher",
+        "system:media-permissions",
+        "system:nginx",
+        "system:notifications",
+        "system:nss",
+        "system:power",
+        "system:repos",
+        "system:rpm",
+        "system:snapraid",
+        "system:strata",
+        "system:tailscale",
+        "system:telegram",
+        "system:terminal",
+        "system:tippecanoe",
+        "system:transmission",
+        "system:zed",
+        "system:zoom"
+      ]
+    }
+  ]
+}

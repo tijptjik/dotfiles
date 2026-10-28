@@ -1,0 +1,123 @@
+[
+  {
+    "path": "{{ user.home }}/.config/bartjik/config.json",
+    "when": "(is_client) and \"home:bartjik\" in subscriptions",
+    "kind": "file",
+    "source": "files/.config/bartjik/config.json.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/config.toml",
+    "kind": "file",
+    "source": "files/.config/herdr/config.toml",
+    "mode": "0644",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins",
+    "kind": "directory",
+    "mode": "0755",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/config",
+    "kind": "directory",
+    "mode": "0755",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/config/herdr-spreader",
+    "kind": "directory",
+    "mode": "0755",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/config/herdr-spreader/config.yaml",
+    "kind": "file",
+    "source": "files/.config/herdr/plugins/config/herdr-spreader/config.yaml",
+    "mode": "0644",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/config/herdr.collie",
+    "kind": "directory",
+    "mode": "0755",
+    "when": "(true) and \"home:collie\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/config/herdr.collie/.env",
+    "kind": "file",
+    "source": "files/.config/herdr/plugins/config/herdr.collie/.env.j2",
+    "mode": "0644",
+    "template": true,
+    "when": "(true) and \"home:collie\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/local",
+    "kind": "directory",
+    "mode": "0755",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/local/local-files",
+    "kind": "directory",
+    "mode": "0755",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/local/local-files/herdr-plugin.toml",
+    "kind": "file",
+    "source": "files/.config/herdr/plugins/local/local-files/herdr-plugin.toml",
+    "mode": "0644",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/plugins/local/local-files/open_file.py",
+    "kind": "file",
+    "source": "files/.config/herdr/plugins/local/local-files/open_file.py",
+    "mode": "0644",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/sounds",
+    "kind": "directory",
+    "mode": "0755",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/sounds/soft-chime.mp3",
+    "kind": "file",
+    "source": "files/.config/herdr/sounds/soft-chime.mp3",
+    "mode": "0644",
+    "when": "(true) and \"home:herdr\" in subscriptions"
+  },
+  {
+    "path": "{{ user.home }}/.config/notjik/config.json",
+    "when": "(is_client) and \"home:notjik\" in subscriptions",
+    "kind": "file",
+    "source": "files/.config/notjik/config.json.j2",
+    "mode": "0644",
+    "template": true
+  },
+  {
+    "path": "{{ user.home }}/.config/zed/keymap.json",
+    "when": "(is_client) and \"system:zed\" in subscriptions",
+    "kind": "file",
+    "source": "files/.config/zed/keymap.json",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.config/zed/themes",
+    "when": "(is_client) and \"system:zed\" in subscriptions",
+    "kind": "directory",
+    "mode": "0755"
+  },
+  {
+    "path": "{{ user.home }}/.config/zed/themes/rose-punk.json",
+    "when": "(is_client) and \"system:zed\" in subscriptions",
+    "kind": "file",
+    "source": "files/.config/zed/themes/rose-punk.json",
+    "mode": "0644"
+  }
+]

@@ -1,0 +1,7 @@
+{% if is_client -%}
+# Activate the notjik desktop notification service.
+[D-BUS Service]
+Name=org.freedesktop.Notifications
+Exec={{ user.home }}/.local/bin/notjik
+SystemdService=notjik.service
+{% endif -%}

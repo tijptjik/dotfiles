@@ -2,7 +2,7 @@
 import xml.etree.ElementTree as ET
 from build import ART, ROOT
 
-DEST = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+DEST = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
 # Open marks stay open; solid silhouettes become layered enamel badges.
 LINE_MARKS = {'codex-lb', 'sublime-text', 'chatgpt', 'zed', 'drizzle', 'transmission', 'steam'}
 

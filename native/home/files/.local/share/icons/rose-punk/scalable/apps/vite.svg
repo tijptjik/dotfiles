@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g id="frameless-artwork" transform="translate(-8.727273 -7.375000) scale(1.272727)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#ffa9c3" /><stop offset=".4" stop-color="#ff53a6" /><stop offset="1" stop-color="#b24685" /></linearGradient>
+ <linearGradient id="ink" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#ffa9c3" /><stop offset=".6" stop-color="#ff53a6" /><stop offset="1" stop-color="#b24685" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c8c8e3" /><stop offset=".5" stop-color="#8596ed" /><stop offset="1" stop-color="#666fb1" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><svg role="img" viewBox="0 0 24 24" x="10" y="9" width="44" height="44" preserveAspectRatio="xMidYMid meet" color="#ff53a6" fill="url(#enamel)"><defs /><path d="M13.056 23.238a.57.57 0 0 1-1.02-.355v-5.202c0-.63-.512-1.143-1.144-1.143H5.148a.57.57 0 0 1-.464-.903l3.777-5.29c.54-.753 0-1.804-.93-1.804H.57a.574.574 0 0 1-.543-.746.6.6 0 0 1 .08-.157L5.008.78a.57.57 0 0 1 .467-.24h14.589a.57.57 0 0 1 .466.903l-3.778 5.29c-.54.755 0 1.806.93 1.806h5.745c.238 0 .424.138.513.322a.56.56 0 0 1-.063.603z" /></svg></g></svg>

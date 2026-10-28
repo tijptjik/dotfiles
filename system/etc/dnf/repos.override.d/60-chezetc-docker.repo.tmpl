@@ -1,0 +1,20 @@
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "fedora") (ge (atoi .chezmoi.osRelease.versionID) 45) -}}
+# Keep Docker CE selection without replacing Fedora package-owned repo files.
+[fedora]
+excludepkgs=docker-*
+
+[fedora-debuginfo]
+excludepkgs=docker-*
+
+[fedora-source]
+excludepkgs=docker-*
+
+[updates]
+excludepkgs=docker-*
+
+[updates-debuginfo]
+excludepkgs=docker-*
+
+[updates-source]
+excludepkgs=docker-*
+{{ end -}}

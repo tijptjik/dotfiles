@@ -1,0 +1,25 @@
+#!/usr/bin/env fish
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+
+# Device-independent policy. Mullvad persists this setting in its daemon.
+if not command -q mullvad
+    status_msg SKIP - "Mullvad LAN" "not installed"
+    exit 0
+end
+
+set -l lan_state (command mullvad lan get)
+or exit $status
+if string match -qr ': allow$' -- "$lan_state"
+    status_msg SKIP ✓ "Mullvad LAN" allowed
+    exit 0
+end
+
+command mullvad lan set allow >/dev/null
+or exit $status
+set -l lan_state (command mullvad lan get)
+or exit $status
+if not string match -qr ': allow$' -- "$lan_state"
+    status_msg FAILED ✗ "Mullvad LAN" "setting did not persist"
+    exit 1
+end
+status_msg CONFIG ✓ "Mullvad LAN" allowed

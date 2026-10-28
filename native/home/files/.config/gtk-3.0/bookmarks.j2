@@ -1,0 +1,15 @@
+{%- if hostname in gtkBookmarks -%}
+{{ gtkBookmarks[hostname] -}}
+{%- else -%}
+{% if is_client -%}
+file://{{ user.home }}/downloads Downloads
+file://{{ user.home }}/code/hype HYPE
+file://{{ user.home }}/.obsidian/core Obsidian
+{% endif -%}
+{% if is_desktop -%}
+file://{{ user.home }}/.config/Steam/userdata/109933432/760/remote/1086940/screenshots BG3
+{% endif -%}
+{% if is_server -%}
+file://{{ user.home }}/downloads Downloads
+{% endif -%}
+{% endif -%}

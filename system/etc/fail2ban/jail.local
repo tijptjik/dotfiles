@@ -1,0 +1,20 @@
+[DEFAULT]
+# Ban for 25 hours, max 3 retries in 10 minutes
+bantime = 60000
+findtime = 600
+maxretry = 3
+backend = systemd
+
+# Whitelist your IP (replace with your actual IP)
+ignoreip = 127.0.0.1/8 ::1 192.168.1.0/24 138.199.60.23
+
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/secure
+maxretry = 3
+banaction = nftables-multiport
+
+# Optional: Aggressive mode - also bans after multiple "Invalid user" attempts
+mode = aggressive

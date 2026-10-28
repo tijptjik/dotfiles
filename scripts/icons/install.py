@@ -120,7 +120,7 @@ def managed_icons(source):
             continue
         icon = main_icon(path.read_text())
         if icon and not icon.startswith('rose-punk-') and '{{' not in icon:
-            result[path.name.removeprefix('executable_').removesuffix('.tmpl')] = icon
+            result[path.name.removeprefix('executable_').removesuffix('.tmpl').removesuffix('.j2')] = icon
     return result
 
 
@@ -208,7 +208,7 @@ def main():
     data = Path(os.environ.get('XDG_DATA_HOME', home / '.local/share'))
     state = Path(os.environ.get('XDG_STATE_HOME', home / '.local/state')) / 'rose-punk-icons'
     state.mkdir(parents=True, exist_ok=True, mode=0o700)
-    source = Path(__file__).resolve().parents[2] / 'home/dot_local/share/applications'
+    source = Path(__file__).resolve().parents[2] / 'native/home/files/.local/share/applications'
     vendors = [home / '.local/share/flatpak/exports/share/applications',
                Path('/usr/local/share/applications'), Path('/usr/share/applications'),
                Path('/var/lib/flatpak/exports/share/applications')]

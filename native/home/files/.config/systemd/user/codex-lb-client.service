@@ -1,0 +1,10 @@
+[Unit]
+Description=Relay laptop Codex requests to the desktop SSH tunnel
+ConditionHost=li
+Requires=codex-lb-client.socket
+After=codex-lb-client.socket
+
+[Service]
+ExecStart=/usr/lib/systemd/systemd-socket-proxyd 127.0.0.1:42455
+Restart=on-failure
+RestartSec=2

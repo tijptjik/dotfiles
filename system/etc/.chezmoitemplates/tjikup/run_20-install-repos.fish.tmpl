@@ -1,0 +1,106 @@
+#!/usr/bin/env fish
+# Run on every apply so this section stays in the ordered tjikup report.
+{{ if eq .chezmoi.os "linux" -}}
+
+set -x SUDO_ASKPASS ""           # force sudo to ask on the terminal
+
+# repos.yaml hash: {{ include ".chezmoidata/repos.yaml" | sha256sum }}
+
+{{ include ".chezmoihelpers/status.fish" }}
+{{ include ".chezmoitemplates/fish_logging.fish" }}
+setup_logging linux-install-repos
+
+step_header "RPM Repositories"
+
+# --- RPM Fusion Handling ---
+function handle_rpmfusion
+    if ! rpm -q rpmfusion-free-release >/dev/null 2>&1
+        step_run "RPM Fusion Free" sudo dnf install -y "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
+        or return 1
+    else
+        step_skip_ok "RPM Fusion Free" available
+    end
+
+    if ! rpm -q rpmfusion-nonfree-release >/dev/null 2>&1
+        step_run "RPM Fusion Non-Free" sudo dnf install -y "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+        or return 1
+    else
+        step_skip_ok "RPM Fusion Non-Free" available
+    end
+end
+
+# --- Generic Repo Handling ---
+function is_repo_configured
+    set repo_name $argv[1]
+    dnf repolist --all 2>/dev/null | string match -q -- "*$repo_name*"
+end
+
+function add_repo
+    set repo_name $argv[1]
+    set repo_url $argv[2]
+    set gpg_key $argv[3]
+
+    if is_repo_configured "$repo_name"
+        step_skip_ok "$repo_name" available
+        return 0
+    end
+
+    # Import GPG key if provided
+    if test -n "$gpg_key"
+        # Use curl to download the key and pipe to rpm --import
+        step_run_as IMPORT "$repo_name GPG key" fish -c "curl -sSL '$gpg_key' | sudo rpm --import -"
+        or return 1
+    end
+
+    # Add the repository
+    step_run_as ADD "$repo_name" sudo dnf config-manager addrepo --from-repofile="$repo_url" --overwrite
+    or return 1
+end
+
+# --- Prerequisite Check ---
+function ensure_dnf_plugins_core
+    if ! rpm -q dnf-plugins-core >/dev/null 2>&1
+        step_run "dnf-plugins-core" sudo dnf install -y dnf-plugins-core
+        or exit 1
+    else
+        step_skip_ok "dnf-plugins-core" available
+    end
+end
+
+
+# --- Main Logic ---
+
+# Ensure dnf-plugins-core is installed
+ensure_dnf_plugins_core
+
+# Handle RPM Fusion separately as it's a package install
+handle_rpmfusion
+or exit 1
+
+# Process common repositories
+{{ range $name, $repo := .repos.common  }}
+{{ if and (ne $name "flathub") (ne $repo.url "dynamic") -}}
+{{ $gpg_key := "" -}}
+{{ if hasKey $repo "gpg_key" -}}
+{{ $gpg_key = $repo.gpg_key -}}
+{{ end -}}
+add_repo '{{ $repo.name }}' '{{ $repo.url }}' '{{ $gpg_key }}'
+or exit 1
+{{ end -}}
+{{ end }}
+
+# Process client-specific repositories if applicable
+{{ if .isClient }}
+{{ range $name, $repo := .repos.client }}
+{{ if and (ne $name "flathub") (ne $repo.url "dynamic") -}}
+{{ $gpg_key := "" -}}
+{{ if hasKey $repo "gpg_key" -}}
+{{ $gpg_key = $repo.gpg_key -}}
+{{ end -}}
+add_repo '{{ $repo.name }}' '{{ $repo.url }}' '{{ $gpg_key }}'
+or exit 1
+{{ end -}}
+{{ end }}
+{{ end }}
+
+{{ end -}}

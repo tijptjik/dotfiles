@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-material="authored">
+<g id="frameless-artwork" transform="translate(-3.485149 -2.237624) scale(1.108911)"><title>ephemera</title>
+<defs><linearGradient id="book-ink" gradientUnits="userSpaceOnUse" x1="16" y1="12" x2="45" y2="52"><stop stop-color="#6b78bf" /><stop offset="1" stop-color="#a1609b" /></linearGradient></defs>
+<g stroke-linecap="round" stroke-linejoin="round">
+<path d="M9 16q11.5-6.5 23 0 11.5-6.5 23 0v33q-11.5-6.5-23 0-11.5-6.5-23 0Z" fill="none" stroke="url(#book-ink)" stroke-width="4.5" />
+<path d="M32 16v33" fill="none" stroke="url(#book-ink)" stroke-width="4.5" />
+</g>
+</g></svg>

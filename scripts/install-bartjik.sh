@@ -11,11 +11,11 @@ command -v python3 >/dev/null
 python3 "$script_dir/cache-install.py" bartjik \
     --input "$tool_repo/apps/bartjik" --input "$tool_repo/scripts/install.sh" \
     --input "$script_dir/cache-install.py" --input "$script_dir/install-bartjik.sh" \
-    --input "$script_dir/../home/dot_config/systemd/user/bartjik.service" \
+    --input "$script_dir/../native/home/files/.config/systemd/user/bartjik.service" \
     --output "$HOME/.local/bin/bartjik" --output "$HOME/.local/bin/bartjikctl" \
     --output "$HOME/.local/lib/bartjik" \
     --output "$HOME/.config/systemd/user/bartjik.service" \
-    -- bash -c '(cd "$1/apps/bartjik" && bash scripts/build.sh) && bash "$1/scripts/install.sh" bartjik && install -m 644 "$2/../home/dot_config/systemd/user/bartjik.service" "$HOME/.config/systemd/user/bartjik.service"' _ "$tool_repo" "$script_dir"
+    -- bash -c '(cd "$1/apps/bartjik" && bash scripts/build.sh) && bash "$1/scripts/install.sh" bartjik && install -m 644 "$2/../native/home/files/.config/systemd/user/bartjik.service" "$HOME/.config/systemd/user/bartjik.service"' _ "$tool_repo" "$script_dir"
 systemctl --user daemon-reload
 systemctl --user enable bartjik.service
 if systemctl --user --quiet is-active graphical-session.target; then

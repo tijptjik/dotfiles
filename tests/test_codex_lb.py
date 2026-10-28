@@ -8,7 +8,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-HOOKS = ROOT / 'home/.chezmoiscripts'
+HOOKS = ROOT / 'home/.chezmoitemplates/tjikup'
 
 
 @unittest.skipUnless(shutil.which('chezmoi') and shutil.which('fish'), 'chezmoi and Fish required')

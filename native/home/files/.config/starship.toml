@@ -1,0 +1,159 @@
+format = """
+$username\
+$hostname\
+$localip\
+$shlvl\
+$directory\
+$git_branch\
+$git_status\
+$git_commit\
+$git_state\
+$git_metrics\
+$package\
+$python\
+$bun\
+$nodejs\
+$gcloud\
+$env_var\
+$sudo\
+$cmd_duration\
+$line_break\
+$status\
+$container\
+$shell\
+$character"""
+
+
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+command_timeout = 1000
+
+[aws]
+disabled = true
+symbol = "  "
+
+[buf]
+symbol = " "
+
+[bun]
+symbol = "\uef82 "
+version_format = '${raw}'
+style = "bold 228"
+
+[c]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[character]
+success_symbol="[❯](bold 16)"
+
+[dart]
+symbol = " "
+
+[directory]
+read_only = " "
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = "\ue62d "
+
+[elm]
+symbol = " "
+
+[git_branch]
+symbol = "\ue725 "
+style="bold 5"
+
+[git_status]
+ignore_submodules = true
+untracked = ""
+style="16"
+
+[gcloud]
+format='on [$symbol$account(@$domain)(\($region\))]($style) '
+disabled=true
+
+[golang]
+symbol = " "
+
+[hostname]
+ssh_only=false
+style="4"
+
+[haskell]
+symbol = " "
+
+[hg_branch]
+disabled = true
+symbol = " "
+
+[java]
+symbol = "\ue738 "
+
+[julia]
+disabled = true
+symbol = " "
+
+[lua]
+disabled = true
+symbol = " "
+
+[memory_usage]
+symbol = " "
+
+[meson]
+symbol = "喝 "
+
+[nim]
+symbol = " "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = "\ue718 "
+style="bold #66cc33"
+version_format = "${raw}"
+detect_folders=[]
+detect_files = ['package.json', '.node-version', '!bunfig.toml', '!bun.lockb']
+detect_extensions=[]
+
+[package]
+symbol = " "
+disabled = true
+
+[python]
+symbol = "\ued1b "
+style= "bold #4B8BBE"
+version_format = "${raw}"
+detect_files = ['.python-version', 'uv.lock']
+python_binary = [["uv", "run", "--no-python-downloads", "--no-project", "python"]]
+format = 'via [${symbol}${version}]($style) '
+
+[rlang]
+symbol = "ﳒ "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = "\ue7a8 "
+
+[scala]
+symbol = " "
+
+[spack]
+symbol = "🅢 "
+
+[username]
+format="[$user]($style) at "
+style_root="bold 17"
+style_user="5"
+show_always=true

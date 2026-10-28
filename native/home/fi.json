@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "id": "home-credentials-fi",
+  "host": "fi",
+  "context": {
+    "user": {
+      "name": "io",
+      "home": "/home/io"
+    },
+    "is_client": true,
+    "anthropic_model_provider": "zai"
+  },
+  "bitwarden": {
+    "command": [
+      "/usr/local/bin/bws"
+    ],
+    "access_token_file": "{{ user.home }}/.config/bws/environment"
+  },
+  "entries": [
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/fish/conf.d/secrets.fish",
+      "source": "templates/fish/conf.d/secrets.fish.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/hyprvoice/config.toml",
+      "source": "templates/hyprvoice/config.toml.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/rclone/rclone.conf",
+      "source": "templates/rclone/rclone.conf.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/private-storage/restic-password",
+      "source": "templates/private-storage/restic-password.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/private-storage/drive.conf",
+      "source": "templates/private-storage/drive.conf.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "create_only": true
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/private-storage/cloudflare-backup-token",
+      "source": "templates/private-storage/cloudflare-backup-token.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/private-storage/cloudflare-config-token",
+      "source": "templates/private-storage/cloudflare-config-token.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true
+    }
+  ]
+}

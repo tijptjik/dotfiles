@@ -1,0 +1,36 @@
+#!/usr/bin/env fish
+# Run after managed files so the updater exists on its first apply.
+{{ if and (eq .chezmoi.os "linux") .isServer -}}
+{{ include ".chezmoihelpers/status.fish" }}
+section_header "Server app updates"
+
+sudo python3 /etc/si-provision/update_apps.py | while read -l event
+    set -l fields (string split \t -- "$event")
+    if test (count $fields) -ne 3
+        printf '%s\n' "$event"
+        continue
+    end
+    if test "$fields[1]" = SECTION
+        if test "$TJIKUP_STATUS_SECTIONS" = 1
+            printf '__tjikup_section__:%s\n' "$fields[2]"
+        else
+            section_header "$fields[2]"
+        end
+        continue
+    end
+    set -l icon '✓'
+    if test "$fields[1]" = WARN
+        set icon '!'
+    else if string match -q "checking images; *" -- "$fields[3]"
+        set icon '...'
+    else if contains -- "$fields[3]" "checking image" "downloading update" "no sessions; installing" "recreating"
+        set icon '...'
+    end
+    status_msg "$fields[1]" "$icon" "$fields[2]" "$fields[3]"
+end
+set -l update_status $pipestatus
+if test "$update_status[1]" -ne 0
+    status_msg FAILED '✗' "Server app updates" "see diagnostics above"
+    exit "$update_status[1]"
+end
+{{ end -}}

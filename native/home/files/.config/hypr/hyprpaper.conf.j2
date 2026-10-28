@@ -1,0 +1,27 @@
+splash = false
+
+{% if is_desktop -%}
+
+wallpaper {
+    monitor = DP-1
+    path = {{ user.home }}/.local/share/backgrounds/21:9/selection.jpg
+}
+
+wallpaper {
+    monitor = DP-2
+    path = {{ user.home }}/.local/share/backgrounds/21:9/selection.jpg
+}
+
+wallpaper {
+    monitor = HDMI-A-1
+    path = {{ user.home }}/.local/share/backgrounds/21:9/selection.jpg
+}
+
+{% elif is_laptop -%}
+
+wallpaper {
+    monitor = eDP-1
+    path = {{ user.home }}/.local/share/backgrounds/21:9/selection.jpg
+}
+
+{% endif -%}

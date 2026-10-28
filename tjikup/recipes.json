@@ -1,0 +1,1258 @@
+{
+  "version": 2,
+  "recipes": [
+    {
+      "id": "home:render-prelude",
+      "label": "Prepare home prerequisites",
+      "needs": [
+        "repo:home:push",
+        "repo:tjikos:push"
+      ],
+      "render": {
+        "manager": "home",
+        "templates": [
+          {
+            "name": "home-run_before_02-install-bws.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_before_02-install-bws.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_before_71-consolidate-user-fonts.py",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_before_71-consolidate-user-fonts.py.tmpl",
+            "syntax": [
+              "python3",
+              "-c",
+              "import ast,sys; ast.parse(open(sys.argv[1]).read())",
+              "{script}"
+            ]
+          }
+        ]
+      },
+      "display": {
+        "section": "Recipes",
+        "quiet": true,
+        "icon": "Chezmoi"
+      },
+      "optional": false
+    },
+    {
+      "id": "home:bitwarden",
+      "label": "Bitwarden CLIs",
+      "needs": [
+        "home:render-prelude"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_before_02-install-bws.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Bitwarden"
+      },
+      "optional": false
+    },
+    {
+      "id": "home:font-migration",
+      "label": "Font folder migration",
+      "needs": [
+        "home:render-prelude"
+      ],
+      "resources": [
+        "fonts"
+      ],
+      "apply": [
+        "python3",
+        "{run_dir}/home-run_before_71-consolidate-user-fonts.py"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Assets (user fonts)"
+      },
+      "optional": true,
+      "hosts": [
+        "fi",
+        "li"
+      ],
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:files",
+      "label": "Home configuration",
+      "needs": [
+        "home:bitwarden"
+      ],
+      "timeout": 1800,
+      "display": {
+        "section": "Recipes",
+        "quiet": true,
+        "icon": "Chezmoi"
+      },
+      "check": [
+        "python3",
+        "{config_dir}/../scripts/native-files.py",
+        "home-files",
+        "check"
+      ],
+      "apply": [
+        "python3",
+        "{config_dir}/../scripts/native-files.py",
+        "home-files",
+        "apply"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "optional": false,
+      "after": [
+        "home:font-migration"
+      ]
+    },
+    {
+      "id": "home:render",
+      "label": "Prepare home recipes",
+      "needs": [
+        "home:native-files"
+      ],
+      "render": {
+        "manager": "home",
+        "templates": [
+          {
+            "name": "home-run_after_29-install-sublime-text.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_29-install-sublime-text.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_30-install-obsidian.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_30-install-obsidian.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_29-rust-packages.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_29-rust-packages.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_30-python-packages.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_30-python-packages.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_31-device-archives.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_31-device-archives.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_31-install-llmtrim.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_31-install-llmtrim.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_31-remove-llmtrim-herdr.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_31-remove-llmtrim-herdr.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_32-provision-herdr-plugins.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_32-provision-herdr-plugins.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_33-codex-lb.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_33-codex-lb.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_35-install-tjikup.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_35-install-tjikup.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_36-tjikup-icon-cache.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_36-tjikup-icon-cache.fish",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_37-install-notjik.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_37-install-notjik.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_38-install-greetjik.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_38-install-greetjik.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_39-install-bartjik.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_39-install-bartjik.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_40-rose-punk-icons.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_40-rose-punk-icons.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_41-install-runtjik.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_41-install-runtjik.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_70-provision-collie.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_70-provision-collie.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_71-configure-vite-tailnet-serve.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_71-configure-vite-tailnet-serve.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_72-refresh-user-fonts.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_72-refresh-user-fonts.fish",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_73-mullvad-lan.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_73-mullvad-lan.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_73-prowlarr-notifications.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_73-prowlarr-notifications.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_97-secret-service.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_97-secret-service.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_98-private-storage.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_98-private-storage.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_99-systemd-reload.fish",
+            "source": "{config_dir}/../home/.chezmoitemplates/tjikup/run_after_99-systemd-reload.fish.tmpl",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          }
+        ]
+      },
+      "display": {
+        "section": "Recipes",
+        "quiet": true,
+        "icon": "Chezmoi"
+      },
+      "optional": false
+    },
+    {
+      "id": "home:sublime-text",
+      "label": "Sublime Text",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_29-install-sublime-text.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Sublime Text"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:obsidian",
+      "label": "Obsidian",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "obsidian"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_30-install-obsidian.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Obsidian"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:rust",
+      "label": "Rust (packages)",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "cargo"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_29-rust-packages.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Rust"
+      },
+      "optional": true
+    },
+    {
+      "id": "home:python",
+      "label": "Python (environment)",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "uv"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_30-python-packages.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Python"
+      },
+      "optional": true
+    },
+    {
+      "id": "home:archives",
+      "label": "Assets (device archives)",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_31-device-archives.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Assets"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:llmtrim-install",
+      "label": "llmtrim (package)",
+      "needs": [
+        "system:render",
+        "home:rust"
+      ],
+      "resources": [
+        "cargo"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_31-install-llmtrim.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "llmtrim"
+      },
+      "optional": true,
+      "roles": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "home:llmtrim",
+      "label": "llmtrim (Herdr plugin)",
+      "needs": [
+        "system:render",
+        "home:llmtrim-install"
+      ],
+      "resources": [
+        "herdr"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_31-remove-llmtrim-herdr.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "interactive": true,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "llmtrim"
+      },
+      "optional": true,
+      "roles": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "home:herdr",
+      "label": "Herdr (plugins)",
+      "needs": [
+        "system:render",
+        "home:llmtrim"
+      ],
+      "resources": [
+        "herdr"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_32-provision-herdr-plugins.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Herdr"
+      },
+      "optional": true,
+      "roles": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "home:codex-lb",
+      "label": "Codex LB",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "uv"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_33-codex-lb.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Codex LB"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:tjikup",
+      "label": "Tjikup",
+      "needs": [
+        "system:render",
+        "home:native-files"
+      ],
+      "resources": [
+        "tjikos",
+        "icons"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_35-install-tjikup.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Tjikup"
+      },
+      "optional": true
+    },
+    {
+      "id": "home:icons",
+      "label": "Assets (icon cache)",
+      "needs": [
+        "system:render",
+        "home:tjikup"
+      ],
+      "resources": [
+        "icons"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_36-tjikup-icon-cache.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Assets (icon cache)"
+      },
+      "optional": true
+    },
+    {
+      "id": "home:notjik",
+      "label": "Notjik",
+      "needs": [
+        "system:render",
+        "home:tjikup"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_37-install-notjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Notjik"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:greetjik",
+      "label": "Greetjik",
+      "needs": [
+        "system:render",
+        "home:tjikup",
+        "home:rust"
+      ],
+      "resources": [
+        "tjikos",
+        "cargo",
+        "dnf"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_38-install-greetjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Greetjik"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:bartjik",
+      "label": "Bartjik",
+      "needs": [
+        "system:render",
+        "home:notjik"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_39-install-bartjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Bartjik"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:rose-punk-icons",
+      "label": "Assets (Rose Punk icons)",
+      "needs": [
+        "system:render",
+        "home:icons"
+      ],
+      "resources": [
+        "icons"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_40-rose-punk-icons.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Assets (Rose Punk icons)"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:runtjik",
+      "label": "Runtjik",
+      "needs": [
+        "system:render",
+        "home:tjikup"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_41-install-runtjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Runtjik"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:collie",
+      "label": "Collie (bridge)",
+      "needs": [
+        "system:render",
+        "home:herdr"
+      ],
+      "resources": [
+        "herdr",
+        "tailscale",
+        "user-systemd"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_70-provision-collie.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Collie"
+      },
+      "optional": true,
+      "roles": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "home:vite",
+      "label": "Vite (bridge)",
+      "needs": [
+        "system:render",
+        "home:collie"
+      ],
+      "resources": [
+        "tailscale"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_71-configure-vite-tailnet-serve.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Vite"
+      },
+      "optional": true,
+      "roles": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "home:fonts",
+      "label": "Assets (fonts)",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "fonts"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_72-refresh-user-fonts.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Assets (fonts)"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:mullvad",
+      "label": "Mullvad (LAN)",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "network"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_73-mullvad-lan.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Mullvad"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:prowlarr",
+      "label": "Prowlarr (notifications)",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "storage"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_73-prowlarr-notifications.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Prowlarr"
+      },
+      "optional": true,
+      "roles": [
+        "server"
+      ],
+      "hosts": [
+        "si"
+      ]
+    },
+    {
+      "id": "home:secrets",
+      "label": "oo7 (secret service)",
+      "needs": [
+        "system:render",
+        "home:notjik"
+      ],
+      "resources": [
+        "dnf",
+        "user-systemd"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_97-secret-service.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "oo7"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
+    },
+    {
+      "id": "home:storage",
+      "label": "Storage (private)",
+      "needs": [
+        "system:render",
+        "home:secrets"
+      ],
+      "resources": [
+        "user-systemd",
+        "storage"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_98-private-storage.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Storage"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [
+        "fi",
+        "li"
+      ]
+    },
+    {
+      "id": "home:services",
+      "label": "Systemd (user services)",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_99-systemd-reload.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Systemd"
+      },
+      "optional": true,
+      "after": [
+        "home:archives",
+        "home:bartjik",
+        "home:native-files",
+        "home:codex-lb",
+        "home:collie",
+        "home:fonts",
+        "home:greetjik",
+        "home:herdr",
+        "home:icons",
+        "home:llmtrim",
+        "home:llmtrim-install",
+        "home:mullvad",
+        "home:notjik",
+        "home:obsidian",
+        "home:prowlarr",
+        "home:python",
+        "home:rose-punk-icons",
+        "home:runtjik",
+        "home:rust",
+        "home:secrets",
+        "home:storage",
+        "home:sublime-text",
+        "home:tjikup",
+        "home:vite",
+        "system:apps",
+        "system:chrome",
+        "system:codex-desktop",
+        "system:copr",
+        "system:docker",
+        "system:flatpak",
+        "system:gdm-session",
+        "system:hyprvoice",
+        "system:launcher",
+        "system:media-permissions",
+        "system:nginx",
+        "system:notifications",
+        "system:nss",
+        "system:power",
+        "system:repos",
+        "system:rpm",
+        "system:snapraid",
+        "system:strata",
+        "system:telegram",
+        "system:terminal",
+        "system:tippecanoe",
+        "system:transmission",
+        "system:zed",
+        "system:zoom",
+        "home:repositories"
+      ],
+      "hosts": [
+        "fi",
+        "li",
+        "si"
+      ]
+    },
+    {
+      "id": "home:native-files",
+      "label": "Home credentials",
+      "needs": [
+        "home:files"
+      ],
+      "check": [
+        "python3",
+        "{config_dir}/../scripts/native-files.py",
+        "credentials",
+        "check"
+      ],
+      "apply": [
+        "python3",
+        "{config_dir}/../scripts/native-files.py",
+        "credentials",
+        "apply"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "timeout": 600,
+      "display": {
+        "section": "Recipes",
+        "quiet": true,
+        "icon": "Bitwarden"
+      },
+      "optional": false
+    },
+    {
+      "id": "home:repositories",
+      "label": "Home Git checkouts",
+      "needs": [
+        "home:files"
+      ],
+      "check": [
+        "python3",
+        "{config_dir}/../scripts/home-repositories.py",
+        "check"
+      ],
+      "apply": [
+        "python3",
+        "{config_dir}/../scripts/home-repositories.py",
+        "apply"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "timeout": 600,
+      "display": {
+        "section": "Home + System Tasks",
+        "icon": "Obsidian",
+        "quiet": true
+      },
+      "optional": true
+    }
+  ]
+}

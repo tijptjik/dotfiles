@@ -67,7 +67,7 @@ class ObsidianInstallTests(unittest.TestCase):
                 rendered = subprocess.check_output([
                     'chezmoi', '--config', str(config), '--source', str(self.home),
                     '--persistent-state', str(self.home / 'state.db'), 'execute-template',
-                    '-f', str(ROOT / 'home/.chezmoiscripts' / name),
+                    '-f', str(ROOT / 'home/.chezmoitemplates/tjikup' / name),
                 ], text=True)
                 subprocess.run(['fish', '--no-config', '-n'], input=rendered, text=True, check=True)
                 self.assertEqual('stage' in rendered, host != 'si')

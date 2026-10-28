@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g id="frameless-artwork" transform="translate(-4.363636 -4.363636) scale(1.136364)"><defs><linearGradient id="case" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="#91ddc7" /><stop offset="1" stop-color="#51bfa6" /></linearGradient></defs>
+<g data-material="authored" stroke-linecap="round" stroke-linejoin="round">
+<rect x="10" y="10" width="44" height="44" rx="7" fill="url(#case)" />
+<path d="M10 43h44v4q0 7-7 7H17q-7 0-7-7Z" fill="#4c9b91" />
+<circle cx="30" cy="29" r="15" fill="#34445d" />
+<circle cx="30" cy="29" r="12" fill="none" stroke="#536880" stroke-width="1" />
+<circle cx="30" cy="29" r="8.5" fill="none" stroke="#536880" stroke-width=".8" />
+<circle cx="30" cy="29" r="5" fill="#ed85aa" />
+<circle cx="30" cy="29" r="1.4" fill="#fff0d9" />
+<path d="M47 18v13l-9 7" fill="none" stroke="#f5e7d4" stroke-width="2.6" />
+<circle cx="47" cy="18" r="3.2" fill="#aaccc7" /><circle cx="47" cy="18" r="1.2" fill="#536c84" />
+<path d="m36 36 4 3-4 4-3-3Z" fill="#f6c17c" />
+<circle cx="18" cy="48" r="1.5" fill="#fff0d9" />
+<path d="M25 48h15" fill="none" stroke="#b7e3d3" stroke-width="1.4" />
+<circle cx="47" cy="48" r="1.5" fill="#f6c17c" />
+</g>
+</g></svg>

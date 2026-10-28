@@ -1,0 +1,696 @@
+{% if is_server -%}
+
+x-common-env: &common-env
+  PUID: 1000
+  PGID: 950
+  TZ: Asia/Hong_Kong
+
+services:
+
+  homepage:
+    container_name: homepage
+    image: ghcr.io/gethomepage/homepage:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      HOMEPAGE_ALLOWED_HOSTS: home.type.hk,localhost:{{ ports.homepage }},127.0.0.1:{{ ports.homepage }}
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    ports:
+      - 127.0.0.1:{{ ports.homepage }}:3000
+    volumes:
+      - {{ paths.appData }}/homepage:/app/config
+      - {{ paths.appData }}/homepage/images:/app/public/images:ro
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  scrutiny:
+    container_name: scrutiny
+    image: ghcr.io/analogj/scrutiny:latest-omnibus
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Hong_Kong
+      COLLECTOR_CRON_SCHEDULE: "0 6 * * *"
+    cap_add:
+      - SYS_RAWIO
+    ports:
+      - 127.0.0.1:{{ ports.scrutiny }}:8080
+    volumes:
+      - /run/udev:/run/udev:ro
+      - {{ paths.appData }}/scrutiny/config:/opt/scrutiny/config
+      - {{ paths.appData }}/scrutiny/influxdb:/opt/scrutiny/influxdb
+    # All eight physical SATA disks, including the OS SSD. Recheck after hardware changes.
+    devices:
+      - /dev/sda:/dev/sda:r
+      - /dev/sdb:/dev/sdb:r
+      - /dev/sdc:/dev/sdc:r
+      - /dev/sdd:/dev/sdd:r
+      - /dev/sde:/dev/sde:r
+      - /dev/sdf:/dev/sdf:r
+      - /dev/sdg:/dev/sdg:r
+      - /dev/sdh:/dev/sdh:r
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+
+#########################
+###  MEDIA REQUESTS   ###
+###  request.type.hk  ###
+#########################
+
+  seerr:
+    container_name: seerr
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 30s
+    environment:
+      TZ: Asia/Hong_Kong
+      LOG_LEVEL: info
+    ports:
+      - 127.0.0.1:{{ ports.seerr }}:5055
+    volumes:
+      - {{ paths.appData }}/seerr:/app/config
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:5055/api/v1/status').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+##################################
+###  AA - ACQUISTION SERVICES  ###
+##################################
+
+  profilarr:
+    container_name: profilarr
+    image: ghcr.io/dictionarry-hub/profilarr:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      UMASK: "077"
+      ORIGIN: https://profiles.type.hk
+      PARSER_HOST: profilarr-parser
+      PARSER_PORT: 5000
+    env_file:
+      - {{ paths.appData }}/profilarr/runtime.env
+    ports:
+      - 127.0.0.1:{{ ports.profilarr }}:6868
+    volumes:
+      - {{ paths.appData }}/profilarr:/config
+    depends_on:
+      profilarr-parser:
+        condition: service_healthy
+
+  profilarr-parser:
+    container_name: profilarr-parser
+    image: ghcr.io/dictionarry-hub/profilarr-parser:latest
+    restart: unless-stopped
+    expose:
+      - "5000"
+
+########################
+###  MOVIES / SHOWS  ###
+########################
+
+########################
+###  RADARR          ###
+###  movies.type.hk  ###
+########################
+
+  radarr:
+    container_name: radarr
+    image: linuxserver/radarr:latest
+    restart: unless-stopped
+    depends_on:
+      transmission:
+        condition: service_healthy
+    logging:
+      driver: json-file
+    environment:
+      <<: *common-env
+      UMASK: "002"
+    ports:
+      - {{ ports.radarr }}:{{ ports.radarr }}
+    volumes:
+      - {{ paths.appData }}/radarr:/config
+      - /mnt/storage:/data
+      - /etc/localtime:/etc/localtime:ro
+
+#######################
+###  SONARR         ###
+###  shows.type.hk  ###
+#######################
+
+  unpackerr:
+    container_name: unpackerr
+    image: golift/unpackerr@sha256:244fc45cb207308f60e8f52dd703c2b3463385752de0f9517c58ff9d331ed15e
+    user: "1000:950"
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Hong_Kong
+      UN_FILE_MODE: "0664"
+      UN_DIR_MODE: "0775"
+    volumes:
+      - {{ paths.appData }}/unpackerr:/config
+      - {{ paths.downloads }}:/data/meta/downloads
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  sonarr:
+    container_name: sonarr
+    image: linuxserver/sonarr:latest
+    restart: unless-stopped
+    depends_on:
+      transmission:
+        condition: service_healthy
+    logging:
+      driver: json-file
+    environment:
+      <<: *common-env
+      UMASK: "002"
+    ports:
+      - {{ ports.sonarr }}:{{ ports.sonarr }}
+    volumes:
+      - {{ paths.appData }}/sonarr:/config
+      - /mnt/storage:/data
+      - /etc/localtime:/etc/localtime:ro
+
+####################################
+###  BOOKS / MAGAZINES / COMICS  ###
+####################################
+
+#######################
+###  READARR        ###
+###  books.type.hk  ###
+#######################
+
+  bookshelf:
+    container_name: bookshelf
+    image: ghcr.io/pennydreadful/bookshelf:hardcover
+    restart: unless-stopped
+    depends_on:
+      transmission:
+        condition: service_healthy
+    environment:
+      <<: *common-env
+    ports:
+      - {{ ports.bookshelf }}:{{ ports.bookshelf }}
+    volumes:
+      - {{ paths.appData }}/bookshelf:/config
+      - {{ paths.publicRoot }}/books:{{ paths.publicRoot }}/books
+      - {{ paths.publicRoot }}/library:{{ paths.publicRoot }}/library
+      - {{ paths.downloads }}:{{ paths.downloads }}
+      - /opt:/opt
+
+######################
+###  EPHEMERA      ###
+###  anna.type.hk  ###
+######################
+
+  ephemera:
+    container_name: ephemera
+    image: ghcr.io/orwellianepilogue/ephemera:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      # FlareSolverr URL (for slow download fallback)
+      FLARESOLVERR_URL: http://flaresolverr:{{ ports.byparr }}
+      AA_BASE_URL: https://annas-archive.gl/
+      ALLOWED_ORIGINS: https://anna.type.hk
+    ports:
+      - {{ ports.ephemera }}:{{ ports.ephemera }}
+    volumes:
+      - {{ paths.appData }}/ephemera:/app/data
+      - {{ paths.dlCache }}/ephemera:/downloads
+      - {{ paths.drops }}/booklore:/ingest
+      - {{ paths.publicRoot }}/library:{{ paths.publicRoot }}/library
+
+######################
+###  SHELFMARK     ###
+###  mark.type.hk  ###
+######################
+
+  shelfmark:
+    container_name: shelfmark
+    image: ghcr.io/calibrain/shelfmark:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    ports:
+     - {{ ports.shelfmark }}:{{ ports.shelfmark }}
+    volumes:
+      - {{ paths.appData }}/shelfmark:/config          # App configuration
+      - {{ paths.drops }}/booklore:/books
+      - {{ paths.drops }}/abs:/audiobooks
+      - {{ paths.downloads }}:{{ paths.downloads }}   # Download client mount - path must match your torrent/usenet client's volume exactly
+
+########################
+###  LAZY LIBRARIAN  ###
+###  liz.type.hk     ###
+########################
+
+  lazylibrarian:
+    container_name: lazylibrarian
+    image: linuxserver/lazylibrarian:latest
+    restart: unless-stopped
+    depends_on:
+      transmission:
+        condition: service_healthy
+    environment:
+      <<: *common-env
+      DOCKER_MODS: linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg
+    ports:
+      - {{ ports.lazylibrarian }}:{{ ports.lazylibrarian }}
+    volumes:
+      - {{ paths.appData }}/lazylibrarian:/config
+      - {{ paths.downloads }}:/downloads
+      - {{ paths.downloads }}:{{ paths.downloads }}
+      - {{ paths.publicRoot }}/library:/books
+      - {{ paths.publicRoot }}/library:{{ paths.publicRoot }}/library
+
+###############
+###  MUSIC  ###
+###############
+
+#######################
+###  LIDARR         ###
+###  music.type.hk  ###
+#######################
+
+  lidarr:
+    container_name: lidarr
+    build:
+      context: lidarr-ffmpeg
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      transmission:
+        condition: service_healthy
+    environment:
+      <<: *common-env
+    ports:
+      - {{ ports.lidarr }}:{{ ports.lidarr }}
+    volumes:
+      - {{ paths.appData }}/lidarr:/config
+      - {{ paths.appData }}/tidal-config:/data/tidal-config
+      - {{ paths.publicRoot }}/music:/music
+      - {{ paths.publicRoot }}/music:/data/music
+      - {{ paths.downloads }}:{{ paths.downloads }}
+      - {{ paths.downloads }}:/data/downloads
+      - {{ paths.drops }}/lidarr:/drop
+
+
+#######################
+###  OCTO-FIESTARR  ###
+###  > proxy        ###
+#######################
+
+  octo-fiestarr:
+    container_name: octo-fiestarr
+    image: ghcr.io/bransoned/octo-fiestarr
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Subsonic__Url: http://navidrome:4533          # Navidrome/Subsonic server URL
+      Subsonic__ExplicitFilter: ExplicitOnly        # Explicit content filter: All, ExplicitOnly, CleanOnly (default: ExplicitOnly)
+      Subsonic__DownloadMode: Album                 # Download mode: Track (only requested track), Album (full album when playing a track)
+      Library__DownloadPath: /app/downloads         # Download path inside container
+      SquidWTF__Quality: FLAC                       # SquidWTF preferred audio quality
+      Storage__Mode: Permanent                      # Set cache or permanent download of external songs
+      Cache__DurationHours: 1                       # Set cache duration
+      MUSIC_SERVICE: SquidWTF
+      ENABLE_EXTERNAL_PLAYLISTS: false
+    ports:
+      - {{ ports.octoFiestarr }}:{{ ports.devPort }}
+    volumes:
+      - {{ paths.drops }}/octo:/app/downloads
+
+
+##################################
+###  AA - STREAMING SERVICES   ###
+##################################
+
+#######################
+###  PLEX           ###
+###  watch.type.hk  ###
+###  TODO           ###
+#######################
+
+####################################
+###  BOOKS / MAGAZINES / COMICS  ###
+####################################
+
+######################
+###  GRIMMORY      ###
+###  read.type.hk  ###
+###  FKA Booklore  ###
+######################
+
+  grimmory:
+    container_name: grimmory
+    image: grimmory/grimmory:latest
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: wget -q -O - http://localhost:{{ ports.grimmory }}/api/v1/healthcheck
+      interval: 60s
+      retries: 5
+      start_period: 60s
+      timeout: 10s
+    environment:
+      USER_ID: 1000
+      GROUP_ID: 950
+      TZ: Asia/Hong_Kong
+      DATABASE_URL: jdbc:mariadb://mariadb:{{ ports.mariadb }}/booklore
+      DATABASE_USERNAME: booklore
+      DATABASE_PASSWORD: {{ secret("3346efb5-9036-417a-a4ae-b3cb00a7011c") | compose_quote }}
+      PORT_BOOKLORE: {{ ports.grimmory }}
+    ports:
+      - {{ ports.grimmory }}:{{ ports.grimmory }}
+    volumes:
+      - {{ paths.appData }}/grimmory:/app/data
+      - {{ paths.drops }}/grimmory:/bookdrop
+      - {{ paths.publicRoot }}/library/stars:/books
+      - {{ paths.publicRoot }}/library:/library
+
+##############################
+###  AUDIOBOOKS / PODCASTS ###
+##############################
+
+########################
+###  AUDIOBOOKSHELF  ###
+###  listen.type.hk  ###
+########################
+
+  audiobookshelf:
+    container_name: audiobookshelf
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    ports:
+      - {{ ports.audiobookshelf }}:80
+    volumes:
+      - {{ paths.publicRoot }}/audiobooks:/audiobooks
+      - {{ paths.drops }}/abs:/absdrop
+      - {{ paths.publicRoot }}/podcasts:/podcasts
+      - {{ paths.appData }}/audiobookshelf:/config
+      - {{ paths.appCache }}/audiobookshelf:/metadata
+
+###############
+###  MUSIC  ###
+###############
+
+####################
+###  NAVIDROME   ###
+###  dj.type.hk  ###
+####################
+
+  navidrome:
+    container_name: navidrome
+    image: deluan/navidrome:latest
+    user: 1000:950
+    restart: unless-stopped
+    environment:
+      ND_LOGLEVEL: info
+      ND_BASEURL: https://dj.type.hk
+      ND_LASTFM_APIKEY: 82389b3a3f3c3aabae41a323c9982491
+      ND_LASTFM_SECRET: {{ secret("bf38b38f-73de-4da1-bf89-b3d70089f4af") | compose_quote }}
+      ND_SPOTIFY_ID: b39517108586443382efc09fcf0fd0a7
+      ND_SPOTIFY_SECRET: {{ secret("29598444-cf58-448d-a7bf-b3d7008a937f") | compose_quote }}
+    ports:
+      - {{ ports.navidrome }}:{{ ports.navidrome }}
+    volumes:
+      - {{ paths.appData }}/navidrome:/data
+      - {{ paths.publicRoot }}/music/releases:/music:ro
+      - {{ paths.publicRoot }}/music/bootlegs:/bootlegs:ro
+      - {{ paths.publicRoot }}/music/tracks:/tracks:ro
+      - {{ paths.drops }}/octo:/octo:ro
+
+#######################
+###  FEISHIN        ###
+###  dance.type.hk  ###
+#######################
+
+  feishin:
+    container_name: feishin
+    image: 'ghcr.io/jeffvli/feishin:latest'
+    restart: unless-stopped
+    environment:
+      SERVER_NAME: Navidrome            # pre-defined server name
+      SERVER_LOCK: true                 # When true AND name/type/url are set, only username/password can be toggled
+      SERVER_TYPE: navidrome            # the allowed types are: jellyfin, navidrome, subsonic. These values are case insensitive
+      SERVER_URL: https://dj.type.hk
+      LEGACY_AUTHENTICATION: false      # When SERVER_LOCK is true, sets the legacy (plaintext) authentication flag for Subsonic/OpenSubsonic servers
+      ANALYTICS_DISABLED: false         # Set to true to disable Umami analytics tracking
+    ports:
+      - {{ ports.feishin }}:{{ ports.feishin }}
+
+####################
+###  AA - TOOLS  ###
+####################
+
+#################################
+###  MONITORING / DASHBOARDS  ###
+#################################
+
+#########################
+###  TAUTULLI         ###
+###  monitor.type.hk  ###
+#########################
+
+  tautulli:
+    container_name: tautulli
+    image: linuxserver/tautulli:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    volumes:
+      - /mnt/storage/meta/appData/tautulli:/config
+    ports:
+      - {{ ports.tautulli }}:{{ ports.tautulli }}
+
+#########################
+###  PLEX REWIND      ###
+###  wrapped.type.hk  ###
+#########################
+
+  plex-rewind:
+    image: ghcr.io/raunot/plex-rewind:latest # :develop for the latest development version
+    container_name: plex-rewind
+    restart: unless-stopped
+    environment:
+      - NEXTAUTH_SECRET=l50akmhIBl4TRgE3OCUOn0SO+6oAe4UvyU2VKhOYodA=
+      - NEXTAUTH_URL=https://wrapped.type.hk
+      - NEXT_PUBLIC_SITE_URL=https://wrapped.type.hk
+    volumes:
+      - {{ paths.appData }}/plexrewind:/app/config
+    ports:
+      - {{ ports.plexRewind }}:{{ ports.plexRewind }}
+
+##################
+###  INDEXERS  ###
+##################
+
+#########################
+###  PROWLARR         ###
+###  indexer.type.hk  ###
+#########################
+
+  prowlarr:
+    container_name: prowlarr
+    image: bitlessbyte/prowlarr:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    ports:
+      - {{ ports.prowlarr }}:{{ ports.prowlarr }}
+    volumes:
+      - {{ paths.appData }}/prowlarr:/config
+
+#####################
+###  DOWNLOADERS  ###
+#####################
+
+#########################
+###  TRANSMISSION     ###
+###  torrent.type.hk  ###
+#########################
+
+  transmission:
+    container_name: transmission
+    image: linuxserver/transmission:latest
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -sf http://localhost:{{ ports.transmissionWeb }} || [ $? -eq 22 ]']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    environment:
+      <<: *common-env
+      UMASK: "002"
+      USER: media
+      PASS: {{ secret("d0001509-175f-4cef-9ca6-b3cb00abff89") | compose_quote }}
+    volumes:
+      - {{ paths.appData }}/transmission:/config
+      - {{ user.home }}/.config/transmission/configure-archive-hook.sh:/custom-cont-init.d/90-configure-transmission-archive-hook:ro
+      - {{ paths.downloads }}:/downloads
+      - {{ paths.downloads }}/.torrents:/watch
+      - /mnt/storage:/data
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - {{ ports.transmissionWeb }}:{{ ports.transmissionWeb }}
+      - {{ ports.transmissionP2P }}:{{ ports.transmissionP2P }}
+      - {{ ports.transmissionP2P }}:{{ ports.transmissionP2P }}/udp
+
+#########################
+###  CAPTCHA SOLVERS  ###
+#########################
+
+########################
+###  BYPARR          ###
+###  solver.type.hk  ###
+########################
+
+  byparr:
+    container_name: byparr
+    image: ghcr.io/thephaseless/byparr:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      LOG_LEVEL: INFO
+    ports:
+      - {{ ports.byparr }}:{{ ports.byparr }}
+
+###############################
+###  FLARESOLVER            ###
+###  http://localhost:8192  ###
+###############################
+
+  flaresolverr:
+    container_name: flaresolverr
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+      LOG_LEVEL: info
+      LOG_HTML: false
+      CAPTCHA_SOLVER: none
+    ports:
+      - {{ ports.flaresolverr }}:{{ ports.byparr }}
+
+##################
+###  METADATA  ###
+##################
+
+####################################
+###  BEETS                       ###
+###  http://localhost:8337       ###
+###  > docker exec -it beets sh  ###
+####################################
+
+  beets:
+    container_name: beets
+    image: lscr.io/linuxserver/beets:latest
+    restart: unless-stopped
+    user: "1000:950"
+    environment:
+      <<: *common-env
+    ports:
+      - {{ ports.beets }}:{{ ports.beets }}
+    volumes:
+      - {{ paths.appData }}/beets:/config
+      - {{ paths.publicRoot }}/music/releases:/music
+      - {{ paths.publicRoot }}/music/backlog:/backlog
+      - {{ paths.drops }}/beets:/drop
+
+############################################
+###  BEETS : AUDIBLE                     ###
+###  > docker exec -it beets-audible sh  ###
+############################################
+
+  beets-audible:
+    container_name: beets-audible
+    image: linuxserver/beets:latest
+    restart: unless-stopped
+    environment:
+      <<: *common-env
+    volumes:
+      - {{ paths.appData }}/beets-audible:/config
+      - ./beets-audible-init:/custom-cont-init.d:ro
+      - {{ paths.appData }}/beets-audible/beets/config/config.yaml:/config/config.yaml:ro
+      - {{ paths.publicRoot }}/audiobooks:/audiobooks
+      - {{ paths.downloads }}/audiobooks/untagged:/untagged
+
+####################
+###  CONVERTERS  ###
+####################
+
+####################
+###  AUTO-M4B    ###
+###  > headless  ###
+####################
+
+  auto-m4b:
+    # Explicit opt-in: populated conversion queues must be reviewed first.
+    profiles: [manual]
+    container_name: auto-m4b
+    image: seanap/auto-m4b
+    environment:
+      <<: *common-env
+      CPU_CORES: 4
+      SLEEPTIME: 1m
+      MAKE_BACKUP: "N"
+    volumes:
+      - {{ paths.appData }}/auto-m4b:/config
+      - {{ paths.downloads }}/audiobooks:/temp
+
+###################
+###  DATABASES  ###
+###################
+
+####################
+###  MARIADB     ###
+###  > headless  ###
+####################
+
+  mariadb:
+    container_name: mariadb
+    image: linuxserver/mariadb:latest
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    environment:
+      <<: *common-env
+      MYSQL_ROOT_PASSWORD: {{ secret("3b590574-69c0-44aa-a260-b3cb00bc810d") | compose_quote }}
+      MYSQL_DATABASE: booklore
+      MYSQL_USER: booklore
+      MYSQL_PASSWORD: {{ secret("3346efb5-9036-417a-a4ae-b3cb00a7011c") | compose_quote }}
+    ports:
+      - {{ ports.mariadb }}:{{ ports.mariadb }}
+    volumes:
+      - /appData/mariadb/config:/config:z
+{% endif -%}

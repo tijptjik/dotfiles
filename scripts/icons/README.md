@@ -43,7 +43,7 @@ font discovery and installed fonts are not build inputs.
 | Desktop theme | `catalog.json`, `provenance.json`, `local/`, `upstream/`, `references/`, palette/material modules | `home/dot_local/share/icons/rose-punk/scalable/apps/` |
 | Shell and launcher companions | `command_icons.py`, `command-icons.json`, `material_art.py:COMMAND_ART` | Primary theme SVGs and `local/` source snapshots |
 | Aliases | Catalog icon names/desktop IDs and `alias-overrides.json` | `theme-aliases.json` and Chezmoi `symlink_*.svg` files |
-| Fleet terminal sprites | `fleet.py` SVG mapping and `scripts/fleet_update/icon_catalog.py` labels | `scripts/fleet_update/icons32.json` |
+| Fleet terminal sprites | `fleet.py` SVG mapping and `scripts/icons/icon_catalog.py` labels | `scripts/icons/icons32.json` |
 | Homepage | `homepage.json` and its source SVG/hash declarations | `home/dockers/homepage/images/rose-punk/` |
 
 `apps.json` is the explicit desktop coverage policy used by `audit.py`; it is

@@ -1,0 +1,14 @@
+#!/usr/bin/env fish
+{{ if and (eq .chezmoi.os "linux") .isServer -}}
+{{ include ".chezmoihelpers/status.fish" }}
+{{ include ".chezmoitemplates/fish_logging.fish" }}
+setup_logging si-media-permissions
+if sudo python3 /etc/si-provision/storage.py --check >/dev/null 2>&1
+    step_run_note_as CHECK "Media permissions units" loaded sudo systemctl daemon-reload
+    or exit 1
+    step_run_note_as CHECK "Media permissions policy" enabled sudo systemctl enable --now si-media-permissions.timer
+    or exit 1
+else
+    step_skip_ok "Media permissions policy" "storage not provisioned"
+end
+{{ end -}}

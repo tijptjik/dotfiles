@@ -183,9 +183,9 @@ else:
             "Dotjik\nhttps://github.com/tijptjik/dotfiles",
             "Prerequisites\n",
             "Commit Local Changes\n",
-            "Fleet repositories\n",
+            "Fleet Repositories\n",
             "Dotfiles Apply\n",
-            "Home + system tasks\n",
+            "Home + System Tasks\n",
         ]
         positions = [result.stdout.index(heading) for heading in headings]
         self.assertEqual(positions, sorted(positions))

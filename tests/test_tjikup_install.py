@@ -121,6 +121,19 @@ class InstallTests(unittest.TestCase):
         self.assertNotIn('Traceback', result.stderr)
         self.assertEqual((executable.read_bytes(), record.read_bytes()), before)
 
+    def test_old_progress_api_leaves_installed_runner_untouched(self):
+        result = self.install()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        executable = self.home / '.local/bin/tjikup'
+        before = executable.read_bytes()
+        progress = self.tools / 'apps/tjikup/src/tjikup/progress.py'
+        progress.write_text(progress.read_text().replace('def _refresh(', 'def _old_refresh('))
+        result = self.install()
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertIn('runner is missing or outdated', result.stderr)
+        self.assertNotIn('Traceback', result.stderr)
+        self.assertEqual(executable.read_bytes(), before)
+
     def test_stale_bundle_reports_recovery_before_starting_workflow(self):
         result = self.install()
         self.assertEqual(result.returncode, 0, result.stderr)

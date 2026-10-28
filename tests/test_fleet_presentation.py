@@ -174,7 +174,7 @@ class PresentationTests(unittest.TestCase):
                     else:
                         lines = [line for line in output.getvalue().splitlines() if line.strip()]
                         self.assertEqual(len(lines), 2)
-                        self.assertEqual(lines[0], 'Home configuration')
+                        self.assertEqual(lines[0], 'Home Configuration')
                         self.assertIn('86 pkgs', output.getvalue())
                         self.assertNotIn('Using Python', output.getvalue())
                         self.assertNotIn('DAG', output.getvalue())
@@ -231,8 +231,8 @@ class PresentationTests(unittest.TestCase):
                     patch.dict(os.environ, env), contextlib.redirect_stdout(io.StringIO()) as output:
                 apply_hooks(root, env)
             lines = [line for line in output.getvalue().splitlines() if line.strip()]
-            self.assertEqual(lines[0], 'Home configuration')
-            self.assertEqual(lines.count('Home configuration'), 1)
+            self.assertEqual(lines[0], 'Home Configuration')
+            self.assertEqual(lines.count('Home Configuration'), 1)
             self.assertNotIn('Herdr', lines)
             self.assertNotIn('Private storage', lines)
             self.assertTrue(any('CONFIG' in line and 'Herdr' in line for line in lines))

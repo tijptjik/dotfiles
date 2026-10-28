@@ -45,7 +45,7 @@ class PreparationTests(unittest.TestCase):
         class Output(io.StringIO):
             def write(self, value):
                 result = super().write(value)
-                if "Chezmoi" in value and self.getvalue().count("Chezmoi") > 1:
+                if "\x1b7" in value:
                     tick.set()
                 return result
 
@@ -58,6 +58,7 @@ class PreparationTests(unittest.TestCase):
                 def action():
                     self.assertIn("Chezmoi", output.getvalue())
                     self.assertTrue(tick.wait(2), "spinner did not animate")
+                    self.assertEqual(output.getvalue().count("Chezmoi"), 1)
                     print("native diagnostic", flush=True)
                     print("continue? ", end="", file=sys.stderr, flush=True)
                     before = output.getvalue().count("Chezmoi")

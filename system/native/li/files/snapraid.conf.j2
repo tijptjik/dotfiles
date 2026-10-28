@@ -1,0 +1,75 @@
+{%- if is_server %}
+# SnapRAID configuration file
+
+# Parity location(s)
+# Defines the file to use as parity storage
+# It must NOT be in a data disk
+# Format: "parity FILE [,FILE] ..."
+1-parity /mnt/parity/disk12/snapraid.parity
+2-parity /mnt/parity/disk22/snapraid.parity
+
+# Content file location(s)
+# content /var/snapraid.content
+content /mnt/data/disk12/.snapraid.content
+content /mnt/data/disk22/.snapraid.content
+content /mnt/data/disk32/.snapraid.content
+content /mnt/data/disk42/.snapraid.content
+content /mnt/data/disk5/.snapraid.content
+
+# Data disks
+# data d1 /mnt/data/disk1
+data d1 /mnt/data/disk12
+data d2 /mnt/data/disk22
+data d3 /mnt/data/disk32
+data d4 /mnt/data/disk42
+data d5 /mnt/data/disk5
+
+# Excludes hidden files and directories (uncomment to enable).
+#nohidden
+
+# Excludes hidden files and directories
+exclude *.unrecoverable
+exclude /tmp/
+exclude /lost+found/
+exclude /.Trash-*
+exclude /meta/
+exclude /docker/
+exclude /.recovery-preservation/
+#            /code/
+#            /downloads/
+#            /insync/
+#            /opt/
+exclude /snapraid.log
+exclude /swap
+exclude /swapfile
+exclude *.swap
+
+# Automatically save the state when syncing after the specified amount
+# of GB processed (uncomment to enable).
+# This option is useful to avoid to restart from scratch long 'sync'
+# commands interrupted by a machine crash.
+# It also improves the recovering if a disk break during a 'sync'.
+# Default value is 0, meaning disabled.
+# Format: "autosave SIZE_IN_GB"
+#autosave 500
+
+# Defines the pooling directory where the virtual view of the disk
+# array is created using the "pool" command (uncomment to enable).
+# The files are not really copied here, but just linked using
+# symbolic links.
+# This directory must be outside the array.
+# Format: "pool DIR"
+#pool /pool
+
+# Defines a custom smartctl command to obtain the SMART attributes
+# for each disk. This may be required for RAID controllers and for
+# some USB disk that cannot be autodetected.
+# In the specified options, the "%s" string is replaced by the device name.
+# Refers at the smartmontools documentation about the possible options:
+# RAID -> https://www.smartmontools.org/wiki/Supported_RAID-Controllers
+# USB -> https://www.smartmontools.org/wiki/Supported_USB-Devices
+#smartctl d1 -d sat %s
+#smartctl d2 -d usbjmicron %s
+#smartctl parity -d areca,1/1 /dev/sg0
+#smartctl 2-parity -d areca,2/1 /dev/sg0
+{% endif -%}

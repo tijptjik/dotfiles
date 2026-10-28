@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "id": "home-credentials-device",
+  "context": {},
+  "bitwarden": {
+    "command": [
+      "/usr/local/bin/bws"
+    ],
+    "access_token_file": "{{ user.home }}/.config/bws/environment"
+  },
+  "entries": [
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/fish/conf.d/secrets.fish",
+      "source": "templates/fish/conf.d/secrets.fish.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "when": "\"home:secrets\" in subscriptions"
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/hyprvoice/config.toml",
+      "source": "templates/hyprvoice/config.toml.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "when": "\"system:hyprvoice\" in subscriptions"
+    }
+  ]
+}

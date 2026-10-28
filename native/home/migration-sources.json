@@ -1,0 +1,11 @@
+{
+  "dot_config/fish/conf.d/secrets.fish.tmpl": ".config/fish/conf.d/secrets.fish",
+  "dot_config/hyprvoice/config.toml.tmpl": ".config/hyprvoice/config.toml",
+  "dot_config/rclone/private_rclone.conf.tmpl": ".config/rclone/rclone.conf",
+  "dot_config/private-storage/private_restic-password.tmpl": ".config/private-storage/restic-password",
+  "dot_config/private-storage/private_create_drive.conf.tmpl": ".config/private-storage/drive.conf",
+  "dot_config/private-storage/private_cloudflare-backup-token.tmpl": ".config/private-storage/cloudflare-backup-token",
+  "dot_config/private-storage/private_cloudflare-config-token.tmpl": ".config/private-storage/cloudflare-config-token",
+  "dot_config/drive-restic/private_create_drive.conf.tmpl": ".config/drive-restic/drive.conf",
+  "dot_config/drive-restic/private_restic-password.tmpl": ".config/drive-restic/restic-password"
+}

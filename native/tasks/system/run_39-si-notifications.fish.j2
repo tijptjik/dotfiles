@@ -1,0 +1,14 @@
+#!/usr/bin/env fish
+{% if os == "linux" and is_server -%}
+{{ include(".chezmoihelpers/status.fish") }}
+{{ include(".chezmoitemplates/fish_logging.fish") }}
+setup_logging si-notifications
+if sudo test -f /etc/si-notifications/telegram.json
+    step_run_note_as CHECK "SnapRAID alert units" loaded sudo systemctl daemon-reload
+    or exit 1
+    step_run_note_as CHECK "SnapRAID alert watchdog" enabled sudo systemctl enable --now si-snapraid-health.timer
+    or exit 1
+else
+    step_skip_ok "SnapRAID Telegram alerts" "restore root-only credentials first"
+end
+{% endif -%}

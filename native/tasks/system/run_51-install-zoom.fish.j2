@@ -1,0 +1,18 @@
+#!/usr/bin/env fish
+{% if os == "linux" and is_client -%}
+{{ include(".chezmoihelpers/status.fish") }}
+{{ include(".chezmoitemplates/fish_logging.fish") }}
+setup_logging linux-install-zoom
+
+# Zoom distributes an official RPM, but does not provide a DNF repository.
+if rpm -q zoom >/dev/null 2>&1
+    step_skip_ok "Zoom Workplace" installed
+else
+    if test (uname -m) != x86_64
+        step_fail "Zoom Workplace requires an x86_64 client"
+        exit 1
+    end
+    step_run_quiet "Install Zoom Workplace" sudo dnf install -y https://zoom.us/client/latest/zoom_x86_64.rpm
+    or exit $status
+end
+{% endif -%}

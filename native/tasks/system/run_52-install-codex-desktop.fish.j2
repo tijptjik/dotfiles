@@ -1,0 +1,51 @@
+#!/usr/bin/env fish
+# Keep ChatGPT Desktop availability beside the other application status lines.
+{% if os == "linux" and is_client -%}
+
+{{ include(".chezmoihelpers/status.fish") }}
+{{ include(".chezmoitemplates/fish_logging.fish") }}
+setup_logging linux-install-chatgpt-desktop
+
+set chatgpt_rpm https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm
+
+function chatgpt_desktop_is_available
+    command -q chatgpt
+    or rpm -q chatgpt >/dev/null 2>&1
+end
+
+if rpm -q chatgpt >/dev/null 2>&1
+    set installed_version (rpm -q --qf '%{EVR}' chatgpt)
+    sudo dnf check-upgrade -q --refresh --disablerepo='*' --enablerepo=openai-chatgpt chatgpt >/dev/null 2>&1
+    set update_status $status
+
+    switch $update_status
+        case 0
+            status_msg SKIP "✓" "ChatGPT Desktop" "no changes"
+        case 100
+            set available_version (sudo dnf repoquery -q --available --latest-limit 1 --qf '%{EVR}' --disablerepo='*' --enablerepo=openai-chatgpt chatgpt)
+            set update_title "Update ChatGPT Desktop ($installed_version → $available_version)"
+            set previous_stage $chezetc_stage
+            set chezetc_stage UPDATE
+            step_run_quiet "$update_title" sudo dnf upgrade -y --refresh --disablerepo='*' --enablerepo=openai-chatgpt chatgpt
+            set update_status $status
+            if test $update_status -eq 0
+                step_ok "$update_title"
+            end
+            set chezetc_stage $previous_stage
+            test $update_status -eq 0; or exit $update_status
+        case '*'
+            step_fail "Check for ChatGPT Desktop updates"
+            exit $update_status
+    end
+else
+    step_run_quiet "Install ChatGPT Desktop" sudo dnf install -y "$chatgpt_rpm"
+    or exit 1
+    step_ok "Install ChatGPT Desktop"
+end
+
+if not chatgpt_desktop_is_available
+    step_fail "Verify ChatGPT Desktop installation"
+    exit 1
+end
+
+{% endif -%}

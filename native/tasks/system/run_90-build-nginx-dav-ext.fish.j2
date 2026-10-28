@@ -1,0 +1,14 @@
+#!/usr/bin/env fish
+# Recheck after the normal DNF update has completed.
+{% if os == "linux" and is_server -%}
+
+{{ include(".chezmoihelpers/status.fish") }}
+{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include(".chezmoitemplates/nginx_dav_ext.fish") }}
+setup_logging linux-build-nginx-dav-ext
+
+ensure_nginx_dav_ext
+or exit 1
+converge_nginx_after_package_update
+or exit 1
+{% endif -%}

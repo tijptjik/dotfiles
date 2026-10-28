@@ -1,0 +1,14 @@
+#!/usr/bin/env fish
+{% if os == "linux" and is_server -%}
+{{ include(".chezmoihelpers/status.fish") }}
+{{ include(".chezmoitemplates/fish_logging.fish") }}
+setup_logging si-transmission-cleanup
+if sudo python3 /etc/si-provision/storage.py --check >/dev/null 2>&1
+    step_run_note_as CHECK "Transmission cleanup units" loaded sudo systemctl daemon-reload
+    or exit 1
+    step_run_note_as CHECK "Daily Transmission cleanup" enabled sudo systemctl enable --now si-transmission-cleanup.timer
+    or exit 1
+else
+    step_skip_ok "Daily Transmission cleanup" "storage not provisioned"
+end
+{% endif -%}

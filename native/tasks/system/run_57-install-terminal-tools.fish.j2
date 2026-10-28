@@ -1,0 +1,26 @@
+#!/usr/bin/env fish
+{% if os == "linux" and is_client -%}
+{{ include(".chezmoihelpers/desktop-user.fish") }}
+{{ include(".chezmoihelpers/status.fish") }}
+{{ include(".chezmoitemplates/fish_logging.fish") }}
+setup_logging linux-install-terminal-tools
+
+function install_terminal_tools
+    set -l installer_dir (mktemp -d); or return 1
+    set -l installer "$installer_dir/installer.py"
+    printf '%s' {{ include(".chezmoitemplates/github_api.py") | b64enc | json_quote }} | base64 --decode > "$installer_dir/github_api.py"
+    and printf '%s' {{ include(".chezmoitemplates/update-client-cli-releases.py") | b64enc | json_quote }} | base64 --decode > "$installer"
+    set -l write_result $status
+    if test $write_result -ne 0
+        rm -rf "$installer_dir"
+        return $write_result
+    end
+    python3 -B "$installer" terminal
+    set -l result $status
+    rm -rf "$installer_dir"
+    return $result
+end
+
+step_run_quiet "Tennis and Tinty" install_terminal_tools
+or exit $status
+{% endif -%}

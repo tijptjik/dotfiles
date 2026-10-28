@@ -1,0 +1,22 @@
+#!/usr/bin/env fish
+{% if os == "linux" and is_client -%}
+{{ include(".chezmoihelpers/status.fish") }}
+{{ include(".chezmoitemplates/fish_logging.fish") }}
+setup_logging linux-install-chrome
+
+# Bootstrap Chrome before package install; Fedora may already supply its repo.
+if rpm -q google-chrome-stable >/dev/null 2>&1
+    step_skip_ok "Google Chrome stable" installed
+else
+    if test (uname -m) != x86_64
+        step_fail "Google Chrome stable requires an x86_64 client"
+        exit 1
+    end
+    step_run_quiet "Install Google Chrome stable" sudo dnf install -y https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+    or exit $status
+end
+# Fedora Workstation supplies this repository disabled by default. Enable it
+# even when Chrome is already installed, so the normal package phase updates it.
+step_run_quiet "Enable Google Chrome updates" sudo dnf config-manager setopt google-chrome.enabled=1
+or exit $status
+{% endif -%}

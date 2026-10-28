@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "context_files": [
+    "data.json"
+  ],
+  "includes": {
+    ".chezmoidata/packages.json": "assets/system/chezmoidata/packages.json",
+    ".chezmoihelpers/status.fish": "assets/system/chezmoihelpers/status.fish",
+    ".chezmoitemplates/fish_logging.fish": "assets/system/chezmoitemplates/fish_logging.fish",
+    ".chezmoidata/repos.yaml": "assets/system/chezmoidata/repos.yaml",
+    ".chezmoitemplates/package_reporting.fish": "assets/system/chezmoitemplates/package_reporting.fish",
+    ".chezmoitemplates/nginx_dav_ext.fish": "assets/system/chezmoitemplates/nginx_dav_ext.fish",
+    ".chezmoihelpers/desktop-user.fish": "assets/system/chezmoihelpers/desktop-user.fish",
+    ".chezmoitemplates/github_api.py": "assets/system/chezmoitemplates/github_api.py",
+    ".chezmoitemplates/update-client-cli-releases.py": "assets/system/chezmoitemplates/update-client-cli-releases.py",
+    ".chezmoitemplates/install-tippecanoe.py": "assets/system/chezmoitemplates/install-tippecanoe.py",
+    ".chezmoitemplates/install-launcher-tools.py": "assets/system/chezmoitemplates/install-launcher-tools.py",
+    ".chezmoitemplates/hyprland-uwsm.desktop": "assets/system/chezmoitemplates/hyprland-uwsm.desktop"
+  }
+}

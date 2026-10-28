@@ -1,0 +1,238 @@
+#!/usr/bin/env fish
+# Run on every apply so Zed release status follows application checks.
+{% if os == "linux" -%}
+
+{{ include(".chezmoihelpers/status.fish") }}
+{{ include(".chezmoitemplates/fish_logging.fish") }}
+setup_logging linux-install-zed
+
+function detect_zed_target_user
+    if test (id -u) -ne 0
+        id -un
+        return 0
+    end
+
+    if set -q SUDO_USER; and test -n "$SUDO_USER"; and test "$SUDO_USER" != "root"
+        echo "$SUDO_USER"
+        return 0
+    end
+
+    set login_user (logname 2>/dev/null)
+    if test -n "$login_user"; and test "$login_user" != "root"
+        echo "$login_user"
+        return 0
+    end
+
+    if test -d /home/io
+        echo io
+        return 0
+    end
+
+    echo root
+end
+
+set zed_target_user (detect_zed_target_user)
+set zed_target_home (getent passwd "$zed_target_user" | cut -d: -f6)
+if test -z "$zed_target_home"
+    set zed_target_home "/home/$zed_target_user"
+end
+
+function zed_arch
+    set arch (uname -m)
+    switch $arch
+        case arm64 aarch64
+            echo aarch64
+        case x86_64 x86_64\* i686
+            echo x86_64
+        case '*'
+            step_fail "Zed unsupported architecture: $arch"
+            return 1
+    end
+end
+
+function normalize_zed_version
+    string replace -r '^v' '' -- $argv[1] | string replace -r -- '-pre$' ''
+end
+
+function latest_zed_version
+    set channel $argv[1]
+    set arch $argv[2]
+    set url "https://cloud.zed.dev/releases/$channel/latest/download?asset=zed&arch=$arch&os=linux&source=chezetc"
+
+    curl -fsSIL -X GET "$url" \
+        | string match -r 'releases/download/v[^/]+/' \
+        | head -n 1 \
+        | string replace 'releases/download/' '' \
+        | string trim --chars /
+end
+
+function installed_zed_version
+    set binary $argv[1]
+
+    if not test -x "$binary"
+        return 1
+    end
+
+    if test (id -u) -eq 0; and test "$zed_target_user" != "root"
+        sudo -u "$zed_target_user" env HOME="$zed_target_home" "$binary" --version 2>/dev/null
+    else
+        env HOME="$zed_target_home" "$binary" --version 2>/dev/null
+    end \
+        | string match -r '[0-9]+\.[0-9]+\.[0-9]+(-pre)?' \
+        | head -n 1
+end
+
+function any_local_zed_version
+    set candidates \
+        "$zed_target_home/.local/zed.app/bin/zed" \
+        "$zed_target_home/.local/zed-preview.app/bin/zed" \
+        "$zed_target_home/.local/zed-nightly.app/bin/zed" \
+        "$zed_target_home/.local/bin/zed"
+
+    for candidate in $candidates
+        set zed_version (installed_zed_version "$candidate")
+        if test -n "$zed_version"
+            echo "$zed_version"
+            return 0
+        end
+    end
+
+    return 1
+end
+
+function run_zed_installer
+    set channel $argv[1]
+    set installer (mktemp)
+
+    if not test -f "$installer"
+        step_fail "Create Zed $channel installer temp file"
+        return 1
+    end
+
+    if not step_run "Download Zed $channel installer" curl -fsSL -o "$installer" https://zed.dev/install.sh
+        rm -f "$installer"
+        return 1
+    end
+    chmod 755 "$installer"
+    or begin
+        step_fail "Make Zed $channel installer executable"
+        rm -f "$installer"
+        return 1
+    end
+
+    set install_env HOME="$zed_target_home"
+    if test "$channel" != "stable"
+        set -a install_env ZED_CHANNEL="$channel"
+    end
+
+    if test (id -u) -eq 0; and test "$zed_target_user" != "root"
+        step_run "Install Zed $channel for $zed_target_user" sudo -u "$zed_target_user" env $install_env sh "$installer"
+    else
+        step_run "Install Zed $channel for $zed_target_user" env $install_env sh "$installer"
+    end
+    set install_status $status
+
+    rm -f "$installer"
+    return $install_status
+end
+
+function install_zed_channel
+    set channel $argv[1]
+    set suffix $argv[2]
+    set install_mode $argv[3]
+    set app_dir "$zed_target_home/.local/zed$suffix.app"
+    set binary "$app_dir/bin/zed"
+    set channel_label $channel
+    if test "$channel" = stable
+        set channel_label Stable
+    else if test "$channel" = preview
+        set channel_label Preview
+    else if test "$channel" = nightly
+        set channel_label Nightly
+    end
+    set arch (zed_arch)
+    or return 1
+
+    set installed_version (installed_zed_version "$binary")
+    if test "$TJIKUP_OPERATION" = install; and test -n "$installed_version"
+        step_skip_ok "$channel_label" "installed"
+        return 0
+    end
+    if test "$TJIKUP_OPERATION" = update; and test -z "$installed_version"
+        step_skip_ok "$channel_label" "not installed"
+        return 0
+    end
+    if test "$install_mode" = "optional"; and test -n "$installed_version"
+        step_skip_ok "$channel_label" "Zed $installed_version available"
+        return 0
+    end
+
+    if test "$install_mode" = "optional"
+        set local_version (any_local_zed_version)
+        if test -n "$local_version"
+            step_skip_ok "$channel_label" "Zed $local_version available"
+            return 0
+        end
+    end
+
+    set latest_version (latest_zed_version $channel $arch)
+
+    if test -z "$latest_version"
+        if test -n "$installed_version"
+            step_skip_ok "$channel_label" "latest unavailable; keeping $installed_version installed"
+            return 0
+        end
+
+        step_fail "Determine latest Zed $channel version"
+        return 1
+    end
+
+    if test -n "$installed_version"
+        set normalized_latest (normalize_zed_version $latest_version)
+        set normalized_installed (normalize_zed_version $installed_version)
+
+        if test "$normalized_installed" = "$normalized_latest"
+            step_skip_ok "$channel_label ($installed_version)" "no changes"
+            return 0
+        end
+
+        step_note "Zed $channel updating $installed_version to $latest_version for $zed_target_user"
+    else
+        step_note "Zed $channel installing $latest_version for $zed_target_user"
+    end
+
+    run_zed_installer $channel
+    or return 1
+
+    set installed_version (installed_zed_version "$binary")
+    if test "$TJIKUP_OPERATION" = install; and test -n "$installed_version"
+        step_skip_ok "$channel_label" "installed"
+        return 0
+    end
+    if test "$TJIKUP_OPERATION" = update; and test -z "$installed_version"
+        step_skip_ok "$channel_label" "not installed"
+        return 0
+    end
+    if test -n "$installed_version"
+        step_ok "Zed $channel installed ($installed_version)"
+    else
+        step_fail "Verify Zed $channel binary"
+        return 1
+    end
+end
+
+step_header "Zed editor"
+
+# Servers use Preview, matching the dotrc and sysrc shortcuts.
+{% if not is_server -%}
+install_zed_channel stable "" required
+or exit 1
+{% endif -%}
+
+install_zed_channel preview "-preview" required
+or exit 1
+
+# install_zed_channel nightly "-nightly" optional
+# or exit 1
+
+{% endif -%}

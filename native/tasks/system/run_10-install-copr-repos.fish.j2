@@ -1,0 +1,111 @@
+#!/usr/bin/env fish
+# Run on every apply so this section stays in the ordered tjikup report.
+{% if os == "linux" -%}
+
+set -x SUDO_ASKPASS ""           # force sudo to ask on the terminal
+
+# packages.json hash: {{ include(".chezmoidata/packages.json") | sha256 }}
+
+{{ include(".chezmoihelpers/status.fish") }}
+{{ include(".chezmoitemplates/fish_logging.fish") }}
+setup_logging linux-install-copr
+
+# Check if a COPR repository is already configured. `dnf copr list` includes
+# configured repositories, including ones that may have been disabled later.
+function is_copr_configured
+    set -l full_repo "copr.fedorainfracloud.org/$argv[1]"
+    LC_ALL=C dnf copr list 2>/dev/null \
+        | string replace -r ' \((enabled|disabled)\)$' '' \
+        | grep -Fxq -- "$full_repo"
+end
+
+function copr_native_chroot
+    set -l repo_parts (string split / -- "$argv[1]")
+    if test (count $repo_parts) -ne 2
+        return 1
+    end
+    set -l chroot "fedora-"(rpm -E %fedora)"-"(uname -m)
+    curl -fsSL "https://copr.fedorainfracloud.org/api_3/project?ownername=$repo_parts[1]&projectname=$repo_parts[2]" \
+        | jq -er --arg chroot "$chroot" '.chroot_repos | select(has($chroot)) | $chroot'
+end
+
+# Enable only a native-release COPR. Existing disabled repos retain user policy.
+function enable_copr
+    set -l copr_repo $argv[1]
+    if is_copr_configured $copr_repo
+        step_skip_ok "$copr_repo" available
+        return 0
+    end
+    set -l selected_chroot (copr_native_chroot $copr_repo)
+    if test -z "$selected_chroot"
+        status_msg FAILED "✗" "$copr_repo" "native-release chroot unavailable"
+        return 1
+    end
+    step_run_note_quiet "$copr_repo" enabled sudo dnf copr enable -y $copr_repo $selected_chroot
+    or return 1
+end
+
+# Retire the font COPR; Bartjik now ships its own pinned, application-local font.
+set -l font_copr purian23/material-symbols-fonts
+if is_copr_configured "$font_copr"
+    set -l repo_id "copr:copr.fedorainfracloud.org:purian23:material-symbols-fonts"
+    set -l overrides /etc/dnf/repos.override.d/99-config_manager.repo
+    if test -f "$overrides"; and python3 -c 'import configparser,sys; c=configparser.ConfigParser(interpolation=None); c.read(sys.argv[1]); sys.exit(0 if c.has_option(sys.argv[2], "enabled") else 1)' "$overrides" "$repo_id"
+        step_run_note_as CONFIG "Material Symbols COPR override" retired sudo dnf config-manager unsetopt "$repo_id.enabled"
+        or exit 1
+    end
+    step_run_note_as REMOVE "Material Symbols COPR" "font bundled with Bartjik" sudo dnf copr remove -y "$font_copr"
+    or exit 1
+end
+
+# Migrate si away from the desktop COPR formerly enabled for every host.
+# Keep the definition for troubleshooting; clients still enable it below.
+{% if is_server -%}
+set hyprland_repo 'copr:copr.fedorainfracloud.org:lionheartp:Hyprland'
+if dnf repo list --enabled --quiet | string match -q "$hyprland_repo *"
+    step_run_note_as DISABLE "Hyprland COPR" "client-only" sudo dnf config-manager setopt "$hyprland_repo.enabled=0"
+    or exit 1
+end
+{% endif %}
+
+# Initialize package arrays
+set common_copr_repos
+set client_copr_repos
+
+# Add common COPR repositories
+{% for item in packages.common.copr -%}
+set -a common_copr_repos '{{ item }}'
+{% endfor %}
+
+# Add client-specific COPR repositories
+{% if is_client -%}
+{% for item in packages.client.copr -%}
+set -a client_copr_repos '{{ item }}'
+{% endfor %}
+{% endif %}
+
+# Enable common COPR repositories
+if test (count $common_copr_repos) -gt 0
+    step_header "Common COPR"
+
+    # Enable each COPR repository
+    for repo in $common_copr_repos
+        enable_copr $repo
+        or exit 1
+    end
+end
+
+# Enable client-specific COPR repositories
+{% if is_client -%}
+if test (count $client_copr_repos) -gt 0
+    step_header "Client COPR"
+
+    # Enable each COPR repository
+    for repo in $client_copr_repos
+        enable_copr $repo
+        or exit 1
+    end
+end
+{% endif %}
+
+{% endif %}

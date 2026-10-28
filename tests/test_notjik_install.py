@@ -45,6 +45,7 @@ class NotjikInstallTests(unittest.TestCase):
         (self.root / 'ensure-tjikos.sh').write_text(
             (ROOT / 'scripts/ensure-tjikos.sh').read_text()
             .replace('$HOME', '${NOTJIK_TEST_HOME}'))
+        (self.root / 'activate-notjik.sh').write_text((ROOT / 'scripts/activate-notjik.sh').read_text().replace('$HOME', '${NOTJIK_TEST_HOME}'))
         shutil.copy2(ROOT / 'scripts/cache-install.py', self.root / 'cache-install.py')
         self.log = self.root / 'calls'
         self.env = {**os.environ, 'NOTJIK_TEST_HOME': str(self.home),
@@ -70,6 +71,12 @@ class NotjikInstallTests(unittest.TestCase):
         self.assertFalse(self.old.exists())
         self.assertEqual(self.run_install().returncode, 0)
         self.assertEqual(list((self.root / 'state/notjik/migration').glob('*/config/dunstrc')), archives)
+
+    def test_managed_install_defers_activation_and_preserves_old_configuration(self):
+        result = self.run_install(TJIKUP_MANAGED_CONFIG='1')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(self.old.is_dir())
+        self.assertNotIn('--user', self.log.read_text())
 
     def test_install_failure_preserves_old_config_and_service(self):
         result = self.run_install(INSTALL_RESULT='1')
@@ -97,7 +104,7 @@ class NotjikInstallTests(unittest.TestCase):
                         '--persistent-state', str(self.root / 'state.db'),
                         'execute-template', '-f', str(ROOT / path),
                     ], text=True)
-                hook = render('home/.chezmoiscripts/run_after_37-install-notjik.fish.tmpl')
+                hook = render('home/.chezmoitemplates/tjikup/run_after_37-install-notjik.fish.tmpl')
                 subprocess.run(['fish', '--no-config', '-n'], input=hook, text=True, check=True)
                 self.assertEqual('install-notjik.sh' in hook, host != 'si')
                 ignored = render('home/.chezmoiignore').splitlines()

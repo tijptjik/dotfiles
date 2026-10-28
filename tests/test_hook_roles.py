@@ -105,7 +105,7 @@ class HookRoleTests(unittest.TestCase):
                 ('FAILED  ✗ Tool    broken\n', 1, False, False)]:
             with self.subTest(output=output, inactive=inactive), tempfile.TemporaryDirectory() as directory:
                 root = Path(directory)
-                policy = SimpleNamespace(apply_files=lambda repo: None,
+                policy = SimpleNamespace(apply_files=lambda repo, **kwargs: None,
                     render_hooks=lambda *args: {'tool.fish': '# no tasks\n' if inactive else 'echo stubbed\n'})
                 env = {'XDG_STATE_HOME': str(root), 'TJIKUP_COLOR': '0', 'TJIKUP_PROGRESS': '0',
                        'TJIKUP_ICONS': '0', 'FLEET_TIMING_RECEIPT': str(root / 'timing-path')}
@@ -128,7 +128,7 @@ class HookRoleTests(unittest.TestCase):
         from fleet_update import fleet_apply
         home = [{'id': 'chezetc-wrapper', 'label': 'Wrapper', 'file': 'wrapper.fish'}]
         system = [{'id': 'gui', 'label': 'Obsidian', 'file': 'client.fish'}]
-        policy = SimpleNamespace(apply_files=lambda repo: None,
+        policy = SimpleNamespace(apply_files=lambda repo, **kwargs: None,
             render_hooks=lambda *args: {'client.fish': '#!/usr/bin/env fish\n'})
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

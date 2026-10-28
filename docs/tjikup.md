@@ -521,11 +521,19 @@ tjikup                         # converge; skip installed home package upgrades
 tjikup --upgrade               # also check home package registries for upgrades
 tjikup --dry-run               # checks and capture preview only
 tjikup --skip-conflicts        # preserve conflicting home/system files
+tjikup --skip-repo-sync        # apply local checkouts without syncing the three repos
 tjikup --config ./tjikup.json --check
 TJIKOS_REPO=~/code/tjikos bash scripts/validate.sh
 ```
 
-The fleet declares `--skip-conflicts`; it is not hard-coded in the runner.
+The fleet declares `--skip-conflicts` and `--skip-repo-sync`; neither is hard-coded
+in the runner. `--skip-repo-sync` skips Dotjik, Systjik and tjikOS pulls and
+pushes, including their dirty-worktree checks, so repository sync failures do
+not block apply. Repository rows show `skipped`. Prerequisites, live settings
+capture, scoped capture commits and home/system apply still run using local
+sources; their own failures still stop the workflow. The flag also suppresses
+repository previews with `--dry-run` and can be combined with `--skip-conflicts`
+and `--upgrade`.
 Dry-run never commits, pulls, pushes, applies, or writes capture backups.
 `--check` validates configuration structure without invoking any commands.
 A different source checkout is selected through `--config`; legacy

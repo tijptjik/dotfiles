@@ -8,6 +8,10 @@
     "upgrade": {
       "env": "FLEET_UPGRADE",
       "help": "check for home package upgrades as well as applying configuration"
+    },
+    "skip-repo-sync": {
+      "env": "FLEET_SKIP_REPO_SYNC",
+      "help": "skip pulls, pushes and dirty checks for Dotjik, Systjik and tjikOS"
     }
   },
   "steps": [

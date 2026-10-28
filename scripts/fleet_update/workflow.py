@@ -91,6 +91,7 @@ def show_failure(step, output, repo, error, seconds, *, status=True):
 
 
 def workflow(repo, *, dry_run=False):
+    skip_repo_sync = os.environ.get("FLEET_SKIP_REPO_SYNC") == "1"
     plan = json.loads((Path(__file__).with_name("workflow.json")).read_text())
     from .fleet_apply import plans
     plans(repo, Path.home() / ".local/share/systjik")
@@ -135,6 +136,8 @@ def workflow(repo, *, dry_run=False):
 
         def action(step):
             def execute():
+                if skip_repo_sync and step["id"] in repository_steps:
+                    return
                 command = step.get("preview") if dry_run else step["command"]
                 if command is None:
                     return
@@ -177,6 +180,16 @@ def workflow(repo, *, dry_run=False):
         def event(name, result):
             step = steps[name]
             label, verb = step.get("label", name), step.get("verb", "UPDATE")
+            if skip_repo_sync and name in repository_steps and result.state in {"running", "done", "skipped"}:
+                if result.state != "running" and name != "dirty":
+                    repository, operation = repository_steps[name]
+                    note = "--skip-repo-sync"
+                    if dry_run:
+                        runtime.stage_skip(f"{operation.title()} {label}", note)
+                    else:
+                        runtime.record("SKIP", "-", f"{operation.title()} {label}", note)
+                        progress.update(repository, operation, "skipped")
+                return
             if not dry_run and name in repository_steps:
                 repository, operation = repository_steps[name]
                 output = outputs.get(name, "")

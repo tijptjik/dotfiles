@@ -220,6 +220,11 @@ else:
         subprocess.run(['fish', '--no-config', str(hook)], check=True)
 """)
         chezetc.chmod(0o755)
+        # The production adapter prefers /opt over PATH. Pin only the copied
+        # fixture adapter to our stub, even on hosts with Chezetc installed.
+        adapter = system / "scripts/tjikup-apply.py"
+        adapter.write_text(adapter.read_text() +
+                           f"\ndef wrapper_path():\n    return {str(chezetc)!r}\n")
 
     def run_fleet(self, *flags):
         return subprocess.run(
@@ -304,6 +309,48 @@ else:
         for row in applies:
             self.assertIn("--no-tty", row[2])
             self.assertIn("--source", row[2])
+
+    def test_skip_repo_sync_bypasses_all_repository_commands_and_applies(self):
+        path = self.repo / 'scripts/fleet_update/workflow.json'
+        plan = json.loads(path.read_text())
+        repo_steps = {'pull-home', 'push-home', 'pull-system', 'push-system',
+                      'pull-tjikos', 'push-tjikos', 'dirty'}
+        for step in plan:
+            if step['id'] in repo_steps:
+                step['command'] = [sys.executable, '-c', 'raise SystemExit(9)']
+        path.write_text(json.dumps(plan))
+        self.env.update(DIRTY_REPO='dotjik', FAIL_PULL='auth', TJIKUP_COLOR='0')
+        result = self.run_fleet('--skip-repo-sync', '--skip-conflicts', '--upgrade')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        events = self.events()
+        self.assertEqual([row[0] for row in events if row[0] != 'git'],
+                         ['chezmoi', 'chezetc'])
+        self.assertFalse(any(row[0] == 'git' and row[2][0] in {'pull', 'push', 'fetch', 'status'}
+                             for row in events))
+        self.assertTrue(any(row[0] == 'git' and row[2][0] == 'commit' for row in events))
+        self.assertEqual(self.source.read_text(), 'captured live settings\n')
+        for label in ('dotjik', 'systjik', 'tjikOS'):
+            self.assertIn(f'{label:<8}  PULL [skipped]  PUSH [skipped]', result.stdout)
+
+    def test_skip_repo_sync_preview_does_not_execute_repository_previews(self):
+        path = self.repo / 'scripts/fleet_update/workflow.json'
+        plan = json.loads(path.read_text())
+        for step in plan:
+            if step['id'] in {'pull-tjikos', 'push-tjikos'}:
+                step['preview'] = [sys.executable, '-c', 'raise SystemExit(9)']
+        path.write_text(json.dumps(plan))
+        result = self.run_fleet('--skip-repo-sync', '--dry-run')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(self.events(), [])
+        self.assertEqual(self.source.read_text(), 'original\n')
+        self.assertEqual(result.stdout.count('--skip-repo-sync'), 6)
+
+    def test_skip_repo_sync_preserves_apply_failures(self):
+        self.env['FAIL_HOME'] = '1'
+        result = self.run_fleet('--skip-repo-sync')
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('intentional home failure', result.stderr)
+        self.assertNotIn('chezetc', [row[0] for row in self.events()])
 
     def test_home_failure_blocks_system_apply(self):
         self.env["FAIL_HOME"] = "1"

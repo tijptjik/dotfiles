@@ -11,9 +11,9 @@ from .presentation import ANSI
 class RepositoryProgress(Progress):
     repositories = ("dotjik", "systjik", "tjikos")
     colors = {"pending": "90", "disabled": "90", "blocked": "90",
-              "running": "1", "changed": "94;1", "unchanged": "36",
+              "skipped": "90", "running": "1", "changed": "94;1", "unchanged": "36",
               "failed": "31;1"}
-    markers = {"changed": "✓", "unchanged": "-", "failed": "✗"}
+    markers = {"skipped": "-", "changed": "✓", "unchanged": "-", "failed": "✗"}
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

@@ -12,6 +12,7 @@ from .dag import Result, Task, run, validate, command
 from .home_apply import load_plan, render_hook
 from .hook_tasks import HookTasks
 from .preparation import prepare
+from .status import stage_result
 from .presentation import DeferredSection, timing_report
 
 
@@ -119,7 +120,7 @@ def apply(repo, system_repo=None):
             check = command(["sudo", "-n", "true"], cwd=system_repo)
             if check.returncode:
                 raise UpdateError("System workers require noninteractive sudo; configure the managed sudo policy first")
-            policy.apply_files(system_repo)
+            policy.apply_files(system_repo, report=stage_result)
             rendered = policy.render_hooks(system_repo, system_plan, hooks.env)
             tasks = hooks.prepare(system_repo, system_plan,
                                   lambda item: rendered[item["file"]], prefix="system:", root=True)

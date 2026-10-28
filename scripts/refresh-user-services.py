@@ -74,8 +74,8 @@ def fingerprint(unit, inputs, info):
 def inventory():
     units = json.loads((ROOT / "scripts/user-service-inputs.json").read_text())
     # Timer definitions take effect when rearmed; their running jobs stay alone.
-    for path in (ROOT / "home/dot_config/systemd/user").glob("*.timer*"):
-        units[path.name.removesuffix(".tmpl")] = []
+    for path in (ROOT / "native/home/files/.config/systemd/user").glob("*.timer*"):
+        units[path.name.removesuffix(".j2")] = []
     return units
 
 

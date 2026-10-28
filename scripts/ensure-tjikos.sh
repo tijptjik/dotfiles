@@ -12,6 +12,10 @@ ensure_tjikos() {
         fi
     fi
     if [[ ! -e "$tool_repo/.git" ]]; then
+        if [[ "${TJIKUP_SELECTED_RUN:-0}" == 1 ]]; then
+            echo "TjikOS checkout is missing at $tool_repo; restore it before updating applications." >&2
+            return 1
+        fi
         mkdir -p -- "$(dirname -- "$tool_repo")"
         LC_ALL=C git clone --progress git@github.com:tijptjik/tjikos.git "$tool_repo" || return
     fi

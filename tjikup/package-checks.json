@@ -1,0 +1,363 @@
+{
+  "bitwarden": {
+    "checks": [
+      {
+        "command": "bws"
+      },
+      {
+        "command": "bw"
+      }
+    ]
+  },
+  "sublime": {
+    "checks": [
+      {
+        "rpm": "sublime-text"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "obsidian": {
+    "checks": [
+      {
+        "executable": "~/.local/bin/obsidian-appimage"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "rust": {
+    "checks": [
+      {
+        "command": "serie"
+      },
+      {
+        "command": "dysk"
+      }
+    ]
+  },
+  "llmtrim": {
+    "checks": [
+      {
+        "command": "llmtrim"
+      }
+    ],
+    "roles": [
+      "desktop"
+    ]
+  },
+  "python": {
+    "checks": [
+      {
+        "executable": "~/.venv/bin/python"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "archives": {
+    "checks": [
+      {
+        "command": "synctjik"
+      },
+      {
+        "command": "rclone"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop",
+      "server"
+    ]
+  },
+  "codex-lb": {
+    "checks": [
+      {
+        "executable": "~/.codex-lb/runtime/bin/codex-lb"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "tjikup": {
+    "checks": [
+      {
+        "executable": "~/.local/bin/tjikup"
+      }
+    ]
+  },
+  "notjik": {
+    "checks": [
+      {
+        "executable": "~/.local/bin/notjik"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "bartjik": {
+    "checks": [
+      {
+        "executable": "~/.local/bin/bartjik"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "greetjik": {
+    "checks": [
+      {
+        "executable": "~/.local/bin/greetjik"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "runtjik": {
+    "checks": [
+      {
+        "executable": "~/.local/bin/runtjik"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "herdr-plugins": {
+    "plugins": [
+      "herdr-file-viewer",
+      "herdr-navigator",
+      "herdr-spreader"
+    ],
+    "roles": [
+      "desktop"
+    ]
+  },
+  "collie": {
+    "plugins": [
+      "herdr.collie"
+    ],
+    "roles": [
+      "desktop"
+    ]
+  },
+  "secret-service": {
+    "checks": [
+      {
+        "rpm": "oo7-daemon"
+      },
+      {
+        "rpm": "pam_oo7"
+      },
+      {
+        "rpm": "oo7-portal"
+      },
+      {
+        "not": {
+          "rpm": "gnome-keyring"
+        }
+      },
+      {
+        "not": {
+          "rpm": "gnome-keyring-pam"
+        }
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "repositories": {
+    "checks": [
+      {
+        "path": "~/.obsidian/.git"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "copr": {
+    "checks": []
+  },
+  "repos": {
+    "checks": []
+  },
+  "chrome": {
+    "checks": [
+      {
+        "rpm": "google-chrome-stable"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "zoom": {
+    "checks": [
+      {
+        "rpm": "zoom"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "chatgpt": {
+    "checks": [
+      {
+        "rpm": "chatgpt"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "rpm": {
+    "packages": "rpm"
+  },
+  "flatpak": {
+    "packages": "flatpak",
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "telegram": {
+    "checks": [
+      {
+        "executable": "/opt/Telegram/Telegram"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "strata": {
+    "checks": [
+      {
+        "executable": "/usr/local/bin/strata"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "hyprvoice": {
+    "checks": [
+      {
+        "executable": "/usr/local/bin/hyprvoice"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "gitfetch": {
+    "checks": [
+      {
+        "executable": "/usr/local/bin/gitfetch"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "tippecanoe": {
+    "checks": [
+      {
+        "executable": "/usr/local/bin/tippecanoe"
+      },
+      {
+        "executable": "/usr/local/bin/tippecanoe-enumerate"
+      },
+      {
+        "executable": "/usr/local/bin/tippecanoe-decode"
+      },
+      {
+        "executable": "/usr/local/bin/tile-join"
+      },
+      {
+        "executable": "/usr/local/bin/tippecanoe-json-tool"
+      },
+      {
+        "executable": "/usr/local/bin/tippecanoe-overzoom"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "terminal": {
+    "checks": [
+      {
+        "executable": "/usr/local/bin/tennis"
+      },
+      {
+        "executable": "/usr/local/bin/tinty"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "zed": {
+    "checks": [
+      {
+        "executable": "~/.local/zed.app/bin/zed"
+      },
+      {
+        "executable": "~/.local/zed-preview.app/bin/zed"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "nginx-module": {
+    "checks": [
+      {
+        "path": "/usr/lib64/nginx/modules/ngx_http_dav_ext_module.so"
+      }
+    ],
+    "roles": [
+      "server"
+    ]
+  },
+  "llmtrim-herdr": {
+    "plugins": [
+      "llmtrim.proxy"
+    ],
+    "roles": [
+      "desktop"
+    ]
+  }
+}

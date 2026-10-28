@@ -511,7 +511,9 @@
     {
       "id": "home:archives",
       "label": "Synctjik",
-      "needs": [],
+      "needs": [
+        "require:sudo"
+      ],
       "resources": [
         "dnf"
       ],

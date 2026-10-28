@@ -268,13 +268,13 @@
   "plex-rewind": {
     "name": "Plex Rewind",
     "geometry": "local/homepage/plex-rewind.svg",
-    "sha256": "bdd64d99a32062eadd7a32ef2cdf6aa6dbf90fe04c0f9b3e2d0938cc5863286b",
+    "sha256": "a4dcdfbcf54fc6d57c7d52b6aa1aafa5f227f527c9722ec47de2728b85f95587",
     "reference": "homepage-upstream/si-services/plex-rewind.svg",
     "reference_sha256": "a05e09ecf0d0113848e58bf9451e2dac873e2d8f4317795f29791568f468e65f",
     "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/plex-rewind.svg",
     "license": "Reference collection Apache-2.0; brand rights remain with their owners",
-    "material_revision": 4,
-    "design_note": "Exact existing Hong Kong-centred Plex globe and Natural Earth land geometry, with its play replaced by two ivory rewind triangles. Base Plex artwork and geographic attribution are retained.",
+    "material_revision": 5,
+    "design_note": "Existing Plex globe and land retained exactly. Two ivory rewind triangles have gently rounded corners, no outline and a small soft button shadow (0.5-unit offset, 0.4-unit blur, 20% ink opacity).",
     "base_artwork": {
       "geometry": "local/plex.svg",
       "sha256": "6023a7627e9311de3742bf4e77573389a408d40773d3e4dd81d4713dad43c892",

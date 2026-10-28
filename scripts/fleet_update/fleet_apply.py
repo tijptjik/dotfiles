@@ -1,5 +1,6 @@
 """One resource-aware graph for home and system hooks; native tools apply files."""
 import importlib.util
+from dataclasses import replace
 from itertools import zip_longest
 import os
 from pathlib import Path
@@ -7,7 +8,7 @@ import tempfile
 import time
 
 from .core import UpdateError
-from .dag import Task, run, validate, command
+from .dag import Result, Task, run, validate, command
 from .home_apply import load_plan, render_hook
 from .hook_tasks import HookTasks
 from .preparation import prepare
@@ -140,10 +141,44 @@ def apply(repo, system_repo=None):
         tasks = combine(home_tasks, system_tasks, native,
                         {**{"home:" + item["id"]: item.get("barrier") for item in home_plan},
                          **{"system:" + item["id"]: item.get("barrier") for item in system_plan}})
-        runtime.section_header("Home + System Tasks")
+        preparation_names = {"home:chezetc-wrapper", "system:files"}
+        preparation_tasks = [task for task in tasks if task.name in preparation_names]
+        remaining_tasks = [replace(task, needs=tuple(
+            name for name in task.needs if name not in preparation_names))
+            for task in tasks if task.name not in preparation_names]
+
+        def run_phase(phase, *, preparation=False):
+            offset = time.monotonic() - started
+
+            def event(name, result):
+                # Both phases share the timing receipt's apply-relative clock.
+                if result.started is not None:
+                    result.started += offset
+                    result.finished += offset
+                if preparation:
+                    if result.state != "running":
+                        hooks.results[name] = result
+                else:
+                    hooks.event(name, result)
+
+            return run(phase, workers=workers, event=event)
+
+        def prepare_chezetc():
+            results = run_phase(preparation_tasks, preparation=True)
+            for name, result in results.items():
+                if result.state == "failed":
+                    hooks.results.update({task.name: Result("blocked") for task in remaining_tasks})
+                    output = hooks.outputs.get(name, "")
+                    if output:
+                        print(output, end="" if output.endswith("\n") else "\n", flush=True)
+                        print(f"Log: {hooks.log_dir / (name.replace(':', '-') + '.log')}", flush=True)
+                    raise UpdateError(str(result.error))
+
         try:
+            prepare("Chezetc (system files and task preparation)", "CHECK", prepare_chezetc)
+            runtime.section_header("Home + System Tasks")
             with hooks.progress:
-                results = run(tasks, workers=workers, event=hooks.event)
+                results = run_phase(remaining_tasks)
         finally:
             timing = hooks.save_timings(tasks, total_seconds=time.monotonic() - started,
                                        home_file_seconds=home_file_seconds, home_render_seconds=home_render_seconds)

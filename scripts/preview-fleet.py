@@ -48,8 +48,8 @@ def main():
                 progress.finish(subject, NATIVE_LABELS[subject], verb=verb, record=False)
             return 0
         prepare('Chezmoi (files and task preparation)', 'APPLY', native_preparation)
-        rows('Home + System Tasks', ['Chezetc (sudo launcher)'], 'CONFIG')
-        progress.finish('system', 'Chezetc (system files and task preparation)', verb='APPLY', record=False)
+        prepare('Chezetc (system files and task preparation)', 'CHECK', lambda: None)
+        runtime.section_header('Home + System Tasks')
     if args.section in ('capture', 'all'):
         rows('Commit Local Changes', ['Zed', 'Herdr', 'Solaar', 'Fcitx', 'Codex', 'Zapzap',
                                      'Gtk-bookmarks', 'Local Changes'], 'SKIP')

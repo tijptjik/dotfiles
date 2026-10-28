@@ -34,11 +34,12 @@ the font cache when font files change.
 
 **Chezmoi (files and task preparation)** applies home files, then renders and
 syntax-checks the after-apply scripts. The former “Home hooks” row is folded
-into that operation. **Home + system tasks** runs those scripts alongside system
-tasks. **Chezetc (sudo launcher)** configures the command wrapper and its explicit
-environment allowlist; **Chezetc (system files and task preparation)** applies
-system files and prepares the system scripts. They remain separate because the
-launcher must be ready before system preparation can run.
+into that operation. **Chezetc (system files and task preparation)** configures
+the sudo launcher and its explicit environment allowlist, then applies system
+files and prepares the system scripts, all under one row in **Dotfiles Apply**.
+**Home + system tasks** begins after both preparation rows finish and runs the
+remaining home and system scripts together. Launcher setup and system preparation
+retain separate dependency and timing records without duplicate display rows.
 
 Run-once preparation rows use the same icons: Bitwarden for the access token,
 Chezmoi for the decryption key, Fedora for system and essential packages,

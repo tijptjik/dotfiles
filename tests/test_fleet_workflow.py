@@ -194,6 +194,12 @@ else:
         positions = [result.stdout.index(heading) for heading in headings]
         self.assertEqual(positions, sorted(positions))
         self.assertNotIn("Systjik\nhttps://github.com/tijptjik/systjik", result.stdout)
+        apply_rows = result.stdout.split("Dotfiles Apply\n", 1)[1].split("Home + System Tasks\n", 1)[0]
+        task_rows = result.stdout.split("Home + System Tasks\n", 1)[1]
+        self.assertEqual(apply_rows.count("Chezetc"), 1)
+        self.assertIn("Chezetc (System Files and Task Preparation)", apply_rows)
+        self.assertNotIn("Chezetc", task_rows)
+        self.assertNotIn("Sudo Launcher", result.stdout)
         rows = result.stdout.splitlines()
         self.assertNotIn("Task timings:", result.stdout)
         self.assertFalse(any(row.startswith("REPORT") for row in rows))
@@ -364,6 +370,8 @@ else:
             name = task['file']
             if name.endswith('.py'):
                 content = "import os\nif os.environ.get('FLEET_DEFER_HOOKS') == '1': raise SystemExit(0)\n"
+                if task['id'] == 'chezetc-wrapper':
+                    content += "if os.environ.get('FAIL_WRAPPER'): raise RuntimeError('intentional wrapper failure')\n"
                 content += f"with open(os.environ['HOOK_TRACE'], 'a') as stream: stream.write({name!r} + '\\n')\n"
             else:
                 content = 'if test "$FLEET_DEFER_HOOKS" = 1; exit 0; end\n'
@@ -402,12 +410,29 @@ else:
         result = self.run_fleet()
         self.assertNotEqual(result.returncode, 0)
         self.assertFalse(Path(self.env['SYSTEM_TRACE']).exists())
+        self.assertEqual(Path(self.env['HOOK_TRACE']).read_text().splitlines(),
+                         ['run_after_34-configure-chezetc.py'])
+        self.assertNotIn('Home + System Tasks', result.stdout)
         self.assertIn('intentional system file failure', result.stderr + result.stdout)
         rows = result.stdout.splitlines()
         self.assertNotIn('Task timings:', result.stdout)
         completion = next(row for row in reversed(rows) if row.startswith('APPLY'))
         self.assertIn('✗', completion)
         self.assertIn('Home and system', completion)
+
+    def test_launcher_failure_blocks_system_preparation_and_all_hooks(self):
+        self.env['FAIL_WRAPPER'] = '1'
+        result = self.run_fleet()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertNotIn('chezetc', [row[0] for row in self.events()])
+        self.assertFalse(Path(self.env['HOOK_TRACE']).exists())
+        self.assertFalse(Path(self.env['SYSTEM_TRACE']).exists())
+        self.assertNotIn('Home + System Tasks', result.stdout)
+        self.assertIn('intentional wrapper failure', result.stdout + result.stderr)
+        receipt, = (self.home / '.local/state/tjikup/logs').glob('apply-*/timings.json')
+        states = {row['id']: row['state'] for row in json.loads(receipt.read_text())['tasks']}
+        self.assertEqual(states.pop('home:chezetc-wrapper'), 'failed')
+        self.assertTrue(all(state == 'blocked' for state in states.values()))
 
     def test_system_render_failure_blocks_every_deferred_system_hook(self):
         self.env['FAIL_SYSTEM_RENDER'] = '1'
@@ -428,6 +453,12 @@ else:
         self.assertTrue(all(row['state'] == 'done' for row in records))
         self.assertTrue(any(row['id'].startswith('home:') for row in records))
         self.assertTrue(any(row['id'].startswith('system:') for row in records))
+        by_id = {row['id']: row for row in records}
+        wrapper, files = by_id['home:chezetc-wrapper'], by_id['system:files']
+        self.assertLessEqual(wrapper['finished'], files['started'])
+        remaining = [row for row in records if row['id'] not in {wrapper['id'], files['id']}]
+        self.assertLessEqual(files['finished'], min(row['started'] for row in remaining))
+        self.assertIn('home:chezetc-wrapper', files['needs'])
 
     def test_hook_failure_blocks_final_system_release(self):
         self.add_synthetic_hooks()

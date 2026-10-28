@@ -53,7 +53,7 @@ class RepositoryProgressTests(unittest.TestCase):
         self.assertEqual(len(lines), 3)
         self.assertTrue(lines[0].startswith("dotjik    PULL [failed]"))
         self.assertTrue(lines[1].startswith("systjik   PULL [changed]"))
-        self.assertTrue(lines[2].endswith("PUSH [disabled]"))
+        self.assertTrue(lines[2].endswith("PUSH [pending]"))
         self.assertNotIn("\033", output.getvalue())
 
     def test_live_panel_keeps_completed_rows_until_settled(self):

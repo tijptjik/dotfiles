@@ -162,6 +162,26 @@
     ]
   },
   {
+    "id": "push-tjikos",
+    "command": [
+      "python3",
+      "{config_dir}/scripts/fleet-update.py",
+      "push-tjikos"
+    ],
+    "preview": [
+      "python3",
+      "{config_dir}/scripts/fleet-update.py",
+      "push-tjikos",
+      "--dry-run"
+    ],
+    "label": "tjikOS",
+    "verb": "PUSH",
+    "summary": false,
+    "needs": [
+      "pull-tjikos"
+    ]
+  },
+  {
     "id": "apply-fleet",
     "command": [
       "python3",
@@ -179,7 +199,7 @@
     "needs": [
       "push-home",
       "push-system",
-      "pull-tjikos"
+      "push-tjikos"
     ],
     "exclusive": true
   }

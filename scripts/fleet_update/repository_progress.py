@@ -13,7 +13,6 @@ class RepositoryProgress(Progress):
         super().__init__(**kwargs)
         self.states = {repo: {verb: "pending" for verb in ("PULL", "PUSH")}
                        for repo in self.repositories}
-        self.states["tjikos"]["PUSH"] = "disabled"
         self.visible = False
         self.finished = False
 

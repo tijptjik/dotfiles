@@ -15,9 +15,9 @@ The fleet uses a bounded DAG scheduler in `scripts/fleet_update/dag.py`.
 dependencies; [home-plan.json](../scripts/fleet_update/home-plan.json) declares home
 hook dependencies and shared resources. Ready tasks start as soon as their
 prerequisites succeed. System pull can overlap home capture/commit; tjikOS and
-home pulls can run concurrently after the capture commit. Each configuration-repository
-push can start after its own pull. Both pushes and
-the tjikOS update must finish successfully before apply starts. The apply stage then uses one graph
+home pulls can run concurrently after the capture commit. Each repository's
+push can start after its own pull. All three pushes
+must finish successfully before apply starts. The apply stage then uses one graph
 for home and system hooks, with shared resource locks and one worker limit.
 Chezmoi and Chezetc retain ownership of managed files and once/onchange state.
 
@@ -33,10 +33,12 @@ warning prevents subsequent apply stages.
 
 The **Fleet repositories** stage also checks tjikOS at `$TJIKOS_REPO`, or
 `~/code/tjikos` by default. Clean checkouts fetch their configured upstream and
-advance only by fast-forward. Dirty checkouts fail and block apply. Detached,
-untracked-branch, locally ahead, or diverged checkouts produce a warning and
-retain the local source for installation.
-tjikOS is never automatically committed, stashed, rebased, reset, or pushed.
+advance only by fast-forward. Dirty checkouts fail and block apply. Detached
+or untracked-branch checkouts produce a warning and retain the local source for
+installation. Locally ahead checkouts retain their commits during pull, then
+publish them with a normal `git push`. Diverged checkouts fail the push and block
+apply until their history is reconciled. tjikOS is never automatically committed,
+stashed, rebased, reset, or force-pushed.
 Fetch failures, busy checkouts, and unfinished Git operations block apply.
 A missing checkout is left to the existing installer bootstrap; legacy checkout
 migration rules still apply. Installers run after this stage and retain their
@@ -296,8 +298,8 @@ The **Fleet repositories** panel keeps three rows in fixed order: `dotjik`,
 `systjik`, `tjikOS`, each with separate `PULL` and `PUSH` cells. Pending cells
 are dimmed, running cells are bright, completed operations with changes are
 blue, and completed operations without changes are teal. Failures turn red;
-blocked operations stay dimmed. tjikOS PUSH remains dimmed because this workflow
-does not publish its development commits. Pull changes are determined from the
+blocked operations stay dimmed. tjikOS PUSH follows the same state colors as
+the configuration repositories. Pull changes are determined from the
 checkout's HEAD before and after the operation, and pushes from outgoing commits.
 The scoped capture commit stays under **Commit Local Changes**; dirty checks are
 folded into repository results. Redirected output emits the three final rows

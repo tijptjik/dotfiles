@@ -203,7 +203,7 @@ else:
         self.assertNotIn("DAG     ", result.stdout)
         self.assertIn("dotjik    PULL [unchanged]  PUSH [unchanged]", result.stdout)
         self.assertIn("systjik   PULL [unchanged]  PUSH [unchanged]", result.stdout)
-        self.assertIn("tjikOS    PULL [blocked]  PUSH [disabled]", result.stdout)
+        self.assertIn("tjikOS    PULL [blocked]  PUSH [blocked]", result.stdout)
         events = self.events()
         commit = next(
             row for row in events if row[0] == "git" and row[2][0] == "commit"
@@ -249,6 +249,61 @@ else:
         self.assertEqual(result.returncode, 1)
         self.assertIn('tjikOS', result.stdout)
         self.assertFalse(any(row[0] in {'chezmoi', 'chezetc'} for row in self.events()))
+
+    def test_tjikos_push_failure_blocks_apply(self):
+        path = self.repo / 'scripts/fleet_update/workflow.json'
+        plan = json.loads(path.read_text())
+        for step in plan:
+            if step['id'] == 'push-tjikos':
+                step['command'] = [sys.executable, '-c', 'raise SystemExit(9)']
+        path.write_text(json.dumps(plan))
+        result = self.run_fleet()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn('tjikOS    PULL [blocked]  PUSH [failed]', result.stdout)
+        self.assertFalse(any(row[0] in {'chezmoi', 'chezetc'} for row in self.events()))
+
+    def test_committed_tjikos_changes_are_pushed_before_apply(self):
+        checkout = self.home / 'code/tjikos'
+        checkout.parent.mkdir(parents=True)
+        remote = self.root / 'tjikos.git'
+        environment = {**self.env, 'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+                       'GIT_AUTHOR_NAME': 'Test', 'GIT_AUTHOR_EMAIL': 'test@example.org',
+                       'GIT_COMMITTER_NAME': 'Test', 'GIT_COMMITTER_EMAIL': 'test@example.org'}
+
+        def git(*arguments):
+            return subprocess.check_output(['/usr/bin/git', *arguments], env=environment,
+                                           text=True, stderr=subprocess.STDOUT).strip()
+
+        git('init', '--bare', str(remote))
+        git('init', '-b', 'main', str(checkout))
+        (checkout / 'file').write_text('initial')
+        git('-C', str(checkout), 'add', '.')
+        git('-C', str(checkout), 'commit', '-m', 'initial')
+        git('-C', str(checkout), 'remote', 'add', 'origin', str(remote))
+        git('-C', str(checkout), 'push', '-u', 'origin', 'main')
+        (checkout / 'file').write_text('development')
+        git('-C', str(checkout), 'commit', '-am', 'development')
+        # Only tjikOS uses real Git, with a temporary local bare remote.
+        stub = self.bin / 'git'
+        source = stub.read_text().replace(
+            "if pathlib.Path(sys.argv[0]).name == 'git':",
+            "if pathlib.Path.cwd().name == 'tjikos':\n"
+            "    os.execv('/usr/bin/git', ['git', *sys.argv[1:]])\n"
+            "if pathlib.Path(sys.argv[0]).name == 'git':")
+        stub.write_text(source)
+        self.env.update(environment, TJIKOS_REPO=str(checkout))
+        result = self.run_fleet()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(git('-C', str(remote), 'rev-parse', 'main'),
+                         git('-C', str(checkout), 'rev-parse', 'HEAD'))
+        self.assertIn('tjikOS    PULL [unchanged]  PUSH [changed]', result.stdout)
+        events = self.events()
+        push = next(i for i, row in enumerate(events)
+                    if row[:2] == ['git', 'tjikos'] and row[2] == ['push'])
+        apply = next(i for i, row in enumerate(events) if row[0] in {'chezmoi', 'chezetc'})
+        self.assertLess(push, apply)
+        self.assertFalse(any(row[:2] == ['git', 'tjikos'] and row[2][0] == 'commit'
+                             for row in events))
 
     def test_pull_conflict_is_grouped_and_full_output_is_saved(self):
         self.env.update(FAIL_PULL="conflict", TJIKUP_COLUMNS="80", TJIKUP_COLOR="0")

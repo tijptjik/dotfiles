@@ -1,5 +1,5 @@
-"""Update the fleet's application dependency without publishing development work."""
-from contextlib import nullcontext
+"""Synchronize the fleet's application checkout and its committed changes."""
+from contextlib import contextmanager, nullcontext
 import fcntl
 import os
 from pathlib import Path
@@ -34,13 +34,15 @@ def git(repo, *args, check=True):
     return result
 
 
-def pull(*, dry_run=False):
+@contextmanager
+def locked_checkout(*, dry_run=False):
     repo = checkout()
     if not (repo / ".git").exists():
         if repo.exists():
             raise UpdateError(f"tjikOS: not a Git checkout: {repo}")
         runtime.stage_skip("tjikOS", "not cloned; installer will bootstrap")
-        return 0
+        yield None
+        return
     git_dir = Path(git(repo, "rev-parse", "--absolute-git-dir").stdout.strip())
     # Share the worktree lock used by tjix/tjixx, including linked worktrees.
     with (nullcontext() if dry_run else (git_dir / "tjikup-sync.lock").open("a")) as lock:
@@ -54,12 +56,20 @@ def pull(*, dry_run=False):
             if (git_dir / marker).exists():
                 raise UpdateError(f"tjikOS has an unfinished Git operation ({marker}); finish it before updating")
 
-        def warning(note):
-            runtime.stage_label("WARN", "!", "tjikOS", note + "; using local checkout")
-            return 0
-
         if git(repo, "status", "--porcelain", "--untracked-files=all").stdout:
             raise UpdateError("Dirty tjikOS: local changes; commit or stash before updating")
+        yield repo
+
+
+def warning(note):
+    runtime.stage_label("WARN", "!", "tjikOS", note + "; using local checkout")
+    return 0
+
+
+def pull(*, dry_run=False):
+    with locked_checkout(dry_run=dry_run) as repo:
+        if repo is None:
+            return 0
         branch = git(repo, "symbolic-ref", "--quiet", "--short", "HEAD", check=False)
         if branch.returncode:
             return warning("detached HEAD; pull skipped")
@@ -80,10 +90,38 @@ def pull(*, dry_run=False):
         target = git(repo, "rev-parse", "@{upstream}").stdout.strip()
         ahead, behind = map(int, git(repo, "rev-list", "--left-right", "--count", f"HEAD...{target}").stdout.split())
         if ahead:
-            return warning("diverged history; pull skipped" if behind else "local commits; pull skipped")
+            if behind:
+                return warning("diverged history; pull skipped")
+            runtime.stage_skip("tjikOS", "local commits; ready to push")
+            return 0
         if not behind:
             runtime.stage_unchanged("tjikOS")
             return 0
         git(repo, "merge", "--ff-only", "--no-autostash", target)
         runtime.stage_result("PULL", "tjikOS", f"{behind} {'commit' if behind == 1 else 'commits'} · fast-forward")
+    return 0
+
+
+def push(*, dry_run=False):
+    with locked_checkout(dry_run=dry_run) as repo:
+        if repo is None:
+            return 0
+        branch = git(repo, "symbolic-ref", "--quiet", "--short", "HEAD", check=False)
+        if branch.returncode:
+            return warning("detached HEAD; push skipped")
+        upstream = git(repo, "rev-parse", "--verify", "@{upstream}", check=False)
+        if upstream.returncode:
+            return warning("no upstream; push skipped")
+        if dry_run:
+            runtime.stage_label("CHECK", "✓", "tjikOS", "would push committed changes if ahead")
+            return 0
+        ahead, behind = map(int, git(repo, "rev-list", "--left-right", "--count",
+                                    f"HEAD...{upstream.stdout.strip()}").stdout.split())
+        if behind:
+            raise UpdateError("tjikOS: upstream commits remain; synchronize the branch before pushing")
+        if not ahead:
+            runtime.stage_unchanged("tjikOS")
+            return 0
+        git(repo, "push")
+        runtime.stage_result("PUSH", "tjikOS", f"{ahead} {'commit' if ahead == 1 else 'commits'}")
     return 0

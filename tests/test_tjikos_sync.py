@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 import tjikup_support
 from fleet_update.core import UpdateError
-from fleet_update.tjikos_sync import pull, checkout
+from fleet_update.tjikos_sync import pull, push, checkout
 
 
 class TjikosSyncTests(unittest.TestCase):
@@ -44,9 +44,9 @@ class TjikosSyncTests(unittest.TestCase):
         (self.remote / 'file').write_text('upstream\n')
         self.git('-C', str(self.remote), 'commit', '-am', 'upstream change')
 
-    def invoke(self, **kwargs):
+    def invoke(self, action=pull, **kwargs):
         with contextlib.redirect_stdout(io.StringIO()) as output:
-            self.assertEqual(pull(**kwargs), 0)
+            self.assertEqual(action(**kwargs), 0)
         return output.getvalue()
 
     def test_fast_forward_then_unchanged(self):
@@ -146,9 +146,57 @@ class TjikosSyncTests(unittest.TestCase):
         self.assertFalse(self.repo.exists())
         self.assertFalse((old / '.git/FETCH_HEAD').exists())
 
-    def test_apply_depends_on_tjikos_without_committing_or_pushing_it(self):
+    def test_apply_waits_for_tjikos_push_after_pull(self):
         plan = json.loads((Path(__file__).resolve().parents[1] / 'scripts/fleet_update/workflow.json').read_text())
         steps = {step['id']: step for step in plan}
-        self.assertIn('pull-tjikos', steps['apply-fleet']['needs'])
+        self.assertIn('push-tjikos', steps['apply-fleet']['needs'])
         self.assertEqual(steps['pull-tjikos']['needs'], ['commit'])
-        self.assertEqual([step['id'] for step in plan if 'tjikos' in step['id']], ['pull-tjikos'])
+        self.assertEqual(steps['push-tjikos']['needs'], ['pull-tjikos'])
+        self.assertEqual([step['id'] for step in plan if 'tjikos' in step['id']],
+                         ['pull-tjikos', 'push-tjikos'])
+
+    def prepare_push(self):
+        bare = self.root / 'bare.git'
+        self.git('clone', '--bare', str(self.remote), str(bare))
+        self.git('-C', str(self.repo), 'remote', 'set-url', 'origin', str(bare))
+        (self.repo / 'local').write_text('committed development\n')
+        self.git('-C', str(self.repo), 'add', 'local')
+        self.git('-C', str(self.repo), 'commit', '-m', 'development')
+        return bare
+
+    def test_push_publishes_committed_changes_and_then_reports_unchanged(self):
+        bare = self.prepare_push()
+        self.invoke()  # Ahead checkout is retained by pull, then published.
+        self.assertIn('PUSH    ✓ tjikOS', self.invoke(push))
+        self.assertEqual(self.git('-C', str(bare), 'rev-parse', 'main'),
+                         self.git('-C', str(self.repo), 'rev-parse', 'HEAD'))
+        self.assertIn('SKIP    ✓ tjikOS', self.invoke(push))
+
+    def test_push_preview_does_not_publish_or_create_a_lock(self):
+        bare = self.prepare_push()
+        before = self.git('-C', str(bare), 'rev-parse', 'main')
+        self.assertIn('would push committed changes', self.invoke(push, dry_run=True))
+        self.assertEqual(self.git('-C', str(bare), 'rev-parse', 'main'), before)
+        self.assertFalse((self.repo / '.git/tjikup-sync.lock').exists())
+
+    def test_push_rejects_dirty_and_diverged_work_without_publishing(self):
+        bare = self.prepare_push()
+        before = self.git('-C', str(bare), 'rev-parse', 'main')
+        (self.repo / 'untracked').write_text('personal work')
+        with self.assertRaisesRegex(UpdateError, 'Dirty tjikOS'):
+            self.invoke(push)
+        (self.repo / 'untracked').unlink()
+        self.update_remote()
+        self.git('-C', str(self.remote), 'push', str(bare), 'main')
+        self.invoke()  # Fetch and retain the diverged branch.
+        with self.assertRaisesRegex(UpdateError, 'upstream commits remain'):
+            self.invoke(push)
+        self.assertNotEqual(self.git('-C', str(bare), 'rev-parse', 'main'), before)
+        self.assertEqual(self.git('-C', str(bare), 'rev-parse', 'main'),
+                         self.git('-C', str(self.remote), 'rev-parse', 'HEAD'))
+
+    def test_push_failure_is_an_error(self):
+        self.prepare_push()
+        self.git('-C', str(self.repo), 'remote', 'set-url', '--push', 'origin', str(self.root / 'missing'))
+        with self.assertRaisesRegex(UpdateError, 'push failed'):
+            self.invoke(push)

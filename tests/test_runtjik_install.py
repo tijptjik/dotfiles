@@ -24,7 +24,8 @@ class RuntjikInstallTests(unittest.TestCase):
                                .replace('$HOME', '${RUNTJIK_TEST_HOME}'))
         (scripts / 'activate-runtjik.sh').write_text((ROOT / 'scripts/activate-runtjik.sh').read_text().replace('$HOME', '${RUNTJIK_TEST_HOME}'))
         (scripts / 'ensure-tjikos.sh').write_text('tool_repo="$TJIKOS_REPO"\nensure_tjikos() { :; }\n')
-        (scripts / 'cleanup-launcher-entries.py').write_text('')
+        (scripts / 'cleanup-launcher-entries.py').write_text(
+            'import os,sys\nraise SystemExit(int(os.environ.get("CLEANUP_PENDING", "0")) if "--check" in sys.argv else 0)\n')
         (scripts / 'cache-install.py').write_text(
             'import subprocess,sys\nraise SystemExit(subprocess.call(sys.argv[sys.argv.index("--")+1:]))\n')
         tools = root / 'tools/apps/runtjik/scripts'
@@ -34,12 +35,12 @@ class RuntjikInstallTests(unittest.TestCase):
         bindir = self.home / '.local/bin'
         bindir.mkdir(parents=True)
         for name, body in {
-            'runtjik': 'echo check >> "$CALL_LOG"\n',
+            'runtjik': 'echo check >> "$CALL_LOG"\nexit "${HEALTH_RESULT:-0}"\n',
             'quickshell': 'exit 0\n',
             'systemctl': 'echo "$*" >> "$CALL_LOG"\n'
                          'case "$*" in *is-active*graphical-session*) exit "${SESSION_RESULT:-0}";; '
-                         '*is-active*hamr-gtk*) exit 0;; *is-active*) exit 3;; '
-                         '*show*KillMode*) echo "${KILL_MODE:-process}";; *is-enabled*) exit 1;; esac\n',
+                         '*is-active*hamr-gtk*) exit "${LEGACY_ACTIVE:-0}";; *is-active*) exit 3;; '
+                         '*show*KillMode*) echo "${KILL_MODE:-process}";; *is-enabled*) exit "${LEGACY_ENABLED:-1}";; esac\n',
         }.items():
             path = bindir / name
             path.write_text('#!/bin/sh\n' + body)
@@ -75,6 +76,33 @@ class RuntjikInstallTests(unittest.TestCase):
         self.assertIn('install', calls)
         self.assertNotIn('--user stop', calls)
         self.assertNotIn('--user start', calls)
+
+    def run_check(self, **env):
+        return subprocess.run(['bash', str(self.script.with_name('activate-runtjik.sh')), '--check'],
+                              env={**self.env, **env}, capture_output=True, text=True)
+
+    def test_activation_check_skips_healthy_install_without_mutations(self):
+        for _ in range(2):
+            result = self.run_check(LEGACY_ACTIVE='3')
+            self.assertEqual(result.returncode, 0, result.stderr)
+        calls = self.log.read_text()
+        self.assertNotIn('--user stop', calls)
+        self.assertNotIn('--user disable', calls)
+        self.assertNotIn('install', calls)
+
+    def test_activation_check_detects_pending_work_without_stopping_services(self):
+        for env in ({}, {'LEGACY_ACTIVE': '3', 'LEGACY_ENABLED': '0'},
+                    {'CLEANUP_PENDING': '1'}, {'HEALTH_RESULT': '1'}):
+            result = self.run_check(**env)
+            self.assertNotEqual(result.returncode, 0)
+        calls = self.log.read_text()
+        self.assertNotIn('--user stop', calls)
+        self.assertNotIn('--user disable', calls)
+
+    def test_recipe_checks_activation_before_apply(self):
+        recipes = json.loads((ROOT / 'tjikup/recipes.json').read_text())['recipes']
+        task = next(row for row in recipes if row['id'] == 'home:activate:runtjik')
+        self.assertEqual(task['check'], task['apply'] + ['--check'])
 
     def test_hook_runs_on_all_hosts_and_is_in_graph(self):
         plan = json.loads((ROOT / 'tjikup/recipes.json').read_text())["recipes"]

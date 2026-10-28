@@ -46,22 +46,30 @@ def cleanup(home, apply=False):
                 replacement.write_bytes(source.read_bytes())
             source.unlink()
     mime = home / '.config/mimeapps.list'
-    if apply and mime.exists():
+    mime_changed = False
+    if mime.exists():
         text = mime.read_text()
         revised = text
         for item in changed:
             revised = revised.replace(item['remove'], item['keep'])
         revised = revised.replace('application/x-zerosize=evince.desktop', 'application/x-zerosize=org.gnome.Papers.desktop')
-        if revised != text:
+        mime_changed = revised != text
+        if apply and mime_changed:
             backup(mime)
             mime.write_text(revised)
     if apply and shutil.which('update-desktop-database') and applications.exists():
         subprocess.run(['update-desktop-database', str(applications)], check=True)
-    return {'changes': changed, 'archive': str(archive) if apply and changed else None}
+    return {'changes': changed, 'mime_changed': mime_changed,
+            'archive': str(archive) if apply and (changed or mime_changed) else None}
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--apply', action='store_true')
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--apply', action='store_true')
+    mode.add_argument('--check', action='store_true')
     args = parser.parse_args()
-    print(json.dumps(cleanup(Path.home(), args.apply), indent=2))
+    result = cleanup(Path.home(), args.apply)
+    if args.check:
+        raise SystemExit(1 if result['changes'] or result['mime_changed'] else 0)
+    print(json.dumps(result, indent=2))

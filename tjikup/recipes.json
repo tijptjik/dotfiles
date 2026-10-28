@@ -2707,6 +2707,11 @@
     },
     {
       "id": "home:activate:runtjik",
+      "check": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-runtjik.sh",
+        "--check"
+      ],
       "label": "Runtjik activation",
       "operation": "install",
       "scope": "home",

@@ -34,3 +34,17 @@ class CleanupTests(unittest.TestCase):
             with patch.object(cleanup.shutil,'which',return_value=None):
                 self.assertEqual(cleanup.cleanup(home,True)['changes'],[])
             self.assertTrue((apps/'dev.zed.desktop').exists())
+
+    def test_mime_only_cleanup_is_detected_without_writing_and_converges(self):
+        with tempfile.TemporaryDirectory() as directory:
+            home = Path(directory)
+            mime = home / '.config/mimeapps.list'
+            mime.parent.mkdir()
+            original = 'application/x-zerosize=evince.desktop;\n'
+            mime.write_text(original)
+            self.assertTrue(cleanup.cleanup(home)['mime_changed'])
+            self.assertEqual(mime.read_text(), original)
+            with patch.object(cleanup.shutil, 'which', return_value=None):
+                applied = cleanup.cleanup(home, True)
+            self.assertIsNotNone(applied['archive'])
+            self.assertFalse(cleanup.cleanup(home)['mime_changed'])

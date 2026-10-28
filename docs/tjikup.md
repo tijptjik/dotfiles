@@ -299,3 +299,7 @@ fleet verification and the consolidated work are committed and backed up.
 Old `home/` and `system/etc/` templates remain as historical comparison sources.
 Their names do not imply a runtime dependency. Do not use direct `chezmoi apply`
 or historical bootstrap instructions; use the Tjikup entry points.
+
+Runtjik activation checks launcher health, duplicate desktop entries, MIME cleanup,
+and legacy launcher services before applying. A healthy installation with no pending
+cleanup is unchanged; the check does not stop services or modify files.

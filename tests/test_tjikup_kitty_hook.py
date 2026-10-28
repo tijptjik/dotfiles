@@ -1,25 +1,23 @@
-"""Keep Kitty's fallback when the optional local runner bridge is unavailable."""
-
+import json
 from pathlib import Path
 import runpy
-import sys
-from types import ModuleType
+from types import SimpleNamespace
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
+hook = runpy.run_path(str(Path(__file__).resolve().parents[1] / 'home/dot_config/kitty/notifications.py'))
 
 class KittyHookTests(unittest.TestCase):
-    def test_bridge_result_and_import_path_cleanup(self):
-        hook = runpy.run_path(str(Path(__file__).resolve().parents[1] /
-                                  'home/dot_config/kitty/notifications.py'))['main']
-        for result in (True, False, ImportError('old runner')):
-            module = ModuleType('tjikup.notifications')
-            bridge = Mock(**({'side_effect': result} if isinstance(result, Exception)
-                             else {'return_value': result}))
-            module.ssh_notification_filter = bridge
-            paths = sys.path[:]
-            with patch.dict(sys.modules, {'tjikup.notifications': module}):
-                command = object()
-                self.assertEqual(hook(command), result if isinstance(result, bool) else False)
-                bridge.assert_called_once_with(command)
-            self.assertEqual(sys.path, paths)
+    def test_local_binary_receives_only_display_metadata(self):
+        data = {"state":"ALL SYSTEMS GO","duration":"1s","tone":"success","results":[]}
+        command = SimpleNamespace(application_name="Tjikup", title="Remote", notification_types=["tjikup-status-v1:"+json.dumps({"data":data,"body":"done"})])
+        with patch('subprocess.run', return_value=SimpleNamespace(returncode=0)) as run:
+            self.assertTrue(hook['main'](command))
+        self.assertEqual(run.call_args.args[0], ['tjikup','notify','--stdin'])
+        self.assertEqual(json.loads(run.call_args.kwargs['input']), {'title':'Remote','data':data,'body':'done'})
+
+    def test_unknown_metadata_retains_normal_kitty_delivery(self):
+        command = SimpleNamespace(application_name="Tjikup", title="Remote", notification_types=['tjikup-status-v1:{"command":["bad"]}'])
+        with patch('subprocess.run') as run:
+            self.assertFalse(hook['main'](command))
+            run.assert_not_called()

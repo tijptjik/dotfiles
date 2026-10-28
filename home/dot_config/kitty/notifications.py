@@ -1,18 +1,24 @@
-"""Route Tjikup's SSH status cards to the local notification service."""
-
-from pathlib import Path
-import sys
+"""Forward Tjikup display metadata to the local native runner."""
+import json
+import subprocess
 
 
 def main(command):
-    # Kitty calls this hook before its normal desktop delivery. Suppress that
-    # delivery only after the local service accepts the structured status card.
-    runner = str(Path.home() / ".local/bin/tjikup")
-    sys.path.insert(0, runner)
-    try:
-        from tjikup.notifications import ssh_notification_filter
-        return ssh_notification_filter(command)
-    except (ImportError, OSError, ValueError, AttributeError):
+    if command.application_name != "Tjikup":
         return False
-    finally:
-        sys.path.remove(runner)
+    try:
+        prefix = "tjikup-status-v1:"
+        raw = next(item[len(prefix):] for item in command.notification_types
+                   if item.startswith(prefix) and len(item) <= 16384)
+        payload = json.loads(raw)
+        if set(payload) != {"data", "body"}:
+            return False
+        payload["title"] = command.title
+        result = subprocess.run(["tjikup", "notify", "--stdin"],
+                                input=json.dumps(payload), text=True,
+                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                timeout=4, check=False)
+        return result.returncode == 0
+    except (StopIteration, OSError, ValueError, TypeError, AttributeError,
+            subprocess.TimeoutExpired):
+        return False

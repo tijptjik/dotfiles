@@ -1,0 +1,3077 @@
+{
+  "version": 2,
+  "recipes": [
+    {
+      "id": "home:render-prelude",
+      "label": "Prepare home prerequisites",
+      "needs": [
+        "require:fish"
+      ],
+      "render": {
+        "templates": [
+          {
+            "name": "home-run_before_02-install-bws.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_before_02-install-bws.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_before_71-consolidate-user-fonts.py",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_before_71-consolidate-user-fonts.py.j2",
+            "syntax": [
+              "python3",
+              "-c",
+              "import ast,sys; ast.parse(open(sys.argv[1]).read())",
+              "{script}"
+            ]
+          }
+        ],
+        "native": "$DOTJIK_REPO/native/tasks/home.json",
+        "context_command": [
+          "python3",
+          "$DOTJIK_REPO/scripts/device-policy.py",
+          "context"
+        ]
+      },
+      "display": {
+        "section": "Recipes",
+        "quiet": true,
+        "icon": "Chezmoi"
+      },
+      "optional": false,
+      "operation": "prepare",
+      "after": [
+        "repo:home:push",
+        "repo:tjikos:push"
+      ]
+    },
+    {
+      "id": "home:bitwarden",
+      "label": "Bitwarden CLIs",
+      "needs": [
+        "home:render-prelude"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "bitwarden",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_before_02-install-bws.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Bitwarden"
+      },
+      "optional": false,
+      "operation": "install",
+      "scope": "home",
+      "application": "bitwarden",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "bitwarden"
+      ]
+    },
+    {
+      "id": "home:font-migration",
+      "label": "Font folder migration",
+      "needs": [
+        "home:render-prelude"
+      ],
+      "resources": [
+        "fonts"
+      ],
+      "apply": [
+        "python3",
+        "{run_dir}/home-run_before_71-consolidate-user-fonts.py"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Configuration",
+        "reports": true,
+        "icon": "Assets (user fonts)"
+      },
+      "optional": true,
+      "hosts": [
+        "fi",
+        "li"
+      ],
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "configure",
+      "scope": "home",
+      "application": "font-migration",
+      "ecosystem": "configuration",
+      "after": []
+    },
+    {
+      "id": "home:files",
+      "label": "Home configuration",
+      "needs": [
+        "home:bitwarden",
+        "home:archive-restore"
+      ],
+      "timeout": 1800,
+      "display": {
+        "section": "Configuration",
+        "quiet": true,
+        "icon": "Chezmoi"
+      },
+      "apply": [
+        "python3",
+        "{config_dir}/../scripts/native-files.py",
+        "home-files",
+        "apply",
+        "--group",
+        "base"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "optional": false,
+      "after": [
+        "home:font-migration",
+        "repo:home:push",
+        "repo:tjikos:push"
+      ],
+      "operation": "configure",
+      "scope": "home",
+      "application": "files",
+      "ecosystem": "configuration"
+    },
+    {
+      "id": "home:render",
+      "label": "Prepare home recipes",
+      "needs": [
+        "home:bitwarden",
+        "require:fish"
+      ],
+      "render": {
+        "templates": [
+          {
+            "name": "home-run_after_29-install-sublime-text.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_29-install-sublime-text.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_30-install-obsidian.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_30-install-obsidian.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_29-rust-packages.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_29-rust-packages.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_30-python-packages.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_30-python-packages.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_31-device-archives.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_31-device-archives.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_31-install-llmtrim.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_31-install-llmtrim.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_31-remove-llmtrim-herdr.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_31-remove-llmtrim-herdr.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_32-provision-herdr-plugins.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_32-provision-herdr-plugins.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_33-codex-lb.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_33-codex-lb.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_35-install-tjikup.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_35-install-tjikup.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_36-tjikup-icon-cache.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_36-tjikup-icon-cache.fish",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_37-install-notjik.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_37-install-notjik.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_38-install-greetjik.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_38-install-greetjik.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_39-install-bartjik.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_39-install-bartjik.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_40-rose-punk-icons.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_40-rose-punk-icons.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_41-install-runtjik.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_41-install-runtjik.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_70-provision-collie.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_70-provision-collie.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_71-configure-vite-tailnet-serve.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_71-configure-vite-tailnet-serve.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_72-refresh-user-fonts.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_72-refresh-user-fonts.fish",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_73-mullvad-lan.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_73-mullvad-lan.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_73-prowlarr-notifications.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_73-prowlarr-notifications.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_97-secret-service.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_97-secret-service.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_98-private-storage.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_98-private-storage.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-run_after_99-systemd-reload.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/run_after_99-systemd-reload.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-configure-herdr.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/configure-herdr.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-install-collie.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/install-collie.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-install-secret-service.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/install-secret-service.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          },
+          {
+            "name": "home-configure-llmtrim.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/configure-llmtrim.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
+          }
+        ],
+        "native": "$DOTJIK_REPO/native/tasks/home.json",
+        "context_command": [
+          "python3",
+          "$DOTJIK_REPO/scripts/device-policy.py",
+          "context"
+        ]
+      },
+      "display": {
+        "section": "Recipes",
+        "quiet": true,
+        "icon": "Chezmoi"
+      },
+      "optional": false,
+      "operation": "prepare",
+      "after": [
+        "home:files",
+        "home:native-files",
+        "repo:home:push",
+        "repo:tjikos:push"
+      ]
+    },
+    {
+      "id": "home:sublime-text",
+      "label": "Sublime Text",
+      "needs": [
+        "home:render",
+        "require:sudo"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "sublime",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_29-install-sublime-text.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Sublime Text"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "sublime",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "sublime"
+      ]
+    },
+    {
+      "id": "home:obsidian",
+      "label": "Obsidian",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "obsidian"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "obsidian",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_30-install-obsidian.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Obsidian"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "obsidian",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "obsidian"
+      ]
+    },
+    {
+      "id": "home:rust",
+      "label": "Rust (packages)",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "cargo"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "rust",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_29-rust-packages.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Rust"
+      },
+      "optional": true,
+      "operation": "install",
+      "scope": "home",
+      "application": "rust",
+      "ecosystem": "custom",
+      "after": [
+        "system:rpm"
+      ],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "rust"
+      ]
+    },
+    {
+      "id": "home:python",
+      "label": "Python (environment)",
+      "needs": [
+        "home:config:python-project",
+        "home:render"
+      ],
+      "resources": [
+        "uv"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "python",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_30-python-packages.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Python"
+      },
+      "optional": true,
+      "operation": "install",
+      "scope": "home",
+      "application": "python",
+      "ecosystem": "custom",
+      "after": [
+        "system:rpm"
+      ],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "python"
+      ]
+    },
+    {
+      "id": "home:archives",
+      "label": "Synctjik",
+      "needs": [
+        "require:sudo"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "bash",
+        "{config_dir}/../scripts/install-synctjik.sh"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": false,
+        "icon": "Assets"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop",
+        "server"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "archives",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "bash",
+        "-c",
+        "command -v synctjik >/dev/null && command -v rclone >/dev/null"
+      ]
+    },
+    {
+      "id": "home:archive-restore",
+      "label": "Required device collections",
+      "needs": [
+        "home:archives"
+      ],
+      "check": [
+        "bash",
+        "{config_dir}/../scripts/archive-readiness.sh",
+        "check"
+      ],
+      "apply": [
+        "bash",
+        "{config_dir}/../scripts/archive-readiness.sh",
+        "apply"
+      ],
+      "interactive": true,
+      "resources": [
+        "home-files"
+      ],
+      "timeout": 7200,
+      "optional": false,
+      "operation": "configure",
+      "scope": "home",
+      "application": "archives",
+      "ecosystem": "configuration",
+      "display": {
+        "section": "Configuration",
+        "icon": "Assets"
+      }
+    },
+    {
+      "id": "home:llmtrim-install",
+      "label": "llmtrim (package)",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "cargo"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "llmtrim",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_31-install-llmtrim.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "llmtrim"
+      },
+      "optional": true,
+      "roles": [
+        "desktop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "llmtrim",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "llmtrim"
+      ]
+    },
+    {
+      "id": "home:llmtrim",
+      "label": "llmtrim (Herdr plugin)",
+      "needs": [
+        "home:llmtrim-install",
+        "home:render"
+      ],
+      "resources": [
+        "herdr"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_31-remove-llmtrim-herdr.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "interactive": true,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "llmtrim"
+      },
+      "optional": true,
+      "roles": [
+        "desktop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "llmtrim-herdr",
+      "ecosystem": "configuration",
+      "after": [
+        "home:configure:llmtrim"
+      ],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "llmtrim-herdr"
+      ]
+    },
+    {
+      "id": "home:herdr",
+      "label": "Herdr (plugins)",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "herdr"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "herdr-plugins",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_32-provision-herdr-plugins.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Herdr"
+      },
+      "optional": true,
+      "roles": [
+        "desktop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "herdr-plugins",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "herdr-plugins"
+      ]
+    },
+    {
+      "id": "home:codex-lb",
+      "label": "Codex LB",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "uv"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "codex-lb",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_33-codex-lb.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Codex LB"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "codex-lb",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "codex-lb"
+      ]
+    },
+    {
+      "id": "home:tjikup",
+      "label": "Tjikup",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "icons"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "tjikup",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_35-install-tjikup.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Tjikup"
+      },
+      "optional": true,
+      "operation": "install",
+      "scope": "home",
+      "application": "tjikup",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "tjikup"
+      ]
+    },
+    {
+      "id": "home:icons",
+      "label": "Assets (icon cache)",
+      "needs": [
+        "home:render",
+        "home:tjikup",
+        "home:archive-restore"
+      ],
+      "resources": [
+        "icons"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_36-tjikup-icon-cache.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Configuration",
+        "reports": true,
+        "icon": "Assets (icon cache)"
+      },
+      "optional": true,
+      "operation": "configure",
+      "scope": "home",
+      "application": "icons",
+      "ecosystem": "configuration",
+      "after": []
+    },
+    {
+      "id": "home:notjik",
+      "label": "Notjik",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "notjik",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_37-install-notjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Notjik"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "notjik",
+      "ecosystem": "custom",
+      "after": [
+        "system:rpm"
+      ],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "notjik"
+      ]
+    },
+    {
+      "id": "home:greetjik",
+      "label": "Greetjik",
+      "needs": [
+        "home:render",
+        "require:sudo"
+      ],
+      "resources": [
+        "tjikos",
+        "cargo",
+        "dnf"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "greetjik",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_38-install-greetjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Greetjik"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "greetjik",
+      "ecosystem": "custom",
+      "after": [
+        "system:rpm"
+      ],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "greetjik"
+      ]
+    },
+    {
+      "id": "home:bartjik",
+      "label": "Bartjik",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "bartjik",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_39-install-bartjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Bartjik"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "bartjik",
+      "ecosystem": "custom",
+      "after": [
+        "system:rpm"
+      ],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "bartjik"
+      ]
+    },
+    {
+      "id": "home:rose-punk-icons",
+      "label": "Assets (Rose Punk icons)",
+      "needs": [
+        "home:icons",
+        "home:render",
+        "home:archive-restore"
+      ],
+      "resources": [
+        "icons"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_40-rose-punk-icons.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Configuration",
+        "reports": true,
+        "icon": "Assets (Rose Punk icons)"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "configure",
+      "scope": "home",
+      "application": "rose-punk-icons",
+      "ecosystem": "configuration",
+      "after": []
+    },
+    {
+      "id": "home:runtjik",
+      "label": "Runtjik",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "runtjik",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_41-install-runtjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Runtjik"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "runtjik",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "runtjik"
+      ]
+    },
+    {
+      "id": "home:collie",
+      "label": "Collie (bridge)",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "herdr",
+        "tailscale",
+        "user-systemd"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "collie",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-install-collie.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "Collie"
+      },
+      "optional": true,
+      "roles": [
+        "desktop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "collie",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "collie"
+      ]
+    },
+    {
+      "id": "home:vite",
+      "label": "Vite (bridge)",
+      "needs": [
+        "home:render",
+        "home:configure:collie"
+      ],
+      "resources": [
+        "tailscale"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_71-configure-vite-tailnet-serve.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Configuration",
+        "reports": true,
+        "icon": "Vite"
+      },
+      "optional": true,
+      "roles": [
+        "desktop"
+      ],
+      "operation": "configure",
+      "scope": "home",
+      "application": "vite",
+      "ecosystem": "configuration",
+      "after": []
+    },
+    {
+      "id": "home:fonts",
+      "label": "Assets (fonts)",
+      "needs": [
+        "home:render",
+        "home:archive-restore"
+      ],
+      "resources": [
+        "fonts"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_72-refresh-user-fonts.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Configuration",
+        "reports": true,
+        "icon": "Assets (fonts)"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "configure",
+      "scope": "home",
+      "application": "fonts",
+      "ecosystem": "configuration",
+      "after": []
+    },
+    {
+      "id": "home:mullvad",
+      "label": "Mullvad (LAN)",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "network"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_73-mullvad-lan.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Configuration",
+        "reports": true,
+        "icon": "Mullvad"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "configure",
+      "scope": "home",
+      "application": "mullvad",
+      "ecosystem": "configuration",
+      "after": []
+    },
+    {
+      "id": "home:prowlarr",
+      "label": "Prowlarr (notifications)",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "storage"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_73-prowlarr-notifications.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Configuration",
+        "reports": true,
+        "icon": "Prowlarr"
+      },
+      "optional": true,
+      "roles": [
+        "server"
+      ],
+      "hosts": [
+        "si"
+      ],
+      "operation": "configure",
+      "scope": "home",
+      "application": "prowlarr",
+      "ecosystem": "configuration",
+      "after": []
+    },
+    {
+      "id": "home:secrets",
+      "label": "oo7 (secret service)",
+      "needs": [
+        "home:render",
+        "require:sudo"
+      ],
+      "resources": [
+        "dnf",
+        "user-systemd"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "secret-service",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-install-secret-service.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install missing applications",
+        "reports": true,
+        "icon": "oo7"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "secret-service",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "secret-service"
+      ]
+    },
+    {
+      "id": "home:storage",
+      "label": "Storage (private)",
+      "needs": [
+        "home:render",
+        "home:configure:secrets"
+      ],
+      "resources": [
+        "user-systemd",
+        "storage"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_98-private-storage.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Configuration",
+        "reports": true,
+        "icon": "Storage"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [
+        "fi",
+        "li"
+      ],
+      "operation": "configure",
+      "scope": "home",
+      "application": "storage",
+      "ecosystem": "configuration",
+      "after": []
+    },
+    {
+      "id": "home:services",
+      "label": "Systemd (user services)",
+      "needs": [
+        "home:files",
+        "home:native-files"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/refresh-user-services.py"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Configuration",
+        "reports": true,
+        "icon": "Systemd"
+      },
+      "optional": true,
+      "after": [
+        "home:font-migration",
+        "home:files",
+        "home:icons",
+        "home:rose-punk-icons",
+        "home:vite",
+        "home:fonts",
+        "home:mullvad",
+        "home:prowlarr",
+        "home:storage",
+        "home:native-files",
+        "home:config:zed",
+        "home:config:telegram",
+        "home:config:obsidian",
+        "home:config:codex-lb",
+        "home:config:notjik",
+        "home:config:bartjik",
+        "home:config:runtjik",
+        "home:config:hyprvoice",
+        "home:config:python-project",
+        "home:configure:herdr",
+        "home:configure:collie",
+        "home:configure:secrets",
+        "home:configure:llmtrim"
+      ],
+      "hosts": [
+        "fi",
+        "li",
+        "si"
+      ],
+      "operation": "configure",
+      "scope": "home",
+      "application": "services",
+      "ecosystem": "configuration"
+    },
+    {
+      "id": "home:native-files",
+      "label": "Home credentials",
+      "needs": [
+        "home:bitwarden"
+      ],
+      "check": [
+        "python3",
+        "{config_dir}/../scripts/native-files.py",
+        "credentials",
+        "check"
+      ],
+      "apply": [
+        "python3",
+        "{config_dir}/../scripts/native-files.py",
+        "credentials",
+        "apply"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "timeout": 600,
+      "display": {
+        "section": "Configuration",
+        "quiet": true,
+        "icon": "Bitwarden"
+      },
+      "optional": false,
+      "operation": "configure",
+      "scope": "home",
+      "application": "native-files",
+      "ecosystem": "configuration",
+      "after": [
+        "home:files"
+      ]
+    },
+    {
+      "id": "home:repositories",
+      "label": "Home Git checkouts",
+      "needs": [
+        "home:render"
+      ],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "repositories"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "repositories",
+        "--",
+        "python3",
+        "{config_dir}/../scripts/home-repositories.py",
+        "apply"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "timeout": 600,
+      "display": {
+        "section": "Install missing applications",
+        "icon": "Obsidian",
+        "quiet": true
+      },
+      "optional": true,
+      "operation": "install",
+      "scope": "home",
+      "application": "repositories",
+      "ecosystem": "custom",
+      "after": [],
+      "env": {
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      }
+    },
+    {
+      "id": "home:config:zed",
+      "label": "Zed configuration",
+      "operation": "configure",
+      "scope": "home",
+      "application": "zed",
+      "ecosystem": "configuration",
+      "part_of": "system:zed",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:bitwarden",
+        "system:zed"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/native-files.py",
+        "home-files",
+        "apply",
+        "--group",
+        "zed"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Zed"
+      },
+      "after": []
+    },
+    {
+      "id": "home:config:telegram",
+      "label": "Telegram configuration",
+      "operation": "configure",
+      "scope": "home",
+      "application": "telegram",
+      "ecosystem": "configuration",
+      "part_of": "system:telegram",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:bitwarden",
+        "system:telegram"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/native-files.py",
+        "home-files",
+        "apply",
+        "--group",
+        "telegram"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Telegram"
+      },
+      "after": []
+    },
+    {
+      "id": "home:config:obsidian",
+      "label": "Obsidian configuration",
+      "operation": "configure",
+      "scope": "home",
+      "application": "obsidian",
+      "ecosystem": "configuration",
+      "part_of": "home:obsidian",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:bitwarden",
+        "home:obsidian"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/native-files.py",
+        "home-files",
+        "apply",
+        "--group",
+        "obsidian"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Obsidian"
+      },
+      "after": []
+    },
+    {
+      "id": "home:config:codex-lb",
+      "label": "Codex LB configuration",
+      "operation": "configure",
+      "scope": "home",
+      "application": "codex-lb",
+      "ecosystem": "configuration",
+      "part_of": "home:codex-lb",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:bitwarden",
+        "home:codex-lb"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/native-files.py",
+        "home-files",
+        "apply",
+        "--group",
+        "codex-lb"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Codex LB"
+      },
+      "after": []
+    },
+    {
+      "id": "home:config:notjik",
+      "label": "Notjik configuration",
+      "operation": "configure",
+      "scope": "home",
+      "application": "notjik",
+      "ecosystem": "configuration",
+      "part_of": "home:notjik",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:bitwarden",
+        "home:notjik"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/native-files.py",
+        "home-files",
+        "apply",
+        "--group",
+        "notjik"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Notjik"
+      },
+      "after": []
+    },
+    {
+      "id": "home:config:bartjik",
+      "label": "Bartjik configuration",
+      "operation": "configure",
+      "scope": "home",
+      "application": "bartjik",
+      "ecosystem": "configuration",
+      "part_of": "home:bartjik",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:bartjik",
+        "home:bitwarden"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/native-files.py",
+        "home-files",
+        "apply",
+        "--group",
+        "bartjik"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Bartjik"
+      },
+      "after": []
+    },
+    {
+      "id": "home:config:runtjik",
+      "label": "Runtjik configuration",
+      "operation": "configure",
+      "scope": "home",
+      "application": "runtjik",
+      "ecosystem": "configuration",
+      "part_of": "home:runtjik",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:bitwarden",
+        "home:runtjik"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/native-files.py",
+        "home-files",
+        "apply",
+        "--group",
+        "runtjik"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Runtjik"
+      },
+      "after": []
+    },
+    {
+      "id": "home:config:hyprvoice",
+      "label": "Hyprvoice configuration",
+      "operation": "configure",
+      "scope": "home",
+      "application": "hyprvoice",
+      "ecosystem": "configuration",
+      "part_of": "system:hyprvoice",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:bitwarden",
+        "system:hyprvoice"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/native-files.py",
+        "home-files",
+        "apply",
+        "--group",
+        "hyprvoice"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Hyprvoice"
+      },
+      "after": []
+    },
+    {
+      "id": "home:config:python-project",
+      "label": "Python (environment) configuration",
+      "operation": "configure",
+      "scope": "home",
+      "application": "python-project",
+      "ecosystem": "configuration",
+      "part_of": "home:python",
+      "roles": [],
+      "hosts": [],
+      "needs": [
+        "home:bitwarden"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/native-files.py",
+        "home-files",
+        "apply",
+        "--group",
+        "python-project"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Python"
+      },
+      "after": []
+    },
+    {
+      "id": "home:bitwarden:update",
+      "label": "Bitwarden CLIs updates",
+      "needs": [
+        "home:render-prelude"
+      ],
+      "resources": [
+        "dnf"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "bitwarden",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_before_02-install-bws.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Bitwarden"
+      },
+      "optional": false,
+      "operation": "update",
+      "scope": "home",
+      "application": "bitwarden",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "bitwarden"
+      ],
+      "part_of": "home:bitwarden"
+    },
+    {
+      "id": "home:obsidian:update",
+      "label": "Obsidian updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "obsidian"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "obsidian",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_30-install-obsidian.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Obsidian"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "home",
+      "application": "obsidian",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "obsidian"
+      ],
+      "part_of": "home:obsidian"
+    },
+    {
+      "id": "home:rust:update",
+      "label": "Rust (packages) updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "cargo"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "rust",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_29-rust-packages.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Rust"
+      },
+      "optional": false,
+      "operation": "update",
+      "scope": "home",
+      "application": "rust",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "rust"
+      ],
+      "part_of": "home:rust"
+    },
+    {
+      "id": "home:python:update",
+      "label": "Python (environment) updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "uv"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "python",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_30-python-packages.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Python"
+      },
+      "optional": false,
+      "operation": "update",
+      "scope": "home",
+      "application": "python",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "python"
+      ],
+      "part_of": "home:python"
+    },
+    {
+      "id": "home:llmtrim-install:update",
+      "label": "llmtrim (package) updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "cargo"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "llmtrim",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_31-install-llmtrim.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "llmtrim"
+      },
+      "optional": false,
+      "roles": [
+        "desktop"
+      ],
+      "operation": "update",
+      "scope": "home",
+      "application": "llmtrim",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "llmtrim"
+      ],
+      "part_of": "home:llmtrim-install"
+    },
+    {
+      "id": "home:codex-lb:update",
+      "label": "Codex LB updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "uv"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "codex-lb",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_33-codex-lb.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Codex LB"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "home",
+      "application": "codex-lb",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "codex-lb"
+      ],
+      "part_of": "home:codex-lb"
+    },
+    {
+      "id": "home:tjikup:update",
+      "label": "Tjikup updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "icons"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "tjikup",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_35-install-tjikup.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Tjikup"
+      },
+      "optional": false,
+      "operation": "update",
+      "scope": "home",
+      "application": "tjikup",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "tjikup"
+      ],
+      "part_of": "home:tjikup"
+    },
+    {
+      "id": "home:notjik:update",
+      "label": "Notjik updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "notjik",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_37-install-notjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Notjik"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "home",
+      "application": "notjik",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "notjik"
+      ],
+      "part_of": "home:notjik"
+    },
+    {
+      "id": "home:greetjik:update",
+      "label": "Greetjik updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "cargo",
+        "dnf"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "greetjik",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_38-install-greetjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Greetjik"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "home",
+      "application": "greetjik",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "greetjik"
+      ],
+      "part_of": "home:greetjik"
+    },
+    {
+      "id": "home:bartjik:update",
+      "label": "Bartjik updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "bartjik",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_39-install-bartjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Bartjik"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "home",
+      "application": "bartjik",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "bartjik"
+      ],
+      "part_of": "home:bartjik"
+    },
+    {
+      "id": "home:runtjik:update",
+      "label": "Runtjik updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "runtjik",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_41-install-runtjik.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Runtjik"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "home",
+      "application": "runtjik",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "runtjik"
+      ],
+      "part_of": "home:runtjik"
+    },
+    {
+      "id": "home:configure:herdr",
+      "label": "Herdr (plugins) configuration",
+      "operation": "configure",
+      "scope": "home",
+      "part_of": "home:herdr",
+      "application": "herdr",
+      "roles": [
+        "desktop"
+      ],
+      "needs": [
+        "home:herdr",
+        "home:render",
+        "home:files"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-configure-herdr.fish"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Configuration"
+      },
+      "after": []
+    },
+    {
+      "id": "home:configure:collie",
+      "label": "Collie (bridge) configuration",
+      "operation": "configure",
+      "scope": "home",
+      "part_of": "home:collie",
+      "application": "collie",
+      "roles": [
+        "desktop"
+      ],
+      "needs": [
+        "home:collie",
+        "home:render",
+        "home:files"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_70-provision-collie.fish"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Configuration"
+      },
+      "after": []
+    },
+    {
+      "id": "home:configure:secrets",
+      "label": "oo7 (secret service) configuration",
+      "operation": "configure",
+      "scope": "home",
+      "part_of": "home:secrets",
+      "application": "secrets",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "needs": [
+        "home:secrets",
+        "home:render",
+        "home:files"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_97-secret-service.fish"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Configuration"
+      },
+      "after": []
+    },
+    {
+      "id": "home:activate:notjik",
+      "label": "Notjik activation",
+      "operation": "install",
+      "scope": "home",
+      "part_of": "home:notjik",
+      "needs": [
+        "home:config:notjik"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-notjik.sh"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "display": {
+        "section": "Install missing applications"
+      },
+      "after": []
+    },
+    {
+      "id": "home:activate:bartjik",
+      "label": "Bartjik activation",
+      "operation": "install",
+      "scope": "home",
+      "part_of": "home:bartjik",
+      "needs": [
+        "home:config:bartjik"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-bartjik.sh"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "display": {
+        "section": "Install missing applications"
+      },
+      "after": [
+        "home:activate:notjik"
+      ]
+    },
+    {
+      "id": "home:activate:runtjik",
+      "label": "Runtjik activation",
+      "operation": "install",
+      "scope": "home",
+      "part_of": "home:runtjik",
+      "needs": [
+        "home:config:runtjik"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-runtjik.sh"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "display": {
+        "section": "Install missing applications"
+      },
+      "after": []
+    },
+    {
+      "id": "home:activate:services",
+      "label": "User service activation",
+      "operation": "install",
+      "scope": "home",
+      "needs": [
+        "home:services",
+        "home:render"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-run_after_99-systemd-reload.fish"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "display": {
+        "section": "Install missing applications"
+      },
+      "after": [
+        "home:activate:notjik",
+        "home:activate:bartjik",
+        "home:activate:runtjik"
+      ],
+      "part_of": "home:services",
+      "hosts": [
+        "fi",
+        "li",
+        "si"
+      ],
+      "roles": []
+    },
+    {
+      "id": "system:zed:update:verify",
+      "label": "Zed configuration verification",
+      "operation": "update",
+      "scope": "home",
+      "application": "zed",
+      "ecosystem": "configuration",
+      "part_of": "system:zed",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "system:zed:update"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "zed"
+      ],
+      "resources": [
+        "home-files",
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Package updates",
+        "icon": "Zed"
+      },
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "zed"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      }
+    },
+    {
+      "id": "home:obsidian:update:verify",
+      "label": "Obsidian configuration verification",
+      "operation": "update",
+      "scope": "home",
+      "application": "obsidian",
+      "ecosystem": "configuration",
+      "part_of": "home:obsidian",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:obsidian:update"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "obsidian"
+      ],
+      "resources": [
+        "home-files",
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Package updates",
+        "icon": "Obsidian"
+      },
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "obsidian"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      }
+    },
+    {
+      "id": "home:codex-lb:update:verify",
+      "label": "Codex LB configuration verification",
+      "operation": "update",
+      "scope": "home",
+      "application": "codex-lb",
+      "ecosystem": "configuration",
+      "part_of": "home:codex-lb",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:codex-lb:update"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "codex-lb"
+      ],
+      "resources": [
+        "home-files",
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Package updates",
+        "icon": "Codex LB"
+      },
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "codex-lb"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      }
+    },
+    {
+      "id": "home:notjik:update:verify",
+      "label": "Notjik configuration verification",
+      "operation": "update",
+      "scope": "home",
+      "application": "notjik",
+      "ecosystem": "configuration",
+      "part_of": "home:notjik",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:notjik:update"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "notjik"
+      ],
+      "resources": [
+        "home-files",
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Package updates",
+        "icon": "Notjik"
+      },
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "notjik"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      }
+    },
+    {
+      "id": "home:bartjik:update:verify",
+      "label": "Bartjik configuration verification",
+      "operation": "update",
+      "scope": "home",
+      "application": "bartjik",
+      "ecosystem": "configuration",
+      "part_of": "home:bartjik",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:bartjik:update"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "bartjik"
+      ],
+      "resources": [
+        "home-files",
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Package updates",
+        "icon": "Bartjik"
+      },
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "bartjik"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      }
+    },
+    {
+      "id": "home:runtjik:update:verify",
+      "label": "Runtjik configuration verification",
+      "operation": "update",
+      "scope": "home",
+      "application": "runtjik",
+      "ecosystem": "configuration",
+      "part_of": "home:runtjik",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "home:runtjik:update"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "runtjik"
+      ],
+      "resources": [
+        "home-files",
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Package updates",
+        "icon": "Runtjik"
+      },
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "runtjik"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      }
+    },
+    {
+      "id": "system:hyprvoice:update:verify",
+      "label": "Hyprvoice configuration verification",
+      "operation": "update",
+      "scope": "home",
+      "application": "hyprvoice",
+      "ecosystem": "configuration",
+      "part_of": "system:hyprvoice",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "hosts": [],
+      "needs": [
+        "system:hyprvoice:update"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "hyprvoice"
+      ],
+      "resources": [
+        "home-files",
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Package updates",
+        "icon": "Hyprvoice"
+      },
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "hyprvoice"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      }
+    },
+    {
+      "id": "home:configure:llmtrim",
+      "operation": "configure",
+      "scope": "home",
+      "label": "LLMTrim configuration",
+      "part_of": "home:llmtrim-install",
+      "roles": [
+        "desktop"
+      ],
+      "needs": [
+        "home:render",
+        "home:llmtrim-install"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "{run_dir}/home-configure-llmtrim.fish"
+      ],
+      "after": [],
+      "display": {
+        "section": "Configuration",
+        "icon": "llmtrim"
+      }
+    }
+  ]
+}

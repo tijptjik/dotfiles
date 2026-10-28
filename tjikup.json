@@ -1,44 +1,360 @@
 {
-  "version": 1,
+  "version": 2,
+  "title": "tjikOS",
+  "jobs": 4,
+  "locks": [
+    "{config_dir}/.git/tjikup-workflow.lock"
+  ],
   "flags": {
-    "skip-conflicts": {
-      "env": "FLEET_SKIP_CONFLICTS",
-      "help": "skip conflicting files during home and system apply"
-    },
-    "upgrade": {
-      "env": "FLEET_UPGRADE",
-      "help": "check for home package upgrades as well as applying configuration"
-    },
-    "skip-repo-sync": {
-      "env": "FLEET_SKIP_REPO_SYNC",
-      "help": "skip pulls, pushes and dirty checks for Dotjik, Systjik and tjikOS"
-    }
+    "upgrade": "FLEET_UPGRADE",
+    "skip-repo-sync": "FLEET_SKIP_REPO_SYNC",
+    "skip-conflicts": "FLEET_SKIP_CONFLICTS"
   },
-  "steps": [
+  "env": {
+    "DOTJIK_REPO": "{config_dir}",
+    "SYSTJIK_REPO": "{config_dir}/system",
+    "TJIKOS_REPO": "~/code/tjikos",
+    "TJIKUP_SKIP_PREFLIGHT": "1",
+    "TJIKUP_QUIET_CONFIG": "1",
+    "GIT_TERMINAL_PROMPT": "0",
+    "FLEET_UPGRADE": "0"
+  },
+  "includes": [
+    "tjikup/recipes.json",
+    "$SYSTJIK_REPO/tjikup/recipes.json"
+  ],
+  "prerequisites": [
     {
-      "id": "fleet",
-      "command": [
+      "id": "require:python",
+      "check": [
         "python3",
-        "{config_dir}/scripts/fleet-update.py",
-        "workflow"
+        "-c",
+        "import sys; assert sys.version_info >= (3,11); import tomllib"
       ],
-      "preview": [
-        "python3",
-        "{config_dir}/scripts/fleet-update.py",
-        "workflow",
-        "--dry-run"
-      ],
-      "label": "Fleet update",
-      "output": "stream",
-      "timeout": 7200,
-      "stop_codes": [
-        78
-      ],
-      "summary": false
+      "display": {
+        "icon": "Python",
+        "section": "Prerequisites"
+      },
+      "label": "Python"
     }
   ],
-  "banner": {
-    "title": "tjikOS",
-    "url": "https://github.com/tijptjik/tjikos"
-  }
+  "recipes": [
+    {
+      "id": "require:sudo",
+      "check": [
+        "sudo",
+        "-n",
+        "true"
+      ],
+      "display": {
+        "icon": "Terminal",
+        "section": "Prerequisites"
+      },
+      "label": "sudo",
+      "needs": []
+    },
+    {
+      "id": "require:fish",
+      "check": [
+        "fish",
+        "--version"
+      ],
+      "display": {
+        "icon": "Fish",
+        "section": "Prerequisites"
+      },
+      "label": "Fish",
+      "needs": []
+    },
+    {
+      "id": "capture",
+      "label": "Capture live settings",
+      "apply": [
+        "python3",
+        "{config_dir}/scripts/capture-settings.py"
+      ],
+      "display": {
+        "section": "Recipes",
+        "reports": true,
+        "icon": "Chezmoi"
+      },
+      "optional": false,
+      "needs": [],
+      "after": []
+    },
+    {
+      "id": "capture:commit",
+      "label": "Commit captured settings",
+      "needs": [
+        "capture"
+      ],
+      "autocommit": {
+        "repository": "$DOTJIK_REPO",
+        "files": [
+          "native/home/data/gtk-bookmarks.json",
+          "native/home/data/zapzap.json",
+          "native/home/files/.codex/config.toml",
+          "native/home/files/.config/fcitx5/profile",
+          "native/home/files/.config/herdr/session.json.j2",
+          "native/home/files/.config/solaar/config.yaml",
+          "native/home/files/.config/zed/settings.json.j2"
+        ],
+        "message": "sync: update templates"
+      },
+      "display": {
+        "section": "Recipes",
+        "quiet": true,
+        "icon": "Local Changes"
+      },
+      "optional": false,
+      "after": []
+    },
+    {
+      "id": "repo:home:pull",
+      "label": "home pull",
+      "needs": [
+        "capture:commit"
+      ],
+      "git": {
+        "repository": "$DOTJIK_REPO",
+        "operation": "pull-rebase"
+      },
+      "timeout": 600,
+      "when": {
+        "environment": "FLEET_SKIP_REPO_SYNC",
+        "equals": "0"
+      },
+      "display": {
+        "repository": "dotjik",
+        "operation": "pull"
+      },
+      "optional": false,
+      "after": []
+    },
+    {
+      "id": "repo:home:push",
+      "label": "home push",
+      "needs": [
+        "repo:home:pull"
+      ],
+      "git": {
+        "repository": "$DOTJIK_REPO",
+        "operation": "push"
+      },
+      "timeout": 600,
+      "when": {
+        "environment": "FLEET_SKIP_REPO_SYNC",
+        "equals": "0"
+      },
+      "display": {
+        "repository": "dotjik",
+        "operation": "push"
+      },
+      "optional": false,
+      "after": []
+    },
+    {
+      "id": "repo:tjikos:pull",
+      "label": "tjikos pull",
+      "needs": [
+        "capture:commit"
+      ],
+      "git": {
+        "repository": "$TJIKOS_REPO",
+        "operation": "pull-ff"
+      },
+      "timeout": 600,
+      "when": {
+        "environment": "FLEET_SKIP_REPO_SYNC",
+        "equals": "0"
+      },
+      "display": {
+        "repository": "tjikOS",
+        "operation": "pull"
+      },
+      "optional": false,
+      "after": []
+    },
+    {
+      "id": "repo:tjikos:push",
+      "label": "tjikos push",
+      "needs": [
+        "repo:tjikos:pull"
+      ],
+      "git": {
+        "repository": "$TJIKOS_REPO",
+        "operation": "push"
+      },
+      "timeout": 600,
+      "when": {
+        "environment": "FLEET_SKIP_REPO_SYNC",
+        "equals": "0"
+      },
+      "display": {
+        "repository": "tjikOS",
+        "operation": "push"
+      },
+      "optional": false,
+      "after": []
+    }
+  ],
+  "presentation": {
+    "splash": true,
+    "links": [
+      {
+        "title": "tjikOS",
+        "url": "https://github.com/tijptjik/tjikos"
+      },
+      {
+        "title": "dotjik",
+        "url": "https://github.com/tijptjik/dotfiles"
+      }
+    ],
+    "icons": "{config_dir}/scripts/icons/icons32.json",
+    "glyphs": {
+      "Applications": "\uf1b2",
+      "Assets": "\uf187",
+      "Bartjik": "\uf2d0",
+      "Chezetc": "\uf013",
+      "Chezmoi": "\uf015",
+      "Codex Desktop": "\uf121",
+      "Codex LB": "\uf121",
+      "Collie": "\uf0c1",
+      "Docker": "\uf308",
+      "Fedora": "\uf30a",
+      "Flatpak": "\uf49c",
+      "Google Chrome stable": "\uf268",
+      "GDM": "\uf361",
+      "Gitfetch": "\ue702",
+      "Greetjik": "\uf075",
+      "Herdr": "\uf12e",
+      "Hyprvoice": "\uf130",
+      "Launcher": "\uf135",
+      "Media": "\uf008",
+      "Mullvad": "\uf132",
+      "Nginx": "\ue776",
+      "Notjik": "\uf0f3",
+      "Notifications": "\uf0f3",
+      "NSS": "\uf023",
+      "Obsidian": "\ue275",
+      "oo7": "\uf084",
+      "Power": "\uf011",
+      "Prowlarr": "\uf002",
+      "Python": "\ue73c",
+      "Runtjik": "\uf120",
+      "Rust": "\ue7a8",
+      "SnapRAID": "\uf1c0",
+      "Storage": "\uf0a0",
+      "Strata": "\uf279",
+      "Sublime Text": "\ue7aa",
+      "Systemd": "\uf085",
+      "Tailscale": "\uf0e8",
+      "Telegram": "\uf1d8",
+      "Terminal": "\uf120",
+      "Tippecanoe": "\uf279",
+      "Tjikup": "\uf021",
+      "Transmission": "\uf019",
+      "Vite": "\uf0e7",
+      "Zed": "\uf044",
+      "llmtrim": "\uf0c4",
+      "Bitwarden": "\uf132",
+      "Fish": "\uf489",
+      "UV": "\ue73c",
+      "FNM": "\ue718",
+      "Gum": "\uf120",
+      "Bun": "\ue76f",
+      "Solaar": "\uf185",
+      "Fcitx": "\uf11c",
+      "Codex": "\uf121",
+      "Zapzap": "\uf232",
+      "Gtk-bookmarks": "\uf02e",
+      "Local Changes": "\ue702",
+      "Templates": "\ue702",
+      "Home and system": "\uf085",
+      "Dotjik": "\uf015",
+      "Systjik": "\uf013",
+      "tjikOS": "\uf021",
+      "dotjik": "\uf015",
+      "systjik": "\uf013",
+      "tjikos": "\uf021",
+      "homepage": "\uf015",
+      "scrutiny": "\uf06e",
+      "seerr": "\uf06e",
+      "profilarr": "\uf0c0",
+      "profilarr-parser": "\uf0c0",
+      "radarr": "\uf008",
+      "unpackerr": "\uf187",
+      "sonarr": "\uf26c",
+      "bookshelf": "\uf02d",
+      "ephemera": "\uf02d",
+      "shelfmark": "\uf02e",
+      "lazylibrarian": "\uf02d",
+      "lidarr": "\uf001",
+      "octo-fiestarr": "\uf001",
+      "grimmory": "\uf02d",
+      "audiobookshelf": "\uf025",
+      "navidrome": "\uf001",
+      "feishin": "\uf001",
+      "tautulli": "\uf080",
+      "plex-rewind": "\uf04a",
+      "prowlarr": "\uf002",
+      "transmission": "\uf019",
+      "byparr": "\uf563",
+      "flaresolverr": "\uf0c2",
+      "beets": "\uf001",
+      "beets-audible": "\uf001",
+      "auto-m4b": "\uf025",
+      "mariadb": "\uf1c0",
+      "Plex": "\uf04b",
+      "Docker images": "\uf308",
+      "Assets (fonts)": "\uf031",
+      "Assets (font folder migration)": "\uf031",
+      "Assets (user fonts)": "\uf031",
+      "Assets (icon cache)": "\uf00a",
+      "Assets (Rose Punk icons)": "\uf00a",
+      "Assets (symbolic link icon)": "\uf0c1",
+      "Zoom Workplace": "\uf03d",
+      "ChatGPT Desktop": "\uf075"
+    },
+    "titles": {
+      "llmtrim": "Llmtrim",
+      "Google Chrome stable": "Google Chrome Stable",
+      "Gtk-bookmarks": "GTK Bookmarks",
+      "Zapzap": "ZapZap"
+    },
+    "icon_aliases": {
+      "Bitwarden CLIs": "Bitwarden",
+      "Plugin : LLMTrim": "llmtrim",
+      "Collie Bridge": "Collie",
+      "Vite Bridge": "Vite",
+      "Common Units": "Systemd",
+      "Clients Units": "Systemd",
+      "User services": "Systemd",
+      "Hyprlock Login": "NSS",
+      "Cloudflare backup": "Storage",
+      "Google Drive backup": "Storage",
+      "Desktop services": "Systemd",
+      "Home credentials": "Bitwarden",
+      "Zoom": "Zoom Workplace",
+      "sudo": "Terminal",
+      "python": "Python",
+      "fish": "Fish",
+      "chezmoi": "Chezmoi",
+      "GTK Bookmarks": "Gtk-bookmarks",
+      "ZapZap": "Zapzap",
+      "ChatGPT": "ChatGPT Desktop",
+      "Tennis and Tinty": "Terminal",
+      "Tennis": "Terminal",
+      "Tinty": "Terminal",
+      "Private storage": "Storage",
+      "oo7 daemon": "oo7",
+      "Mullvad LAN": "Mullvad"
+    }
+  },
+  "device_file": "$XDG_CONFIG_HOME/tjikup/device.json",
+  "legacy_hosts": [
+    "fi",
+    "li",
+    "si"
+  ]
 }

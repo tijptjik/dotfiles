@@ -3,7 +3,7 @@
   "recipes": [
     {
       "id": "system:files",
-      "label": "System configuration",
+      "label": "System",
       "needs": [
         "home:bitwarden",
         "require:sudo"

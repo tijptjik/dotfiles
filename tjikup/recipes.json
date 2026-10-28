@@ -136,7 +136,7 @@
     },
     {
       "id": "home:files",
-      "label": "Home configuration",
+      "label": "Home",
       "needs": [
         "home:bitwarden",
         "home:archive-restore"
@@ -1712,7 +1712,7 @@
     },
     {
       "id": "home:config:zed",
-      "label": "Zed configuration",
+      "label": "Zed",
       "operation": "configure",
       "scope": "home",
       "application": "zed",
@@ -1746,7 +1746,7 @@
     },
     {
       "id": "home:config:telegram",
-      "label": "Telegram configuration",
+      "label": "Telegram",
       "operation": "configure",
       "scope": "home",
       "application": "telegram",
@@ -1780,7 +1780,7 @@
     },
     {
       "id": "home:config:obsidian",
-      "label": "Obsidian configuration",
+      "label": "Obsidian",
       "operation": "configure",
       "scope": "home",
       "application": "obsidian",
@@ -1814,7 +1814,7 @@
     },
     {
       "id": "home:config:codex-lb",
-      "label": "Codex LB configuration",
+      "label": "Codex LB",
       "operation": "configure",
       "scope": "home",
       "application": "codex-lb",
@@ -1848,7 +1848,7 @@
     },
     {
       "id": "home:config:notjik",
-      "label": "Notjik configuration",
+      "label": "Notjik",
       "operation": "configure",
       "scope": "home",
       "application": "notjik",
@@ -1882,7 +1882,7 @@
     },
     {
       "id": "home:config:bartjik",
-      "label": "Bartjik configuration",
+      "label": "Bartjik",
       "operation": "configure",
       "scope": "home",
       "application": "bartjik",
@@ -1916,7 +1916,7 @@
     },
     {
       "id": "home:config:runtjik",
-      "label": "Runtjik configuration",
+      "label": "Runtjik",
       "operation": "configure",
       "scope": "home",
       "application": "runtjik",
@@ -1950,7 +1950,7 @@
     },
     {
       "id": "home:config:hyprvoice",
-      "label": "Hyprvoice configuration",
+      "label": "Hyprvoice",
       "operation": "configure",
       "scope": "home",
       "application": "hyprvoice",
@@ -1984,7 +1984,7 @@
     },
     {
       "id": "home:config:python-project",
-      "label": "Python (environment) configuration",
+      "label": "Python (environment)",
       "operation": "configure",
       "scope": "home",
       "application": "python-project",
@@ -2564,7 +2564,7 @@
     },
     {
       "id": "home:configure:herdr",
-      "label": "Herdr (plugins) configuration",
+      "label": "Herdr (plugins)",
       "operation": "configure",
       "scope": "home",
       "part_of": "home:herdr",
@@ -2592,7 +2592,7 @@
     },
     {
       "id": "home:configure:collie",
-      "label": "Collie (bridge) configuration",
+      "label": "Collie (bridge)",
       "operation": "configure",
       "scope": "home",
       "part_of": "home:collie",
@@ -2620,7 +2620,7 @@
     },
     {
       "id": "home:configure:secrets",
-      "label": "oo7 (secret service) configuration",
+      "label": "oo7 (secret service)",
       "operation": "configure",
       "scope": "home",
       "part_of": "home:secrets",
@@ -3053,7 +3053,7 @@
       "id": "home:configure:llmtrim",
       "operation": "configure",
       "scope": "home",
-      "label": "LLMTrim configuration",
+      "label": "LLMTrim",
       "part_of": "home:llmtrim-install",
       "roles": [
         "desktop"

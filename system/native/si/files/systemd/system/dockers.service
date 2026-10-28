@@ -1,0 +1,18 @@
+[Unit]
+Description=All dot-files controlled docker services with docker compose
+PartOf=docker.service
+Requires=docker.service
+After=docker.service
+RequiresMountsFor=/mnt/storage /mnt/data/disk22
+ConditionPathExists=/etc/si-provision/services-ready
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+WorkingDirectory=/home/m/dockers
+ExecStartPre=/usr/bin/python3 /etc/si-provision/storage.py --check
+ExecStart=/bin/docker compose up -d --remove-orphans
+ExecStop=/bin/docker compose down
+
+[Install]
+WantedBy=multi-user.target

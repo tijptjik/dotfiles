@@ -1,0 +1,751 @@
+{
+  "version": 1,
+  "id": "system-si",
+  "host": "si",
+  "context": {
+    "hostname": "si",
+    "is_desktop": false,
+    "is_laptop": false,
+    "is_server": true,
+    "is_client": false,
+    "system_user": "root",
+    "os": "linux",
+    "distribution": "fedora",
+    "release": 45
+  },
+  "entries": [
+    {
+      "kind": "file",
+      "path": "/etc/dconf/db/gdm.d/90-si-always-on",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/dconf/db/gdm.d/90-si-always-on"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/dconf/db/gdm.d/locks/90-si-always-on",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/dconf/db/gdm.d/locks/90-si-always-on"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/dnf/dnf.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/dnf/dnf.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/dnf/repos.override.d/60-chezetc-docker.repo",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true,
+      "source": "files/dnf/repos.override.d/60-chezetc-docker.repo.j2"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/docker/daemon.json",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/docker/daemon.json"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/fail2ban/jail.local",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/fail2ban/jail.local"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/gdm/custom.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true,
+      "source": "files/gdm/custom.conf.j2"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/nginx/conf.d/ssl_type.hk.conf",
+      "mode": "0755",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/nginx/conf.d/ssl_type.hk.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/nginx/nginx.conf",
+      "mode": "0755",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/nginx/nginx.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/nginx/sites-available/type.hk",
+      "mode": "0755",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/nginx/sites-available/type.hk"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/nginx/sites-available/webdav",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/nginx/sites-available/webdav"
+    },
+    {
+      "kind": "symlink",
+      "path": "/etc/nginx/sites-enabled/type.hk",
+      "target": "/etc/nginx/sites-available/type.hk",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "symlink",
+      "path": "/etc/nginx/sites-enabled/webdav",
+      "target": "/etc/nginx/sites-available/webdav",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/nginx/snippets/cors_options_type.hk.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/nginx/snippets/cors_options_type.hk.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/nginx/snippets/cors_simple_type.hk.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/nginx/snippets/cors_simple_type.hk.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/nginx/snippets/mxpnl_proxy_pass.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/nginx/snippets/mxpnl_proxy_pass.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/nginx/snippets/reverse_proxy.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/nginx/snippets/reverse_proxy.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/nginx/snippets/server_template.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/nginx/snippets/server_template.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/pam.d/hyprlock",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/pam.d/hyprlock"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/pki/tls/certs/cloudflare_type.hk.pem",
+      "mode": "0600",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/pki/tls/certs/cloudflare_type.hk.pem",
+      "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/pki/tls/certs/origin-pull-ca.pem",
+      "mode": "0600",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/pki/tls/certs/origin-pull-ca.pem",
+      "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/pki/tls/private/cloudflare_type.hk.pem",
+      "mode": "0600",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/pki/tls/private/cloudflare_type.hk.pem",
+      "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-app-backup/backup.py",
+      "mode": "0755",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-app-backup/backup.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-media-guard/guard.py",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-media-guard/guard.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-media-permissions/README.md",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-media-permissions/README.md"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-media-permissions/permissions.py",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-media-permissions/permissions.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-media-permissions/policy.json",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-media-permissions/policy.json"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-provision/directories.json",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-provision/directories.json"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-provision/mergerfs.json",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-provision/mergerfs.json"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-provision/nss_systemd.py",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-provision/nss_systemd.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-provision/provision.py",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-provision/provision.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-provision/restore.py",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-provision/restore.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-provision/storage.py",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-provision/storage.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-provision/update_apps.py",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-provision/update_apps.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-snapraid-maintenance/config.json",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-snapraid-maintenance/config.json"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-snapraid-maintenance/maintenance.py",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-snapraid-maintenance/maintenance.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-snapraid-maintenance/notify.py",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-snapraid-maintenance/notify.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-transmission-cleanup/README.md",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-transmission-cleanup/README.md"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-transmission-cleanup/cleanup.py",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-transmission-cleanup/cleanup.py"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/snapraid.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true,
+      "source": "files/snapraid.conf.j2"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_host_ecdsa_key",
+      "mode": "0600",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/ssh_host_ecdsa_key",
+      "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_host_ed25519_key",
+      "mode": "0600",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/ssh_host_ed25519_key",
+      "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_host_rsa_key",
+      "mode": "0600",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/ssh_host_rsa_key",
+      "sensitive": true
+    },
+    {
+      "kind": "directory",
+      "path": "/etc/ssh/sshd_config.d",
+      "mode": "0700",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/sshd_config.d/40-redhat-crypto-policies.conf",
+      "mode": "0600",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/sshd_config.d/40-redhat-crypto-policies.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/sshd_config.d/50-redhat.conf",
+      "mode": "0600",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/sshd_config.d/50-redhat.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/sshd_config",
+      "mode": "0600",
+      "uid": 0,
+      "gid": 0,
+      "template": true,
+      "source": "files/ssh/sshd_config.j2"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_config.d/10-connection-reuse.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/ssh_config.d/10-connection-reuse.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_config.d/30-libvirt-ssh-proxy.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/ssh_config.d/30-libvirt-ssh-proxy.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_config.d/50-redhat.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/ssh_config.d/50-redhat.conf"
+    },
+    {
+      "kind": "symlink",
+      "path": "/etc/ssh/ssh_config.d/20-systemd-ssh-proxy.conf",
+      "target": "../../../usr/lib/systemd/ssh_config.d/20-systemd-ssh-proxy.conf",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_config",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true,
+      "source": "files/ssh/ssh_config.j2"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_host_ecdsa_key.pub",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/ssh_host_ecdsa_key.pub"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_host_ed25519_key.pub",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/ssh_host_ed25519_key.pub"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/ssh/ssh_host_rsa_key.pub",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/ssh/ssh_host_rsa_key.pub"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/sysctl.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true,
+      "source": "files/sysctl.conf.j2"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/sleep.conf.d/si-always-on.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/sleep.conf.d/si-always-on.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/docker.service.d/si-storage.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/docker.service.d/si-storage.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/dockers.service",
+      "mode": "0755",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/dockers.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/plexmediaserver.service.d/override.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/plexmediaserver.service.d/override.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/plexmediaserver.service.d/si-storage.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/plexmediaserver.service.d/si-storage.conf"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-app-backup-failure.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-app-backup-failure.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-app-backup.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-app-backup.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-app-backup.timer",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-app-backup.timer"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-media-guard.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-media-guard.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-media-guard.timer",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-media-guard.timer"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-media-permissions-boot.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-media-permissions-boot.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-media-permissions.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-media-permissions.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-media-permissions.timer",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-media-permissions.timer"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-snapraid-alert@.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-snapraid-alert@.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-snapraid-health.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-snapraid-health.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-snapraid-health.timer",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-snapraid-health.timer"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-snapraid-recovered@.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-snapraid-recovered@.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-snapraid-resume.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-snapraid-resume.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-snapraid-scrub.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-snapraid-scrub.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-snapraid-scrub.timer",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-snapraid-scrub.timer"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-snapraid-sync.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-snapraid-sync.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-snapraid-sync.timer",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-snapraid-sync.timer"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-transmission-cleanup.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-transmission-cleanup.service"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/si-transmission-cleanup.timer",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/si-transmission-cleanup.timer"
+    },
+    {
+      "kind": "symlink",
+      "path": "/etc/systemd/system/mdmonitor.service",
+      "target": "/dev/null",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/tailscaled.service.d/override.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true,
+      "source": "files/systemd/system/tailscaled.service.d/override.conf.j2"
+    },
+    {
+      "kind": "symlink",
+      "path": "/etc/usr/local/bin/bun",
+      "target": "/home/{{ system_user }}/.bun/bin/bun",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/xdg/monitors.xml",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true,
+      "source": "files/xdg/monitors.xml.j2"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/yum.repos.d/fedora-cisco-openh264.repo",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "when": "not (distribution == \"fedora\" and release >= 45)",
+      "source": "files/yum.repos.d/fedora-cisco-openh264.repo"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/yum.repos.d/fedora-updates.repo",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "when": "not (distribution == \"fedora\" and release >= 45)",
+      "source": "files/yum.repos.d/fedora-updates.repo"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/yum.repos.d/fedora.repo",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "when": "not (distribution == \"fedora\" and release >= 45)",
+      "source": "files/yum.repos.d/fedora.repo"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/yum.repos.d/firefoxpwa.repo",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/yum.repos.d/firefoxpwa.repo"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/yum.repos.d/google-chrome.repo",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "when": "not (distribution == \"fedora\" and release >= 45)",
+      "source": "files/yum.repos.d/google-chrome.repo"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/yum.repos.d/plex.repo",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true,
+      "source": "files/yum.repos.d/plex.repo.j2"
+    }
+  ]
+}

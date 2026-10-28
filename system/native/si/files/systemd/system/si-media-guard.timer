@@ -1,0 +1,9 @@
+[Unit]
+Description=Check Sonarr and Radarr torrent file manifests every 15 seconds
+ConditionHost=si
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=15s
+AccuracySec=1s
+[Install]
+WantedBy=timers.target

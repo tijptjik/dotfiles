@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily application-state backup at 04:00 Hong Kong time
+ConditionHost=si
+
+[Timer]
+OnCalendar=*-*-* 04:00:00 Asia/Hong_Kong
+Persistent=true
+RandomizedDelaySec=5min
+
+[Install]
+WantedBy=timers.target

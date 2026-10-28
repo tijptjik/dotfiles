@@ -1,0 +1,19 @@
+[Unit]
+Description=Remove completed managed torrents after their seeding requirement
+ConditionHost=si
+After=docker.service
+Requires=docker.service
+RequiresMountsFor=/mnt/storage/meta/downloads
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /etc/si-transmission-cleanup/cleanup.py --apply
+StateDirectory=si-transmission-cleanup
+StateDirectoryMode=0700
+UMask=0077
+TimeoutStartSec=30min
+Nice=10
+NoNewPrivileges=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/si-transmission-cleanup

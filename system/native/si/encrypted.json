@@ -1,0 +1,8 @@
+{
+  "files/pki/tls/certs/cloudflare_type.hk.pem": "encrypted/pki/tls/certs/encrypted_cloudflare_type.hk.pem.age",
+  "files/pki/tls/certs/origin-pull-ca.pem": "encrypted/pki/tls/certs/encrypted_origin-pull-ca.pem.age",
+  "files/pki/tls/private/cloudflare_type.hk.pem": "encrypted/pki/tls/private/encrypted_cloudflare_type.hk.pem.age",
+  "files/ssh/ssh_host_ecdsa_key": "encrypted/ssh/encrypted_private_ssh_host_ecdsa_key.age",
+  "files/ssh/ssh_host_ed25519_key": "encrypted/ssh/encrypted_private_ssh_host_ed25519_key.age",
+  "files/ssh/ssh_host_rsa_key": "encrypted/ssh/encrypted_private_ssh_host_rsa_key.age"
+}

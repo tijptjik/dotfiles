@@ -1,0 +1,86 @@
+{
+  "mounts": {
+    "/mnt/data/disk12": "f28eba22-c264-4021-84b9-37e85420b3a3",
+    "/mnt/data/disk22": "de5f6189-ffcf-4998-9eb6-f5c96455d35d",
+    "/mnt/data/disk32": "eb5d5636-dcc2-441b-a7b7-8c12297b4568",
+    "/mnt/data/disk42": "9d49130f-b477-4990-b2c2-93ebebf2d0c6",
+    "/mnt/data/disk5": "0c11d7dc-cebf-4cb4-85c7-c6c132f843e7",
+    "/mnt/parity/disk12": "63c7eef8-6d74-4c0c-8404-c5830d141dcc",
+    "/mnt/parity/disk22": "b052297a-044f-421d-ac6e-bafc60da8bf5"
+  },
+  "layout": [
+    [
+      "1-parity",
+      "/mnt/parity/disk12/snapraid.parity"
+    ],
+    [
+      "2-parity",
+      "/mnt/parity/disk22/snapraid.parity"
+    ],
+    [
+      "content",
+      "/mnt/data/disk12/.snapraid.content"
+    ],
+    [
+      "content",
+      "/mnt/data/disk22/.snapraid.content"
+    ],
+    [
+      "content",
+      "/mnt/data/disk32/.snapraid.content"
+    ],
+    [
+      "content",
+      "/mnt/data/disk42/.snapraid.content"
+    ],
+    [
+      "content",
+      "/mnt/data/disk5/.snapraid.content"
+    ],
+    [
+      "data",
+      "d1",
+      "/mnt/data/disk12"
+    ],
+    [
+      "data",
+      "d2",
+      "/mnt/data/disk22"
+    ],
+    [
+      "data",
+      "d3",
+      "/mnt/data/disk32"
+    ],
+    [
+      "data",
+      "d4",
+      "/mnt/data/disk42"
+    ],
+    [
+      "data",
+      "d5",
+      "/mnt/data/disk5"
+    ]
+  ],
+  "max_removed": 200,
+  "writers": [
+    "sonarr",
+    "seerr",
+    "profilarr",
+    "radarr",
+    "lidarr",
+    "bookshelf",
+    "beets",
+    "beets-audible",
+    "transmission",
+    "ephemera",
+    "auto-m4b",
+    "grimmory",
+    "audiobookshelf",
+    "lazylibrarian",
+    "shelfmark",
+    "octo-fiestarr",
+    "unpackerr"
+  ]
+}

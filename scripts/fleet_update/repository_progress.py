@@ -84,7 +84,7 @@ class RepositoryProgress(Progress):
             if self.visible or self.finished:
                 return
             if self.live:
-                runtime.section_header("tjikOS Repos")
+                runtime.section_header("Repos")
             self.visible = True
             # Keep the runner's redraw/cursor lifecycle active for this panel.
             self.rows["repositories"] = ("", "", 0)
@@ -110,7 +110,7 @@ class RepositoryProgress(Progress):
                 return
             self._clear()
             if not self.live:
-                runtime.section_header("tjikOS Repos")
+                runtime.section_header("Repos")
             for cells in self.states.values():
                 for verb, state in cells.items():
                     if state == "running":

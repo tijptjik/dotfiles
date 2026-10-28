@@ -36,7 +36,7 @@ def main():
 
     if args.section in ('setup', 'all'):
         rows('Prerequisites', ['Bitwarden', 'Chezmoi', 'Fish', 'UV', 'Gum', 'Bun'], 'SKIP')
-        runtime.section_header('Dotfiles Apply')
+        runtime.section_header('Managed Dotfiles')
         progress.finish('bitwarden', 'Bitwarden (CLIs)', verb='UPDATE', note='1.24s', record=False)
         progress.finish('fonts', 'Assets (font folder migration)', verb='SKIP', note='no changes', record=False)
         def native_preparation():

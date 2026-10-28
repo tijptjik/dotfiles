@@ -264,8 +264,8 @@ else:
             "tjikOS\nhttps://github.com/tijptjik/tjikos",
             "Prerequisites\n",
             "Commit Local Changes\n",
-            "tjikOS Repos\n",
-            "Dotfiles Apply\n",
+            "Repos\n",
+            "Managed Dotfiles\n",
             "Home + System Tasks\n",
         ]
         prerequisites = result.stdout.split("Prerequisites\n", 1)[1].split(
@@ -275,7 +275,7 @@ else:
         positions = [result.stdout.index(heading) for heading in headings]
         self.assertEqual(positions, sorted(positions))
         self.assertNotIn("Systjik\nhttps://github.com/tijptjik/systjik", result.stdout)
-        apply_rows = result.stdout.split("Dotfiles Apply\n", 1)[1].split("Home + System Tasks\n", 1)[0]
+        apply_rows = result.stdout.split("Managed Dotfiles\n", 1)[1].split("Home + System Tasks\n", 1)[0]
         task_rows = result.stdout.split("Home + System Tasks\n", 1)[1]
         self.assertEqual(apply_rows.count("Chezetc"), 1)
         self.assertIn("Chezetc (System)", apply_rows)

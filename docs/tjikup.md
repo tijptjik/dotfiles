@@ -26,7 +26,7 @@ An uncommitted-file failure puts its count (for example, `48 files`) in the
 right-aligned status column. It does not add an inline diagnostic block or log
 link; the final summary still receives the complete failure reason.
 
-Under **Dotfiles Apply**, Bitwarden updates its CLIs before Chezmoi needs
+Under **Managed Dotfiles**, Bitwarden updates its CLIs before Chezmoi needs
 secrets. **Assets (font folder migration)** consolidates legacy user font
 folders into `~/.local/share/fonts` and makes `~/.fonts` a compatibility symlink;
 it does not download fonts. The separate **Assets (fonts)** task later refreshes
@@ -36,7 +36,7 @@ the font cache when font files change.
 syntax-checks the after-apply scripts. The former “Home hooks” row is folded
 into that operation. **Chezetc (system)** configures
 the sudo launcher and its explicit environment allowlist, then applies system
-files and prepares the system scripts, all under one row in **Dotfiles Apply**.
+files and prepares the system scripts, all under one row in **Managed Dotfiles**.
 **Home + system tasks** begins after both preparation rows finish and runs the
 remaining home and system scripts together. Launcher setup and system preparation
 retain separate dependency and timing records without duplicate display rows.
@@ -84,7 +84,7 @@ individual Git commands also retain their repository locks. Failed tasks stop ne
 work, drain running tasks, and block pending dependents. A configuration-refresh
 warning prevents subsequent apply stages.
 
-The **tjikOS Repos** stage also checks tjikOS at `$TJIKOS_REPO`, or
+The **Repos** stage also checks tjikOS at `$TJIKOS_REPO`, or
 `~/code/tjikos` by default. Clean checkouts fetch their configured upstream and
 advance only by fast-forward. Dirty checkouts fail and block apply. Detached
 or untracked-branch checkouts produce a warning and retain the local source for
@@ -345,7 +345,7 @@ that install to run again. Build directories and dependency caches are excluded
 from source fingerprints. New installer inputs/outputs must be added to its
 `cache-install.py` invocation.
 
-The **tjikOS Repos** panel keeps three rows in fixed order: `dotjik`,
+The **Repos** panel keeps three rows in fixed order: `dotjik`,
 `systjik`, `tjikOS`, each with separate `PULL` and `PUSH` cells. Pending cells
 are dimmed, running cells are bright, completed operations with changes are
 blue, and completed operations without changes are teal. Failures turn red;

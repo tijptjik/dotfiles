@@ -108,7 +108,7 @@ def run_chezmoi_apply(
                 formatter=format_line,
             )
         except UpdateError:
-            stage_label("FAILED", "✗", "Dotfiles apply")
+            stage_label("FAILED", "✗", "Managed Dotfiles")
             raise
         if saw_warning:
             stage_label("WARN", "!", "Chezmoi config changed; run chezmoi init")
@@ -126,7 +126,7 @@ def run_chezmoi_apply(
                 timeout=COMMAND_TIMEOUT_SECONDS,
             )
     except subprocess.TimeoutExpired as error:
-        stage_label("FAILED", "✗", "Dotfiles apply")
+        stage_label("FAILED", "✗", "Managed Dotfiles")
         raise UpdateError(
             f"command timed out after {COMMAND_TIMEOUT_SECONDS}s: {' '.join(command)}"
         ) from error
@@ -139,7 +139,7 @@ def run_chezmoi_apply(
             print(remaining)
         stage_label("WARN", "!", "Chezmoi config changed; run chezmoi init")
         if result.returncode:
-            stage_label("FAILED", "✗", "Dotfiles apply")
+            stage_label("FAILED", "✗", "Managed Dotfiles")
             raise UpdateError(
                 f"command failed ({result.returncode}): {' '.join(command)}"
             )
@@ -151,7 +151,7 @@ def run_chezmoi_apply(
     if result.stderr:
         sys.stderr.write(result.stderr)
     if result.returncode:
-        stage_label("FAILED", "✗", "Dotfiles apply")
+        stage_label("FAILED", "✗", "Managed Dotfiles")
         raise UpdateError(f"command failed ({result.returncode}): {' '.join(command)}")
     return True
 

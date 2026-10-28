@@ -196,7 +196,7 @@
     "stop_codes": [
       78
     ],
-    "section": "Dotfiles Apply",
+    "section": "Managed Dotfiles",
     "needs": [
       "push-home",
       "push-system",

@@ -108,7 +108,7 @@ def apply(repo, system_repo=None):
 
         hooks = None
         log_dir = None
-        result, _ = prepare("Chezmoi (files and task preparation)", "CHECK", prepare_home, exit_code=True)
+        result, _ = prepare("Chezmoi (home directory)", "CHECK", prepare_home, exit_code=True)
         if result:
             return result
         home_tasks.sort(key=lambda task: task.name != "home:chezetc-wrapper")
@@ -127,7 +127,7 @@ def apply(repo, system_repo=None):
             prepared.update({task.name: task for task in tasks})
 
         native = Task("system:files", prepare_system, needs=("home:chezetc-wrapper",), exclusive=True)
-        hooks.items[native.name] = {"label": "Chezetc (system files and task preparation)", "verb": "CHECK", "exclusive": True}
+        hooks.items[native.name] = {"label": "Chezetc (system)", "verb": "CHECK", "exclusive": True}
         system_tasks = []
         for item in system_plan:
             name = "system:" + item["id"]
@@ -175,7 +175,7 @@ def apply(repo, system_repo=None):
                     raise UpdateError(str(result.error))
 
         try:
-            prepare("Chezetc (system files and task preparation)", "CHECK", prepare_chezetc)
+            prepare("Chezetc (system)", "CHECK", prepare_chezetc)
             runtime.section_header("Home + System Tasks")
             with hooks.progress:
                 results = run_phase(remaining_tasks)

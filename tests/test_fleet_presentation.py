@@ -74,7 +74,7 @@ class PresentationTests(unittest.TestCase):
                 outcome = summary(output)
                 self.assertEqual((outcome.verb, outcome.icon, outcome.note), (verb, icon, note))
 
-    def test_completion_uses_real_skip_in_display_and_report(self):
+    def test_completion_hides_real_skip_and_keeps_report(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             report = root / 'report'
@@ -84,7 +84,7 @@ class PresentationTests(unittest.TestCase):
                 hooks.items['icons'] = {'label': 'Assets (Rose Punk icons)', 'verb': 'UPDATE'}
                 hooks.outputs['icons'] = 'UPDATE  ✓ Rose Punk icons    no changes\n'
                 hooks.event('icons', Result('done', seconds=.2))
-            self.assertIn('SKIP    ✓ Assets (Rose Punk Icons)', output.getvalue())
+            self.assertEqual(output.getvalue(), '')
             self.assertEqual(report.read_text(), 'SKIP\t✓\tAssets (Rose Punk icons)\tno changes\n')
 
     def test_service_subtype_and_outcome_colours(self):
@@ -159,7 +159,7 @@ class PresentationTests(unittest.TestCase):
                     patch.dict(os.environ, env), contextlib.redirect_stdout(io.StringIO()) as output:
                 apply_hooks(root, env)
             self.assertIn('Checking release metadata', output.getvalue())
-            self.assertEqual(output.getvalue().count('Fedora (Release)'), 1)
+            self.assertNotIn('Fedora (Release)', output.getvalue())
             self.assertNotIn('Fedora upgrade', output.getvalue())
             self.assertNotIn('Fedora release check', output.getvalue())
             log, = (root / 'state/tjikup/logs').glob('home-*/release.log')

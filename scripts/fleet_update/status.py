@@ -55,12 +55,15 @@ def decorate_native_row(line):
         # Expanding it to two lines would break its carriage-return contract.
         return line
     fields = re.split(r"\s{2,}", content, maxsplit=1)
+    note = fields[1] if len(fields) == 2 else ""
+    clear = "\033[2K" if "\033[2K" in line else ""
+    if runtime.outcome_verb(verb, icon, note) == "SKIP":
+        return clear
     label = NATIVE_LABELS.get(fields[0], fields[0])
     if label.partition(' (')[0] not in SERVICE_ICONS:
         return line
     output = io.StringIO()
     progress = HookProgress(stream=output, live=False)
     progress.finish(label, label, verb=verb, icon=icon,
-                    note=fields[1] if len(fields) == 2 else "", record=False)
-    clear = "\033[2K" if "\033[2K" in line else ""
+                    note=note, record=False)
     return clear + output.getvalue().rstrip("\n")

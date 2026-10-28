@@ -77,6 +77,9 @@ class KittyIconTests(unittest.TestCase):
             frame = stream.getvalue()[before:]
             self.assertTrue(frame.startswith('\x1b[?2026h\r\x1b[4A'))
             self.assertTrue(frame.endswith('\x1b[?2026l'))
+            self.assertNotIn('SKIP', frame)
+            self.assertNotIn('Python', frame)
+            self.assertNotIn('no changes', frame)
             self.assertNotIn('\x1b[?25h', frame)
             progress.discard('rust')
             self.assertEqual(progress.height, 0)
@@ -159,7 +162,8 @@ class KittyIconTests(unittest.TestCase):
             text = re.sub(r'\x1b]66;[^;]*;([^\x1b]*)\x1b\\', r'\1', rendered)
             text = re.sub(r'\x1b\[[0-9;]*m', '', text)
             self.assertIn('Bitwarden', text)
-            self.assertIn('Zed', text)
+            self.assertNotIn('Zed', text)
+            self.assertNotIn('SKIP', text)
 
     def test_cell_geometry_uses_controlling_tty_for_forwarded_output(self):
         import struct

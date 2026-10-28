@@ -32,9 +32,9 @@ folders into `~/.local/share/fonts` and makes `~/.fonts` a compatibility symlink
 it does not download fonts. The separate **Assets (fonts)** task later refreshes
 the font cache when font files change.
 
-**Chezmoi (files and task preparation)** applies home files, then renders and
+**Chezmoi (home directory)** applies home files, then renders and
 syntax-checks the after-apply scripts. The former “Home hooks” row is folded
-into that operation. **Chezetc (system files and task preparation)** configures
+into that operation. **Chezetc (system)** configures
 the sudo launcher and its explicit environment allowlist, then applies system
 files and prepares the system scripts, all under one row in **Dotfiles Apply**.
 **Home + system tasks** begins after both preparation rows finish and runs the
@@ -378,8 +378,10 @@ does not resolve conflicts or resume a rebase automatically. If saving the log
 fails, the complete output is printed instead. Deferred hooks leave one concise
 result each; their raw output is saved in private `apply-*` directories under the
 same log root. Warnings and failure diagnostics remain visible. Successful tool
-chatter and duplicate `DAG` rows are hidden. Interactive hooks own the terminal
-exclusively.
+chatter, completed `SKIP` rows (including `no changes`/`no updates` results), and
+duplicate `DAG` rows are hidden. Skipped tasks remain in reports and private hook
+logs; their running progress rows disappear when they finish. Interactive hooks
+own the terminal exclusively.
 
 The Python package count uses quiet output. Python 3.13 remains pinned for
 PaddlePaddle: release 3.3.1 has CPython 3.13 wheels but no CPython 3.14 wheels.

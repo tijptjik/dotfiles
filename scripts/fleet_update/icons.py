@@ -58,6 +58,10 @@ class HookProgress(Progress):
         return super()._patch(decorate(before), decorate(after))
 
     def _print(self, verb, icon, label, note):
+        # Finish still clears the live row and records the outcome. Only the
+        # settled display is suppressed, before emitting text or image data.
+        if runtime.outcome_verb(verb, icon, note) == "SKIP":
+            return
         if self.graphics:
             self.graphics.print(verb, icon, label, note)
             return

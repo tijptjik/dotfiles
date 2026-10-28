@@ -9,7 +9,7 @@ from unittest.mock import patch
 import tjikup_support
 from fleet_update.status import NATIVE_LABELS, decorate_native_row
 from fleet_update.icons import HookProgress, title_icon
-from fleet_update.presentation import ANSI, summary
+from fleet_update.presentation import ANSI
 from fleet_update.icon_catalog import display_title
 from tjikup import runtime
 
@@ -40,10 +40,33 @@ class FleetIconTests(unittest.TestCase):
                 progress = HookProgress(stream=stream, live=True)
                 progress.start("python", "Python (environment)", "SYNC")
                 progress.finish("python", "Python (environment)", verb="SYNC", note="no changes")
-            self.assertGreaterEqual(stream.getvalue().count("\ue73c Python"), 2)
+            self.assertEqual(stream.getvalue().count("\ue73c Python"), 1)
+            self.assertNotIn("SKIP", stream.getvalue())
+            self.assertNotIn("no changes", stream.getvalue())
+            self.assertEqual(progress.height, 0)
+            self.assertEqual(progress.rows, {})
             self.assertEqual(report.read_text(), "SKIP\t✓\tPython (environment)\tno changes\n")
-            outcome = summary(stream.getvalue())
-            self.assertEqual((outcome.verb, outcome.note), ("SKIP", "no changes"))
+
+    def test_skipped_results_are_silent_without_live_progress(self):
+        with patch.dict(os.environ, {'TJIKUP_ICONS': '1'}):
+            stream = io.StringIO()
+            progress = HookProgress(stream=stream, live=False)
+            for verb, icon, note in [('SKIP', '✓', 'no changes'),
+                                     ('SKIP', '-', 'not installed'),
+                                     ('SYNC', '✓', '2 pkgs; no updates')]:
+                progress.finish('capture', 'Zed', verb=verb, icon=icon, note=note, record=False)
+            self.assertEqual(stream.getvalue(), '')
+            for verb, icon in [('SYNC', '✓'), ('WARN', '!'), ('FAILED', '✗')]:
+                progress.finish('capture', 'Zed', verb=verb, icon=icon, note='details', record=False)
+                self.assertIn(verb, stream.getvalue())
+
+    def test_native_skips_are_hidden_even_without_a_known_service_icon(self):
+        for label in ('Bitwarden CLIs', 'Unknown service'):
+            for verb, note in [('SKIP', 'available'), ('SYNC', 'no changes')]:
+                with self.subTest(label=label, verb=verb):
+                    row = runtime.format_status(verb, '✓', label, note)
+                    self.assertEqual(decorate_native_row(row), '')
+                    self.assertEqual(decorate_native_row('\r\033[2K' + row), '\033[2K')
 
     def test_plain_and_disabled_output_have_no_title_icons(self):
         cases = [{"TJIKUP_COLOR": "0", "TERM": "xterm"},
@@ -96,7 +119,7 @@ class FleetIconTests(unittest.TestCase):
             'Gtk-bookmarks': 'GTK Bookmarks',
             'Zapzap': 'ZapZap',
             'Mullvad (LAN)': 'Mullvad (LAN)',
-            'Chezetc (system files and task preparation)': 'Chezetc (System Files and Task Preparation)',
+            'Chezetc (system)': 'Chezetc (System)',
         }
         for source, expected in cases.items():
             with self.subTest(source=source):

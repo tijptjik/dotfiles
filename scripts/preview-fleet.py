@@ -47,8 +47,8 @@ def main():
                     ('Symbolic link icon', 'CONFIG')]:
                 progress.finish(subject, NATIVE_LABELS[subject], verb=verb, record=False)
             return 0
-        prepare('Chezmoi (files and task preparation)', 'APPLY', native_preparation)
-        prepare('Chezetc (system files and task preparation)', 'CHECK', lambda: None)
+        prepare('Chezmoi (home directory)', 'APPLY', native_preparation)
+        prepare('Chezetc (system)', 'CHECK', lambda: None)
         runtime.section_header('Home + System Tasks')
     if args.section in ('capture', 'all'):
         rows('Commit Local Changes', ['Zed', 'Herdr', 'Solaar', 'Fcitx', 'Codex', 'Zapzap',

@@ -197,7 +197,7 @@ else:
         apply_rows = result.stdout.split("Dotfiles Apply\n", 1)[1].split("Home + System Tasks\n", 1)[0]
         task_rows = result.stdout.split("Home + System Tasks\n", 1)[1]
         self.assertEqual(apply_rows.count("Chezetc"), 1)
-        self.assertIn("Chezetc (System Files and Task Preparation)", apply_rows)
+        self.assertIn("Chezetc (System)", apply_rows)
         self.assertNotIn("Chezetc", task_rows)
         self.assertNotIn("Sudo Launcher", result.stdout)
         rows = result.stdout.splitlines()

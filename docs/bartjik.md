@@ -31,7 +31,7 @@ inert; the Waybar service remains masked.
 For a focused repair without fleet Git or system updates:
 
 ```sh
-bash ~/.local/share/chezmoi/scripts/install-bartjik.sh
+bash ~/.local/share/dotjik/scripts/install-bartjik.sh
 systemctl --user status bartjik.service
 journalctl --user -u bartjik.service -n 50
 ```

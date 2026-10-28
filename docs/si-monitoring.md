@@ -44,7 +44,7 @@ sudo python3 /etc/si-provision/storage.py --check
 sudo install -d -o 1000 -g 950 -m 0750 /mnt/storage/meta/appData/homepage
 sudo install -d -m 0750 /mnt/storage/meta/appData/scrutiny/config \
   /mnt/storage/meta/appData/scrutiny/influxdb
-cp /home/m/.local/share/chezmoi/home/dockers/homepage/*.yaml \
+cp /home/m/.local/share/dotjik/home/dockers/homepage/*.yaml \
   /mnt/storage/meta/appData/homepage/
 cd /home/m/dockers
 docker compose config --quiet

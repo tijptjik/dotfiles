@@ -10,11 +10,11 @@ if not test -x "$bws_executable"; and not command -v -q bws
 end
 
 if not test -r "$bws_env_file"
-    echo "Bitwarden environment is missing at $bws_env_file. Run ~/.local/share/chezmoi/home/.bitwarden-setup.fish." >&2
+    echo "Bitwarden environment is missing at $bws_env_file. Run ~/.local/share/dotjik/home/.bitwarden-setup.fish." >&2
     exit 1
 end
 
 if not test -r "$chezmoi_key_file"
-    echo "chezmoi age identity is missing at $chezmoi_key_file. Run ~/.local/share/chezmoi/home/.bitwarden-setup.fish." >&2
+    echo "chezmoi age identity is missing at $chezmoi_key_file. Run ~/.local/share/dotjik/home/.bitwarden-setup.fish." >&2
     exit 1
 end

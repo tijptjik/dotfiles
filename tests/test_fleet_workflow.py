@@ -26,8 +26,8 @@ class FleetWorkflowTests(unittest.TestCase):
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)
         self.home = self.root / "home"
-        self.repo = self.home / ".local/share/chezmoi"
-        system = self.home / ".local/share/chezetc"
+        self.repo = self.home / ".local/share/dotjik"
+        system = self.home / ".local/share/systjik"
         for repo in (self.repo, system):
             (repo / ".git").mkdir(parents=True)
         shutil.copytree(
@@ -42,7 +42,7 @@ class FleetWorkflowTests(unittest.TestCase):
         shutil.copy(REPO / "tjikup.json", self.repo / "tjikup.json")
         (system / "scripts").mkdir()
         for name in ('tjikup-plan.py', 'tjikup-plan.json'):
-            shutil.copy(REPO.parent / 'chezetc/scripts' / name, system / 'scripts' / name)
+            shutil.copy(REPO.parent / 'systjik/scripts' / name, system / 'scripts' / name)
         system_hooks = system / 'etc/.chezmoiscripts'
         system_hooks.mkdir(parents=True)
         system_plan = json.loads((system / 'scripts/tjikup-plan.json').read_text())
@@ -51,7 +51,7 @@ class FleetWorkflowTests(unittest.TestCase):
                 'if test "$FLEET_DEFER_SYSTEM_HOOKS" = 1; exit 0; end\n'
                 'printf "%s:%s\\n" "' + item['file'] + '" "$FLEET_SYSTEM_PHASE" >> "$SYSTEM_TRACE"\n')
         shutil.copy(
-            REPO.parent / "chezetc/scripts/tjikup-apply.py",
+            REPO.parent / "systjik/scripts/tjikup-apply.py",
             system / "scripts/tjikup-apply.py",
         )
         for propagator in discover_propagators():
@@ -74,7 +74,7 @@ if pathlib.Path(sys.argv[0]).name == 'git':
     if sys.argv[1] == 'status' and pathlib.Path.cwd().name == os.environ.get('DIRTY_REPO'):
         print('?? personal-work')
     if sys.argv[1] == 'diff': print('home/dot_config/fcitx5/private_profile')
-    if sys.argv[1] == 'pull' and pathlib.Path.cwd().name == 'chezmoi':
+    if sys.argv[1] == 'pull' and pathlib.Path.cwd().name == 'dotjik':
         failure = os.environ.get('FAIL_PULL')
         if failure == 'conflict':
             print('Created autostash: 1d36f4a')
@@ -224,7 +224,7 @@ else:
         self.assertNotIn("chezetc", [row[0] for row in self.events()])
 
     def test_dirty_configuration_repositories_fail_and_block_apply(self):
-        for checkout, label in (("chezmoi", "dotjik"), ("chezetc", "systjik")):
+        for checkout, label in (("dotjik", "dotjik"), ("systjik", "systjik")):
             with self.subTest(checkout=checkout):
                 self.trace.unlink(missing_ok=True)
                 self.env.update(DIRTY_REPO=checkout, TJIKUP_COLOR="0")
@@ -418,7 +418,7 @@ else:
     def test_system_hooks_and_package_phases_run_exactly_once(self):
         result = self.run_fleet()
         self.assertEqual(result.returncode, 0, result.stderr)
-        plan = json.loads((self.home / '.local/share/chezetc/scripts/tjikup-plan.json').read_text())
+        plan = json.loads((self.home / '.local/share/systjik/scripts/tjikup-plan.json').read_text())
         self.assertCountEqual(Path(self.env['SYSTEM_TRACE']).read_text().splitlines(),
             [item['file'] + ':' + item.get('env', {}).get('FLEET_SYSTEM_PHASE', '') for item in plan])
         reports = list((self.home / '.local/state/tjikup/logs').glob('apply-*/timings.json'))

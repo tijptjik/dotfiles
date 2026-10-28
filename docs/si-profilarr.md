@@ -82,9 +82,9 @@ The approved mapping and migration tool are versioned. This is a manual operatio
 and is never invoked by chezmoi, chezetc or tjikup:
 
 ```sh
-sudo python3 /home/m/.local/share/chezmoi/home/dockers/profilarr-tools/executable_migrate-legacy-profiles.py
+sudo python3 /home/m/.local/share/dotjik/home/dockers/profilarr-tools/executable_migrate-legacy-profiles.py
 # After reviewing that dry run:
-sudo python3 /home/m/.local/share/chezmoi/home/dockers/profilarr-tools/executable_migrate-legacy-profiles.py --apply
+sudo python3 /home/m/.local/share/dotjik/home/dockers/profilarr-tools/executable_migrate-legacy-profiles.py --apply
 ```
 
 The tool checks profile identities, makes native Arr backups, and stores private

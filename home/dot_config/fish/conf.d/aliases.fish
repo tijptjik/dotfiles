@@ -207,8 +207,8 @@ alias js='bun'
 ################################
 
 # Chezmoi
-alias dotrc='zed-preview $HOME/.local/share/chezmoi/'
-alias sysrc='zed-preview $HOME/.local/share/chezetc/'
+alias dotrc='zed-preview $HOME/.local/share/dotjik/'
+alias sysrc='zed-preview $HOME/.local/share/systjik/'
 
 # Fish
 function fish_config_edit -d "Edit a {file}.fish config file"

@@ -46,7 +46,7 @@ def repositories():
         dot = git(Path(result.stdout.strip()), 'rev-parse', '--show-toplevel')
     tool = os.environ.get('TJIKOS_REPO') or home / 'code/tjikos'
     return [('Dotjik', Path(dot).expanduser().resolve()),
-            ('Systjik', Path(os.environ.get('SYSTJIK_REPO', home / '.local/share/chezetc')).expanduser().resolve()),
+            ('Systjik', Path(os.environ.get('SYSTJIK_REPO', home / '.local/share/systjik')).expanduser().resolve()),
             ('tjikOS', Path(tool).expanduser().resolve())]
 
 

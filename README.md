@@ -2,13 +2,30 @@
 
 Personal configuration managed by [Chezmoi](https://www.chezmoi.io/).
 Use `dotjik` as the command name; `chezmoi` continues to work.
-The GitHub repository remains `dotfiles` and the checkout remains `~/.local/share/chezmoi`.
+The GitHub repository remains `dotfiles` and the checkout lives at `~/.local/share/dotjik`.
 
 The system setup (repos, packages), **Systjik**, is managed by [Chezetc](https://github.com/tijptjik/systjik) which needs to be setup **BEFORE** using Chezmoi.
 
 Use `systjik` for system configuration (`chezetc` still works). The system repository
-is `systjik`, with its checkout at `~/.local/share/chezetc`.
+is `systjik`, with its checkout at `~/.local/share/systjik`.
 See [Git shortcuts](docs/tjikup.md#git-only-shortcuts) for `tjix` and `tjixx`.
+
+Chezmoi's `sourceDir` selects `~/.local/share/dotjik`; `.chezmoiroot` still
+selects `home/` inside it. The Chezetc launcher selects `~/.local/share/systjik`
+through `ETC_SRC`, with the same source recorded in its user configuration.
+The tools, configuration/state directories, encryption keys, and Git remotes
+keep their existing names.
+
+For an existing checkout, move the directories before using the updated fleet
+workflow, update `sourceDir` and the source hook paths in
+`~/.config/chezmoi/chezmoi.toml`, and update `sourceDir` in
+`~/.config/chezetc/chezetc.toml`. Run
+`bash ~/.local/share/systjik/scripts/install-chezetc-wrapper.sh` to refresh the
+launcher, and point `~/.config/tjikup/config.json` at the new
+`~/.local/share/dotjik/tjikup.json`. Refresh installed shell/configuration
+references as well. Keep `chezmoi -> dotjik` and `chezetc -> systjik` symlinks
+beside the checkouts while existing sessions or workers still use the old
+paths; they are compatibility aliases, not additional repositories.
 
 ## Supported Devices
 
@@ -102,8 +119,8 @@ is selected by `fi`, `li` or `si`.
 sudo hostnamectl set-hostname fi  # use li or si on those devices
 sudo dnf install git curl fish chezmoi gum age jq python3 python3-tomli python3-tomli-w
 mkdir -p "$HOME/.local/share"
-git clone git@github.com:tijptjik/dotfiles.git "$HOME/.local/share/chezmoi"
-git clone git@github.com:tijptjik/systjik.git "$HOME/.local/share/chezetc"
+git clone git@github.com:tijptjik/dotfiles.git "$HOME/.local/share/dotjik"
+git clone git@github.com:tijptjik/systjik.git "$HOME/.local/share/systjik"
 ```
 
 GitHub SSH access must already be configured for the account. Both repositories
@@ -112,9 +129,9 @@ access token and age identity; the helper prompts for the encrypted token's
 passphrase. It stores credentials privately and does not print them.
 
 ```bash
-fish "$HOME/.local/share/chezmoi/home/.bitwarden-setup.fish"
-chezmoi init --source "$HOME/.local/share/chezmoi"
-bash "$HOME/.local/share/chezetc/setup.sh"
+fish "$HOME/.local/share/dotjik/home/.bitwarden-setup.fish"
+chezmoi init --source "$HOME/.local/share/dotjik"
+bash "$HOME/.local/share/systjik/setup.sh"
 ```
 
 For **Fi/Li**, apply the initial home and system configuration:

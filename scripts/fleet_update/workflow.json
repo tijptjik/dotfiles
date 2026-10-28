@@ -81,7 +81,7 @@
       "{config_dir}/scripts/fleet-update.py",
       "pull",
       "--repo",
-      "~/.local/share/chezetc"
+      "~/.local/share/systjik"
     ],
     "label": "Systjik",
     "verb": "PULL",
@@ -150,7 +150,7 @@
       "{config_dir}/scripts/fleet-update.py",
       "push",
       "--repo",
-      "~/.local/share/chezetc"
+      "~/.local/share/systjik"
     ],
     "label": "Systjik",
     "verb": "PUSH",

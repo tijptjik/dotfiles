@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Install this fleet's runner dependency without applying home or system config.
 set -euo pipefail
-repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 python3 -c 'import sys; assert sys.version_info >= (3, 10), "tjikup requires Python 3.10+"'
 
-if [[ ! -f "$HOME/.local/share/chezetc/scripts/tjikup-apply.py" ]]; then
-    echo 'Initialize/update ~/.local/share/chezetc before installing the fleet workflow.' >&2
+if [[ ! -f "$HOME/.local/share/systjik/scripts/tjikup-apply.py" ]]; then
+    echo 'Initialize/update ~/.local/share/systjik before installing the fleet workflow.' >&2
     exit 1
 fi
 

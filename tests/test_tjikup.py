@@ -57,7 +57,7 @@ class ZedPropagationTests(unittest.TestCase):
 
 class DirtyStateTests(unittest.TestCase):
     def test_dirty_repository_is_a_failure(self):
-        for name, label in (("chezmoi", "Dotjik"), ("chezetc", "Systjik")):
+        for name, label in (("dotjik", "Dotjik"), ("systjik", "Systjik")):
             with self.subTest(name=name), \
                     patch.object(tjikup, "git_dirty_paths", return_value=["a", "b"]), \
                     self.assertRaisesRegex(UpdateError, f"{label} has changes - commit or stash them first"):

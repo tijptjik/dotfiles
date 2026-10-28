@@ -20,7 +20,7 @@ class InstallTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
         self.home = Path(self.temporary.name)
-        self.fleet = self.home / '.local/share/chezmoi'
+        self.fleet = self.home / '.local/share/dotjik'
         (self.fleet / 'scripts').mkdir(parents=True)
         shutil.copy2(REPO / 'scripts/install-tjikup.sh', self.fleet / 'scripts')
         shutil.copy2(REPO / 'scripts/ensure-tjikos.sh', self.fleet / 'scripts')
@@ -29,7 +29,7 @@ class InstallTests(unittest.TestCase):
         (self.fleet / 'tjikup.json').write_text(
             '{"version":1,"steps":[{"id":"unused","command":["false"]}]}'
         )
-        self.system = self.home / '.local/share/chezetc/scripts'
+        self.system = self.home / '.local/share/systjik/scripts'
         self.system.mkdir(parents=True)
         (self.system / 'tjikup-apply.py').touch()
         self.tools = self.home / 'source-tool'
@@ -68,6 +68,15 @@ class InstallTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.check_installed()
         self.assertEqual(self.install().returncode, 0)
+
+    def test_install_through_compatibility_link_keeps_canonical_config_path(self):
+        alias = self.fleet.with_name('chezmoi')
+        alias.symlink_to(self.fleet, target_is_directory=True)
+        result = subprocess.run(['bash', str(alias / 'scripts/install-tjikup.sh')],
+                                env=self.env, text=True, capture_output=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        link = self.home / '.config/tjikup/config.json'
+        self.assertEqual(link.readlink(), self.fleet / 'tjikup.json')
 
     @unittest.skipUnless(shutil.which('chezmoi'), 'Chezmoi required')
     def test_managed_config_link_matches_installer_exactly(self):

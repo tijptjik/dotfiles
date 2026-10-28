@@ -172,7 +172,7 @@ the planned continuation. Other unfinished Git operations still require manual
 completion. Ordinary detached HEAD checkouts are not pushed.
 
 Dotjik is located via `chezmoi source-path` and its Git root; Systjik defaults to
-`~/.local/share/chezetc`. Both Git-only shortcuts, the full `tjikup` workflow,
+`~/.local/share/systjik`. Both Git-only shortcuts, the full `tjikup` workflow,
 and app installers target tjikOS at `~/code/tjikos` (`tijptjik/tjikos`). Set
 `TJIKOS_REPO` to select another checkout. The retired `TOOLTJIK_REPO` override
 and existing Tooltjik directories are not selected automatically.
@@ -391,9 +391,9 @@ revisions, including Chezetc's `scripts/tjikup-plan.py` adapter and hook manifes
 then run the focused installer as the normal user:
 
 ```sh
-git -C ~/.local/share/chezmoi pull --ff-only
-git -C ~/.local/share/chezetc pull --ff-only
-bash ~/.local/share/chezmoi/scripts/install-tjikup.sh
+git -C ~/.local/share/dotjik pull --ff-only
+git -C ~/.local/share/systjik pull --ff-only
+bash ~/.local/share/dotjik/scripts/install-tjikup.sh
 ~/.local/bin/tjikup --check
 ```
 
@@ -434,7 +434,7 @@ and installs only tjikup. For a checkout that can fast-forward:
 ```sh
 git -C ~/code/tjikos fetch origin
 git -C ~/code/tjikos merge --ff-only origin/main
-TJIKOS_REPO=~/code/tjikos bash ~/.local/share/chezmoi/scripts/install-tjikup.sh
+TJIKOS_REPO=~/code/tjikos bash ~/.local/share/dotjik/scripts/install-tjikup.sh
 ```
 
 If startup reports `No module named 'tjikup.progress'` or says the runner is

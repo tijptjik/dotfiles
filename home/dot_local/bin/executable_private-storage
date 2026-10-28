@@ -383,7 +383,7 @@ def crypt_password():
     dest = CONFIG / 'crypt.conf.age'
     with tempfile.TemporaryDirectory(prefix='crypt-password-', dir=STATE) as directory:
         temp = Path(directory)
-        secret = run([HOME / '.local/share/chezmoi/home/.bws-wrapper.fish', 'secret', 'get',
+        secret = run([HOME / '.local/share/dotjik/home/.bws-wrapper.fish', 'secret', 'get',
                       settings()['crypt_secret_id']], capture_output=True, text=True)
         plain = temp / 'config'
         plain.write_text(json.loads(secret.stdout)['value'])

@@ -86,7 +86,7 @@ def show_failure(step, output, repo, error, seconds, *, status=True):
 def workflow(repo, *, dry_run=False):
     plan = json.loads((Path(__file__).with_name("workflow.json")).read_text())
     from .fleet_apply import plans
-    plans(repo, Path.home() / ".local/share/chezetc")
+    plans(repo, Path.home() / ".local/share/systjik")
     # Lock the complete capture/pull/apply transaction, not just each Git command.
     lock_path = repo / ".git/tjikup-workflow.lock"
     with (nullcontext() if dry_run else lock_path.open("a")) as lock:

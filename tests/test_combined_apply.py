@@ -113,13 +113,13 @@ class CombinedTests(unittest.TestCase):
         self.assertGreaterEqual(results['system:network'].started, results['home:services'].finished)
 
     def test_home_only_refresh_depends_on_every_installer(self):
-        home, _, _ = plans(ROOT, ROOT.parent / 'chezetc')
+        home, _, _ = plans(ROOT, ROOT.parent / 'systjik')
         graph = {item['id']: item.get('needs', []) for item in home}
         def ancestors(name):
             return {name}.union(*(ancestors(parent) for parent in graph[name]))
         self.assertEqual(ancestors('services'), set(graph))
 
     def test_real_manifests_have_a_valid_combined_graph(self):
-        home, system, _ = plans(ROOT, ROOT.parent / 'chezetc')
+        home, system, _ = plans(ROOT, ROOT.parent / 'systjik')
         self.assertGreater(len(home), 15)
         self.assertGreater(len(system), 15)

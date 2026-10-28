@@ -71,7 +71,7 @@ def combine(home_tasks, system_tasks, prepare, barriers=None):
 
 def apply(repo, system_repo=None):
     from . import apply_files
-    system_repo = system_repo or Path.home() / ".local/share/chezetc"
+    system_repo = system_repo or Path.home() / ".local/share/systjik"
     home_plan, system_plan, policy = plans(repo, system_repo)
     # Validate concurrency settings before any native apply or hook mutation.
     try:

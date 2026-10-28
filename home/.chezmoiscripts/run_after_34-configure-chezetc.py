@@ -65,7 +65,7 @@ def configure_chezetc(wrapper: Path) -> None:
 
 if __name__ == "__main__":
     wrapper = Path("/opt/chezetc/chezetc")
-    installer = Path.home() / ".local/share/chezetc/scripts/install-chezetc-wrapper.sh"
-    if not wrapper.is_file() and installer.is_file():
+    installer = Path.home() / ".local/share/systjik/scripts/install-chezetc-wrapper.sh"
+    if installer.is_file():
         subprocess.run(["bash", str(installer)], check=True)
     configure_chezetc(wrapper if wrapper.is_file() else Path.home() / ".tools/chezetc/chezetc")

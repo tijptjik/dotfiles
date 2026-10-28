@@ -248,7 +248,7 @@ def warn_dirty_files(status_repo: Path, repo: Path) -> None:
     if paths:
         count = len(paths)
         name = repo.resolve().name
-        name = {"chezmoi": "Dotjik", "chezetc": "Systjik"}.get(name, name)
+        name = {"dotjik": "Dotjik", "systjik": "Systjik"}.get(name, name)
         raise UpdateError(f"{name} has changes - commit or stash them first "
                           f"({count} {('file' if count == 1 else 'files')})")
 
@@ -561,7 +561,7 @@ def main():
         from .workflow import workflow
         return workflow(repo, dry_run=args.dry_run)
     if args.action == "check":
-        system_repo = Path.home() / ".local/share/chezetc"
+        system_repo = Path.home() / ".local/share/systjik"
         for required in (
             repo / ".git",
             system_repo / ".git",

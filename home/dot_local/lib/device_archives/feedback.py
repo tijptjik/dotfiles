@@ -68,7 +68,7 @@ def size_label(size):
 
 class Feedback:
     def __init__(self, repo=None, columns=None):
-        self.repo = Path(repo or Path.home() / ".local/share/chezmoi")
+        self.repo = Path(repo or Path.home() / ".local/share/dotjik")
         self.terminal = sys.stdout.isatty()
         self.color = (
             self.terminal or os.environ.get("TJIKUP_COLOR") == "1"

@@ -47,6 +47,7 @@ class BartjikInstallTests(unittest.TestCase):
         (self.root / 'ensure-tjikos.sh').write_text(
             (ROOT / 'scripts/ensure-tjikos.sh').read_text()
             .replace('$HOME', '${BARTJIK_TEST_HOME}'))
+        (self.root / 'activate-bartjik.sh').write_text((ROOT / 'scripts/activate-bartjik.sh').read_text().replace('$HOME', '${BARTJIK_TEST_HOME}'))
         shutil.copy2(ROOT / 'scripts/cache-install.py', self.root / 'cache-install.py')
         self.log = self.root / 'calls'
         self.env = {**os.environ, 'BARTJIK_TEST_HOME': str(self.home),
@@ -73,6 +74,12 @@ class BartjikInstallTests(unittest.TestCase):
         self.assertEqual(self.run_install().returncode, 0)
         self.assertEqual(list((self.root / 'state/bartjik/migration').glob('*/waybar/config')), archives)
 
+    def test_managed_install_defers_activation_and_preserves_old_configuration(self):
+        result = self.run_install(TJIKUP_MANAGED_CONFIG='1')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(self.old.is_dir())
+        self.assertNotIn('--user', self.log.read_text())
+
     def test_install_failure_preserves_old_config_and_service(self):
         result = self.run_install(INSTALL_RESULT='1')
         self.assertNotEqual(result.returncode, 0)
@@ -92,10 +99,12 @@ class BartjikInstallTests(unittest.TestCase):
         self.assertNotIn('--user mask --now waybar.service', self.log.read_text())
 
     def test_fleet_plan_orders_bar_after_notifications(self):
-        plan = json.loads((ROOT / 'scripts/fleet_update/home-plan.json').read_text())
-        bar = next(item for item in plan if item['id'] == 'bartjik')
-        self.assertEqual(bar['file'], 'run_after_39-install-bartjik.fish.tmpl')
-        self.assertIn('notjik', bar['needs'])
+        plan = json.loads((ROOT / 'tjikup/recipes.json').read_text())["recipes"]
+        bar = next(item for item in plan if item['id'] == 'home:bartjik')
+        self.assertEqual(bar['apply'][-1].split('/')[-1].removeprefix('home-') + '.tmpl', 'run_after_39-install-bartjik.fish.tmpl')
+        self.assertNotIn('home:notjik', bar['needs'])
+        activation = next(item for item in plan if item['id'] == 'home:activate:bartjik')
+        self.assertIn('home:config:bartjik', activation['needs'])
         self.assertIn('user-systemd', bar['resources'])
 
     @unittest.skipUnless(shutil.which('chezmoi'), 'Chezmoi required')
@@ -151,7 +160,7 @@ class BartjikInstallTests(unittest.TestCase):
                         '--persistent-state', str(self.root / 'state.db'),
                         'execute-template', '-f', str(ROOT / path),
                     ], text=True)
-                hook = render('home/.chezmoiscripts/run_after_39-install-bartjik.fish.tmpl')
+                hook = render('home/.chezmoitemplates/tjikup/run_after_39-install-bartjik.fish.tmpl')
                 subprocess.run(['fish', '--no-config', '-n'], input=hook, text=True, check=True)
                 self.assertEqual('install-bartjik.sh' in hook, host != 'si')
                 ignored = render('home/.chezmoiignore').splitlines()

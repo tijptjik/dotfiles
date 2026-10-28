@@ -1,0 +1,435 @@
+#!/usr/bin/env fish
+# Run on every apply so package maintenance has one consolidated report.
+
+{{ include ".chezmoihelpers/status.fish" }}
+{{ include ".chezmoitemplates/package_reporting.fish" }}
+{{ include ".chezmoitemplates/fish_logging.fish" }}
+{{ if .isServer -}}
+{{ include ".chezmoitemplates/nginx_dav_ext.fish" }}
+{{ end -}}
+setup_logging linux-dnf-update
+
+step_header "System Update"
+
+# Standalone Chezetc retains the complete original sequence. The fleet runs
+# these phases as separate tasks, sharing one global set of resource locks.
+set fleet_phase all
+if set -q FLEET_SYSTEM_PHASE
+    set fleet_phase "$FLEET_SYSTEM_PHASE"
+end
+if not contains -- "$fleet_phase" all rpm flatpak release
+    echo "Unknown system update phase: $fleet_phase" >&2
+    exit 1
+end
+set package_operation all
+if set -q TJIKUP_OPERATION
+    set package_operation "$TJIKUP_OPERATION"
+end
+set dnf_status 0
+set flatpak_status 0
+
+if contains -- "$fleet_phase" all rpm; and test "$package_operation" != update; and not command -q gum
+    step_run_as INSTALL "Install gum CLI runner" sudo dnf install -y -q gum
+    or exit 1
+end
+
+# Fedora publishes the active stable releases in this small JSON document.  It
+# avoids trying a system-upgrade transaction merely to discover whether a new
+# release exists, and keeps the check usable with both DNF 4 and DNF 5.
+function available_fedora_release
+    command -q curl
+    and command -q python3
+    or return 1
+
+    command curl -fsSL --max-time 15 https://fedoraproject.org/releases.json | command python3 -c '
+import json
+import sys
+
+try:
+    releases = json.load(sys.stdin)
+except (OSError, ValueError, json.JSONDecodeError):
+    raise SystemExit(1)
+
+if isinstance(releases, dict):
+    releases = releases.get("releases", [])
+
+versions = []
+for release in releases:
+    version = str(release.get("version", ""))
+    if version.isdecimal():
+        versions.append(int(version))
+
+if versions:
+    print(max(versions))
+'
+end
+
+set fedora_upgrade_state_dir "$HOME/.local/state/chezetc"
+if set -q XDG_STATE_HOME; and test -n "$XDG_STATE_HOME"
+    set fedora_upgrade_state_dir "$XDG_STATE_HOME/chezetc"
+end
+
+function fedora_upgrade_deferral_file --argument-names target_release
+    echo "$fedora_upgrade_state_dir/fedora-$target_release-upgrade-deferred-until"
+end
+
+function fedora_upgrade_is_deferred --argument-names target_release
+    set deferral_file (fedora_upgrade_deferral_file "$target_release")
+    test -f "$deferral_file"
+    or return 1
+
+    set deferred_until (string trim < "$deferral_file")
+    string match -qr '^[0-9]+$' -- "$deferred_until"
+    or return 1
+
+    test (date +%s) -lt "$deferred_until"
+end
+
+function defer_fedora_upgrade --argument-names target_release
+    set deferral_file (fedora_upgrade_deferral_file "$target_release")
+    if not mkdir -p "$fedora_upgrade_state_dir"
+        step_warn "Could not save Fedora $target_release upgrade reminder"
+        return 1
+    end
+
+    set temporary_file (mktemp "$fedora_upgrade_state_dir/fedora-$target_release.XXXXXX")
+    or begin
+        step_warn "Could not save Fedora $target_release upgrade reminder"
+        return 1
+    end
+
+    set current_time (date +%s)
+    set deferred_until (math "$current_time + 7 * 24 * 60 * 60")
+    string match -qr '^[0-9]+$' -- "$deferred_until"
+    or begin
+        rm -f "$temporary_file"
+        step_warn "Could not save Fedora $target_release upgrade reminder"
+        return 1
+    end
+
+    if printf '%s\n' "$deferred_until" > "$temporary_file"; and mv "$temporary_file" "$deferral_file"
+        return 0
+    end
+
+    rm -f "$temporary_file"
+    step_warn "Could not save Fedora $target_release upgrade reminder"
+    return 1
+end
+
+if contains -- "$fleet_phase" all rpm flatpak
+set tracked_rpm_packages
+{{ range .packages.common.rpm -}}
+set -a tracked_rpm_packages '{{ . }}'
+{{ end }}
+{{ if .isClient -}}
+{{ range .packages.client.rpm -}}
+set -a tracked_rpm_packages '{{ . }}'
+{{ end }}
+{{ else if .isServer -}}
+{{ range .packages.server.rpm -}}
+set -a tracked_rpm_packages '{{ . }}'
+{{ end }}
+{{ end }}
+
+set tracked_flatpak_packages
+{{ range .packages.common.flatpak.fedora -}}
+set -a tracked_flatpak_packages '{{ . }}'
+{{ end }}
+{{ range .packages.common.flatpak.flathub -}}
+set -a tracked_flatpak_packages '{{ . }}'
+{{ end }}
+{{ if .isClient -}}
+{{ range .packages.client.flatpak.fedora -}}
+set -a tracked_flatpak_packages '{{ . }}'
+{{ end }}
+{{ range .packages.client.flatpak.flathub -}}
+set -a tracked_flatpak_packages '{{ . }}'
+{{ end }}
+{{ else if .isServer -}}
+{{ range .packages.server.flatpak.fedora -}}
+set -a tracked_flatpak_packages '{{ . }}'
+{{ end }}
+{{ range .packages.server.flatpak.flathub -}}
+set -a tracked_flatpak_packages '{{ . }}'
+{{ end }}
+{{ end }}
+
+set rpm_versions_before (mktemp)
+set rpm_versions_after (mktemp)
+set flatpak_versions_before (mktemp)
+set flatpak_versions_after (mktemp)
+snapshot_rpm_versions $rpm_versions_before $tracked_rpm_packages
+snapshot_flatpak_versions $flatpak_versions_before $tracked_flatpak_packages
+
+if contains -- "$fleet_phase" all rpm; and test "$package_operation" != install
+{{ if .isServer -}}
+# Fedora's Nginx RPM immediately replaces a running master after changing the
+# daemon or a dynamic module.  Hold that trigger until the ABI-dependent DAV
+# module has been rebuilt by the post-update hook.
+prepare_nginx_package_update
+or exit 1
+{{ end -}}
+
+# Plex has its own session-aware updater; general transactions must not restart it.
+set dnf_update_args
+{{ if .isServer -}}
+set -a dnf_update_args --exclude=plexmediaserver
+{{ end -}}
+step_run_dnf_update "System packages" sudo dnf update -y $dnf_update_args
+set dnf_status $status
+
+if test $dnf_status -eq 0
+    snapshot_rpm_versions $rpm_versions_after $tracked_rpm_packages
+    report_package_updates $rpm_versions_before $rpm_versions_after --count-only
+    set dnf_update_count $package_update_count
+    if test $dnf_update_count -eq 0
+        set dnf_note "no changes"
+    else if test $dnf_update_count -eq 1
+        set dnf_note "1 update"
+    else
+        set dnf_note "$dnf_update_count updates"
+    end
+    step_result_note "System packages" "$dnf_note"
+    report_package_updates $rpm_versions_before $rpm_versions_after
+end
+
+end
+
+if contains -- "$fleet_phase" all flatpak; and test "$package_operation" != install
+if test (count $tracked_flatpak_packages) -gt 0
+    set installed_flatpak_packages
+    for installed in (command cat $flatpak_versions_before)
+        set installed_fields (string split \t -- "$installed")
+        if test (count $installed_fields) -ge 1
+            set -a installed_flatpak_packages "$installed_fields[1]"
+        end
+    end
+
+    if test (count $installed_flatpak_packages) -gt 0
+        step_run_quiet "Flatpak packages" sudo env XDG_DATA_DIRS="/var/lib/flatpak/exports/share:/root/.local/share/flatpak/exports/share:/usr/local/share:/usr/share" dbus-run-session flatpak update --system --noninteractive --assumeyes $installed_flatpak_packages
+        set flatpak_status $status
+
+        if test $flatpak_status -eq 0
+            snapshot_flatpak_versions $flatpak_versions_after $tracked_flatpak_packages
+            report_package_updates $flatpak_versions_before $flatpak_versions_after --count-only
+            set flatpak_update_count $package_update_count
+            if test $flatpak_update_count -eq 0
+                set flatpak_note "no changes"
+            else if test $flatpak_update_count -eq 1
+                set flatpak_note "1 update"
+            else
+                set flatpak_note "$flatpak_update_count updates"
+            end
+            step_result_note "Flatpak packages" "$flatpak_note"
+            report_package_updates $flatpak_versions_before $flatpak_versions_after
+        end
+    else
+        step_skip_ok "No installed Flatpak packages to update"
+        set flatpak_status 0
+    end
+else
+    step_skip_ok "No Flatpak packages configured"
+    set flatpak_status 0
+end
+
+end
+
+if test $dnf_status -ne 0; or test $flatpak_status -ne 0
+    exit 1
+end
+
+# Reconcile the declared package set immediately after applying available
+# updates.  Keeping both operations in this section avoids reporting the same
+# package state again later in the run.
+function install_dnf_packages
+    set packages
+    for package in $argv
+        if not rpm -q "$package" >/dev/null 2>&1
+            set -a packages "$package"
+        end
+    end
+    set dnf_install_args
+{{ if .isServer -}}
+    # dnf install may also upgrade installed packages. Retain bootstrap installs.
+    if rpm -q plexmediaserver >/dev/null 2>&1
+        set packages (string match -v -- plexmediaserver $packages)
+        set -a dnf_install_args --exclude=plexmediaserver
+    end
+{{ end -}}
+    if test (count $packages) -eq 0
+        step_skip_ok "System packages [rpm]" "no packages"
+        return 0
+    end
+
+    set versions_before (mktemp)
+    set versions_after (mktemp)
+    snapshot_rpm_versions $versions_before $packages
+    set previous_stage $chezetc_stage
+    set chezetc_stage INSTALL
+    step_run_quiet "System packages [rpm]" sudo dnf install -y $dnf_install_args $packages
+    set run_status $status
+    if test $run_status -eq 0
+        snapshot_rpm_versions $versions_after $packages
+        count_package_changes $versions_before $versions_after
+        if test $package_change_count -eq 0
+            set result_note "no changes"
+        else
+            set result_note installed
+        end
+        step_result_note "System packages [rpm]" "$result_note"
+        report_package_updates $versions_before $versions_after
+    end
+    rm -f $versions_before $versions_after
+    set chezetc_stage $previous_stage
+    return $run_status
+end
+
+function install_flatpak_packages
+    set remote $argv[1]
+    set packages
+    for package in $argv[2..]
+        if not flatpak info --system "$package" >/dev/null 2>&1
+            set -a packages "$package"
+        end
+    end
+    set subject "Flatpak packages [$remote]"
+
+    if test (count $packages) -eq 0
+        step_skip_ok "$subject" "no packages"
+        return 0
+    end
+
+    set versions_before (mktemp)
+    set versions_after (mktemp)
+    snapshot_flatpak_versions $versions_before $packages
+    set previous_stage $chezetc_stage
+    set chezetc_stage INSTALL
+    step_run_quiet "$subject" sudo env XDG_DATA_DIRS="/var/lib/flatpak/exports/share:/root/.local/share/flatpak/exports/share:/usr/local/share:/usr/share" dbus-run-session flatpak install --system $remote --noninteractive --assumeyes $packages
+    set run_status $status
+    if test $run_status -eq 0
+        snapshot_flatpak_versions $versions_after $packages
+        count_package_changes $versions_before $versions_after
+        if test $package_change_count -eq 0
+            set result_note "no changes"
+        else
+            set result_note installed
+        end
+        step_result_note "$subject" "$result_note"
+        report_package_updates $versions_before $versions_after
+    end
+    rm -f $versions_before $versions_after
+    set chezetc_stage $previous_stage
+    return $run_status
+end
+
+set rpm_packages
+set fedora_flatpak_packages
+set flathub_flatpak_packages
+
+{{ range .packages.common.rpm -}}
+set -a rpm_packages '{{ . }}'
+{{ end }}
+{{ range .packages.common.flatpak.fedora -}}
+set -a fedora_flatpak_packages '{{ . }}'
+{{ end }}
+{{ range .packages.common.flatpak.flathub -}}
+set -a flathub_flatpak_packages '{{ . }}'
+{{ end }}
+{{ if .isClient -}}
+{{ range .packages.client.rpm -}}
+set -a rpm_packages '{{ . }}'
+{{ end }}
+{{ range .packages.client.flatpak.fedora -}}
+set -a fedora_flatpak_packages '{{ . }}'
+{{ end }}
+{{ range .packages.client.flatpak.flathub -}}
+set -a flathub_flatpak_packages '{{ . }}'
+{{ end }}
+{{ else if .isServer -}}
+{{ range .packages.server.rpm -}}
+set -a rpm_packages '{{ . }}'
+{{ end }}
+{{ range .packages.server.flatpak.fedora -}}
+set -a fedora_flatpak_packages '{{ . }}'
+{{ end }}
+{{ range .packages.server.flatpak.flathub -}}
+set -a flathub_flatpak_packages '{{ . }}'
+{{ end }}
+{{ end }}
+
+if contains -- "$fleet_phase" all rpm; and test "$package_operation" != update
+    install_dnf_packages $rpm_packages
+    or exit 1
+end
+if contains -- "$fleet_phase" all flatpak
+if test "$package_operation" != update
+install_flatpak_packages fedora $fedora_flatpak_packages
+or exit 1
+install_flatpak_packages flathub $flathub_flatpak_packages
+or exit 1
+end
+
+if test "$package_operation" != install
+
+set flatpak_refs_before (mktemp)
+set flatpak_refs_after (mktemp)
+snapshot_flatpak_refs $flatpak_refs_before
+set previous_stage $chezetc_stage
+set chezetc_stage REMOVE
+step_run_quiet "Flatpak packages [unused]" sudo env XDG_DATA_DIRS="/var/lib/flatpak/exports/share:/root/.local/share/flatpak/exports/share:/usr/local/share:/usr/share" dbus-run-session flatpak remove --system --unused -y
+set remove_status $status
+if test $remove_status -eq 0
+    snapshot_flatpak_refs $flatpak_refs_after
+    count_removed_entries $flatpak_refs_before $flatpak_refs_after
+    if test $package_change_count -eq 0
+        set result_note "no changes"
+    else
+        set result_note removed
+    end
+    step_result_note "Flatpak packages [unused]" "$result_note"
+end
+set chezetc_stage $previous_stage
+rm -f $flatpak_refs_before $flatpak_refs_after
+test $remove_status -eq 0
+or exit 1
+
+end
+
+end # update-only Flatpak cleanup
+rm -f $rpm_versions_before $rpm_versions_after $flatpak_versions_before $flatpak_versions_after
+
+end
+
+if contains -- "$fleet_phase" all release
+set installed_fedora_release (rpm -E %fedora 2>/dev/null)
+status_msg CHECK "..." "Fedora release check" "checking"
+set available_fedora_release (available_fedora_release)
+
+if string match -qr '^[0-9]+$' -- "$installed_fedora_release"; and string match -qr '^[0-9]+$' -- "$available_fedora_release"
+    if test "$available_fedora_release" -gt "$installed_fedora_release"
+        set upgrade_subject "Fedora $available_fedora_release release"
+
+        if fedora_upgrade_is_deferred "$available_fedora_release"
+            step_skip_ok "$upgrade_subject" deferred
+        else if not isatty stdin; or not isatty stdout
+            step_skip_ok "$upgrade_subject" "non-interactive"
+        else if gum confirm --default=false --affirmative="Upgrade" --negative="Not now" "Fedora $available_fedora_release is available. Download it and reboot into the upgrade?"
+            step_run_as UPDATE "$upgrade_subject" sudo dnf system-upgrade download --releasever="$available_fedora_release" --allowerasing
+            or exit 1
+            step_run_as UPDATE "Reboot into Fedora $available_fedora_release" sudo dnf system-upgrade reboot
+            or exit 1
+        else
+            if defer_fedora_upgrade "$available_fedora_release"
+                step_skip_ok "$upgrade_subject" "remind in 7 days"
+            else
+                step_skip_ok "$upgrade_subject" "reminder unavailable"
+            end
+        end
+    else
+        step_check_ok "Fedora upgrade" "no changes"
+    end
+else
+    step_skip_ok "Fedora upgrade" "check unavailable"
+end
+
+end

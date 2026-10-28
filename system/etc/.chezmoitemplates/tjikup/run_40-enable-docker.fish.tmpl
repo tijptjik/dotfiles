@@ -1,0 +1,37 @@
+#!/usr/bin/env fish
+# Run on every apply so Docker state is reported in its configured position.
+
+{{ include ".chezmoihelpers/status.fish" }}
+{{ include ".chezmoitemplates/fish_logging.fish" }}
+setup_logging linux-enable-docker
+
+step_header "Docker"
+
+# Add the interactive user only when necessary. `root` does not benefit from
+# docker-group membership, so it deliberately has no status line.
+set docker_user "$SUDO_USER"
+if test -z "$docker_user"; or test "$docker_user" = root
+    set docker_user "$USER"
+end
+if test "$docker_user" != root
+    if not id -nG "$docker_user" | string split ' ' | string match -q -- docker
+        step_run_note "Group membership for $docker_user" configured sudo usermod -aG docker "$docker_user"
+        or exit 1
+    end
+end
+
+# Check if docker is already enabled
+if systemctl is-enabled docker >/dev/null 2>&1
+    step_skip_ok "Autostart service" enabled
+else
+    step_run_note "Autostart service" enabled sudo systemctl enable docker
+    or exit 1
+end
+
+# Check if docker is already active
+if systemctl is-active docker >/dev/null 2>&1
+    step_skip_ok "Run service" active
+else
+    step_run_note "Run service" active sudo systemctl start docker
+    or exit 1
+end

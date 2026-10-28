@@ -1,0 +1,68 @@
+#!/usr/bin/env fish
+# Run on every apply so application availability is reported consistently.
+{{ if eq .chezmoi.os "linux" -}}
+
+{{ include ".chezmoihelpers/status.fish" }}
+{{ include ".chezmoitemplates/fish_logging.fish" }}
+setup_logging linux-install-telegram
+
+step_header "Applications"
+
+# Check if Telegram is already installed
+if test -x "/opt/Telegram/Telegram"
+    step_skip_ok "Telegram" "available"
+    exit 0
+end
+
+# Create temporary directory
+set tmpdir (mktemp -d)
+if not test -d "$tmpdir"
+    step_fail "Create Telegram temporary directory"
+    exit 1
+end
+step_ok "Create Telegram temporary directory"
+
+# Download Telegram
+if not step_run "Download Telegram" curl -fsSL -o "$tmpdir/telegram.tar.xz" "https://telegram.org/dl/desktop/linux"
+    rm -rf "$tmpdir"
+    exit 1
+end
+
+# Create installation directory's parent
+step_run "Prepare /opt for Telegram" sudo mkdir -p /opt
+or begin
+    rm -rf "$tmpdir"
+    exit 1
+end
+
+# Untar Telegram
+if not step_run "Extract Telegram to /opt" sudo tar -xJf "$tmpdir/telegram.tar.xz" -C /opt/
+    # Cleanup
+    rm -rf "$tmpdir"
+    # Try to clean up opt if something went wrong
+    if test -d "/opt/Telegram"
+        sudo rm -rf /opt/Telegram
+    end
+    exit 1
+end
+
+# Check if executable exists after extraction
+if not test -x "/opt/Telegram/Telegram"
+    step_fail "Verify Telegram executable"
+    # Clean up.
+    if test -d "/opt/Telegram"
+        sudo rm -rf /opt/Telegram
+    end
+    rm -rf "$tmpdir"
+    exit 1
+end
+step_ok "Verify Telegram executable"
+
+# Clean up temporary file
+rm -rf "$tmpdir"
+
+step_ok "Telegram installed"
+
+# Configuration and user-initiated startup follow installation.
+
+{{ end -}}

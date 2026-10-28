@@ -1,0 +1,16 @@
+{
+  "storage-driver": "overlay2",
+  "data-root": "/mnt/data/disk22/docker",
+  "registry-mirrors": [
+    "https://docker.1ms.run",
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com"
+  ],
+  "max-concurrent-downloads": 10,
+  "max-concurrent-uploads": 5,
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  }
+}

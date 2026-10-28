@@ -1,0 +1,85 @@
+# sysctl settings are defined through files in
+# /usr/lib/sysctl.d/, /run/sysctl.d/, and /etc/sysctl.d/.
+#
+# Vendors settings live in /usr/lib/sysctl.d/.
+# To override a whole file, create a new file with the same in
+# /etc/sysctl.d/ and put new settings there. To override
+# only specific settings, add a file with a lexically later
+# name in /etc/sysctl.d/ and put new settings there.
+#
+# For more information, see sysctl.conf(5) and sysctl.d(5).
+
+{{- if .isServer }}
+
+###########
+# FILESYSTEM
+###########
+
+# Sets the maximum number of files/directories that can be monitored for changes per user.
+#
+# Why it matters: Applications like Plex, file sync tools, backup software,
+# and some desktop environments use inotify to watch for file changes.
+# On a 25TB+ array, you could easily hit the default limit,
+# causing "inotify watch limit reached" errors and broken real-time monitoring.
+#
+# Cost: Each watch uses ~160 bytes (64-bit) of kernel memory.
+# At 1M watches, that's ~160MB overhead—negligible on a modern system.
+fs.inotify.max_user_watches=1048576
+
+###########
+# TRANSMISSION / RSYNC
+###########
+
+# Maximum receive socket buffer size per socket.
+#
+# What it does: Sets the upper limit for how much data the kernel will buffer for incoming
+# network transfers on each socket.
+#
+# Why it matters: For high-bandwidth, high-latency connections (e.g., gigabit+ WAN, VPNs,
+# or torrents with many peers), larger buffers prevent throughput bottlenecks.
+# The kernel auto-tunes up to this limit.
+#
+# Relevance: Helps maximize download speeds in Transmission and speeds up rsync pulls over the network.
+net.core.rmem_max = 16777216
+net.ipv4.tcp_rmem = 4096 87380 16777216
+# Purpose: Maximum send socket buffer size per socket.
+#
+# What it does: Sets the upper limit for outbound data buffering per socket.
+# Why it matters: Larger send buffers improve upload performance and help
+# maintain stable throughput when seeding torrents or pushing large files via rsync.
+#
+# Note: Your receive buffer (16MB) is 4x larger than send (4MB),
+# because the workload is download-heavy—typical for a media server that
+# primarily acquires content but seeds less.
+net.core.wmem_max = 4194304
+net.ipv4.tcp_wmem = 4096 65536 4194304
+
+###########
+# PLEX
+###########
+
+# Sets the default packet scheduler (queuing discipline) to Fair Queueing (FQ).
+#
+# What it does: Instead of treating all network packets as a single FIFO queue, FQ creates multiple internal
+# queues organized by each active network flow. It then fairly shares bandwidth between these flows, preventing
+# a single heavy flow from starving others.
+#
+# Benefit: Reduces bufferbloat and improves latency when multiple applications are using the network simultaneously.
+#
+# Use case: Good for servers handling many concurrent connections or systems where you want to maintain responsive
+# network performance during heavy transfers.
+net.core.default_qdisc = fq
+
+# Sets the default congestion control algorithm to BBR (Bottleneck Bandwidth and Round-trip propagation time).
+#
+# What it does: BBR is Google's modern congestion control algorithm that estimates bottleneck bandwidth and
+# RTT to optimize throughput. Unlike traditional loss-based algorithms that only slow down when packets are dropped,
+# BBR actively probes for the optimal sending rate.
+#
+# Benefit: Significantly higher throughput on high-bandwidth, high-latency connections
+# (e.g., gigabit internet, cross-continent transfers) and better handling of network congestion without unnecessary packet loss.
+#
+# Trade-off: Can be more aggressive competing with older TCP algorithms on shared networks; some ISPs may not respond well to it.
+net.ipv4.tcp_congestion_control = bbr
+
+{{ end -}}

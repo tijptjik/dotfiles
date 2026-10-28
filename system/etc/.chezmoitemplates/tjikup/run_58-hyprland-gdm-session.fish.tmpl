@@ -1,0 +1,29 @@
+#!/usr/bin/env fish
+{{ if and (eq .chezmoi.os "linux") .isClient -}}
+{{ include ".chezmoihelpers/status.fish" }}
+# Keep the saved GDM session ID and the package-owned entry intact. GDM searches
+# /usr/local/share before /usr/share. Do not restart GDM or the current session.
+set -l installed /usr/local/share/wayland-sessions/hyprland-uwsm.desktop
+set -l session_dir (mktemp -d); or exit 1
+set -l session_file "$session_dir/hyprland-uwsm.desktop"
+printf '%s' {{ include ".chezmoitemplates/hyprland-uwsm.desktop" | b64enc | quote }} | base64 --decode > "$session_file"
+or begin
+    rm -rf -- "$session_dir"
+    exit 1
+end
+if cmp -s "$session_file" "$installed"; and test (stat -c '%a:%u:%g' "$installed" 2>/dev/null) = '644:0:0'
+    rm -rf -- "$session_dir"
+    status_msg SKIP "✓" "GDM (Hyprland login)" "already configured"
+    exit 0
+end
+# DesktopNames is GDM session metadata, outside the application desktop spec.
+sed '/^DesktopNames=/d' "$session_file" > "$session_dir/validate.desktop"
+and desktop-file-validate "$session_dir/validate.desktop"
+and sudo -n install -D -C -m 644 "$session_file" "$installed"
+set -l result $status
+rm -rf -- "$session_dir"
+if test $result -eq 0
+    status_msg CONFIG "✓" "GDM (Hyprland login)" "updated"
+end
+exit $result
+{{ end -}}

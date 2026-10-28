@@ -150,21 +150,34 @@ artifacts are preserved; updates do not apply a new colour scheme.
 
 ## Bitwarden CLIs
 
-Chezmoi checks for the latest stable `bws` and `bw` releases on each apply,
-verifies their release asset digests, and activates them from versioned `/opt`
-directories. The installer requires sudo for these system-owned directories.
-The Secrets Manager wrapper prefers the managed command and retains a legacy
-fallback while other devices migrate. Vault data and Secrets Manager
-credentials stay in their existing user configuration directories.
-Installation checks use isolated temporary Vault CLI state and do not log in,
-unlock, or alter a vault.
+The Tjikup Bitwarden recipe ensures `bws` and `bw` are installed. Normal runs
+check the managed executable, versioned `/opt` target and installation receipt
+locally. Existing installs skip without a release request or a CLI version
+subprocess; `--show-skips` displays the "already installed" result. Missing or
+incomplete installs still require release discovery and installation. Unmanaged
+executables in `/usr/local/bin` are not overwritten.
 
-If GitHub release metadata is unavailable (including anonymous API rate limits),
-the hook keeps an existing managed CLI only when its installation has a valid
-digest receipt and its executable reports the matching version. It emits a
-warning and retries the release check on the next apply. Missing or unhealthy
-installs, invalid release metadata, and download/digest failures still stop apply.
-Authenticate `gh` as the invoking user to increase GitHub's API quota.
+`tjikup --upgrade` explicitly checks both tools for stable releases. `bw` uses a
+HEAD request to Bitwarden's official Linux CLI download URL; `bws` uses the stable
+version of Bitwarden's `bws` package on crates.io. Each version selects an exact
+GitHub release tag and platform asset. This avoids paging through unrelated
+releases in the shared repositories. Downloads must match the release asset's
+SHA-256 digest before activation from versioned `/opt` directories. Installation
+requires sudo for these system-owned directories.
+
+The Secrets Manager wrapper prefers the managed command and retains a legacy
+fallback while other devices migrate. Vault data and Secrets Manager credentials
+stay in their existing user configuration directories. Downloaded binaries and
+fallback health checks use isolated temporary Vault CLI state and do not log in,
+unlock, or alter a vault. The local receipt is an archive digest, not a fresh
+integrity check of the installed binary.
+
+If release metadata is unavailable during an upgrade, the hook keeps an existing
+managed CLI only when its installation has a valid digest receipt and its
+executable reports the matching version. It emits a warning; retry with
+`--upgrade`. Missing or unhealthy installs, invalid release metadata, and
+download/digest failures still stop the recipe. Authenticate `gh` as the invoking
+user to increase GitHub's API quota.
 
 Embedded Python installers are transported through Base64 in Fish hooks so
 newlines and Python escapes survive template rendering exactly. A successful

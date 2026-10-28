@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g id="frameless-artwork" transform="translate(-3.286157 -3.286157) scale(1.102692)"><defs><linearGradient id="glass" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="#56879b" /><stop offset="1" stop-color="#304d66" /></linearGradient></defs>
+<g data-material="authored" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="32" cy="32" r="24" fill="#8da7b9" />
+<circle cx="32" cy="32" r="21.8" fill="url(#glass)" /><path d="M16 34h32" fill="none" stroke="#88aebb" stroke-width="1.05" />
+<path d="M27 24a11 11 0 0 1 17 10M25 19a17 17 0 0 1 25 15" fill="none" stroke="#8bdbcc" stroke-width="1.7" />
+<path d="M30 29a5 5 0 0 1 8 5" fill="none" stroke="#c0edda" stroke-width="1.7" />
+<path d="M16 41q6-5 12-1t11 1 9-3" fill="none" stroke="#94c2ce" stroke-width="1.2" />
+<path d="M22 35h15q3 0 3 3t-3 3H22l-4 2v-10Z" fill="#f6c17c" />
+<path d="M27 35v-4h5" fill="none" stroke="#f6c17c" stroke-width="2" />
+<circle cx="34" cy="38" r="1" fill="#536c84" />
+<path d="M23 47h3m3 0h3m3 0h3" fill="none" stroke="#abc9cc" stroke-width="1" />
+</g>
+</g></svg>

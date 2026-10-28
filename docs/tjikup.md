@@ -84,7 +84,7 @@ individual Git commands also retain their repository locks. Failed tasks stop ne
 work, drain running tasks, and block pending dependents. A configuration-refresh
 warning prevents subsequent apply stages.
 
-The **Fleet repositories** stage also checks tjikOS at `$TJIKOS_REPO`, or
+The **tjikOS Repos** stage also checks tjikOS at `$TJIKOS_REPO`, or
 `~/code/tjikos` by default. Clean checkouts fetch their configured upstream and
 advance only by fast-forward. Dirty checkouts fail and block apply. Detached
 or untracked-branch checkouts produce a warning and retain the local source for
@@ -345,7 +345,7 @@ that install to run again. Build directories and dependency caches are excluded
 from source fingerprints. New installer inputs/outputs must be added to its
 `cache-install.py` invocation.
 
-The **Fleet repositories** panel keeps three rows in fixed order: `dotjik`,
+The **tjikOS Repos** panel keeps three rows in fixed order: `dotjik`,
 `systjik`, `tjikOS`, each with separate `PULL` and `PUSH` cells. Pending cells
 are dimmed, running cells are bright, completed operations with changes are
 blue, and completed operations without changes are teal. Failures turn red;

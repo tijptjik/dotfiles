@@ -264,7 +264,7 @@ else:
             "tjikOS\nhttps://github.com/tijptjik/tjikos",
             "Prerequisites\n",
             "Commit Local Changes\n",
-            "Fleet Repositories\n",
+            "tjikOS Repos\n",
             "Dotfiles Apply\n",
             "Home + System Tasks\n",
         ]

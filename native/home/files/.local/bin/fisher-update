@@ -1,0 +1,13 @@
+#!/usr/bin/env fish
+# Fisher update script
+# Updates Fisher plugins with proper logging
+
+# Run fisher update
+if status is-interactive
+    # Interactive mode - show output
+    fisher update
+else
+    # Non-interactive (cron) mode - log to journal
+    # Use fish -c to ensure fisher function is available
+    timeout 60s fish -c "fisher update" 2>&1 | systemd-cat -t fisher-update
+end

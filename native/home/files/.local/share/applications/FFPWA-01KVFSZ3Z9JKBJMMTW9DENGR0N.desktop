@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Version=1.4
+Name=Codex LB
+Comment=Dashboard for Codex
+Keywords=codex;dashboard;AI;LLM;cost;
+Categories=GTK;Development;
+Icon=FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N
+Exec=/usr/bin/firefoxpwa site launch 01KVFSZ3Z9JKBJMMTW9DENGR0N --protocol %u
+Actions=
+MimeType=
+Terminal=false
+StartupNotify=true
+StartupWMClass=FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N

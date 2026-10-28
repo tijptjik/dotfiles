@@ -1,7 +1,7 @@
 # Rose Punk icons
 
 Rose Punk is the primary transparent icon theme, installed under directory ID
-`rose-punk`. The current catalog contains 107 app and service icons. It also
+`rose-punk`. The current catalog contains 114 app, service and workflow icons. It also
 supplies all fleet terminal sprites; 30 named SVG assets cover Homepage and
 Si’s complete service inventory, including two intentional helper aliases. These share source artwork and palette rules, with
 separate inventories and deployment paths.
@@ -9,6 +9,16 @@ separate inventories and deployment paths.
 The [icon tooling guide](../scripts/icons/README.md) documents source ownership,
 build dependencies, reproducible release commands, and historical review tools.
 The [style guide](rose-punk-icon-style-prompt.md) defines the artwork treatment.
+
+The workflow additions include approved Bitwarden and bookmarks artwork, plus
+UV, FNM, Gum and Bun revisions pending review. Render their 24/32/48/64/96 px dark/light comparison with
+`python3 -B scripts/icons/workflow-review.py`; it writes local artifacts under
+`.local/icon-reviews/docs/rose-punk-workflow-candidates.*`. Bitwarden, UV and Bun
+retain vendored Simple Icons geometry and attribution. The other three are
+original objects. Existing Fish, Solaar, app, asset and configuration icons are
+reused for the remaining Tjikup rows. See [the display review](tjikup.md#status-rows-and-icon-review)
+for sample-only terminal commands. Review generation does not approve or release
+the new artwork.
 
 ## Build and release
 

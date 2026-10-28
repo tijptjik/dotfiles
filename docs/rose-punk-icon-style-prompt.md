@@ -96,7 +96,8 @@ the original-icon review. Deployment is separate from generating the review.
 
 ## Active scope and revision 2
 
-The active catalog contains 107 apps and services. `scripts/icons/retired.json`
+The active catalog contains 114 apps, services and workflow entries, including four
+workflow revisions awaiting review and approved Bitwarden/bookmarks additions. `scripts/icons/retired.json`
 archives 13 retired/unused entries; do not add them back when making a new study.
 Their source artwork and frozen snapshots are historical, not active choices.
 The revised clean forms are self-contained in `local/*.svg` with

@@ -10,6 +10,46 @@ The workflow also declares repository banners and section headings. Capture,
 prerequisite and commit scripts own their detailed rows, so their steps disable
 the runner's duplicate summary rows.
 
+## Status rows and icon review
+
+Prerequisites, captured application settings, preparation and fleet repository
+rows use the same Rose Punk icons as application tasks. Kitty shows 32 px
+images in two terminal lines; other terminals use compact glyphs. Redirected
+logs remain plain, and the report keeps undecorated labels and outcomes.
+Repository rows retain separate PULL and PUSH outcomes beside a single icon.
+An uncommitted-file failure puts its count (for example, `48 files`) in the
+right-aligned status column. It does not add an inline diagnostic block or log
+link; the final summary still receives the complete failure reason.
+
+Under **Dotfiles Apply**, Bitwarden updates its CLIs before Chezmoi needs
+secrets. **Assets (font folder migration)** consolidates legacy user font
+folders into `~/.local/share/fonts` and makes `~/.fonts` a compatibility symlink;
+it does not download fonts. The separate **Assets (fonts)** task later refreshes
+the font cache when font files change.
+
+**Chezmoi (files and task preparation)** applies home files, then renders and
+syntax-checks the after-apply scripts. The former “Home hooks” row is folded
+into that operation. **Home + system tasks** runs those scripts alongside system
+tasks. **Chezetc (sudo launcher)** configures the command wrapper and its explicit
+environment allowlist; **Chezetc (system files and task preparation)** applies
+system files and prepares the system scripts. They remain separate because the
+launcher must be ready before system preparation can run.
+
+Review sample rows without capture, Git, installation or configuration changes:
+
+```sh
+python3 -B scripts/preview-fleet.py setup
+python3 -B scripts/preview-fleet.py capture
+python3 -B scripts/icons/workflow-review.py
+```
+
+Run the first two in Kitty to inspect actual image rows. The last command writes
+a five-size dark/light comparison beside the unchanged camera reference to
+`.local/icon-reviews/docs/rose-punk-workflow-candidates.png` and `.svg`.
+Bitwarden and bookmarks have been approved; UV, FNM, Gum and Bun are revised
+candidates in the primary frameless theme. These commands do not cut a release, approve framed
+icons or deploy artwork.
+
 The fleet uses a bounded DAG scheduler in `scripts/fleet_update/dag.py`.
 [workflow.json](../scripts/fleet_update/workflow.json) declares repository and apply
 dependencies; [home-plan.json](../scripts/fleet_update/home-plan.json) declares home
@@ -306,7 +346,9 @@ checkout's HEAD before and after the operation, and pushes from outgoing commits
 The scoped capture commit stays under **Commit Local Changes**; dirty checks are
 folded into repository results. Redirected output emits the three final rows
 with explicit state names and no cursor controls.
-Dirty checkout failures retain their concrete reason in the final Issues list.
+Dirty checkout failures use a single sentence in the final Issues list:
+`Dotjik has changes - commit or stash them first` (or `Systjik`). The file count
+stays in the repository row's right-aligned status column.
 Blocked apply does not insert a separate step row into the repository panel.
 With the updated runner, reported repository failures do not add generic
 `Fleet update` and `Tjikup` failures; the command still exits nonzero.

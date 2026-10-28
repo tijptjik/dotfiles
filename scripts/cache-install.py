@@ -27,6 +27,8 @@ def fingerprint(paths, *, source=False):
                 digest.update(path.read_bytes())
         elif path.is_dir():
             for child in sorted(path.iterdir()):
+                if child.name == '__pycache__' or child.suffix in {'.pyc', '.pyo'}:
+                    continue
                 if not source or child.name not in IGNORED:
                     visit(child)
         else:
@@ -47,13 +49,19 @@ def cached_install(name, inputs, outputs, command):
         record = state / f'{name}.json'
         before = fingerprint(inputs, source=True)
         deployed = fingerprint(outputs)
+        installed = any(os.path.lexists(path) for path in outputs)
+
+        def report(verb, note):
+            print(f'{verb:<7} ✓ {name}    {note}')
+            print(f'__stage_verb__:{verb}')
+            print(f'__stage_note__:{note}')
+
         try:
             saved = json.loads(record.read_text())
         except (OSError, ValueError):
             saved = {}
         if before and deployed and saved == {'inputs': before, 'outputs': deployed}:
-            print(f'SKIP    ✓ {name} inputs and installed files unchanged')
-            print('__stage_note__:no changes')
+            report('SKIP', 'no changes')
             return 0
         result = subprocess.run(command, check=False)
         if result.returncode:
@@ -68,12 +76,18 @@ def cached_install(name, inputs, outputs, command):
                 os.replace(staged, record)
             finally:
                 Path(staged).unlink(missing_ok=True)
+        if deployed and after == deployed:
+            report('SKIP', 'no changes')
+        elif installed:
+            report('UPDATE', 'updated' if deployed else 'repaired')
+        else:
+            report('INSTALL', 'installed')
         return 0
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('name', choices=['tjikup', 'notjik', 'greetjik', 'runtjik'])
+    parser.add_argument('name', choices=['tjikup', 'notjik', 'bartjik', 'greetjik', 'runtjik'])
     parser.add_argument('--input', action='append', required=True)
     parser.add_argument('--output', action='append', required=True)
     separator = sys.argv.index('--') if '--' in sys.argv else len(sys.argv)

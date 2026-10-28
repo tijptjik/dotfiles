@@ -252,7 +252,12 @@ does not hide an earlier change. Multiple different actions are summarized as
 these are silent skipped dependency nodes and are never executed. Other hooks
 that emit no status finish as `DONE`, which confirms completion without claiming
 a configuration change. Warnings and failures retain their
-diagnostics. Cached installers pass their unchanged result through the wrapper.
+diagnostics. Cached app installers report `INSTALL` for a first installation,
+`UPDATE` for changed or repaired installed files, and `SKIP` when installed bytes
+and modes are unchanged. A source change that rebuilds to identical output is
+also `SKIP`. Cache checks ignore generated Python bytecode, and still verify the
+installed files rather than trusting a version string. Dynamic stage wrappers
+carry these outcomes into both the terminal rows and report records.
 
 Actions and icons share outcome colours: green for success, grey for skips,
 yellow for warnings, red for failures, and cyan while running. Service names are

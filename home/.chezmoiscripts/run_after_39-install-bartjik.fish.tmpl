@@ -4,6 +4,6 @@ if test "$FLEET_DEFER_HOOKS" = 1
 end
 {{ if .isClient -}}
 source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
-stage 'Install Bartjik' INSTALL Bartjik bash "{{ .chezmoi.sourceDir }}/../scripts/install-bartjik.sh"
+stage_dynamic_note 'Install Bartjik' INSTALL Bartjik bash "{{ .chezmoi.sourceDir }}/../scripts/install-bartjik.sh"
 or exit $status
 {{ end -}}

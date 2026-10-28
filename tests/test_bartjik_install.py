@@ -47,6 +47,7 @@ class BartjikInstallTests(unittest.TestCase):
         (self.root / 'ensure-tjikos.sh').write_text(
             (ROOT / 'scripts/ensure-tjikos.sh').read_text()
             .replace('$HOME', '${BARTJIK_TEST_HOME}'))
+        shutil.copy2(ROOT / 'scripts/cache-install.py', self.root / 'cache-install.py')
         self.log = self.root / 'calls'
         self.env = {**os.environ, 'BARTJIK_TEST_HOME': str(self.home),
                     'TJIKOS_REPO': str(self.tools), 'CALL_LOG': str(self.log),

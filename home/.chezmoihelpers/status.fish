@@ -355,6 +355,11 @@ function __stage_run
 
     if test "$code" -eq 0
         if test "$note" = "__dynamic__"
+            set -l verb_marker (string match -r '^__stage_verb__:(INSTALL|UPDATE|SKIP)$' < $log_file | tail -n 1)
+            set -l reported_verb (string replace '__stage_verb__:' '' -- "$verb_marker")
+            if contains -- "$reported_verb" INSTALL UPDATE SKIP
+                set stage_name "$reported_verb"
+            end
             set -l note_marker (string match -r '^__stage_note__:.+$' < $log_file | tail -n 1)
             set note (string replace '__stage_note__:' '' -- "$note_marker")
         end

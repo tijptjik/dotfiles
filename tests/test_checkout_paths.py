@@ -23,12 +23,19 @@ class CheckoutPathsTests(unittest.TestCase):
             for host in ('fi', 'li', 'si'):
                 for name, template, subdir in (
                     ('dotjik', ROOT / 'home/.chezmoi.toml.tmpl', 'home'),
-                    ('systjik', ROOT.parent / 'systjik/chezetc.toml', 'etc'),
+                    ('dotjik/system', ROOT / 'system/chezetc.toml', 'etc'),
                 ):
                     with self.subTest(host=host, checkout=name):
                         checkout = home / '.local/share' / name
                         (checkout / subdir).mkdir(parents=True, exist_ok=True)
                         (checkout / '.chezmoiroot').write_text(subdir + '\n')
+                        if subdir == 'home':
+                            # This fixture tests relocated source paths; role policy has
+                            # separate profile and real-template integration coverage.
+                            helper = checkout / 'scripts/device-policy.py'
+                            helper.parent.mkdir(exist_ok=True)
+                            role = {'fi': 'desktop', 'li': 'laptop', 'si': 'server'}[host]
+                            helper.write_text('print(' + repr(role) + ')\n')
                         data = {'chezmoi': {'hostname': host, 'homeDir': str(home),
                                            'username': 'm' if host == 'si' else 'io'}}
                         rendered = subprocess.run([
@@ -36,33 +43,10 @@ class CheckoutPathsTests(unittest.TestCase):
                             '--override-data', json.dumps(data), 'execute-template',
                             '--file', str(template),
                         ], check=True, text=True, capture_output=True).stdout
-                        config = home / (name + '.toml')
+                        config = home / (name.replace('/', '-') + '.toml')
                         config.write_text(rendered)
                         self.assertEqual(tomllib.loads(rendered)['sourceDir'], str(checkout))
                         result = subprocess.run([
                             'chezmoi', '--config', str(config), 'source-path',
                         ], check=True, text=True, capture_output=True)
                         self.assertEqual(result.stdout.strip(), str(checkout / subdir))
-
-    def test_system_launcher_defaults_to_systjik_and_preserves_override(self):
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            stub = root / 'wrapper'
-            stub.write_text('#!/bin/sh\nprintf "%s\\n" "$ETC_SRC" "$@"\n')
-            stub.chmod(0o755)
-            launcher = root / 'launcher'
-            launcher.write_text((ROOT.parent / 'systjik/scripts/chezetc-launcher.sh')
-                                .read_text().replace('/opt/chezetc/chezetc', str(stub)))
-            env = {**os.environ, 'HOME': str(root)}
-            env.pop('ETC_SRC', None)
-            env.pop('XDG_DATA_HOME', None)
-            for overrides, expected in (
-                ({}, root / '.local/share/systjik'),
-                ({'XDG_DATA_HOME': str(root / 'data')}, root / 'data/systjik'),
-                ({'ETC_SRC': str(root / 'custom')}, root / 'custom'),
-            ):
-                with self.subTest(overrides=overrides):
-                    result = subprocess.run(['sh', str(launcher), 'source-path'],
-                                            env={**env, **overrides}, check=True,
-                                            text=True, capture_output=True)
-                    self.assertEqual(result.stdout.splitlines(), [str(expected), 'source-path'])

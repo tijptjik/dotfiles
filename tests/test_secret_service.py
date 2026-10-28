@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 import shutil
@@ -7,12 +8,12 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-HOOK = ROOT / 'home/.chezmoiscripts/run_after_97-secret-service.fish.tmpl'
+HOOK = ROOT / 'home/.chezmoitemplates/tjikup/run_after_97-secret-service.fish.tmpl'
 
 
 @unittest.skipUnless(shutil.which('fish'), 'Fish required')
 class SecretServiceTests(unittest.TestCase):
-    def run_hook(self, **options):
+    def run_hook(self, *, install=False, **options):
         with tempfile.TemporaryDirectory() as tmp:
             prelude = '''
 function section_header; end
@@ -45,7 +46,9 @@ function systemctl
     return 0
 end
 '''
-            script = prelude + '\n'.join(line for line in HOOK.read_text().splitlines() if not line.startswith(('source ', '#!')))
+            hooks = [HOOK.with_name('install-secret-service.fish.tmpl'), HOOK] if install else [HOOK]
+            script = prelude + '\n'.join(line for hook in hooks for line in hook.read_text().splitlines()
+                                          if not line.startswith(('source ', '#!')))
             calls = Path(tmp) / 'calls'
             defaults = dict(MISSING=0, LEGACY=0, DNF_STATUS=0, KILL_STATUS=1, ACTIVE=0, FAILED=0)
             defaults.update(options)
@@ -57,7 +60,7 @@ end
             return result, calls.read_text() if calls.exists() else ''
 
     def test_migration_installs_before_removing_legacy_and_starting(self):
-        result, calls = self.run_hook(MISSING=1, LEGACY=1, FAILED=1, KILL_STATUS=0)
+        result, calls = self.run_hook(install=True, MISSING=1, LEGACY=1, FAILED=1, KILL_STATUS=0)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('dnf install -y oo7-daemon pam_oo7 oo7-portal', calls)
         self.assertIn('dnf remove -y --setopt=clean_requirements_on_remove=False gnome-keyring gnome-keyring-pam', calls)
@@ -77,7 +80,7 @@ end
         self.assertIn('--user enable --now oo7-daemon.service', calls)
 
     def test_package_failure_stops_before_terminating_provider(self):
-        result, calls = self.run_hook(MISSING=1, LEGACY=1, DNF_STATUS=8)
+        result, calls = self.run_hook(install=True, MISSING=1, LEGACY=1, DNF_STATUS=8)
         self.assertEqual(result.returncode, 8, result.stderr)
         self.assertNotIn('dnf remove', calls)
         self.assertNotIn('pkill', calls)
@@ -86,3 +89,8 @@ end
         result, calls = self.run_hook(KILL_STATUS=2)
         self.assertEqual(result.returncode, 2, result.stderr)
         self.assertNotIn('enable --now', calls)
+
+    def test_configuration_depends_on_successful_package_installation(self):
+        recipes = {recipe['id']: recipe for recipe in
+                   json.loads((ROOT / 'tjikup/recipes.json').read_text())['recipes']}
+        self.assertIn('home:secrets', recipes['home:configure:secrets']['needs'])

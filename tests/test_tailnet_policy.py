@@ -42,7 +42,7 @@ class TailnetPolicyTests(unittest.TestCase):
                         result = subprocess.run([
                             'chezmoi', '--source', str(ROOT / 'home'), '--config', str(config),
                             '--persistent-state', str(root / 'state.db'), 'execute-template',
-                            '-f', str(ROOT / 'home/.chezmoiscripts' / name),
+                            '-f', str(ROOT / 'home/.chezmoitemplates/tjikup' / name),
                         ], capture_output=True, text=True)
                         self.assertEqual(result.returncode, 0, result.stderr)
                         self.assertNotIn('tailscale down', result.stdout)

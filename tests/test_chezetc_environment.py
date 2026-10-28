@@ -16,10 +16,10 @@ from unittest.mock import patch
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "home/dot_local/lib"))
 import tjikup_support
-import fleet_update as tjikup
 
 
-HOOK = Path(__file__).resolve().parents[1] / "home/.chezmoiscripts/run_after_34-configure-chezetc.py"
+
+HOOK = Path(__file__).resolve().parents[1] / "home/.chezmoitemplates/tjikup/run_after_34-configure-chezetc.py"
 configure_chezetc = runpy.run_path(str(HOOK))["configure_chezetc"]
 
 
@@ -51,10 +51,8 @@ os.execvpe(sys.argv[3], sys.argv[3:], env)
                 "TJIKUP_REPORT_FILE": str(root / "report"),
             }
             def output(terminal):
-                captured = io.StringIO()
-                with contextlib.redirect_stdout(captured), patch.object(captured, "isatty", return_value=terminal):
-                    tjikup.run_stream([str(wrapper)], root, env=environment)
-                return captured.getvalue()
+                return subprocess.check_output([str(wrapper)], cwd=root, text=True,
+                    env={**environment, 'TJIKUP_COLOR': '1' if terminal else '0'})
 
             self.assertNotIn("\x1b", output(True))
             configure_chezetc(wrapper)

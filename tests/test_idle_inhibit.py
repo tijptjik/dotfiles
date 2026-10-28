@@ -125,7 +125,7 @@ class IdlePolicyRenderingTests(unittest.TestCase):
                         "--persistent-state", str(root / "state.db"),
                         "execute-template", "-f", str(ROOT / source),
                     ], text=True)
-                script = render("home/.chezmoiscripts/run_after_99-systemd-reload.fish.tmpl")
+                script = render("home/.chezmoitemplates/tjikup/run_after_99-systemd-reload.fish.tmpl")
                 subprocess.run(["fish", "--no-config", "-n"], input=script, text=True, check=True)
                 self.assertEqual('idle-inhibit" init' in script, host != "si")
                 if host == "si":

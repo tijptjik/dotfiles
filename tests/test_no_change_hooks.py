@@ -35,7 +35,7 @@ class NoChangeHooksTests(unittest.TestCase):
         return path
 
     def script(self, name):
-        path = ROOT / 'home/.chezmoiscripts' / name
+        path = ROOT / 'home/.chezmoitemplates/tjikup' / name
         if not name.endswith('.tmpl'):
             return path.read_text()
         rendered = subprocess.check_output([
@@ -102,6 +102,7 @@ print(json.dumps({'result':{'plugins':[{'plugin_id':id,'enabled':True,
 'plugin_root':str(Path.home()/'.config/herdr/plugins/local/local-files')} for id in ids]}}))
 ''')
         output = self.run_hook('run_after_32-provision-herdr-plugins.fish.tmpl')
+        output += self.run_hook('configure-herdr.fish.tmpl')
         self.assertNotIn('CONFIG', output)
         self.assertEqual(output.count('SKIP'), 4)
         self.assertTrue(all(call == 'plugin list --json' for call in self.calls()))

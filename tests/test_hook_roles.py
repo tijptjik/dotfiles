@@ -93,6 +93,36 @@ class HookRoleTests(unittest.TestCase):
 
 
     @unittest.skipUnless(shutil.which('fish'), 'Fish required')
+    def test_combined_empty_phase_has_one_check_but_updates_warnings_and_failures_do_not(self):
+        from types import SimpleNamespace
+        from fleet_update import fleet_apply
+        home = [{'id': 'chezetc-wrapper', 'label': 'Wrapper', 'file': 'wrapper.fish'}]
+        system = [{'id': 'tool', 'label': 'Tool', 'file': 'tool.fish'}]
+        for output, code, inactive, expected in [('', 0, True, True),
+                ('SKIP    ✓ Tool    no changes\n', 0, False, True),
+                ('UPDATE  ✓ Tool    updated\n', 0, False, False),
+                ('WARN    ! Tool    unavailable\n', 0, False, False),
+                ('FAILED  ✗ Tool    broken\n', 1, False, False)]:
+            with self.subTest(output=output, inactive=inactive), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                policy = SimpleNamespace(apply_files=lambda repo: None,
+                    render_hooks=lambda *args: {'tool.fish': '# no tasks\n' if inactive else 'echo stubbed\n'})
+                env = {'XDG_STATE_HOME': str(root), 'TJIKUP_COLOR': '0', 'TJIKUP_PROGRESS': '0',
+                       'TJIKUP_ICONS': '0', 'FLEET_TIMING_RECEIPT': str(root / 'timing-path')}
+                with patch.dict(os.environ, env), \
+                        patch.object(fleet_apply, 'plans', return_value=(home, system, policy)), \
+                        patch('fleet_update.apply_files', return_value=0), \
+                        patch.object(fleet_apply, 'render_hook', return_value='echo wrapper\n'), \
+                        patch.object(fleet_apply, 'command', return_value=SimpleNamespace(returncode=0)), \
+                        patch('fleet_update.hook_tasks.run_command', side_effect=[
+                            SimpleNamespace(stdout='', returncode=0),
+                            SimpleNamespace(stdout=output, returncode=code)]), \
+                        contextlib.redirect_stdout(io.StringIO()) as rendered:
+                    self.assertEqual(fleet_apply.apply(root, root), code)
+                self.assertEqual(rendered.getvalue().count('CHECK   ✓ No changes needed'), int(expected))
+                self.assertEqual(rendered.getvalue().count('Home + System Tasks'), 1)
+
+    @unittest.skipUnless(shutil.which('fish'), 'Fish required')
     def test_combined_system_wrapper_honours_rendered_noop(self):
         from types import SimpleNamespace
         from fleet_update import fleet_apply

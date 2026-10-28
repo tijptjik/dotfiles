@@ -178,6 +178,8 @@ def apply(repo, system_repo=None):
             hooks.progress.section = DeferredSection("Home + System Tasks")
             with hooks.progress:
                 results = run_phase(remaining_tasks)
+                if all(result.state in {"done", "skipped"} for result in results.values()):
+                    hooks.progress.finish_empty_section()
         finally:
             timing = hooks.save_timings(tasks, total_seconds=time.monotonic() - started,
                                        home_file_seconds=home_file_seconds, home_render_seconds=home_render_seconds)

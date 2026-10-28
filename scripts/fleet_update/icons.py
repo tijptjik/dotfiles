@@ -63,7 +63,13 @@ class HookProgress(Progress):
         if self.section:
             self.section.show()
 
-    def _print(self, verb, icon, label, note):
+    def finish_empty_section(self):
+        with self.output():
+            if self.section and not self.section.shown:
+                runtime.record("CHECK", "✓", "Tjikup", "No changes needed")
+                self._print("CHECK", "✓", "Tjikup", "", title="No changes needed")
+
+    def _print(self, verb, icon, label, note, *, title=None):
         # Finish still clears the live row and records the outcome. Only the
         # settled display is suppressed, before emitting text or image data.
         if runtime.outcome_verb(verb, icon, note) == "SKIP":
@@ -71,9 +77,9 @@ class HookProgress(Progress):
         if icon in {"✓", "!", "✗", "X", "-"}:
             self.show_section()
         if self.graphics:
-            self.graphics.print(verb, icon, label, note)
+            self.graphics.print(verb, icon, label, note, title=title)
             return
-        title = display_title(label)
+        title = display_title(label) if title is None else title
         if icons_enabled(self.stream, self.live):
             title = f"{title_icon(label)} {title}"
         super()._print(verb, icon, title, note)

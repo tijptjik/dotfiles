@@ -1,4 +1,5 @@
 """Check decorated terminal rows without changing report or outcome semantics."""
+import contextlib
 import io
 import os
 from pathlib import Path
@@ -15,6 +16,22 @@ from tjikup import runtime
 
 
 class FleetIconTests(unittest.TestCase):
+    def test_empty_section_uses_tjikup_icon_and_exact_message_once(self):
+        for icons in ('0', '1'):
+            with self.subTest(icons=icons), tempfile.TemporaryDirectory() as directory, \
+                    patch.dict(os.environ, {'TJIKUP_ICONS': icons, 'TJIKUP_KITTY_ICONS': '0',
+                        'TJIKUP_COLOR': '0', 'TJIKUP_REPORT_FILE': str(Path(directory) / 'report')}), \
+                    contextlib.redirect_stdout(io.StringIO()) as output:
+                progress = HookProgress(section='Home + System Tasks', live=False)
+                progress.finish('skip', 'Zed', verb='SKIP')
+                progress.finish_empty_section()
+                progress.finish_empty_section()
+                glyph = title_icon('Tjikup') + ' ' if icons == '1' else ''
+                self.assertEqual(output.getvalue(),
+                    '\nHome + System Tasks\n\nCHECK   ✓ ' + glyph + 'No changes needed\n')
+                self.assertEqual((Path(directory) / 'report').read_text(),
+                    'SKIP\t✓\tZed\t\nCHECK\t✓\tTjikup\tNo changes needed\n')
+
     def test_run_once_rows_have_service_icons_without_recording_again(self):
         with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {
                 'TJIKUP_ICONS': '1', 'TJIKUP_KITTY_ICONS': '0', 'TJIKUP_COLOR': '0',

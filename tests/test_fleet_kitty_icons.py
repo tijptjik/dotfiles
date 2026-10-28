@@ -18,6 +18,25 @@ from fleet_update.kitty_icons import KittyIcons, cell_size, centred, herdr_cell_
 
 
 class KittyIconTests(unittest.TestCase):
+    def test_empty_section_uses_tjikup_sprite_with_message_in_both_terminals(self):
+        for herdr in (False, True):
+            with self.subTest(herdr=herdr), \
+                    patch('fleet_update.kitty_icons.cell_size', return_value=(13, 26)), \
+                    patch('fleet_update.kitty_icons.in_herdr', return_value=herdr), \
+                    contextlib.redirect_stdout(io.StringIO()) as output:
+                with HookProgress(section='Home + System Tasks', live=True) as progress:
+                    progress.start('skip', 'Zed', 'SYNC')
+                    progress.finish('skip', 'Zed', verb='SKIP', record=False)
+                    progress.finish_empty_section()
+                self.assertIn(('Tjikup', 13, 26), progress.graphics.images)
+                text = re.sub(r'\x1b_G[^\x1b]*\x1b\\', '', output.getvalue())
+                text = re.sub(r'\x1b]66;[^;]*;([^\x1b]*)\x1b\\', r'\1', text)
+                text = re.sub(r'\x1b\[[0-9;]*m', '', text)
+                self.assertEqual(text.count('No changes needed'), 1)
+                self.assertIn('CHECK   ✓', text)
+                self.assertNotIn('Tjikup', text)
+                self.assertEqual(progress.height, 0)
+
     def test_repository_icon_halves_share_column_zero_in_both_terminals(self):
         for herdr in (False, True):
             with self.subTest(herdr=herdr):

@@ -223,16 +223,17 @@ class KittyIcons:
         return colour + ''.join('\U0010eeee' + DIACRITICS[row] + DIACRITICS[column]
                                 for column in range(columns)) + '\x1b[0m'
 
-    def print(self, verb, icon, label, note):
+    def print(self, verb, icon, label, note, *, title=None):
+        title = display_title(label) if title is None else title
         size = cell_size(self.stream) or self.geometry
         if size is None or size[0] < 4 or size[1] < 16:
             # Keep the two-line height during a temporary loss of geometry.
-            self.stream.write(runtime.format_status(verb, icon, display_title(label), note) + '\n\n')
+            self.stream.write(runtime.format_status(verb, icon, title, note) + '\n\n')
             return
         image_id, columns = self.image(label, *size)
         # The status prefix already leaves one cell before the image canvas.
         # Reserve the same gap after it, including in narrow-row truncation.
-        row = runtime.format_status(verb, icon, ' ' * (columns + 1) + display_title(label), note)
+        row = runtime.format_status(verb, icon, ' ' * (columns + 1) + title, note)
         prefix_width = len(f'{verb:<7} {icon} ')
         self._print_row(row, image_id, columns, prefix_width)
 

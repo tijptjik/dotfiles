@@ -35,7 +35,6 @@ set -gx TOOLS $HOME/tools
 set -gx CONFIG $HOME/.config
 set -gx PYENV_ROOT $HOME/pyenv
 set -gx BUN_INSTALL $HOME/bun
-set -gx FNM_PATH $HOME/fnm
 set -U fish_user_paths $HOME/repo/bin $HOME/normal/bin
 set -gx PATH $HOME/worktree/bin $HOME/repo/bin $HOME/normal/bin $PATH
 source $argv[2]

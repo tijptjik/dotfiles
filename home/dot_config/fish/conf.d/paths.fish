@@ -15,7 +15,6 @@ fish_add_path $PYENV_ROOT/bin
 
 # JavaScript
 fish_add_path $BUN_INSTALL/bin
-fish_add_path $FNM_PATH
 
 # Rust
 fish_add_path $HOME/.cargo/bin
@@ -99,4 +98,4 @@ function __fish_sync_project_bin --on-variable PWD
     end
 end
 
-# config.fish runs cleanup once, after virtualenv and fnm initialization.
+# config.fish runs cleanup once, after virtualenv initialization.

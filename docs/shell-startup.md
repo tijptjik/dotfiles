@@ -8,7 +8,7 @@ external commands, and PATH maintenance.
 The variables file has a per-shell guard so Fish's later automatic load is a
 no-op. Keep that guard unexported so child shells initialize their own settings.
 
-`config.fish` activates the Python environment and fnm, then prunes stale project
+`config.fish` activates the Python environment, then prunes stale project
 bins and selects the current worktree's bin directory once. Directory changes
 continue to update the project bin through the PWD event handler. PATH cleanup
 only asks Git about bin directories whose parent has a `.git` entry, including

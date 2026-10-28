@@ -47,7 +47,7 @@ workspaces:
           - command: clear; bun run test:watch
       - label: studio
         panes:
-          - command: clear; fnm exec --using=25.2.1 bun run db:studio:source:2025
+          - command: clear; bun run db:studio:source:2025
       - label: db
         panes:
           - command: clear

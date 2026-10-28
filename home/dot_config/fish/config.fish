@@ -25,12 +25,7 @@ end
 # Activate UV Shell - see utils.fish
 workon
 
-# Node.js version manager
-if command -q fnm
-    fnm env --use-on-cd --shell fish | source
-end
-
-# `workon` and fnm can restore an inherited PATH after paths.fish has run.
+# `workon` can restore an inherited PATH after paths.fish has run.
 # Apply its worktree-bin cleanup once shell initialisation is complete.
 __fish_prune_project_bins
 __fish_sync_project_bin

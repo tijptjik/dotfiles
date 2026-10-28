@@ -17,3 +17,9 @@
 .local/share/applications/com.google.Chrome.canary.desktop
 .local/share/applications/org.telegram.desktop
 {{ end -}}
+
+# Retired Node.js version manager; preserve downloaded runtimes for live sessions.
+.config/fish/conf.d/fnm.fish
+.config/fnm/fnm
+.local/share/fnm/fnm
+.fnm/fnm

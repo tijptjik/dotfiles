@@ -43,7 +43,6 @@ Readmes are available in `/docs/{topic}.md`
 - [`direnv`](https://direnv.net/)
 - [`fish`](https://fishshell.com/)
   - [`fisher`](https://github.com/jorgebucaran/fisher) - Plugin manager with automatic updates
-- [`fnm`](https://github.com/Schniz/fnm)
 - [`fzf`](https://github.com/junegunn/fzf)
 - [`glow`](https://github.com/charmbracelet/glow)
 - [GTK](https://www.gtk.org/)

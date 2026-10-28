@@ -19,8 +19,15 @@ SERVICE_ICONS = {
     "Tailscale": "\uf0e8", "Telegram": "\uf1d8", "Terminal": "\uf120",
     "Tippecanoe": "\uf279", "Tjikup": "\uf021", "Transmission": "\uf019",
     "Vite": "\uf0e7", "Zed": "\uf044", "llmtrim": "\uf0c4",
+    "Bitwarden": "\uf132", "Fish": "\uf489", "UV": "\ue73c", "FNM": "\ue718",
+    "Gum": "\uf120", "Bun": "\ue76f", "Solaar": "\uf185", "Fcitx": "\uf11c",
+    "Codex": "\uf121", "Zapzap": "\uf232", "Gtk-bookmarks": "\uf02e",
+    "Local Changes": "\ue702", "Templates": "\ue702", "Home and system": "\uf085",
+    "Dotjik": "\uf015", "Systjik": "\uf013", "tjikOS": "\uf021",
+    "dotjik": "\uf015", "systjik": "\uf013", "tjikos": "\uf021",
 }
-ASSET_ICONS = {"fonts": "\uf031", "icon cache": "\uf00a", "Rose Punk icons": "\uf00a"}
+ASSET_ICONS = {"fonts": "\uf031", "font folder migration": "\uf031", "user fonts": "\uf031",
+               "icon cache": "\uf00a", "Rose Punk icons": "\uf00a"}
 SERVICE_ICONS.update({name: entry["glyph"] for name, entry in DOCKER_SERVICES.items()})
 SERVICE_ICONS.update({"Plex": "\uf04b", "Docker images": "\uf308"})
 

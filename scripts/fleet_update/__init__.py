@@ -33,6 +33,7 @@ from tjikup.runtime import (
     shorten_status,
 )
 from tjikup import runtime
+from .status import stage_label, stage_result, stage_unchanged, stage_expected, stage_skip
 
 COMMAND_TIMEOUT_SECONDS = 300
 CHEZMOI_CONFIG_WARNING = "chezmoi: warning: config file template has changed, run chezmoi init to regenerate config file"
@@ -157,6 +158,7 @@ def run_chezmoi_apply(
 
 def format_apply_output(line: str) -> str:
     """Give common chezmoi apply change messages the same shape as status rows."""
+    from .status import decorate_native_row
     removed = re.fullmatch("Removed '(.+)'\\.", line)
     if removed:
         return _apply_status_row("REMOVE", "✓", removed.group(1))
@@ -165,7 +167,7 @@ def format_apply_output(line: str) -> str:
         return _apply_status_row(
             "LINK", "✓", f"{symlink.group(1)} → {symlink.group(2)}"
         )
-    return line
+    return decorate_native_row(line)
 
 
 def _apply_status_row(verb: str, icon: str, subject: str) -> str:
@@ -246,9 +248,9 @@ def warn_dirty_files(status_repo: Path, repo: Path) -> None:
     if paths:
         count = len(paths)
         name = repo.resolve().name
-        name = {"chezmoi": "Chezmoi", "chezetc": "Chezetc"}.get(name, name)
-        raise UpdateError(f"Dirty {name}: {count} {('file' if count == 1 else 'files')}; "
-                          "commit or stash before updating")
+        name = {"chezmoi": "Dotjik", "chezetc": "Systjik"}.get(name, name)
+        raise UpdateError(f"{name} has changes - commit or stash them first "
+                          f"({count} {('file' if count == 1 else 'files')})")
 
 
 def changed_line_count(before: str, after: str) -> int:

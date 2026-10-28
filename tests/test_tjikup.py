@@ -57,10 +57,10 @@ class ZedPropagationTests(unittest.TestCase):
 
 class DirtyStateTests(unittest.TestCase):
     def test_dirty_repository_is_a_failure(self):
-        for name, label in (("chezmoi", "Chezmoi"), ("chezetc", "Chezetc")):
+        for name, label in (("chezmoi", "Dotjik"), ("chezetc", "Systjik")):
             with self.subTest(name=name), \
                     patch.object(tjikup, "git_dirty_paths", return_value=["a", "b"]), \
-                    self.assertRaisesRegex(UpdateError, f"Dirty {label}: 2 files"):
+                    self.assertRaisesRegex(UpdateError, f"{label} has changes - commit or stash them first"):
                 repo = Path("/tmp") / name
                 tjikup.warn_dirty_files(repo, repo)
 
@@ -187,7 +187,7 @@ class RepositorySyncTests(unittest.TestCase):
                 with self.subTest(action=action), \
                         patch.object(tjikup, "git_dirty_paths", return_value=["personal"]), \
                         patch.object(tjikup, "run") as command, \
-                        self.assertRaisesRegex(UpdateError, "Dirty"):
+                        self.assertRaisesRegex(UpdateError, "has changes"):
                     try:
                         tjikup.sync_repo(repo, action)
                     finally:

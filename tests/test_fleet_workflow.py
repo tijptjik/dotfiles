@@ -185,7 +185,7 @@ else:
             "Commit Local Changes\n",
             "Fleet repositories\n",
             "Dotfiles Apply\n",
-            "Dotjik + Systjik\n",
+            "Home + system tasks\n",
         ]
         positions = [result.stdout.index(heading) for heading in headings]
         self.assertEqual(positions, sorted(positions))
@@ -231,8 +231,16 @@ else:
                 result = self.run_fleet()
                 self.assertEqual(result.returncode, 1, result.stderr)
                 self.assertIn(f"{label:<8}  PULL [failed]", result.stdout)
-                self.assertIn("Dirty", result.stdout)
-                self.assertIn("dirty checkout", result.stdout)
+                repository_row = next(row for row in result.stdout.splitlines()
+                                      if row.startswith(f'{label:<8}  PULL [failed]'))
+                self.assertTrue(repository_row.endswith('1 file'), repository_row)
+                self.assertNotIn('dirty checkout', result.stdout)
+                self.assertNotIn('Log:', result.stdout)
+                inline, _, end_summary = result.stdout.partition('NEEDS ATTENTION')
+                self.assertNotIn('commit or stash them first', inline)
+                self.assertIn(f'PULL    ✗ {label.title()} has changes - commit or stash them first', end_summary)
+                self.assertNotIn('Dirty', result.stdout)
+                self.assertFalse(list((self.home / '.local/state/tjikup/logs').glob('pull-*.log')))
                 self.assertNotIn("Apply Home and system", result.stdout)
                 self.assertFalse(any(row[0] in {"chezmoi", "chezetc"} for row in self.events()))
                 self.assertFalse(any(row[0] == "git" and row[1] == checkout

@@ -1,6 +1,11 @@
 """Stable fleet repository rows sharing the runner's terminal frame handling."""
+import math
+
 from tjikup import runtime
 from tjikup.progress import Progress
+from .icons import title_icon, icons_enabled
+from .kitty_icons import KittyIcons
+from .presentation import ANSI
 
 
 class RepositoryProgress(Progress):
@@ -16,28 +21,54 @@ class RepositoryProgress(Progress):
                        for repo in self.repositories}
         self.visible = False
         self.finished = False
+        self.notes = {}
+        self.graphics = KittyIcons.available(self.stream, self.live)
 
-    def line(self, repo):
+    def print_repository(self, repo):
+        prefix = ""
+        if self.graphics:
+            icon_width = 2 * math.ceil(32 / (2 * self.graphics.geometry[0])) + 1
+        else:
+            prefix = f"{title_icon(repo)} " if icons_enabled(self.stream, self.live) else ""
+            icon_width = len(prefix)
+        row = self.line(repo, compact=runtime.terminal_columns() < 24 + icon_width)
+        if self.notes.get(repo):
+            width = runtime.terminal_columns() - 1 - icon_width
+            used = runtime.display_width(ANSI.sub('', row))
+            available = width - used - 2
+            if available > 0:
+                note = runtime.shorten_status(self.notes[repo], available)
+                padding = ' ' * (width - used - runtime.display_width(note))
+                if runtime.use_color():
+                    note = f'\033[31m{note}\033[0m'
+                row += padding + note
+        if self.graphics:
+            self.graphics.print_text(repo, row)
+        else:
+            self.stream.write(prefix + row + "\n")
+
+    def line(self, repo, *, compact=False):
         cells = self.states[repo]
         name = "tjikOS" if repo == "tjikos" else repo
+        label = f"{name:<{6 if compact else 8}}"
+        gap, marker_gap = (" ", "") if compact else ("  ", " ")
         if runtime.use_color():
-            label = f"{name:<8}"
             if "failed" in cells.values():
                 label = f"\033[31;1m{label}\033[0m"
-            return label + "  " + " ".join(
-                f"\033[{self.colors[state]}m{self.markers.get(state, ' ')} {verb}\033[0m"
+            return label + gap + " ".join(
+                f"\033[{self.colors[state]}m{self.markers.get(state, ' ')}{marker_gap}{verb}\033[0m"
                 for verb, state in cells.items())
         if self.live:
-            return f"{name:<8}  " + " ".join(
-                f"{self.markers.get(state, ' ')} {verb}" for verb, state in cells.items())
+            return label + gap + " ".join(
+                f"{self.markers.get(state, ' ')}{marker_gap}{verb}" for verb, state in cells.items())
         return f"{name:<8}  " + "  ".join(
             f"{verb} [{state}]" for verb, state in cells.items())
 
     def _draw(self):
         if self.live and self.visible:
             for repo in self.repositories:
-                self.stream.write(self.line(repo) + "\n")
-            self.height = len(self.repositories)
+                self.print_repository(repo)
+            self.height = len(self.repositories) * (2 if self.graphics else 1)
 
     def open(self):
         with self.lock, self._frame():
@@ -49,12 +80,14 @@ class RepositoryProgress(Progress):
             self.rows["repositories"] = ("", "", 0)
             self._draw()
 
-    def update(self, repo, verb, state):
+    def update(self, repo, verb, state, *, note=None):
         with self.lock, self._frame():
             self._clear()
             # A failed dirty check and its blocked push share the same cell.
             if self.states[repo][verb] != "failed":
                 self.states[repo][verb] = state
+            if note is not None:
+                self.notes[repo] = note
             self._draw()
 
     def settle(self):
@@ -67,7 +100,7 @@ class RepositoryProgress(Progress):
                     if state == "running":
                         cells[verb] = "failed"
             for repo in self.repositories:
-                self.stream.write(self.line(repo) + "\n")
+                self.print_repository(repo)
             self.rows.clear()
             self.visible = False
             self.finished = True

@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+"""Render sample fleet rows for visual review without running update operations."""
+import argparse
+from pathlib import Path
+import sys
+
+# The installed runner is a zipapp, just as in the fleet entry point.
+runner = Path.home() / '.local/bin/tjikup'
+if runner.is_file():
+    sys.path.insert(0, str(runner))
+from tjikup_dependency import check_runtime
+
+if not check_runtime():
+    raise SystemExit(1)
+
+from fleet_update.icons import HookProgress
+from fleet_update.preparation import prepare
+from fleet_update.repository_progress import RepositoryProgress
+from tjikup import runtime
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('section', nargs='?', choices=('setup', 'capture', 'repositories', 'all'), default='all')
+    parser.add_argument('--dirty-files', type=int, help='Show a sample failed pull with this file count')
+    parser.add_argument('--wait', action='store_true', help='Keep the sample visible until Enter')
+    args = parser.parse_args()
+    print('Tjikup display review · sample outcomes only', flush=True)
+    progress = HookProgress(live=False)
+
+    def rows(title, labels, verb):
+        runtime.section_header(title)
+        for label in labels:
+            progress.finish(label, label, verb=verb, record=False)
+
+    if args.section in ('setup', 'all'):
+        rows('Prerequisites', ['Bitwarden', 'Chezmoi', 'Fish', 'UV', 'FNM', 'Gum', 'Bun'], 'CHECK')
+        runtime.section_header('Dotfiles Apply')
+        progress.finish('bitwarden', 'Bitwarden (CLIs)', verb='UPDATE', record=False)
+        progress.finish('fonts', 'Assets (font folder migration)', verb='SKIP', note='no changes', record=False)
+        prepare('Chezmoi (files and task preparation)', 'APPLY', lambda: 0)
+        rows('Home + system tasks', ['Chezetc (sudo launcher)'], 'CONFIG')
+        progress.finish('system', 'Chezetc (system files and task preparation)', verb='APPLY', record=False)
+    if args.section in ('capture', 'all'):
+        rows('Commit Local Changes', ['Zed', 'Herdr', 'Solaar', 'Fcitx', 'Codex', 'Zapzap',
+                                     'Gtk-bookmarks', 'Local Changes'], 'SKIP')
+    if args.section in ('capture', 'repositories', 'all'):
+        with RepositoryProgress(live=False) as repositories:
+            repositories.open()
+            for repo in repositories.repositories:
+                repositories.update(repo, 'PULL', 'changed')
+                repositories.update(repo, 'PUSH', 'unchanged')
+            if args.dirty_files is not None:
+                repositories.update('dotjik', 'PULL', 'failed', note=f'{args.dirty_files} files')
+                for repo in repositories.repositories:
+                    repositories.update(repo, 'PUSH', 'blocked')
+            repositories.settle()
+    if args.wait:
+        print('\nDisplay review complete. Press Enter to close.', flush=True)
+        sys.stdin.readline()
+
+
+if __name__ == '__main__':
+    main()

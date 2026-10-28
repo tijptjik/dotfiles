@@ -81,17 +81,35 @@ def apply(repo, system_repo=None):
     except ValueError:
         raise UpdateError("FLEET_JOBS must be a positive integer") from None
     started = time.monotonic()
-    result, home_file_seconds = prepare("Chezmoi", "APPLY", lambda: apply_files(repo), exit_code=True)
-    if result:
-        return result
     env = os.environ.copy()
     log_root = Path(env.get("XDG_STATE_HOME") or Path.home() / ".local/state") / "tjikup/logs"
-    log_root.mkdir(parents=True, exist_ok=True, mode=0o700)
-    log_dir = Path(tempfile.mkdtemp(prefix="apply-", dir=log_root))
     with tempfile.TemporaryDirectory(prefix="tjikup-hooks-") as temporary:
-        hooks = HookTasks(temporary, log_dir, env)
-        home_tasks, home_render_seconds = prepare("Home hooks", "RENDER", lambda: hooks.prepare(
-            repo, home_plan, lambda item: render_hook(repo, item, hooks.env), prefix="home:"))
+        # Keep file application and hook preparation under one Chezmoi row.
+        # Do not create hook workers/state when native apply requests an init.
+        home_tasks = []
+        home_file_seconds = home_render_seconds = 0
+
+        def prepare_home():
+            nonlocal hooks, home_tasks, home_file_seconds, home_render_seconds, log_dir
+            file_started = time.monotonic()
+            result = apply_files(repo)
+            home_file_seconds = time.monotonic() - file_started
+            if result:
+                return result
+            log_root.mkdir(parents=True, exist_ok=True, mode=0o700)
+            log_dir = Path(tempfile.mkdtemp(prefix="apply-", dir=log_root))
+            hooks = HookTasks(temporary, log_dir, env)
+            render_started = time.monotonic()
+            home_tasks = hooks.prepare(
+                repo, home_plan, lambda item: render_hook(repo, item, hooks.env), prefix="home:")
+            home_render_seconds = time.monotonic() - render_started
+            return 0
+
+        hooks = None
+        log_dir = None
+        result, _ = prepare("Chezmoi (files and task preparation)", "APPLY", prepare_home, exit_code=True)
+        if result:
+            return result
         home_tasks.sort(key=lambda task: task.name != "home:chezetc-wrapper")
         prepared = {}
 
@@ -108,7 +126,7 @@ def apply(repo, system_repo=None):
             prepared.update({task.name: task for task in tasks})
 
         native = Task("system:files", prepare_system, needs=("home:chezetc-wrapper",), exclusive=True)
-        hooks.items[native.name] = {"label": "Chezetc (files and hooks)", "verb": "APPLY", "exclusive": True}
+        hooks.items[native.name] = {"label": "Chezetc (system files and task preparation)", "verb": "APPLY", "exclusive": True}
         system_tasks = []
         for item in system_plan:
             name = "system:" + item["id"]
@@ -122,7 +140,7 @@ def apply(repo, system_repo=None):
         tasks = combine(home_tasks, system_tasks, native,
                         {**{"home:" + item["id"]: item.get("barrier") for item in home_plan},
                          **{"system:" + item["id"]: item.get("barrier") for item in system_plan}})
-        runtime.section_header("Dotjik + Systjik")
+        runtime.section_header("Home + system tasks")
         try:
             with hooks.progress:
                 results = run(tasks, workers=workers, event=hooks.event)

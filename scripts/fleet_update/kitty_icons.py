@@ -223,10 +223,25 @@ class KittyIcons:
         # The status prefix already leaves one cell before the image canvas.
         # Reserve the same gap after it, including in narrow-row truncation.
         row = runtime.format_status(verb, icon, ' ' * (columns + 1) + label, note)
-        cells = styled_cells(row)
         prefix_width = len(f'{verb:<7} {icon} ')
+        self._print_row(row, image_id, columns, prefix_width)
+
+    def print_text(self, label, row):
+        """Repository operation cells keep their colours beside one title icon."""
+        size = cell_size(self.stream) or self.geometry
+        if size is None or size[0] < 4 or size[1] < 16:
+            self.stream.write(row + '\n\n')
+            return
+        image_id, columns = self.image(label, *size)
+        self._print_row(' ' * columns + ' ' + row, image_id, columns, 0)
+
+    def _print_row(self, row, image_id, columns, prefix_width):
+        cells = styled_cells(row)
         text = normal_text if self.herdr else centred
         self.stream.write(text(cells[:prefix_width]))
         self.stream.write(self.placeholders(image_id, columns, 0))
         self.stream.write(text(cells[prefix_width + columns:]))
-        self.stream.write(f'\r\n\x1b[{prefix_width}C' + self.placeholders(image_id, columns, 1) + '\r\n')
+        # CSI 0 C means move ONE column, not zero. Repository icons start
+        # at column zero, so their second placeholder row needs no movement.
+        indent = f'\x1b[{prefix_width}C' if prefix_width else ''
+        self.stream.write('\r\n' + indent + self.placeholders(image_id, columns, 1) + '\r\n')

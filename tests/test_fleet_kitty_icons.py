@@ -16,6 +16,23 @@ from fleet_update.kitty_icons import KittyIcons, cell_size, centred, herdr_cell_
 
 
 class KittyIconTests(unittest.TestCase):
+    def test_repository_icon_halves_share_column_zero_in_both_terminals(self):
+        for herdr in (False, True):
+            with self.subTest(herdr=herdr):
+                stream = io.StringIO()
+                graphics = KittyIcons(stream, geometry=(13, 26), herdr=herdr)
+                with patch('fleet_update.kitty_icons.cell_size', return_value=(13, 26)):
+                    graphics.print_text('dotjik', 'dotjik    ✗ PULL   PUSH')
+                output = re.sub(r'\x1b_G[^\x1b]*\x1b\\', '', stream.getvalue())
+                first, second, _ = output.split('\r\n')
+                self.assertNotIn('\x1b[0C', output)
+                # Strip colour only: cursor movement must remain visible to
+                # this assertion, since CSI 0 C offsets the bottom half by one.
+                first = re.sub(r'\x1b\[[0-9;]*m', '', first)
+                second = re.sub(r'\x1b\[[0-9;]*m', '', second)
+                self.assertTrue(first.startswith('\U0010eeee'))
+                self.assertTrue(second.startswith('\U0010eeee'))
+
     def setUp(self):
         self.env = patch.dict(os.environ, {'TERM': 'xterm-kitty', 'TJIKUP_COLOR': '1',
             'TJIKUP_COLUMNS': '80', 'TJIKUP_ICONS': '1'}, clear=True)

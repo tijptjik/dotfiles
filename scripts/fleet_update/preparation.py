@@ -3,10 +3,10 @@ from contextlib import redirect_stdout, redirect_stderr
 import sys
 import time
 
-from tjikup.progress import Progress
+from .icons import HookProgress
 
 
-class PreparationProgress(Progress):
+class PreparationProgress(HookProgress):
     output_open = False
 
     def _cursor(self, hidden):

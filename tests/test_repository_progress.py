@@ -10,6 +10,47 @@ from fleet_update.presentation import ANSI
 
 
 class RepositoryProgressTests(unittest.TestCase):
+    def test_dirty_count_is_right_aligned_and_survives_blocked_push(self):
+        for width in ('40', '80'):
+            with self.subTest(width=width), patch.dict(os.environ, {
+                    'TJIKUP_COLOR': '0', 'TJIKUP_ICONS': '0', 'TJIKUP_COLUMNS': width}):
+                output = io.StringIO()
+                panel = RepositoryProgress(stream=output, live=True)
+                panel.update('dotjik', 'PULL', 'failed', note='48 files')
+                panel.update('dotjik', 'PUSH', 'blocked')
+                output.seek(0)
+                output.truncate()
+                panel.print_repository('dotjik')
+                row = output.getvalue().splitlines()[-1]
+                self.assertTrue(row.endswith('48 files'))
+                self.assertEqual(len(row), int(width)-1)
+                self.assertIn('✗ PULL', row)
+
+    def test_narrow_icon_rows_keep_both_operation_outcomes(self):
+        with patch.dict(os.environ, {'TJIKUP_COLOR': '1', 'TJIKUP_COLUMNS': '24'}):
+            panel = RepositoryProgress(stream=io.StringIO(), live=True)
+            panel.states['tjikos'] = {'PULL': 'changed', 'PUSH': 'failed'}
+            row = ANSI.sub('', panel.line('tjikos', compact=True))
+            self.assertEqual(row, 'tjikOS ✓PULL ✗PUSH')
+            self.assertLessEqual(5 + len(row), 23)
+
+    def test_graphic_repositories_clear_six_lines_and_reuse_app_sprites(self):
+        output = io.StringIO()
+        with patch.dict(os.environ, {'TERM': 'xterm-kitty', 'TJIKUP_COLOR': '1',
+                                     'TJIKUP_ICONS': '1', 'TJIKUP_KITTY_ICONS': '1'}), \
+                patch('fleet_update.kitty_icons.cell_size', return_value=(13, 26)), \
+                patch('fleet_update.repository_progress.runtime.section_header'), \
+                RepositoryProgress(stream=output, live=True) as panel:
+            panel.open()
+            self.assertEqual(panel.height, 6)
+            panel.update('dotjik', 'PULL', 'changed')
+            self.assertIn('\033[6A', output.getvalue())
+            panel.settle()
+            self.assertEqual(panel.height, 0)
+            self.assertEqual({key[0] for key in panel.graphics.images},
+                             {'dotjik', 'systjik', 'tjikos'})
+        self.assertIn('\033_G', output.getvalue())
+
     def test_no_color_terminal_rows_fit_narrow_terminal(self):
         with patch.dict(os.environ, {"TJIKUP_COLOR": "0"}):
             panel = RepositoryProgress(stream=io.StringIO(), live=True)

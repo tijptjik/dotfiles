@@ -9,6 +9,14 @@ from .icon_catalog import ASSET_ICONS, SERVICE_ICONS
 from .kitty_icons import KittyIcons
 
 
+def icons_enabled(stream, live):
+    setting = os.environ.get("TJIKUP_ICONS")
+    return setting == "1" if setting is not None else (
+        os.environ.get("TERM") != "dumb"
+        and (live or stream.isatty() or runtime.use_color())
+    )
+
+
 def title_icon(label):
     service, _, subtype = label.partition(" (")
     if service == "Assets":
@@ -30,11 +38,6 @@ class HookProgress(Progress):
         if self.graphics:
             self.graphics.print(verb, icon, label, note)
             return
-        setting = os.environ.get("TJIKUP_ICONS")
-        enabled = setting == "1" if setting is not None else (
-            os.environ.get("TERM") != "dumb"
-            and (self.live or self.stream.isatty() or runtime.use_color())
-        )
-        if enabled:
+        if icons_enabled(self.stream, self.live):
             label = f"{title_icon(label)} {label}"
         super()._print(verb, icon, label, note)

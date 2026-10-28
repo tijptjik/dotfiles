@@ -20,11 +20,26 @@ class Stopped(Exception):
     pass
 
 
+DIRTY_CHANGES = re.compile(
+    r'^fleet-update: (.+ has changes - commit or stash them first) \((\d+ files?)\)$', re.MULTILINE)
+
+
+def dirty_file_count(output):
+    match = DIRTY_CHANGES.search(output)
+    if match:
+        return match[2]
+    match = re.search(r'^fleet-update: Dirty [^\n]+?: (\d+ files?);', output, re.MULTILINE)
+    return match[1] if match else None
+
+
 def failure_details(step, output, repo):
     """Keep Git advice out of the status rows without losing diagnostics."""
+    dirty = DIRTY_CHANGES.search(output)
+    if dirty:
+        return [dirty[1]], "dirty checkout"
     dirty = re.search(r"^fleet-update: (Dirty [^\n]+)", output, re.MULTILINE)
     if dirty:
-        return [dirty.group(1)], "dirty checkout"
+        return [f'{step.get("label", step["id"])} has changes - commit or stash them first'], "dirty checkout"
     conflicts = list(dict.fromkeys(re.findall(r"^CONFLICT[^\n]*", output, re.MULTILINE)))
     lines = conflicts or [line for line in output.splitlines()
                           if line.startswith(("fatal:", "error:", "Permission denied"))][:3]
@@ -141,6 +156,7 @@ def workflow(repo, *, dry_run=False):
                 if name == "dirty" and result.state != "failed":
                     return
                 state = result.state
+                status_note = None
                 if state == "done":
                     outcome = summary(output) if output else None
                     state = "unchanged" if name in skipped else "changed"
@@ -157,9 +173,14 @@ def workflow(repo, *, dry_run=False):
                 elif state == "failed":
                     details, reason = failure_details(step, output, repo)
                     note = details[0] if details else str(result.error)
-                    runtime.record(operation, "✗", label, note)
-                    diagnostics.append((step, output, result))
-                progress.update(repository, operation, state)
+                    if reason == "dirty checkout":
+                        runtime.record(operation, "✗", note)
+                    else:
+                        runtime.record(operation, "✗", label, note)
+                    status_note = dirty_file_count(output)
+                    if reason != "dirty checkout":
+                        diagnostics.append((step, output, result))
+                progress.update(repository, operation, state, note=status_note)
                 return
             if result.state == "running":
                 if step.get("exclusive"):

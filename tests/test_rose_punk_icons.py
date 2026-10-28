@@ -116,7 +116,8 @@ class RosePunkIconsTests(unittest.TestCase):
         catalog = json.loads((ROOT / 'scripts/icons/catalog.json').read_text())
         aliases = json.loads((ROOT / 'scripts/icons/theme-aliases.json').read_text())
         self.assertEqual(set(mapping), set(catalog))
-        self.assertFalse({k for k, c in catalog.items() if not c['installed']})
+        self.assertFalse({k for k, c in catalog.items() if not c['installed']
+                          and c.get('availability') != 'Workflow'})
         folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
         for key in catalog:
             with self.subTest(icon=key):

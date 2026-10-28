@@ -295,5 +295,12 @@
   "mailtjik": [],
   "zed-nightly": [
     "dev.zed.Zed-Nightly.desktop"
-  ]
+  ],
+  "gitfetch": [],
+  "bitwarden": [],
+  "uv": [],
+  "bun": [],
+  "fnm": [],
+  "gum": [],
+  "bookmarks": []
 }

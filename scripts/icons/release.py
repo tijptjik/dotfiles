@@ -10,7 +10,7 @@ import subprocess
 import zipfile
 import zlib
 
-from icon_data import HERE, PRIMARY, ROOT, differences, write_file, write_tree
+from icon_data import HERE, PRIMARY, ROOT, differences, load_catalog, write_file, write_tree
 
 RELEASES = ROOT / '.local/icon-releases'
 
@@ -27,6 +27,8 @@ def generated_outputs():
         PRIMARY / 'scalable/apps': icons,
         homepage.DEST: services,
     }, {
+        HERE / 'apps.json': (json.dumps({key: entry['desktop_ids'] for key, entry in load_catalog().items()},
+                                      indent=2) + '\n').encode(),
         HERE / 'theme-aliases.json': (json.dumps(aliases, indent=2, sort_keys=True) + '\n').encode(),
         ROOT / 'scripts/fleet_update/icons32.json': sprites,
     }

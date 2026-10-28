@@ -854,5 +854,50 @@
     "license": "Original Rose Punk artwork",
     "sha256": "0c2f9f4ae1ba05a43bc4d276a6a466615bec9b6df5d2dbbe8d72aef5947cff2d",
     "design_note": "Copper Git branch and jade fetch arrow on an indigo terminal."
+  },
+  "bitwarden": {
+    "source": "scripts/icons/local/bitwarden.svg",
+    "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
+    "sha256": "3feedd631668bed9910c9d4ea2cea4d46a5353ed6cf7e186f7441d14ba400927",
+    "design_note": "Approved in workflow icon review; artwork unchanged.",
+    "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/bitwarden.svg",
+    "reference_file": "scripts/icons/upstream/bitwarden-simpleicons.svg",
+    "reference_sha256": "024626ec72d252bded6042e9e38052440bada37a36064edd415fac18be1e6824"
+  },
+  "uv": {
+    "source": "scripts/icons/local/uv.svg",
+    "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
+    "sha256": "6a8fd92668da2a4a1e26498194e3fcc797dc2e9e3fb3fe438fddc658e367d231",
+    "design_note": "Official U silhouette in a single rose-violet pigment, without the green diagonal treatment. Pending user review.",
+    "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/uv.svg",
+    "reference_file": "scripts/icons/upstream/uv-simpleicons.svg",
+    "reference_sha256": "5ad031d1a80f9be4e9e1e2aa24bc76117284e5486a306de5b92c8c1777d5f38d"
+  },
+  "bun": {
+    "source": "scripts/icons/local/bun.svg",
+    "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
+    "sha256": "ca1e0e6fd3117677d973d8a8bb501992474b09277cce0f3c8b98b39206b655db",
+    "design_note": "Ivory dough with a fine warm contour instead of the dark all-around border; folded top, bright eyes, rose cheeks and coral smile. Pending user review.",
+    "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/bun.svg",
+    "reference_file": "scripts/icons/upstream/bun-simpleicons.svg",
+    "reference_sha256": "f356fc1ec5659e73e9b1e881ef2785a4fc4e0e3d82b446e6484f55303546dc6d"
+  },
+  "fnm": {
+    "source": "scripts/icons/local/fnm.svg",
+    "license": "Original artwork",
+    "sha256": "7785f1eb85f9d3888b5b9b6f28457a1ee6ff673a4d650e06045d55072a28f0b0",
+    "design_note": "Faceted jade Node shape with a plain white lightning bolt; no bolt outline. Pending user review."
+  },
+  "gum": {
+    "source": "scripts/icons/local/gum.svg",
+    "license": "Original artwork",
+    "sha256": "fffca9b20daee007e01e69a7973585f215f10dc1a1779faa2fde86aa276294cd",
+    "design_note": "Perspective wrapper with three stacked gum sticks, a violet sleeve, pink mark and mint dotted cap. Pending user review."
+  },
+  "bookmarks": {
+    "source": "scripts/icons/local/bookmarks.svg",
+    "license": "Original artwork",
+    "sha256": "9e1c3215cc22559261c3c5703b22b00cf5ed1df40f4ccf8714a138edf2002281",
+    "design_note": "Approved in workflow icon review; artwork unchanged."
   }
 }

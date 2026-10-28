@@ -1456,5 +1456,91 @@
     ],
     "mode": "illustrated-local",
     "geometry": "local/gitfetch.svg"
+  },
+  "bitwarden": {
+    "name": "Bitwarden",
+    "installed": false,
+    "availability": "Workflow",
+    "desktop_ids": [],
+    "icon_names": [
+      "bitwarden"
+    ],
+    "geometry": "local/bitwarden.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 21,
+    "introduced_batch": 21,
+    "review_note": "Approved by the user in workflow icon review."
+  },
+  "uv": {
+    "name": "UV",
+    "installed": false,
+    "availability": "Workflow",
+    "desktop_ids": [],
+    "icon_names": [
+      "uv"
+    ],
+    "geometry": "local/uv.svg",
+    "mode": "illustrated-local",
+    "reviewed": false,
+    "review_batch": 21,
+    "introduced_batch": 21
+  },
+  "bun": {
+    "name": "Bun",
+    "installed": false,
+    "availability": "Workflow",
+    "desktop_ids": [],
+    "icon_names": [
+      "bun"
+    ],
+    "geometry": "local/bun.svg",
+    "mode": "illustrated-local",
+    "reviewed": false,
+    "review_batch": 21,
+    "introduced_batch": 21
+  },
+  "fnm": {
+    "name": "FNM",
+    "installed": false,
+    "availability": "Workflow",
+    "desktop_ids": [],
+    "icon_names": [
+      "fnm"
+    ],
+    "geometry": "local/fnm.svg",
+    "mode": "illustrated-local",
+    "reviewed": false,
+    "review_batch": 21,
+    "introduced_batch": 21
+  },
+  "gum": {
+    "name": "Gum",
+    "installed": false,
+    "availability": "Workflow",
+    "desktop_ids": [],
+    "icon_names": [
+      "gum"
+    ],
+    "geometry": "local/gum.svg",
+    "mode": "illustrated-local",
+    "reviewed": false,
+    "review_batch": 21,
+    "introduced_batch": 21
+  },
+  "bookmarks": {
+    "name": "Bookmarks",
+    "installed": false,
+    "availability": "Workflow",
+    "desktop_ids": [],
+    "icon_names": [
+      "bookmarks"
+    ],
+    "geometry": "local/bookmarks.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 21,
+    "introduced_batch": 21,
+    "review_note": "Approved by the user in workflow icon review."
   }
 }

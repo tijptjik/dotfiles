@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 
 import tjikup_support
+from fleet_update.status import decorate_native_row
 from fleet_update.icons import HookProgress, title_icon
 from fleet_update.presentation import ANSI, summary
 from tjikup import runtime
@@ -58,6 +59,31 @@ class FleetIconTests(unittest.TestCase):
         for label in ("Google Chrome stable", "Sublime Text", "Obsidian", "Greetjik", "Gitfetch"):
             with self.subTest(label=label):
                 self.assertNotEqual(title_icon(label), title_icon("New service"))
+
+    def test_native_rows_share_icons_without_duplicate_report_events(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {
+                'TJIKUP_ICONS': '1', 'TJIKUP_COLOR': '1', 'TERM': 'xterm',
+                'TJIKUP_COLUMNS': '100', 'TJIKUP_REPORT_FILE': str(Path(directory) / 'report')}):
+            for source, expected in [('Bitwarden CLIs', 'Bitwarden (CLIs)'),
+                                     ('Assets (user fonts)', 'Assets (font folder migration)')]:
+                row = decorate_native_row(runtime.format_status('UPDATE', '✓', source, 'available'))
+                self.assertIn(title_icon(expected) + ' ', row)
+                self.assertIn(expected.partition(' (')[0], ANSI.sub('', row))
+            self.assertFalse((Path(directory) / 'report').exists())
+            pending = 'UPDATE  ... Bitwarden CLIs'
+            self.assertEqual(decorate_native_row(pending), pending)
+
+    def test_prerequisite_capture_and_repository_labels_have_explicit_sprites(self):
+        import json
+        sprites = json.loads((Path(__file__).resolve().parents[1] /
+                              'scripts/fleet_update/icons32.json').read_text())['sprites']
+        labels = ('Bitwarden', 'Chezmoi', 'Fish', 'UV', 'FNM', 'Gum', 'Bun',
+                  'Zed', 'Herdr', 'Solaar', 'Fcitx', 'Codex', 'Zapzap',
+                  'Gtk-bookmarks', 'Local Changes', 'dotjik', 'systjik', 'tjikos')
+        for label in labels:
+            with self.subTest(label=label):
+                self.assertIn(label, sprites)
+                self.assertNotEqual(sprites[label], sprites['*'])
 
 
 if __name__ == "__main__":

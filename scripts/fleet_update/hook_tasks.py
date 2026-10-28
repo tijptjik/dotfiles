@@ -141,6 +141,8 @@ class HookTasks:
             if result.state == "done" and rendered:
                 return
         outcome = summary(output)
+        if not output.strip() and name in {'system:files', 'home:chezetc-wrapper', 'chezetc-wrapper'}:
+            outcome.verb = verb
         if result.state == "failed":
             self.progress.finish(name, label, verb="FAILED", icon="✗", note=str(result.error))
             with self.progress.output():

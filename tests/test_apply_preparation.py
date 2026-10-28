@@ -17,9 +17,28 @@ from unittest.mock import patch
 import tjikup_support
 from fleet_update.preparation import prepare
 from fleet_update import fleet_apply
+from fleet_update.dag import Task
 
 
 class PreparationTests(unittest.TestCase):
+    def test_files_and_home_task_rendering_settle_one_chezmoi_row(self):
+        output = io.StringIO()
+        with tempfile.TemporaryDirectory() as temporary, patch.dict(os.environ, {
+                'XDG_STATE_HOME': temporary, 'TJIKUP_PROGRESS': '0',
+                'TJIKUP_ICONS': '0', 'TJIKUP_COLOR': '0', 'FLEET_JOBS': '4'}), \
+                patch.object(fleet_apply, 'plans', return_value=([], [], None)), \
+                patch('fleet_update.apply_files', return_value=0) as files, \
+                patch.object(fleet_apply.HookTasks, 'prepare', return_value=[
+                    Task('home:chezetc-wrapper', None)]) as render, \
+                patch.object(fleet_apply, 'run', return_value={}), \
+                contextlib.redirect_stdout(output):
+            self.assertEqual(fleet_apply.apply(Path('/unused')), 0)
+            files.assert_called_once()
+            render.assert_called_once()
+        rows = output.getvalue().splitlines()
+        self.assertEqual(sum('Chezmoi' in row for row in rows), 1)
+        self.assertNotIn('Home hooks', output.getvalue())
+
     def test_spinner_animates_and_yields_to_diagnostics_and_partial_prompts(self):
         tick = threading.Event()
 
@@ -34,7 +53,7 @@ class PreparationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             report = Path(temporary) / "report"
             with patch.dict(os.environ, {"TJIKUP_PROGRESS": "1", "TERM": "xterm",
-                                        "TJIKUP_COLOR": "0", "TJIKUP_REPORT_FILE": str(report)}), \
+                                        "TJIKUP_COLOR": "0", "TJIKUP_ICONS": "0", "TJIKUP_REPORT_FILE": str(report)}), \
                     contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
                 def action():
                     self.assertIn("Chezmoi", output.getvalue())
@@ -74,7 +93,7 @@ child = "import sys; sys.stderr.write('continue? '); sys.stderr.flush(); answer=
 prepare('Chezmoi', 'APPLY', lambda: run_stream([sys.executable, '-c', child], Path.cwd()))
 """
         env = {**os.environ, 'PYTHONPATH': os.pathsep.join(sys.path),
-               'TJIKUP_PROGRESS': '1', 'TJIKUP_COLOR': '0', 'TERM': 'xterm'}
+               'TJIKUP_PROGRESS': '1', 'TJIKUP_COLOR': '0', 'TJIKUP_ICONS': '0', 'TERM': 'xterm'}
         output = b''
         with subprocess.Popen([sys.executable, '-B', '-c', code], stdin=slave,
                               stdout=slave, stderr=slave, env=env) as process:

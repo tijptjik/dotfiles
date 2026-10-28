@@ -1,9 +1,12 @@
 """Keep application and shell previews separate from launcher controls."""
 import json
+import re
+import runpy
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+import xml.etree.ElementTree as ET
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,6 +16,21 @@ import icon_data
 
 
 class IconGalleryTests(unittest.TestCase):
+    def test_workflow_preview_retains_camera_linked_gradients(self):
+        scope_ids = runpy.run_path(str(ROOT / 'scripts/icons/workflow-review.py'))['scope_ids']
+        camera = ET.parse(ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps/camera.svg').getroot()
+        scope_ids(camera, 'camera-96-')
+        ids = {n.get('id') for n in camera.iter() if n.get('id')}
+        references = []
+        for node in camera.iter():
+            for attr, value in node.attrib.items():
+                references.extend(re.findall(r'url\(#([^)]*)\)', value))
+                if attr.endswith('}href') and value.startswith('#'):
+                    references.append(value[1:])
+                    self.assertTrue(value.startswith('#camera-96-'))
+        self.assertTrue(references)
+        self.assertFalse(set(references) - ids)
+
     def inputs(self, root):
         folder = root / 'scripts/icons'
         folder.mkdir(parents=True)

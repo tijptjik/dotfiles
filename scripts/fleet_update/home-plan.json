@@ -98,7 +98,7 @@
     "needs": [],
     "resources": [],
     "exclusive": true,
-    "label": "Chezetc (wrapper)",
+    "label": "Chezetc (sudo launcher)",
     "verb": "CONFIG"
   },
   {

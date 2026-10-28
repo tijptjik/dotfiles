@@ -21,6 +21,28 @@ from fleet_update.dag import Task
 
 
 class PreparationTests(unittest.TestCase):
+    def test_native_rows_suspend_spinner_until_final_settlement(self):
+        output = io.StringIO()
+        with patch.dict(os.environ, {'TJIKUP_PROGRESS': '1', 'TJIKUP_ICONS': '0',
+                                    'TJIKUP_COLOR': '0', 'TERM': 'xterm'}), \
+                contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
+            def action():
+                print('CONFIG  ✓ Bitwarden access token', flush=True)
+                # A native command can replace a pending row across writes.
+                sys.stdout.write('INSTALL ... Essential packages\r')
+                sys.stdout.write('\x1b[2KINSTALL ✓ Essential packages\n')
+                print('continue? ', file=sys.stderr, end='', flush=True)
+                time.sleep(.25)
+                self.assertEqual(output.getvalue().count('Chezmoi'), 1)
+                print('yes', file=sys.stderr, flush=True)
+                return 0
+            prepare('Chezmoi', 'APPLY', action)
+        rendered = output.getvalue()
+        self.assertEqual(rendered.count('Chezmoi'), 2)  # Initial transient + final.
+        native = rendered[rendered.index('CONFIG'):rendered.index('APPLY   ✓')]
+        self.assertNotIn('Chezmoi', native)
+        self.assertNotIn('\x1b7', native)
+
     def test_files_and_home_task_rendering_settle_one_chezmoi_row(self):
         output = io.StringIO()
         with tempfile.TemporaryDirectory() as temporary, patch.dict(os.environ, {

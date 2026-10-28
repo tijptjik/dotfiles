@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 
 import tjikup_support
-from fleet_update.status import decorate_native_row
+from fleet_update.status import NATIVE_LABELS, decorate_native_row
 from fleet_update.icons import HookProgress, title_icon
 from fleet_update.presentation import ANSI, summary
 from fleet_update.icon_catalog import display_title
@@ -15,6 +15,17 @@ from tjikup import runtime
 
 
 class FleetIconTests(unittest.TestCase):
+    def test_run_once_rows_have_service_icons_without_recording_again(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {
+                'TJIKUP_ICONS': '1', 'TJIKUP_KITTY_ICONS': '0', 'TJIKUP_COLOR': '0',
+                'TJIKUP_COLUMNS': '100', 'TJIKUP_REPORT_FILE': str(Path(directory) / 'report')}):
+            for source, label in NATIVE_LABELS.items():
+                with self.subTest(source=source):
+                    row = decorate_native_row(runtime.format_status('CONFIG', '✓', source, 'ready'))
+                    self.assertIn(title_icon(label) + ' ' + display_title(label), row)
+                    self.assertIn('ready', row)
+            self.assertFalse((Path(directory) / 'report').exists())
+
     def setUp(self):
         env = patch.dict(os.environ, {'TJIKUP_KITTY_ICONS': '0'})
         env.start()

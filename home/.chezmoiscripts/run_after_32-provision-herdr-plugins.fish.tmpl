@@ -38,6 +38,12 @@ end
 
 provision_herdr_plugin smarzban/herdr-file-viewer herdr-file-viewer "File viewer"
 or exit 1
+if command herdr plugin link "$HOME/.config/herdr/plugins/local/local-files" --enabled >/dev/null
+    status_msg CONFIG "✓" "Plugin : Local file links" "available"
+else
+    status_msg FAILED "✗" "Plugin : Local file links" "registration failed"
+    exit 1
+end
 provision_herdr_plugin thanhdat77/herdr-navigator herdr-navigator "Navigator"
 or exit 1
 provision_herdr_plugin yuk1ty/herdr-spreader herdr-spreader "Spreader"

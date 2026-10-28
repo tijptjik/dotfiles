@@ -35,6 +35,20 @@ environment allowlist; **Chezetc (system files and task preparation)** applies
 system files and prepares the system scripts. They remain separate because the
 launcher must be ready before system preparation can run.
 
+Run-once preparation rows use the same icons: Bitwarden for the access token,
+Chezmoi for the decryption key, Fedora for system and essential packages,
+Chezetc for passwordless sudo, Fish for the default shell, and Assets for symbolic
+link icon cleanup. Native output temporarily replaces the preparation spinner;
+the final Chezmoi row settles once without interleaving spinner redraws with
+native cursor controls. The apply wrapper adds no extra success summary.
+
+In Herdr, **Ctrl-click Task timings** to open the local report in the file
+viewer overlay. Herdr captures modified clicks and only opens HTTP(S) externally
+by default. The managed `local-files` plugin registers a handler for local
+`file:///` and `file://localhost/` links; it leaves other URL schemes and remote
+file hosts alone. Remote shortcuts first copy timing reports locally, then emit
+the local link. Report generation never opens a viewer automatically.
+
 Review sample rows without capture, Git, installation or configuration changes:
 
 ```sh

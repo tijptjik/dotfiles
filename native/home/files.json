@@ -2001,7 +2001,7 @@
     "path": "{{ user.home }}/.local/bin/zed-preview",
     "kind": "symlink",
     "target": "{{ user.home }}/.local/zed-preview.app/bin/zed",
-    "group": "base"
+    "group": "zed"
   },
   {
     "path": "{{ user.home }}/.local/lib",
@@ -2125,7 +2125,7 @@
     "source": "files/.local/share/applications/dev.zed.Zed-Preview.desktop.j2",
     "mode": "0755",
     "template": true,
-    "group": "base"
+    "group": "zed"
   },
   {
     "path": "{{ user.home }}/.local/share/applications/dev.zed.Zed.desktop",
@@ -2133,7 +2133,7 @@
     "source": "files/.local/share/applications/dev.zed.Zed.desktop.j2",
     "mode": "0755",
     "template": true,
-    "group": "base"
+    "group": "zed"
   },
   {
     "path": "{{ user.home }}/.local/share/applications/discord.desktop",

@@ -125,10 +125,14 @@ function run_zed_installer
         set -a install_env ZED_CHANNEL="$channel"
     end
 
+    set -l installer_command sh "$installer"
+    if test "$TJIKUP_MANAGED_CONFIG" = 1
+        set installer_command python3 {{ (system_source ~ "/../../scripts/preserve-zed-launcher.py") | fish_quote }} --channel "$channel" -- sh "$installer"
+    end
     if test (id -u) -eq 0; and test "$zed_target_user" != "root"
-        step_run "Install Zed $channel for $zed_target_user" sudo -u "$zed_target_user" env $install_env sh "$installer"
+        step_run "Install Zed $channel for $zed_target_user" sudo -u "$zed_target_user" env $install_env $installer_command
     else
-        step_run "Install Zed $channel for $zed_target_user" env $install_env sh "$installer"
+        step_run "Install Zed $channel for $zed_target_user" env $install_env $installer_command
     end
     set install_status $status
 

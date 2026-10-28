@@ -1,0 +1,31 @@
+{
+    "*.conf": {
+        "filetype": "ini"
+    },
+    "autosu": true,
+    "backupdir": "~/.cache/micro/backups",
+    "clipboard": "terminal",
+    "colorcolumn": 120,
+    "colorscheme": "gotham",
+    "gofmt": true,
+    "goimports": false,
+    "initlua": true,
+    "mkparents": true,
+    "multiopen": "vsplit",
+    "pluginchannels": [
+        "https://raw.githubusercontent.com/micro-editor/plugin-channel/master/channel.json"
+    ],
+    "pluginrepos": [],
+    "rmtrailingws": true,
+    "savecursor": true,
+    "saveundo": true,
+    "softwrap": true,
+    "statusformatl": "$(filename) $(modified)($(line),$(col)) $(status.paste)| ft:$(opt:filetype)",
+    "tabhighlight": true,
+    "tabmovement": true,
+    "tabreverse": false,
+    "tabstospaces": true,
+    "termtitle": false,
+    "wordwrap": true,
+    "xterm": true
+}

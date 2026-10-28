@@ -1,0 +1,13 @@
+{
+    "Alt-l"  : "SpawnMultiCursorSelect",
+    "Ctrl-d"  : "DuplicateLine",
+    "Alt-/": "lua:comment.comment",
+    "CtrlUnderscore": "lua:comment.comment",
+    "Ctrl-Shift-Up" : "MoveLinesUp",
+    "Ctrl-Shift-Down" : "MoveLinesDown",
+    "F5": "lua:wc.wordCount",
+    "Ctrl-p" : "CommandMode",
+    "command": {
+        "Ctrl-f" : "FindNext"
+    }
+}

@@ -1315,6 +1315,15 @@
       ],
       "source_sha256": "6dbc628b35fb07bb9492ba2e945ed812a9001e15cb306c57ffe08b99dc2fecc9",
       "note": "Workflow icon release: centred proportional fit with clear tile margins."
+    },
+    "gnome": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "3c1f318e30a3608629c4ab4c1936f073569f940e138a1c9d9acdbc26be767675",
+      "note": "GNOME footprint; centered at the standard framed scale."
     }
   }
 }

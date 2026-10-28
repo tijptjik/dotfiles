@@ -191,13 +191,13 @@
   "homepage": {
     "name": "Homepage",
     "geometry": "local/homepage/homepage.svg",
-    "sha256": "3599dd4c0a8cb34c3a4e80901c97c876d25d0d6b1da6f0880f7abefe9641515c",
+    "sha256": "2abe6d3c5e53ebecc29cffccac352bb3f6b1f3374798f97c61aa235034062e17",
     "reference": "homepage-upstream/si-services/homepage.png",
     "reference_sha256": "e1feb712b750b4888bdc75510d48ea7724fc628e8ce006c735c00ca3150f27cc",
     "source": "https://raw.githubusercontent.com/gethomepage/homepage/dev/public/apple-touch-icon.png",
     "license": "GPL-3.0",
-    "material_revision": 5,
-    "design_note": "New house-and-bookmark interpretation: a warm ivory plaster house with a rose roof, cool blue windows and two blue/jade swallowtail bookmarks draped over the window sills. Small window reveals, roof courses and the soft ribbon turn explain the materials. The upstream Homepage house/bookmark identity remains the conceptual reference."
+    "material_revision": 6,
+    "design_note": "Simplified using Chezmoi\u2019s house proportions and restraint: seven broad flat shapes, a rose roof, warm ivory walls, two dark windows and blue/jade bookmark tails. No roof texture, chimney, glazing, seams or small trim. Chezmoi\u2019s house silhouette is shared; the window bookmarks distinguish Homepage."
   },
   "unpackerr": {
     "name": "Unpackerr",

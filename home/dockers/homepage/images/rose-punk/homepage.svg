@@ -1,46 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-material="authored">
-<g id="frameless-artwork" transform="translate(-0.366972 -0.623853) scale(1.027523)"><title>Homepage — house with draped bookmarks</title>
-<defs>
-  <linearGradient id="plaster" gradientUnits="userSpaceOnUse" x1="20" y1="19" x2="45" y2="57"><stop stop-color="#fff0da" /><stop offset="1" stop-color="#dfc3c3" /></linearGradient>
-  <linearGradient id="roof" gradientUnits="userSpaceOnUse" x1="24" y1="9" x2="42" y2="31"><stop stop-color="#e5a0bb" /><stop offset=".55" stop-color="#d37ca5" /><stop offset="1" stop-color="#a95d8b" /></linearGradient>
-  <linearGradient id="glass" gradientUnits="userSpaceOnUse" x1="18" y1="28" x2="46" y2="39"><stop stop-color="#517a94" /><stop offset="1" stop-color="#343c60" /></linearGradient>
-  <linearGradient id="blue-ribbon" gradientUnits="userSpaceOnUse" x1="20" y1="33" x2="24" y2="55"><stop stop-color="#8ab8da" /><stop offset=".55" stop-color="#7a9acb" /><stop offset="1" stop-color="#706ab0" /></linearGradient>
-  <linearGradient id="jade-ribbon" gradientUnits="userSpaceOnUse" x1="40" y1="33" x2="44" y2="55"><stop stop-color="#8ad5bd" /><stop offset=".55" stop-color="#5cb5a3" /><stop offset="1" stop-color="#458e8b" /></linearGradient>
-</defs>
+<g id="frameless-artwork" transform="translate(-4.758974 -5.046154) scale(1.148718)"><title>Homepage</title>
 <g stroke-linecap="round" stroke-linejoin="round">
-
-  <path d="M42 8h6v16h-6Z" fill="#ae809e" />
-  <path d="M41 7h8v3h-8Z" fill="#d4aac1" stroke="#8d6487" stroke-width=".65" />
-  <path d="m46 25 7 4v26l-6 3Z" fill="#b99ab5" />
-  <path d="M13 28 31 13l18 15v29H13Z" fill="url(#plaster)" stroke="#937b99" stroke-width=".85" />
-  <path d="M13 30 31 15l18 15v3L31 19 13 33Z" fill="#8c688a" opacity=".18" />
-
-  <path d="M5 27 31 5l27 23-4 5-23-20L9 32Z" fill="url(#roof)" />
-  <path d="m5 27 4 5 22-19 23 20 4-5-4 2-23-20L9 29Z" fill="#a86a94" />
-  <path d="M5 27 31 5l27 23" fill="none" stroke="#a1678f" stroke-width=".85" />
-  <path d="m14 22 17-14 18 15m-29-6 11-9 11 9" fill="none" stroke="#efb5cd" stroke-width=".65" opacity=".7" />
-  <path d="m15 23 2 2m6-9 2 2m13-1-2 2m11 5-2 2" fill="none" stroke="#b76c98" stroke-width=".6" />
-
-  <circle cx="31" cy="23" r="3.4" fill="#b89fb6" />
-  <circle cx="31" cy="23" r="2.5" fill="url(#glass)" />
-  <path d="M31 21v4m-2-2h4" stroke="#d4c4d3" stroke-width=".65" />
-  <rect x="16.2" y="29" width="11.6" height="11.4" rx="1.1" fill="#a18ba7" />
-  <rect x="17.5" y="30.2" width="9" height="9.4" rx=".55" fill="url(#glass)" />
-  <rect x="35.2" y="29" width="11.6" height="11.4" rx="1.1" fill="#a18ba7" />
-  <rect x="36.5" y="30.2" width="9" height="9.4" rx=".55" fill="url(#glass)" />
-  <path d="M19 31v4m19-4v4" stroke="#8caebe" stroke-width=".8" />
-  <path d="M16 40h12m7 0h12" stroke="#a482a1" stroke-width="1.3" />
-
-  <path d="M28 57V47q0-2 2-2h3q2 0 2 2v10Z" fill="#7e729b" />
-  <path d="M29 56v-8q0-1 1-1h3" fill="none" stroke="#a89ac0" stroke-width=".65" />
-  <circle cx="33.1" cy="51.4" r=".65" fill="#ecc38a" />
-  <path d="M11 57h41v2H11Z" fill="#9b859f" />
-
-  <path d="M20 34h6c.5 3-.8 5-1 7-.4 4 .2 8 .8 13l-4-3.7-3.5 4.5c-1.2-6-1.8-10-.3-15 .6-2 1.8-3.8 2-5.8Z" fill="url(#blue-ribbon)" stroke="#62638c" stroke-width=".6" />
-  <path d="M20 34h6q.2 3-1.4 5.5l-5.5-.6q1.3-2.7.9-4.9Z" fill="#6d8bb7" />
-  <path d="M19.4 40.5c-.7 3-.2 7 .3 10.1" fill="none" stroke="#c0c5e5" stroke-width=".65" />
-  <path d="M38.5 34H45c.4 3-1.3 4.5-1.4 7.3-.2 4.5 1.1 10.2 2 16l-4.2-3.7-3.3 4.7c-1.5-6.5-2.1-11.7-1-17.2 .5-2.5 1.8-4.5 1.4-7.1Z" fill="url(#jade-ribbon)" stroke="#3b6f73" stroke-width=".6" />
-  <path d="M38.5 34H45q.4 3-1.1 5.5l-6.1-.3q1.2-2.5.7-5.2Z" fill="#4d9c92" />
-  <path d="M38.1 41.5q-.7 6 1.1 12.8" fill="none" stroke="#a8ddc9" stroke-width=".65" />
+  <path d="M16 30 32 17 48 30v22q0 2-2 2H18q-2 0-2-2Z" fill="#fff0da" stroke="#8c7a95" stroke-width=".8" />
+  <path d="M32 10 56 30q1 2-1 2h-6L32 19 15 32H9q-2 0-1-2Z" fill="#b86b94" />
+  <path d="M29 42h6v12h-6Z" fill="#4b405b" />
+  <rect x="20" y="32" width="8" height="9" rx="1" fill="#4b405b" />
+  <rect x="36" y="32" width="8" height="9" rx="1" fill="#4b405b" />
+  <path d="M22 35h5c0 3-1 5-1 7l1 10-3.5-3-3 3.5-.5-10c0-3 2-5 2-7.5Z" fill="#6e85b4" />
+  <path d="M38 35h5c0 3-1 5-1 7l1.5 11-3.5-3-3 3.5-.5-11c0-3 1.5-5 1.5-7.5Z" fill="#40887e" />
 </g>
 </g></svg>

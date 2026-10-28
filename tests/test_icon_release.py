@@ -90,6 +90,19 @@ class IconReleaseTests(unittest.TestCase):
                     release.package({root / 'icons': {'app.svg': b'<svg/>'}}, {}, root / 'release')
             self.assertFalse((root / 'release').exists())
 
+    def test_service_downloads_include_helpers_without_replacing_desktop_art(self):
+        with tempfile.TemporaryDirectory() as temporary, patch.object(release, 'PRIMARY', Path(temporary)):
+            (Path(temporary) / 'index.theme').write_bytes(b'[Icon Theme]\nName=Rose Punk\n')
+            desktop = {'shared.svg': b'desktop', 'symlink_alias.svg': b'shared.svg\n'}
+            services = {'shared.svg': b'service variant', 'homepage.svg': b'house',
+                        'profilarr.svg': b'parent', 'profilarr-parser.svg': b'parent'}
+            files = release.theme_files(desktop, services)
+            with zipfile.ZipFile(io.BytesIO(release.theme_zip(files))) as archive:
+                self.assertEqual(archive.read('rose-punk/scalable/apps/homepage.svg'), b'house')
+                self.assertEqual(archive.read('rose-punk/scalable/apps/profilarr-parser.svg'), b'parent')
+                self.assertEqual(archive.read('rose-punk/scalable/apps/shared.svg'), b'desktop')
+                self.assertEqual(archive.read('rose-punk/scalable/apps/alias.svg'), b'desktop')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -17,7 +17,10 @@ retires stale SVGs only inside the two generated icon directories. `package`
 requires a passing check and writes an installable `rose-punk.zip` and
 `release.json` to ignored `.local/icon-releases/` (`--output DIR` overrides it).
 ZIP aliases are ordinary SVG copies, independent of Chezmoi. Source attribution
-and vendored license texts accompany the download.
+and vendored license texts accompany the download. Both download variants include
+the Homepage/Si service designs and explicit helper filenames, even where no
+desktop launcher exists. Shared names keep the primary desktop artwork. Service
+provenance, Compose mappings and upstream license texts are bundled too.
 
 The manifest records source/output SHA-256 hashes and renderer versions. ZIP
 entries have fixed timestamps, permissions, and ordering. Reproduce with the

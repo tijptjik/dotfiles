@@ -23,7 +23,9 @@ python3 -B scripts/icons/release.py package
 The offline release gate renders desktop SVGs, aliases, fleet sprites and
 Homepage SVGs and compares every generated file with the checkout. It requires
 no application inventory or ignored review snapshots. Source SHA-256 checks run
-before output changes. Stale generated SVGs and retired aliases are removed by
+before output changes. Download ZIPs also contain the complete Si service artwork
+and its helper aliases under `scalable/apps`, with service attribution and
+licenses. Shared desktop names retain the primary theme artwork. Stale generated SVGs and retired aliases are removed by
 `build`; conflicting aliases fail validation.
 
 `package` requires a passing check. It writes an installable
@@ -73,7 +75,8 @@ Current local artifacts, when generated:
 
 - [Searchable catalog](../.local/icon-reviews/docs/rose-punk-icons-gallery.html)
 - [Frameless originals](../.local/icon-reviews/docs/rose-punk-icons-frameless.html)
-- [Original versus themed review](../.local/icon-reviews/docs/rose-punk-color-review.html)
+- [Complete original versus Rose Punk comparison](../.local/icon-reviews/originals-vs-rose-punk-2026-10-28/index.html) — 132 app/service designs and eight shell/launcher symbols; search, 24–96px sizes, light/dark surfaces and verified source labels.
+- [Historical original versus themed study](../.local/icon-reviews/docs/rose-punk-color-review.html)
 - [Homepage review](../.local/icon-reviews/docs/rose-punk-homepage-review.html)
 
 These optional outputs live under ignored `.local/icon-reviews/`. Frozen

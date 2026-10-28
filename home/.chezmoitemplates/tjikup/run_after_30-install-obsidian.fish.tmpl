@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+{{ if .isClient -}}
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+stage_dynamic_note 'Obsidian AppImage' INSTALL 'Obsidian' \
+    python3 "{{ .chezmoi.sourceDir }}/../scripts/install-obsidian.py"
+or exit $status
+{{ end -}}

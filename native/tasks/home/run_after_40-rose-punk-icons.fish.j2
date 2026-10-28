@@ -1,0 +1,6 @@
+#!/usr/bin/env fish
+{% if is_client -%}
+source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+stage_dynamic_note "Rose Punk icons" UPDATE "Assets (Rose Punk icons)" \
+    python3 {{ (home_source ~ "/../scripts/icons/install.py") | fish_quote }} --status-note
+{% endif -%}

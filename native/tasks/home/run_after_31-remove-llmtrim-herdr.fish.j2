@@ -1,0 +1,31 @@
+#!/usr/bin/env fish
+{% if is_desktop -%}
+
+source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+
+section_header "Herdr"
+
+if not command -q herdr
+    status_msg WARN "!" "Plugin : LLMTrim [Herdr unavailable]"
+    exit 0
+end
+
+if not test -S "$HOME/.config/herdr/herdr.sock"
+    status_msg WARN "!" "Plugin : LLMTrim [start Herdr, then rerun tjiktup]"
+    exit 0
+end
+
+if command herdr plugin list --json | command jq -e \
+    '.result.plugins[]? | select(.plugin_id == "llmtrim.proxy")' >/dev/null 2>&1
+    status_msg SKIP "✓" "Plugin : LLMTrim" "available"
+    exit 0
+end
+
+status_msg CONFIG "..." "Plugin : LLMTrim"
+if command herdr plugin install fkiene/llmtrim-herdr --yes
+    status_msg CONFIG "✓" "Plugin : LLMTrim" "available"
+else
+    status_msg FAILED "✗" "Plugin : LLMTrim" "installation failed"
+    exit 1
+end
+{% endif -%}

@@ -1,0 +1,17 @@
+#!/usr/bin/env fish
+{{ if .isDesktop -}}
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+# Generate the local CA without modifying a shell profile. Routing is opt-in:
+# the `herdr` Fish function supplies this environment only to Herdr and its panes.
+function configure_llmtrim
+    llmtrim setup --env >/dev/null
+    and llmtrim start
+end
+
+if test -f "$HOME/.llmtrim/ca.pem"
+    status_msg SKIP "✓" "llmtrim" "available"
+else
+    interactive_stage "llmtrim setup" CONFIG "llmtrim" configure_llmtrim
+end
+
+{{ end -}}

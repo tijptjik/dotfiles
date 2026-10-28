@@ -1,0 +1,49 @@
+#!/usr/bin/env fish
+source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+
+function update_bitwarden_clis
+    set -l installer_dir (mktemp -d); or return 1
+    set -l installer "$installer_dir/installer.py"
+    printf '%s' {{ include(".chezmoitemplates/github_api.py") | b64enc | json_quote }} | base64 --decode > "$installer_dir/github_api.py"
+    and printf '%s' {{ include(".chezmoitemplates/install-bitwarden-cli.py") | b64enc | json_quote }} | base64 --decode > "$installer"
+    set -l write_result $status
+    if test $write_result -ne 0
+        rm -rf "$installer_dir"
+        return $write_result
+    end
+    set -l upgrade_args
+    if test "$FLEET_UPGRADE" = 1
+        set upgrade_args --upgrade
+    end
+    python3 -B "$installer" --status-exit-code $upgrade_args
+    set -l result $status
+    rm -rf "$installer_dir"
+    return $result
+end
+
+if not contains -- /usr/local/bin $PATH
+    fish_add_path /usr/local/bin; or exit $status
+end
+
+status_msg UPDATE "..." "Bitwarden CLIs"
+set -l update_started (date +%s%3N)
+set -l update_output (update_bitwarden_clis 2>&1)
+set -l update_result $status
+set -l update_elapsed (printf '%.2fs' (math "("(date +%s%3N)" - $update_started) / 1000"))
+switch $update_result
+    case 0
+        status_msg UPDATE "✓" "Bitwarden CLIs" "$update_elapsed"
+    case 10
+        set -l note "already installed"
+        if test "$FLEET_UPGRADE" = 1
+            set note "no changes"
+        end
+        status_msg SKIP "✓" "Bitwarden CLIs" "$update_elapsed; $note"
+    case 78
+        status_msg WARN "!" "Bitwarden CLIs" "$update_elapsed; release check deferred; managed installs kept"
+        printf '%s\n' $update_output
+    case '*'
+        status_msg FAILED "✗" "Bitwarden CLIs" "$update_elapsed"
+        printf '%s\n' $update_output
+        exit $update_result
+end

@@ -1,0 +1,17 @@
+#!/usr/bin/env fish
+{{ if .isDesktop -}}
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+if not command -q herdr; or not test -S "$HOME/.config/herdr/herdr.sock"
+    status_msg SKIP "-" "Collie plugin" "Herdr unavailable"
+    exit 0
+end
+if not command herdr plugin list --json | command jq -e '.result.plugins[]? | select(.plugin_id == "herdr.collie")' >/dev/null 2>&1
+    status_msg CONFIG "..." "Collie plugin"
+    if not command herdr plugin install AltanS/collie --yes
+        status_msg FAILED "✗" "Collie plugin"
+        exit 1
+    end
+    status_msg CONFIG "✓" "Collie plugin"
+end
+
+{{ end -}}

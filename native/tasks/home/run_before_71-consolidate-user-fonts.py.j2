@@ -1,0 +1,4 @@
+import runpy
+import sys
+sys.argv = ["consolidate-fonts.py", "--apply", "--status-helper", {{ (home_source ~ "/.chezmoihelpers/status.fish") | json_quote }}]
+runpy.run_path({{ (home_source ~ "/.chezmoitemplates/consolidate-fonts.py") | json_quote }}, run_name="__main__")

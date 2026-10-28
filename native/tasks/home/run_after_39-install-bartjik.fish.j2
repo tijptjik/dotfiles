@@ -1,0 +1,6 @@
+#!/usr/bin/env fish
+{% if is_client -%}
+source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+stage_dynamic_note 'Install Bartjik' INSTALL Bartjik bash {{ (home_source ~ "/../scripts/install-bartjik.sh") | fish_quote }}
+or exit $status
+{% endif -%}

@@ -31,6 +31,7 @@ umask 077
 
 # --- Handle Bitwarden Access Token ---
 if test -f "$bws_config_file"
+    chmod 600 "$bws_config_file"; or exit 1
     # Load the token from the file into the current environment
     for line in (cat "$bws_config_file")
         if string match -q '*=*' "$line"

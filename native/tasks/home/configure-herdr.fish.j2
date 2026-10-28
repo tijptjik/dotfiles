@@ -1,0 +1,16 @@
+#!/usr/bin/env fish
+{% if is_desktop -%}
+source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+if not command -q herdr; or not test -S "$HOME/.config/herdr/herdr.sock"
+    status_msg SKIP "-" "Herdr local links" "Herdr unavailable"
+    exit 0
+end
+if command herdr plugin list --json | command jq -e --arg root "$HOME/.config/herdr/plugins/local/local-files" '.result.plugins[]? | select(.plugin_id == "local-files" and .enabled == true and .plugin_root == $root)' >/dev/null 2>&1
+    status_msg SKIP "✓" "Plugin : Local file links" "available"
+else if command herdr plugin link "$HOME/.config/herdr/plugins/local/local-files" --enabled >/dev/null
+    status_msg CONFIG "✓" "Plugin : Local file links" "available"
+else
+    status_msg FAILED "✗" "Plugin : Local file links" "registration failed"
+    exit 1
+end
+{% endif -%}

@@ -1,0 +1,10 @@
+#!/usr/bin/env fish
+{% if is_client -%}
+source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+if not command -q cargo; or not command -q fortune
+    stage 'Greetjik dependencies' INSTALL 'Rust and fortune' sudo dnf install -y cargo fortune-mod
+    or exit $status
+end
+stage_dynamic_note 'Greetjik' INSTALL greetjik bash {{ (home_source ~ "/../scripts/install-greetjik.sh") | fish_quote }}
+or exit $status
+{% endif -%}

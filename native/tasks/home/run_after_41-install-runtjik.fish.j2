@@ -1,0 +1,4 @@
+#!/usr/bin/env fish
+source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+stage_dynamic_note 'Install Runtjik' INSTALL Runtjik bash {{ (home_source ~ "/../scripts/install-runtjik.sh") | fish_quote }}
+or exit $status

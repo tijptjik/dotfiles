@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "context_files": [
+    "data.json"
+  ],
+  "includes": {
+    ".chezmoitemplates/github_api.py": "assets/home/chezmoitemplates/github_api.py",
+    ".chezmoitemplates/install-bitwarden-cli.py": "assets/home/chezmoitemplates/install-bitwarden-cli.py"
+  }
+}

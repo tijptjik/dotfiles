@@ -1,0 +1,27 @@
+#!/usr/bin/env fish
+{{ if .isServer -}}
+source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
+set -l notify_source "{{ .chezmoi.homeDir }}/dockers/prowlarr-notify"
+set -l notify_target "{{ .paths.appData }}/prowlarr/notifications"
+if not mountpoint -q /mnt/storage; or not test -d "{{ .paths.appData }}/prowlarr"
+    status_msg SKIP "✓" "Prowlarr notification scripts" "storage/appData not ready"
+    exit 0
+end
+command install -d -m 0750 "$notify_target"
+or exit 1
+for notify_file in format.jq telegram.sh
+    if not command cmp -s "$notify_source/$notify_file" "$notify_target/$notify_file"
+        set -l notify_mode 0644
+        if test "$notify_file" = telegram.sh
+            set notify_mode 0755
+        end
+        command install -m $notify_mode "$notify_source/$notify_file" "$notify_target/$notify_file.tmp"
+        or exit 1
+        command mv -f "$notify_target/$notify_file.tmp" "$notify_target/$notify_file"
+        or exit 1
+        status_msg CONFIG "✓" "Prowlarr notification $notify_file" "updated"
+    else
+        status_msg SKIP "✓" "Prowlarr notification $notify_file" "current"
+    end
+end
+{{ end -}}

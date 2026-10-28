@@ -1,0 +1,40 @@
+#!/usr/bin/env fish
+{% if is_client -%}
+source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+set -l changed 0
+# Retire the legacy whole-tree writers before enabling per-folder bisync.
+for unit in rclone_sync.type-drive:private.service rclone_sync.type-drive:system.service
+    if systemctl --user --quiet is-enabled "$unit" 2>/dev/null; or systemctl --user --quiet is-active "$unit" 2>/dev/null
+        systemctl --user disable --now "$unit"; or exit $status
+        set changed 1
+    end
+end
+for folder in documents media projects resources
+    if test -L "$HOME/$folder"
+        echo "Private storage requires a real local directory: $HOME/$folder" >&2
+        exit 1
+    end
+    if not test -d "$HOME/$folder"
+        mkdir -p "$HOME/$folder"; or exit $status
+        set changed 1
+    end
+end
+# Initial merges are explicit; the hourly service skips until they finish.
+set -l reload (systemctl --user show private-sync.timer private-backup.timer --property=NeedDaemonReload --value)
+or exit $status
+if contains -- yes $reload
+    systemctl --user daemon-reload; or exit $status
+    set changed 1
+end
+for timer in private-sync.timer private-backup.timer
+    if not systemctl --user --quiet is-enabled "$timer"; or not systemctl --user --quiet is-active "$timer"
+        systemctl --user enable --now "$timer"; or exit $status
+        set changed 1
+    end
+end
+if test "$changed" = 1
+    status_msg CONFIG "✓" "Private storage" "configured"
+else
+    status_msg SKIP "✓" "Private storage" "no changes"
+end
+{% endif -%}

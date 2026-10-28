@@ -1733,53 +1733,6 @@
     "mode": "0755"
   },
   {
-    "path": "{{ user.home }}/.local/lib/device_archives",
-    "kind": "directory",
-    "mode": "0755"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/device_archives/__init__.py",
-    "kind": "file",
-    "source": "files/.local/lib/device_archives/__init__.py",
-    "mode": "0644"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/device_archives/cli.py",
-    "kind": "file",
-    "source": "files/.local/lib/device_archives/cli.py",
-    "mode": "0644"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/device_archives/core.py",
-    "kind": "file",
-    "source": "files/.local/lib/device_archives/core.py",
-    "mode": "0644"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/device_archives/editor.py",
-    "kind": "file",
-    "source": "files/.local/lib/device_archives/editor.py",
-    "mode": "0644"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/device_archives/feedback.py",
-    "kind": "file",
-    "source": "files/.local/lib/device_archives/feedback.py",
-    "mode": "0644"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/device_archives/telegram.py",
-    "kind": "file",
-    "source": "files/.local/lib/device_archives/telegram.py",
-    "mode": "0644"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/device_archives/wizard.py",
-    "kind": "file",
-    "source": "files/.local/lib/device_archives/wizard.py",
-    "mode": "0644"
-  },
-  {
     "path": "{{ user.home }}/.local/lib/fleet_ssh.py",
     "kind": "file",
     "source": "files/.local/lib/fleet_ssh.py",

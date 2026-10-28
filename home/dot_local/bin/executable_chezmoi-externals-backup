@@ -1,4 +1,3 @@
-#!/usr/bin/env fish
-# Compatibility entry point for the existing daily timer.
-# Archive policy is independent of chezmoi externals; backup never syncs implicitly.
-exec "$HOME/.local/bin/device-archives" backup $argv
+#!/usr/bin/env bash
+# Keep the historical entry point for existing scheduled callers.
+exec "$HOME/.local/bin/synctjik" backup "$@"

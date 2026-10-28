@@ -1,7 +1,18 @@
 # Device archives and synchronization
 
+The archival engine now lives in tjikOS at `apps/synctjik` (Rust). `synctjik` is
+the public command; `device-archives` and `chezmoi-externals-backup` are compatibility
+wrappers. Dotjik owns policy, subscriptions, and the scheduled service, not the
+engine. Existing v2 snapshots and `~/.local/state/device-archives` remain compatible.
+New machines enroll collections with `synctjik enroll`, restore with `synctjik setup`,
+and enable backups with `synctjik schedule` only after `synctjik ready` succeeds.
+
+The retained `home/dot_local/lib/device_archives` Python sources are migration
+comparison fixtures. They are not installed by the native file manifest.
+
+
 `device-archives` backs up folders to R2 and creates reviewable synchronization
-plans. Chezmoi installs the tool, policy, and systemd units. Backups preserve each
+plans. Tjikup installs synctjik; dotjik declares policy and systemd units. Backups preserve each
 machine's state; they do not apply sync plans or resolve conflicts.
 
 ## Devices and folder assignments

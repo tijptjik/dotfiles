@@ -105,7 +105,8 @@
       "id": "home:files",
       "label": "Home configuration",
       "needs": [
-        "home:bitwarden"
+        "home:bitwarden",
+        "home:archive-restore"
       ],
       "timeout": 1800,
       "display": {
@@ -509,17 +510,14 @@
     },
     {
       "id": "home:archives",
-      "label": "Assets (device archives)",
-      "needs": [
-        "system:render"
-      ],
+      "label": "Synctjik",
+      "needs": [],
       "resources": [
         "dnf"
       ],
       "apply": [
-        "fish",
-        "--no-config",
-        "{run_dir}/home-run_after_31-device-archives.fish"
+        "bash",
+        "{config_dir}/../scripts/install-synctjik.sh"
       ],
       "env": {
         "TJIKUP_STATUS_LINES": "1",
@@ -529,14 +527,51 @@
       "timeout": 7200,
       "display": {
         "section": "Recipes",
-        "reports": true,
+        "reports": false,
         "icon": "Assets"
       },
       "optional": true,
       "roles": [
         "desktop",
-        "laptop"
+        "laptop",
+        "server"
+      ],
+      "check": [
+        "bash",
+        "-c",
+        "command -v synctjik >/dev/null && command -v rclone >/dev/null"
       ]
+    },
+    {
+      "id": "home:archive-restore",
+      "label": "Required device collections",
+      "needs": [
+        "home:archives"
+      ],
+      "check": [
+        "bash",
+        "{config_dir}/../scripts/archive-readiness.sh",
+        "check"
+      ],
+      "apply": [
+        "bash",
+        "{config_dir}/../scripts/archive-readiness.sh",
+        "apply"
+      ],
+      "interactive": true,
+      "resources": [
+        "home-files"
+      ],
+      "timeout": 7200,
+      "optional": false,
+      "operation": "configure",
+      "scope": "home",
+      "application": "archives",
+      "ecosystem": "configuration",
+      "display": {
+        "section": "Configuration",
+        "icon": "Assets"
+      }
     },
     {
       "id": "home:llmtrim-install",
@@ -697,7 +732,8 @@
       "label": "Assets (icon cache)",
       "needs": [
         "system:render",
-        "home:tjikup"
+        "home:tjikup",
+        "home:archive-restore"
       ],
       "resources": [
         "icons"
@@ -826,7 +862,8 @@
       "label": "Assets (Rose Punk icons)",
       "needs": [
         "system:render",
-        "home:icons"
+        "home:icons",
+        "home:archive-restore"
       ],
       "resources": [
         "icons"
@@ -954,7 +991,8 @@
       "id": "home:fonts",
       "label": "Assets (fonts)",
       "needs": [
-        "system:render"
+        "system:render",
+        "home:archive-restore"
       ],
       "resources": [
         "fonts"

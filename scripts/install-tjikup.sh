@@ -12,11 +12,11 @@ source "$repo_dir/scripts/ensure-tjikos.sh"
 ensure_tjikos apps/tjikup/scripts/install.sh
 
 # Reject stale checkouts before replacing a working executable or cache record.
-bash "$tool_repo/apps/tjikup/scripts/build.sh"
+bash "$tool_repo/apps/tjikup/scripts/fetch-release.sh"
 "$tool_repo/apps/tjikup/dist/tjikup" --config "$repo_dir/tjikup.json" --check
 
 python3 "$repo_dir/scripts/cache-install.py" tjikup \
-    --input "$tool_repo/apps/tjikup" --input "$repo_dir/scripts/cache-install.py" \
+    --input "$tool_repo/apps/tjikup" --input "$tool_repo/apps/tjikos-sh/release.json" --input "$repo_dir/scripts/cache-install.py" \
     --output "$HOME/.local/bin/tjikup" --output "$HOME/.local/share/icons/tjikup.png" \
     --output "$HOME/.local/share/icons/hicolor/256x256/apps/tjikup-notification.png" \
     -- bash "$tool_repo/apps/tjikup/scripts/install.sh"

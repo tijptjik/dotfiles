@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import socket
+import subprocess
 import tempfile
 
 ROLES = {'desktop', 'laptop', 'server'}
@@ -71,12 +72,24 @@ def configure(repo):
         before = tomllib.loads(config.read_text())
         if Path(before.get('sourceDir', '')).resolve() not in {repo.resolve(), (repo / 'home').resolve()}:
             raise RuntimeError('Existing Chezmoi config belongs to another source; refusing replacement')
-        # Keep custom engine settings; only update role fields in the data table.
-        import tomli_w
-        before.setdefault('data', {}).update({
-            'hostname': values['hostname'], 'isClient': values['is_client'],
-            'isDesktop': values['is_desktop'], 'isLaptop': values['is_laptop'], 'isServer': values['is_server']})
-        text = tomli_w.dumps(before)
+        # Use the already-required Go template engine to preserve TOML types;
+        # Python needs no third-party TOML reader or writer.
+        with tempfile.TemporaryDirectory(prefix='tjikup-config-') as directory:
+            payload = Path(directory) / 'input.json'
+            payload.write_text(json.dumps({'data': {
+                'bootstrap_document': config.read_text(),
+                'bootstrap_data': {'hostname': values['hostname'],
+                    'isClient': values['is_client'], 'isDesktop': values['is_desktop'],
+                    'isLaptop': values['is_laptop'], 'isServer': values['is_server']}}}))
+            payload.chmod(0o600)
+            template = ('{{- $config := fromToml .bootstrap_document -}}'
+                        '{{- range $key, $value := .bootstrap_data -}}'
+                        '{{- $config = setValueAtPath (printf "data.%s" $key) $value $config -}}'
+                        '{{- end -}}{{ $config | toToml }}')
+            text = subprocess.run(['chezmoi', '--config', str(payload),
+                '--config-format', 'json', '--source', directory,
+                '--persistent-state', str(Path(directory) / 'state.db'),
+                'execute-template', template], check=True, capture_output=True, text=True).stdout
     else:
         text = 'sourceDir = ' + json.dumps(str(repo)) + '\nencryption = "age"\n'
         text += '[age]\nidentity = "~/.keys/chezmoi.txt"\n'

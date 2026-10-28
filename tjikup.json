@@ -71,7 +71,7 @@
       "check": [
         "python3",
         "-c",
-        "import sys; assert sys.version_info >= (3,10); import tomli, tomli_w"
+        "import sys; assert sys.version_info >= (3,11); import tomllib"
       ],
       "display": {
         "icon": "Python",

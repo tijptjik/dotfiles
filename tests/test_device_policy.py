@@ -30,6 +30,16 @@ class DevicePolicyTests(unittest.TestCase):
             root=ROOT;policy.configure(root)
             p=Path(directory)/'chezmoi/chezmoi.toml';c=tomllib.loads(p.read_text());self.assertTrue(c['data']['isDesktop']);self.assertEqual(p.stat().st_mode & 0o777,0o600)
             self.assertNotIn('autoPush = true',p.read_text())
+            p.write_text(p.read_text() + '\n[edit]\ncommand = "editor --wait"\n[data.custom]\nwhen = 2026-10-29T12:34:56Z\nvalues = [1, 2]\n')
+            with patch('socket.gethostname', return_value='li'):
+                policy.configure(root)
+            updated = tomllib.loads(p.read_text())
+            self.assertEqual(updated['edit']['command'], 'editor --wait')
+            self.assertEqual(updated['data']['custom']['values'], [1, 2])
+            self.assertEqual(updated['data']['custom']['when'].year, 2026)
+            self.assertTrue(updated['data']['isLaptop'])
+            self.assertFalse(updated['data']['isDesktop'])
+
 
 if __name__ == '__main__':
     unittest.main()

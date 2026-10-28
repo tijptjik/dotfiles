@@ -5,14 +5,15 @@ encryption = "age"
     recipient = "age10cpp7avz2zzlqea22d5c3l83ew36rxfjxl2gcxm79atjkcp7494s3lpvjx"
 
 {{- $hostname := .chezmoi.hostname -}}
-{{- $isClient := or (eq $hostname "fi") (eq $hostname "li") }}
+{{- $role := output "python3" (joinPath .chezmoi.sourceDir "../scripts/device-policy.py") "role" | trim -}}
+{{- $isClient := or (eq $role "desktop") (eq $role "laptop") }}
 
 [data]
     hostname = "{{ $hostname }}"
     isClient = {{ $isClient }}
-    isDesktop = {{ eq $hostname "fi" }}
-    isLaptop = {{ eq $hostname "li" }}
-    isServer = {{ eq $hostname "si" }}
+    isDesktop = {{ eq $role "desktop" }}
+    isLaptop = {{ eq $role "laptop" }}
+    isServer = {{ eq $role "server" }}
     bitwardenUsername = "m@hype.hk"
     anthropicModelProvider = "zai" # "claude", "moonshot" or "zai"
 

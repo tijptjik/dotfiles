@@ -90,8 +90,16 @@ def cut(trees, files, output, version, site=None):
         # Derive from the packaged, verified snapshot, including every alias.
         with zipfile.ZipFile(prepared / 'rose-punk.zip') as archive:
             primary = {name.removeprefix('rose-punk/'): archive.read(name) for name in archive.namelist()}
-        secondary = {name: framed.frame(data) if name.startswith('scalable/apps/') else data
-                     for name, data in primary.items()}
+        canonical = set(json.loads((HERE / 'catalog.json').read_text())) | set(
+            json.loads((HERE / 'homepage.json').read_text())) | set(
+            json.loads((HERE / 'command-icons.json').read_text()))
+        policy = framed.load_layout(data=json.loads(primary['attribution/framed-layout.json']), expected=canonical)
+        aliases = {name.removeprefix('symlink_'): data.decode().strip().removesuffix('.svg')
+                   for name, data in trees.get(PRIMARY / 'scalable/apps', {}).items()
+                   if name.startswith('symlink_')}
+        aliases.update({name + '.svg': entry['icon'] for name, entry in json.loads(
+            primary.get('attribution/docker-services.json', b'{}')).items() if name != entry['icon']})
+        secondary = framed.frame_theme(primary, policy, aliases)
         secondary['index.theme'] = framed.INDEX.encode()
         write_file(prepared / 'rose-punk-framed.zip', release.theme_zip(secondary, 'rose-punk-framed'))
         catalog = gallery_catalog(HERE)
@@ -110,7 +118,8 @@ def cut(trees, files, output, version, site=None):
             ['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
             source_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT)),
             framed={'approval': 'Explicit release cut', 'tile': framed.TILE,
-                    'artwork_transform': framed.TRANSFORM})
+                    'layout_sha256': framed.digest(json.dumps(policy, sort_keys=True).encode()),
+                    'layouts': policy['icons']})
         manifest['artifacts'] = {str(path.relative_to(prepared)): release.sha256(path.read_bytes())
                                  for path in sorted(prepared.rglob('*')) if path.is_file() and path.name != 'release.json'}
         write_file(prepared / 'release.json', encoded(manifest))

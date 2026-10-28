@@ -95,7 +95,13 @@ dataset and authoring dependencies are not needed to release.
 
 `framed.py status|approve|build` is the secondary Rose Punk Framed workflow.
 It requires explicit final artwork sign-off and verifies every primary hash and
-alias before deriving the framed set. Ordinary builds never approve it. Its
+alias before deriving the framed set. `framed-layout.json` records the optical
+scale, offset and source hash of every canonical app/service/control. Both the
+standalone builder and release publisher use these layouts; aliases share the
+canonical fit. Layout changes invalidate sign-off; stale source hashes block a
+framed release until its sizing is reviewed. Run `framed.py check-layouts` to
+check inventory, source hashes and rounded-tile clearance. Ordinary builds never
+approve it. Its
 optional ZIP and manifest also live under `.local/icon-reviews/`.
 
 ## Validation

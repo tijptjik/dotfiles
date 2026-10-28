@@ -2,12 +2,11 @@
 
 Icon galleries, comparison snapshots and rendered previews are local review
 artifacts under `.local/icon-reviews/docs/`, which Git ignores. They are
-not required to build or deploy icons. The links below open that local archive.
+not required to build or deploy icons.
 
-Use the [camera](../.local/icon-reviews/docs/assets/icon-material-review/before/camera.svg) as the primary
-reference for detail, material, proportions and restraint. The
-[before/after review](../.local/icon-reviews/docs/rose-punk-material-review.html) shows the current pass;
-the [study sheet](../.local/icon-reviews/docs/rose-punk-material-study.svg) collects representative objects.
+Use the frozen camera reference as the primary reference for detail, material,
+proportions and restraint. Local before/after reviews and study sheets provide
+supporting comparisons; keep their links out of the docs.
 
 > Create an illustrated Rose Punk desktop icon for **[APP NAME]**, using
 > **[OFFICIAL ICON / SOURCE]** to preserve its identifying silhouette and internal
@@ -21,8 +20,9 @@ the [study sheet](../.local/icon-reviews/docs/rose-punk-material-study.svg) coll
 > with at least four units of margin. Do not stretch silhouettes into a square.
 > Bartjik retains its circular identity; Codex retains its wavy filled silhouette
 > and terminal-prompt apertures. **Rose Punk Framed** is derived later from the
-> approved frameless original, with one uniform sizing transform and the shared
-> flat tile. Do not independently redraw or recolour a second framed original.
+> approved frameless original, with a maintained per-icon optical scale and position from
+> `scripts/icons/framed-layout.json`, and the shared flat tile. Use one isotropic
+> transform per icon; aliases inherit their canonical icon’s layout. Do not independently redraw or recolour a second framed original.
 >
 > **Materials:** make details describe the object. Camera glass has layered
 > optical rings, cool depth and a few soft reflections. Magnifying glass remains
@@ -132,6 +132,7 @@ to match the number of details in Camera.
 Finish and visually approve the primary frameless set first. Then use
 `python3 scripts/icons/framed.py approve` and `python3 scripts/icons/framed.py build`.
 The builder locks original SVG hashes and aliases, adds the existing flat plum
-tile and a uniform 6/7 sizing transform, and emits **Rose Punk Framed** as a
+tile and reviewed per-icon scales/offsets from `framed-layout.json`, and emits
+**Rose Punk Framed** as a
 complete secondary theme and ZIP. Changes to the originals invalidate sign-off.
 See [the maintenance guide](rose-punk-icons.md#primary-frameless-set-and-secondary-framed-build).

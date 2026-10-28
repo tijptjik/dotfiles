@@ -89,7 +89,7 @@ def package(trees, files, destination):
     check_outputs(trees, files)
     import homepage
     payload = theme_files(trees[PRIMARY / 'scalable/apps'], trees.get(homepage.DEST))
-    for name in ('catalog.json', 'provenance.json', 'command-icons.json', 'homepage.json'):
+    for name in ('catalog.json', 'provenance.json', 'command-icons.json', 'homepage.json', 'framed-layout.json'):
         payload['attribution/' + name] = (HERE / name).read_bytes()
     payload['attribution/docker-services.json'] = (ROOT / 'scripts/fleet_update/docker-services.json').read_bytes()
     for folder in ('upstream', 'references', 'homepage-upstream'):

@@ -71,16 +71,9 @@ JSON, not a standalone managed `tjikup.png`.
 
 ## Reviews and secondary framed set
 
-Current local artifacts, when generated:
-
-- [Searchable catalog](../.local/icon-reviews/docs/rose-punk-icons-gallery.html)
-- [Frameless originals](../.local/icon-reviews/docs/rose-punk-icons-frameless.html)
-- [Complete original versus Rose Punk comparison](../.local/icon-reviews/originals-vs-rose-punk-2026-10-28/index.html) — 132 app/service designs and eight shell/launcher symbols; search, 24–96px sizes, light/dark surfaces and verified source labels.
-- [Historical original versus themed study](../.local/icon-reviews/docs/rose-punk-color-review.html)
-- [Homepage review](../.local/icon-reviews/docs/rose-punk-homepage-review.html)
-
-These optional outputs live under ignored `.local/icon-reviews/`. Frozen
-snapshots and historical comparisons are separate from canonical sources and
+Optional galleries, sizing studies and original-versus-themed comparisons live
+under ignored `.local/icon-reviews/`. Keep local review links out of the docs.
+Frozen snapshots and historical comparisons are separate from canonical sources and
 are not required to reproduce a release. The old outline study is preserved in
 `scripts/icons/archive/outline/`, outside the managed theme tree.
 
@@ -96,8 +89,12 @@ python3 scripts/icons/framed.py build
 
 Approval records exact primary SVG hashes and aliases in
 `scripts/icons/frameless-approved.json`. Changed inputs invalidate it. The framed
-builder preserves source geometry and paint under a uniform 6/7 scale, centered
-on the flat tile at (32, 31). It writes the managed `rose-punk-framed` theme and
+builder preserves source geometry and paint under a per-icon isotropic scale
+and offset from `scripts/icons/framed-layout.json`, centred on the flat tile at
+(32, 31). Aliases inherit the canonical icon’s layout. Layout edits invalidate
+sign-off, and source hashes require the fit to be reviewed after artwork changes.
+`python3 -B scripts/icons/framed.py check-layouts` validates every active layout
+and checks clearance against the rounded tile. It writes the managed `rose-punk-framed` theme and
 an installable ZIP/manifest under `.local/icon-reviews/docs/assets/icon-framed/`.
 Ordinary release and review commands never create approval or the framed set.
 

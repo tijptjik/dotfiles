@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 import xml.etree.ElementTree as ET
 import zipfile
 
@@ -26,6 +27,12 @@ class FramedIconTests(unittest.TestCase):
         (self.primary / 'symlink_org.example.App.svg').write_text('sample.svg\n')
         self.approval = self.root / 'approved.json'
         self.dest, self.assets = self.root / 'theme', self.root / 'assets'
+        self.layout = self.root / 'layout.json'
+        self.entry = {'scale': .8, 'offset': [0, -1], 'source_sha256': framed.digest(self.source)}
+        self.layout.write_text(json.dumps({'schema': 1, 'icons': {'sample': self.entry}}))
+        layout = patch.object(framed, 'LAYOUT', self.layout)
+        layout.start()
+        self.addCleanup(layout.stop)
 
     def approve(self):
         self.approval.write_text(json.dumps(framed.inventory(self.primary, self.catalog)))
@@ -40,7 +47,7 @@ class FramedIconTests(unittest.TestCase):
         self.assertFalse(self.assets.exists())
         self.approve()
         (self.primary / 'sample.svg').write_bytes(self.source + b'\n')
-        with self.assertRaisesRegex(ValueError, 'changed since sign-off'):
+        with self.assertRaisesRegex(ValueError, 'source changed'):
             self.build()
         self.assertFalse(self.dest.exists())
 
@@ -52,6 +59,7 @@ class FramedIconTests(unittest.TestCase):
         self.approve()
         (self.primary / 'second.svg').write_bytes(self.source)
         self.catalog['second'] = {}
+        self.layout.write_text(json.dumps({'schema': 1, 'icons': {'sample': self.entry, 'second': self.entry}}))
         with self.assertRaisesRegex(ValueError, 'changed since sign-off'):
             self.build()
 
@@ -87,6 +95,41 @@ class FramedIconTests(unittest.TestCase):
         self.assertEqual(self.build(), manifest)
         self.assertFalse((apps / 'retired.svg').exists())
         self.assertEqual(archive_path.read_bytes(), before)
+
+    def test_layout_changes_invalidate_signoff_without_altering_originals(self):
+        self.approve()
+        changed = {**self.entry, 'scale': .72}
+        self.layout.write_text(json.dumps({'schema': 1, 'icons': {'sample': changed}}))
+        with self.assertRaisesRegex(ValueError, 'layouts changed since sign-off'):
+            self.build()
+        self.assertEqual((self.primary / 'sample.svg').read_bytes(), self.source)
+        self.assertFalse(self.dest.exists())
+
+    def test_aliases_receive_the_canonical_layout_and_reject_drift(self):
+        policy = framed.load_layout()
+        files = {'scalable/apps/sample.svg': self.source,
+                 'scalable/apps/org.example.App.svg': self.source, 'NOTICE.txt': b'notice'}
+        output = framed.frame_theme(files, policy, {'org.example.App.svg': 'sample'})
+        self.assertEqual(output['scalable/apps/sample.svg'], output['scalable/apps/org.example.App.svg'])
+        root = ET.fromstring(output['scalable/apps/sample.svg'])
+        self.assertEqual(root.find('./{*}g[@id="framed-artwork"]').get('transform'), framed.transform(self.entry))
+        self.assertEqual(output['NOTICE.txt'], b'notice')
+        files['scalable/apps/org.example.App.svg'] += b'\n'
+        with self.assertRaisesRegex(ValueError, 'source changed'):
+            framed.frame_theme(files, policy, {'org.example.App.svg': 'sample'})
+
+    def test_layout_validation_rejects_missing_keys_and_unsafe_numbers(self):
+        with self.assertRaisesRegex(ValueError, 'inventory mismatch'):
+            framed.load_layout(expected={'new-icon'})
+        for change in ({'scale': float('nan')}, {'scale': -1}, {'offset': [0]}, {'offset': [0, 20]}):
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                framed.load_layout(data={'schema': 1, 'icons': {'sample': {**self.entry, **change}}})
+
+    def test_layout_cannot_push_artwork_outside_the_rounded_tile(self):
+        policy = framed.load_layout()
+        policy['icons']['sample'].update(scale=1.1, offset=[8, 8])
+        with self.assertRaisesRegex(ValueError, 'outside tile'):
+            framed.frame_theme({'scalable/apps/sample.svg': self.source}, policy, {})
 
 
 if __name__ == '__main__':

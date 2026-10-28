@@ -174,7 +174,9 @@ class IconPublishTests(unittest.TestCase):
 
             def package(trees, files, destination):
                 destination.mkdir()
-                (destination / 'rose-punk.zip').write_bytes(release.theme_zip({'index.theme': b'theme'}))
+                payload = {'index.theme': b'theme',
+                           'attribution/framed-layout.json': publish.encoded({'schema': 1, 'icons': {}})}
+                (destination / 'rose-punk.zip').write_bytes(release.theme_zip(payload))
                 return {}
 
             with patch.object(publish, 'ensure_unpublished'), \
@@ -207,6 +209,10 @@ class IconPublishTests(unittest.TestCase):
                 payload = {'index.theme': b'theme', **{
                     'scalable/apps/' + name: data
                     for name, data in trees[publish.PRIMARY / 'scalable/apps'].items()}}
+                payload['scalable/apps/service.svg'] = svg
+                payload['attribution/framed-layout.json'] = publish.encoded({'schema': 1, 'icons': {
+                    key: {'scale': .8, 'offset': [0, 0], 'source_sha256': release.sha256(svg)}
+                    for key in ('app', 'fish', 'runtjik-refresh', 'service')}})
                 (destination / 'rose-punk.zip').write_bytes(release.theme_zip(payload))
                 return {}
 

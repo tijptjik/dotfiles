@@ -1,0 +1,1266 @@
+{
+  "schema": 1,
+  "coordinate_system": "Isotropic scale about (32,32), positioned at tile centre (32,31), then offset in SVG units.",
+  "icons": {
+    "audio-player": {
+      "scale": 0.81,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "62b04356f65c2cf2d2461afa09a68fc5932a56b56d061bb80eca7d35b439bc8a",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "audiobookshelf": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "d79da7f763d8b87edc12397c7360bf6458be3f198c928eca3a933801aae75102",
+      "note": "Retain current optical size."
+    },
+    "auto-m4b": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "df9551708d1ae23186eaa525a6e7b85eb4fac3e62b5f7953e69cdd57930ed61e",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "bartjik": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "cb933380a7c673a259b5be6760e93aae7c16eb52f093c3ea723b0173a767eee1",
+      "note": "Retain current optical size."
+    },
+    "beets": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "7e17342576123cbd90f0520aad1c27e79f995f3f243060f3da312fd706361d43",
+      "note": "Retain current optical size."
+    },
+    "bluetooth-adapters": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "3a8c48c68c78803dd1dd23808729bc7d62c3a78d9c6483a67b0b8aeb865ddde1",
+      "note": "Retain current optical size."
+    },
+    "bluetooth-manager": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "8ec8ed9711ca198e9ad12aa2aee9242070990132efbbaeedfe7f07e504bbe070",
+      "note": "Retain current optical size."
+    },
+    "bookshelf": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "9b1fa0bf661382d489da93fa99453c91fbe2ad7043946e0ad06a34e85e5e8490",
+      "note": "Retain current optical size."
+    },
+    "brave": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "b0c37bcef0d7c4f8edff3b2b603574ded09af1ab964757ed894793b6b28b147d",
+      "note": "Retain current optical size."
+    },
+    "byparr": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "312cb75d3602a0ff1ca7c7828b756a5f21f8ea07f80b009f822aaff22986b68f",
+      "note": "Retain current optical size."
+    },
+    "calendar": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "5a2882789bea33db3c2fa3b961fd152569a1ad98769c742165cdff2b7569c550",
+      "note": "Retain current optical size."
+    },
+    "camera": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "4721d17f4f85ea61533619b4e053ee8ec152f3dfc8c1eb57d7fb70adc991930e",
+      "note": "Retain current optical size."
+    },
+    "characters": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "f2f8e4365926b74ed192989b8949bf5b35d68f9cf8fc704b13e6f17edb16ee4c",
+      "note": "Retain current optical size."
+    },
+    "chatgpt": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "220be497dddc1481e06d1206c8730101e6eea1924626d8caef488e64e7ea5787",
+      "note": "Retain current optical size."
+    },
+    "chezetc": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "1eff84eb628a07afc273ebac408383a8cac1963560a9c9ad7aaf3cf04cfd0962",
+      "note": "Retain current optical size."
+    },
+    "chezmoi": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "120e8a5634237add637fac5f0da18616643abef4cab5ce49b5d5fb3b9697abe6",
+      "note": "Retain current optical size."
+    },
+    "chrome": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "70f94cc571f3c1ba2c6fc6a9bdabc5111ba588b0d4312460decb17448aa6392e",
+      "note": "Retain current optical size."
+    },
+    "clocks": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "a977dfb02c5c75339af4079f88240e7edc0985fdf5718fa7c8bde763c3479eb9",
+      "note": "Retain current optical size."
+    },
+    "codex": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "465becac4e2f336b8369244fad9e7b4d8164a75244985aa72e94ce23175653dc",
+      "note": "Retain current optical size."
+    },
+    "codex-lb": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "e0ac723fbf2ff66a39102a8e0a0aae59b733499d087e7b7057b920b6881913e1",
+      "note": "Retain current optical size."
+    },
+    "collie": {
+      "scale": 0.82,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "5fc98c6559744e465774849d14f3adfaf6a2a3653c9ceec84b823819950e5991",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "color-profile-viewer": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "0ad2a7ac131d7f911af4985e55a44db2a328711839f3393bab25e2208dec484d",
+      "note": "Retain current optical size."
+    },
+    "connections": {
+      "scale": 0.77,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "4f9bc19b11960b8b3946e4e1c97aa5c4bbdc2954f18b81f967b106693ac8f6ce",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "contacts": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "5ad5491f899ecf8f17eccadc63e1b6ceea6076ada98219580db9b08c0fa99aa9",
+      "note": "Retain current optical size."
+    },
+    "discord": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "9e6112a00950fbd659da5be67dd5f9fd944f009b6b77e6a9a49dd1b9481e098c",
+      "note": "Retain current optical size."
+    },
+    "disk-usage-analyzer": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "31674aedf34a8fd68cec211272ec18be573c53b0928ddaeb4b8f8c078846158e",
+      "note": "Retain current optical size."
+    },
+    "disks": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "194e184a9bd1fb1bb15df738f2ac5cd7cafe8db9908b5c2c086739cf141c8cd8",
+      "note": "Retain current optical size."
+    },
+    "docker": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "cb119687eff4c4f473b978d209d6d9135f62ae1d48c9e32e6b91a62b70b0e857",
+      "note": "Retain current optical size."
+    },
+    "document-scanner": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "b6e43253aab6f853e71a1d45a70e2d5b36f1fec89cc1cd8b7a256bf47c2ad66c",
+      "note": "Retain current optical size."
+    },
+    "document-viewer": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "e53a07986bcdfe0b82380586444225deaf9651fc5f368abb2201305c7be2d568",
+      "note": "Retain current optical size."
+    },
+    "drizzle": {
+      "scale": 0.78,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "5c7788536d507635673ebab2ea0aa75d03090eb0713eca42d68a7e83a502a493",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "ephemera": {
+      "scale": 0.83,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "d46df36796119078d0413e2b88be1835e176e0205f9a0d213ffaa4614a370e5d",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "eye-of-gnome": {
+      "scale": 0.78,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "2517af6989de6c650677555de4f191da66ff652645bb9ac9caf6351e4dbe88a9",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "fcitx-5-configuration": {
+      "scale": 0.79,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "baa158dcf56870626bf1eee469aeee0829e535db6ad611b6a6985049f50e64a6",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "fedora-media-writer": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "7b761841531e2d9ad738885f55be97df72fd2d5b261771734b20d71b1505f9bf",
+      "note": "Retain current optical size."
+    },
+    "feishin": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "508a229a54d6da9c9ee37bc8f89f84e06d68750100a9bee1639ba855dd3f4671",
+      "note": "Retain current optical size."
+    },
+    "file-roller": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "41f4b5626e7773df6d97895d362b88151f02988a65721b4256e2efd5afe91a7b",
+      "note": "Retain current optical size."
+    },
+    "files": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "f6630a35dc05b6dab088f59bb903ab500ececf6ed32be66b6c269359e369f2fc",
+      "note": "Retain current optical size."
+    },
+    "firefox": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "0f79e76e2ab171c2d6eb56d15842157110bb9c9988873f5268aef3752b44f173",
+      "note": "Retain current optical size."
+    },
+    "fish": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "352b6f41d3a05e2458382fdea1aa6358f3b0b07104fa2a2dc899fb9d2c034a19",
+      "note": "Retain current optical size."
+    },
+    "flaresolverr": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "596675e7a01a987652dd5e70ccc53d8d815debcbdff729bc565b33bddc54ddd9",
+      "note": "Retain current optical size."
+    },
+    "flatpak": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "05c3b7b14b0e8f1ac0fd19e187cc2b30b596b8dfcf630ac57d8e7ea7c18d44e8",
+      "note": "Retain current optical size."
+    },
+    "flatseal": {
+      "scale": 0.78,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "23ff7c8096c712b6b918d999f4383a3164895dc063055c24d66b7166c56fa5cf",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "fonts": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "08c4fd125c88197979285780e34726f78ccbbbd8677363d13f38c16b682d3103",
+      "note": "Retain current optical size."
+    },
+    "gimp": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "3ff2f4a12b6bfde3150eb586d1449f9c899b6abdaa1e990e53cb3b11688c0ee9",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "gitfetch": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "484cb9d310b39d256bc8e63bb1cc16dc97c7bf9415ad767714d2258c1e2d92fc",
+      "note": "Retain current optical size."
+    },
+    "gmail": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "4464a34c466e866a69e124ba7f898c398cb7a3ffcdb592a440cde2752aa8b828",
+      "note": "Retain current optical size."
+    },
+    "google-calendar": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "d559406842cd859a9900bb3951b443fc8b3aef6f3542241ceecb89910e08c0e6",
+      "note": "Retain current optical size."
+    },
+    "google-photos": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "8e9e26a5c9713dae6d1ca2839eda3579fa71bd78bc7ac650738209f1c64df73a",
+      "note": "Retain current optical size."
+    },
+    "gpu-screen-recorder": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "1f9ca3f798218ac998590e7ec22cebfe4784d1cee2e2aa4e99a6844c3ac977ad",
+      "note": "Retain current optical size."
+    },
+    "greetjik": {
+      "scale": 0.74,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "742226f0b3175b2567c62a94dc25a379e38002a8cfd06fb8651ec8be15edb803",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "grimmory": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "f16d52fbddf306ff53dcc45ab9052239eed09eefea3d5a1bc037d9b20b3a884c",
+      "note": "Retain current optical size."
+    },
+    "help": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "acbbffe1033cb681f1d8d1afa85cf0c4720d3ccb5c8c4ed1e4de115784d8541d",
+      "note": "Retain current optical size."
+    },
+    "herdr": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "801b2d5d2f77c81f0e0fdab695883a2250fe37e87ecb895682dccf7ba0655797",
+      "note": "Retain current optical size."
+    },
+    "homepage": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "a8661f30268617bc5dcc33510548ea9f9b8fae754df4dd121fd6e135eac3c15a",
+      "note": "Retain current optical size."
+    },
+    "htop": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "e872622073b55a071e633a1660cb9b252129faeb07d9c63311bc69768d74c17b",
+      "note": "Retain current optical size."
+    },
+    "hyprvoice": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "9fa5e54c6bc4faddf66c2344747dc0017abdd422e6abe9ef9cbd17c9e97e07b1",
+      "note": "Retain current optical size."
+    },
+    "image-viewer": {
+      "scale": 0.77,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "eac2562178eca05114118181c6d171cacc31b830dff32c892fb491696b130afc",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "keyboard-layout-viewer": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "27eaaba734af32167182ae1a6b2ef8e4db12fff894cba0b5a4a362cb3fd7db5c",
+      "note": "Retain current optical size."
+    },
+    "kitty": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "b583a43f5bdd563a0385924c926b33f3fc089653b61b5ddd1748858efe976b91",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "koreader": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "699efa9d255331a15de544a7c44d3229a3e5c9a6beb1f0f6c9562598ccdba3d8",
+      "note": "Retain current optical size."
+    },
+    "lazylibrarian": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "80896700e5e222dfbf5eb898d1aac4b29c3dfbe4ee8716d9aaff62042134025b",
+      "note": "Retain current optical size."
+    },
+    "lidarr": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "e80724e6f945a5e792cc81e64de952501a7bb6309037d0f035114abdb36f97a3",
+      "note": "Retain current optical size."
+    },
+    "llmtrim": {
+      "scale": 0.78,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "51a81b11b918a54aa7d02e65ec3fdc3c52aea43a9bfc2912d680dc7aef8b13c6",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "logs": {
+      "scale": 0.79,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "32240fba99c99ffaec0a193f3ef0d01413ff43869d31c50d574e7c081638cabd",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "lutris": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "f11db08592f5205f2373b237a347b0d7e2708931874fa9c3e2895d0e08b15cd2",
+      "note": "Retain current optical size."
+    },
+    "mailtjik": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "122682775b2e0e4f1deb0d4ad3da550232d2dbd6a630f1c893917633873849be",
+      "note": "Retain current optical size."
+    },
+    "maps": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "f63a17520c2bee05077b3879152d065911f774e33821d75dcffc639e12e48ec0",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "mariadb": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "d2026cbad424fa84af148cfa97180c5a99710d45e1c5c0a10b730ce77f591c64",
+      "note": "Retain current optical size."
+    },
+    "mpv-media-player": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "6e2a7899d0ee66de74d53586d4c3cd38984959d72728685a302d21639cf94d24",
+      "note": "Retain current optical size."
+    },
+    "mullvad": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "d46177bc4867722554c030e847bc96e4758615de0ada5ac079f96dfde7fa81dc",
+      "note": "Retain current optical size."
+    },
+    "navidrome": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "c9b5cb35c1f07e10a1ad2a09b19ee4f4f6b9c268381d4726ccb376a04391a9c7",
+      "note": "Retain current optical size."
+    },
+    "neovim": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "262dc5441653a489ceb78ea0b73c7460d283eb9ae1ad719ab967b6f9f5106884",
+      "note": "Retain current optical size."
+    },
+    "nginx": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "a8f2c23a2c4c245b3ae251b22d3c00b6045f01fd36eb4c3ac1302403cb58621e",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "notjik": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "5ecd46605ae3b07383f2aed181e021eb97d9bf409e900c54e43ebe9bf8a6ad1b",
+      "note": "Retain current optical size."
+    },
+    "obs-studio": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "6c6747741d8cd5282557848d2abb48e226ffec7c29d8411226500b4ee58395e7",
+      "note": "Retain current optical size."
+    },
+    "obsidian": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "80c98f5e1f9bc1807b389052ee9a7bfc1bf4885308bbfc7c5f634b6f257f297b",
+      "note": "Retain current optical size."
+    },
+    "octo-fiestarr": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "00a2c7c4d03519fc715cdb58763d086204603dee4aa6a53de1fd20833bcdf537",
+      "note": "Retain current optical size."
+    },
+    "oo7": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "fbdc421353aed0dcb231baa436ea828eeec09b0e01b390d46361b9c29ff4d4ad",
+      "note": "Retain current optical size."
+    },
+    "parental-controls": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "1dd0eb44d3e6259aeb505d2286377eca04ede6d662b0859844359c897de29c9e",
+      "note": "Retain current optical size."
+    },
+    "passwords-and-keys": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "1557f2559f39af1c6388493e9f5c6064c92d6943ba8d36a3f420ac0b5f0b04c9",
+      "note": "Retain current optical size."
+    },
+    "plex": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "d215d104bedf395f3fc133aab450895b68f0481c348f284eb23ec07645b1e526",
+      "note": "Retain current optical size."
+    },
+    "plex-rewind": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "a9eda2e0c6c0de354b2f6bf1d0050f7be365218bb3a0c11d90bd5a461b1122cf",
+      "note": "Retain current optical size."
+    },
+    "power": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "829e1a68f38b05137a913a918155a3b54ad4cc116a618acd93dff4a03c9dc886",
+      "note": "Retain current optical size."
+    },
+    "problem-reporting": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "c66867d1647f7eac3aa30947c598f0b6e97a6eff28ae5568ce0394cd8fca4486",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "profilarr": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "95bfe287c2e09e2697dfa364a22910a53f6832156861fa2620bfae63e091c8b3",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "prowlarr": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "b4329206e3e25553c27c24a7136c2a4c1392cea3c9002f2cba3bbcbbd5d68422",
+      "note": "Retain current optical size."
+    },
+    "python": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "4bf10f36a4c67e4b41e8aa631676ddfb3252ba5aba319e18c5f0536f02ec60e2",
+      "note": "Retain current optical size."
+    },
+    "qgis-desktop": {
+      "scale": 0.76,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "8d5ae4857f2e79f935197fb9c2b3ae435f14244917cf005f33da29fc8ebd6c1c",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "radarr": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "8c51d5978f565111a973e497afc9cd50ad3cdb70c67ef28eb17a8a03ffb6a456",
+      "note": "Retain current optical size."
+    },
+    "runtjik": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "8f206f65201cc2750b9b40f9b91af2c722d6cf274e2486d0ca8184cf52950cf8",
+      "note": "Retain current optical size."
+    },
+    "runtjik-config": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "93930acdebe142083ab200b80274f66b39b059619f027f9c25a78861ca55e871",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "runtjik-grid": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "bca3c199581dad2cb01b1102a9591336ae31ec6905fd7dd46adaf240a733f30d",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "runtjik-list": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "3c29b8062ffcd16f738a43664fa8a12451d9d84a7f4d7d62e8330f25f8ab40f4",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "runtjik-pin": {
+      "scale": 0.85,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "0526558b7ff5494e4330fb4a916107886a6aa877b5cdd1d37b302e4b0b07dd20",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "runtjik-refresh": {
+      "scale": 0.82,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "b74a7fb99d7a36d162e572a9ffc77ce5d24574f4d1d58f4271cf0930c9dee146",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "runtjik-shortcuts": {
+      "scale": 0.81,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "353b6989fc4ad66ce40ef4baecedc58a31bb4ea591818afa5c83eb775073885e",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "runtjik-stats": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "d94a033356b4bc22051bffb8046b9874d34be5ac0bd9d5c88d44744054b206b2",
+      "note": "Retain current optical size."
+    },
+    "rust": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "57964c59921c2b8abf8cb4aad62d3971b547b493c61d83a7a44182d3943f1c95",
+      "note": "Retain current optical size."
+    },
+    "scrcpy": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "8b64ccf4aac3c681496105c5b4bcffc93a7595b66c1072a4b448c021a5d50e13",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "scrutiny": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "5029dc4add7734379dcf1a4e60bc2428c395fa3f79f3d18279550966b2850e05",
+      "note": "Retain current optical size."
+    },
+    "seerr": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "f9963d294f8465b1992104de755bab913a8fddb99fb48cd57cb637a5bf618167",
+      "note": "Retain current optical size."
+    },
+    "settings": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "7e95d964ce3aa4d358643afe4f32ba34420812ac3676989c19c23b253d8a8886",
+      "note": "Retain current optical size."
+    },
+    "shelfmark": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "4c736c0e95b1d1fc567f5d758bfce18220c89ccae21831999addcfe39ba13732",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "signal": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "2e9bec78ca352456294ce5880dec5811431d383a958184d01e63aa767911f327",
+      "note": "Retain current optical size."
+    },
+    "simplescreenrecorder": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "913066083b9a4c5746896687c4179ce872d660f0b45b4e29f6187dab742bdfe0",
+      "note": "Retain current optical size."
+    },
+    "snapraid": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "99e7c4bf3b7b621cb8720608397f469c70208a7a51ef00bf91a72d562e74d72c",
+      "note": "Retain current optical size."
+    },
+    "software": {
+      "scale": 0.78,
+      "offset": [
+        0,
+        -1.5
+      ],
+      "source_sha256": "0e38d22b909743839b6c90d55fb0fa618b305a62120dd854b04bffb962528c65",
+      "note": "Reduce the wide bag base and lift its visual weight; preserve the handle."
+    },
+    "solaar": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "77c2816c35b0a13b59af04ccd4a04f68427a61a44dbd4396695b8f5d0c62011b",
+      "note": "Retain current optical size."
+    },
+    "sonarr": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "9e7676d8027af3c6a19587bcb268173511b8a0902d2feb639d9776a14b9e0e4e",
+      "note": "Retain current optical size."
+    },
+    "spotify": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "d48a89abee212701e32e4446f127b1e78144dfe3f4aef0e06cedf4edab237e62",
+      "note": "Retain current optical size."
+    },
+    "steam": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "883e94e0eea334266efc8e4fbd77d694c505b1a8fe5cdb1b44f2076866a8fa23",
+      "note": "Retain current optical size."
+    },
+    "strata": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "d993473c221f6e8f4cc8b5b17329b10ae6f5758bbd099065539208a9a74f1892",
+      "note": "Retain current optical size."
+    },
+    "sublime-text": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "64cd529ea1ff48664859d8fa706160f1e43131f2df092f068fba926fb269a530",
+      "note": "Retain current optical size."
+    },
+    "system-monitor": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "97c5b9cadcaac80c25e6b4730be99814a300c57b2f81d9ac60d937bc44a328af",
+      "note": "Retain current optical size."
+    },
+    "tailscale": {
+      "scale": 0.76,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "4253078633a7e1ce9666cb976ad13f2368dede6c0dc71502654ef7688cf1c3be",
+      "note": "Give the nine-dot grid more breathing room inside the rounded corners."
+    },
+    "tautulli": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "c656989411f732eeeea3c655547c1495d28a84adb37a8df5839d129f08e36093",
+      "note": "Retain current optical size."
+    },
+    "telegram": {
+      "scale": 0.77,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "d78a97dec5d67fe7f941ca3a9cf524896aa4fbf05596d7826ea8dccc1415a770",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "terminal": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "c8f53a0bafc951a2bc13d81109a3718d42350ad5aa6923875352204c69fd28e0",
+      "note": "Retain current optical size."
+    },
+    "text-editor": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "efe4157d87ee1b9fa4816e26bf87dac1521d1d2aee925dad768a759f882f3f00",
+      "note": "Retain current optical size."
+    },
+    "thumbnails": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "282a8de7bd4a2c3305a51c0b36ec3564d848d0d0e994c0dde4c51c8ed8ec19d5",
+      "note": "Retain current optical size."
+    },
+    "tippecanoe": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "638cd6647d8ddb2711e99cc88b55199c47549f27794ecbd65d02b87398fd8b41",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "tjikup": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "07c2d89ad32bc43cd713f9075311e38de1ff4ad51481c3eff8aa194e97b87529",
+      "note": "Retain current optical size."
+    },
+    "tour": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "53884f25fb9567636a88bbf887020e160193df3ee34e14788a9b1d8373c285e3",
+      "note": "Retain current optical size."
+    },
+    "transmission": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "c58f18b9e4fb4b82645da0014c557684421342a00b4a270b57c281990fcd7ca6",
+      "note": "Retain current optical size."
+    },
+    "tweaks": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "3a0cedde287c9c572b9034b6f4131b1f455460a4be27fb11cfea678c58774bae",
+      "note": "Retain current optical size."
+    },
+    "unpackerr": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "c06ae35e88fdd03ad1dafa998a154f9160a1d8fe0bca4ea81caad9545323291f",
+      "note": "Retain current optical size."
+    },
+    "uuctl": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "9a495e35953c96963aded2695a2c0e1f5413c77845cdbb5bd91fc4168373138d",
+      "note": "Retain current optical size."
+    },
+    "video-player": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "535a0017571658d81b965cdb5fe893730f2cbdc722ed8ba39583d7c778ef8cf5",
+      "note": "Retain current optical size."
+    },
+    "vite": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "44dc175fafc27cc6dbf7ae0aa20c574de01486320a706f95237197ff34473bf7",
+      "note": "Retain current optical size."
+    },
+    "vlc": {
+      "scale": 0.78,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "1560c8cc9561a11637828015464f5c23e4b523349990983a0f7d539f1f0b666f",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "volume-control": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "f98636abf5c60067922e4f82bb37234545e86933f109e567acae620cc518cf12",
+      "note": "Retain current optical size."
+    },
+    "weather": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "8f7f78fbad494f38401317b24ef0edd3d93afbf7d48892e2c8dc71d334fe4702",
+      "note": "Retain current optical size."
+    },
+    "yuzu": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "9301499c534914f9fd73f50782f5eb9e44a59d4da095374493fec61263f2a610",
+      "note": "Retain current optical size."
+    },
+    "zapzap": {
+      "scale": 0.83,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "7dec613d4dfa7d2c81a4b20739e939d4c305fa6b0b92acaf1373c2d21669e2e2",
+      "note": "Reduce corner crowding while retaining the original proportions."
+    },
+    "zed": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "208d681eb93da6cfeb01e8af692b71e8cfaf814048a4df6a0b4ee358ca170af4",
+      "note": "Retain current optical size."
+    },
+    "zed-nightly": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "6854d0b6400b8988348b333f11952569a73084c15dab8dca3e5b74235ee5e254",
+      "note": "Retain current optical size."
+    },
+    "zed-preview": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "a67a87b7204c213c2d517aeb197b0d87cc05ab38e9ddcd3586b6cf5fbad4bfc7",
+      "note": "Retain current optical size."
+    },
+    "zen": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "4a1be24b1f69552997e59ec2db41450ea414ebd630ce8d49bd8d3ac9c4ed2c03",
+      "note": "Retain current optical size."
+    },
+    "zoom": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "ac226d35945fd9a27f562af5d51edb5b65d2661249589cb17f487578bcd99089",
+      "note": "Retain current optical size."
+    }
+  }
+}

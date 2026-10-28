@@ -382,7 +382,10 @@ chatter, completed `SKIP` rows (including `no changes`/`no updates` results), an
 duplicate `DAG` rows are hidden. Skipped tasks remain in reports and private hook
 logs; their running progress rows disappear when they finish. Section headings
 appear with the first visible result or diagnostic; all-skipped sections stay
-hidden. A successful Home + System Tasks phase with no visible results shows
+hidden. Available prerequisites are recorded as `SKIP`, so a healthy prerequisite
+phase produces no rows or heading. Missing prerequisites appear as `WARN` rows
+under **Prerequisites**; their setup hooks still run during apply.
+A successful Home + System Tasks phase with no visible results shows
 one `CHECK` row: a checkmark, the Tjikup icon, and `No changes needed`.
 Interactive hooks own the terminal exclusively.
 

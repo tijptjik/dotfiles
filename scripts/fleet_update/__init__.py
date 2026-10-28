@@ -206,14 +206,14 @@ def run_checks(repo: Path) -> None:
     for subject, requirements in grouped_checks:
         missing = [name for name, available in requirements if not available]
         if missing:
-            stage_label("CHECK", "!", subject, f"missing: {', '.join(missing)}")
+            stage_label("WARN", "!", subject, f"missing: {', '.join(missing)}")
         else:
-            stage_result("CHECK", subject, "available")
+            stage_unchanged(subject, "available")
     for subject, available in command_checks:
         if available:
-            stage_result("CHECK", subject, "available")
+            stage_unchanged(subject, "available")
         else:
-            stage_skip(subject)
+            stage_label("WARN", "!", subject, "missing")
 
 
 def git_ref(repo: Path, ref: str) -> str | None:

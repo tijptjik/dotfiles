@@ -30,12 +30,12 @@ def main():
     progress = HookProgress(live=False)
 
     def rows(title, labels, verb):
-        runtime.section_header(title)
+        section = HookProgress(section=title, live=False)
         for label in labels:
-            progress.finish(label, label, verb=verb, record=False)
+            section.finish(label, label, verb=verb, record=False)
 
     if args.section in ('setup', 'all'):
-        rows('Prerequisites', ['Bitwarden', 'Chezmoi', 'Fish', 'UV', 'Gum', 'Bun'], 'CHECK')
+        rows('Prerequisites', ['Bitwarden', 'Chezmoi', 'Fish', 'UV', 'Gum', 'Bun'], 'SKIP')
         runtime.section_header('Dotfiles Apply')
         progress.finish('bitwarden', 'Bitwarden (CLIs)', verb='UPDATE', record=False)
         progress.finish('fonts', 'Assets (font folder migration)', verb='SKIP', note='no changes', record=False)

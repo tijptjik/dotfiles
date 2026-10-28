@@ -21,6 +21,54 @@ REPO = Path(__file__).resolve().parents[1]
 
 
 class WorkflowSectionTests(unittest.TestCase):
+    def test_prerequisites_hide_healthy_checks_and_keep_missing_warnings(self):
+        for missing in (None, 'bws', 'gum', 'files', 'modules'):
+            for dry_run in (False, True):
+                with self.subTest(missing=missing, dry_run=dry_run), \
+                        tempfile.TemporaryDirectory() as directory:
+                    root = Path(directory)
+                    (root / '.git').mkdir()
+                    report = root / 'report.tsv'
+                    script = (
+                        "from pathlib import Path\n"
+                        "from unittest.mock import patch\n"
+                        "from fleet_update import run_checks\n"
+                        f"with patch('fleet_update.shutil.which', side_effect=lambda name: "
+                        f"None if name == {missing!r} else '/stub/' + name), "
+                        f"patch('pathlib.Path.is_file', return_value={missing != 'files'}), "
+                        f"patch('fleet_update.has_python_modules', return_value={missing != 'modules'}):\n"
+                        "    run_checks(Path('.'))\n"
+                    )
+                    command = [sys.executable, '-B', '-c', script]
+                    plan = [{'id': 'checks', 'summary': False, 'command': command,
+                             'preview': command, 'section': 'Prerequisites', 'needs': []}]
+                    (root / 'workflow.json').write_text(json.dumps(plan))
+                    with patch('fleet_update.workflow.__file__', str(root / 'workflow.py')), \
+                            patch('fleet_update.fleet_apply.plans'), \
+                            patch.dict(os.environ, {'TJIKUP_COLOR': '0', 'TJIKUP_PROGRESS': '0',
+                                                    'TJIKUP_ICONS': '0', 'TJIKUP_KITTY_ICONS': '0',
+                                                    'TJIKUP_REPORT_FILE': str(report),
+                                                    'PYTHONPATH': os.pathsep.join(sys.path)}), \
+                            contextlib.redirect_stdout(io.StringIO()) as output:
+                        self.assertEqual(workflow(root, dry_run=dry_run), 0)
+                    text = output.getvalue()
+                    rows = [line.split('\t') for line in report.read_text().splitlines()]
+                    self.assertEqual(len(rows), 6)
+                    self.assertTrue(all(row[0] in {'SKIP', 'WARN'} for row in rows))
+                    self.assertNotIn('SKIP', text)
+                    self.assertNotIn('CHECK', text)
+                    self.assertEqual(text.count('Prerequisites'), int(missing is not None))
+                    if missing is None:
+                        self.assertNotIn('available', text)
+                        self.assertTrue(all(row[0] == 'SKIP' and row[3] == 'available' for row in rows))
+                    else:
+                        self.assertLess(text.index('Prerequisites'), text.index('WARN'))
+                        for row in rows:
+                            if row[0] == 'WARN':
+                                self.assertEqual(row[1], '!')
+                                self.assertIn(row[2], text)
+                                self.assertIn(row[3], text)
+
     def test_capture_section_waits_for_visible_capture_or_commit_output(self):
         for capture, commit, code in [('', '', 77), ('', 'COMMIT ✓ Templates', 0),
                                       ('SYNC ✓ Zed', 'COMMIT ✓ Templates', 0),
@@ -213,7 +261,7 @@ else:
             list((self.home / ".local/state/tjikup/backups/fcitx").glob("*.backup"))
         )
         headings = [
-            "Dotjik\nhttps://github.com/tijptjik/dotfiles",
+            "tjikOS\nhttps://github.com/tijptjik/tjikos",
             "Prerequisites\n",
             "Commit Local Changes\n",
             "Fleet Repositories\n",

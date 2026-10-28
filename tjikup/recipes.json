@@ -2771,7 +2771,7 @@
     },
     {
       "id": "system:zed:update:verify",
-      "label": "Zed configuration verification",
+      "label": "Zed",
       "operation": "update",
       "scope": "home",
       "application": "zed",
@@ -2796,7 +2796,8 @@
       ],
       "display": {
         "section": "Package updates",
-        "icon": "Zed"
+        "icon": "Zed",
+        "verb": "CHECK"
       },
       "after": [],
       "check": [
@@ -2811,7 +2812,7 @@
     },
     {
       "id": "home:obsidian:update:verify",
-      "label": "Obsidian configuration verification",
+      "label": "Obsidian",
       "operation": "update",
       "scope": "home",
       "application": "obsidian",
@@ -2836,7 +2837,8 @@
       ],
       "display": {
         "section": "Package updates",
-        "icon": "Obsidian"
+        "icon": "Obsidian",
+        "verb": "CHECK"
       },
       "after": [],
       "check": [
@@ -2851,7 +2853,7 @@
     },
     {
       "id": "home:codex-lb:update:verify",
-      "label": "Codex LB configuration verification",
+      "label": "Codex LB",
       "operation": "update",
       "scope": "home",
       "application": "codex-lb",
@@ -2876,7 +2878,8 @@
       ],
       "display": {
         "section": "Package updates",
-        "icon": "Codex LB"
+        "icon": "Codex LB",
+        "verb": "CHECK"
       },
       "after": [],
       "check": [
@@ -2891,7 +2894,7 @@
     },
     {
       "id": "home:notjik:update:verify",
-      "label": "Notjik configuration verification",
+      "label": "Notjik",
       "operation": "update",
       "scope": "home",
       "application": "notjik",
@@ -2916,7 +2919,8 @@
       ],
       "display": {
         "section": "Package updates",
-        "icon": "Notjik"
+        "icon": "Notjik",
+        "verb": "CHECK"
       },
       "after": [],
       "check": [
@@ -2931,7 +2935,7 @@
     },
     {
       "id": "home:bartjik:update:verify",
-      "label": "Bartjik configuration verification",
+      "label": "Bartjik",
       "operation": "update",
       "scope": "home",
       "application": "bartjik",
@@ -2956,7 +2960,8 @@
       ],
       "display": {
         "section": "Package updates",
-        "icon": "Bartjik"
+        "icon": "Bartjik",
+        "verb": "CHECK"
       },
       "after": [],
       "check": [
@@ -2971,7 +2976,7 @@
     },
     {
       "id": "home:runtjik:update:verify",
-      "label": "Runtjik configuration verification",
+      "label": "Runtjik",
       "operation": "update",
       "scope": "home",
       "application": "runtjik",
@@ -2996,7 +3001,8 @@
       ],
       "display": {
         "section": "Package updates",
-        "icon": "Runtjik"
+        "icon": "Runtjik",
+        "verb": "CHECK"
       },
       "after": [],
       "check": [
@@ -3011,7 +3017,7 @@
     },
     {
       "id": "system:hyprvoice:update:verify",
-      "label": "Hyprvoice configuration verification",
+      "label": "Hyprvoice",
       "operation": "update",
       "scope": "home",
       "application": "hyprvoice",
@@ -3036,7 +3042,8 @@
       ],
       "display": {
         "section": "Package updates",
-        "icon": "Hyprvoice"
+        "icon": "Hyprvoice",
+        "verb": "CHECK"
       },
       "after": [],
       "check": [

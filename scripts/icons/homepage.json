@@ -191,68 +191,68 @@
   "homepage": {
     "name": "Homepage",
     "geometry": "local/homepage/homepage.svg",
-    "sha256": "fe4305b372bb5a9340d44c760e36a3c8efd781475704986e6346ff3e2ffe77a8",
+    "sha256": "3599dd4c0a8cb34c3a4e80901c97c876d25d0d6b1da6f0880f7abefe9641515c",
     "reference": "homepage-upstream/si-services/homepage.png",
     "reference_sha256": "e1feb712b750b4888bdc75510d48ea7724fc628e8ce006c735c00ca3150f27cc",
     "source": "https://raw.githubusercontent.com/gethomepage/homepage/dev/public/apple-touch-icon.png",
     "license": "GPL-3.0",
-    "material_revision": 1,
-    "design_note": "Official blue folded bookmark/ribbon; its swallowtail and turned-over return remain."
+    "material_revision": 5,
+    "design_note": "New house-and-bookmark interpretation: a warm ivory plaster house with a rose roof, cool blue windows and two blue/jade swallowtail bookmarks draped over the window sills. Small window reveals, roof courses and the soft ribbon turn explain the materials. The upstream Homepage house/bookmark identity remains the conceptual reference."
   },
   "unpackerr": {
     "name": "Unpackerr",
     "geometry": "local/homepage/unpackerr.svg",
-    "sha256": "3ef5a73f255f15794b077257775572264abac25faa2838b2833ccc10b516f226",
+    "sha256": "91e4054e7744a8a2c24a661791244f88b5735192d0efc190bea86db37ec7502a",
     "reference": "homepage-upstream/si-services/unpackerr.png",
     "reference_sha256": "e956f8c548233fdaf241c3851bd19a15c2f104250161b38f869f4a0741ba6740",
     "source": "https://raw.githubusercontent.com/Unpackerr/unpackerr/main/frontend/src/assets/icon.png",
     "license": "MIT",
-    "material_revision": 1,
-    "design_note": "Open strapped packing crate and three escaping arrows, following the upstream Unpackerr logo."
+    "material_revision": 4,
+    "design_note": "Unpackerr\u2019s three escaping arrows retained as curved ribbon forms above a rose board carton. Folded flaps, shaded interior, brass straps and quiet board seams replace the hard outlines and flat striped crate."
   },
   "bookshelf": {
     "name": "Bookshelf",
     "geometry": "local/homepage/bookshelf.svg",
-    "sha256": "1a010dc09a5c8833bf1f27b8fae15bc12d83c63d2d90fea5ac3d1352171e3e43",
+    "sha256": "44378212706fe95ea0d35c9242a4faa50339dcc7d9dc9b3717a184707270ee68",
     "reference": "homepage-upstream/si-services/bookshelf-official.svg",
     "reference_sha256": "bb2748b6adf431c5f7cbf946836d660d75602389df505620241c28d0abad3b24",
     "source": "https://raw.githubusercontent.com/pennydreadful/bookshelf/develop/Logo/Readarr.svg",
     "license": "GPL-3.0",
-    "material_revision": 1,
-    "design_note": "Bookshelf retains its inherited Readarr circular open-book geometry; ivory page block and two rose cloth covers."
+    "material_revision": 5,
+    "design_note": "Retained the inherited Readarr book curves and rose covers; restored an ivory inner ring and a plum field so the complete page/cover contour separates clearly."
   },
   "ephemera": {
     "name": "Ephemera",
     "geometry": "local/homepage/ephemera.svg",
-    "sha256": "542fe8b5f46d45dd4b972599040ba74ffe8be974996339c905d75037d15152f9",
+    "sha256": "3351451d8e8d428a67ded4aabc869b36cb713fc84a235f5819360a601b606741",
     "reference": "homepage-upstream/si-services/ephemera-favicon.svg",
     "reference_sha256": "52e23d54b2391621eb179db83f60161152ab9053372ce238aab48f231e6d8237",
     "source": "https://raw.githubusercontent.com/Nsoromma/ephemera-book-downloader/main/packages/web/public/favicon.svg",
     "license": "MIT",
-    "material_revision": 1,
-    "design_note": "Ephemera favicon: the bowed open book and central spine. Filled ivory paper with violet binding preserves that geometry."
+    "material_revision": 2,
+    "design_note": "Returned to Ephemera\u2019s clean, open book outline and central spine. Natural wider proportions and coordinated periwinkle/violet pigment, with transparent pages and no added ribbon or text."
   },
   "lazylibrarian": {
     "name": "LazyLibrarian",
     "geometry": "local/homepage/lazylibrarian.svg",
-    "sha256": "d2d9db45ec45fd8f5c14f05f953f284834d3495ebdcfa6d21ab59d62567ebf7e",
+    "sha256": "83c3d201e35be1b20f90a7896c75c71b7079f9170564b1b0aa201f0e283a4c48",
     "reference": "homepage-upstream/si-services/lazylibrarian.ico",
     "reference_sha256": "f7ccc3ca24a769ec1b88f982cd325cdcd296cfbe58d23bf9c108fd8d9ec1c4b9",
     "source": "https://raw.githubusercontent.com/DobyTang/LazyLibrarian/master/data/images/favicon.ico",
     "license": "Original themed artwork; upstream identity reference retained, brand rights remain with their owners",
-    "material_revision": 1,
-    "design_note": "Upstream dark round reading badge and open book; original reading spectacles replace font-dependent lettering."
+    "material_revision": 2,
+    "design_note": "New original LazyLibrarian concept: a rose upholstered reading chair with a gently open ivory book. Shaped cushions, a sewn back seam and timber feet explain the materials; the circular face-like badge is gone."
   },
   "lidarr": {
     "name": "Lidarr",
     "geometry": "local/homepage/lidarr.svg",
-    "sha256": "e25b9414d09403f230a1db1cf32396d73cfb5175ce2e10f78e85b2b1c0bf5689",
+    "sha256": "990120b1c37becd1a35c9232b3413861cc8a31c13e0f096eae16b2f284b409c8",
     "reference": "homepage-upstream/si-services/lidarr.svg",
     "reference_sha256": "2f55f69450a0ca03621e87550e81ec0f6798c4a578b54e4b988a9a7234a83647",
     "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/lidarr.svg",
     "license": "Reference collection Apache-2.0; brand rights remain with their owners",
-    "material_revision": 1,
-    "design_note": "Lidarr record and opposed green needle triangles; restrained record grooves replace the tiny upstream grid."
+    "material_revision": 4,
+    "design_note": "Lidarr record and opposing green blades in Radarr/Sonarr\u2019s shared metal bezel and blue glass, with matching grid weight and pigment. Removed the unrelated bottom instrument ticks."
   },
   "navidrome": {
     "name": "Navidrome",
@@ -268,13 +268,34 @@
   "plex-rewind": {
     "name": "Plex Rewind",
     "geometry": "local/homepage/plex-rewind.svg",
-    "sha256": "c3cf0f5e4502634fd02a3ce1983fe658ac096158ca2b7ec79c88d8c8675e3a08",
+    "sha256": "bdd64d99a32062eadd7a32ef2cdf6aa6dbf90fe04c0f9b3e2d0938cc5863286b",
     "reference": "homepage-upstream/si-services/plex-rewind.svg",
     "reference_sha256": "a05e09ecf0d0113848e58bf9451e2dac873e2d8f4317795f29791568f468e65f",
     "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/plex-rewind.svg",
     "license": "Reference collection Apache-2.0; brand rights remain with their owners",
-    "material_revision": 1,
-    "design_note": "The authentic opposing overlapping triangle/diamond mark, with amber and violet faces instead of grey metallic bevels."
+    "material_revision": 4,
+    "design_note": "Exact existing Hong Kong-centred Plex globe and Natural Earth land geometry, with its play replaced by two ivory rewind triangles. Base Plex artwork and geographic attribution are retained.",
+    "base_artwork": {
+      "geometry": "local/plex.svg",
+      "sha256": "6023a7627e9311de3742bf4e77573389a408d40773d3e4dd81d4713dad43c892",
+      "attribution": {
+        "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/plex.svg",
+        "license": "CC0-1.0 (brand rights remain with their owners)",
+        "sha256": "6023a7627e9311de3742bf4e77573389a408d40773d3e4dd81d4713dad43c892",
+        "material_revision": 16,
+        "design_note": "Hong Kong-centred orthographic globe (114.1694 E, 22.3193 N), simplified Natural Earth land in Plex yellow and a centred ivory play triangle.",
+        "land_reference": {
+          "source": "https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_land.geojson",
+          "file": "upstream/plex-natural-earth-land.geojson",
+          "sha256": "9e0729ee253ca7d7a5c4ae9395fb1902264c5377c52e224d13dd85010e2835d9",
+          "license": "Natural Earth public domain: https://www.naturalearthdata.com/about/terms-of-use/",
+          "projection_center": [
+            114.1694,
+            22.3193
+          ]
+        }
+      }
+    }
   },
   "byparr": {
     "name": "Byparr",
@@ -290,13 +311,19 @@
   "flaresolverr": {
     "name": "FlareSolverr",
     "geometry": "local/homepage/flaresolverr.svg",
-    "sha256": "c058a6e667587d86988fabbb1a66b4a507c26dad6b72b1b29d750619361f72ea",
+    "sha256": "e367d5bf4352530c264a9fe78dc5bbfc1fffa8a31a3f7aae7663dcf4bcbf7a66",
     "reference": "homepage-upstream/si-services/flaresolverr.svg",
     "reference_sha256": "c12ad8598f4faa9268557b51970b2c42c39461b8178ae88faef3a08088e44dbb",
     "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/flaresolverr.svg",
     "license": "Reference collection Apache-2.0; brand rights remain with their owners",
-    "material_revision": 1,
-    "design_note": "Original FlareSolverr cloud outline and two toothed gears; blue enamel and cool ink apertures."
+    "material_revision": 2,
+    "design_note": "Cloudflare\u2019s recognizable lobed cloud and narrow wind aperture, separated into two coordinated cloud masses with a warm sun appearing through the opening. The gear symbols are removed; no generic cloud icon is used.",
+    "additional_reference": {
+      "file": "homepage-upstream/si-services/cloudflare-simpleicons.svg",
+      "sha256": "408096d99907fd99e0863cb5d73f77a72537c6a85fd8d5e2704178a83a891f08",
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/cloudflare.svg",
+      "license": "CC0-1.0; Cloudflare brand rights remain with their owner"
+    }
   },
   "beets": {
     "name": "Beets",
@@ -323,23 +350,23 @@
   "octo-fiestarr": {
     "name": "Octo-Fiestarr",
     "geometry": "local/homepage/octo-fiestarr.svg",
-    "sha256": "9aaac8bd0a4ced31a42090e00942e0febcc571facdac0fb3e33041cf8dc02fdb",
+    "sha256": "07f802de3c21a215bd389c58fe2ca1839e0302af25b9076599e15dccc691b36d",
     "reference": "homepage-upstream/si-services/octo-fiestarr-README.md",
     "reference_sha256": "38cf9900a433a673115d3351bc84241d49c647e607e3c1097923b763460e0be8",
     "source": "https://raw.githubusercontent.com/bransoned/octo-fiestarr/new-dev/README.md",
     "license": "Original themed artwork; upstream identity reference retained, brand rights remain with their owners",
-    "material_revision": 1,
-    "design_note": "Original headphone-wearing octopus for Octo-Fiesta, whose upstream README describes a multi-provider music proxy and has no formal logo."
+    "material_revision": 3,
+    "design_note": "Animal-series Octo-Fiestarr: shaped mantle, eight tapered curling arms, horizontal octopus pupils, visible siphon and selective suction cups. Copper headphone shells, dark rubber pads and small perforations describe actual materials; the smile and toy-like eye dots are removed."
   },
   "mariadb": {
     "name": "MariaDB",
     "geometry": "local/homepage/mariadb.svg",
-    "sha256": "708b15159de67b3e2bb8eb525fe4e938418cd6d0f6f8c90816ad3b76571fbcd3",
+    "sha256": "105131a0529f58df7e7e52e6d39ff67d2281bc6d347ba91e48ce772fb7b4945b",
     "reference": "homepage-upstream/si-services/mariadb.svg",
     "reference_sha256": "d576b0a2d83f4035b0e8d02b6534c996ac43f768745e95acd768ab17f8f772dc",
     "source": "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/main/svg/mariadb.svg",
-    "license": "Reference collection Apache-2.0; brand rights remain with their owners",
-    "material_revision": 1,
-    "design_note": "Official MariaDB sea-lion curves, flippers, eye and whiskers; warm sand hide with cool ink contours."
+    "license": "Original themed artwork; upstream identity reference retained, brand rights remain with their owners",
+    "material_revision": 2,
+    "design_note": "New original MariaDB seal portrait in the Prowlarr/Collie animal family: earless rounded head, shaped brow, dark eyes with small reflections, pale whisker pads, broad nose and radiating whiskers. Cool violet-grey coat and warm ivory muzzle replace the tiny full-body silhouette."
   }
 }

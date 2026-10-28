@@ -1,5 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-material="authored">
-<g id="frameless-artwork" transform="translate(0.162933 0.162933) scale(0.994908)"><title>lazylibrarian</title><defs /><g stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="26" fill="#34333b" stroke="#8f8496" stroke-width="1.2" />
-<path d="m13 24 18-5 18 5-3 19-15-4-15 4Z" fill="#b98562" /><path d="M13 22q10-5 19 0 9-5 19 0l-3 16q-9-4-16 0-7-4-16 0Z" fill="#fff0da" />
-<path d="M32 22v16m-14-10 9-1m-8 4 8-1m10-3 8 1m-8 2 7 1" stroke="#84766c" stroke-width="1" />
-<g fill="#99bfcf" stroke="#c8b5d3" stroke-width="1.5"><path d="M17 38h12v7q-6 6-12 0Z" /><path d="M35 38h12v7q-6 6-12 0Z" /></g><path d="M29 40q3-3 6 0m-18-2-3-3m33 3 3-3" fill="none" stroke="#c8b5d3" stroke-width="1.5" /></g></g></svg>
+<g id="frameless-artwork" transform="translate(-2.134043 -1.600699) scale(1.066689)"><title>lazylibrarian</title>
+<defs><linearGradient id="chair-back" gradientUnits="userSpaceOnUse" x1="20" y1="10" x2="42" y2="54"><stop stop-color="#e8a5c2" /><stop offset="1" stop-color="#b973a1" /></linearGradient><linearGradient id="chair-arm" gradientUnits="userSpaceOnUse" x1="10" y1="29" x2="50" y2="54"><stop stop-color="#dc91b2" /><stop offset="1" stop-color="#b96b98" /></linearGradient><linearGradient id="seat" gradientUnits="userSpaceOnUse" x1="20" y1="44" x2="42" y2="53"><stop stop-color="#b76e99" /><stop offset="1" stop-color="#955e86" /></linearGradient><linearGradient id="pages" gradientUnits="userSpaceOnUse" x1="20" y1="27" x2="42" y2="43"><stop stop-color="#fff0da" /><stop offset="1" stop-color="#e0c8ca" /></linearGradient></defs>
+<g stroke-linecap="round" stroke-linejoin="round">
+
+<path d="m16 45-2 12h5l3-12m20 0 3 12h5l-2-12" fill="#866478" />
+<path d="M15 37V18c0-8 5-12 17-12s17 4 17 12v19Z" fill="url(#chair-back)" />
+<path d="M21 35V19q0-7 11-7t11 7v16" fill="none" stroke="#a15f8a" stroke-width=".9" />
+<path d="M14 31q-7 0-7 7v10q0 6 7 6h36q7 0 7-6V38q0-7-7-7-6 0-6 7v7H20v-7q0-7-6-7Z" fill="url(#chair-arm)" />
+<path d="M19 44q13-3 26 0v7H19Z" fill="url(#seat)" />
+<path d="M11 37v10q0 4 4 4m38-14v10q0 4-4 4M20 48h24" fill="none" stroke="#a05b83" stroke-width=".8" />
+<path d="m16 31 15 2 17-4 1 12-17 5-16-3Z" fill="#6d688e" />
+<path d="M16 28q8-1 16 3 8-6 16-5l1 12q-8-1-17 5-8-4-16-3Z" fill="url(#pages)" />
+<path d="m32 31 0 12m-12-10q4 0 8 2m9-3 7-2m-7 5 7-2" fill="none" stroke="#9c869b" stroke-width=".7" />
+<path d="m39 28 4-1 .6 10-2-1.1-2 2Z" fill="#48a28f" />
+<path d="M23 16q9-4 18 0" fill="none" stroke="#edb7ce" stroke-width=".7" />
+</g>
+</g></svg>

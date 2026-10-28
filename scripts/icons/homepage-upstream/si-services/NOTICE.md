@@ -14,3 +14,11 @@ is replaced by original spectacles to remain font-independent at 24px.
 Octo-Fiestarr and Auto-M4B have no formal logo in the inspected source trees;
 their icons are original illustrations of the README-described functions.
 No upstream project endorsement is implied.
+
+The Cloudflare outline in `cloudflare-simpleicons.svg` is from Simple Icons
+(`https://github.com/simple-icons/simple-icons/blob/develop/icons/cloudflare.svg`),
+CC0-1.0; the Cloudflare mark and brand rights remain with their owner. The
+FlareSolverr study adapts the cloud geometry into parting cloud masses.
+The MariaDB study now uses an original seal portrait; the official full-body
+reference remains archived here. Plex Rewind retains the existing Plex globe
+and its Natural Earth attribution, with only the playback glyph replaced.

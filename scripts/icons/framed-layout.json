@@ -1261,6 +1261,60 @@
       ],
       "source_sha256": "ac226d35945fd9a27f562af5d51edb5b65d2661249589cb17f487578bcd99089",
       "note": "Retain current optical size."
+    },
+    "bitwarden": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "259947cb5c3ede50fcdd4de76226c3bd5c2dcf407de13a318b94d379bb61900d",
+      "note": "Workflow icon release: centred proportional fit with clear tile margins."
+    },
+    "uv": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "b873777f82920e1876ea09f5268d6a7773d5f49d4701586cdbcb3a32bb8e85fb",
+      "note": "Workflow icon release: centred proportional fit with clear tile margins."
+    },
+    "fnm": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "dabf4751219cec2775f77330f29790b330dd3b596185ee45ecc25de804641c15",
+      "note": "Workflow icon release: centred proportional fit with clear tile margins."
+    },
+    "gum": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "4d2eb35996f17ceb28f93f035437e8d58d30daaf0cc5e6fe6ba0e34988096f76",
+      "note": "Workflow icon release: centred proportional fit with clear tile margins."
+    },
+    "bun": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "9356bee1aefc6176295ac040d9c40eade4f8bc2fc7cd2c24a6acfe9f2b6ceea6",
+      "note": "Workflow icon release: centred proportional fit with clear tile margins."
+    },
+    "bookmarks": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "6dbc628b35fb07bb9492ba2e945ed812a9001e15cb306c57ffe08b99dc2fecc9",
+      "note": "Workflow icon release: centred proportional fit with clear tile margins."
     }
   }
 }

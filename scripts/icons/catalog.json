@@ -1482,7 +1482,7 @@
     ],
     "geometry": "local/uv.svg",
     "mode": "illustrated-local",
-    "reviewed": false,
+    "reviewed": true,
     "review_batch": 21,
     "introduced_batch": 21
   },
@@ -1496,7 +1496,7 @@
     ],
     "geometry": "local/bun.svg",
     "mode": "illustrated-local",
-    "reviewed": false,
+    "reviewed": true,
     "review_batch": 21,
     "introduced_batch": 21
   },
@@ -1510,7 +1510,7 @@
     ],
     "geometry": "local/fnm.svg",
     "mode": "illustrated-local",
-    "reviewed": false,
+    "reviewed": true,
     "review_batch": 21,
     "introduced_batch": 21
   },
@@ -1524,7 +1524,7 @@
     ],
     "geometry": "local/gum.svg",
     "mode": "illustrated-local",
-    "reviewed": false,
+    "reviewed": true,
     "review_batch": 21,
     "introduced_batch": 21
   },

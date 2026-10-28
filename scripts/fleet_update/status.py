@@ -8,6 +8,18 @@ from .icons import HookProgress
 from .icon_catalog import SERVICE_ICONS
 from .presentation import ANSI, ROW
 
+NATIVE_LABELS = {
+    "Bitwarden CLIs": "Bitwarden (CLIs)",
+    "Bitwarden access token": "Bitwarden (access token)",
+    "chezmoi decryption key": "Chezmoi (decryption key)",
+    "System packages": "Fedora (system packages)",
+    "Essential packages": "Fedora (essential packages)",
+    "Passwordless sudo": "Chezetc (passwordless sudo)",
+    "Default shell": "Fish (default shell)",
+    "Symbolic link icon": "Assets (symbolic link icon)",
+    "Assets (user fonts)": "Assets (font folder migration)",
+}
+
 
 def stage_label(verb, icon, subject, note=None):
     if runtime.ACTIVE_STAGE:
@@ -43,11 +55,7 @@ def decorate_native_row(line):
         # Expanding it to two lines would break its carriage-return contract.
         return line
     fields = re.split(r"\s{2,}", content, maxsplit=1)
-    label = fields[0]
-    if label == "Bitwarden CLIs":
-        label = "Bitwarden (CLIs)"
-    elif label == "Assets (user fonts)":
-        label = "Assets (font folder migration)"
+    label = NATIVE_LABELS.get(fields[0], fields[0])
     if label.partition(' (')[0] not in SERVICE_ICONS:
         return line
     output = io.StringIO()

@@ -183,6 +183,7 @@
   },
   {
     "id": "apply-fleet",
+    "summary": false,
     "command": [
       "python3",
       "{config_dir}/scripts/fleet-update.py",

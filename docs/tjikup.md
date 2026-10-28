@@ -10,6 +10,10 @@ The workflow also declares repository banners and section headings. Capture,
 prerequisite and commit scripts own their detailed rows, so their steps disable
 the runner's duplicate summary rows.
 
+FNM is a development tool for selecting Node.js versions, not a fleet-update
+prerequisite. Home setup still installs it and Fish enables automatic version
+switching; fleet and home/system preflight checks do not require it.
+
 ## Status rows and icon review
 
 Prerequisites, captured application settings, preparation and fleet repository

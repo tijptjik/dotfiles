@@ -8,12 +8,13 @@ from .icons import HookProgress
 
 class PreparationProgress(HookProgress):
     output_open = False
+    native_output = False
 
     def _cursor(self, hidden):
-        super()._cursor(hidden and not self.output_open)
+        super()._cursor(hidden and not self.output_open and not self.native_output)
 
     def _draw(self):
-        if not self.output_open:
+        if not self.output_open and not self.native_output:
             super()._draw()
 
 
@@ -27,10 +28,13 @@ class PreparationOutput:
             return 0
         with self.progress.lock, self.progress._frame(active=False):
             self.progress._clear()
+            # Native rows can contain carriage returns, image packets and
+            # prompts split across writes. Yield until the action finishes;
+            # inserting spinner rows between fragments breaks their layout.
+            self.progress.native_output = True
             result = self.stream.write(value)
             self.stream.flush()
             self.progress.output_open = not value.endswith('\n')
-            self.progress._draw()
             return result
 
     def __getattr__(self, name):

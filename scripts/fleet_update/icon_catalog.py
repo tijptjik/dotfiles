@@ -27,7 +27,9 @@ SERVICE_ICONS = {
     "dotjik": "\uf015", "systjik": "\uf013", "tjikos": "\uf021",
 }
 ASSET_ICONS = {"fonts": "\uf031", "font folder migration": "\uf031", "user fonts": "\uf031",
-               "icon cache": "\uf00a", "Rose Punk icons": "\uf00a"}
+               "icon cache": "\uf00a", "Rose Punk icons": "\uf00a",
+               "symbolic link icon": "\uf0c1"}
+SPRITE_ALIASES = {"Assets (symbolic link icon)": "Assets (icon cache)"}
 SERVICE_ICONS.update({name: entry["glyph"] for name, entry in DOCKER_SERVICES.items()})
 SERVICE_ICONS.update({"Plex": "\uf04b", "Docker images": "\uf308"})
 

@@ -23,7 +23,7 @@ import zlib
 
 from tjikup import runtime
 from tjikup.progress import changed_spans
-from .icon_catalog import display_title
+from .icon_catalog import SPRITE_ALIASES, display_title
 
 SGR = re.compile(r'\x1b\[[0-9;]*m')
 DIACRITICS = '\u0305\u030d\u030e\u0310\u0312\u033d\u033e\u033f'
@@ -188,6 +188,7 @@ class KittyIcons:
         return cls(stream, geometry=size, herdr=herdr)
 
     def image(self, label, cell_width, cell_height):
+        label = SPRITE_ALIASES.get(label, label)
         if self.sprites is None:
             self.sprites = json.loads(Path(__file__).with_name('icons32.json').read_text())['sprites']
         key = label if label in self.sprites else label.partition(' (')[0]

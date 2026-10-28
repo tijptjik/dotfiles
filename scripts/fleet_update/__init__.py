@@ -200,7 +200,6 @@ def run_checks(repo: Path) -> None:
     command_checks = [
         ("Fish", shutil.which("fish") is not None),
         ("UV", shutil.which("uv") is not None),
-        ("FNM", shutil.which("fnm") is not None),
         ("Gum", shutil.which("gum") is not None),
         ("Bun", shutil.which("bun") is not None),
     ]

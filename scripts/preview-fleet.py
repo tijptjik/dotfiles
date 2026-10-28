@@ -15,6 +15,7 @@ if not check_runtime():
 
 from fleet_update.icons import HookProgress
 from fleet_update.preparation import prepare
+from fleet_update.status import NATIVE_LABELS
 from fleet_update.repository_progress import RepositoryProgress
 from tjikup import runtime
 
@@ -34,11 +35,19 @@ def main():
             progress.finish(label, label, verb=verb, record=False)
 
     if args.section in ('setup', 'all'):
-        rows('Prerequisites', ['Bitwarden', 'Chezmoi', 'Fish', 'UV', 'FNM', 'Gum', 'Bun'], 'CHECK')
+        rows('Prerequisites', ['Bitwarden', 'Chezmoi', 'Fish', 'UV', 'Gum', 'Bun'], 'CHECK')
         runtime.section_header('Dotfiles Apply')
         progress.finish('bitwarden', 'Bitwarden (CLIs)', verb='UPDATE', record=False)
         progress.finish('fonts', 'Assets (font folder migration)', verb='SKIP', note='no changes', record=False)
-        prepare('Chezmoi (files and task preparation)', 'APPLY', lambda: 0)
+        def native_preparation():
+            for subject, verb in [
+                    ('Bitwarden access token', 'CONFIG'), ('chezmoi decryption key', 'CONFIG'),
+                    ('System packages', 'SYNC'), ('Essential packages', 'INSTALL'),
+                    ('Passwordless sudo', 'CONFIG'), ('Default shell', 'CONFIG'),
+                    ('Symbolic link icon', 'CONFIG')]:
+                progress.finish(subject, NATIVE_LABELS[subject], verb=verb, record=False)
+            return 0
+        prepare('Chezmoi (files and task preparation)', 'APPLY', native_preparation)
         rows('Home + System Tasks', ['Chezetc (sudo launcher)'], 'CONFIG')
         progress.finish('system', 'Chezetc (system files and task preparation)', verb='APPLY', record=False)
     if args.section in ('capture', 'all'):

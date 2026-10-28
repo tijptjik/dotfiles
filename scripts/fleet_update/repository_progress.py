@@ -74,7 +74,8 @@ class RepositoryProgress(Progress):
         with self.lock, self._frame():
             if self.visible or self.finished:
                 return
-            runtime.section_header("Fleet Repositories")
+            if self.live:
+                runtime.section_header("Fleet Repositories")
             self.visible = True
             # Keep the runner's redraw/cursor lifecycle active for this panel.
             self.rows["repositories"] = ("", "", 0)
@@ -95,6 +96,8 @@ class RepositoryProgress(Progress):
             if not self.visible:
                 return
             self._clear()
+            if not self.live:
+                runtime.section_header("Fleet Repositories")
             for cells in self.states.values():
                 for verb, state in cells.items():
                     if state == "running":

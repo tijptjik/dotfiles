@@ -58,8 +58,8 @@ class InstallOutcomeTests(unittest.TestCase):
                     self.assertEqual(report.read_text(), f'{expected}\t✓\t{app}\t{note}\n')
                     self.assertEqual(len(trace.read_text().splitlines()), count)
                     self.assertNotIn('__stage_', result.stdout)
-                    # The fleet must display and record the actual hook result,
-                    # even though its manifest planned an INSTALL operation.
+                    # The fleet records the actual result, even though its
+                    # manifest planned INSTALL. Skips stay out of the display.
                     parent_report = root / 'fleet-report'
                     parent_report.unlink(missing_ok=True)
                     rendered = io.StringIO()
@@ -71,7 +71,10 @@ class InstallOutcomeTests(unittest.TestCase):
                         hooks.items[app] = {'label': app, 'verb': 'INSTALL'}
                         hooks.outputs[app] = result.stdout
                         hooks.event(app, Result('done', seconds=.1))
-                    self.assertEqual(summary(rendered.getvalue()).verb, expected)
+                    if expected == 'SKIP':
+                        self.assertEqual(rendered.getvalue(), '')
+                    else:
+                        self.assertEqual(summary(rendered.getvalue()).verb, expected)
                     self.assertEqual(parent_report.read_text(), f'{expected}\t✓\t{app}\t{note}\n')
 
                 run('INSTALL', 1, 'installed')

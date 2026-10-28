@@ -8,7 +8,7 @@ import tempfile
 from .core import UpdateError
 from .dag import Task, run, validate
 from .hook_tasks import HookTasks
-from tjikup import runtime
+from .presentation import DeferredSection
 
 
 def load_plan(repo):
@@ -44,7 +44,7 @@ def apply_hooks(repo, env):
     with tempfile.TemporaryDirectory(prefix="tjikup-hooks-") as temporary:
         hooks = HookTasks(temporary, log_dir, env)
         tasks = hooks.prepare(repo, plan, lambda item: render_hook(repo, item, hooks.env))
-        runtime.section_header("Home Configuration")
+        hooks.progress.section = DeferredSection("Home Configuration")
         try:
             with hooks.progress:
                 results = run(tasks, workers=int(os.environ.get("FLEET_JOBS", "4")), event=hooks.event)

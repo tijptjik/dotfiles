@@ -1,11 +1,12 @@
 """Fleet DAG policy, using the existing tjikup runner for presentation/reporting."""
-from contextlib import nullcontext
+from contextlib import nullcontext, redirect_stdout
 import fcntl
 import json
 import os
 from pathlib import Path
 import re
 import shlex
+import sys
 import tempfile
 import textwrap
 
@@ -13,7 +14,7 @@ from .dag import Task, run, command as run_command
 from .core import UpdateError
 from tjikup import runtime
 from .repository_progress import RepositoryProgress
-from .presentation import summary, timing_report
+from .presentation import DeferredSection, SectionOutput, summary, timing_report
 
 
 class Stopped(Exception):
@@ -97,6 +98,17 @@ def workflow(repo, *, dry_run=False):
         timing_reports = {}
         skipped = set()
         steps = {step["id"]: step for step in plan}
+        sections = {}
+        section = None
+        for step in plan:
+            if "section" in step:
+                section = DeferredSection(step["section"])
+            sections[step["id"]] = section
+
+        def show_section(name):
+            if sections[name]:
+                sections[name].show()
+
         progress = RepositoryProgress()
         repository_steps = {
             "pull-home": ("dotjik", "PULL"), "push-home": ("dotjik", "PUSH"),
@@ -128,8 +140,12 @@ def workflow(repo, *, dry_run=False):
                         receipt = Path(temporary) / "timing-path"
                         env = {**os.environ, "FLEET_TIMING_RECEIPT": str(receipt)}
                         try:
-                            code = runtime.run_stream(command, repo, env=env,
-                                                      timeout=step.get("timeout", 300), check=False)
+                            section = sections[step["id"]]
+                            output_context = (redirect_stdout(SectionOutput(sys.stdout, section))
+                                              if section else nullcontext())
+                            with output_context:
+                                code = runtime.run_stream(command, repo, env=env,
+                                                          timeout=step.get("timeout", 300), check=False)
                         finally:
                             if receipt.is_file():
                                 timing_reports[step["id"]] = Path(receipt.read_text())
@@ -191,8 +207,6 @@ def workflow(repo, *, dry_run=False):
                 if step.get("exclusive"):
                     settle_repositories()
                 with progress.output():
-                    if "section" in step:
-                        runtime.section_header(step["section"])
                     if "banner" in step:
                         runtime.repo_header(**step["banner"])
                 if not dry_run and step.get("summary", True) and not step.get("exclusive"):
@@ -204,18 +218,22 @@ def workflow(repo, *, dry_run=False):
                     progress.update("dotjik", "PULL", "failed")
                 progress.discard(name)
                 with progress.output():
+                    show_section(name)
                     show_failure(step, output, repo, result.error, result.seconds)
             elif result.state == "blocked":
                 if step.get("summary", True) and not step.get("exclusive"):
                     progress.finish(name, f"{verb.title()} {label}", verb="SKIP", icon="-", note="workflow stopped")
             else:
-                if output:
+                if output.strip():
                     with progress.output():
+                        show_section(name)
                         print(output, end="" if output.endswith("\n") else "\n", flush=True)
                 if not dry_run and step.get("summary", True):
                     if name in skipped:
                         progress.finish(name, f"{verb.title()} {label}", verb="SKIP", note="no changes")
                     else:
+                        with progress.output():
+                            show_section(name)
                         progress.finish(name, label, verb=verb, note=f"{result.seconds:.2f}s")
                 if name == "commit" and not dry_run:
                     progress.open()

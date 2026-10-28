@@ -13,13 +13,64 @@ from unittest.mock import patch
 import tjikup_support
 from fleet_update.home_apply import apply_hooks
 from fleet_update.core import UpdateError
-from fleet_update.presentation import summary, timing_report
+from fleet_update.presentation import DeferredSection, SectionOutput, summary, timing_report
+from fleet_update.icons import HookProgress
 from fleet_update.hook_tasks import HookTasks
 from fleet_update.dag import Result
 from tjikup import runtime
 
 
 class PresentationTests(unittest.TestCase):
+    def test_streamed_header_waits_for_visible_output_including_partial_prompts(self):
+        for content in ('', 'Password: '):
+            with self.subTest(content=content), contextlib.redirect_stdout(io.StringIO()) as output:
+                section = DeferredSection('Apply')
+                with contextlib.redirect_stdout(SectionOutput(output, section)) as stream:
+                    stream.write('\n\033[')
+                    stream.write('?2026h')
+                    self.assertEqual(output.getvalue(), '')
+                    if content:
+                        stream.write(content)
+                        stream.flush()
+                if content:
+                    self.assertLess(output.getvalue().index('Apply'), output.getvalue().index(content))
+                    self.assertEqual(output.getvalue().count('Apply'), 1)
+                else:
+                    self.assertEqual(output.getvalue(), '')
+
+    def test_hook_header_only_appears_for_settled_visible_results(self):
+        for live in (False, True):
+            with self.subTest(live=live), patch.dict(os.environ, {
+                    'TJIKUP_COLOR': '0', 'TJIKUP_ICONS': '0', 'TJIKUP_KITTY_ICONS': '0'}), \
+                    contextlib.redirect_stdout(io.StringIO()) as output:
+                with HookProgress(section='Home Configuration', live=live) as progress:
+                    progress.start('skip', 'Zed', 'SYNC')
+                    progress.finish('skip', 'Zed', verb='SKIP', record=False)
+                    self.assertNotIn('Home Configuration', output.getvalue())
+                    progress.finish('changed', 'Herdr', verb='CONFIG', record=False)
+                    progress.finish('warning', 'Bun', verb='WARN', icon='!', record=False)
+                text = output.getvalue()
+                self.assertEqual(text.count('Home Configuration'), 1)
+                self.assertLess(text.index('Home Configuration'), text.index('CONFIG'))
+
+    @unittest.skipUnless(shutil.which('fish'), 'Fish required')
+    def test_all_skipped_hooks_leave_no_section_including_exclusive_hooks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            hooks = root / 'home/.chezmoiscripts'
+            hooks.mkdir(parents=True)
+            hook = hooks / 'run_after_skip.fish'
+            hook.write_text("printf 'SKIP    ✓ Zed    no changes\\n'\n")
+            env = {**os.environ, 'XDG_STATE_HOME': str(root / 'state'),
+                   'TJIKUP_COLOR': '0', 'TJIKUP_PROGRESS': '0'}
+            for exclusive in (False, True):
+                plan = [{'id': 'skip', 'label': 'Zed', 'file': hook.name, 'exclusive': exclusive}]
+                with self.subTest(exclusive=exclusive), \
+                        patch('fleet_update.home_apply.load_plan', return_value=plan), \
+                        patch.dict(os.environ, env), contextlib.redirect_stdout(io.StringIO()) as output:
+                    apply_hooks(root, env)
+                self.assertEqual(output.getvalue().strip(), '')
+
     def test_timing_report_is_silent_in_terminals_and_logs(self):
         for term, progress in [('xterm-kitty', '1'), ('xterm-kitty', '0'), ('dumb', '1')]:
             with self.subTest(term=term, progress=progress), patch.dict(os.environ, {

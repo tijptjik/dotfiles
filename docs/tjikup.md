@@ -380,8 +380,9 @@ result each; their raw output is saved in private `apply-*` directories under th
 same log root. Warnings and failure diagnostics remain visible. Successful tool
 chatter, completed `SKIP` rows (including `no changes`/`no updates` results), and
 duplicate `DAG` rows are hidden. Skipped tasks remain in reports and private hook
-logs; their running progress rows disappear when they finish. Interactive hooks
-own the terminal exclusively.
+logs; their running progress rows disappear when they finish. Section headings
+appear with the first visible result or diagnostic; all-skipped sections stay
+hidden. Interactive hooks own the terminal exclusively.
 
 The Python package count uses quiet output. Python 3.13 remains pinned for
 PaddlePaddle: release 3.3.1 has CPython 3.13 wheels but no CPython 3.14 wheels.

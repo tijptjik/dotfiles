@@ -10,7 +10,7 @@ import sys
 from .core import UpdateError
 from .dag import Task, command as run_command
 from .icons import HookProgress
-from .presentation import ANSI, ROW, summary
+from .presentation import ANSI, ROW, DeferredSection, summary
 from tjikup import runtime
 
 
@@ -36,12 +36,15 @@ def owns_terminal(item):
 
 class TerminalOutput:
     """Forward interactive output; the scheduler renders structured status rows."""
-    def __init__(self, stream):
+    def __init__(self, stream, before_output=lambda: None):
         self.stream = stream
+        self.before_output = before_output
 
     def write(self, value):
         if ROW.match(ANSI.sub("", value).strip()):
             return len(value)
+        if ANSI.sub("", value).strip():
+            self.before_output()
         return self.stream.write(value)
 
     def __getattr__(self, name):
@@ -101,7 +104,7 @@ class HookTasks:
                         lines.append(line)
                         return line
 
-                    with redirect_stdout(TerminalOutput(sys.stdout)):
+                    with redirect_stdout(TerminalOutput(sys.stdout, self.progress.show_section)):
                         code = runtime.run_stream(command, repo, env=env, timeout=item.get("timeout", 1800),
                                                   check=False, formatter=capture)
                     self.outputs[name] = "\n".join(lines)
@@ -165,12 +168,19 @@ class HookTasks:
         with another task's rows. The private log retains all pending rows.
         """
         rendered = False
+        section = None
+
+        def show_section():
+            self.progress.show_section()
+            if section:
+                section.show()
+
         with self.progress.output():
             for index, line in enumerate(ANSI.sub("", output).splitlines()):
                 if line.startswith("__tjikup_section__:"):
                     title = line.partition(":")[2]
                     if title in {"Docker services", "Native applications"}:
-                        runtime.section_header(title)
+                        section = DeferredSection(title)
                         rendered = True
                     continue
                 match = ROW.match(line.strip())
@@ -179,10 +189,14 @@ class HookTasks:
                     if icon == "...":
                         continue
                     fields = re.split(r"\s{2,}", content, maxsplit=1)
+                    note = fields[1] if len(fields) == 2 else ""
+                    if runtime.outcome_verb(verb, icon, note) != "SKIP":
+                        show_section()
                     self.progress.finish(f"{name}:{index}", fields[0], verb=verb,
-                                         icon=icon, note=fields[1] if len(fields) == 2 else "")
+                                         icon=icon, note=note)
                     rendered = True
                 elif line.strip():
+                    show_section()
                     print(line, flush=True)
         return rendered
 

@@ -15,9 +15,42 @@ from unittest.mock import patch
 import tjikup_support
 import tjikup
 from fleet_update import discover_propagators
-from fleet_update.workflow import show_failure
+from fleet_update.workflow import show_failure, workflow
 
 REPO = Path(__file__).resolve().parents[1]
+
+
+class WorkflowSectionTests(unittest.TestCase):
+    def test_capture_section_waits_for_visible_capture_or_commit_output(self):
+        for capture, commit, code in [('', '', 77), ('', 'COMMIT ✓ Templates', 0),
+                                      ('SYNC ✓ Zed', 'COMMIT ✓ Templates', 0),
+                                      ('', '', 1)]:
+            with self.subTest(capture=capture, commit=commit, code=code), \
+                    tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                (root / '.git').mkdir()
+                plan = []
+                for name, text, result in [('capture', capture, 0), ('commit', commit, code)]:
+                    step = {'id': name, 'summary': False, 'command': [sys.executable, '-c',
+                            f'import sys; sys.stdout.write({text!r}); sys.exit({result})'],
+                            'needs': [] if name == 'capture' else ['capture'], 'skip_codes': [77]}
+                    if name == 'capture':
+                        step['section'] = 'Commit Local Changes'
+                    plan.append(step)
+                (root / 'workflow.json').write_text(json.dumps(plan))
+                with patch('fleet_update.workflow.__file__', str(root / 'workflow.py')), \
+                        patch('fleet_update.fleet_apply.plans'), \
+                        patch.dict(os.environ, {'TJIKUP_COLOR': '0', 'TJIKUP_PROGRESS': '0',
+                                                'TJIKUP_ICONS': '0'}), \
+                        contextlib.redirect_stdout(io.StringIO()) as output:
+                    self.assertEqual(workflow(root), 1 if code == 1 else 0)
+                text = output.getvalue()
+                if capture or commit or code == 1:
+                    self.assertEqual(text.count('Commit Local Changes'), 1)
+                    self.assertLess(text.index('Commit Local Changes'),
+                                    text.index(capture or commit or 'command failed'))
+                else:
+                    self.assertNotIn('Commit Local Changes', text)
 
 
 class FleetWorkflowTests(unittest.TestCase):

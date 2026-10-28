@@ -3,10 +3,48 @@ import re
 import os
 from pathlib import Path
 from dataclasses import dataclass
+from tjikup import runtime
 
 ANSI = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 ROW = re.compile(r"^([A-Z]+)\s+(✓|!|✗|X|-|\.\.\.)\s+(.*)$")
 UNCHANGED = re.compile(r"(?:^|;\s*)no (?:changes|updates)$", re.IGNORECASE)
+
+
+class DeferredSection:
+    """Emit a heading once, immediately before the first visible result."""
+    def __init__(self, title):
+        self.title = title
+        self.shown = False
+
+    def show(self):
+        if not self.shown:
+            self.shown = True
+            runtime.section_header(self.title)
+
+
+class SectionOutput:
+    """Keep a streamed stage's empty output from leaving an orphan heading."""
+    def __init__(self, stream, section):
+        self.stream, self.section = stream, section
+        self.pending = ""
+
+    def write(self, value):
+        if not self.section.shown:
+            self.pending += value
+            # Control frames and whitespace alone are not section content.
+            text = ANSI.sub("", self.pending)
+            text = re.sub(r"\x1b(?:\[[0-?]*[ -/]*)?$", "", text)
+            if not text.strip():
+                return len(value)
+            self.section.show()
+            self.stream.write(self.pending)
+            self.pending = ""
+        else:
+            self.stream.write(value)
+        return len(value)
+
+    def __getattr__(self, name):
+        return getattr(self.stream, name)
 
 
 def timing_report(path, *, stream=None):

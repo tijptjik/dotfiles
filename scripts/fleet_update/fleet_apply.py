@@ -12,8 +12,7 @@ from .dag import Result, Task, run, validate, command
 from .home_apply import load_plan, render_hook
 from .hook_tasks import HookTasks
 from .preparation import prepare
-from .presentation import timing_report
-from tjikup import runtime
+from .presentation import DeferredSection, timing_report
 
 
 def system_policy(repo):
@@ -176,7 +175,7 @@ def apply(repo, system_repo=None):
 
         try:
             prepare("Chezetc (system)", "CHECK", prepare_chezetc)
-            runtime.section_header("Home + System Tasks")
+            hooks.progress.section = DeferredSection("Home + System Tasks")
             with hooks.progress:
                 results = run_phase(remaining_tasks)
         finally:

@@ -7,6 +7,7 @@ from tjikup.progress import Progress
 
 from .icon_catalog import ASSET_ICONS, SERVICE_ICONS, display_title
 from .kitty_icons import KittyIcons, cell_size
+from .presentation import DeferredSection
 
 
 def icons_enabled(stream, live):
@@ -25,8 +26,9 @@ def title_icon(label):
 
 
 class HookProgress(Progress):
-    def __init__(self, **kwargs):
+    def __init__(self, *, section=None, **kwargs):
         super().__init__(**kwargs)
+        self.section = DeferredSection(section) if section else None
         self.graphics = KittyIcons.available(self.stream, self.live)
         self.reflow_enabled = not self.graphics or self.graphics.herdr
 
@@ -57,11 +59,17 @@ class HookProgress(Progress):
             return verb, icon, title, note
         return super()._patch(decorate(before), decorate(after))
 
+    def show_section(self):
+        if self.section:
+            self.section.show()
+
     def _print(self, verb, icon, label, note):
         # Finish still clears the live row and records the outcome. Only the
         # settled display is suppressed, before emitting text or image data.
         if runtime.outcome_verb(verb, icon, note) == "SKIP":
             return
+        if icon in {"✓", "!", "✗", "X", "-"}:
+            self.show_section()
         if self.graphics:
             self.graphics.print(verb, icon, label, note)
             return

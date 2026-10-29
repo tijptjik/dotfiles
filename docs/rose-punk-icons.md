@@ -22,6 +22,13 @@ the new artwork.
 
 ## Build and release
 
+On 2026-10-29, the 13 additions since `0.1.0-rc.8` were accepted as-is;
+further visual revisions are deferred. The blue house is published as
+**chezmoi**, and the pink house as **chezetc**. Their historical `dotjik` and
+`systjik` lookup names remain aliases, including the `rose-punk-` variants.
+The original source filenames are retained for provenance. This icon naming
+change does not retire or alter any fleet application policy.
+
 From the repository root:
 
 ```sh

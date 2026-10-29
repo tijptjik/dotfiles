@@ -128,7 +128,7 @@
       "source_sha256": "220be497dddc1481e06d1206c8730101e6eea1924626d8caef488e64e7ea5787",
       "note": "Retain current optical size."
     },
-    "systjik": {
+    "chezetc": {
       "scale": 0.8571428571428571,
       "offset": [
         0,
@@ -137,7 +137,7 @@
       "source_sha256": "1eff84eb628a07afc273ebac408383a8cac1963560a9c9ad7aaf3cf04cfd0962",
       "note": "Retain current optical size."
     },
-    "dotjik": {
+    "chezmoi": {
       "scale": 0.8571428571428571,
       "offset": [
         0,
@@ -1324,6 +1324,105 @@
       ],
       "source_sha256": "3c1f318e30a3608629c4ab4c1936f073569f940e138a1c9d9acdbc26be767675",
       "note": "GNOME footprint; centered at the standard framed scale."
+    },
+    "duckdb": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "b2e5f8d3d394b75fe37cf10c6b236c72637604ff69ce5f2fdcf1efa3a0c5852c",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "hyprland": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "144adcdb7cb869b4083e9182825ba44d0fa2fcbfdf24a10d9ba0c91b64e0f142",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "bottom": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "e6cce2b4a2fa3128e3373d6265ef4e333c967e47aa26e31adab4dae17cfb0a7b",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "starship": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "bff93a883ecf4300cbcf785994c80b5057e4d043dfa9397e9d83cebee4e854e4",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "quickshell": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "6d3ca48c4a45aa787152e6e6746b71058e59ab7e529ac2df15206d7da8dfa1a0",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "lazygit": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "bdd8bb3b4f4fec875a5d1c662fa5b87c7b9d15ed65bcf4cd46e6c92a52faad8e",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "vivid": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "fa4b7992cc8fdae1000aa7b38e27f683a651fae1efb92457549aacffaf2ba76d",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "synctjik": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "07392a4c58ff13921e021143acc43f01d10b8192c376d7647396fb20a14ee1cf",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "rpm-fusion": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "c6c0c5c3d21ed04330dfa52c617f2812168bcdbf85a5ac0b570cc019643d5f6a",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "tennis": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "7c8805f480584f720dc829106079e071f9c1928e96b61a7431111c29f27de98e",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "tinty": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "6a6695146e51235867fa6afc1f6d2314a8691d8d4d4564f280048546b57ce60e",
+      "note": "Default centred frame fit; current artwork accepted 2026-10-29."
     }
   }
 }

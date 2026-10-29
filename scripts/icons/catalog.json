@@ -1171,29 +1171,33 @@
     "reviewed": true,
     "review_batch": 3
   },
-  "systjik": {
-    "name": "Systjik",
+  "chezetc": {
+    "name": "chezetc",
     "installed": true,
     "desktop_ids": [],
     "icon_names": [
+      "chezetc",
       "systjik"
     ],
     "mode": "illustrated-local",
     "geometry": "local/systjik.svg",
     "reviewed": true,
-    "review_batch": 6
+    "review_batch": 6,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
-  "dotjik": {
-    "name": "Dotjik",
+  "chezmoi": {
+    "name": "chezmoi",
     "installed": true,
     "desktop_ids": [],
     "icon_names": [
+      "chezmoi",
       "dotjik"
     ],
     "mode": "illustrated-local",
     "geometry": "local/dotjik.svg",
     "reviewed": true,
-    "review_batch": 6
+    "review_batch": 6,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "hyprvoice": {
     "name": "Hyprvoice",
@@ -1562,7 +1566,8 @@
     ],
     "geometry": "local/duckdb.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "hyprland": {
     "name": "Hyprland",
@@ -1573,7 +1578,8 @@
     ],
     "geometry": "local/hyprland.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "bottom": {
     "name": "Bottom",
@@ -1584,7 +1590,8 @@
     ],
     "geometry": "local/bottom.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "starship": {
     "name": "Starship",
@@ -1595,7 +1602,8 @@
     ],
     "geometry": "local/starship.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "quickshell": {
     "name": "Quickshell",
@@ -1606,7 +1614,8 @@
     ],
     "geometry": "local/quickshell.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "lazygit": {
     "name": "Lazygit",
@@ -1617,7 +1626,8 @@
     ],
     "geometry": "local/lazygit.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "vivid": {
     "name": "Vivid",
@@ -1628,7 +1638,8 @@
     ],
     "geometry": "local/vivid.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "synctjik": {
     "name": "Synctjik",
@@ -1639,7 +1650,8 @@
     ],
     "geometry": "local/synctjik.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "rpm-fusion": {
     "name": "RPM Fusion",
@@ -1650,7 +1662,8 @@
     ],
     "geometry": "local/rpm-fusion.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "tennis": {
     "name": "Tennis",
@@ -1661,7 +1674,8 @@
     ],
     "geometry": "local/tennis.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
   "tinty": {
     "name": "Tinty",
@@ -1672,6 +1686,7 @@
     ],
     "geometry": "local/tinty.svg",
     "mode": "illustrated-local",
-    "reviewed": false
+    "reviewed": true,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   }
 }

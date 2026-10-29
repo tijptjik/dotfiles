@@ -114,7 +114,7 @@ for app, width in pairs({files=0.75, sublime=1.0, obsidian=1.0, ["codex-lb"]=1.0
     end
 end
 if arg[2] == "fi" then
-    for app, width in pairs({zen=1.0, kitty=0.75}) do
+    for app, width in pairs({zen=1.0, kitty=1.0}) do
         local name = app .. "-secondary-width"
         assert(rules[name].scrolling_width == width)
         assert(rules[name].match.class == app)

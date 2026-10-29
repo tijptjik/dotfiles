@@ -3,6 +3,14 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+# Use the same local development runner as the native rendering fixtures.
+# Explicit overrides let CI and release checks select their own build.
+export TJIKUP_BINARY="${TJIKUP_BINARY:-$HOME/code/tjikos/apps/tjikup/target/debug/tjikup}"
+if [[ ! -x "$TJIKUP_BINARY" ]]; then
+    echo "[ERROR] Set TJIKUP_BINARY to an executable Tjikup build: $TJIKUP_BINARY" >&2
+    exit 1
+fi
+
 echo "[CHECK] Python syntax"
 python3 - <<'PY'
 import ast

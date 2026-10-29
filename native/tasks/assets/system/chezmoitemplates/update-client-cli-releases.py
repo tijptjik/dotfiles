@@ -194,8 +194,8 @@ def main():
     if selected == ["strata-metadata"]:
         print(strata_release_metadata())
         return
-    if selected == ["hyprvoice"]:
-        changed = install("hyprvoice", *SPECS["hyprvoice"])
+    if len(selected) == 1 and selected[0] in ("hyprvoice", "tennis", "tinty"):
+        changed = install(selected[0], *SPECS[selected[0]])
     elif selected == ["terminal"]:
         changed = False
         for tool in ("tennis", "tinty"):

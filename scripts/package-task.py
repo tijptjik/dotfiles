@@ -12,15 +12,15 @@ from device_policy import context
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test(item):
+def test(item, installed_rpms=None):
     if 'plugin' in item:
         root = Path.home() / '.config/herdr/plugins'
         # Installed plugin directories use plugin-id plus a content hash.
         return any(path.is_file() for path in root.glob('github/' + item['plugin'] + '-*/herdr-plugin.toml'))
     if 'not' in item:
-        return not test(item['not'])
+        return not test(item['not'], installed_rpms)
     if 'any' in item:
-        return any(test(value) for value in item['any'])
+        return any(test(value, installed_rpms) for value in item['any'])
     if 'command' in item:
         return shutil.which(item['command']) is not None
     if 'executable' in item:
@@ -29,6 +29,8 @@ def test(item):
     if 'path' in item:
         return Path(item['path']).expanduser().exists()
     if 'rpm' in item:
+        if installed_rpms is not None:
+            return item['rpm'] in installed_rpms
         return subprocess.run(['rpm', '-q', item['rpm']], stdout=subprocess.DEVNULL,
                               stderr=subprocess.DEVNULL, timeout=15).returncode == 0
     if 'flatpak' in item:
@@ -59,7 +61,14 @@ def presence(key, role):
                 if not isinstance(names, list) or not all(isinstance(name, str) and name for name in names):
                     raise ValueError(f'Invalid {ecosystem} package list in {group}')
                 checks.extend({ecosystem: name} for name in names)
-    return [test(item) for item in checks]
+    # One fresh RPM database read per presence check, not one process per package.
+    # No persistent cache: external dnf/rpm changes are visible on the next run.
+    installed_rpms = None
+    if policy.get('packages') == 'rpm':
+        result = subprocess.run(['rpm', '-qa', '--qf', '%{NAME}\n'], capture_output=True,
+                                text=True, check=True, timeout=30)
+        installed_rpms = set(result.stdout.splitlines())
+    return [test(item, installed_rpms) for item in checks]
 
 
 def main():

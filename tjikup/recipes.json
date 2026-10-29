@@ -3,7 +3,7 @@
   "recipes": [
     {
       "id": "home:render-prelude",
-      "label": "Prepare home prerequisite scripts",
+      "label": "Home prerequisites",
       "needs": [
         "require:fish"
       ],
@@ -40,7 +40,7 @@
       "display": {
         "section": "Preparation",
         "quiet": true,
-        "icon": "Chezmoi"
+        "icon": "Tjikup"
       },
       "optional": false,
       "operation": "prepare",
@@ -96,57 +96,19 @@
       ]
     },
     {
-      "id": "home:font-migration",
-      "label": "Font folder migration",
-      "needs": [
-        "home:render-prelude"
-      ],
-      "resources": [
-        "fonts"
-      ],
-      "apply": [
-        "python3",
-        "{run_dir}/home-run_before_71-consolidate-user-fonts.py"
-      ],
-      "env": {
-        "TJIKUP_STATUS_LINES": "1",
-        "TJIKUP_NO_SPIN": "1",
-        "TJIKUP_NO_SECTIONS": "1"
-      },
-      "timeout": 7200,
-      "display": {
-        "section": "Configuration",
-        "reports": true,
-        "icon": "Assets (user fonts)"
-      },
-      "optional": true,
-      "hosts": [
-        "fi",
-        "li"
-      ],
-      "roles": [
-        "desktop",
-        "laptop"
-      ],
-      "operation": "configure",
-      "scope": "home",
-      "application": "font-migration",
-      "ecosystem": "configuration",
-      "after": []
-    },
-    {
       "id": "home:files",
       "label": "Home files",
       "needs": [
         "home:bitwarden",
         "home:archive-restore",
-        "home:archives"
+        "home:archives",
+        "home:migrate-sync-units"
       ],
       "timeout": 1800,
       "display": {
         "section": "Configuration",
         "quiet": true,
-        "icon": "Chezmoi"
+        "icon": "Tjikup"
       },
       "apply": [
         "python3",
@@ -161,7 +123,6 @@
       ],
       "optional": false,
       "after": [
-        "home:font-migration",
         "repo:home:push",
         "repo:tjikos:push"
       ],
@@ -172,7 +133,7 @@
     },
     {
       "id": "home:render",
-      "label": "Prepare home scripts",
+      "label": "Home scripts",
       "needs": [
         "home:bitwarden",
         "require:fish"
@@ -470,7 +431,7 @@
       "display": {
         "section": "Preparation",
         "quiet": true,
-        "icon": "Chezmoi"
+        "icon": "Tjikup"
       },
       "optional": false,
       "operation": "prepare",
@@ -725,7 +686,7 @@
     },
     {
       "id": "home:archive-restore",
-      "label": "Synctjik (Required collections)",
+      "label": "Synctjik (required archives)",
       "needs": [
         "home:archives"
       ],
@@ -752,11 +713,12 @@
       "display": {
         "section": "Configuration",
         "icon": "Synctjik"
-      }
+      },
+      "after": []
     },
     {
       "id": "home:llmtrim-install",
-      "label": "llmtrim (package)",
+      "label": "LLMTrim",
       "needs": [
         "home:render"
       ],
@@ -805,7 +767,7 @@
     },
     {
       "id": "home:llmtrim",
-      "label": "Herdr (Llmtrm)",
+      "label": "Herdr (LLMTrim plugin)",
       "needs": [
         "home:llmtrim-install",
         "home:render"
@@ -827,9 +789,9 @@
       "timeout": 7200,
       "interactive": true,
       "display": {
-        "section": "Install applications",
+        "section": "Configuration",
         "reports": true,
-        "icon": "llmtrim"
+        "icon": "Herdr"
       },
       "optional": true,
       "roles": [
@@ -997,19 +959,23 @@
     },
     {
       "id": "home:icons",
-      "label": "Assets (icon cache)",
+      "label": "Rose Punk icons",
       "needs": [
         "home:render",
         "home:tjikup",
-        "home:archive-restore"
+        "home:archive-restore",
+        "home:files",
+        "home:render-prelude"
       ],
       "resources": [
         "icons"
       ],
       "apply": [
-        "fish",
-        "--no-config",
-        "{run_dir}/home-run_after_36-tjikup-icon-cache.fish"
+        "python3",
+        "$DOTJIK_REPO/scripts/asset-setup.py",
+        "icons",
+        "--run-dir",
+        "{run_dir}"
       ],
       "env": {
         "TJIKUP_STATUS_LINES": "1",
@@ -1020,14 +986,18 @@
       "display": {
         "section": "Configuration",
         "reports": true,
-        "icon": "Assets (icon cache)"
+        "icon": "Assets (Rose Punk icons)"
       },
       "optional": true,
       "operation": "configure",
       "scope": "home",
       "application": "icons",
       "ecosystem": "configuration",
-      "after": []
+      "after": [],
+      "roles": [
+        "desktop",
+        "laptop"
+      ]
     },
     {
       "id": "home:notjik",
@@ -1191,44 +1161,6 @@
       ]
     },
     {
-      "id": "home:rose-punk-icons",
-      "label": "Assets (Rose Punk icons)",
-      "needs": [
-        "home:icons",
-        "home:render",
-        "home:archive-restore"
-      ],
-      "resources": [
-        "icons"
-      ],
-      "apply": [
-        "fish",
-        "--no-config",
-        "{run_dir}/home-run_after_40-rose-punk-icons.fish"
-      ],
-      "env": {
-        "TJIKUP_STATUS_LINES": "1",
-        "TJIKUP_NO_SPIN": "1",
-        "TJIKUP_NO_SECTIONS": "1"
-      },
-      "timeout": 7200,
-      "display": {
-        "section": "Configuration",
-        "reports": true,
-        "icon": "Assets (Rose Punk icons)"
-      },
-      "optional": true,
-      "roles": [
-        "desktop",
-        "laptop"
-      ],
-      "operation": "configure",
-      "scope": "home",
-      "application": "rose-punk-icons",
-      "ecosystem": "configuration",
-      "after": []
-    },
-    {
       "id": "home:runtjik",
       "label": "Runtjik",
       "needs": [
@@ -1368,18 +1300,22 @@
     },
     {
       "id": "home:fonts",
-      "label": "Assets (fonts)",
+      "label": "Fonts",
       "needs": [
         "home:render",
-        "home:archive-restore"
+        "home:archive-restore",
+        "home:files",
+        "home:render-prelude"
       ],
       "resources": [
         "fonts"
       ],
       "apply": [
-        "fish",
-        "--no-config",
-        "{run_dir}/home-run_after_72-refresh-user-fonts.fish"
+        "python3",
+        "$DOTJIK_REPO/scripts/asset-setup.py",
+        "fonts",
+        "--run-dir",
+        "{run_dir}"
       ],
       "env": {
         "TJIKUP_STATUS_LINES": "1",
@@ -1405,7 +1341,7 @@
     },
     {
       "id": "home:mullvad",
-      "label": "Mullvad (LAN)",
+      "label": "Mullvad (local network access)",
       "needs": [
         "home:render"
       ],
@@ -1584,7 +1520,11 @@
       ],
       "apply": [
         "python3",
-        "$DOTJIK_REPO/scripts/refresh-user-services.py"
+        "$DOTJIK_REPO/scripts/refresh-user-services.py",
+        "--exclude-unit",
+        "notjik.service",
+        "--exclude-unit",
+        "bartjik.service"
       ],
       "env": {
         "TJIKUP_STATUS_LINES": "1",
@@ -1593,16 +1533,14 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Configuration",
+        "section": "Services",
         "reports": true,
         "icon": "Systemd"
       },
       "optional": true,
       "after": [
-        "home:font-migration",
         "home:files",
         "home:icons",
-        "home:rose-punk-icons",
         "home:vite",
         "home:fonts",
         "home:mullvad",
@@ -1635,7 +1573,7 @@
     },
     {
       "id": "home:native-files",
-      "label": "Home secrets",
+      "label": "Bitwarden (get secrets)",
       "needs": [
         "home:bitwarden"
       ],
@@ -1665,7 +1603,7 @@
     },
     {
       "id": "home:repositories",
-      "label": "Obsidian (Vault)",
+      "label": "Obsidian (vault checkout)",
       "needs": [
         "home:render"
       ],
@@ -1690,7 +1628,7 @@
       ],
       "timeout": 600,
       "display": {
-        "section": "Install applications",
+        "section": "Configuration",
         "icon": "Obsidian",
         "quiet": true
       },
@@ -2202,7 +2140,7 @@
     },
     {
       "id": "home:llmtrim-install:update",
-      "label": "llmtrim (package) updates",
+      "label": "LLMTrim updates",
       "needs": [
         "home:render"
       ],
@@ -2653,8 +2591,9 @@
         "home:config:notjik"
       ],
       "apply": [
-        "bash",
-        "$DOTJIK_REPO/scripts/activate-notjik.sh"
+        "python3",
+        "$DOTJIK_REPO/scripts/activate-managed-service.py",
+        "notjik"
       ],
       "resources": [
         "user-systemd"
@@ -2664,19 +2603,15 @@
         "laptop"
       ],
       "env": {
-        "TJIKUP_MANAGED_CONFIG": "1"
+        "TJIKUP_STATUS_LINES": "1"
       },
       "display": {
         "section": "Services",
         "verb": "ACTIVATE",
-        "icon": "Notjik"
+        "icon": "Notjik",
+        "reports": true
       },
-      "after": [],
-      "check": [
-        "bash",
-        "$DOTJIK_REPO/scripts/activate-notjik.sh",
-        "--check"
-      ]
+      "after": []
     },
     {
       "id": "home:activate:bartjik",
@@ -2688,8 +2623,9 @@
         "home:config:bartjik"
       ],
       "apply": [
-        "bash",
-        "$DOTJIK_REPO/scripts/activate-bartjik.sh"
+        "python3",
+        "$DOTJIK_REPO/scripts/activate-managed-service.py",
+        "bartjik"
       ],
       "resources": [
         "user-systemd"
@@ -2699,20 +2635,16 @@
         "laptop"
       ],
       "env": {
-        "TJIKUP_MANAGED_CONFIG": "1"
+        "TJIKUP_STATUS_LINES": "1"
       },
       "display": {
         "section": "Services",
         "verb": "ACTIVATE",
-        "icon": "Bartjik"
+        "icon": "Bartjik",
+        "reports": true
       },
       "after": [
         "home:activate:notjik"
-      ],
-      "check": [
-        "bash",
-        "$DOTJIK_REPO/scripts/activate-bartjik.sh",
-        "--check"
       ]
     },
     {
@@ -2791,7 +2723,7 @@
     },
     {
       "id": "system:zed:update:verify",
-      "label": "Zed (Configuration)",
+      "label": "Zed",
       "operation": "update",
       "scope": "home",
       "application": "zed",
@@ -2834,7 +2766,7 @@
     },
     {
       "id": "home:obsidian:update:verify",
-      "label": "Obsidian (Configuration)",
+      "label": "Obsidian",
       "operation": "update",
       "scope": "home",
       "application": "obsidian",
@@ -2877,7 +2809,7 @@
     },
     {
       "id": "home:codex-lb:update:verify",
-      "label": "Codex LB (Configuration)",
+      "label": "Codex LB",
       "operation": "update",
       "scope": "home",
       "application": "codex-lb",
@@ -2920,7 +2852,7 @@
     },
     {
       "id": "home:notjik:update:verify",
-      "label": "Notjik (Configuration)",
+      "label": "Notjik",
       "operation": "update",
       "scope": "home",
       "application": "notjik",
@@ -2963,7 +2895,7 @@
     },
     {
       "id": "home:bartjik:update:verify",
-      "label": "Bartjik (Configuration)",
+      "label": "Bartjik",
       "operation": "update",
       "scope": "home",
       "application": "bartjik",
@@ -3006,7 +2938,7 @@
     },
     {
       "id": "home:runtjik:update:verify",
-      "label": "Runtjik (Configuration)",
+      "label": "Runtjik",
       "operation": "update",
       "scope": "home",
       "application": "runtjik",
@@ -3049,7 +2981,7 @@
     },
     {
       "id": "system:hyprvoice:update:verify",
-      "label": "Hyprvoice (Configuration)",
+      "label": "Hyprvoice",
       "operation": "update",
       "scope": "home",
       "application": "hyprvoice",
@@ -3113,6 +3045,32 @@
         "section": "Configuration",
         "icon": "llmtrim"
       }
+    },
+    {
+      "id": "home:migrate-sync-units",
+      "label": "Synctjik (schedule migration)",
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/migrate-sync-units.py"
+      ],
+      "resources": [
+        "user-systemd",
+        "storage"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Synctjik",
+        "reports": true
+      },
+      "operation": "configure",
+      "scope": "home",
+      "application": "storage",
+      "ecosystem": "configuration",
+      "stop_codes": [
+        1
+      ],
+      "needs": [],
+      "after": []
     }
   ]
 }

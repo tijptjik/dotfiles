@@ -20,13 +20,13 @@ for folder in documents media projects resources
     end
 end
 # Initial merges are explicit; the hourly service skips until they finish.
-set -l reload (systemctl --user show private-sync.timer private-backup.timer --property=NeedDaemonReload --value)
+set -l reload (systemctl --user show synctjik-private-assets-sync.timer synctjik-private-assets-backup.timer --property=NeedDaemonReload --value)
 or exit $status
 if contains -- yes $reload
     systemctl --user daemon-reload; or exit $status
     set changed 1
 end
-for timer in private-sync.timer private-backup.timer
+for timer in synctjik-private-assets-sync.timer synctjik-private-assets-backup.timer
     if not systemctl --user --quiet is-enabled "$timer"; or not systemctl --user --quiet is-active "$timer"
         systemctl --user enable --now "$timer"; or exit $status
         set changed 1

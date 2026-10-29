@@ -1640,5 +1640,38 @@
     "geometry": "local/synctjik.svg",
     "mode": "illustrated-local",
     "reviewed": false
+  },
+  "rpm-fusion": {
+    "name": "RPM Fusion",
+    "installed": false,
+    "desktop_ids": [],
+    "icon_names": [
+      "rpm-fusion"
+    ],
+    "geometry": "local/rpm-fusion.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
+  },
+  "tennis": {
+    "name": "Tennis",
+    "installed": false,
+    "desktop_ids": [],
+    "icon_names": [
+      "tennis"
+    ],
+    "geometry": "local/tennis.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
+  },
+  "tinty": {
+    "name": "Tinty",
+    "installed": false,
+    "desktop_ids": [],
+    "icon_names": [
+      "tinty"
+    ],
+    "geometry": "local/tinty.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
   }
 }

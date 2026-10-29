@@ -142,6 +142,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="preview without changing services or state")
     parser.add_argument("--unit", action="append", help="refresh only this managed unit (repeatable)")
+    parser.add_argument("--exclude-unit", action="append", default=[])
     args = parser.parse_args()
     units = inventory()
     if args.unit:
@@ -149,6 +150,7 @@ def main():
         if unknown:
             parser.error("Unknown managed units: " + ", ".join(sorted(unknown)))
         units = {unit: inputs for unit, inputs in units.items() if unit in args.unit}
+    units = {unit: inputs for unit, inputs in units.items() if unit not in args.exclude_unit}
     state_dir = Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state") / "tjikup"
     state = state_dir / "user-services.json"
     try:

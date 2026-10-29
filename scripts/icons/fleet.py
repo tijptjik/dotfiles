@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 THEME = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
 CATALOG = runpy.run_path(str(ROOT / 'scripts/icons/icon_catalog.py'))
 SOURCES = {
+    'Brave': 'brave', 'RPM Fusion': 'rpm-fusion', 'Tennis': 'tennis', 'Tinty': 'tinty', 'Google Chrome': 'chrome',
     'DuckDB': 'duckdb', 'Hyprland': 'hyprland', 'Bottom': 'bottom',
     'Lazygit': 'lazygit', 'Starship': 'starship', 'Vivid': 'vivid',
     'Quickshell': 'quickshell', 'Synctjik': 'synctjik',

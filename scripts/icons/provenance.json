@@ -974,5 +974,23 @@
     "note": "Copper family variant with syncing arrows",
     "material_revision": 2,
     "treatment": "Two opposing rounded corner forms abstract the synchronization cycle"
+  },
+  "rpm-fusion": {
+    "source": "scripts/icons/local/rpm-fusion.svg",
+    "license": "Original themed interpretation; app identities remain with their respective owners",
+    "sha256": "80fe76bc5cf8841eae74d168d0999c4d8d79760d8289334a2c5d73f25803b883",
+    "reference": "User supplied RPM Fusion atomic logo; https://rpmfusion.org/"
+  },
+  "tennis": {
+    "source": "scripts/icons/local/tennis.svg",
+    "license": "Original themed interpretation; app identities remain with their respective owners",
+    "sha256": "515de3e391a91dce75888c8a217fb3ca402efa232a5166a2d0ebbaf83297868d",
+    "reference": "https://github.com/gurgeous/tennis"
+  },
+  "tinty": {
+    "source": "scripts/icons/local/tinty.svg",
+    "license": "Original themed interpretation; app identities remain with their respective owners",
+    "sha256": "dbd4753dab26be3eca3d8ee4229660ee2b28defb0266e97bb6e29b533cd37d30",
+    "reference": "https://github.com/tinted-theming/tinty"
   }
 }

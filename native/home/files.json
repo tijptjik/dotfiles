@@ -1237,17 +1237,17 @@
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/backup-packages.service",
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-dotfiles-lfs-backup.service",
     "kind": "file",
-    "source": "files/.config/systemd/user/backup-packages.service.j2",
+    "source": "files/.config/systemd/user/synctjik-dotfiles-lfs-backup.service.j2",
     "mode": "0644",
     "template": true,
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/backup-packages.timer",
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-dotfiles-lfs-backup.timer",
     "kind": "file",
-    "source": "files/.config/systemd/user/backup-packages.timer.j2",
+    "source": "files/.config/systemd/user/synctjik-dotfiles-lfs-backup.timer.j2",
     "mode": "0644",
     "template": true,
     "group": "base"
@@ -1261,26 +1261,26 @@
     "group": "bartjik"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup-failure.service",
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-cloudflare-resources-backup-failure.service",
     "when": "hostname in [\"fi\"]",
     "kind": "file",
-    "source": "files/.config/systemd/user/cloudflare-restic-backup-failure.service",
+    "source": "files/.config/systemd/user/synctjik-cloudflare-resources-backup-failure.service",
     "mode": "0644",
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup.service",
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-cloudflare-resources-backup.service",
     "when": "hostname in [\"fi\"]",
     "kind": "file",
-    "source": "files/.config/systemd/user/cloudflare-restic-backup.service",
+    "source": "files/.config/systemd/user/synctjik-cloudflare-resources-backup.service",
     "mode": "0644",
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup.timer",
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-cloudflare-resources-backup.timer",
     "when": "hostname in [\"fi\"]",
     "kind": "file",
-    "source": "files/.config/systemd/user/cloudflare-restic-backup.timer.j2",
+    "source": "files/.config/systemd/user/synctjik-cloudflare-resources-backup.timer.j2",
     "mode": "0644",
     "template": true,
     "group": "base"
@@ -1412,18 +1412,18 @@
     "group": "notjik"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/private-backup.service",
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-private-assets-backup.service",
     "when": "hostname in [\"fi\", \"li\"]",
     "kind": "file",
-    "source": "files/.config/systemd/user/private-backup.service",
+    "source": "files/.config/systemd/user/synctjik-private-assets-backup.service",
     "mode": "0644",
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/private-backup.timer",
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-private-assets-backup.timer",
     "when": "hostname in [\"fi\", \"li\"]",
     "kind": "file",
-    "source": "files/.config/systemd/user/private-backup.timer.j2",
+    "source": "files/.config/systemd/user/synctjik-private-assets-backup.timer.j2",
     "mode": "0644",
     "template": true,
     "group": "base"
@@ -1437,18 +1437,18 @@
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/private-sync.service",
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-private-assets-sync.service",
     "when": "hostname in [\"fi\", \"li\"]",
     "kind": "file",
-    "source": "files/.config/systemd/user/private-sync.service",
+    "source": "files/.config/systemd/user/synctjik-private-assets-sync.service",
     "mode": "0644",
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/private-sync.timer",
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-private-assets-sync.timer",
     "when": "hostname in [\"fi\", \"li\"]",
     "kind": "file",
-    "source": "files/.config/systemd/user/private-sync.timer.j2",
+    "source": "files/.config/systemd/user/synctjik-private-assets-sync.timer.j2",
     "mode": "0644",
     "template": true,
     "group": "base"
@@ -5759,5 +5759,106 @@
     "when": "hostname == \"fi\"",
     "group": "base",
     "sensitive": true
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rpm-fusion.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/rpm-fusion.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-rpm-fusion.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "rpm-fusion.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tennis.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/tennis.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tennis.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "tennis.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tinty.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/tinty.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tinty.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "tinty.svg"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/backup-packages.service",
+    "group": "base",
+    "kind": "absent"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/backup-packages.timer",
+    "group": "base",
+    "kind": "absent"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup-failure.service",
+    "when": "hostname in [\"fi\"]",
+    "group": "base",
+    "kind": "absent"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup.service",
+    "when": "hostname in [\"fi\"]",
+    "group": "base",
+    "kind": "absent"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup.timer",
+    "when": "hostname in [\"fi\"]",
+    "group": "base",
+    "kind": "absent"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/private-backup.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "group": "base",
+    "kind": "absent"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/private-backup.timer",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "group": "base",
+    "kind": "absent"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/private-sync.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "group": "base",
+    "kind": "absent"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/private-sync.timer",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "group": "base",
+    "kind": "absent"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-device-collections-backup.service",
+    "group": "base",
+    "kind": "absent"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/synctjik-device-collections-backup.timer",
+    "group": "base",
+    "kind": "absent"
   }
 ]

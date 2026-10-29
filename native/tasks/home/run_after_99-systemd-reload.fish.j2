@@ -56,11 +56,11 @@ function configure_common_user_units
     loginctl enable-linger (id -un); or return $status
     systemctl --user daemon-reload
     # The timer stays enabled; ExecCondition gates backups when initial sync is required.
-    systemctl --user enable backup-packages.timer
-    systemctl --user restart backup-packages.timer
+    systemctl --user enable synctjik-dotfiles-lfs-backup.timer
+    systemctl --user restart synctjik-dotfiles-lfs-backup.timer
 end
 
-if user_units_need_reload; or unit_needs_enable_now backup-packages.timer
+if user_units_need_reload; or unit_needs_enable_now synctjik-dotfiles-lfs-backup.timer
     stage_note "Systemd User Units [Common]" CONFIG "Backup schedule" configured configure_common_user_units
 else
     status_msg SKIP "✓" "Backup schedule" "no changes"
@@ -151,14 +151,14 @@ end
 # Only activate after the first backup and isolated restore have been verified.
 # The backup itself rejects a missing, wrong, or read-only target mount.
 if test -f "$HOME/.local/state/cloudflare-restic/restore-verified.json"; and test -f "$HOME/.config/private-storage/cloudflare-backup-token"; and test -f "$HOME/.config/private-storage/cloudflare-config-token"; and test -f "$HOME/.config/private-storage/restic-password"
-    if user_units_need_reload; or unit_needs_enable_now cloudflare-restic-backup.timer
+    if user_units_need_reload; or unit_needs_enable_now synctjik-cloudflare-resources-backup.timer
         systemctl --user daemon-reload; or exit $status
-        stage_note "Synctjik (Cloudflare backup)" CONFIG "Synctjik (Cloudflare backup)" enabled systemctl --user enable --now cloudflare-restic-backup.timer
+        stage_note "Synctjik (Cloudflare resources)" CONFIG "Synctjik (Cloudflare resources)" enabled systemctl --user enable --now synctjik-cloudflare-resources-backup.timer
     else
-        status_msg SKIP "✓" "Synctjik (Cloudflare backup)" "scheduled"
+        status_msg SKIP "✓" "Synctjik (Cloudflare resources)" "scheduled"
     end
 else
-    status_msg SKIP "-" "Synctjik (Cloudflare backup)" "setup pending"
+    status_msg SKIP "-" "Synctjik (Cloudflare resources)" "setup pending"
 end
 {% endif -%}
 {% if hostname == "si" -%}
@@ -177,7 +177,4 @@ else
 end
 {% endif -%}
 
-# All installers finish before this hook in tjikup. Refresh changed active
-# runtimes as well as unit definitions; daemon-reload alone cannot do that.
-stage_dynamic_note 'Service runtimes' RESTART 'User services' python3 {{ (home_source ~ "/../scripts/refresh-user-services.py") | fish_quote }}
-or exit $status
+# Runtime refresh has its own recipe; do not report or restart daemons twice.

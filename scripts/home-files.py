@@ -45,6 +45,16 @@ def main():
         if not any(entry.get('group') == options.group for entry in entries):
             print('SKIP    - ' + options.group + ' configuration  not enrolled on this device')
             return 0
+    needs_unit_migration = False
+    # Standalone dotjik apply must honor the same safe unit migration as the workflow.
+    if action == 'apply' and options.group in (None, 'base'):
+        needs_unit_migration = bool(runpy.run_path(str(repo / 'scripts/migrate-sync-units.py'))['legacy_units']())
+        migration = subprocess.run([sys.executable, str(repo / 'scripts/migrate-sync-units.py')],
+                                   capture_output=True, text=True)
+        if migration.returncode:
+            print('Synctjik schedule migration is not ready; leave running jobs alone and retry after they finish.',
+                  file=sys.stderr)
+            return 2
     state = Path(os.environ.get('XDG_STATE_HOME', Path.home() / '.local/state')) / 'tjikup/files/home'
     binary = os.environ.get('TJIKUP_BINARY', str(Path.home() / '.local/bin/tjikup'))
     identifier = json.loads(manifest.read_text())['id']
@@ -64,7 +74,11 @@ def main():
             except RuntimeError as error:
                 print(error, file=sys.stderr)
                 return 2
-        return subprocess.call(args)
+        result = subprocess.call(args)
+        if result == 0 and needs_unit_migration:
+            # Do not disable existing schedules if rendering/adoption/file apply failed.
+            return subprocess.call([sys.executable, str(repo / 'scripts/migrate-sync-units.py'), '--retire'])
+        return result
 
 
 if __name__ == '__main__':

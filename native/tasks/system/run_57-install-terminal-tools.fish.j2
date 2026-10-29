@@ -15,12 +15,20 @@ function install_terminal_tools
         rm -rf "$installer_dir"
         return $write_result
     end
-    python3 -B "$installer" terminal
+    set -l selected terminal
+    if set -q TJIKUP_TERMINAL_TOOL
+        set selected "$TJIKUP_TERMINAL_TOOL"
+    end
+    python3 -B "$installer" "$selected"
     set -l result $status
     rm -rf "$installer_dir"
     return $result
 end
 
-step_run_quiet "Tennis and Tinty" install_terminal_tools
+set -l title "Tennis and Tinty"
+if set -q TJIKUP_TERMINAL_TOOL
+    set title (string sub -l 1 "$TJIKUP_TERMINAL_TOOL" | string upper)(string sub -s 2 "$TJIKUP_TERMINAL_TOOL")
+end
+step_run_quiet "$title" install_terminal_tools
 or exit $status
 {% endif -%}

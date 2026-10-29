@@ -362,5 +362,27 @@
     "roles": [
       "desktop"
     ]
+  },
+  "tennis": {
+    "checks": [
+      {
+        "executable": "/usr/local/bin/tennis"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "tinty": {
+    "checks": [
+      {
+        "executable": "/usr/local/bin/tinty"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
   }
 }

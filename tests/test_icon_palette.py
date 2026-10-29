@@ -12,7 +12,7 @@ class IconPaletteTests(unittest.TestCase):
     def test_replacement_reaches_every_generated_icon(self):
         config = json.loads((ROOT / 'scripts/icons/palette.json').read_text())
         catalog = json.loads((ROOT / 'scripts/icons/catalog.json').read_text())
-        folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+        folder = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
         for key in catalog:
             colors = {c.lower() for c in re.findall(r'#[0-9a-fA-F]{6}', (folder / f'{key}.svg').read_text())}
             with self.subTest(icon=key):
@@ -23,7 +23,7 @@ class IconPaletteTests(unittest.TestCase):
             self.assertIn(config['paint_overrides']['#31748f'], text)
 
     def test_spotify_and_audio_player_share_the_requested_mint_material(self):
-        folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+        folder = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
         spotify = ET.parse(folder / 'spotify.svg')
         audio = ET.parse(folder / 'audio-player.svg')
         badge = spotify.find('.//{*}circle')

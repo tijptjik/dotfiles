@@ -67,14 +67,14 @@ class RosePunkIconsTests(unittest.TestCase):
         self.assertNotIn('codex-desktop.desktop', mapping['chatgpt'])
         expected = ET.parse(ROOT / 'scripts/icons/upstream/codex-lobe.svg').find('{*}path').get('d')
         for key in ('codex', 'codex-lb'):
-            rendered = ET.parse(ROOT / f'home/dot_local/share/icons/rose-punk/scalable/apps/{key}.svg')
+            rendered = ET.parse(ROOT / f'native/home/files/.local/share/icons/rose-punk/scalable/apps/{key}.svg')
             mark = rendered.find('.//{*}path')
             self.assertEqual(mark.get('d'), expected)
             self.assertNotEqual(mark.get('fill'), 'none')
             self.assertIsNone(mark.get('stroke'))
 
     def test_selected_outline_references_keep_geometry_and_effective_weight(self):
-        folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+        folder = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
         for key, source in (('hyprvoice', 'references/lucide-audio-lines'),
                             ('oo7', 'references/tabler-fingerprint')):
             expected = ET.parse(ROOT / f'scripts/icons/{source}.svg').getroot()
@@ -118,19 +118,22 @@ class RosePunkIconsTests(unittest.TestCase):
         self.assertEqual(set(mapping), set(catalog))
         # A catalog also describes optional apps and desktop identities.
         self.assertTrue(all(isinstance(c.get('installed'), bool) for c in catalog.values()))
-        folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+        folder = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
+        entries = json.loads((ROOT / 'native/home/files.json').read_text())
+        links = {Path(entry['path']).name: entry['target'] for entry in entries
+                 if entry['kind'] == 'symlink' and '/icons/rose-punk/scalable/apps/' in entry['path']}
         for key in catalog:
             with self.subTest(icon=key):
                 root = ET.parse(folder / f'{key}.svg').getroot()
                 self.assertEqual(root.get('viewBox'), '0 0 64 64')
                 self.assertFalse(any(n.tag.split('}')[-1] == 'image' for n in root.iter()))
-                self.assertEqual((folder / f'symlink_rose-punk-{key}.svg').read_text().strip(), key + '.svg')
+                self.assertEqual(links[f'rose-punk-{key}.svg'], key + '.svg')
                 for desktop in catalog[key]['desktop_ids']:
                     self.assertIn(desktop, mapping[key])
         for alias, key in aliases.items():
             self.assertFalse(any(c.isspace() for c in alias), "GTK cache rejects icon names with spaces")
             if alias not in catalog:
-                self.assertEqual((folder / f'symlink_{alias}.svg').read_text().strip(), key + '.svg')
+                self.assertEqual(links[f'{alias}.svg'], key + '.svg')
 
     def test_retained_brand_contours_use_authentic_vector_geometry(self):
         catalog = json.loads((ROOT / 'scripts/icons/catalog.json').read_text())
@@ -139,7 +142,7 @@ class RosePunkIconsTests(unittest.TestCase):
             local = ET.parse(ROOT / 'scripts/icons' / catalog[key]['geometry'])
             self.assertIn(original_mark, [node.get('d') for node in local.findall('.//{*}path')])
         fox = ET.parse(ROOT / 'scripts/icons/upstream/firefoxbrowser.svg').find('.//{*}path').get('d')
-        rendered = ET.parse(ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps/firefox.svg')
+        rendered = ET.parse(ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps/firefox.svg')
         self.assertIn(fox, [node.get('d') for node in rendered.findall('.//{*}path')])
         original = ET.parse(ROOT / 'scripts/icons/upstream/mullvad.svg').getroot()
         refined = ET.parse(ROOT / 'scripts/icons/local/mullvad.svg').getroot()

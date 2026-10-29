@@ -11,9 +11,9 @@ def main():
     app = sys.argv[1]
     code = subprocess.call([sys.executable, str(ROOT / 'home-files.py'), 'check', '--group', app])
     if code:
-        print('CHECK   ! ' + app + ' configuration  needs attention; run tjikup --apply-dotfiles')
+        print('CHECK   ! ' + app + '  needs attention; run tjikup --apply-dotfiles')
         return code
-    print('CHECK   ✓ ' + app + ' (Configuration)  verified', flush=True)
+    print('CHECK   ✓ ' + app + '  verified', flush=True)
     if app in UNITS:
         return subprocess.call([sys.executable, str(ROOT / 'refresh-user-services.py'),
                                 *[arg for unit in UNITS[app] for arg in ['--unit', unit]]],

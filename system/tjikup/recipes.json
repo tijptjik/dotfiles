@@ -12,7 +12,7 @@
       "display": {
         "section": "Configuration",
         "quiet": true,
-        "icon": "Chezetc"
+        "icon": "Tjikup"
       },
       "check": [
         "python3",
@@ -41,7 +41,7 @@
     },
     {
       "id": "system:render",
-      "label": "Prepare system scripts",
+      "label": "System scripts",
       "needs": [
         "home:bitwarden",
         "require:fish",
@@ -301,7 +301,7 @@
       "display": {
         "section": "Preparation",
         "quiet": true,
-        "icon": "Chezetc"
+        "icon": "Tjikup"
       },
       "optional": false,
       "operation": "prepare",
@@ -312,7 +312,7 @@
     },
     {
       "id": "system:copr",
-      "label": "Fedora (COPR repositories)",
+      "label": "Fedora (cOPR repositories)",
       "needs": [
         "require:sudo",
         "system:files",
@@ -414,7 +414,7 @@
     },
     {
       "id": "system:chrome",
-      "label": "Google Chrome stable",
+      "label": "Google Chrome",
       "needs": [
         "require:sudo",
         "system:render",
@@ -458,7 +458,7 @@
       "display": {
         "section": "Install applications",
         "reports": true,
-        "icon": "Google Chrome stable"
+        "icon": "Google Chrome"
       },
       "optional": true,
       "roles": [
@@ -1402,7 +1402,7 @@
     },
     {
       "id": "system:terminal",
-      "label": "Terminal (Tennis and Tinty)",
+      "label": "Tennis",
       "needs": [
         "require:sudo",
         "system:render"
@@ -1414,13 +1414,14 @@
         "python3",
         "$DOTJIK_REPO/scripts/package-task.py",
         "run",
-        "terminal",
+        "tennis",
         "--",
         "sudo",
         "-n",
         "-H",
         "--",
         "env",
+        "TJIKUP_TERMINAL_TOOL=tennis",
         "TJIKUP_MANAGED_CONFIG=1",
         "TJIKUP_OPERATION=install",
         "FLEET_UPGRADE=0",
@@ -1439,13 +1440,14 @@
         "TJIKUP_NO_SECTIONS": "1",
         "FLEET_UPGRADE": "0",
         "TJIKUP_OPERATION": "install",
-        "TJIKUP_MANAGED_CONFIG": "1"
+        "TJIKUP_MANAGED_CONFIG": "1",
+        "TJIKUP_TERMINAL_TOOL": "tennis"
       },
       "timeout": 7200,
       "display": {
         "section": "Install applications",
         "reports": true,
-        "icon": "Terminal"
+        "icon": "Tennis"
       },
       "optional": true,
       "roles": [
@@ -1454,14 +1456,80 @@
       ],
       "operation": "install",
       "scope": "system",
-      "application": "terminal",
+      "application": "tennis",
       "ecosystem": "custom",
       "after": [],
       "check": [
         "python3",
         "$DOTJIK_REPO/scripts/package-task.py",
         "check",
-        "terminal"
+        "tennis"
+      ]
+    },
+    {
+      "id": "system:tinty",
+      "label": "Tinty",
+      "needs": [
+        "require:sudo",
+        "system:render"
+      ],
+      "resources": [
+        "client-cli"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "tinty",
+        "--",
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_TERMINAL_TOOL=tinty",
+        "TJIKUP_MANAGED_CONFIG=1",
+        "TJIKUP_OPERATION=install",
+        "FLEET_UPGRADE=0",
+        "TJIKUP_REPORT_FILE={run_dir}/system:tinty.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_57-install-terminal-tools.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1",
+        "TJIKUP_TERMINAL_TOOL": "tinty"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install applications",
+        "reports": true,
+        "icon": "Tinty"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "system",
+      "application": "tinty",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "check",
+        "tinty"
       ]
     },
     {
@@ -1815,7 +1883,8 @@
         "home:notjik:update:verify",
         "home:bartjik:update:verify",
         "home:runtjik:update:verify",
-        "system:hyprvoice:update:verify"
+        "system:hyprvoice:update:verify",
+        "system:tinty:update"
       ],
       "operation": "update",
       "scope": "system",
@@ -2277,7 +2346,7 @@
     },
     {
       "id": "system:terminal:update",
-      "label": "Terminal (Tennis and Tinty) updates",
+      "label": "Tennis updates",
       "needs": [
         "system:render"
       ],
@@ -2288,13 +2357,14 @@
         "python3",
         "$DOTJIK_REPO/scripts/package-task.py",
         "run",
-        "terminal",
+        "tennis",
         "--",
         "sudo",
         "-n",
         "-H",
         "--",
         "env",
+        "TJIKUP_TERMINAL_TOOL=tennis",
         "TJIKUP_MANAGED_CONFIG=1",
         "TJIKUP_OPERATION=update",
         "FLEET_UPGRADE=1",
@@ -2313,13 +2383,14 @@
         "TJIKUP_NO_SECTIONS": "1",
         "FLEET_UPGRADE": "1",
         "TJIKUP_OPERATION": "update",
-        "TJIKUP_MANAGED_CONFIG": "1"
+        "TJIKUP_MANAGED_CONFIG": "1",
+        "TJIKUP_TERMINAL_TOOL": "tennis"
       },
       "timeout": 7200,
       "display": {
         "section": "Package updates",
         "reports": true,
-        "icon": "Terminal"
+        "icon": "Tennis"
       },
       "optional": false,
       "roles": [
@@ -2328,16 +2399,82 @@
       ],
       "operation": "update",
       "scope": "system",
-      "application": "terminal",
+      "application": "tennis",
       "ecosystem": "custom",
       "after": [],
       "check": [
         "python3",
         "$DOTJIK_REPO/scripts/package-task.py",
         "skip-update",
-        "terminal"
+        "tennis"
       ],
       "part_of": "system:terminal"
+    },
+    {
+      "id": "system:tinty:update",
+      "label": "Tinty updates",
+      "needs": [
+        "system:render"
+      ],
+      "resources": [
+        "client-cli"
+      ],
+      "apply": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "run",
+        "tinty",
+        "--",
+        "sudo",
+        "-n",
+        "-H",
+        "--",
+        "env",
+        "TJIKUP_TERMINAL_TOOL=tinty",
+        "TJIKUP_MANAGED_CONFIG=1",
+        "TJIKUP_OPERATION=update",
+        "FLEET_UPGRADE=1",
+        "TJIKUP_REPORT_FILE={run_dir}/system:tinty:update.report",
+        "TJIKUP_STATUS_LINES=1",
+        "TJIKUP_STATUS_SECTIONS=1",
+        "TJIKUP_NO_SPIN=1",
+        "TJIKUP_NO_SECTIONS=1",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_57-install-terminal-tools.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1",
+        "TJIKUP_TERMINAL_TOOL": "tinty"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Tinty"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "system",
+      "application": "tinty",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "python3",
+        "$DOTJIK_REPO/scripts/package-task.py",
+        "skip-update",
+        "tinty"
+      ],
+      "part_of": "system:tinty"
     },
     {
       "id": "system:nginx:update",

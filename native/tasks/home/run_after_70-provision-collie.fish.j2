@@ -43,7 +43,7 @@ if not command -q tailscale
 end
 
 if collie_bridge_is_ready
-    status_msg SKIP "✓" "Collie (Bridge)" "ready at :443"
+    status_msg SKIP "✓" "Collie (bridge)" "ready at :443"
     exit 0
 end
 
@@ -60,9 +60,9 @@ if not sudo loginctl enable-linger "$USER"
 end
 
 if command herdr plugin action invoke restart --plugin herdr.collie >/dev/null
-    status_msg CONFIG "✓" "Collie (Bridge)" "ready at :443"
+    status_msg CONFIG "✓" "Collie (bridge)" "ready at :443"
 else
-    status_msg FAILED "✗" "Collie (Bridge)"
+    status_msg FAILED "✗" "Collie (bridge)"
     exit 1
 end
 

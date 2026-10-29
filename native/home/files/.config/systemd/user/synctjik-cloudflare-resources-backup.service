@@ -1,7 +1,7 @@
 [Unit]
 Description=Encrypted Cloudflare DNS, KV, and R2 backup
 ConditionHost=fi
-OnFailure=cloudflare-restic-backup-failure.service
+OnFailure=synctjik-cloudflare-resources-backup-failure.service
 
 [Service]
 Type=oneshot

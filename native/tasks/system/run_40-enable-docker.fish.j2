@@ -20,18 +20,9 @@ if test "$docker_user" != root
     end
 end
 
-# Check if docker is already enabled
-if systemctl is-enabled docker >/dev/null 2>&1
-    step_skip_ok "Docker (Autostart)" enabled
+if systemctl is-enabled docker >/dev/null 2>&1; and systemctl is-active docker >/dev/null 2>&1
+    step_skip_ok "Docker" "enabled and active"
 else
-    step_run_note "Docker (Autostart)" enabled sudo systemctl enable docker
-    or exit 1
-end
-
-# Check if docker is already active
-if systemctl is-active docker >/dev/null 2>&1
-    step_skip_ok "Docker (Service)" active
-else
-    step_run_note "Docker (Service)" active sudo systemctl start docker
+    step_run_note "Docker" "enabled and active" sudo systemctl enable --now docker
     or exit 1
 end

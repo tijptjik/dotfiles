@@ -8,7 +8,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-THEME = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+THEME = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
 spec = importlib.util.spec_from_file_location('icon_materials', ROOT / 'scripts/icons/materials.py')
 materials = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(materials)

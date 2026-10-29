@@ -29,13 +29,13 @@ if not command -q tailscale
 end
 
 if vite_tailnet_route_is_ready
-    status_msg SKIP "✓" "Vite (Bridge)" "ready at :8443"
+    status_msg SKIP "✓" "Vite (bridge)" "ready at :8443"
     exit 0
 end
 
 if not tailnet_running
     if not command timeout 15s tailscale up >/dev/null 2>&1
-        tailnet_warning "Vite (Bridge)"
+        tailnet_warning "Vite (bridge)"
         exit 0
     end
 end
@@ -43,9 +43,9 @@ end
 # The Vite development server on fi binds IPv6 loopback only. `localhost`
 # preserves that resolution while avoiding a Tailscale IPv6-literal proxy bug.
 if command tailscale serve --https=8443 --bg --yes http://localhost:5173 >/dev/null
-    status_msg CONFIG "✓" "Vite (Bridge)" "ready at :8443"
+    status_msg CONFIG "✓" "Vite (bridge)" "ready at :8443"
 else
-    status_msg FAILED "✗" "Vite (Bridge)"
+    status_msg FAILED "✗" "Vite (bridge)"
     exit 1
 end
 

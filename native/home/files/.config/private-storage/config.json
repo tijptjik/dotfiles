@@ -27,6 +27,7 @@
     "ServerAliveCountMax=3"
   ],
   "ssh_hosts": [
+    "m@fd7a:115c:a1e0::32f:dc65",
     "m@192.168.1.150",
     "m@ssh.type.hk"
   ],

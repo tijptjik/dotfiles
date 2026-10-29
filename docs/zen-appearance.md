@@ -42,6 +42,6 @@ restart Zen. Do not edit the generated `zen-themes.css` or the running browser's
 `prefs.js`. Profile registration is local; Zen sync is not assumed to sync CSS.
 
 Apply just `~/.config/zen/userChrome.css` and `~/.config/hypr/windows.lua` with
-Chezmoi, then reload Hyprland. A Zen restart is required for stylesheet changes.
+Tjikup, then reload Hyprland. A Zen restart is required for stylesheet changes.
 To undo, remove the import, restore the Zen `border_size = 0` rule and restart
 Zen/reload Hyprland.

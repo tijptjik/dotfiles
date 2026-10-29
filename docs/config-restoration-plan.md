@@ -19,14 +19,14 @@ Exclusion from these backups does not delete anything from the source.
 
 The original README TODOs are now resolved as follows:
 
-- `home/dot_config/direnv/direnvrc` already defines `layout_uv`, and Fish loads
+- `native/home/files/.config/direnv/direnvrc` already defines `layout_uv`, and Fish loads
   the direnv hook. The helper now validates uv, ignores inherited environments,
   and watches
   `pyproject.toml`, `uv.lock` and `.python-version`.
 - Zen previously had a config-only archive rule; the new policy removes it by
   user preference. Existing remote archives are retained. Sync coverage has not
   been audited as part of this work.
-- Chezetc already has a laptop branch in `etc/fstab.tmpl`. Its UUIDs and
+- Tjikup already has a laptop branch in `etc/fstab.tmpl`. Its UUIDs and
   subvolumes match Li's actual disks;
   both the rendered file and current local laptop branch passed validation.
 - Fi's `.config/uv` currently contains a downloaded Python runtime, with no
@@ -49,7 +49,7 @@ settings, optional Steam artwork/controller customizations, and later additions.
 
 ## Storage and selection rules
 
-Use Chezmoi for authored, non-sensitive text configuration and installation
+Use Tjikup for authored, non-sensitive text configuration and installation
 instructions. Use the existing encrypted `device-archives` workflow for
 application-written settings: `mode: device`, `devices: [clients]`,
 `encrypted: true`, `retention: daily-weekly-monthly`. Each client retains its
@@ -61,7 +61,7 @@ ISO week, and previous calendar month. Reuse the existing schedule and verified
 upload/readback mechanism described in [device-archives.md](device-archives.md).
 
 Select explicit files with `include_files`. New files should be excluded by
-default. Do not recursively `chezmoi add` any of these application roots, use
+default. Do not recursively `declare in native/home/files.json` any of these application roots, use
 `*.json`/`*.vdf` across a whole profile, or treat all of `config/` as safe.
 Preferences can contain private URLs and account metadata; keep raw app state
 out of Git even when it is small.
@@ -76,7 +76,7 @@ file count, bytes, and unexpectedly large files before a policy is activated.
 
 ### 1. Direnv and uv — implemented
 
-Implemented in `home/dot_config/direnv/direnvrc`:
+Implemented in `native/home/files/.config/direnv/direnvrc`:
 
 - Resolve the current project's `.venv` deterministically, ignoring an inherited
   `VIRTUAL_ENV` belonging to another project.
@@ -223,7 +223,7 @@ for exclusions and the exact restore procedure. Brave, Steam and FirefoxPWA entr
 
 ### 7. Laptop fstab — verified, no changes needed
 
-Keep this in Chezetc, which already owns `/etc/fstab`. No home-directory backup
+Keep this in Tjikup, which already owns `/etc/fstab`. No home-directory backup
 entry is needed. Compare the existing laptop branch with Li's `/etc/fstab`,
 `findmnt` and filesystem UUID/subvolume inventory. Capture only actual mount
 definitions; do not copy Fi's UUIDs or credentials into Li's configuration.
@@ -257,7 +257,7 @@ quitting the review instance; retain the actual app's profile.
 
 ## Verification record — 2026-10-25
 
-The changes were installed on Fi and Li with scoped Chezmoi applies, excluding
+The changes were installed on Fi and Li with scoped Tjikup applies, excluding
 hooks and retaining private before-images under
 `~/.local/state/device-archives/app-config-rollout-20261025T*/`. Applications
 were not restarted and no live account/profile directory was replaced.
@@ -268,7 +268,7 @@ project check on both Fi and Li: enter creates `.venv`, does not install depende
 and PATH. Use `layout uv` in `.envrc`, run `direnv allow`, then run `uv sync`
 explicitly as needed. No empty uv configuration backup was introduced.
 
-Li's Chezetc-rendered `/etc/fstab` exactly matched the live file. The current
+Li's Tjikup-rendered `/etc/fstab` exactly matched the live file. The current
 local repository's laptop branch was also checked against Li. `findmnt
 --verify --tab-file` reported no errors or warnings, and the active mounts
 matched these devices:

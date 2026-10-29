@@ -71,15 +71,15 @@ outside this repository. Review upstream changes before updating the revision.
 Regenerate and validate:
 
 ```sh
-python3 home/dockers/profilarr-tools/executable_build-dictionarry.py \
+python3 native/home/files/dockers/profilarr-tools/build-dictionarry.py \
   --upstream /path/to/dictionarry-database --schema /path/to/schema
-python3 home/dockers/profilarr-tools/executable_build-dictionarry.py \
+python3 native/home/files/dockers/profilarr-tools/build-dictionarry.py \
   --upstream /path/to/dictionarry-database --schema /path/to/schema --check
-python3 home/dockers/profilarr-tools/executable_check-policy.py --list
+python3 native/home/files/dockers/profilarr-tools/check-policy.py --list
 ```
 
 After committing, run
-`python3 home/dockers/profilarr-tools/executable_publish-database.py`.
+`python3 native/home/files/dockers/profilarr-tools/publish-database.py`.
 Manually sync the `si-media-profiles` source database in Profilarr, review the
 exported profiles, then sync the selected quality profiles to Arr. Source sync
 and Arr sync are separate actions. Keep conflict handling at `ask`.

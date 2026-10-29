@@ -32,12 +32,12 @@ renames were not configured.
 ## Policy source
 
 The `si-media-profiles` PCD is at
-`home/dockers/profilarr-database`. It contains the reviewed Dictionarry snapshot,
+`native/home/files/dockers/profilarr-database`. It contains the reviewed Dictionarry snapshot,
 clean target names and requested tier rules. The `profilarr` branch publishes
 that directory as a standalone PCD. The separate Dictionarry tab remains the
 upstream catalogue for comparison.
 
-See [the policy README](../home/dockers/profilarr-database/README.md) for all 12
+See [the policy README](../native/home/files/dockers/profilarr-database/README.md) for all 12
 names, requested tier windows, native resolution bounds, limitations and refresh
 commands. Names range from `4K:1 Remux` to `SD:9`; HD means 1080p except the
 explicit `HD:6 Quality @ 720p` profile.
@@ -60,7 +60,7 @@ guards are active. Seerr retains its existing 4K:3 Balanced movie default and
 uses HD:4 Balanced for TV and anime.
 
 Legacy assignments were migrated using the user-approved mapping in
-`home/dockers/profilarr-database/legacy-migration.json`. All 13 legacy profiles
+`native/home/files/dockers/profilarr-database/legacy-migration.json`. All 13 legacy profiles
 were removed after migrating media, import lists, collections, Seerr defaults
 and saved request references. Paths, monitoring and tags were preserved.
 Profiles and quality definitions use manual Arr sync. Naming, delay profiles,
@@ -79,12 +79,12 @@ requested bounds as evidence of native enforcement.
 ## Explicit legacy migration
 
 The approved mapping and migration tool are versioned. This is a manual operation
-and is never invoked by chezmoi, chezetc or tjikup:
+and is never invoked by dotjik, systjik or tjikup:
 
 ```sh
-sudo python3 /home/m/.local/share/dotjik/home/dockers/profilarr-tools/executable_migrate-legacy-profiles.py
+sudo python3 /home/m/.local/share/dotjik/native/home/files/dockers/profilarr-tools/migrate-legacy-profiles.py
 # After reviewing that dry run:
-sudo python3 /home/m/.local/share/dotjik/home/dockers/profilarr-tools/executable_migrate-legacy-profiles.py --apply
+sudo python3 /home/m/.local/share/dotjik/native/home/files/dockers/profilarr-tools/migrate-legacy-profiles.py --apply
 ```
 
 The tool checks profile identities, makes native Arr backups, and stores private

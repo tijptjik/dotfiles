@@ -1,7 +1,7 @@
 # Chinese input on Hyprland
 
 Fcitx 5 starts with the Hyprland session. The common RPM list in
-`system/etc/.chezmoidata/packages.json` installs the engines, GTK/Qt modules,
+`native/tasks/assets/system/data/packages.json` installs the engines, GTK/Qt modules,
 configuration tool, and Chinese fonts on all managed hosts.
 
 The Default group contains US International with AltGr accents (`EN`), predictive Mandarin Pinyin
@@ -24,7 +24,7 @@ Backups are retained, including on runs where the profile has not changed.
 `tjikup --dry-run` does not create these backups or change the source.
 
 This prevents the usual profile-order overwrite prompt when applying through
-`tjikup`. A direct `chezmoi apply` does not capture live state first; use `tjikup`
+`tjikup`. A direct `dotjik apply` does not capture live state first; use `tjikup`
 after changing input-method preferences. Git merge conflicts between devices,
 or further profile edits while the update is running, remain separate cases.
 
@@ -62,7 +62,7 @@ input path when running on Wayland.
 
 After applying, log out and back in for a consistent session environment, or
 restart affected apps. Already-running browser processes do not adopt new launch
-flags merely by opening another window. Apply chezetc and chezmoi on other hosts;
+flags merely by opening another window. Apply systjik and dotjik on other hosts;
 installing packages on one host does not install them remotely.
 
 Validation on Fedora 44 / Hyprland 0.56.2: native GTK 4 text editor, Wayland Chrome,

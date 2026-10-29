@@ -1,9 +1,0 @@
-[Unit]
-Description=Hourly SnapRAID notification health check
-ConditionHost=si
-[Timer]
-OnCalendar=hourly
-RandomizedDelaySec=5min
-Persistent=true
-[Install]
-WantedBy=timers.target

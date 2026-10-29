@@ -16,7 +16,7 @@ and theme membership with the checkout, including stale files and aliases.
 retires stale SVGs only inside the two generated icon directories. `package`
 requires a passing check and writes an installable `rose-punk.zip` and
 `release.json` to ignored `.local/icon-releases/` (`--output DIR` overrides it).
-ZIP aliases are ordinary SVG copies, independent of Chezmoi. Source attribution
+ZIP aliases are ordinary SVG copies, independent of Dotjik. Source attribution
 and vendored license texts accompany the download. Both download variants include
 the Homepage/Si service designs and explicit helper filenames, even where no
 desktop launcher exists. Shared names keep the primary desktop artwork. Service
@@ -40,11 +40,11 @@ font discovery and installed fonts are not build inputs.
 
 | Part | Authoritative inputs | Generated output |
 | --- | --- | --- |
-| Desktop theme | `catalog.json`, `provenance.json`, `local/`, `upstream/`, `references/`, palette/material modules | `home/dot_local/share/icons/rose-punk/scalable/apps/` |
+| Desktop theme | `catalog.json`, `provenance.json`, `local/`, `upstream/`, `references/`, palette/material modules | `native/home/files/.local/share/icons/rose-punk/scalable/apps/` |
 | Shell and launcher companions | `command_icons.py`, `command-icons.json`, `material_art.py:COMMAND_ART` | Primary theme SVGs and `local/` source snapshots |
-| Aliases | Catalog icon names/desktop IDs and `alias-overrides.json` | `theme-aliases.json` and Chezmoi `symlink_*.svg` files |
+| Aliases | Catalog icon names/desktop IDs and `alias-overrides.json` | `theme-aliases.json` and Dotjik symlink manifest entries |
 | Fleet terminal sprites | `fleet.py` SVG mapping and `scripts/icons/icon_catalog.py` labels | `scripts/icons/icons32.json` |
-| Homepage | `homepage.json` and its source SVG/hash declarations | `home/dockers/homepage/images/rose-punk/` |
+| Homepage | `homepage.json` and its source SVG/hash declarations | `native/home/files/dockers/homepage/images/rose-punk/` |
 
 `apps.json` is the explicit desktop coverage policy used by `audit.py`; it is
 not regenerated from a particular host. `retired.json` preserves retired catalog
@@ -61,7 +61,7 @@ points; use `release.py` to verify the complete system before committing.
 
 ## Installation and theme selection
 
-Chezmoi deploys the named `rose-punk` theme. The apply hook runs `install.py` to
+Dotjik deploys the named `rose-punk` theme. The task runs `tjikup workflow desktop icons` to
 refresh caches and retire old icon overrides. It migrates the old
 `rose-punk-illustrated` selection only after the new primary theme is installed,
 while preserving other theme choices. `choose.py` explicitly selects a theme;
@@ -69,7 +69,7 @@ while preserving other theme choices. `choose.py` explicitly selects a theme;
 coverage. These commands are separate from the offline release gate.
 
 The standalone Tjikup notification fallback belongs to tjikOS's installer;
-the icon build never writes `home/dot_local/share/icons/tjikup.png`.
+the icon build never writes `native/home/files/.local/share/icons/tjikup.png`.
 
 ## Optional reviews and historical studies
 

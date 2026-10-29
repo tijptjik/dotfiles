@@ -10,7 +10,7 @@ Homepage is served at https://home.type.hk and Scrutiny at
 https://storage.type.hk through nginx and Cloudflare. The user explicitly
 approved public access without login protection. These routes expose the
 dashboard links, disk summary, and Scrutiny disk details and web controls.
-The vhosts are managed in chezetc's `type.hk` nginx configuration.
+The vhosts are managed in systjik's `type.hk` nginx configuration.
 Homepage allows `home.type.hk` as well as the existing localhost hosts.
 
 Both Docker host ports remain loopback-only. Access the running dashboards
@@ -27,8 +27,8 @@ The Storage link targets https://storage.type.hk.
 
 ## Configuration and deployment
 
-The Compose template and port definitions are managed by chezmoi.
-`home/dockers/homepage/*.yaml` are versioned starter configuration files; the
+The Compose template and port definitions are managed by dotjik.
+`native/home/files/dockers/homepage/*.yaml` are versioned starter configuration files; the
 running app reads its writable copy in `/mnt/storage/meta/appData/homepage`.
 When changing dashboard configuration, update the source and copy the selected
 YAML files into the appData directory on Si. Avoid overwriting runtime changes
@@ -40,11 +40,11 @@ For initial provisioning, after the Compose file has been rendered to
 `/home/m/dockers/docker-compose.yaml`:
 
 ```sh
-sudo python3 /etc/si-provision/storage.py --check
+sudo /usr/local/lib/tjikup/tjikup system storage --check
 sudo install -d -o 1000 -g 950 -m 0750 /mnt/storage/meta/appData/homepage
 sudo install -d -m 0750 /mnt/storage/meta/appData/scrutiny/config \
   /mnt/storage/meta/appData/scrutiny/influxdb
-cp /home/m/.local/share/dotjik/home/dockers/homepage/*.yaml \
+cp /home/m/.local/share/dotjik/native/home/files/dockers/homepage/*.yaml \
   /mnt/storage/meta/appData/homepage/
 cd /home/m/dockers
 docker compose config --quiet
@@ -143,7 +143,7 @@ python3 -B -m unittest discover -s tests -p 'test_homepage_icons.py' -v
 The builder requires Python, PyGObject/librsvg, pycairo and Pillow. It reads only
 editable SVGs and `scripts/icons/homepage.json`; source hashes are verified
 before any output is written. Its outputs belong under
-`home/dockers/homepage/images/rose-punk/`. It generates no galleries, screenshots
+`native/home/files/dockers/homepage/images/rose-punk/`. It generates no galleries, screenshots
 or before/after assets. No desktop-theme rebuild or local review archive is
 needed. Source URLs, reference hashes, attribution and licences remain with the
 manifest and `scripts/icons/homepage-upstream/`.

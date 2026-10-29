@@ -1,6 +1,6 @@
 # SSH connection reuse
 
-Chezetc installs `/etc/ssh/ssh_config.d/10-connection-reuse.conf` on Fi, Li,
+Tjikup installs `/etc/ssh/ssh_config.d/10-connection-reuse.conf` on Fi, Li,
 and Si. OpenSSH clients automatically share authenticated connections and keep
 an idle master alive for five minutes. This covers Git over SSH, terminal SSH,
 SCP/SFTP, fleet shortcuts, and tools that invoke OpenSSH. Clients with their own
@@ -16,7 +16,7 @@ masters expire automatically. No SSH daemon reload is needed.
 Apply just this client policy, without running unrelated hooks:
 
 ```sh
-chezetc apply --exclude=scripts /etc/ssh/ssh_config.d/10-connection-reuse.conf
+systjik apply
 ssh -G git@github.com | rg '^control(master|path|persist) '
 ```
 
@@ -55,17 +55,17 @@ OpenSSH forwards `TERM` separately when allocating a PTY.
 This lets remote Tjikup select Herdr colour icons instead of its compact glyph
 fallback. Both the client `SendEnv` and server `AcceptEnv` policies must be
 installed. The server policy is managed on Si; Fi and Li exclude server SSH
-configuration from Chezetc.
+configuration from Tjikup.
 
 Apply only the affected files, without unrelated hooks:
 
 ```sh
 # On the originating machine:
-chezetc apply --exclude=scripts /etc/ssh/ssh_config.d/50-redhat.conf
+systjik apply
 ssh -G m@ssh.type.hk | rg '^sendenv '
 
 # On Si:
-chezetc apply --exclude=scripts /etc/ssh/sshd_config.d/50-redhat.conf
+systjik apply
 sudo sshd -t && sudo systemctl reload sshd
 ```
 

@@ -87,8 +87,8 @@ its own off-host backup must be verified separately.
 ## Deployment boundary
 
 Si still uses the legacy source layouts as of this setup: home Compose under
-`/home/m/.local/share/chezmoi/home/dockers/` and nginx under
-`/home/m/.local/share/chezetc/etc/nginx/`. The scoped deployment adds equivalent
+`/home/m/.local/share/dotjik/native/home/files/dockers/` and nginx under
+`/home/m/.local/share/dotjik/system/native/nginx/`. The scoped deployment adds equivalent
 service blocks there without upgrading the server's entire policy checkout.
 Recovery copies of pre-deployment Compose/templates/nginx are kept privately in
 `/home/m/.local/state/telegram-archive-setup/`. Reconcile those legacy changes when

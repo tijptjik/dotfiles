@@ -5,7 +5,7 @@ desktop's Neuwaita theme and Rose Punk colours. The SVG is copied unchanged from
 [`org.gnome.Console.svg`](https://github.com/RusticBard/Neuwaita/blob/main/scalable/apps/org.gnome.Console.svg).
 Upstream supplies it under [CC0](licenses/neuwaita-CC0.txt).
 
-Chezmoi manages these user-wide overrides:
+Tjikup manages these user-wide overrides:
 
 - `~/.config/kitty/kitty.app.png`: Kitty's native custom window icon and default
   notification image (Notjik displays robot portraits for Kitty reports instead).
@@ -19,7 +19,7 @@ Chezmoi manages these user-wide overrides:
 Apply only these paths when other configuration work is pending:
 
 ```sh
-chezmoi apply --exclude scripts ~/.config/kitty/kitty.app.png \
+dotjik apply
   ~/.local/share/icons/hicolor/scalable/apps/kitty.svg \
   ~/.local/share/icons/hicolor/256x256/apps/kitty.png \
   ~/.local/share/icons/Neuwaita/scalable/apps/kitty.svg
@@ -35,6 +35,6 @@ verified directly. Restart a launcher if it retains an image in memory.
 Regenerate the committed 256-pixel PNG from the SVG with ImageMagick:
 
 ```sh
-magick -background none home/dot_local/share/icons/hicolor/scalable/apps/kitty.svg \
-  -resize 256x256 home/dot_config/kitty/kitty.app.png
+magick -background none native/home/files/.local/share/icons/hicolor/scalable/apps/kitty.svg \
+  -resize 256x256 native/home/files/.config/kitty/kitty.app.png
 ```

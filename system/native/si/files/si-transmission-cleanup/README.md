@@ -33,7 +33,7 @@ announce URLs containing passkeys are not logged. Imported library hardlinks/cop
 are unaffected by removing the download paths.
 
 ```sh
-sudo python3 /etc/si-transmission-cleanup/cleanup.py --dry-run
+sudo /usr/local/lib/tjikup/tjikup system transmission-cleanup --dry-run
 sudo systemctl start si-transmission-cleanup.service
 systemctl list-timers si-transmission-cleanup.timer
 journalctl -u si-transmission-cleanup.service
@@ -45,5 +45,5 @@ checking the torrent and its listed download files are gone. This is an audit lo
 not a backup of deleted content. Disable future runs with
 `sudo systemctl disable --now si-transmission-cleanup.timer`.
 
-Chezetc ignores these files on every host except `si`; both units also use
+Tjikup ignores these files on every host except `si`; both units also use
 `ConditionHost=si`, and the script independently refuses other hostnames.

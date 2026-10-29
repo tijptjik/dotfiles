@@ -9,7 +9,7 @@ state over the tiling layout. Explicit fullscreen/maximize actions still work.
 
 ## Configuration choices
 
-Edit `home/dot_config/hypr/layouts.lua.tmpl`:
+Edit `native/home/files/.config/hypr/layouts.lua.j2`:
 
 | Option | Current setting | Alternatives |
 | --- | --- | --- |
@@ -30,7 +30,7 @@ Window rules can set `scrolling_width` for app-specific initial widths.
 
 ## App defaults
 
-App widths are set in `home/dot_config/hypr/windows.lua.tmpl`. On `fi`,
+App widths are set in `native/home/files/.config/hypr/windows.lua.j2`. On `fi`,
 primary is `DP-1` and secondary is `DP-2`:
 
 | App | Primary | Secondary |
@@ -75,7 +75,7 @@ same event-loop turn. Clients can still receive the intermediate focus events.
 
 The secondary overrides use `match.workspace = "m[DP-2]"`, after the base app
 rules. Workspace IDs 1-10 remain on the primary display, and 11-20 on secondary.
-Apply window defaults with `chezmoi apply --include=files ~/.config/hypr/windows.lua ~/.config/hypr/scrolling_widths.lua ~/.config/hypr/hyprland.lua`,
+Apply window defaults with `dotjik apply`,
 then `hyprctl reload config-only` and `hyprctl configerrors`.
 
 ## Gap transitions
@@ -108,7 +108,7 @@ A missing plugin leaves ordinary gaps everywhere; there is no workspace-wide or
 fullscreen fallback. `scrolling_gaps.lua` only dispatches navigation and widths.
 
 Source and build helper live in
-`home/dot_local/share/hypr/plugins/scrolling-gaps/`. With development headers for
+`native/home/files/.local/share/hypr/plugins/scrolling-gaps/`. With development headers for
 the installed compositor (`hyprland-devel` and its dependencies):
 
 ```sh
@@ -214,13 +214,13 @@ set widths, and compare master with scrolling. A lone column should retain its c
 Apply only these files:
 
 ```sh
-chezmoi apply ~/.config/hypr/variables.lua ~/.config/hypr/layouts.lua ~/.config/hypr/bindings.lua ~/.config/hypr/scrolling_shortcuts.lua ~/.config/hypr/scrolling_gaps.lua ~/.config/hypr/plugins.lua
+dotjik apply
 hyprctl reload config-only
 hyprctl configerrors
 ```
 
 For a persistent return to master, change `general.layout` in
-`home/dot_config/hypr/variables.lua` to `"master"` and apply that file.
+`native/home/files/.config/hypr/variables.lua` to `"master"` and apply that file.
 
 Reference: <https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/>
 Gesture reference: <https://wiki.hypr.land/Configuring/Advanced-and-Cool/Gestures/>

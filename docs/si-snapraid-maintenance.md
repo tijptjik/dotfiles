@@ -74,7 +74,7 @@ the system filesystem, independent of Prowlarr and the array. It is excluded
 from Git and included in encrypted `/etc` backups. Its recovery copy is verified
 in Bitwarden Secrets Manager, project `dotfiles`, secret `si-snapraid-telegram`.
 The managed notifier, units, client-host exclusions and server-only enable hook
-are in chezetc. After fresh provisioning, restore the credentials before enabling
+are in systjik. After fresh provisioning, restore the credentials before enabling
 the watchdog; normal apply reports a skip if credentials have not been restored.
 
 ```fish

@@ -135,7 +135,7 @@
 <text x="574" y="1358" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">git</text>
 <text x="574" y="1383" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Code + config source</text>
 <path d="M795 1365H1060" stroke="#207A90" stroke-width="2.5" fill="none" /><path d="M1052 1360l8 5 -8 5" fill="none" stroke="#207A90" stroke-width="2.5"/>
-<text x="927.5" y="1353" font-size="15" fill="#207A90" font-weight="650" text-anchor="middle">Chezmoi / Chezetc</text>
+<text x="927.5" y="1353" font-size="15" fill="#207A90" font-weight="650" text-anchor="middle">Tjikup / Tjikup</text>
 <g transform="translate(1080 1344) scale(1)" fill="none" stroke="#207A90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2v28M16 2v28M27 2v28"/><rect x="2" y="8" width="6" height="6" fill="white"/><rect x="13" y="20" width="6" height="6" fill="white"/><rect x="24" y="5" width="6" height="6" fill="white"/></g>
 <text x="1124" y="1358" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fi / li / si</text>
 <text x="1124" y="1383" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Applied configuration</text>

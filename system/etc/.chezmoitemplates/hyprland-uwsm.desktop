@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Hyprland (uwsm-managed)
-Comment=An intelligent dynamic tiling Wayland compositor
-# GDM starts the compositor before graphical.target; Plymouth may hold that target.
-Exec=uwsm start -g -1 -e -D Hyprland hyprland.desktop
-TryExec=uwsm
-DesktopNames=Hyprland
-Type=Application

@@ -23,8 +23,8 @@ owner/group/mode, size, mtime and existing ACL attributes for reviewed rollback.
 Check identity before using a journal: imports can move or replace files later.
 
 ```sh
-sudo python3 /etc/si-media-permissions/permissions.py       # audit only
-sudo python3 /etc/si-media-permissions/permissions.py --apply
+sudo /usr/local/lib/tjikup/tjikup system permissions       # audit only
+sudo /usr/local/lib/tjikup/tjikup system permissions --apply
 sudo systemctl status si-media-permissions.timer
 sudo cat /var/lib/si-media-permissions/last-success.json
 ```

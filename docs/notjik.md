@@ -4,7 +4,7 @@
 Quickshell notification server. Its source, tests and rose-punk demo live in the
 tjikOS monorepo under `apps/notjik`.
 
-On desktop clients (`fi` and `li`), `chezmoi apply` builds and installs Notjik
+On desktop clients (`fi` and `li`), `dotjik apply` builds and installs Notjik
 from a shared tjikOS checkout. Both installers bootstrap it independently when
 absent, using `~/code/tjikos` on every host. Set `TJIKOS_REPO` to select
 another checkout. Existing checkouts are never pulled by installers; update
@@ -33,9 +33,9 @@ uses the same `qt6ct` platform theme as the shell, so named sender icons resolve
 consistently; its override lives in `notjik.service.d/theme.conf`. Only one desktop notification
 server can own `org.freedesktop.Notifications`.
 
-Chezmoi manages `~/.config/notjik/config.json`, Hyprland bindings, the Bartjik DND
+Tjikup manages `~/.config/notjik/config.json`, Hyprland bindings, the Bartjik DND
 control and notification activation. Keep the JSON template in expanded two-space
-format and preserve its key order when editing: Chezmoi compares file bytes, so
+format and preserve its key order when editing: Tjikup compares file bytes, so
 formatting-only rewrites of the live config can cause overwrite prompts. The client default is rose-punk, bottom
 centre on the primary display (`DP-1` on fi, `eDP-1` on li). If that connector is
 absent, the first connected screen is used. Set `placement.monitors` to `all` or
@@ -226,7 +226,7 @@ notjikctl telegram status
 
 The terminal login asks for an API ID/hash from <https://my.telegram.org/apps>,
 phone number, login code and any two-step verification password. Account/session
-data stays private under `~/.local/state/notjik/telegram`; never add it to Chezmoi.
+data stays private under `~/.local/state/notjik/telegram`; never add it to Tjikup.
 The optional runtime is isolated in `~/.local/share/notjik/telegram-venv`.
 The installer does not enable the bridge automatically. If signing in again,
 stop the bridge first; its TDLib database has a single-writer lock.
@@ -304,9 +304,9 @@ Telegram Desktop and the TDLib bridge by Telegram caller and exact chat title.
 Other message formats keep their original text; no delivery or duplicate policy
 changes. The original body and Telegram controls remain available.
 
-Add rules to `home/dot_config/notjik/config.json.tmpl`. Each rule specifies `id`,
+Add rules to `native/home/files/.config/notjik/config.json.j2`. Each rule specifies `id`,
 `match`, a full-body `pattern`, numbered `captures`, a target `card`, and labeled
 `fields`. tjikOS's `apps/notjik/examples/handlers.json` is the starting example;
 its README documents the registry and custom QML renderers. Shared rendering
-code stays in tjikOS; personal source registrations stay in Chezmoi. Install a
+code stays in tjikOS; personal source registrations stay in Tjikup. Install a
 tjikOS build with handler support before applying this configuration.

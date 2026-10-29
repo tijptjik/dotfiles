@@ -10,7 +10,7 @@ Selection flags such as `--apply-dotfiles` remain combinable.
 - **Capture changes / Commit captured changes** captures eligible application
   settings and commits those captured paths. The commit action uses Tjikup artwork.
 - **Preparation / Home prerequisites, Home scripts, System scripts** renders the
-  native maintenance scripts. These are Tjikup operations, not Chezmoi invocations.
+  native maintenance scripts. These are Tjikup operations, not Tjikup invocations.
 - **Obsidian** in Install applications installs/checks the application.
   **Obsidian (vault checkout)** in Configuration creates/checks its external Git
   vault checkout; it does not reinstall Obsidian.

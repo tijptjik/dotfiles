@@ -1,13 +1,13 @@
 # Device archives and synchronization
 
 The archival engine now lives in tjikOS at `apps/synctjik` (Rust). `synctjik` is
-the public command; `device-archives` and `chezmoi-externals-backup` are compatibility
+the public command; `device-archives` and `dotjik-externals-backup` are compatibility
 wrappers. Dotjik owns policy, subscriptions, and the scheduled service, not the
 engine. Existing v2 snapshots and `~/.local/state/device-archives` remain compatible.
 New machines enroll collections with `synctjik enroll`, restore with `synctjik setup`,
 and enable backups with `synctjik schedule` only after `synctjik ready` succeeds.
 
-The retained `home/dot_local/lib/device_archives` Python sources are migration
+The retained `native/home/files/.local/lib/device_archives` Python sources are migration
 comparison fixtures. They are not installed by the native file manifest.
 
 
@@ -17,7 +17,7 @@ machine's state; they do not apply sync plans or resolve conflicts.
 
 ## Devices and folder assignments
 
-`~/.config/archive-policy.json` defines device groups matching chezmoi's roles:
+`~/.config/archive-policy.json` defines device groups matching dotjik's roles:
 
 | Selector | Hostnames |
 | --- | --- |
@@ -54,11 +54,11 @@ or a mixture; overlapping selections are deduplicated. For example:
 | Desktop | `.keys` | Encrypted independent recovery snapshots; daily/weekly/monthly retention |
 
 SSH and GnuPG conflicts support text diffs. Asset and application conflicts are
-reviewed through file lists, sizes, and hashes. `.obsidian` is a chezmoi Git
+reviewed through file lists, sizes, and hashes. `.obsidian` is a dotjik Git
 external. Beekeeper Studio and QGIS are outside this backup policy.
 
 User fonts live in `~/.local/share/fonts`. `~/.fonts` is a compatibility symlink
-and is not archived separately. Chezmoi consolidates both locations before
+and is not archived separately. Tjikup consolidates both locations before
 applying files, refuses differing files at the same relative path, and preserves
 the original directory under `~/.local/state/font-migration/` for rollback.
 Font caches are rebuilt locally; they are not synchronized.
@@ -160,8 +160,8 @@ r2-tijpdata:tijpdata/acrhives/<machine>/<folder>/latest.json
 ```
 
 Backgrounds and Yuzu user saves use plaintext `tree.tar.zst` and
-`manifest.json`. All other folders use age encryption with the chezmoi keypair.
-Keep `~/.keys/chezmoi.txt` recoverable separately. Each snapshot records its
+`manifest.json`. All other folders use age encryption with the dotjik keypair.
+Keep `~/.keys/age.txt` recoverable separately. Each snapshot records its
 format; readers support both encrypted and plaintext snapshots.
 
 A backup stages files, detects concurrent changes, and captures SQLite databases
@@ -330,16 +330,16 @@ of a running application. Close apps if a backup reports changing files.
 
 ## Client and server rollout
 
-Install the current changes in **both** the chezmoi and Chezetc source repositories
+Install the current changes in **both** the dotjik and Tjikup source repositories
 before applying. `tjikup` runs the home and system configuration workflows; it
-does not complete archive synchronization. A failure during Chezetc apply does
+does not complete archive synchronization. A failure during Tjikup apply does
 not undo earlier successful stages. Re-running after fixing the failed stage is
 safe; review unrelated local changes before allowing tjikup to commit them.
 
 ### Laptop (`li`)
 
 1. If tjikup already completed its home stages and stopped during system apply,
-   run `chezetc apply` after installing the client installer fixes to complete
+   run `systjik apply` after installing the client installer fixes to complete
    that part; a full tjikup run is not required just for archive sync. The hooks
    install Strata as the invoking desktop user, while package dependencies use
    sudo. Bartjik is installed by the home apply hook; see [Bartjik](bartjik.md).
@@ -358,8 +358,8 @@ safe; review unrelated local changes before allowing tjikup to commit them.
 5. Confirm `systemctl --user list-timers backup-packages.timer`: daily at 00:15.
    Until initial sync is complete, the enabled timer intentionally skips backups.
 
-ZapZap is managed separately by chezmoi, not these archives. Its template uses
-`zapzapConfigs.fi` or `zapzapConfigs.li` from `.chezmoidata/zapzap.json`; tjikup
+ZapZap is managed separately by dotjik, not these archives. Its template uses
+`zapzapConfigs.fi` or `zapzapConfigs.li` from `.dotjikdata/zapzap.json`; tjikup
 captures only the current client's configuration, preserving Qt serialization,
 window geometry, window state, and recent-download paths on the other client.
 Close ZapZap before applying deliberately edited settings; its running process
@@ -388,7 +388,7 @@ separate setup task.
 
 ## LAN access while using Mullvad
 
-Every chezmoi apply sets Mullvad's persistent LAN-sharing policy to `allow`
+Every dotjik apply`allow`
 when the CLI is installed, including on clients and servers. Hosts without
 Mullvad skip this step. This permits local-network SSH while the VPN is on;
 it does not disconnect the VPN or change its relay settings.

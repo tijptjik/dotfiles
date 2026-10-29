@@ -20,7 +20,7 @@ are logged as failures and left untouched.
 1. Apply this repository so that the hook scripts and compose mounts exist:
 
    ```bash
-   chezmoi apply
+   dotjik apply
    ```
 
 2. Start Transmission from the directory containing the rendered compose file.

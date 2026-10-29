@@ -50,7 +50,7 @@ Do not restore or overwrite the vault to fix this condition.
 
 ## Installation and checks
 
-On clients (`fi` and `li`), the home apply hook runs `scripts/install-obsidian.py`.
+On clients (`fi` and `li`), the home apply hook runs `tjikup workflow install obsidian`.
 It fetches the latest stable AppImage from `obsidianmd/obsidian-releases`, verifies
 the release asset's SHA-256 digest, and atomically switches
 `~/.local/bin/obsidian-appimage`. Both launchers use that same verified binary.
@@ -67,8 +67,8 @@ otherwise inspect both before choosing. The vault itself stays in place.
 Install only these managed targets, without running unrelated hooks:
 
 ```sh
-python3 scripts/install-obsidian.py
-chezmoi apply --include=files ~/.local/bin/obsidian ~/.local/bin/obsidian-viewer ~/.local/share/applications/md.obsidian.Obsidian.desktop ~/.local/share/applications/obsidian-appimage.desktop
+tjikup workflow install obsidian
+dotjik apply
 update-desktop-database ~/.local/share/applications
 xdg-mime query default text/markdown
 xdg-mime query default x-scheme-handler/obsidian

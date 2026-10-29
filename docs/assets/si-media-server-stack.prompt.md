@@ -10,7 +10,7 @@ References:
 3. Profilarr official logo: src/lib/client/assets/logo-512.png from the reviewed Profilarr source checkout.
 
 Configuration references: docs/si-seerr.md, docs/si-profilarr.md,
-docs/si-application-backups.md and home/dockers/docker-compose.yaml.tmpl.
+docs/si-application-backups.md and native/home/files/dockers/docker-compose.yaml.j2.
 The poster describes the configured stack, not a live health report.
 
 ## Exact prompt

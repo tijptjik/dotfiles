@@ -1,9 +1,0 @@
-[Settings]
-gtk-application-prefer-dark-theme=0
-gtk-im-module=fcitx
-{{ $settings := joinPath .chezmoi.homeDir ".config/gtk-3.0/settings.ini" -}}
-{{ if stat $settings -}}
-{{ with regexFind "(?m)^gtk-icon-theme-name=.*$" (include $settings) -}}
-{{ . }}
-{{ end -}}
-{{ end -}}

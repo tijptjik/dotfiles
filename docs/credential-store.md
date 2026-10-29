@@ -1,7 +1,7 @@
 # Credential store
 
 Fedora 45 adopted [oo7 as the replacement for GNOME Keyring](https://fedoraproject.org/wiki/Changes/oo7_Secrets_Service_Provider).
-The `97-secret-service.fish` Chezmoi hook installs `oo7-daemon`, `pam_oo7`, and
+The `97-secret-service.fish` Tjikup hook installs `oo7-daemon`, `pam_oo7`, and
 `oo7-portal` on fi, li, and si. It removes the superseded `gnome-keyring` and
 `gnome-keyring-pam` packages with dependency cleanup disabled, stops this user's
 old daemon, and enables the oo7 user service. This removes the competing D-Bus

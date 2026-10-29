@@ -4,14 +4,14 @@ Home and system configuration applied by Tjikup. The GitHub repository remains
 `tijptjik/dotfiles`, checked out at `~/.local/share/dotjik`. System policy from
 Systjik now lives in `system/` within this repository.
 
-Tjikup owns tasks, all home files and native Fi system files. Home configuration
-lives in `native/home/files/`, with `.j2` templates and explicit manifests.
-Chezmoi remains for maintenance-task rendering and unported system templates. `systjik` and `chezetc` forward file operations to the unified policy;
-there is no separate Chezetc dependency or system Git synchronization.
+Tjikup owns deployment and maintenance for every fleet host. Home configuration
+lives in `native/home/files/`; system policy lives in `system/native/`. MiniJinja
+`.j2` templates render natively. `dotjik` and `systjik` delegate to the native
+configuration commands. Synctjik owns backup and recovery operations.
 
-See [migration and native file ownership](docs/tjikup.md#native-file-migration)
-and [Git shortcuts](docs/tjikup.md#git-only-shortcuts). Keep the old Systjik
-checkout and its Git history as a recovery copy until consolidation is backed up.
+See [workflows and native file ownership](docs/tjikup.md) and
+[new devices](docs/new-devices.md). Release publication and pin updates are
+currently deferred; the source migration does not update published bootstrap.
 
 ## Supported Devices
 
@@ -149,7 +149,7 @@ Zed propagation updates existing scalar settings and preserves template settings
 
 On clients, the Tjikup recipe installs or updates `codex-lb` in `~/.codex-lb/runtime`. After an update, run `systemctl --user restart codex-lb.service` between Codex sessions to activate it; the update script leaves the running proxy alone to avoid interrupting requests.
 
-Use `tjikup --skip-conflicts` to automatically skip conflicting files during the legacy home Chezmoi apply, preserving their local contents while applying other changes. Native file conflicts always stop that file deployment. Other apply errors still fail the command.
+Use `tjikup --skip-conflicts` to automatically skip conflicting files during the legacy home Tjikup apply, preserving their local contents while applying other changes. Native file conflicts always stop that file deployment. Other apply errors still fail the command.
 
 Apply stages stream plain output to avoid terminal capability replies leaking from Gum spinners. Interactive prompts remain available.
 
@@ -175,7 +175,7 @@ Native template rendering and host-specific behavior have separate fixture check
 Minimal encrypted Telegram, Brave, Steam and FirefoxPWA backups are enabled on
 Fi and Li. Zen uses its own sync. uv has no separate configuration to archive;
 `layout uv` selects the project's `.venv` and leaves dependency installation to
-an explicit `uv sync`. Li's Chezetc fstab matches its current disks and mounts.
+an explicit `uv sync`. Li's Tjikup fstab matches its current disks and mounts.
 
 See the [configuration restoration guide](docs/config-restoration-plan.md) for
 selected files, recovery limits and verification status.

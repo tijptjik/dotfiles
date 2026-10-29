@@ -25,7 +25,7 @@ digraph plan {
   offsite -> offnote [style=dashed, arrowhead=none];
  }
  local -> offsite [label="fi initiates outbound SSH/SFTP\nNo SSH server needed on fi", color="#0d9488", penwidth=2];
- git [fillcolor="#f3e8ff", color="#a855f7", label="REBUILD DEFINITIONS · Git\nchezmoi + chezetc\nCompose/image pins · provisioning · custom code\nNo credentials, even encrypted"];
+ git [fillcolor="#f3e8ff", color="#a855f7", label="REBUILD DEFINITIONS · Git\ndotjik + systjik\nCompose/image pins · provisioning · custom code\nNo credentials, even encrypted"];
  vault [fillcolor="#f3e8ff", color="#a855f7", label="SECRET SOURCE · Bitwarden\nCredentials + recovery keys\nSupply securely during provisioning/restore\nKeep repository passwords recoverable"];
  restore [fillcolor="#dcfce7", color="#22c55e", label="EXPLICIT RECOVERY\nRestore exact snapshot into private staging → verify\nInstall only into empty targets with writers stopped\nImport MariaDB separately → validate → start services\nNever triggered by tjikup"];
  offsite -> restore [color="#0d9488"];

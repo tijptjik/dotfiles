@@ -1,7 +1,0 @@
-#!/bin/sh
-# Share Qt Quick tooltip styling across Quickshell apps, including attached ToolTip.
-style_root="${XDG_DATA_HOME:-$HOME/.local/share}/quickshell/styles"
-export QML_IMPORT_PATH="$style_root${QML_IMPORT_PATH:+:$QML_IMPORT_PATH}"
-export QT_QUICK_CONTROLS_STYLE="${QT_QUICK_CONTROLS_STYLE:-RosePunk}"
-export QT_QUICK_CONTROLS_FALLBACK_STYLE="${QT_QUICK_CONTROLS_FALLBACK_STYLE:-Fusion}"
-exec /usr/bin/quickshell "$@"

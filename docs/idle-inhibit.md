@@ -5,7 +5,7 @@ The Bartjik coffee switch saves its choice in
 inhibited; `off` enables the normal Hypridle policy, including suspend after
 30 minutes. The icon continues to reflect whether Hypridle is actually running.
 
-Chezmoi initially adopts the current graphical session's setting. A first
+Tjikup initially adopts the current graphical session's setting. A first
 installation without a graphical session retains the automatic-idle default.
 Subsequent applies preserve the saved choice and do not start Hypridle.
 The service checks the saved choice at login, so inhibition survives session

@@ -18,7 +18,7 @@ after the same three-second countdown. Keep the monitor layout unchanged while
 recording. Super+G stops any mode; all three shortcuts stop an existing recording
 or cancel a pending selection instead of starting another recorder.
 
-Chezetc installs GPU Screen Recorder and Slurp from configured RPM repositories.
+Tjikup installs GPU Screen Recorder and Slurp from configured RPM repositories.
 Tjikup updates those packages. The on-demand `screen-record.service` owns the
 process, ensuring the shortcut stops only its recording. Recording also stops
 when the graphical session ends. Failures produce a notification; inspect

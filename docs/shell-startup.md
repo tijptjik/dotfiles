@@ -34,7 +34,7 @@ removed; Kitty remains the managed terminal.
 
 Run `python3 -B -m unittest discover -s tests -p 'test_fish_*.py' -v` to check
 project-bin cleanup, worktree switching, and the greeting. Apply the affected
-Fish files with `chezmoi apply --exclude scripts <target paths>`.
+Fish files with `dotjik apply`.
 
 On 2026-10-27, launches from the home directory on the local Wayland session
 measured process start through completion of the first interactive Fish prompt.

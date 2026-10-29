@@ -1,4 +1,0 @@
-#!/usr/bin/env fish
-source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
-stage_dynamic_note 'Install Runtjik' INSTALL Runtjik bash "{{ .chezmoi.sourceDir }}/../scripts/install-runtjik.sh"
-or exit $status

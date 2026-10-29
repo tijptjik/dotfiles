@@ -280,7 +280,7 @@ systemctl --user enable backup-packages.timer
 These commands restore eligibility for startup; start services deliberately when
 ready. Verify timer enablement after unmasking. `docker.socket` was originally
 disabled, so do not enable it just to restore the prior state. Do not run an
-unreviewed `chezmoi apply` during maintenance: managed configuration may restore
+unreviewed `dotjik apply` during maintenance: managed configuration may restore
 startup settings. The reversal commands were executed on **October 20** after the final full scrub passed; see the restoration entry below.
 
 ## Activity log
@@ -1239,7 +1239,7 @@ completion verification pending at this log entry.
 Started Navidrome (`:4533`) then Feishin (`:9180`) individually, without pulls or
 dependencies. Opened both local login pages. Feishin was locked to public
 `https://lp.type.hk`; changed its backend to LAN Navidrome and propagated the fix
-into `home/dockers/docker-compose.yaml.tmpl`. Preserved original remote Compose at
+into `native/home/files/dockers/docker-compose.yaml.j2`. Preserved original remote Compose at
 `/mnt/data/disk42/.recovery-preservation/2026-10-20-audiobookshelf/feishin-compose-before.yaml`.
 Navidrome began its initial library scan and logged some artwork/database-lock
 warnings; it remains running. Transmission and Ephemera remain stopped.
@@ -1278,7 +1278,7 @@ settings in `/mnt/data/disk42/.recovery-preservation/2026-10-20-plex-rewind/sett
 changed only `connection.tautulliUrl` in its persisted settings.json to
 `http://tautulli:8181`, and restarted Plex Rewind. Browser now shows its normal
 "Log in with Plex" page. This is an application setting stored in its existing
-persistent volume, not an nginx/chezetc setting. Plex itself was not started;
+persistent volume, not an nginx/systjik setting. Plex itself was not started;
 Transmission and Ephemera remain stopped. No media reacquisition initiated.
 
 ### Next two services: Shelfmark and Octo-Fiesta — October 20, 21:44 HKT
@@ -1364,8 +1364,8 @@ Beets Audible now mounts the intended audiobook config, keeps its existing
 plex/scrub/web. Installed pinned compatible packages beets 2.14.1,
 beets-audible 1.7.1, beets-copyartifacts3 0.1.7. Corrected init mount to
 /custom-cont-init.d and supplied an executable, idempotent installation script.
-Source changes are in home/dockers/docker-compose.yaml.tmpl and
-home/dockers/beets-audible-init/executable_install-deps.sh. Existing audiobook config
+Source changes are in native/home/files/dockers/docker-compose.yaml.j2 and
+native/home/files/dockers/beets-audible-init/install-deps.sh. Existing audiobook config
 is maintained in its server-side beets-audible checkout. Restart checked; no import
 started. All items/albums/flexible-attribute rows compare equal to the saved catalog
 (three items). Old configs/plugins/catalog preserved under
@@ -1465,7 +1465,7 @@ Plex thumbnails/metadata assets and package environments. Candidate measured
 account for 740,380,595 bytes in appData, 3,443,127,654 bytes in Plex and
 150,501,011 bytes in Audiobookshelf metadata. Current-state candidate is about
 3.72 GiB uncompressed, including /etc, user settings/scripts, Compose and MariaDB;
-server chezmoi source and SSH files add only about 1.6 MiB. This is a sizing
+server dotjik source and SSH files add only about 1.6 MiB. This is a sizing
 estimate, not a completed consistent database snapshot. Some conservative
 inclusions (user-installed binaries and logs stored inside database files) remain.
 No existing backup archives or rebuildable assets were removed. Need a reviewed
@@ -1493,7 +1493,7 @@ in the encrypted backup. The live Prowlarr database remains unchanged.
 An isolated MariaDB import and all-table check passed. All 21 production
 containers and native Plex remained running after validation.
 
-Source changes are persisted in chezmoi and sibling chezetc; unrelated checkout
+Source changes are persisted in dotjik and sibling systjik; unrelated checkout
 changes were preserved. Server timer activated after the successful baseline.
 Initial independent copy is running; client timer activation and restore checks
 will be recorded after it completes.
@@ -1548,7 +1548,7 @@ first sync is October 22. All seven UUIDs are pinned, no force flags used, diff
 removals over 200 block the job. Current diff has 110 removals, passing the gate.
 Known media writers pause only during sync, with finally/ExecStopPost/boot recovery.
 Maintenance serializes with application backup. No immediate disk job was started
-during the VIDEO transfer. Sources persisted in sibling chezetc. See
+during the VIDEO transfer. Sources persisted in sibling systjik. See
 [maintenance runbook](si-snapraid-maintenance.md).
 
 Stopped only Prowlarr, preserved its database under
@@ -1593,7 +1593,7 @@ quarantined with checksum verification and never executed. Current torrent
 manifests contained no executable payloads at inspection. Guard tests passed;
 Unpackerr retrieved the Sonarr queue and Plex's connection test passed. A real
 new completed archive-to-library import was not available for end-to-end proof.
-Managed changes persisted in chezmoi/chezetc; app secrets remain only in the
+Managed changes persisted in dotjik/systjik; app secrets remain only in the
 backed-up appData configs/databases. Pre-change state is in the dated media-flow
 preservation directory.
 

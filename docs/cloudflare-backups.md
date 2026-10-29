@@ -20,7 +20,7 @@ transaction across Cloudflare products.
 
 - Destination: Fi's secondary disk, UUID `E84A8D8F4A8D5B68`.
 - Repository: `/run/media/io/E84A8D8F4A8D5B68/BACKUP/cloudflare-restic`.
-- Chezetc mounts the disk by UUID at boot. Each backup checks the mount point,
+- Tjikup mounts the disk by UUID at boot. Each backup checks the mount point,
   UUID and writable state; a missing disk does not fall back to the system disk.
 - Restic encrypts and deduplicates snapshots. The API token is provisioned from
   Bitwarden. Staging files and the read-only R2 mount are temporary.

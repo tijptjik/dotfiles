@@ -1,7 +1,0 @@
-[Unit]
-Description=Notify about a failed Google Drive Restic backup
-ConditionHost=si
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/logger --priority user.crit --tag drive-restic-backup "Google Drive backup failed; check the user journal and ~/.local/state/drive-restic/last-error.json"

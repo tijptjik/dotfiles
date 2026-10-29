@@ -1,6 +1,0 @@
-# PAM configuration file for hyprlock.
-#
-# Authenticate against the host's normal authselect-managed policy.  This
-# keeps password and configured biometric authentication working while never
-# allowing an unlock merely because PAM is reachable.
-auth    include     system-auth

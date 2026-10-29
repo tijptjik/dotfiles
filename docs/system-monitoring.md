@@ -11,7 +11,7 @@ Files are readable only by root. Sampling can miss very short-lived processes.
 Apply the managed files, then install their system configuration:
 
 ```sh
-chezmoi apply ~/.config/system-monitoring/atop ~/.config/system-monitoring/atop-service.conf ~/.local/bin/setup-system-monitoring
+dotjik apply
 ~/.local/bin/setup-system-monitoring
 ```
 

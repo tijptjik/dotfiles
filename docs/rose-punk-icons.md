@@ -53,12 +53,12 @@ with their owners; themed adaptations are unofficial.
 
 ## Installation and theme choice
 
-Chezmoi deploys **Rose Punk** under `~/.local/share/icons/rose-punk/`. It inherits
+Tjikup deploys **Rose Punk** under `~/.local/share/icons/rose-punk/`. It inherits
 Neuwaita, Adwaita and hicolor for missing icons. Managed application launchers
 use ordinary upstream icon names. Aliases live inside Rose Punk's own theme;
 its artwork is not injected into hicolor or forced through desktop icon fields.
 
-The client hook runs `scripts/icons/install.py` to refresh caches, retire old
+The client hook runs `tjikup workflow desktop icons` to refresh caches, retire old
 hicolor links into Rose Punk themes, and restore launcher icon fields while
 preserving edited launch commands. Recovery evidence lives under
 `~/.local/state/rose-punk-icons/`. Unknown edited overrides remain for review.
@@ -108,7 +108,7 @@ and checks clearance against the rounded tile. After approval, `framed.py build`
 writes the `rose-punk-framed` theme and an installable ZIP/manifest under
 `.local/icon-reviews/docs/assets/icon-framed/`. Its native source directory and
 `index.theme` must first be registered in `native/home/files.json`; generated
-aliases live in that manifest, not in Chezmoi-encoded source files.
+aliases live in that manifest, not in Tjikup-encoded source files.
 Ordinary release and review commands never create approval or the framed set.
 
 ## Runtjik command companions
@@ -151,7 +151,7 @@ check; published versions require a new version number.
 
 ## Si service icons and conditional update rows
 
-Every service declared in `home/dockers/docker-compose.yaml.tmpl`, including
+Every service declared in `native/home/files/dockers/docker-compose.yaml.j2`, including
 manual-profile helpers, has an explicit entry in
 `scripts/icons/docker-services.json`. This inventory selects a source
 from `scripts/icons/homepage.json` and a compact fallback glyph.
@@ -177,6 +177,6 @@ Si's application updater emits separate **Docker services** and **Native
 applications** sections. The fleet scheduler renders individual results with
 service artwork and records each result once. It omits hooks whose rendered
 Fish body contains only the standard deferral guard; skipped nodes remain in
-the dependency graph. Host predicates remain in the Chezmoi templates.
+the dependency graph. Host predicates remain in the Tjikup templates.
 Obsidian is client-only, llmtrim desktop-only, and Codex LB client-only; an
 explicit `SKIP ... client only` result is retained when a hook emits one.

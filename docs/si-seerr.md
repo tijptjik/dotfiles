@@ -3,7 +3,7 @@
 Seerr provides Plex media requests at https://request.type.hk. The managed Compose
 service uses `ghcr.io/seerr-team/seerr:latest`, with persistent state in
 `/mnt/storage/meta/appData/seerr`. Only nginx can access its host port
-(`127.0.0.1:5055`). The nginx vhost is managed in chezetc; Cloudflare DNS must
+(`127.0.0.1:5055`). The nginx vhost is managed in systjik; Cloudflare DNS must
 contain a proxied CNAME `request.type.hk` → `type.hk`, matching the deployed DNS
 record. nginx selects Seerr using the original `request.type.hk` hostname.
 Existing origin TLS and authenticated origin pulls remain enabled.

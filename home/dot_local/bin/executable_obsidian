@@ -1,2 +1,0 @@
-#!/bin/sh
-exec "$HOME/.local/bin/obsidian-appimage" --password-store=gnome-libsecret "$@"

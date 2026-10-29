@@ -4,7 +4,7 @@ Implemented 2026-10-21. These are explicit commands, not apply hooks. **Do not r
 
 ## Routine updates (`tjikup`)
 
-`tjikup` pulls/pushes source and applies chezmoi and chezetc. Package upgrades, Docker enable/start and nginx module rebuilds retain their normal behavior. Storage guards protect service startup. Provisioning and restore tools are never invoked by these hooks. Review diffs before applying substantial changes; ordinary maintenance can still update packages and managed files.
+`tjikup` pulls/pushes source and applies dotjik and systjik. Package upgrades, Docker enable/start and nginx module rebuilds retain their normal behavior. Storage guards protect service startup. Provisioning and restore tools are never invoked by these hooks. Review diffs before applying substantial changes; ordinary maintenance can still update packages and managed files.
 
 Neither provisioning nor restoration is an apply hook. Transmission's mutable settings.json is ignored on the server. Application databases and passwords are not template targets. Existing mergerfs is not replaced, existing accounts are not renumbered, the directory provisioner preserves existing ownership/modes, and existing Beets files are not overwritten. Auto-m4b remains opt-in.
 
@@ -23,10 +23,10 @@ On si only, systemd sleep policy disables suspend and hibernation, and the GDM d
 Run the planning form first; add `--apply` to make the planned changes:
 
 ```fish
-sudo python3 /etc/si-provision/provision.py accounts
-sudo python3 /etc/si-provision/provision.py accounts --apply
-sudo python3 /etc/si-provision/provision.py mergerfs
-sudo python3 /etc/si-provision/provision.py mergerfs --apply
+sudo /usr/local/lib/tjikup/tjikup system provision accounts
+sudo /usr/local/lib/tjikup/tjikup system provision accounts --apply
+sudo /usr/local/lib/tjikup/tjikup system provision mergerfs
+sudo /usr/local/lib/tjikup/tjikup system provision mergerfs --apply
 ```
 
 Mergerfs 2.42.0 is locked to the upstream Fedora 44 x86_64 RPM and publisher SHA256. Other OS/architectures fail closed. Existing installations are preserved regardless of version; upgrading a running pool remains an explicit maintenance operation. The Fedora 44 artifact was hash-verified and passed isolated merged-read, write, rename and delete checks. The removed `use_ino` option is no longer generated. On si, the upgrade was explicitly activated by an orderly reboot; disk UUID checks, normal-user pool writes and cross-process SQLite WAL locking passed. A complete fresh-host recovery rehearsal is still required.
@@ -34,7 +34,7 @@ Mergerfs 2.42.0 is locked to the upstream Fedora 44 x86_64 RPM and publisher SHA
 Install the server package declarations deliberately during bootstrap (including Docker, Compose, SnapRAID, Plex, rsync, restic and PyYAML); normal server tjikup package maintenance remains enabled. Keep Docker and Plex stopped until mounts and restored state are ready. Use the selective fstab helper described in SERVER-REBUILD.md, then verify:
 
 ```fish
-sudo python3 /etc/si-provision/storage.py --check
+sudo /usr/local/lib/tjikup/tjikup system storage --check
 ```
 
 ## Fedora 44 to 45: completed upgrade and compatibility notes
@@ -58,7 +58,7 @@ set -l si_fc45_options \
     '--setopt=rpmfusion-free-updates-testing.excludepkgs=libheif*' \
     --best
 
-sudo python3 /etc/si-provision/storage.py --check
+sudo /usr/local/lib/tjikup/tjikup system storage --check
 sudo nginx -t
 sudo dnf check
 df -h / /boot
@@ -155,9 +155,9 @@ Optional `--include` flags replace the default list. Supported extra targets: `/
 After restoring (not before, as creating per-service directories would make appData nonempty):
 
 ```fish
-sudo python3 /etc/si-provision/provision.py directories
-sudo python3 /etc/si-provision/provision.py directories --apply
-sudo python3 /etc/si-provision/provision.py beets --apply
+sudo /usr/local/lib/tjikup/tjikup system provision directories
+sudo /usr/local/lib/tjikup/tjikup system provision directories --apply
+sudo /usr/local/lib/tjikup/tjikup system provision beets --apply
 ```
 
 The directory inventory records deployed bind-directory numeric owners/modes. Existing paths are preserved. A conflicting downloads or Plex symlink target aborts; move any package-created empty Plex directory out of the way explicitly after checking it. Beets seeding only fills missing custom source files; all YAML configuration and secrets are recovered through the application backup.
@@ -177,7 +177,7 @@ Validate Compose (`docker compose config --quiet`), paths, tokens and mounts, th
 
 Compose uses the intended upstream tags; only explicitly chosen pins in Compose are retained (currently Unpackerr). There is no separate image-lock.json. Lidarr builds from its original nightly tag. Pull/recreate services deliberately and verify a current application backup before upgrades; database migrations may require restoring that backup to roll back. No automatic image-update service is added.
 
-Nonsecret Beets plugin source and genre tools are under chezmoi `home/dockers/beets-customizations/`. Credentials belong in Bitwarden, not Git, including encrypted credential archives. Provisioning must resolve secrets from Bitwarden at runtime without printing them or writing them into repository sources. The proposed Beets credential archive is cancelled; none was exported. Existing application backups may contain credential-bearing application state; restoring that state is distinct from version-controlling credentials. A Beets-specific Bitwarden item mapping has not yet been implemented; do not invent item IDs or replace existing secrets.
+Nonsecret Beets plugin source and genre tools are under dotjik `native/home/files/dockers/beets-customizations/`. Credentials belong in Bitwarden, not Git, including encrypted credential archives. Provisioning must resolve secrets from Bitwarden at runtime without printing them or writing them into repository sources. The proposed Beets credential archive is cancelled; none was exported. Existing application backups may contain credential-bearing application state; restoring that state is distinct from version-controlling credentials. A Beets-specific Bitwarden item mapping has not yet been implemented; do not invent item IDs or replace existing secrets.
 
 Validation: 28 regression tests pass; account collisions, active writers, populated destinations, snapshot selection and existing mergerfs preservation are covered. This does not replace a complete fresh-host recovery rehearsal; no live restore was attempted.
 

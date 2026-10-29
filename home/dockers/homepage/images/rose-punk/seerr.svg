@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<g id="frameless-artwork" transform="translate(-3.286157 -3.286157) scale(1.102692)"><defs><linearGradient id="iris" x1="0" y1="0" x2=".15" y2="1"><stop stop-color="#bea0e9" /><stop offset="1" stop-color="#8273d5" /></linearGradient></defs>
-<g data-material="authored" stroke-linecap="round" stroke-linejoin="round">
-<circle cx="32" cy="32" r="24" fill="url(#iris)" />
-<path d="M22 49q-8-5-10-13" fill="none" stroke="#c4abdf" stroke-width="1.5" opacity=".38" /><path d="M36 53q-11 1-18-7" fill="none" stroke="#c4abdf" stroke-width="1.5" opacity=".38" /><path d="M49 40q-4 10-14 12" fill="none" stroke="#c4abdf" stroke-width="1.5" opacity=".38" /><path d="M53 34q0 10-7 15" fill="none" stroke="#c4abdf" stroke-width="1.5" opacity=".38" /><path d="M29 17c13-1 22 12 17 24-4 10-16 13-24 6-7-6-8-15-3-21 0 8 9 11 14 5 4-5 2-11-4-14Z" fill="#29283f" />
-<path d="M19 26q1 9 8 8c5-1 7-5 6-9-2 6-7 8-14 1Z" fill="#a58bd3" />
-</g></g></svg>

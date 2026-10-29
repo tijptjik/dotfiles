@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=VLC media player
-Exec=/usr/bin/qvlc %U
-TryExec=/usr/bin/qvlc
-Icon=vlc
-NoDisplay=true
-# Keep old MIME associations working; show only org.videolan.VLC in launchers.

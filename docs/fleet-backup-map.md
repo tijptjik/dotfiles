@@ -30,11 +30,11 @@ has no independent copy; evaluating Immich on Si is a TODO.
 ## Source references
 
 - [Private storage](private-storage.md) and the managed `private-storage` tool.
-- [Device archives](device-archives.md) and `home/dot_config/archive-policy.json`.
+- [Device archives](device-archives.md) and `native/home/files/.config/archive-policy.json`.
   The JSON policy is authoritative for current per-folder assignments.
 - [Si application backups](si-application-backups.md) and the server backup script.
 - [SnapRAID maintenance](si-snapraid-maintenance.md).
 - [Email archive format](email-archive.md).
-- [Cloudflare backups](cloudflare-backups.md), `home/dot_local/bin/executable_cloudflare-restic-backup`, and its user timer.
-- Related Chezetc source: `etc/si-app-backup/`, `etc/si-provision/update_apps.py`,
-  `etc/.chezmoiscripts/run_after_95-si-app-updates.fish.tmpl`.
+- [Cloudflare backups](cloudflare-backups.md), `native/home/files/.local/bin/cloudflare-restic-backup`, and its user timer.
+- Related Tjikup source: `etc/si-app-backup/`, `tjikup system update-apps`,
+  `../native/tasks/system/run_after_95-si-app-updates.fish.tmpl`.

@@ -1,6 +1,0 @@
-#!/usr/bin/env fish
-{{ if .isClient -}}
-source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
-stage_dynamic_note 'Install Notjik' INSTALL Notjik bash "{{ .chezmoi.sourceDir }}/../scripts/install-notjik.sh"
-or exit $status
-{{ end -}}

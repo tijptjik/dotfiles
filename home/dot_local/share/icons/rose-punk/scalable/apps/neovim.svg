@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<g id="frameless-artwork" transform="translate(-10.922156 -9.580838) scale(1.341317)"><defs>
- <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
- <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
- <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
-</defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><g data-material="authored"><svg x="9" y="8" width="46" height="46" viewBox="0 0 128 128"><path d="M 42.230108,12.772276 102.66625,104.99558 85.754397,121.90701 25.286625,29.887843 Z" fill="#9a5f87" /><path d="M 19.000001,36.222951 42.245608,12.753606 V 121.87821 L 19.000001,98.679934 Z" fill="#5d9bad" /><path d="M 108.8408,36.473337 85.276742,12.795088 85.754397,121.90701 109,98.708741 Z" fill="#75609f" /><path d="M 19.000001,29.562331 42.245608,6.092986 V 115.21759 L 19.000001,92.01931 Z" fill="#9ccfd8" /><path d="M 42.230108,6.1116557 102.66625,98.334958 85.754397,115.24639 25.286625,23.227223 Z" fill="#df91bc" /><path d="M 108.84079,29.812718 85.276751,6.1344683 85.754397,115.24639 109,92.048117 Z" fill="#b39bd9" /></svg></g></g></svg>

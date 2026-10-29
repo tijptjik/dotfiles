@@ -1,7 +1,0 @@
-[Unit]
-Description=Notify that the si backup copy failed
-ConditionHost=fi
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/notify-send --urgency=critical "si backup needs attention" "Check the si-app-backup-health and si-app-backup-pull service logs. Failed copies retry hourly."

@@ -5,7 +5,7 @@ The laptop works without the desktop or a LAN connection. Each machine owns
 its database, encryption key, account authentication and request history.
 The server remains client-only.
 
-Chezmoi installs/updates the runtime on both clients. Its systemd hook disables
+Tjikup installs/updates the runtime on both clients. Its systemd hook disables
 the former desktop reverse tunnel and stops the laptop socket proxy before
 enabling the local service. The old tunnel units remain available for manual
 recovery, but are no longer enabled by configuration. Runtime updates do not

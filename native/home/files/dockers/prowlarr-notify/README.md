@@ -4,7 +4,7 @@ Prowlarr's supported Custom Script connection calls
 `/config/notifications/telegram.sh`. It uses Bash, jq and curl already present in
 the image. No sidecar, image change or container restart is needed.
 
-The server-only chezmoi hook deploys these two files into the existing Prowlarr
+The server-only dotjik hook deploys these two files into the existing Prowlarr
 appData mount. It preserves credentials and does not edit notification settings
 or send messages during apply. Client hosts skip the hook and Docker sources.
 

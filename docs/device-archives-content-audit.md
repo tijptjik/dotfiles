@@ -256,7 +256,7 @@ Telegram remains a separate unapplied proposal, outside the active policy.
 
 On 2026-10-25 the source changes and live archive policies/code were applied on
 **Fi and Li**, with private before-images retained under each host's
-`~/.local/state/device-archives/policy-rollout-20261025T*/`. No full Chezmoi hooks
+`~/.local/state/device-archives/policy-rollout-20261025T*/`. No full Tjikup hooks
 or application restarts were run. Si's live configuration was not changed; its
 five existing R2 snapshot folders were retained and checked in the inventory.
 

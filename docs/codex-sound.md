@@ -22,12 +22,12 @@ sudo cp /usr/lib/chatgpt/resources/codex-notification.wav.original /usr/lib/chat
 ```
 
 Herdr uses the same chime via `[ui.sound].path` in its managed config.
-The MP3 is stored at `home/dot_config/herdr/sounds/soft-chime.mp3`. Regenerate it
+The MP3 is stored at `native/home/files/.config/herdr/sounds/soft-chime.mp3`. Regenerate it
 after changing the synthesis script:
 
 ```sh
-ffmpeg -y -i /tmp/codex-soft-chime.wav -codec:a libmp3lame -q:a 2 home/dot_config/herdr/sounds/soft-chime.mp3
-chezmoi apply ~/.config/herdr/config.toml ~/.config/herdr/sounds/soft-chime.mp3
+ffmpeg -y -i /tmp/codex-soft-chime.wav -codec:a libmp3lame -q:a 2 native/home/files/.config/herdr/sounds/soft-chime.mp3
+dotjik apply
 herdr server reload-config
 ```
 

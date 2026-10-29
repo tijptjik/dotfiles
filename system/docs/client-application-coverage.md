@@ -17,10 +17,10 @@ independent playback engines.
 
 | Component | Owner |
 | --- | --- |
-| Bitwarden `bw` and `bws` CLIs | Home Chezmoi `run_before_02-install-bws.fish.tmpl` and `install-bitwarden-cli.py`; needed during home/bootstrap setup |
-| Lutris application | Chezetc's `net.lutris.Lutris` Flatpak entry |
+| Bitwarden `bw` and `bws` CLIs | Home Tjikup `run_before_02-install-bws.fish.tmpl` and `install-bitwarden-cli.py`; needed during home/bootstrap setup |
+| Lutris application | Tjikup's `net.lutris.Lutris` Flatpak entry |
 | Cemu and other downloaded Lutris runners | Lutris; runner versions and game configuration stay with Lutris data |
-| Sublime Text | Home client install hook, official RPM repository managed by Chezetc |
+| Sublime Text | Home client install hook, official RPM repository managed by Tjikup |
 | Obsidian AppImage | Home client install hook, verified against official release asset checksum |
 
 Do not install duplicate Bitwarden desktop apps or a second system Cemu merely

@@ -1,7 +1,0 @@
-[Unit]
-Description=Record application backup failure
-ConditionHost=si
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/logger -p daemon.err -t si-app-backup -- BACKUP FAILED - inspect journalctl -u si-app-backup.service

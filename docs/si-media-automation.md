@@ -37,8 +37,8 @@ Review Sonarr Activity/Queue for import or extraction errors. Guard file checks 
 
 ## Managed state
 
-- chezmoi: Compose unpackerr service and Transmission init-hook change.
-- chezetc: etc/si-media-guard/guard.py and systemd service/timer, excluded from client hosts.
+- dotjik: Compose unpackerr service and Transmission init-hook change.
+- systjik: etc/si-media-guard/guard.py and systemd service/timer, excluded from client hosts.
 - Unpackerr secret-bearing config: /mnt/storage/meta/appData/unpackerr/unpackerr.conf; included in application backups, not version control.
 - Sonarr integration/settings are in its backed-up application database.
 - Pre-change Sonarr DB, config exports, Compose and hook: /mnt/data/disk42/.recovery-preservation/2026-10-21-media-flow/.
@@ -63,7 +63,7 @@ During initial setup Radarr's Transmission client remained disabled, preserving
 the earlier acquisition pause. Recovery acquisition was explicitly resumed later
 on October 21 as recorded below. Pre-change Radarr DB,
 profiles, notifications and Unpackerr config are preserved under the dated
-2026-10-21-radarr-safety recovery directory. Source changes are persisted in chezetc;
+2026-10-21-radarr-safety recovery directory. Source changes are persisted in systjik;
 secret-bearing integration settings are covered by application backups.
 
 ## Completion-hook conflict check
@@ -182,7 +182,7 @@ Grab and Application Update remain the only selected events; bot, destination
 and silent delivery are preserved. There is one connection, so notifications
 are not duplicated. No container restart or acquisition was needed.
 
-Managed Bash/jq sources are under `home/dockers/prowlarr-notify/`. A server-only
+Managed Bash/jq sources are under `native/home/files/dockers/prowlarr-notify/`. A server-only
 apply hook atomically copies them into Prowlarr's existing appData mount after
 storage is available; it leaves credentials and connection settings alone.
 Credentials are private at `/config/notifications/telegram.json` in the container,
@@ -222,7 +222,7 @@ All eight imported files were also verified in Plex's library. The two previousl
 denied existing episodes in *Y: The Last Man* and *X-Men: Evolution* parse with
 Sonarr's bundled ffprobe as UID 1000/GID 950. Neither app has a blocked import.
 
-The durable chezetc policy is `/etc/si-media-permissions/permissions.py`:
+The durable policy is `/etc/tjikup/maintenance.json`, applied by `tjikup system permissions`:
 
 - `si-media-permissions-boot.service` establishes permissions before Docker
   container autostart; a separate service/timer checks every 15 minutes.
@@ -245,7 +245,7 @@ Both boot and recurring policy services passed live runs with zero pending
 permission changes, and the recurring timer is enabled.
 
 ```sh
-sudo python3 /etc/si-media-permissions/permissions.py  # audit only
+sudo /usr/local/lib/tjikup/tjikup system permissions  # audit only
 sudo systemctl status si-media-permissions.timer --no-pager
 sudo cat /var/lib/si-media-permissions/last-success.json
 ```

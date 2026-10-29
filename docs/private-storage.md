@@ -200,16 +200,16 @@ at login. Password protection controls local unlocking; an account already
 permitted to read the Bitwarden recovery secret can also recover the key.
 
 Bitwarden holds `RCLONE_GOOGLE_DRIVE_CONFIG`, `RCLONE_CRYPT_RECOVERY_CONFIG`, and
-`PRIVATE_RESTIC_PASSWORD`. Chezmoi creates the normal Drive configuration only
+`PRIVATE_RESTIC_PASSWORD`. Tjikup creates the normal Drive configuration only
 when the local file is absent, and renders the Restic password into an
 owner-only managed file; the crypt recovery key is not rendered in plaintext at
-rest. This lets rclone persist routine OAuth token refreshes without Chezmoi
+rest. This lets rclone persist routine OAuth token refreshes without Tjikup
 trying to overwrite them. Set a mount password separately on each client.
 Reconnect Google OAuth with `rclone --config ~/.config/private-storage/drive.conf
 config reconnect type-drive:` when necessary and update the stored Drive
 configuration secret after an authorization reset. To reseed a client from that
 secret, first preserve its current `drive.conf` if needed, then remove the local
-file and run `chezmoi apply ~/.config/private-storage/drive.conf`.
+file and run `dotjik apply`.
 
 ## Deployment and verification
 

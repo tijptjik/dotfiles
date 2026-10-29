@@ -51,7 +51,7 @@ a recurring job or a successful restore.
 | Media | Si movies, shows, books and audiobooks | Configured bulk parity; most public media excluded from application Restic. Only `public/library` has the documented library backup, not `public/books` or `library.bak` |
 | Photos | Personal images in local folders and/or Google Photos | Local images inherit their folder's protection; Google Photos has no configured independent copy. TODO: evaluate Immich on Si |
 | Assets | Public image and dataset releases, including R2 objects | Cloudflare R2 is included in the Fi Restic backup scope |
-| Configs | Git-managed dotfiles, scripts, templates, Compose and system configuration | Git history + Chezmoi/Chezetc deployment; selected live state also in device/app backups |
+| Configs | Git-managed dotfiles, scripts, templates, Compose and system configuration | Git history + Tjikup/Tjikup deployment; selected live state also in device/app backups |
 | Secrets | Keys, credentials, encryption/recovery material | Bitwarden provisioning and selected age-encrypted device archives; never committed to Git |
 | **Mail** | Messages, attachments, indexes and reader exports | Encrypted structured archives under `giD:private/archives/mail/structured/`; included in the Si Drive backup |
 | **App state / databases** | Mutable application data, SQLite/Plex, MariaDB | Application-consistent exports → Si Restic → independently encrypted Fi repository |

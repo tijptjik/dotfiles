@@ -1,6 +1,0 @@
-#!/usr/bin/env fish
-{{ if .isClient -}}
-source "{{ .chezmoi.sourceDir }}/.chezmoihelpers/status.fish"
-stage_dynamic_note 'Install Bartjik' INSTALL Bartjik bash "{{ .chezmoi.sourceDir }}/../scripts/install-bartjik.sh"
-or exit $status
-{{ end -}}

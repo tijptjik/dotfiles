@@ -13,7 +13,7 @@ Build and install from that repository with `bun install` and
 
 ## Configuration boundary
 
-Chezmoi still manages `home/dot_config/document-archive-policy.json`, installed
+Tjikup still manages `native/home/files/.config/document-archive-policy.json`, installed
 as `~/.config/document-archive-policy.json`. Keep this encryption policy here.
 The application settings are private at `~/.config/mailtjik/config.json`.
 Credentials, mail, indexes, manifests, captures and restored messages stay

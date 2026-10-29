@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<g id="frameless-artwork" transform="translate(-0.622172 -0.104360) scale(1.035625)"><defs>
- <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
- <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
- <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
-</defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><title>Bookmarks</title><desc>Rose Punk workflow icon candidate; awaiting visual review.</desc><g data-material="authored"><path d="M14 8h29l9 9v40H14Z" fill="#a9a6bd" /><path d="M11 5h29l9 9v40H11Z" fill="#fff0da" /><path d="M40 5v10h9" fill="#d6bfba" /><path d="M20 5h15v31l-7.5-6-7.5 6Z" fill="#357f77" /><path d="M20 5h15v5H20Z" fill="#46b6a2" /><path d="M19 44h22m-22 5h17" fill="none" stroke="#8e8098" stroke-width="1.8" stroke-linecap="round" /></g></g></svg>

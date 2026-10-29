@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-# Keep the historical entry point for existing scheduled callers.
-exec "$HOME/.local/bin/synctjik" backup "$@"

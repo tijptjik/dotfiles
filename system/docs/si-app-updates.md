@@ -1,9 +1,10 @@
 # Si application updates
 
-`tjikup` runs the Si-only `run_after_95-si-app-updates.fish` hook through Chezetc.
-A direct `chezetc apply` also runs it. Clients do not run this hook.
-The `run_after_` phase installs `/etc/si-provision/update_apps.py` and the other
-managed files before invoking the updater, including on the first apply.
+The Si application-update recipe runs `/usr/local/lib/tjikup/tjikup system
+update-apps`. Native file deployment installs the binary and policy first.
+`systjik apply` deploys files only; maintenance runs through selected Tjikup
+recipes. Clients do not run this updater. Policy is declared in
+`native/si/files/tjikup/maintenance.json`.
 
 ## Plex
 

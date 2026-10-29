@@ -1,8 +1,0 @@
-#!/bin/sh
-# Use the same archive engine and lock as the R2 backups, with si as storage.
-export RCLONE_SFTP_SSH='mullvad-exclude ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 m@ssh.type.hk'
-# OpenSSH verifies the host key; rclone does not own this SSH connection.
-export RCLONE_SFTP_KNOWN_HOSTS_FILE=none
-export RCLONE_SFTP_SHELL_TYPE=unix
-export RCLONE_SFTP_DISABLE_HASHCHECK=true
-exec "$HOME/.local/bin/device-archives" --config "$HOME/.config/document-archive-policy.json" "$@"

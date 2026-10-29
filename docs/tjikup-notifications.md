@@ -6,7 +6,7 @@ icon. A compact status row shows `ALL SYSTEMS GO`, issue counts such as
 count. The body lists up to three issues, with failures first and a count of any
 remaining issues. Entries identify the stage and tool, for example
 `Failed · UPDATE: Bun` or `Warning · CHECK: Bitwarden`. Dirty repositories use
-friendly names and file counts: `Dirty Chezmoi — 48 files`. This includes staged,
+friendly names and file counts: `Dirty Tjikup — 48 files`. This includes staged,
 unstaged, and untracked files, so a dirty warning does not mean a tool failed.
 A single dirty repository shows its name at the left of the status row and its
 file count at the right; elapsed time and stage count appear below the title.

@@ -1,7 +1,0 @@
-{{ if .isDesktop -}}
-# Prefer a larger default buffer while allowing clients to negotiate smaller cycles.
-# A 2048-frame minimum can break small-buffer 44.1 kHz ALSA playback.
-context.properties = {
-    default.clock.quantum = 2048
-}
-{{ end -}}

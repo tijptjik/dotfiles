@@ -1,3 +1,0 @@
-#!/bin/sh
-if [ "${1:-}" = --set-password ]; then exec "$HOME/.local/bin/private-storage" crypt-password; fi
-exec "$HOME/.local/bin/private-storage" mount crypt

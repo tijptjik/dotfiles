@@ -1,6 +1,0 @@
-[Unit]
-Description=Dim the screen via hyprsunset
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/hyprctl hyprsunset gamma 10

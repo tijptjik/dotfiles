@@ -1,9 +1,0 @@
-[Unit]
-Description=Incremental encrypted private-file backup to si
-
-[Service]
-Type=oneshot
-UMask=0077
-TimeoutStartSec=infinity
-TimeoutStopSec=120
-ExecStart=%h/.local/bin/private-storage backup --scheduled

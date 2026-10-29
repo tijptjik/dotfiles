@@ -5,7 +5,7 @@
 Fi and Li keep their enrolled tailnet connections up, including after boot and
 desktop unlock. `tailscaled` is enabled at boot and persists `WantRunning=true`
 after `tailscale up`. The lock wrapper and application provisioning hooks no
-longer disconnect it. Chezetc converges this policy for both client machines.
+longer disconnect it. Tjikup converges this policy for both client machines.
 An expired login still requires interactive enrollment; the shortcuts never
 create a new enrollment automatically.
 
@@ -82,7 +82,7 @@ sudo dnf config-manager addrepo \
 sudo dnf install tailscale
 ```
 
-On Fi and Li, Chezetc manages a `tailscaled` systemd drop-in that starts the daemon
+On Fi and Li, Tjikup manages a `tailscaled` systemd drop-in that starts the daemon
 through `mullvad-exclude`, keeping the daemon outside Mullvad while leaving
 ordinary Li traffic under its existing VPN policy. Before starting the service,
 check that the rendered drop-in is present:
@@ -93,7 +93,7 @@ sudo systemctl cat tailscaled
 
 The effective `ExecStart` on Fi and Li should include
 `/usr/bin/mullvad-exclude /usr/bin/tailscaled`. If it does not, stop here and
-reconcile Li's managed Chezetc configuration and apply only that reviewed
+reconcile Li's managed Tjikup configuration and apply only that reviewed
 drop-in; do not replace the unit manually. Si is a server and does not use this
 client-only Mullvad override.
 

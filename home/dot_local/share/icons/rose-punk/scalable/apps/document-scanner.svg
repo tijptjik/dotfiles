@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<g id="frameless-artwork" transform="translate(-6.095238 -7.285714) scale(1.190476)"><defs>
- <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
- <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
- <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
-</defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="scanner" x2="0" y2="1"><stop stop-color="#9bcfc8" /><stop offset="1" stop-color="#7cbab4" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><rect x="13" y="12" width="38" height="42" rx="5" fill="#46b6a2" /><rect x="17" y="16" width="30" height="29" rx="2" fill="#f8f0df" /><path d="M22 23h20m-20 6h20m-20 6h13" fill="none" stroke="#859bd4" stroke-width="2" /><rect x="13" y="42" width="38" height="12" rx="3" fill="url(#scanner)" /><path d="M19 45h26" fill="none" stroke="#3d7d82" stroke-width="2" /><circle cx="44" cy="49" r="1.5" fill="#f8efdb" /><rect x="18" y="52" width="28" height="2" rx="0" fill="#4d9090" /></g></g></svg>

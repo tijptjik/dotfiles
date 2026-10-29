@@ -1,7 +1,7 @@
 # Bartjik
 
 Bartjik is the desktop bar on `fi` and `li`. Its configuration is managed in
-`home/dot_config/bartjik/config.json.tmpl`; tjikOS owns its runtime.
+`native/home/files/.config/bartjik/config.json.j2`; tjikOS owns its runtime.
 
 Every `tjikup` home apply runs `run_after_39-install-bartjik.fish.tmpl`, which
 builds and installs only Bartjik using `scripts/install-bartjik.sh`. It uses
@@ -22,9 +22,9 @@ old configuration and the custom launcher/runtime into timestamped directories
 under `~/.local/state/bartjik/migration/`. This preserves local crypto data.
 Repeated runs do not create new backups unless legacy files reappear.
 The retired Quickshell `network` and `audio` directories are explicitly ignored
-by Chezmoi, including on clients. Leftover source-tree Python caches must not
+by Tjikup, including on clients. Leftover source-tree Python caches must not
 recreate those directories and trigger conflict prompts after migration.
-Tinty no longer launches Waybar, and Chezetc no longer installs or builds it.
+Tinty no longer launches Waybar, and Tjikup no longer installs or builds it.
 The archived source/build caches and any already-installed distro package are
 inert; the Waybar service remains masked.
 

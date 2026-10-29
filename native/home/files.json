@@ -679,7 +679,8 @@
     "source": "files/.config/herdr/session.json.j2",
     "mode": "0644",
     "template": true,
-    "group": "base"
+    "group": "base",
+    "when": "is_client"
   },
   {
     "path": "{{ user.home }}/.config/herdr/sounds",

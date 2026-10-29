@@ -1543,14 +1543,16 @@
     "kind": "file",
     "source": "files/.config/transmission/configure-archive-hook.sh",
     "mode": "0755",
-    "group": "base"
+    "group": "base",
+    "when": "is_server"
   },
   {
     "path": "{{ user.home }}/.config/transmission/extract.fish",
     "kind": "file",
     "source": "files/.config/transmission/extract.fish",
     "mode": "0755",
-    "group": "base"
+    "group": "base",
+    "when": "is_client"
   },
   {
     "path": "{{ user.home }}/.config/transmission/settings.json",

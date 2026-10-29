@@ -1,4 +1,13 @@
 [Default Applications]
+image/gif=runtjik-image.desktop
+image/webp=runtjik-image.desktop
+image/tiff=runtjik-image.desktop
+image/bmp=runtjik-image.desktop
+image/svg+xml=runtjik-image.desktop
+image/avif=runtjik-image.desktop
+image/heif=runtjik-image.desktop
+image/jxl=runtjik-image.desktop
+image/qoi=runtjik-image.desktop
 application/x-extension-htm=Zen.desktop
 application/x-extension-html=Zen.desktop
 application/x-extension-shtml=Zen.desktop
@@ -6,8 +15,8 @@ application/x-extension-xht=Zen.desktop
 application/x-extension-xhtml=Zen.desktop
 application/x-zerosize=org.gnome.Papers.desktop
 application/xhtml+xml=Zen.desktop
-image/jpeg=org.gnome.Loupe.desktop
-image/png=org.gnome.Loupe.desktop
+image/jpeg=runtjik-image.desktop
+image/png=runtjik-image.desktop
 inode/directory=io.github.lgse.Strata.desktop
 text/css=Zen.desktop
 text/html=Zen.desktop

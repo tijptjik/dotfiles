@@ -408,3 +408,12 @@ hl.window_rule({
     border_size = 0,
     match = { title = "Open File|Open Folder|branchdialog|file-roller|DevTools|^(Media viewer)$|^(Picture-in-Picture)$|^(File Operation Progress)$|^(Confirm to replace files)$|^(Sign in to Steam)$" },
 })
+
+-- Image viewers open as centered floating lightboxes.
+hl.window_rule({
+    name = "image-viewer-lightbox",
+    float = true,
+    center = true,
+    size = { "75%", "80%" },
+    match = { class = "^(org.gnome.Loupe|org.gnome.eog|imv)$" },
+})

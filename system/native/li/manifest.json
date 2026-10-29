@@ -195,6 +195,22 @@
     {
       "kind": "absent",
       "path": "/etc/dnf/repos.override.d/60-chezetc-docker.repo"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/docker/daemon.json",
+      "source": "files/docker/daemon.json",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/sysctl.d/90-tjikup-docker.conf",
+      "source": "files/sysctl.d/90-tjikup-docker.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
     }
   ]
 }

@@ -378,7 +378,8 @@
           "tjikup",
           "workflow",
           "context"
-        ]
+        ],
+        "cache": true
       },
       "display": {
         "section": "Preparation",

@@ -127,7 +127,7 @@ function run_zed_installer
 
     set -l installer_command sh "$installer"
     if test "$TJIKUP_MANAGED_CONFIG" = 1
-        set installer_command tjikup workflow --repo {{ repo_dir | fish_quote }} desktop zed --channel "$channel" -- sh "$installer"
+        set installer_command "$zed_target_home/.local/bin/tjikup" workflow --repo {{ repo_dir | fish_quote }} desktop zed --channel "$channel" -- sh "$installer"
     end
     if test (id -u) -eq 0; and test "$zed_target_user" != "root"
         step_run "Install Zed $channel for $zed_target_user" sudo -u "$zed_target_user" env $install_env $installer_command

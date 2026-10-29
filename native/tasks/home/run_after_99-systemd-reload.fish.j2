@@ -66,6 +66,13 @@ else
     status_msg SKIP "✓" "Backup schedule" "no changes"
 end
 
+
+# Weekly full maintenance owns package updates; its pinned Telegram status records outcomes.
+if user_units_need_reload; or unit_needs_enable_now tjikup-weekly.timer
+    systemctl --user daemon-reload; or exit $status
+    systemctl --user enable --now tjikup-weekly.timer; or exit $status
+end
+
 {% if is_client -%}
 
 # Adopt the current idle choice once, then preserve it across applies/logins.

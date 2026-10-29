@@ -14,7 +14,7 @@ ensure_tjikos apps/tjikup/scripts/install.sh
 # Reject stale checkouts before replacing a working executable or cache record.
 bash "$tool_repo/apps/tjikup/scripts/fetch-release.sh"
 compatible_runner() {
-    "$1" capabilities 2>/dev/null | jq -e '.native_workflow >= 1 and .bootstrap_archives >= 1 and .native_commands >= 1 and .native_installers >= 1 and .native_maintenance >= 1' >/dev/null  &&
+    "$1" capabilities 2>/dev/null | jq -e '.native_workflow >= 1 and .bootstrap_archives >= 1 and .native_commands >= 1 and .native_installers >= 1 and .native_maintenance >= 1 and .scheduled_telegram >= 1 and .scheduled_telegram_bws >= 1' >/dev/null  &&
         "$1" --config "$repo_dir/tjikup.json" --check >/dev/null 2>&1
 }
 if ! compatible_runner "$tool_repo/apps/tjikup/dist/tjikup"; then
@@ -23,6 +23,7 @@ if ! compatible_runner "$tool_repo/apps/tjikup/dist/tjikup"; then
     # an install-cache success for a release that was not installed.
     installed_runner="$HOME/.local/bin/tjikup"
     if [[ -x "$installed_runner" ]] && compatible_runner "$installed_runner"; then
+        bash "$tool_repo/apps/tjikup/scripts/install-weekly.sh" "$installed_runner"
         printf '%s\n' 'SKIP    ✓ Tjikup    awaiting compatible release; installed runner retained' \
             '__stage_verb__:SKIP' '__stage_note__:awaiting compatible release'
         exit 0
@@ -36,6 +37,7 @@ fi
     --output "$HOME/.local/bin/tjikup" --output "$HOME/.local/share/icons/tjikup.png" \
     --output "$HOME/.local/share/icons/hicolor/256x256/apps/tjikup-notification.png" \
     -- bash "$tool_repo/apps/tjikup/scripts/install.sh"
+bash "$tool_repo/apps/tjikup/scripts/install-weekly.sh" "$HOME/.local/bin/tjikup"
 "$HOME/.local/bin/tjikup" --config "$repo_dir/tjikup.json" --check
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/tjikup"
 mkdir -p -- "$config_dir"

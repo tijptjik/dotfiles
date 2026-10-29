@@ -95,6 +95,9 @@
     "checks": [
       {
         "executable": "~/.local/bin/tjikup"
+      },
+      {
+        "executable": "/usr/local/libexec/tjikup-weekly"
       }
     ]
   },

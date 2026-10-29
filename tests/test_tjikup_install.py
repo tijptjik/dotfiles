@@ -52,14 +52,16 @@ class InstallTests(unittest.TestCase):
             marker=home/'cache-called'
             (tool/'apps/tjikup/scripts').mkdir(parents=True);(tool/'apps/tjikup/dist').mkdir()
             (tool/'apps/tjikup/scripts/fetch-release.sh').write_text('#!/bin/sh\nexit 0\n')
+            (tool/'apps/tjikup/scripts/install-weekly.sh').write_text('#!/bin/sh\ntouch "$HOME/weekly-installed"\n')
             for path,code in [(tool/'apps/tjikup/dist/tjikup',candidate),(home/'.local/bin/tjikup',installed)]:
-                path.parent.mkdir(parents=True,exist_ok=True);path.write_text('#!/bin/sh\nif [ "$1" = capabilities ]; then\n  echo \'{"bootstrap_archives":1,"native_commands":1,"native_installers":1,"native_maintenance":1,"native_workflow":' + str(int(candidate_cache if path == tool/'apps/tjikup/dist/tjikup' else installed_cache)) + '}\'\n  exit 0\nfi\nif [ \"$1\" = workflow ]; then touch \"$TEST_CACHE_MARKER\"; exit 0; fi\nexit '+str(code)+'\n');path.chmod(0o755)
+                path.parent.mkdir(parents=True,exist_ok=True);path.write_text('#!/bin/sh\nif [ "$1" = capabilities ]; then\n  echo \'{"bootstrap_archives":1,"native_commands":1,"native_installers":1,"native_maintenance":1,"scheduled_telegram":1,"scheduled_telegram_bws":1,"native_workflow":' + str(int(candidate_cache if path == tool/'apps/tjikup/dist/tjikup' else installed_cache)) + '}\'\n  exit 0\nfi\nif [ \"$1\" = workflow ]; then touch \"$TEST_CACHE_MARKER\"; exit 0; fi\nexit '+str(code)+'\n');path.chmod(0o755)
             target=home/'.local/bin/tjikup';before=target.read_bytes()
             result=subprocess.run(['bash',str(repo/'scripts/install-tjikup.sh')],capture_output=True,text=True,
                 env={**os.environ,'HOME':str(home),'XDG_CONFIG_HOME':str(home/'.config'),'TEST_TOOL_REPO':str(tool),'TEST_CACHE_MARKER':str(marker)})
             self.assertEqual(result.returncode==0,success,result.stderr)
             self.assertEqual(target.read_bytes(),before)
             self.assertEqual(marker.exists(),installs)
+            self.assertEqual((home/'weekly-installed').exists(),success)
             if success and not installs:
                 self.assertIn('__stage_verb__:SKIP',result.stdout)
                 self.assertIn('__stage_note__:awaiting compatible release',result.stdout)

@@ -35,7 +35,13 @@ class InstallTests(unittest.TestCase):
     def test_compatible_release_still_enters_normal_install_path(self):
         self.release_case(candidate=0, installed=0, success=True, installs=True)
 
-    def release_case(self, candidate, installed, success, installs):
+    def test_old_release_with_valid_workflow_preserves_cache_capable_runner(self):
+        self.release_case(candidate=0, installed=0, success=True, installs=False, candidate_cache=False)
+
+    def test_old_release_and_old_runner_fail_even_with_valid_workflow(self):
+        self.release_case(candidate=0, installed=0, success=False, installs=False, candidate_cache=False, installed_cache=False)
+
+    def release_case(self, candidate, installed, success, installs, candidate_cache=True, installed_cache=True):
         with tempfile.TemporaryDirectory() as directory:
             home=Path(directory);repo=home/'checkout';tool=home/'tool'
             (repo/'scripts').mkdir(parents=True);(repo/'system/tjikup').mkdir(parents=True)
@@ -48,7 +54,7 @@ class InstallTests(unittest.TestCase):
             (tool/'apps/tjikup/scripts').mkdir(parents=True);(tool/'apps/tjikup/dist').mkdir()
             (tool/'apps/tjikup/scripts/fetch-release.sh').write_text('#!/bin/sh\nexit 0\n')
             for path,code in [(tool/'apps/tjikup/dist/tjikup',candidate),(home/'.local/bin/tjikup',installed)]:
-                path.parent.mkdir(parents=True,exist_ok=True);path.write_text('#!/bin/sh\nexit '+str(code)+'\n');path.chmod(0o755)
+                path.parent.mkdir(parents=True,exist_ok=True);path.write_text('#!/bin/sh\nif [ "$1" = capabilities ]; then\n  echo \'{"encrypted_credentials":' + str(int(candidate_cache if path == tool/'apps/tjikup/dist/tjikup' else installed_cache)) + '}\'\n  exit 0\nfi\nexit '+str(code)+'\n');path.chmod(0o755)
             target=home/'.local/bin/tjikup';before=target.read_bytes()
             result=subprocess.run(['bash',str(repo/'scripts/install-tjikup.sh')],capture_output=True,text=True,
                 env={**os.environ,'HOME':str(home),'XDG_CONFIG_HOME':str(home/'.config'),'TEST_TOOL_REPO':str(tool)})

@@ -194,8 +194,9 @@
   "files": {
     "source": "scripts/icons/build.py",
     "license": "Original artwork",
-    "sha256": "fb4ca93335153e1315d2cb447cbf2bc8bc9ca59606f5c6c59e7eae9a3699fccb",
-    "material_revision": 9
+    "sha256": "706952736e5ef97fa0497cc5190d7db91055b911bc4dd66583d74bfa084fa5d9",
+    "material_revision": 11,
+    "design_note": "Construction trio: near-frontal view, shallow right/lower depth, upper-left light, material-specific paper, enamel/glass and metal. No generic badge borders. Accepted by user for 0.1.0-rc.11 on 2026-10-30."
   },
   "settings": {
     "source": "scripts/icons/local/settings.svg",
@@ -384,8 +385,9 @@
   "disks": {
     "source": "scripts/icons/local/disks.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "ad0254adfcd92d9736dbfbf300b89c5f4db125f87be56b10adb7e668bd9babab",
-    "material_revision": 2
+    "sha256": "671f63e3691aa034bec418b3a45a7fd09f07b336559a6528cd24bbe69e6d4e13",
+    "material_revision": 4,
+    "design_note": "Construction trio: near-frontal view, shallow right/lower depth, upper-left light, material-specific paper, enamel/glass and metal. No generic badge borders. Accepted by user for 0.1.0-rc.11 on 2026-10-30."
   },
   "document-viewer": {
     "source": "scripts/icons/local/document-viewer.svg",
@@ -448,10 +450,11 @@
   "terminal": {
     "source": "local icon theme: Neuwaita/scalable/apps/org.gnome.Terminal.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "b46e85885025d3a880cc09a29e78bff8c8ea200d7631c064a1b002240152fe5b",
+    "sha256": "79140a8930b6f2eb6845d3203e7f1d548dff03e2281c179f3b1d9a710203d12c",
     "reference": "upstream/terminal-source.svg",
     "reference_sha256": "a98f915e603f78b99e6ce568501660e6b2833efc688f7992248a4ba26a8a3a52",
-    "material_revision": 9
+    "material_revision": 11,
+    "design_note": "Construction trio: near-frontal view, shallow right/lower depth, upper-left light, material-specific paper, enamel/glass and metal. No generic badge borders. Accepted by user for 0.1.0-rc.11 on 2026-10-30."
   },
   "text-editor": {
     "source": "scripts/icons/local/text-editor.svg",

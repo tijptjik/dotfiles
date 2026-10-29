@@ -34,9 +34,14 @@ def context(repo):
     subscriptions = set(device['subscriptions']) if device else set()
     if device:
         recipes = []
+        aliases = {}
         for file in ('tjikup.json', 'tjikup/recipes.json', 'system/tjikup/recipes.json'):
             document = json.loads((repo / file).read_text())
             recipes.extend(document.get('recipes', []))
+            if file == 'tjikup.json':
+                aliases = document.get('subscription_aliases', {})
+        # Match the runner's one-hop aliases without rewriting enrollment.
+        subscriptions = {aliases.get(key, key) for key in subscriptions}
         available = {r['id']: r for r in recipes
                      if (not r.get('roles') or role in r['roles'])
                      and (not r.get('hosts') or host in r['hosts'])}

@@ -13,6 +13,26 @@ class DevicePolicyTests(unittest.TestCase):
             self.assertTrue(c['is_client']);self.assertTrue(c['is_laptop']);self.assertFalse(c['is_server'])
             self.assertIn('system:zed',c['subscriptions']);self.assertNotIn('home:collie',c['subscriptions'])
             self.assertNotIn('system:apps',c['subscriptions'])
+    def test_merged_asset_subscriptions_resolve_without_changing_profile(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}), patch('socket.gethostname',return_value='fi'):
+            path=Path(directory)/'tjikup/device.json';path.parent.mkdir()
+            path.write_text(json.dumps({'version':1,'hostname':'fi','role':'desktop',
+                'subscriptions':['home:font-migration','home:fonts','home:rose-punk-icons','home:icons']}))
+            before=path.read_bytes()
+            result=policy.context(ROOT)
+            self.assertNotIn('home:font-migration',result['subscriptions'])
+            self.assertNotIn('home:rose-punk-icons',result['subscriptions'])
+            self.assertEqual(result['subscriptions'].count('home:fonts'),1)
+            self.assertEqual(result['subscriptions'].count('home:icons'),1)
+            self.assertEqual(path.read_bytes(),before)
+
+    def test_unknown_subscription_is_not_hidden_by_alias_support(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}), patch('socket.gethostname',return_value='fi'):
+            path=Path(directory)/'tjikup/device.json';path.parent.mkdir()
+            path.write_text(json.dumps({'version':1,'hostname':'fi','role':'desktop','subscriptions':['missing:recipe']}))
+            with self.assertRaisesRegex(RuntimeError,'Unknown or unavailable'):
+                policy.context(ROOT)
+
     def test_unknown_host_without_profile_fails(self):
         with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}), patch('socket.gethostname',return_value='new-host'):
             with self.assertRaisesRegex(RuntimeError,'enroll'):policy.context(ROOT)

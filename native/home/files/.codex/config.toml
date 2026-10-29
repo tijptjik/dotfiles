@@ -154,6 +154,9 @@ trust_level = "trusted"
 [projects."/home/io/code/tjikos"]
 trust_level = "trusted"
 
+[projects."/home/io/.local/share/dotjik"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 screen_reader_detection_done = true

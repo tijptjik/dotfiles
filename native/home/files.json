@@ -4985,6 +4985,30 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/dockers/telegram-archive/tailwind-9.5.0.css",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/telegram-archive/tailwind-9.5.0.css",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/dockers/telegram-archive/build_css.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/telegram-archive/build_css.py",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/dockers/telegram-archive/all_chats.py",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/telegram-archive/all_chats.py",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/dockers/docker-compose.yaml",
     "when": "hostname in [\"si\"]",
     "kind": "file",

@@ -7,6 +7,92 @@ x-common-env: &common-env
 
 services:
 
+#########################
+###  TELEGRAM ARCHIVE ###
+###  tga.type.hk      ###
+#########################
+
+  telegram-backup:
+    # Opt in after interactive authentication; ordinary stack updates must not
+    # start an unauthenticated collector. See docs/telegram-archive.md.
+    profiles: [telegram]
+    container_name: telegram-backup
+    image: drumsergio/telegram-archive:9.5.0
+    restart: unless-stopped
+    stop_grace_period: 90s
+    command: [python, /opt/telegram/all_chats.py, schedule]
+    env_file:
+      - {{ paths.appData }}/telegram-archive/backup.env
+    environment:
+      TZ: Asia/Hong_Kong
+      BACKUP_PATH: /data/backups
+      SESSION_DIR: /data/session
+      DB_TYPE: sqlite
+      DB_PATH: /data/backups/telegram_backup.db
+      CHAT_TYPES: private,groups,channels,bots
+      DOWNLOAD_MEDIA: "true"
+      DOWNLOAD_YOUTUBE_VIDEOS: "true"
+      MAX_MEDIA_SIZE_MB: "0"
+      DOWNLOAD_TIMEOUT_SECONDS: "1800"
+      MEDIA_REFRESH_MAX_ATTEMPTS: "3"
+      MEDIA_MAX_DOWNLOAD_ATTEMPTS: "5"
+      ENABLE_LISTENER: "true"
+      LISTEN_DELETIONS: "true"
+      DELETION_MODE: soft
+      TRANSCRIPTION_ENABLED: "false"
+      VIEWER_HOST: telegram-viewer
+      VIEWER_PORT: "8000"
+    volumes:
+      - {{ paths.appData }}/telegram-archive/data:/data:z
+      - ./telegram-archive/all_chats.py:/opt/telegram/all_chats.py:ro,z
+    networks: [telegram-archive]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  telegram-viewer:
+    container_name: telegram-viewer
+    image: drumsergio/telegram-archive-viewer:9.5.0
+    restart: unless-stopped
+    stop_grace_period: 90s
+    # Separate credentials: the public viewer never receives Telegram login
+    # secrets or the session directory. SQLite needs writes for WAL and users.
+    env_file:
+      - {{ paths.appData }}/telegram-archive/viewer.env
+    environment:
+      TZ: Asia/Hong_Kong
+      BACKUP_PATH: /data/backups
+      DB_TYPE: sqlite
+      DB_PATH: /data/backups/telegram_backup.db
+      VIEWER_TIMEZONE: Asia/Hong_Kong
+      ALLOW_ANONYMOUS_VIEWER: "false"
+      CORS_ORIGINS: https://tga.type.hk
+      SECURE_COOKIES: "true"
+      TRUST_PROXY_HEADERS: "true"
+      TRANSCRIPTION_ENABLED: "false"
+      MEDIA_MAX_DOWNLOAD_ATTEMPTS: "5"
+    ports:
+      - 127.0.0.1:{{ ports.telegramArchive }}:8000
+    volumes:
+      - {{ paths.appData }}/telegram-archive/data/backups:/data/backups:z
+      - ./telegram-archive/tailwind-9.5.0.css:/app/telegram_archive/web/static/tga-tailwind-9.5.0.css:ro,z
+    networks: [telegram-archive]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   homepage:
     container_name: homepage
     image: ghcr.io/gethomepage/homepage:latest
@@ -693,4 +779,8 @@ services:
       - {{ ports.mariadb }}:{{ ports.mariadb }}
     volumes:
       - /appData/mariadb/config:/config:z
+
+networks:
+  telegram-archive:
+    driver: bridge
 {% endif -%}

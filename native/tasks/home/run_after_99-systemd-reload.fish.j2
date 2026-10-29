@@ -61,9 +61,9 @@ function configure_common_user_units
 end
 
 if user_units_need_reload; or unit_needs_enable_now backup-packages.timer
-    stage_note "Systemd User Units [Common]" CONFIG "Common Units" configured configure_common_user_units
+    stage_note "Systemd User Units [Common]" CONFIG "Backup schedule" configured configure_common_user_units
 else
-    status_msg SKIP "✓" "Common Units" "no changes"
+    status_msg SKIP "✓" "Backup schedule" "no changes"
 end
 
 {% if is_client -%}
@@ -103,9 +103,9 @@ function configure_client_user_units
 end
 
 if user_units_need_reload; or units_need_enable_now $client_services
-    stage_note "Systemd User Units [Clients]" CONFIG "Clients Units" configured configure_client_user_units $client_services
+    stage_note "Systemd User Units [Clients]" CONFIG "Desktop session services" configured configure_client_user_units $client_services
 else
-    status_msg SKIP "✓" "Clients Units" "no changes"
+    status_msg SKIP "✓" "Desktop session services" "no changes"
 end
 
 # Voice capture belongs to the graphical session, not the lingering user manager.
@@ -140,9 +140,9 @@ function configure_hyprlock_login_unit
 end
 
 if user_units_need_reload; or not systemctl --user --quiet is-enabled hyprlock-login.service 2>/dev/null
-    stage_note "Systemd User Unit [Hyprlock Login]" CONFIG "Hyprlock Login" configured configure_hyprlock_login_unit
+    stage_note "Systemd User Unit [Hyprlock Login]" CONFIG "Hyprlock" configured configure_hyprlock_login_unit
 else
-    status_msg SKIP "✓" "Hyprlock Login" "no changes"
+    status_msg SKIP "✓" "Hyprlock" "no changes"
 end
 
 {%- endif %}

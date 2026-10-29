@@ -127,10 +127,18 @@ if not test -f /etc/fedora-release
     status_msg FAILED "✗" "Strata" "Dependency setup currently supports Fedora only"
     exit 1
 end
-step_run_quiet "Strata dependencies" install_strata_dependencies
-or exit $status
-
-step_run_quiet "Strata" install_strata
+function install_strata_complete
+    set -l dependency_output (install_strata_dependencies)
+    set -l dependency_status $status
+    printf '%s\n' $dependency_output
+    test $dependency_status -eq 0; or return $dependency_status
+    install_strata; or return $status
+    # Preserve a dependency installation even when the app is already current.
+    if contains -- CHEZETC_RESULT=changed $dependency_output
+        echo CHEZETC_RESULT=changed
+    end
+end
+step_run_quiet "Strata" install_strata_complete
 or exit $status
 
 exit 0

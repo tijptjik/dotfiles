@@ -17,15 +17,15 @@ end
 
 if command herdr plugin list --json | command jq -e \
     '.result.plugins[]? | select(.plugin_id == "llmtrim.proxy")' >/dev/null 2>&1
-    status_msg SKIP "✓" "Plugin : LLMTrim" "available"
+    status_msg SKIP "✓" "Herdr (Llmtrm)" "available"
     exit 0
 end
 
-status_msg CONFIG "..." "Plugin : LLMTrim"
+status_msg CONFIG "..." "Herdr (Llmtrm)"
 if command herdr plugin install fkiene/llmtrim-herdr --yes
-    status_msg CONFIG "✓" "Plugin : LLMTrim" "available"
+    status_msg CONFIG "✓" "Herdr (Llmtrm)" "available"
 else
-    status_msg FAILED "✗" "Plugin : LLMTrim" "installation failed"
+    status_msg FAILED "✗" "Herdr (Llmtrm)" "installation failed"
     exit 1
 end
 {% endif -%}

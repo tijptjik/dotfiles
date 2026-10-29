@@ -148,9 +148,9 @@ function install_zed_channel
     set binary "$app_dir/bin/zed"
     set channel_label $channel
     if test "$channel" = stable
-        set channel_label Stable
+        set channel_label Zed
     else if test "$channel" = preview
-        set channel_label Preview
+        set channel_label "Zed Preview"
     else if test "$channel" = nightly
         set channel_label Nightly
     end

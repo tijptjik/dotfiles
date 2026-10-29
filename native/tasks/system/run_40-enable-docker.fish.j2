@@ -22,16 +22,16 @@ end
 
 # Check if docker is already enabled
 if systemctl is-enabled docker >/dev/null 2>&1
-    step_skip_ok "Autostart service" enabled
+    step_skip_ok "Docker (Autostart)" enabled
 else
-    step_run_note "Autostart service" enabled sudo systemctl enable docker
+    step_run_note "Docker (Autostart)" enabled sudo systemctl enable docker
     or exit 1
 end
 
 # Check if docker is already active
 if systemctl is-active docker >/dev/null 2>&1
-    step_skip_ok "Run service" active
+    step_skip_ok "Docker (Service)" active
 else
-    step_run_note "Run service" active sudo systemctl start docker
+    step_run_note "Docker (Service)" active sudo systemctl start docker
     or exit 1
 end

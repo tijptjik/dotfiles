@@ -2068,9 +2068,7 @@
   },
   {
     "path": "{{ user.home }}/.local/share/applications/FFPWA-01KFA5CCJHYYD2WY97911P3XG7.desktop",
-    "kind": "file",
-    "source": "files/.local/share/applications/FFPWA-01KFA5CCJHYYD2WY97911P3XG7.desktop",
-    "mode": "0755",
+    "kind": "absent",
     "group": "base"
   },
   {

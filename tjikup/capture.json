@@ -17,7 +17,16 @@
     "kind": "template-json",
     "optional": true,
     "hosts": [
-      "fi",
+      "fi"
+    ]
+  },
+  {
+    "name": "herdr",
+    "source": "native/home/files/.config/herdr/session-li.json.j2",
+    "target": ".config/herdr/session.json",
+    "kind": "template-json",
+    "optional": true,
+    "hosts": [
       "li"
     ]
   },

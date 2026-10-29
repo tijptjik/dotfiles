@@ -36,7 +36,7 @@ sudo systemctl start --no-block si-snapraid-scrub.service
 
 Do not launch these together intentionally; a second job waits for the first.
 
-Managed sources: sibling chezetc `etc/si-snapraid-maintenance/` and `etc/systemd/system/si-snapraid-*`. Update the expected identities deliberately after any future disk replacement.
+Managed policy: `system/native/si/files/si-snapraid-maintenance/` and `system/native/si/files/systemd/system/si-snapraid-*`. Synctjik owns the native maintenance and notification engines. Update the expected identities deliberately after any future disk replacement.
 
 Initial installation verified systemd units and all disk identities. A read-only current diff returned 110 removed files (mostly sidecars and the prior Black Sun recording path), passing the 200-removal guard. No new sync or scrub was launched during the user's VIDEO transfer. The prior recovery full scrub passed October 20.
 

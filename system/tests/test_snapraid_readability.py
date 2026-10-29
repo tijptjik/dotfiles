@@ -6,7 +6,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, mock_open, patch
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location("snapraid_maintenance", ROOT / "etc/si-snapraid-maintenance/maintenance.py")
+spec = importlib.util.spec_from_file_location("snapraid_maintenance", ROOT / "tests/legacy/protection/maintenance.py")
 maintenance = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(maintenance)
 

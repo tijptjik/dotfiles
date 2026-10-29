@@ -3,7 +3,7 @@ import ast
 from pathlib import Path
 import unittest
 
-SCRIPT = Path(__file__).resolve().parents[1] / "etc/si-app-backup/executable_backup.py"
+SCRIPT = Path(__file__).resolve().parents[1] / "tests/legacy/protection/backup.py"
 PLEX = "/mnt/storage/meta/opt/plexmediaserver/Library/Application Support/Plex Media Server"
 
 class DatabaseRoleTests(unittest.TestCase):

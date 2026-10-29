@@ -1,0 +1,49 @@
+{
+  "state": "${HOME}/.local/share/si-app-backups",
+  "restic": {
+    "repository": "${HOME}/.local/share/si-app-backups/repository",
+    "password": "${HOME}/.config/si-app-backup/local-password",
+    "cache": "${HOME}/.local/share/si-app-backups/cache",
+    "host": "si",
+    "tag": "app-state",
+    "keep_daily": 7,
+    "keep_weekly": 4
+  },
+  "source_repository": "sftp:si:/mnt/data/disk42/.recovery-preservation/app-backups/repository",
+  "source_password": "${HOME}/.config/si-app-backup/server-password",
+  "ssh": [
+    "/usr/bin/mullvad-exclude",
+    "/usr/bin/ssh",
+    "-x",
+    "-o",
+    "HostKeyAlias=ssh.type.hk",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=8",
+    "-o",
+    "ServerAliveInterval=30",
+    "-o",
+    "ServerAliveCountMax=6"
+  ],
+  "endpoints": [
+    "m@192.168.1.150",
+    "m@ssh.type.hk"
+  ],
+  "remote_host": "si",
+  "sftp_server": [
+    "sudo",
+    "-n",
+    "/usr/libexec/openssh/sftp-server"
+  ],
+  "limit_download": 2048,
+  "copy_attempts": 3,
+  "retry_seconds": 10,
+  "copy_max_hours": 36,
+  "health_max_hours": 24,
+  "weekly_offset_seconds": 28800,
+  "weekly_weekday": 0,
+  "weekly_hour": 6
+}

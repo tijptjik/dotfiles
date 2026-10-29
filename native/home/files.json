@@ -5899,5 +5899,21 @@
     "kind": "symlink",
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-systjik.svg",
     "target": "systjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.config/synctjik/drive.json",
+    "when": "hostname == \"si\"",
+    "kind": "file",
+    "source": "files/.config/synctjik/drive.json",
+    "mode": "0600",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/synctjik/app-pull.json",
+    "when": "hostname == \"fi\"",
+    "kind": "file",
+    "source": "files/.config/synctjik/app-pull.json",
+    "mode": "0600",
+    "group": "base"
   }
 ]

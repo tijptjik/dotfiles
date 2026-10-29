@@ -8,5 +8,4 @@ Type=oneshot
 UMask=0077
 TimeoutStartSec=infinity
 TimeoutStopSec=120
-Environment=PYTHONUNBUFFERED=1
-ExecStart=%h/.local/bin/drive-restic-backup
+ExecStart=%h/.local/bin/synctjik drive backup

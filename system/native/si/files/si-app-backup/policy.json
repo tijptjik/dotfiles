@@ -1,0 +1,200 @@
+{
+  "host": "si",
+  "required_uid": 0,
+  "state": "/var/lib/si-app-backup",
+  "lock": "/run/lock/si-app-backup.lock",
+  "stage": "/mnt/data/disk42/.recovery-preservation/app-backups/stage",
+  "restic": {
+    "repository": "/mnt/data/disk42/.recovery-preservation/app-backups/repository",
+    "password": "/etc/si-app-backup/password",
+    "cache": "/mnt/data/disk42/.recovery-preservation/app-backups/cache",
+    "host": "si",
+    "tag": "app-state",
+    "keep_daily": 7,
+    "keep_weekly": 4
+  },
+  "snapraid_config": "/etc/snapraid.conf",
+  "sources": [
+    [
+      "/mnt/storage/meta/appData",
+      [
+        "/docker/",
+        "/flatpak/",
+        "/booklore.bak/",
+        "*.fq.gz",
+        "*/Backups/",
+        "*/backups/",
+        "/radarr/MediaCover/",
+        "/sonarr/MediaCover/",
+        "/lidarr/MediaCover/",
+        "/bookshelf/MediaCover/",
+        "/radarr/logs/",
+        "/sonarr/logs/",
+        "/lidarr/logs/",
+        "/bookshelf/logs/",
+        "/prowlarr/logs/",
+        "/seerr/logs/",
+        "/seerr/cache/",
+        "/profilarr/logs/",
+        "/profilarr/cache/",
+        "/tautulli/logs/",
+        "/tautulli/cache/",
+        "/lazylibrarian/log/",
+        "/lazylibrarian/cache/",
+        "/navidrome/artwork/",
+        "/navidrome/cache/",
+        "/grimmory/cbx_cache/",
+        "/beets/genres/.venv/",
+        "**/.git/",
+        "**/__pycache__/"
+      ]
+    ],
+    [
+      "/mnt/storage/meta/opt/plexmediaserver/Library/Application Support/Plex Media Server",
+      [
+        "/Cache/",
+        "/Codecs/",
+        "/Drivers/",
+        "/Media/",
+        "/Metadata/",
+        "/Updates/",
+        "/Logs/",
+        "/Crash Reports/",
+        "/Diagnostics/",
+        "/Plug-in Support/Caches/",
+        "/Plug-in Support/Databases/*.db-????-??-??"
+      ]
+    ],
+    [
+      "/mnt/storage/meta/appCache/audiobookshelf",
+      [
+        "/cache/",
+        "/logs/",
+        "/backups/"
+      ]
+    ],
+    [
+      "/appData/mariadb/config",
+      [
+        "/log/",
+        "/databases/"
+      ]
+    ],
+    [
+      "/home/m/dockers",
+      []
+    ],
+    [
+      "/home/m/.config",
+      [
+        "/BraveSoftware/",
+        "/bun/bin/",
+        "/fnm/",
+        "/gcloud/logs/",
+        "/flatpak/"
+      ]
+    ],
+    [
+      "/home/m/.local/bin",
+      []
+    ],
+    [
+      "/home/m/.local/share/dotjik",
+      [
+        "/.git/"
+      ]
+    ],
+    [
+      "/home/m/.local/share/systjik",
+      [
+        "/.git/"
+      ]
+    ],
+    [
+      "/home/m/.ssh",
+      []
+    ],
+    [
+      "/home/m/.keys",
+      []
+    ],
+    [
+      "/etc",
+      [
+        "/si-app-backup/password",
+        "/nginx/.git/",
+        "/lvm/cache/",
+        "/httpd/logs/",
+        "**/__pycache__/"
+      ]
+    ]
+  ],
+  "direct_sources": [
+    "/mnt/storage/public/library"
+  ],
+  "plex_root": "/mnt/storage/meta/opt/plexmediaserver/Library/Application Support/Plex Media Server",
+  "plex_sqlite": "/usr/lib/plexmediaserver/Plex SQLite",
+  "repairs": [
+    {
+      "path": "/mnt/storage/meta/appData/prowlarr/prowlarr.db",
+      "checks": [
+        "wrong # of entries in index IX_History_DownloadId"
+      ],
+      "evidence": "prowlarr-before-reindex.db",
+      "label": "all Prowlarr indexes"
+    }
+  ],
+  "mariadb": {
+    "container": "mariadb",
+    "config_source": "/appData/mariadb/config",
+    "config_target": "/config",
+    "receipt": "/var/lib/si-provision/mariadb-restored.json"
+  },
+  "restore_defaults": [
+    "/mnt/storage/meta/appData",
+    "/mnt/storage/meta/appCache/audiobookshelf",
+    "/mnt/storage/meta/opt/plexmediaserver",
+    "/appData/mariadb/config",
+    "/home/m/.ssh",
+    "/home/m/.keys"
+  ],
+  "restore_extra": [
+    "/home/m/.config",
+    "/home/m/dockers",
+    "/home/m/.local/bin",
+    "/etc/nginx",
+    "/etc/pki/tls/private",
+    "/etc/pki/tls/certs",
+    "/etc/si-notifications"
+  ],
+  "quiet_services": [
+    "plexmediaserver"
+  ],
+  "mounts": {
+    "/mnt/data/disk42": "9d49130f-b477-4990-b2c2-93ebebf2d0c6"
+  },
+  "filesystems": {
+    "/mnt/storage": "fuse.mergerfs"
+  },
+  "restore_mounts": {
+    "mounts": {
+      "/mnt/data/disk12": "f28eba22-c264-4021-84b9-37e85420b3a3",
+      "/mnt/data/disk22": "de5f6189-ffcf-4998-9eb6-f5c96455d35d",
+      "/mnt/data/disk32": "eb5d5636-dcc2-441b-a7b7-8c12297b4568",
+      "/mnt/data/disk42": "9d49130f-b477-4990-b2c2-93ebebf2d0c6",
+      "/mnt/data/disk5": "0c11d7dc-cebf-4cb4-85c7-c6c132f843e7",
+      "/mnt/parity/disk12": "63c7eef8-6d74-4c0c-8404-c5830d141dcc",
+      "/mnt/parity/disk22": "b052297a-044f-421d-ac6e-bafc60da8bf5"
+    },
+    "filesystems": {
+      "/mnt/data/disk12": "ext4",
+      "/mnt/data/disk22": "ext4",
+      "/mnt/data/disk32": "ext4",
+      "/mnt/data/disk42": "ext4",
+      "/mnt/data/disk5": "ext4",
+      "/mnt/parity/disk12": "ext4",
+      "/mnt/parity/disk22": "ext4",
+      "/mnt/storage": "fuse.mergerfs"
+    }
+  }
+}

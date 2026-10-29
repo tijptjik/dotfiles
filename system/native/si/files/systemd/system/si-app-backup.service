@@ -7,7 +7,7 @@ OnFailure=si-app-backup-failure.service
 
 [Service]
 Type=oneshot
-ExecStart=/etc/si-app-backup/backup.py
+ExecStart=/usr/local/bin/synctjik app-backup backup
 TimeoutStartSec=2h
 TimeoutStopSec=5min
 Nice=10

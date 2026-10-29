@@ -17,7 +17,7 @@
 
 Current appData (including custom plugins/scripts), native Plex databases/settings, Audiobookshelf supporting metadata, MariaDB, Compose files, server dotfile source, user configuration/scripts/SSH files, `/etc`, and `/mnt/storage/public/library`.
 
-Excluded: other media/downloads (including `public/books` and `public/library.bak`), sequencing data now in `private/wgs`, Docker layers, Flatpak packages, historical backup archives, known cache/log/artwork directories, Plex generated media/artwork, and development environments. Grimmory images are retained conservatively because some covers may be user-supplied. The exact per-source exclusion manifest is in the server backup executable and each snapshot's `backup-manifest.json`.
+Excluded: other media/downloads (including `public/books` and `public/library.bak`), sequencing data now in `private/wgs`, Docker layers, Flatpak packages, historical backup archives, known cache/log/artwork directories, Plex generated media/artwork, and development environments. Grimmory images are retained conservatively because some covers may be user-supplied. The exact per-source exclusion policy is in `/etc/si-app-backup/policy.json` and each snapshot's `backup-manifest.json`.
 
 This is application recovery coverage, not a disk image or backup of all private documents. Private WGS files are not part of this job. The independent computer copy is geographically offsite only when that computer is elsewhere.
 
@@ -138,11 +138,10 @@ reports are in `~/downloads/library-audit-2026-10-21/` on si.
 
 ## Managed sources
 
-- `../chezetc/etc/si-app-backup/executable_backup.py`
-- `../chezetc/etc/systemd/system/si-app-backup*`
-- `home/dot_local/bin/executable_si-app-backup-pull`
-- `home/dot_config/systemd/user/si-app-backup-*`
-- Restic is declared in chezetc's common package list.
+- Synctjik native `app-backup`, `app-pull`, and `app-restore` engines.
+- `system/native/si/files/si-app-backup/policy.json` and system units.
+- `native/home/files/.config/synctjik/app-pull.json` and user units.
+- Restic remains an explicit dependency.
 
 Initial backup, off-computer copy and restore-test results are recorded in the storage recovery log after verification.
 

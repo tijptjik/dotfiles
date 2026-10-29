@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / 'etc/si-snapraid-maintenance/notify.py'
+SOURCE = ROOT / 'tests/legacy/protection/notify.py'
 if not SOURCE.exists():
     SOURCE = Path(__file__).with_name('notify.py')
 spec = importlib.util.spec_from_file_location('snapraid_notifications', SOURCE)

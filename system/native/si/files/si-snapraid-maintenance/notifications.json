@@ -1,0 +1,32 @@
+{
+  "host": "si",
+  "state": "/var/lib/si-snapraid-notifications",
+  "receipts": "/var/lib/si-snapraid-maintenance",
+  "credentials": "/etc/si-notifications/telegram.json",
+  "reminder_seconds": 86400,
+  "telegram_base_url": "https://api.telegram.org",
+  "jobs": {
+    "si-snapraid-sync.service": {
+      "task": "Sync",
+      "mode": "sync",
+      "max_age": 129600
+    },
+    "si-snapraid-scrub.service": {
+      "task": "Scrub",
+      "mode": "scrub",
+      "max_age": 777600
+    },
+    "si-snapraid-resume.service": {
+      "task": "Writer recovery",
+      "mode": null,
+      "max_age": null,
+      "remain_after_exit": true
+    },
+    "si-snapraid-notification-test.service": {
+      "task": "Notification check",
+      "mode": null,
+      "max_age": null,
+      "test": true
+    }
+  }
+}

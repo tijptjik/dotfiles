@@ -1,0 +1,32 @@
+{
+  "host": "si",
+  "state": "${HOME}/.local/state/drive-restic",
+  "mount_root": "${XDG_RUNTIME_DIR}/drive-restic",
+  "rclone_config": "${HOME}/.config/drive-restic/drive.conf",
+  "export_formats": "docx,xlsx,pptx,svg",
+  "sources": [
+    {
+      "tag": "private-archives",
+      "source": "type-drive:private/archives",
+      "name": "archives"
+    },
+    {
+      "tag": "gsuite",
+      "source": "type-drive:GSUITE",
+      "name": "gsuite"
+    }
+  ],
+  "restic": {
+    "repository": "/mnt/storage/private/backups/google-drive",
+    "password": "${HOME}/.config/drive-restic/restic-password",
+    "cache": "${HOME}/.cache/restic",
+    "host": "si",
+    "tag": "google-drive",
+    "keep_daily": 1,
+    "keep_weekly": 1,
+    "keep_monthly": 1
+  },
+  "filesystems": {
+    "/mnt/storage": "fuse.mergerfs"
+  }
+}

@@ -136,7 +136,7 @@ Recover the restic repository password out of band. It is intentionally excluded
 Use a fresh staging path on a filesystem with enough space; the command verifies restored contents and each database before any installation:
 
 ```fish
-sudo python3 /etc/si-provision/restore.py stage \
+sudo /usr/local/bin/synctjik app-restore stage \
   --repository /path/to/repository \
   --password-file /path/to/root-only-password \
   --snapshot FULL_64_CHARACTER_SNAPSHOT_ID \
@@ -146,7 +146,7 @@ sudo python3 /etc/si-provision/restore.py stage \
 Explicitly stop service timers/writers before installation. The tool refuses active containers or Plex, serializes with the backup/SnapRAID lock, and prechecks **all destinations before copying**. Default targets are appData, Audiobookshelf persistent metadata, native Plex state, MariaDB configuration, and m's SSH/age credentials. Destinations must be absent or empty: no forced overwrite, merge of existing app state, deletion or restore-on-update behavior.
 
 ```fish
-sudo python3 /etc/si-provision/restore.py install \
+sudo /usr/local/bin/synctjik app-restore install \
   --stage /mnt/data/disk42/.recovery-preservation/restore-STAMP
 ```
 
@@ -165,7 +165,7 @@ The directory inventory records deployed bind-directory numeric owners/modes. Ex
 Start **only** the MariaDB container on a fresh data directory, allowing it to initialize. Then:
 
 ```fish
-sudo python3 /etc/si-provision/restore.py import-mariadb \
+sudo /usr/local/bin/synctjik app-restore import-mariadb \
   --stage /mnt/data/disk42/.recovery-preservation/restore-STAMP
 ```
 
@@ -185,7 +185,7 @@ Validation: 28 regression tests pass; account collisions, active writers, popula
 ## SnapRAID Telegram alerts
 
 SnapRAID failure/recovery hooks and the hourly missed-run watchdog are managed
-under `etc/si-snapraid-maintenance/notify.py` and `etc/systemd/system/si-snapraid-*`.
+under `native/si/files/si-snapraid-maintenance/notifications.json` and `etc/systemd/system/si-snapraid-*`.
 They apply only to si; fi/li exclude these paths. The server-only apply hook
 reloads units and enables `si-snapraid-health.timer` after credentials exist. It
 does not start sync/scrub or restore secrets, and reports a skip without credentials.
@@ -194,7 +194,7 @@ The root-only `/etc/si-notifications/telegram.json` is deliberately unmanaged. I
 JSON value is saved in Bitwarden Secrets Manager, project `dotfiles`, key
 `si-snapraid-telegram`, and in encrypted `/etc` backups. Restore it with root
 ownership, directory mode 0700 and file mode 0600 before enabling alerts. On a
-fresh recovery, `restore.py install --include /etc/si-notifications` is allowlisted
+fresh recovery, `synctjik app-restore install --include /etc/si-notifications` is allowlisted
 and retains the same empty-destination and stopped-service checks; never overwrite
 a populated directory. Do not put bot tokens or chat configuration in Git.
 

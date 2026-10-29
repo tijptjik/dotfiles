@@ -189,12 +189,8 @@
       "sensitive": true
     },
     {
-      "kind": "file",
-      "path": "/etc/si-app-backup/backup.py",
-      "mode": "0755",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-app-backup/backup.py"
+      "kind": "absent",
+      "path": "/etc/si-app-backup/backup.py"
     },
     {
       "kind": "absent",
@@ -245,20 +241,12 @@
       "path": "/etc/si-provision/provision.py"
     },
     {
-      "kind": "file",
-      "path": "/etc/si-provision/restore.py",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-provision/restore.py"
+      "kind": "absent",
+      "path": "/etc/si-provision/restore.py"
     },
     {
-      "kind": "file",
-      "path": "/etc/si-provision/storage.py",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-provision/storage.py"
+      "kind": "absent",
+      "path": "/etc/si-provision/storage.py"
     },
     {
       "kind": "absent",
@@ -273,20 +261,12 @@
       "source": "files/si-snapraid-maintenance/config.json"
     },
     {
-      "kind": "file",
-      "path": "/etc/si-snapraid-maintenance/maintenance.py",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-snapraid-maintenance/maintenance.py"
+      "kind": "absent",
+      "path": "/etc/si-snapraid-maintenance/maintenance.py"
     },
     {
-      "kind": "file",
-      "path": "/etc/si-snapraid-maintenance/notify.py",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-snapraid-maintenance/notify.py"
+      "kind": "absent",
+      "path": "/etc/si-snapraid-maintenance/notify.py"
     },
     {
       "kind": "file",
@@ -734,6 +714,22 @@
       "mode": "0644",
       "uid": 0,
       "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-app-backup/policy.json",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-app-backup/policy.json"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/si-snapraid-maintenance/notifications.json",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/si-snapraid-maintenance/notifications.json"
     }
   ]
 }

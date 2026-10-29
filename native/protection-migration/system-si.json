@@ -1,0 +1,24 @@
+{
+  "locks": [
+    "/run/lock/si-snapraid-maintenance.lock",
+    "/run/lock/si-app-backup.lock",
+    "/var/lib/si-snapraid-notifications/notify.lock"
+  ],
+  "units": [
+    {
+      "name": "si-app-backup.service"
+    },
+    {
+      "name": "si-snapraid-sync.service"
+    },
+    {
+      "name": "si-snapraid-scrub.service"
+    },
+    {
+      "name": "si-snapraid-health.service"
+    }
+  ],
+  "reload_managers": [
+    "system"
+  ]
+}

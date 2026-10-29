@@ -1,0 +1,14 @@
+{
+  "locks": [
+    "${HOME}/.local/state/drive-restic/operation.lock"
+  ],
+  "units": [
+    {
+      "name": "drive-restic-backup.service",
+      "user": true
+    }
+  ],
+  "reload_managers": [
+    "user"
+  ]
+}

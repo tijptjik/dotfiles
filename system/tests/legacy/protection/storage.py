@@ -9,8 +9,8 @@ import shutil
 import subprocess
 
 CONFIG = Path('/etc/si-snapraid-maintenance/config.json')
-BEGIN = '# BEGIN chezetc si array'
-END = '# END chezetc si array'
+BEGIN = '# BEGIN tjikup si array'
+END = '# END tjikup si array'
 LEGACY = {'/mnt/data/disk4', '/mnt/parity/disk1', '/mnt/data/disk52'}
 
 def command(*args):
@@ -98,8 +98,8 @@ def main():
         print('fstab already matches; no changes.')
         return
     stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
-    shutil.copy2(path, str(path) + '.before-chezetc-' + stamp)
-    temporary = path.with_name('fstab.chezetc.tmp')
+    shutil.copy2(path, str(path) + '.before-tjikup-' + stamp)
+    temporary = path.with_name('fstab.tjikup.tmp')
     with temporary.open('x') as f:
         f.write(rendered)
         f.flush()

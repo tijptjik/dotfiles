@@ -126,7 +126,7 @@ can restore from the other's repository using the same recoverable password.
 
 ## Drive archive and Google-native backups
 
-Si runs a separate Restic job daily at 02:00 HKT for
+Synctjik runs a separate Restic job on Si daily at 02:00 HKT for
 `type-drive:private/archives` and `type-drive:GSUITE`. The job exports Google
 Docs, Sheets, Slides, and Drawings to
 `docx`, `xlsx`, `pptx`, and `svg`, reads through a read-only rclone mount without
@@ -159,8 +159,8 @@ Restore snapshots from the repository on Si with Restic, filtering by the
 `private-archives` or `gsuite` tag before restoring into a new directory.
 
 ```sh
-restic -r /mnt/storage/private/backups/google-drive -p ~/.config/drive-restic/restic-password snapshots --tag gsuite
-restic -r /mnt/storage/private/backups/google-drive -p ~/.config/drive-restic/restic-password restore latest --tag gsuite --target ~/restore-gsuite
+synctjik drive snapshots --tag gsuite
+synctjik drive restore --snapshot FULL_64_CHARACTER_ID --tag gsuite --to ~/restore-gsuite
 ```
 
 ## Mount commands
@@ -231,3 +231,6 @@ versions in its own recovery directories.
 
 The crypt password file is per device; unlocking requires the password chosen
 by its user.
+
+The native migration and guarded unit cutover are described in
+[synctjik-protection-migration.md](synctjik-protection-migration.md).

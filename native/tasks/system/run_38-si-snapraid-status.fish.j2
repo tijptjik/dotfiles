@@ -3,7 +3,7 @@
 {{ include("helpers/status.fish") }}
 # Package presence and mounted disks do not prove content-format compatibility.
 # This command only reads state; it never syncs, scrubs, repairs or converts it.
-set -l report (sudo python3 /etc/si-snapraid-maintenance/maintenance.py status 2>&1)
+set -l report (sudo /usr/local/bin/synctjik snapraid status 2>&1)
 set -l result $status
 switch $result
     case 0

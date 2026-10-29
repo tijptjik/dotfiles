@@ -1,0 +1,18 @@
+{
+  "locks": [
+    "${HOME}/.local/share/si-app-backups/copy.lock"
+  ],
+  "units": [
+    {
+      "name": "si-app-backup-pull.service",
+      "user": true
+    },
+    {
+      "name": "si-app-backup-health.service",
+      "user": true
+    }
+  ],
+  "reload_managers": [
+    "user"
+  ]
+}

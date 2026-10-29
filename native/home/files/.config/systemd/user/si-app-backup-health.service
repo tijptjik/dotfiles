@@ -5,6 +5,6 @@ OnFailure=si-app-backup-pull-failure.service
 
 [Service]
 Type=oneshot
-ExecStart=%h/.local/bin/si-app-backup-pull --health-check
+ExecStart=%h/.local/bin/synctjik app-pull health
 TimeoutStartSec=6h
 UMask=0077

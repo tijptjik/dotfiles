@@ -632,7 +632,7 @@
       "check": [
         "bash",
         "-c",
-        "command -v rclone >/dev/null && command -v restic >/dev/null && synctjik capabilities | grep -Eq '\"native_backends\"[[:space:]]*:[[:space:]]*1([,}])'"
+        "command -v rclone >/dev/null && command -v restic >/dev/null && synctjik capabilities | grep -Eq '\"native_backends\"[[:space:]]*:[[:space:]]*1([,}])' && synctjik capabilities | grep -Eq '\"protection_backends\"[[:space:]]*:[[:space:]]*1([,}])'"
       ]
     },
     {

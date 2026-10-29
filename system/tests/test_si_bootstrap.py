@@ -3,8 +3,8 @@ from pathlib import Path
 from types import SimpleNamespace as NS
 from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1]
-sys.path.insert(0,str(ROOT/'native/si/files/si-provision'))
-spec=importlib.util.spec_from_file_location('restore',ROOT/'native/si/files/si-provision/restore.py')
+sys.path.insert(0,str(ROOT/'tests/legacy/protection'))
+spec=importlib.util.spec_from_file_location('restore',ROOT/'tests/legacy/protection/restore.py')
 restore=importlib.util.module_from_spec(spec);spec.loader.exec_module(restore)
 
 class BootstrapTests(unittest.TestCase):

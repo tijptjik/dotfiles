@@ -82,5 +82,12 @@
     "shelfmark",
     "octo-fiestarr",
     "unpackerr"
-  ]
+  ],
+  "state": "/var/lib/si-snapraid-maintenance",
+  "lock": "/run/lock/si-snapraid-maintenance.lock",
+  "backup_lock": "/run/lock/si-app-backup.lock",
+  "log_dir": "/var/log/si-snapraid-maintenance",
+  "snapraid_config": "/etc/snapraid.conf",
+  "scrub_percent": 25,
+  "scrub_age_days": 7
 }

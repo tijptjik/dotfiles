@@ -19,4 +19,4 @@ RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
 Restart=on-failure
 RestartSec=5min
 TimeoutStartSec=2min
-ExecStart=/usr/bin/python3 /etc/si-snapraid-maintenance/notify.py health
+ExecStart=/usr/local/bin/synctjik snapraid-notify health

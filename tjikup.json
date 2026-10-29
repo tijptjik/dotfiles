@@ -415,7 +415,13 @@
       "synctjik-private-assets-sync.timer": "Synctjik (private assets sync)",
       "RPM Fusion Free": "RPM Fusion (free)",
       "RPM Fusion Non-Free": "RPM Fusion (non-free)",
-      "Home prerequisites": "Home prerequisites"
+      "Home prerequisites": "Home prerequisites",
+      "codex": "Codex",
+      "fcitx": "Fcitx",
+      "gtk-bookmarks": "GTK",
+      "herdr": "Herdr",
+      "solaar": "Solaar",
+      "zapzap": "ZapZap"
     },
     "icon_aliases": {
       "Bitwarden CLIs": "Bitwarden",
@@ -501,7 +507,15 @@
       "synctjik-private-assets-sync.timer": "Synctjik",
       "RPM Fusion Non-Free": "RPM Fusion",
       "Fonts": "Assets (fonts)",
-      "Rose Punk icons": "Assets (Rose Punk icons)"
+      "Rose Punk icons": "Assets (Rose Punk icons)",
+      "codex": "Codex",
+      "fcitx": "Fcitx",
+      "gtk-bookmarks": "Gtk-bookmarks",
+      "herdr": "Herdr",
+      "solaar": "Solaar",
+      "zapzap": "Zapzap",
+      "zed": "Zed",
+      "GTK": "Gtk-bookmarks"
     },
     "grouped_results": true
   },

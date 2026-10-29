@@ -6075,5 +6075,35 @@
     "path": "{{ user.home }}/.local/lib/tjikup/propagators/zed.py",
     "kind": "absent",
     "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/chezupdate",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezupdate/__init__.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezupdate/core.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezupdate/propagators/__init__.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezupdate/propagators/herdr.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezupdate/propagators/zed.py",
+    "kind": "absent",
+    "group": "base"
   }
 ]

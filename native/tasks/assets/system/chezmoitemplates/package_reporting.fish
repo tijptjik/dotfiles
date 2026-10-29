@@ -4,20 +4,15 @@ function snapshot_rpm_versions
     set output_file $argv[1]
     set packages $argv[2..]
 
-    begin
-        set seen_packages
-        for package in $packages
-            if contains -- "$package" $seen_packages
-                continue
-            end
-            set -a seen_packages "$package"
-
-            set versions (rpm -q --qf '%{VERSION}\n' "$package" 2>/dev/null)
-            if test $status -eq 0; and test (count $versions) -gt 0
-                printf "%s\t%s\n" "$package" "$versions[1]"
-            end
-        end
-    end >$output_file
+    if test (count $packages) -eq 0
+        printf '' >$output_file
+        return 0
+    end
+    # One fresh RPM transaction reads all requested versions. Missing names
+    # produce non-tabular diagnostics; omit them just as individual queries did.
+    # Keep the first installed version for duplicate/multilib names.
+    command rpm -q --qf '%{NAME}\t%{VERSION}\n' -- $packages 2>/dev/null \
+        | command awk -F '\t' 'NF == 2 && !seen[$1]++ { print $0 }' >$output_file
 end
 
 function snapshot_flatpak_versions

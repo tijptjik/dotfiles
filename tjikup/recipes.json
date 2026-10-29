@@ -8,7 +8,7 @@
         "require:sudo"
       ],
       "resources": [
-        "dnf"
+        "bitwarden"
       ],
       "apply": [
         "tjikup",
@@ -1948,7 +1948,7 @@
         "require:sudo"
       ],
       "resources": [
-        "dnf"
+        "bitwarden"
       ],
       "apply": [
         "tjikup",

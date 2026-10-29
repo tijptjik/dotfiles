@@ -243,8 +243,13 @@ end
 # package state again later in the run.
 function install_dnf_packages
     set packages
+    # Query the declared set once; do not start one RPM process per package.
+    set installed_packages
+    if test (count $argv) -gt 0
+        set installed_packages (command rpm -q --qf '%{NAME}\n' -- $argv 2>/dev/null)
+    end
     for package in $argv
-        if not rpm -q "$package" >/dev/null 2>&1
+        if not contains -- "$package" $installed_packages
             set -a packages "$package"
         end
     end

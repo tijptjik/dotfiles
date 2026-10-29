@@ -19,7 +19,7 @@ class PackageScripts(unittest.TestCase):
             binpath = root / 'bin'; binpath.mkdir()
             # Presence checks are local. All mutating commands are intercepted by
             # the same stage helpers used by the real script.
-            for name, body in {'rpm': 'case "$*" in *7zip*) exit 0;; esac; exit 1',
+            for name, body in {'rpm': 'case "$*" in *7zip*) echo 7zip; exit 0;; esac; exit 1',
                                'flatpak': 'case "$*" in *com.obsproject.Studio*) exit 0;; esac; exit 1',
                                'gum': 'exit 0'}.items():
                 path = binpath / name
@@ -94,3 +94,21 @@ if [ "$*" = 'install --list' ]; then printf 'serie v1.0:\\n'; else echo "$*" >> 
                 invoked = calls.read_text().splitlines()
                 self.assertEqual(len(invoked),1)
                 self.assertTrue(invoked[0].endswith(expected))
+
+
+class BatchedRpmSnapshots(unittest.TestCase):
+    def test_snapshot_uses_one_query_and_ignores_missing_and_duplicate_names(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            rpm = root / 'rpm'
+            rpm.write_text("#!/bin/sh\necho call >> \"$TRACE\"\nprintf 'alpha\\t1\\npackage absent is not installed\\nalpha\\t2\\nbeta\\t3\\n'\nexit 1\n")
+            rpm.chmod(0o755)
+            output = root / 'snapshot'
+            helper = ROOT / 'native/tasks/assets/system/chezmoitemplates/package_reporting.fish'
+            result = subprocess.run(['fish','--no-config','-c',
+                'source $argv[1]; snapshot_rpm_versions $argv[2] alpha absent alpha beta',
+                '--',str(helper),str(output)], capture_output=True,text=True,
+                env={**os.environ,'PATH':str(root)+':/usr/bin:/bin','TRACE':str(root/'calls')})
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertEqual(output.read_text(),'alpha\t1\nbeta\t3\n')
+            self.assertEqual((root/'calls').read_text(),'call\n')

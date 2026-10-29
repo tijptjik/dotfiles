@@ -3,5 +3,5 @@
 # Keep the Tailscale daemon in Mullvad's split-tunnel cgroup. This is
 # intentionally limited to tailscaled: normal user traffic remains in Mullvad.
 ExecStart=
-ExecStart=/usr/bin/mullvad-exclude /usr/bin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=${PORT}
+ExecStart=/usr/bin/mullvad-exclude /usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=${PORT}
 {%- endif %}

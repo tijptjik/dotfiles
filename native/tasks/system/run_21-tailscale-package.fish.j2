@@ -1,0 +1,45 @@
+#!/usr/bin/env fish
+# Tailscale is owned by its upstream repository, independently of Fedora's build.
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
+setup_logging linux-tailscale-package
+set -l mode $argv[1]
+if not contains -- "$mode" --check --apply --update
+    echo "Expected --check, --apply or --update" >&2
+    exit 2
+end
+set -l repo /etc/yum.repos.d/tailscale.repo
+set -l source {{ (repo_dir ~ "/native/tasks/assets/system/tailscale.repo") | fish_quote }}
+set -l upstream 0
+if test (rpm -q --qf '%{PACKAGER}' tailscale 2>/dev/null) = 'Tailscale Inc <info@tailscale.com>'
+    set upstream 1
+end
+if test "$mode" = --check
+    if cmp -s "$source" "$repo"; and test $upstream -eq 1
+        exit 0
+    end
+    exit 1
+end
+if not cmp -s "$source" "$repo"
+    step_run_note "Tailscale official repository" configured sudo install -m 644 "$source" "$repo"; or exit 1
+end
+# Upstream installs the daemon in /usr/sbin, unlike Fedora's /usr/bin build.
+# Prepare the managed override before the package transaction restarts the daemon.
+set -l override /etc/systemd/system/tailscaled.service.d/override.conf
+if test -f "$override"; and string match -q '*/usr/bin/tailscaled*' -- (cat "$override")
+    step_run_note "Tailscale upstream daemon path" configured sudo sed -i 's|/usr/bin/tailscaled|/usr/sbin/tailscaled|g' "$override"; or exit 1
+    sudo systemctl daemon-reload; or exit 1
+end
+if test $upstream -eq 0; or test "$mode" = --update
+    # Explicit repository selection prevents Fedora from satisfying this declaration.
+    if rpm -q tailscale >/dev/null 2>&1
+        step_run "Tailscale upstream package" sudo dnf --refresh --repo=tailscale-stable distro-sync -y tailscale; or exit 1
+    else
+        step_run "Tailscale upstream package" sudo dnf --refresh --repo=tailscale-stable install -y tailscale; or exit 1
+    end
+end
+if test (rpm -q --qf '%{PACKAGER}' tailscale 2>/dev/null) != 'Tailscale Inc <info@tailscale.com>'
+    step_fail "Tailscale package is not from upstream"
+    exit 1
+end
+step_skip_ok "Tailscale package source" upstream

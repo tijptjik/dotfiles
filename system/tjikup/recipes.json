@@ -290,6 +290,16 @@
               "--no-execute",
               "{script}"
             ]
+          },
+          {
+            "name": "system-run_21-tailscale-package.fish",
+            "source": "$DOTJIK_REPO/native/tasks/system/run_21-tailscale-package.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
           }
         ],
         "native": "$DOTJIK_REPO/native/tasks/system.json",
@@ -488,7 +498,8 @@
       "needs": [
         "require:sudo",
         "system:render",
-        "system:repos"
+        "system:repos",
+        "system:tailscale-package"
       ],
       "resources": [
         "dnf",
@@ -1802,7 +1813,8 @@
       "label": "Tailscale",
       "needs": [
         "system:files",
-        "system:render"
+        "system:render",
+        "system:tailscale-package"
       ],
       "resources": [
         "tailscale",
@@ -2661,6 +2673,78 @@
         "zed"
       ],
       "part_of": "system:zed"
+    },
+    {
+      "id": "system:tailscale-package",
+      "label": "Tailscale (official package)",
+      "needs": [
+        "system:render",
+        "require:sudo"
+      ],
+      "resources": [
+        "dnf",
+        "tailscale",
+        "network",
+        "system-systemd"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_21-tailscale-package.fish",
+        "--apply"
+      ],
+      "timeout": 1800,
+      "display": {
+        "section": "Install applications",
+        "icon": "Tailscale"
+      },
+      "optional": false,
+      "operation": "install",
+      "scope": "system",
+      "application": "tailscale",
+      "ecosystem": "rpm",
+      "part_of": "system:tailscale",
+      "check": [
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_21-tailscale-package.fish",
+        "--check"
+      ]
+    },
+    {
+      "id": "system:tailscale-package:update",
+      "label": "Tailscale (official package) updates",
+      "needs": [
+        "system:render",
+        "require:sudo"
+      ],
+      "resources": [
+        "dnf",
+        "tailscale",
+        "network",
+        "system-systemd"
+      ],
+      "apply": [
+        "sudo",
+        "-n",
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_21-tailscale-package.fish",
+        "--update"
+      ],
+      "timeout": 1800,
+      "display": {
+        "section": "Package updates",
+        "icon": "Tailscale"
+      },
+      "optional": false,
+      "operation": "update",
+      "scope": "system",
+      "application": "tailscale",
+      "ecosystem": "rpm",
+      "part_of": "system:tailscale"
     }
   ]
 }

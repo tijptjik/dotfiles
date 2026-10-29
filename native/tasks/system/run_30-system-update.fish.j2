@@ -146,7 +146,7 @@ or exit 1
 {% endif -%}
 
 # Plex has its own session-aware updater; general transactions must not restart it.
-set dnf_update_args
+set dnf_update_args --exclude=tailscale
 {% if is_server -%}
 set -a dnf_update_args --exclude=plexmediaserver
 {% endif -%}

@@ -19,6 +19,10 @@ ROOT = Path(__file__).resolve().parents[2]
 THEME = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
 CATALOG = runpy.run_path(str(ROOT / 'scripts/icons/icon_catalog.py'))
 SOURCES = {
+    'DuckDB': 'duckdb', 'Hyprland': 'hyprland', 'Bottom': 'bottom',
+    'Lazygit': 'lazygit', 'Starship': 'starship', 'Vivid': 'vivid',
+    'Quickshell': 'quickshell', 'Synctjik': 'synctjik',
+    'Zen': 'zen', 'Scrcpy': 'scrcpy',
     'Zoom Workplace': 'zoom', 'ChatGPT Desktop': 'chatgpt',
     'Collie': 'collie', 'Docker': 'docker', 'Flatpak': 'flatpak', 'Herdr': 'herdr',
     'llmtrim': 'llmtrim', 'Nginx': 'nginx', 'Notifications': 'notjik', 'Greetjik': 'greetjik',
@@ -34,7 +38,7 @@ SOURCES = {
     'NSS': 'passwords-and-keys', 'oo7': 'oo7', 'Storage': 'disks',
     'SnapRAID': 'snapraid', 'Strata': 'strata', 'Systemd': 'system-monitor',
     'Telegram': 'telegram', 'Terminal': 'terminal', 'Tippecanoe': 'tippecanoe',
-    'Transmission': 'transmission', 'Zed': 'zed', '*': 'settings',
+    'Transmission': 'transmission', 'Zed': 'zed', 'Zed Preview': 'zed-preview', '*': 'settings',
     'Google Chrome stable': 'chrome', 'Sublime Text': 'sublime-text', 'Obsidian': 'obsidian',
     'GDM': 'gnome',
     'Gitfetch': 'gitfetch',
@@ -49,7 +53,7 @@ SOURCES = {
 
 
 def render(icons=None, services=None):
-    glyphs = {**CATALOG['SERVICE_ICONS'], '*': '\uf013',
+    glyphs = {**{name: '\uf013' for name in SOURCES}, **CATALOG['SERVICE_ICONS'], '*': '\uf013',
               **{f'Assets ({key})': value for key, value in CATALOG['ASSET_ICONS'].items()}}
     docker = CATALOG['DOCKER_SERVICES']
     sources = {**SOURCES, 'Plex': 'plex', 'Docker images': 'docker',

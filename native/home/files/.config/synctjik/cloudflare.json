@@ -1,0 +1,12 @@
+{
+  "mount_uuid": "E84A8D8F4A8D5B68",
+  "mount_point": "/run/media/io/E84A8D8F4A8D5B68",
+  "repository": "/run/media/io/E84A8D8F4A8D5B68/BACKUP/cloudflare-restic",
+  "account_id": "a6eeace4b6d9f8e07ab307964e74d801",
+  "restic_password": "/home/io/.config/private-storage/restic-password",
+  "cloudflare_token": "/home/io/.config/private-storage/cloudflare-backup-token",
+  "cloudflare_config_token": "/home/io/.config/private-storage/cloudflare-config-token",
+  "rclone_config": "/home/io/.config/rclone/rclone.conf",
+  "r2_remote": "r2-tijpdata:",
+  "expected_r2_buckets": 18
+}

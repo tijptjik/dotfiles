@@ -40,6 +40,20 @@
   ],
   "recipes": [
     {
+      "id": "require:fish",
+      "check": [
+        "fish",
+        "--version"
+      ],
+      "display": {
+        "icon": "Fish",
+        "section": "Prerequisites",
+        "verb": "REQUIRE"
+      },
+      "label": "Fish",
+      "needs": []
+    },
+    {
       "id": "require:sudo",
       "check": [
         "sudo",
@@ -48,22 +62,10 @@
       ],
       "display": {
         "icon": "Terminal",
-        "section": "Prerequisites"
+        "section": "Prerequisites",
+        "verb": "REQUIRE"
       },
       "label": "sudo",
-      "needs": []
-    },
-    {
-      "id": "require:fish",
-      "check": [
-        "fish",
-        "--version"
-      ],
-      "display": {
-        "icon": "Fish",
-        "section": "Prerequisites"
-      },
-      "label": "Fish",
       "needs": []
     },
     {
@@ -74,7 +76,7 @@
         "{config_dir}/scripts/capture-settings.py"
       ],
       "display": {
-        "section": "Recipes",
+        "section": "Capture settings",
         "reports": true,
         "icon": "Chezmoi"
       },
@@ -102,7 +104,7 @@
         "message": "sync: update templates"
       },
       "display": {
-        "section": "Recipes",
+        "section": "Capture settings",
         "quiet": true,
         "icon": "Local Changes"
       },
@@ -314,13 +316,70 @@
       "Assets (Rose Punk icons)": "\uf00a",
       "Assets (symbolic link icon)": "\uf0c1",
       "Zoom Workplace": "\uf03d",
-      "ChatGPT Desktop": "\uf075"
+      "ChatGPT Desktop": "\uf075",
+      "Bottom": "\uf013",
+      "Lazygit": "\uf013",
+      "Starship": "\uf013",
+      "Vivid": "\uf013",
+      "Hyprland": "\uf013",
+      "Quickshell": "\uf013",
+      "DuckDB": "\uf013",
+      "Synctjik": "\uf013",
+      "Zed Preview": "\uf044"
     },
     "titles": {
       "llmtrim": "Llmtrim",
       "Google Chrome stable": "Google Chrome Stable",
       "Gtk-bookmarks": "GTK Bookmarks",
-      "Zapzap": "ZapZap"
+      "Zapzap": "ZapZap",
+      "Zoom Workplace": "Zoom",
+      "Plugin : Local file links": "Herdr (Local file links)",
+      "Collie Bridge": "Collie (Bridge)",
+      "Vite Bridge": "Vite (Bridge)",
+      "oo7 daemon": "oo7 (Daemon)",
+      "llmtrim (Herdr plugin)": "Herdr (Llmtrm)",
+      "Plugin : LLMTrim": "Herdr (Llmtrm)",
+      "Home Git checkouts": "Obsidian (Vault)",
+      "Hyprlock Login": "Hyprlock",
+      "greetjik": "Greetjik",
+      "Fedora upgrade": "Fedora Release",
+      "Nginx updates": "Nginx",
+      "System packages [rpm]": "System packages (RPM)",
+      "Flatpak packages [unused]": "Flatpak packages (unused)",
+      "Common Units": "Backup schedule",
+      "Clients Units": "Desktop session services",
+      "Home": "Home files",
+      "System": "System files",
+      "Home credentials": "Home secrets",
+      "Required device collections": "Synctjik (Required collections)",
+      "notjik.service": "Notjik",
+      "notjik-telegram.service": "Notjik (Telegram)",
+      "bartjik.service": "Bartjik",
+      "codex-lb.service": "Codex LB",
+      "collie.service": "Collie",
+      "hyprvoice.service": "Hyprvoice",
+      "hypridle.service": "Hypridle",
+      "hyprsunset.service": "Hyprsunset",
+      "hyprpaper.service": "Hyprpaper",
+      "hyprpolkitagent.service": "Hyprpolkitagent",
+      "oo7-daemon.service": "oo7 (Daemon)",
+      "notjik": "Notjik",
+      "bartjik": "Bartjik",
+      "codex-lb": "Codex LB",
+      "obsidian": "Obsidian",
+      "zed": "Zed",
+      "hyprvoice": "Hyprvoice",
+      "runtjik": "Runtjik",
+      "Private storage": "Synctjik (private assets)",
+      "Cloudflare backup": "Synctjik (Cloudflare backup)",
+      "Media permissions units": "Media (permissions)",
+      "Media permissions policy": "Media (permissions)",
+      "Server sleep policy": "Power (sleep policy)",
+      "SnapRAID alert units": "SnapRAID (notifications)",
+      "SnapRAID alert watchdog": "SnapRAID (notifications)",
+      "Transmission cleanup units": "Transmission (cleanup)",
+      "Daily Transmission cleanup": "Transmission (cleanup)",
+      "SnapRAID Telegram alerts": "SnapRAID (notifications)"
     },
     "icon_aliases": {
       "Bitwarden CLIs": "Bitwarden",
@@ -331,7 +390,7 @@
       "Clients Units": "Systemd",
       "User services": "Systemd",
       "Hyprlock Login": "NSS",
-      "Cloudflare backup": "Storage",
+      "Cloudflare backup": "Synctjik",
       "Google Drive backup": "Storage",
       "Desktop services": "Systemd",
       "Home credentials": "Bitwarden",
@@ -346,15 +405,38 @@
       "Tennis and Tinty": "Terminal",
       "Tennis": "Terminal",
       "Tinty": "Terminal",
-      "Private storage": "Storage",
+      "Private storage": "Synctjik",
       "oo7 daemon": "oo7",
-      "Mullvad LAN": "Mullvad"
-    }
+      "Mullvad LAN": "Mullvad",
+      "atim/bottom": "Bottom",
+      "atim/lazygit": "Lazygit",
+      "atim/starship": "Starship",
+      "skoved/vivid": "Vivid",
+      "sneexy/zen-browser": "Zen",
+      "lionheartp/Hyprland": "Hyprland",
+      "errornointernet/quickshell": "Quickshell",
+      "iucar/duckdb": "DuckDB",
+      "rafatosta/zapzap": "Zapzap",
+      "zeno/scrcpy": "Scrcpy",
+      "jerrycasiano/FontManager": "Assets (fonts)",
+      "notjik.service": "Notjik",
+      "notjik-telegram.service": "Notjik",
+      "bartjik.service": "Bartjik",
+      "codex-lb.service": "Codex LB",
+      "collie.service": "Collie",
+      "hyprvoice.service": "Hyprvoice",
+      "hypridle.service": "Hyprland",
+      "hyprsunset.service": "Hyprland",
+      "hyprpaper.service": "Hyprland",
+      "hyprpolkitagent.service": "NSS",
+      "oo7-daemon.service": "oo7",
+      "Backup schedule": "Systemd",
+      "Desktop session services": "Systemd",
+      "Hyprlock": "NSS",
+      "Herdr (Llmtrm)": "Herdr",
+      "Synctjik": "Synctjik"
+    },
+    "grouped_results": true
   },
-  "device_file": "$XDG_CONFIG_HOME/tjikup/device.json",
-  "legacy_hosts": [
-    "fi",
-    "li",
-    "si"
-  ]
+  "device_file": "$XDG_CONFIG_HOME/tjikup/device.json"
 }

@@ -80,6 +80,20 @@ class ServiceRefreshTests(unittest.TestCase):
         self.assertNotIn(('daemon-reload',), self.calls)
         self.assertEqual(self.restarts(), [])
 
+    def test_post_update_hides_only_unchanged_service_rows(self):
+        self.run_refresh()
+        self.calls.clear()
+        with patch.dict(refresh.os.environ, {'TJIKUP_HIDE_UNCHANGED_SERVICES': '1', 'TJIKUP_SERVICE_SECTION': 'Verification'}), contextlib.redirect_stdout(io.StringIO()) as output:
+            refresh.refresh(self.units, self.state)
+        self.assertNotIn('runtime unchanged', output.getvalue())
+        self.assertIn('__tjikup_section__:Verification', output.getvalue())
+        self.assertEqual(self.restarts(), [])
+        (self.code / 'main.py').write_text('updated code')
+        with patch.dict(refresh.os.environ, {'TJIKUP_HIDE_UNCHANGED_SERVICES': '1'}), contextlib.redirect_stdout(io.StringIO()) as output:
+            refresh.refresh(self.units, self.state)
+        self.assertIn('notjik.service  updated runtime active', output.getvalue())
+        self.assertEqual(set(self.restarts()), set(self.units))
+
     def test_runtime_and_unit_changes_refresh_only_affected_units(self):
         self.run_refresh()
         self.calls.clear()

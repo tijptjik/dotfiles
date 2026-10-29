@@ -3,7 +3,7 @@
   "recipes": [
     {
       "id": "system:files",
-      "label": "System",
+      "label": "System files",
       "needs": [
         "home:bitwarden",
         "require:sudo"
@@ -41,7 +41,7 @@
     },
     {
       "id": "system:render",
-      "label": "Prepare system recipes",
+      "label": "Prepare system scripts",
       "needs": [
         "home:bitwarden",
         "require:fish",
@@ -299,7 +299,7 @@
       },
       "timeout": 300,
       "display": {
-        "section": "Recipes",
+        "section": "Preparation",
         "quiet": true,
         "icon": "Chezetc"
       },
@@ -349,7 +349,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Repositories",
         "reports": true,
         "icon": "Fedora"
       },
@@ -401,7 +401,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Repositories",
         "reports": true,
         "icon": "Fedora"
       },
@@ -456,7 +456,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Google Chrome stable"
       },
@@ -527,7 +527,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Fedora"
       },
@@ -589,7 +589,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Flatpak"
       },
@@ -651,11 +651,17 @@
       "scope": "system",
       "application": "nss",
       "ecosystem": "configuration",
-      "after": []
+      "after": [],
+      "roles": [
+        "server"
+      ],
+      "hosts": [
+        "si"
+      ]
     },
     {
       "id": "system:power",
-      "label": "Power (server policy)",
+      "label": "Power (sleep policy)",
       "needs": [
         "system:files",
         "system:render"
@@ -804,7 +810,7 @@
     },
     {
       "id": "system:transmission",
-      "label": "Transmission",
+      "label": "Transmission (cleanup)",
       "needs": [
         "system:files",
         "system:render"
@@ -854,7 +860,7 @@
     },
     {
       "id": "system:notifications",
-      "label": "Notifications (server)",
+      "label": "SnapRAID (notifications)",
       "needs": [
         "system:files",
         "system:render"
@@ -886,7 +892,7 @@
       "display": {
         "section": "Configuration",
         "reports": true,
-        "icon": "Notifications"
+        "icon": "SnapRAID"
       },
       "optional": true,
       "roles": [
@@ -934,7 +940,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Configuration",
+        "section": "Services",
         "reports": true,
         "icon": "Docker"
       },
@@ -988,7 +994,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Telegram"
       },
@@ -1011,7 +1017,7 @@
     },
     {
       "id": "system:zoom",
-      "label": "Zoom Workplace",
+      "label": "Zoom",
       "needs": [
         "require:sudo",
         "system:render"
@@ -1052,7 +1058,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Zoom Workplace"
       },
@@ -1116,7 +1122,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Codex Desktop"
       },
@@ -1180,7 +1186,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Strata"
       },
@@ -1244,7 +1250,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Hyprvoice"
       },
@@ -1308,7 +1314,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Tippecanoe"
       },
@@ -1373,7 +1379,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Gitfetch"
       },
@@ -1437,7 +1443,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Terminal"
       },
@@ -1548,7 +1554,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Zed"
       },
@@ -1613,7 +1619,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Nginx"
       },
@@ -1726,7 +1732,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Configuration",
+        "section": "Services",
         "reports": true,
         "icon": "Tailscale"
       },
@@ -2335,7 +2341,7 @@
     },
     {
       "id": "system:nginx:update",
-      "label": "Nginx updates",
+      "label": "Nginx",
       "needs": [
         "system:render"
       ],

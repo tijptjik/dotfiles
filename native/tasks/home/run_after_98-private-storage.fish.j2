@@ -33,8 +33,8 @@ for timer in private-sync.timer private-backup.timer
     end
 end
 if test "$changed" = 1
-    status_msg CONFIG "✓" "Private storage" "configured"
+    status_msg CONFIG "✓" "Synctjik (private assets)" "configured"
 else
-    status_msg SKIP "✓" "Private storage" "no changes"
+    status_msg SKIP "✓" "Synctjik (private assets)" "no changes"
 end
 {% endif -%}

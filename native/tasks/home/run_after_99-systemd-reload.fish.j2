@@ -153,12 +153,12 @@ end
 if test -f "$HOME/.local/state/cloudflare-restic/restore-verified.json"; and test -f "$HOME/.config/private-storage/cloudflare-backup-token"; and test -f "$HOME/.config/private-storage/cloudflare-config-token"; and test -f "$HOME/.config/private-storage/restic-password"
     if user_units_need_reload; or unit_needs_enable_now cloudflare-restic-backup.timer
         systemctl --user daemon-reload; or exit $status
-        stage_note "Cloudflare backup" CONFIG "Weekly backup" enabled systemctl --user enable --now cloudflare-restic-backup.timer
+        stage_note "Synctjik (Cloudflare backup)" CONFIG "Synctjik (Cloudflare backup)" enabled systemctl --user enable --now cloudflare-restic-backup.timer
     else
-        status_msg SKIP "✓" "Cloudflare backup" "scheduled"
+        status_msg SKIP "✓" "Synctjik (Cloudflare backup)" "scheduled"
     end
 else
-    status_msg SKIP "-" "Cloudflare backup" "setup pending"
+    status_msg SKIP "-" "Synctjik (Cloudflare backup)" "setup pending"
 end
 {% endif -%}
 {% if hostname == "si" -%}

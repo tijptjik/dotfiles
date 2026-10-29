@@ -1552,5 +1552,93 @@
     ],
     "mode": "brand",
     "geometry": "upstream/gnome.svg"
+  },
+  "duckdb": {
+    "name": "DuckDB",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "duckdb"
+    ],
+    "geometry": "local/duckdb.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
+  },
+  "hyprland": {
+    "name": "Hyprland",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "hyprland"
+    ],
+    "geometry": "local/hyprland.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
+  },
+  "bottom": {
+    "name": "Bottom",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "bottom"
+    ],
+    "geometry": "local/bottom.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
+  },
+  "starship": {
+    "name": "Starship",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "starship"
+    ],
+    "geometry": "local/starship.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
+  },
+  "quickshell": {
+    "name": "Quickshell",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "quickshell"
+    ],
+    "geometry": "local/quickshell.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
+  },
+  "lazygit": {
+    "name": "Lazygit",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "lazygit"
+    ],
+    "geometry": "local/lazygit.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
+  },
+  "vivid": {
+    "name": "Vivid",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "vivid"
+    ],
+    "geometry": "local/vivid.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
+  },
+  "synctjik": {
+    "name": "Synctjik",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "synctjik"
+    ],
+    "geometry": "local/synctjik.svg",
+    "mode": "illustrated-local",
+    "reviewed": false
   }
 }

@@ -4,6 +4,6 @@
 {{ include(".chezmoitemplates/fish_logging.fish") }}
 setup_logging si-power-policy
 # Compile the greeter policy without restarting GDM or the user session.
-step_run_note_as CHECK "Server sleep policy" configured sudo dconf update
+step_run_note_as CHECK "Power (sleep policy)" configured sudo dconf update
 or exit 1
 {% endif -%}

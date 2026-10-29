@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g id="frameless-artwork" transform="translate(0.000000 0.000000) scale(1.000000)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><title>Vivid</title>
+<g data-material="authored"><rect x="7" y="9" width="50" height="46" rx="7" fill="#34304f" /><path d="m14 18 5 5-5 5" fill="none" stroke="#fff0da" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path d="M28 19v25m0-23h6m-6 8h6m-6 8h6m-6 7h6" fill="none" stroke="#b39bd9" stroke-width="1.5" stroke-linecap="round" /><path d="M38 21h10" stroke="#f6cf58" stroke-width="3" stroke-linecap="round" /><path d="M38 29h7" stroke="#46b6a2" stroke-width="3" stroke-linecap="round" /><path d="M38 37h10" stroke="#8596ed" stroke-width="3" stroke-linecap="round" /><path d="M38 44h6" stroke="#df77ac" stroke-width="3" stroke-linecap="round" /></g>
+</g></svg>

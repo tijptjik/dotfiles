@@ -32,6 +32,15 @@ R2 mount. Other errors stop the run. Incomplete runs do not create success
 receipts or prune snapshots. Failures go to the systemd journal and
 `~/.local/state/cloudflare-restic/last-failure.json`.
 
+## Ownership and policy
+
+Synctjik owns the backup engine. The service runs `synctjik cloudflare backup`;
+`cloudflare-restic-backup` is a compatibility entry point. Non-secret settings
+remain in Dotjik's native `~/.config/synctjik/cloudflare.json` source. Credentials,
+repository, receipts and the restore-verification gate keep their existing paths.
+Use `synctjik cloudflare check` for an offline policy/dependency check; this does
+not prove backup or restore health. Both rclone and Restic are dependencies.
+
 ## Operations
 
 Check the weekly timer and recent run:

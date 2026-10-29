@@ -904,5 +904,75 @@
     "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gnome.svg",
     "license": "CC0-1.0 (brand rights remain with the GNOME Foundation)",
     "sha256": "9279436e987accc54ffff566c407f821a287c1518b3efe4b9979fe634fc7e146"
+  },
+  "duckdb": {
+    "source": "scripts/icons/local/duckdb.svg",
+    "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/duckdb.svg",
+    "reference_sha256": "2d53f8978d58ac12411fc618569a492922bb15e3e1798b56ba1511e72c62f826",
+    "license": "CC0-1.0",
+    "sha256": "b8d5ad2e90d68ef3a9b954b3e8e90461880bf9991f7e5a1dae73327f0c09f3be",
+    "material_revision": 3,
+    "treatment": "Sun-yellow on a dark plum backing with the same edge language as Zed and Zen"
+  },
+  "hyprland": {
+    "source": "scripts/icons/local/hyprland.svg",
+    "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/hyprland.svg",
+    "reference_sha256": "13df311e080018f3e5208cec68388c1efb79e3800a2b6bdfa73d351615374757",
+    "license": "CC0-1.0",
+    "sha256": "69fb90d644c7276081fc1b075b9835280dfde22f27157377e76ab864f29c3f4a",
+    "material_revision": 2,
+    "treatment": "Redrawn split-tip droplet with wider tapered ribbon and rounded basin"
+  },
+  "bottom": {
+    "source": "scripts/icons/local/bottom.svg",
+    "reference": "https://github.com/ClementTsang/bottom/blob/master/assets/icons/bottom-system-monitor.svg",
+    "reference_sha256": "98839723b809349a383c5c3ba70faffcc8edb3f6e2d97b7557b7bc8d664dd149",
+    "license": "MIT",
+    "sha256": "63587d63e2d5a7f24fb43134d6978b2a3871ce2170ce5f68e944cf5b051dde44",
+    "material_revision": 2,
+    "treatment": "Shared Lazygit terminal shell and dotted activity trace"
+  },
+  "starship": {
+    "source": "scripts/icons/local/starship.svg",
+    "reference": "https://github.com/starship/starship/blob/master/media/icon.svg",
+    "reference_sha256": "5d6a0c4b91ce00cd54c6e58d613e67fb926375fcaf46a739c7788ed6adea8bc9",
+    "license": "ISC",
+    "sha256": "10c6ad44b0dd2e4c089c1d62d10ecfb2db3201777d27cf42131d0d848cd5406c",
+    "material_revision": 1
+  },
+  "quickshell": {
+    "source": "scripts/icons/local/quickshell.svg",
+    "reference": "https://github.com/quickshell-mirror/quickshell/blob/master/assets/quickshell.svg",
+    "reference_sha256": "2516892a4d02385fc6baa1450b549a9f65f90ba613444cc0aa00af84cb3c9fda",
+    "license": "LGPL-3.0",
+    "sha256": "c0a0d241d0f0b5e81ef8c7c3f946e2178a1ebbe3caf7721214d3ffafb523da11",
+    "material_revision": 2,
+    "treatment": "Redrawn rounded clipped backing and softened eight-tooth Q gear"
+  },
+  "lazygit": {
+    "source": "scripts/icons/local/lazygit.svg",
+    "license": "Original artwork; app names belong to their respective owners",
+    "sha256": "1205e5db31ea1e5beef59e652d7e45e5202435981c0359c255d54bbfedc9e5b1",
+    "reference": "https://github.com/jesseduffield/lazygit",
+    "note": "Original concept; upstream has no standalone logo in its source tree",
+    "material_revision": 1
+  },
+  "vivid": {
+    "source": "scripts/icons/local/vivid.svg",
+    "license": "Original artwork; app names belong to their respective owners",
+    "sha256": "d71533f49b1fcb9112e3bccb6f9f27c48fa0d544b437e32ff7d1ee6caa9d572f",
+    "reference": "https://github.com/sharkdp/vivid",
+    "note": "Original concept; upstream has no standalone logo in its source tree",
+    "material_revision": 2,
+    "treatment": "Shared Lazygit terminal shell and fine color tree"
+  },
+  "synctjik": {
+    "source": "scripts/icons/local/synctjik.svg",
+    "license": "Original artwork; app names belong to their respective owners",
+    "sha256": "5835cb7e277e92c18e732a672acd2c8cd8ef969204dc66f7e069d3b56de6c0cb",
+    "reference": "Existing local Notjik, Bartjik, Runtjik family",
+    "note": "Copper family variant with syncing arrows",
+    "material_revision": 2,
+    "treatment": "Two opposing rounded corner forms abstract the synchronization cycle"
   }
 }

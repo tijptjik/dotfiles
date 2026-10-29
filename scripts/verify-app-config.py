@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Verify an updated app's native configuration and refresh only active units."""
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -12,9 +13,11 @@ def main():
     if code:
         print('CHECK   ! ' + app + ' configuration  needs attention; run tjikup --apply-dotfiles')
         return code
+    print('CHECK   ✓ ' + app + ' (Configuration)  verified', flush=True)
     if app in UNITS:
         return subprocess.call([sys.executable, str(ROOT / 'refresh-user-services.py'),
-                                *[arg for unit in UNITS[app] for arg in ['--unit', unit]]])
+                                *[arg for unit in UNITS[app] for arg in ['--unit', unit]]],
+                               env={**os.environ, 'TJIKUP_HIDE_UNCHANGED_SERVICES': '1', 'TJIKUP_SERVICE_SECTION': 'Verification'})
     return 0
 
 if __name__ == '__main__':

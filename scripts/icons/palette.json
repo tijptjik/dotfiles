@@ -317,5 +317,8 @@
   "paint_overrides": {
     "#31748f": "#46b6a2",
     "#2f87ab": "#73d3b8"
+  },
+  "pigments": {
+    "sun-yellow": "#f6cf58"
   }
 }

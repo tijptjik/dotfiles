@@ -2497,2238 +2497,2238 @@
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KC3V7SZSJ8PMK49J7QBTP2FK.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "google-photos.svg",
-    "group": "base"
+    "target": "google-photos.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KC5NHD5A581XBAPMZG1PET4K.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "gmail.svg",
-    "group": "base"
+    "target": "gmail.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KCGW1793YX2BA145Z4NWQ2XY.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "google-photos.svg",
-    "group": "base"
+    "target": "google-photos.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KCGZY23320CJPTJNB8ZVMVPH.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "google-calendar.svg",
-    "group": "base"
+    "target": "google-calendar.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KVFQER39ASXCZ26D7724G54G.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "codex-lb.svg",
-    "group": "base"
+    "target": "codex-lb.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "drizzle.svg",
-    "group": "base"
+    "target": "drizzle.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "codex-lb.svg",
-    "group": "base"
+    "target": "codex-lb.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/applications-system.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "uuctl.svg",
-    "group": "base"
+    "target": "uuctl.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/audio-player.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/audio-player.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bartjik.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/bartjik.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/be.maartenbaert.simplescreenrecorder.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "simplescreenrecorder.svg",
-    "group": "base"
+    "target": "simplescreenrecorder.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bitwarden.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/bitwarden.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/blueman-adapters.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "bluetooth-adapters.svg",
-    "group": "base"
+    "target": "bluetooth-adapters.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/blueman-device.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "bluetooth-adapters.svg",
-    "group": "base"
+    "target": "bluetooth-adapters.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/blueman-manager.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "bluetooth-manager.svg",
-    "group": "base"
+    "target": "bluetooth-manager.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/blueman.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "bluetooth-manager.svg",
-    "group": "base"
+    "target": "bluetooth-manager.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bluetooth-adapters.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/bluetooth-adapters.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bluetooth-manager.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/bluetooth-manager.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bookmarks.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/bookmarks.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/brave-browser-beta.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "brave.svg",
-    "group": "base"
+    "target": "brave.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/brave-browser.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "brave.svg",
-    "group": "base"
+    "target": "brave.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/brave-dpjgkjccaekddppdhcjcahhloipkffle-Default.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "plex.svg",
-    "group": "base"
+    "target": "plex.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/brave-ncmjhecbjeaamljdfahankockkkdmedg-Default.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "google-photos.svg",
-    "group": "base"
+    "target": "google-photos.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/brave.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/brave.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bun.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/bun.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/calendar.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/calendar.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/camera.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/camera.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/characters.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/characters.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chatgpt.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/chatgpt.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chezetc.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/chezetc.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chezmoi.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/chezmoi.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chrome.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/chrome.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/clocks.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/clocks.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/codex-desktop.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "codex.svg",
-    "group": "base"
+    "target": "codex.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/codex-lb.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/codex-lb.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/codex.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/codex.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/collie.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/collie.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/color-profile-viewer.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/color-profile-viewer.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.brave.Browser.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "brave.svg",
-    "group": "base"
+    "target": "brave.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.dec05eba.gpu_screen_recorder.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "gpu-screen-recorder.svg",
-    "group": "base"
+    "target": "gpu-screen-recorder.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.discordapp.Discord.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "discord.svg",
-    "group": "base"
+    "target": "discord.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.github.tchx84.Flatseal.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "flatseal.svg",
-    "group": "base"
+    "target": "flatseal.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.google.Chrome.canary.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "chrome.svg",
-    "group": "base"
+    "target": "chrome.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.google.Chrome.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "chrome.svg",
-    "group": "base"
+    "target": "chrome.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.obsproject.Studio.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "obs-studio.svg",
-    "group": "base"
+    "target": "obs-studio.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.openai.Codex.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "codex.svg",
-    "group": "base"
+    "target": "codex.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.openai.codex.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "codex.svg",
-    "group": "base"
+    "target": "codex.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.rtosta.zapzap.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zapzap.svg",
-    "group": "base"
+    "target": "zapzap.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.spotify.Client.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "spotify.svg",
-    "group": "base"
+    "target": "spotify.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.transmissionbt.Transmission.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "transmission.svg",
-    "group": "base"
+    "target": "transmission.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/connections.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/connections.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/contacts.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/contacts.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dev.zed.Zed-Nightly.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zed-nightly.svg",
-    "group": "base"
+    "target": "zed-nightly.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dev.zed.Zed-Preview.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zed-preview.svg",
-    "group": "base"
+    "target": "zed-preview.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dev.zed.Zed.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zed.svg",
-    "group": "base"
+    "target": "zed.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dev.zed.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zed.svg",
-    "group": "base"
+    "target": "zed.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/discord.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/discord.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/disk-usage-analyzer.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/disk-usage-analyzer.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/disks.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/disks.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/docker.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/docker.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/document-scanner.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/document-scanner.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/document-viewer.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/document-viewer.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/drizzle.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/drizzle.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/eye-of-gnome.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/eye-of-gnome.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fcitx-5-configuration.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/fcitx-5-configuration.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fcitx.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "fcitx-5-configuration.svg",
-    "group": "base"
+    "target": "fcitx-5-configuration.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fcitx5-configtool.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "fcitx-5-configuration.svg",
-    "group": "base"
+    "target": "fcitx-5-configuration.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fedora-media-writer.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/fedora-media-writer.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/file-roller.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/file-roller.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/files.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/files.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/firefox.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/firefox.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fish.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/fish.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/flatpak.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/flatpak.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/flatseal.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/flatseal.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fnm.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/fnm.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/fonts.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/fonts.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gimp.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/gimp.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gitfetch.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/gitfetch.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gmail.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/gmail.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gnome-color-manager.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "color-profile-viewer.svg",
-    "group": "base"
+    "target": "color-profile-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gnome-system-monitor-kde.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "system-monitor.svg",
-    "group": "base"
+    "target": "system-monitor.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gnome.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/gnome.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/google-calendar.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/google-calendar.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/google-chrome-beta.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "chrome.svg",
-    "group": "base"
+    "target": "chrome.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/google-chrome-canary.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "chrome.svg",
-    "group": "base"
+    "target": "chrome.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/google-chrome.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "chrome.svg",
-    "group": "base"
+    "target": "chrome.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/google-photos.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/google-photos.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gpu-screen-recorder.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/gpu-screen-recorder.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/greetjik.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/greetjik.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gum.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/gum.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/help.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/help.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/herdr.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/herdr.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/htop.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/htop.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/hyprvoice.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/hyprvoice.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/image-viewer.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/image-viewer.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/input-keyboard.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "keyboard-layout-viewer.svg",
-    "group": "base"
+    "target": "keyboard-layout-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/io.github.lgse.Strata.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "strata.svg",
-    "group": "base"
+    "target": "strata.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/kbd-layout-viewer5.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "keyboard-layout-viewer.svg",
-    "group": "base"
+    "target": "keyboard-layout-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/keyboard-layout-viewer.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/keyboard-layout-viewer.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/kitty.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/kitty.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/koreader.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/koreader.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/llmtrim.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/llmtrim.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/logs.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/logs.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/lutris.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/lutris.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/mailtjik.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/mailtjik.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/maps.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/maps.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/md.obsidian.Obsidian.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "obsidian.svg",
-    "group": "base"
+    "target": "obsidian.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/mpv-media-player.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/mpv-media-player.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/mpv.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "mpv-media-player.svg",
-    "group": "base"
+    "target": "mpv-media-player.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/mullvad-vpn.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "mullvad.svg",
-    "group": "base"
+    "target": "mullvad.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/mullvad.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/mullvad.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/neovim.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/neovim.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/net.lutris.Lutris.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "lutris.svg",
-    "group": "base"
+    "target": "lutris.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/nginx.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/nginx.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/notjik.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/notjik.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/nvim.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "neovim.svg",
-    "group": "base"
+    "target": "neovim.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/obs-studio.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/obs-studio.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/obsidian.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/obsidian.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/oo7.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/oo7.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.fedoraproject.MediaWriter.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "fedora-media-writer.svg",
-    "group": "base"
+    "target": "fedora-media-writer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.freedesktop.GnomeAbrt.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "problem-reporting.svg",
-    "group": "base"
+    "target": "problem-reporting.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.freedesktop.MalcontentControl.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "parental-controls.svg",
-    "group": "base"
+    "target": "parental-controls.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Calendar.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "calendar.svg",
-    "group": "base"
+    "target": "calendar.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Characters.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "characters.svg",
-    "group": "base"
+    "target": "characters.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.ColorProfileViewer.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "color-profile-viewer.svg",
-    "group": "base"
+    "target": "color-profile-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Connections.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "connections.svg",
-    "group": "base"
+    "target": "connections.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Contacts.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "contacts.svg",
-    "group": "base"
+    "target": "contacts.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Decibels.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "audio-player.svg",
-    "group": "base"
+    "target": "audio-player.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.DiskUtility.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "disks.svg",
-    "group": "base"
+    "target": "disks.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Evince.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "document-viewer.svg",
-    "group": "base"
+    "target": "document-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.FileRoller.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "file-roller.svg",
-    "group": "base"
+    "target": "file-roller.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Logs.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "logs.svg",
-    "group": "base"
+    "target": "logs.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Loupe.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "image-viewer.svg",
-    "group": "base"
+    "target": "image-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Maps.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "maps.svg",
-    "group": "base"
+    "target": "maps.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Nautilus.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "files.svg",
-    "group": "base"
+    "target": "files.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Papers.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "document-viewer.svg",
-    "group": "base"
+    "target": "document-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Settings.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "settings.svg",
-    "group": "base"
+    "target": "settings.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Showtime.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "video-player.svg",
-    "group": "base"
+    "target": "video-player.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.SimpleScan.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "document-scanner.svg",
-    "group": "base"
+    "target": "document-scanner.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Snapshot.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "camera.svg",
-    "group": "base"
+    "target": "camera.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Software.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "software.svg",
-    "group": "base"
+    "target": "software.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.SystemMonitor.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "system-monitor.svg",
-    "group": "base"
+    "target": "system-monitor.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Terminal.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "terminal.svg",
-    "group": "base"
+    "target": "terminal.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.TextEditor.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "text-editor.svg",
-    "group": "base"
+    "target": "text-editor.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Tour.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "tour.svg",
-    "group": "base"
+    "target": "tour.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Weather.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "weather.svg",
-    "group": "base"
+    "target": "weather.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.Yelp.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "help.svg",
-    "group": "base"
+    "target": "help.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.baobab.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "disk-usage-analyzer.svg",
-    "group": "base"
+    "target": "disk-usage-analyzer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.clocks.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "clocks.svg",
-    "group": "base"
+    "target": "clocks.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.eog.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "eye-of-gnome.svg",
-    "group": "base"
+    "target": "eye-of-gnome.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.font-viewer.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "fonts.svg",
-    "group": "base"
+    "target": "fonts.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.gthumb.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "thumbnails.svg",
-    "group": "base"
+    "target": "thumbnails.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.seahorse.Application.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "passwords-and-keys.svg",
-    "group": "base"
+    "target": "passwords-and-keys.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.gnome.tweaks.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "tweaks.svg",
-    "group": "base"
+    "target": "tweaks.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.mozilla.firefox.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "firefox.svg",
-    "group": "base"
+    "target": "firefox.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.pulseaudio.pavucontrol.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "volume-control.svg",
-    "group": "base"
+    "target": "volume-control.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.qgis.qgis.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "qgis-desktop.svg",
-    "group": "base"
+    "target": "qgis-desktop.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.signal.Signal.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "signal.svg",
-    "group": "base"
+    "target": "signal.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.telegram.desktop._3e485da34fc040f9218e3891ecde1e6c.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "telegram.svg",
-    "group": "base"
+    "target": "telegram.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.telegram.desktop.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "telegram.svg",
-    "group": "base"
+    "target": "telegram.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.telegram.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "telegram.svg",
-    "group": "base"
+    "target": "telegram.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.videolan.VLC.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "vlc.svg",
-    "group": "base"
+    "target": "vlc.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/org.yuzu_emu.yuzu.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "yuzu.svg",
-    "group": "base"
+    "target": "yuzu.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/parental-controls.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/parental-controls.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/passwords-and-keys.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/passwords-and-keys.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/plex.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/plex.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/pony-rs.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "greetjik.svg",
-    "group": "base"
+    "target": "greetjik.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/pony.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "greetjik.svg",
-    "group": "base"
+    "target": "greetjik.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ponysay.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "greetjik.svg",
-    "group": "base"
+    "target": "greetjik.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/power.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/power.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/problem-reporting.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/problem-reporting.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/prowlarr.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/prowlarr.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/python.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/python.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/qgis-desktop.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/qgis-desktop.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/qgis.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "qgis-desktop.svg",
-    "group": "base"
+    "target": "qgis-desktop.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rocks.koreader.KOReader.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "koreader.svg",
-    "group": "base"
+    "target": "koreader.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-audio-player.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "audio-player.svg",
-    "group": "base"
+    "target": "audio-player.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bartjik.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "bartjik.svg",
-    "group": "base"
+    "target": "bartjik.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bitwarden.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "bitwarden.svg",
-    "group": "base"
+    "target": "bitwarden.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bluetooth-adapters.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "bluetooth-adapters.svg",
-    "group": "base"
+    "target": "bluetooth-adapters.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bluetooth-manager.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "bluetooth-manager.svg",
-    "group": "base"
+    "target": "bluetooth-manager.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bookmarks.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "bookmarks.svg",
-    "group": "base"
+    "target": "bookmarks.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-brave.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "brave.svg",
-    "group": "base"
+    "target": "brave.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bun.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "bun.svg",
-    "group": "base"
+    "target": "bun.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-calendar.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "calendar.svg",
-    "group": "base"
+    "target": "calendar.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-camera.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "camera.svg",
-    "group": "base"
+    "target": "camera.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-characters.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "characters.svg",
-    "group": "base"
+    "target": "characters.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chatgpt.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "chatgpt.svg",
-    "group": "base"
+    "target": "chatgpt.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chezetc.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "chezetc.svg",
-    "group": "base"
+    "target": "chezetc.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chezmoi.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "chezmoi.svg",
-    "group": "base"
+    "target": "chezmoi.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chrome.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "chrome.svg",
-    "group": "base"
+    "target": "chrome.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-clocks.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "clocks.svg",
-    "group": "base"
+    "target": "clocks.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-codex-lb.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "codex-lb.svg",
-    "group": "base"
+    "target": "codex-lb.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-codex.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "codex.svg",
-    "group": "base"
+    "target": "codex.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-collie.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "collie.svg",
-    "group": "base"
+    "target": "collie.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-color-profile-viewer.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "color-profile-viewer.svg",
-    "group": "base"
+    "target": "color-profile-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-connections.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "connections.svg",
-    "group": "base"
+    "target": "connections.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-contacts.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "contacts.svg",
-    "group": "base"
+    "target": "contacts.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-discord.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "discord.svg",
-    "group": "base"
+    "target": "discord.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-disk-usage-analyzer.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "disk-usage-analyzer.svg",
-    "group": "base"
+    "target": "disk-usage-analyzer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-disks.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "disks.svg",
-    "group": "base"
+    "target": "disks.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-docker.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "docker.svg",
-    "group": "base"
+    "target": "docker.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-document-scanner.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "document-scanner.svg",
-    "group": "base"
+    "target": "document-scanner.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-document-viewer.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "document-viewer.svg",
-    "group": "base"
+    "target": "document-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-drizzle.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "drizzle.svg",
-    "group": "base"
+    "target": "drizzle.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-eye-of-gnome.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "eye-of-gnome.svg",
-    "group": "base"
+    "target": "eye-of-gnome.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-fcitx-5-configuration.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "fcitx-5-configuration.svg",
-    "group": "base"
+    "target": "fcitx-5-configuration.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-fedora-media-writer.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "fedora-media-writer.svg",
-    "group": "base"
+    "target": "fedora-media-writer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-file-roller.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "file-roller.svg",
-    "group": "base"
+    "target": "file-roller.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-files.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "files.svg",
-    "group": "base"
+    "target": "files.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-firefox.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "firefox.svg",
-    "group": "base"
+    "target": "firefox.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-fish.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "fish.svg",
-    "group": "base"
+    "target": "fish.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-flatpak.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "flatpak.svg",
-    "group": "base"
+    "target": "flatpak.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-flatseal.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "flatseal.svg",
-    "group": "base"
+    "target": "flatseal.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-fnm.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "fnm.svg",
-    "group": "base"
+    "target": "fnm.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-fonts.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "fonts.svg",
-    "group": "base"
+    "target": "fonts.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gimp.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "gimp.svg",
-    "group": "base"
+    "target": "gimp.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gitfetch.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "gitfetch.svg",
-    "group": "base"
+    "target": "gitfetch.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gmail.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "gmail.svg",
-    "group": "base"
+    "target": "gmail.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gnome.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "gnome.svg",
-    "group": "base"
+    "target": "gnome.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-google-calendar.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "google-calendar.svg",
-    "group": "base"
+    "target": "google-calendar.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-google-photos.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "google-photos.svg",
-    "group": "base"
+    "target": "google-photos.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gpu-screen-recorder.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "gpu-screen-recorder.svg",
-    "group": "base"
+    "target": "gpu-screen-recorder.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-greetjik.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "greetjik.svg",
-    "group": "base"
+    "target": "greetjik.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gum.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "gum.svg",
-    "group": "base"
+    "target": "gum.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-help.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "help.svg",
-    "group": "base"
+    "target": "help.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-herdr.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "herdr.svg",
-    "group": "base"
+    "target": "herdr.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-htop.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "htop.svg",
-    "group": "base"
+    "target": "htop.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-hyprvoice.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "hyprvoice.svg",
-    "group": "base"
+    "target": "hyprvoice.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-image-viewer.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "image-viewer.svg",
-    "group": "base"
+    "target": "image-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-keyboard-layout-viewer.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "keyboard-layout-viewer.svg",
-    "group": "base"
+    "target": "keyboard-layout-viewer.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-kitty.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "kitty.svg",
-    "group": "base"
+    "target": "kitty.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-koreader.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "koreader.svg",
-    "group": "base"
+    "target": "koreader.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-llmtrim.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "llmtrim.svg",
-    "group": "base"
+    "target": "llmtrim.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-logs.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "logs.svg",
-    "group": "base"
+    "target": "logs.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-lutris.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "lutris.svg",
-    "group": "base"
+    "target": "lutris.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-mailtjik.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "mailtjik.svg",
-    "group": "base"
+    "target": "mailtjik.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-maps.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "maps.svg",
-    "group": "base"
+    "target": "maps.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-mpv-media-player.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "mpv-media-player.svg",
-    "group": "base"
+    "target": "mpv-media-player.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-mullvad.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "mullvad.svg",
-    "group": "base"
+    "target": "mullvad.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-neovim.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "neovim.svg",
-    "group": "base"
+    "target": "neovim.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-nginx.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "nginx.svg",
-    "group": "base"
+    "target": "nginx.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-notjik.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "notjik.svg",
-    "group": "base"
+    "target": "notjik.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-obs-studio.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "obs-studio.svg",
-    "group": "base"
+    "target": "obs-studio.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-obsidian.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "obsidian.svg",
-    "group": "base"
+    "target": "obsidian.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-oo7.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "oo7.svg",
-    "group": "base"
+    "target": "oo7.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-parental-controls.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "parental-controls.svg",
-    "group": "base"
+    "target": "parental-controls.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-passwords-and-keys.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "passwords-and-keys.svg",
-    "group": "base"
+    "target": "passwords-and-keys.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-plex.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "plex.svg",
-    "group": "base"
+    "target": "plex.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-pony.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "greetjik.svg",
-    "group": "base"
+    "target": "greetjik.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-power.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "power.svg",
-    "group": "base"
+    "target": "power.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-problem-reporting.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "problem-reporting.svg",
-    "group": "base"
+    "target": "problem-reporting.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-prowlarr.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "prowlarr.svg",
-    "group": "base"
+    "target": "prowlarr.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-python.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "python.svg",
-    "group": "base"
+    "target": "python.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-qgis-desktop.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "qgis-desktop.svg",
-    "group": "base"
+    "target": "qgis-desktop.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-config.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "runtjik-config.svg",
-    "group": "base"
+    "target": "runtjik-config.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-grid.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "runtjik-grid.svg",
-    "group": "base"
+    "target": "runtjik-grid.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-list.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "runtjik-list.svg",
-    "group": "base"
+    "target": "runtjik-list.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-pin.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "runtjik-pin.svg",
-    "group": "base"
+    "target": "runtjik-pin.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-refresh.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "runtjik-refresh.svg",
-    "group": "base"
+    "target": "runtjik-refresh.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-shortcuts.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "runtjik-shortcuts.svg",
-    "group": "base"
+    "target": "runtjik-shortcuts.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik-stats.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "runtjik-stats.svg",
-    "group": "base"
+    "target": "runtjik-stats.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-runtjik.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "runtjik.svg",
-    "group": "base"
+    "target": "runtjik.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-rust.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "rust.svg",
-    "group": "base"
+    "target": "rust.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-scrcpy.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "scrcpy.svg",
-    "group": "base"
+    "target": "scrcpy.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-settings.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "settings.svg",
-    "group": "base"
+    "target": "settings.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-signal.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "signal.svg",
-    "group": "base"
+    "target": "signal.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-simplescreenrecorder.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "simplescreenrecorder.svg",
-    "group": "base"
+    "target": "simplescreenrecorder.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-snapraid.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "snapraid.svg",
-    "group": "base"
+    "target": "snapraid.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-software.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "software.svg",
-    "group": "base"
+    "target": "software.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-solaar.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "solaar.svg",
-    "group": "base"
+    "target": "solaar.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-spotify.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "spotify.svg",
-    "group": "base"
+    "target": "spotify.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-steam.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "steam.svg",
-    "group": "base"
+    "target": "steam.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-strata.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "strata.svg",
-    "group": "base"
+    "target": "strata.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-sublime-text.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "sublime-text.svg",
-    "group": "base"
+    "target": "sublime-text.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-system-monitor.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "system-monitor.svg",
-    "group": "base"
+    "target": "system-monitor.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tailscale.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "tailscale.svg",
-    "group": "base"
+    "target": "tailscale.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-telegram.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "telegram.svg",
-    "group": "base"
+    "target": "telegram.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-terminal.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "terminal.svg",
-    "group": "base"
+    "target": "terminal.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-text-editor.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "text-editor.svg",
-    "group": "base"
+    "target": "text-editor.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-thumbnails.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "thumbnails.svg",
-    "group": "base"
+    "target": "thumbnails.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tippecanoe.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "tippecanoe.svg",
-    "group": "base"
+    "target": "tippecanoe.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tjikup.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "tjikup.svg",
-    "group": "base"
+    "target": "tjikup.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tour.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "tour.svg",
-    "group": "base"
+    "target": "tour.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-transmission.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "transmission.svg",
-    "group": "base"
+    "target": "transmission.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-tweaks.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "tweaks.svg",
-    "group": "base"
+    "target": "tweaks.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-uuctl.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "uuctl.svg",
-    "group": "base"
+    "target": "uuctl.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-uv.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "uv.svg",
-    "group": "base"
+    "target": "uv.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-video-player.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "video-player.svg",
-    "group": "base"
+    "target": "video-player.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-vite.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "vite.svg",
-    "group": "base"
+    "target": "vite.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-vlc.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "vlc.svg",
-    "group": "base"
+    "target": "vlc.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-volume-control.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "volume-control.svg",
-    "group": "base"
+    "target": "volume-control.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-weather.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "weather.svg",
-    "group": "base"
+    "target": "weather.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-yuzu.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "yuzu.svg",
-    "group": "base"
+    "target": "yuzu.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zapzap.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zapzap.svg",
-    "group": "base"
+    "target": "zapzap.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zed-nightly.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zed-nightly.svg",
-    "group": "base"
+    "target": "zed-nightly.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zed-preview.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zed-preview.svg",
-    "group": "base"
+    "target": "zed-preview.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zed.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zed.svg",
-    "group": "base"
+    "target": "zed.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zen.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zen.svg",
-    "group": "base"
+    "target": "zen.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zoom.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zoom.svg",
-    "group": "base"
+    "target": "zoom.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-config.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-config.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-grid.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-grid.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-list.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-list.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-pin.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-pin.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-refresh.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-refresh.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-shortcuts.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-shortcuts.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik-stats.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik-stats.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/runtjik.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/runtjik.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rust.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/rust.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/scrcpy-console.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "scrcpy.svg",
-    "group": "base"
+    "target": "scrcpy.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/scrcpy.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/scrcpy.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/settings.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/settings.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/signal.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/signal.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/simplescreenrecorder.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/simplescreenrecorder.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/snapraid.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/snapraid.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/software.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/software.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/solaar.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/solaar.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/spotify.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/spotify.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/steam.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/steam.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/strata.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/strata.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/sublime-text.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/sublime-text.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/sublime_text.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "sublime-text.svg",
-    "group": "base"
+    "target": "sublime-text.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/system-monitor.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/system-monitor.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tailscale.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/tailscale.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/telegram.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/telegram.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/terminal.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/terminal.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/text-editor.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/text-editor.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/thumbnails.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/thumbnails.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tippecanoe.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/tippecanoe.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tjikup-notification.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "tjikup.svg",
-    "group": "base"
+    "target": "tjikup.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tjikup.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/tjikup.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tour.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/tour.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/transmission-gtk.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "transmission.svg",
-    "group": "base"
+    "target": "transmission.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/transmission.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/transmission.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tv.plex.PlexDesktop.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "plex.svg",
-    "group": "base"
+    "target": "plex.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/tweaks.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/tweaks.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/us.zoom.Zoom.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zoom.svg",
-    "group": "base"
+    "target": "zoom.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/uuctl.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/uuctl.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/uv.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/uv.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/video-player.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/video-player.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/vite.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/vite.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/vlc.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/vlc.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/volume-control.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/volume-control.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/weather.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/weather.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/yuzu.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/yuzu.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zapzap.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/zapzap.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zed-nightly.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/zed-nightly.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zed-preview.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/zed-preview.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zed.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/zed.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zen-browser.svg",
+    "group": "base",
     "kind": "symlink",
-    "target": "zen.svg",
-    "group": "base"
+    "target": "zen.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zen.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/zen.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zoom.svg",
+    "group": "base",
     "kind": "file",
     "source": "files/.local/share/icons/rose-punk/scalable/apps/zoom.svg",
-    "mode": "0644",
-    "group": "base"
+    "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/pytjik",
@@ -5639,5 +5639,125 @@
     "template": false,
     "create_only": true,
     "group": "runtjik"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/duckdb.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/duckdb.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-duckdb.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "duckdb.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/hyprland.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/hyprland.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-hyprland.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "hyprland.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/bottom.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/bottom.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-bottom.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "bottom.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/starship.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/starship.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-starship.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "starship.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/quickshell.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/quickshell.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-quickshell.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "quickshell.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/lazygit.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/lazygit.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-lazygit.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "lazygit.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/vivid.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/vivid.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-vivid.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "vivid.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/synctjik.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/synctjik.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-synctjik.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "synctjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.config/synctjik",
+    "kind": "directory",
+    "mode": "0700",
+    "when": "hostname == \"fi\"",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/synctjik/cloudflare.json",
+    "kind": "file",
+    "mode": "0600",
+    "source": "files/.config/synctjik/cloudflare.json",
+    "when": "hostname == \"fi\"",
+    "group": "base",
+    "sensitive": true
   }
 ]

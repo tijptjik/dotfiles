@@ -3,7 +3,7 @@
   "recipes": [
     {
       "id": "home:render-prelude",
-      "label": "Prepare home prerequisites",
+      "label": "Prepare home prerequisite scripts",
       "needs": [
         "require:fish"
       ],
@@ -38,7 +38,7 @@
         ]
       },
       "display": {
-        "section": "Recipes",
+        "section": "Preparation",
         "quiet": true,
         "icon": "Chezmoi"
       },
@@ -78,7 +78,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Bitwarden"
       },
@@ -136,10 +136,11 @@
     },
     {
       "id": "home:files",
-      "label": "Home",
+      "label": "Home files",
       "needs": [
         "home:bitwarden",
-        "home:archive-restore"
+        "home:archive-restore",
+        "home:archives"
       ],
       "timeout": 1800,
       "display": {
@@ -171,7 +172,7 @@
     },
     {
       "id": "home:render",
-      "label": "Prepare home recipes",
+      "label": "Prepare home scripts",
       "needs": [
         "home:bitwarden",
         "require:fish"
@@ -467,7 +468,7 @@
         ]
       },
       "display": {
-        "section": "Recipes",
+        "section": "Preparation",
         "quiet": true,
         "icon": "Chezmoi"
       },
@@ -510,7 +511,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Sublime Text"
       },
@@ -560,7 +561,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Obsidian"
       },
@@ -610,7 +611,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Rust"
       },
@@ -659,7 +660,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Python"
       },
@@ -701,9 +702,9 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": false,
-        "icon": "Assets"
+        "icon": "Synctjik"
       },
       "optional": true,
       "roles": [
@@ -719,12 +720,12 @@
       "check": [
         "bash",
         "-c",
-        "command -v synctjik >/dev/null && command -v rclone >/dev/null"
+        "command -v rclone >/dev/null && command -v restic >/dev/null && synctjik capabilities | python3 -c 'import json,sys; c=json.load(sys.stdin); sys.exit(not (c.get(\"cloudflare_backup\") and c.get(\"private_assets\")))'"
       ]
     },
     {
       "id": "home:archive-restore",
-      "label": "Required device collections",
+      "label": "Synctjik (Required collections)",
       "needs": [
         "home:archives"
       ],
@@ -750,7 +751,7 @@
       "ecosystem": "configuration",
       "display": {
         "section": "Configuration",
-        "icon": "Assets"
+        "icon": "Synctjik"
       }
     },
     {
@@ -782,7 +783,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "llmtrim"
       },
@@ -804,7 +805,7 @@
     },
     {
       "id": "home:llmtrim",
-      "label": "llmtrim (Herdr plugin)",
+      "label": "Herdr (Llmtrm)",
       "needs": [
         "home:llmtrim-install",
         "home:render"
@@ -826,7 +827,7 @@
       "timeout": 7200,
       "interactive": true,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "llmtrim"
       },
@@ -877,7 +878,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Herdr"
       },
@@ -926,7 +927,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Codex LB"
       },
@@ -977,7 +978,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Tjikup"
       },
@@ -1058,7 +1059,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Notjik"
       },
@@ -1113,7 +1114,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Greetjik"
       },
@@ -1166,7 +1167,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Bartjik"
       },
@@ -1257,7 +1258,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Runtjik"
       },
@@ -1309,7 +1310,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "Collie"
       },
@@ -1507,7 +1508,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "reports": true,
         "icon": "oo7"
       },
@@ -1530,10 +1531,11 @@
     },
     {
       "id": "home:storage",
-      "label": "Storage (private)",
+      "label": "Synctjik (private assets)",
       "needs": [
         "home:render",
-        "home:configure:secrets"
+        "home:configure:secrets",
+        "home:archives"
       ],
       "resources": [
         "user-systemd",
@@ -1553,7 +1555,7 @@
       "display": {
         "section": "Configuration",
         "reports": true,
-        "icon": "Storage"
+        "icon": "Synctjik"
       },
       "optional": true,
       "roles": [
@@ -1633,7 +1635,7 @@
     },
     {
       "id": "home:native-files",
-      "label": "Home credentials",
+      "label": "Home secrets",
       "needs": [
         "home:bitwarden"
       ],
@@ -1669,7 +1671,7 @@
     },
     {
       "id": "home:repositories",
-      "label": "Home Git checkouts",
+      "label": "Obsidian (Vault)",
       "needs": [
         "home:render"
       ],
@@ -1694,7 +1696,7 @@
       ],
       "timeout": 600,
       "display": {
-        "section": "Install missing applications",
+        "section": "Install applications",
         "icon": "Obsidian",
         "quiet": true
       },
@@ -2671,8 +2673,9 @@
         "TJIKUP_MANAGED_CONFIG": "1"
       },
       "display": {
-        "section": "Service activation",
-        "verb": "ACTIVATE"
+        "section": "Services",
+        "verb": "ACTIVATE",
+        "icon": "Notjik"
       },
       "after": [],
       "check": [
@@ -2705,8 +2708,9 @@
         "TJIKUP_MANAGED_CONFIG": "1"
       },
       "display": {
-        "section": "Service activation",
-        "verb": "ACTIVATE"
+        "section": "Services",
+        "verb": "ACTIVATE",
+        "icon": "Bartjik"
       },
       "after": [
         "home:activate:notjik"
@@ -2746,8 +2750,9 @@
         "TJIKUP_MANAGED_CONFIG": "1"
       },
       "display": {
-        "section": "Service activation",
-        "verb": "ACTIVATE"
+        "section": "Services",
+        "verb": "ACTIVATE",
+        "icon": "Runtjik"
       },
       "after": []
     },
@@ -2772,9 +2777,10 @@
         "TJIKUP_MANAGED_CONFIG": "1"
       },
       "display": {
-        "section": "Service activation",
+        "section": "Services",
         "verb": "ACTIVATE",
-        "reports": true
+        "reports": true,
+        "icon": "Systemd"
       },
       "after": [
         "home:activate:notjik",
@@ -2791,7 +2797,7 @@
     },
     {
       "id": "system:zed:update:verify",
-      "label": "Zed",
+      "label": "Zed (Configuration)",
       "operation": "update",
       "scope": "home",
       "application": "zed",
@@ -2815,9 +2821,11 @@
         "user-systemd"
       ],
       "display": {
-        "section": "Package updates",
+        "section": "Verification",
         "icon": "Zed",
-        "verb": "CHECK"
+        "verb": "CHECK",
+        "quiet": true,
+        "reports": true
       },
       "after": [],
       "check": [
@@ -2832,7 +2840,7 @@
     },
     {
       "id": "home:obsidian:update:verify",
-      "label": "Obsidian",
+      "label": "Obsidian (Configuration)",
       "operation": "update",
       "scope": "home",
       "application": "obsidian",
@@ -2856,9 +2864,11 @@
         "user-systemd"
       ],
       "display": {
-        "section": "Package updates",
+        "section": "Verification",
         "icon": "Obsidian",
-        "verb": "CHECK"
+        "verb": "CHECK",
+        "quiet": true,
+        "reports": true
       },
       "after": [],
       "check": [
@@ -2873,7 +2883,7 @@
     },
     {
       "id": "home:codex-lb:update:verify",
-      "label": "Codex LB",
+      "label": "Codex LB (Configuration)",
       "operation": "update",
       "scope": "home",
       "application": "codex-lb",
@@ -2897,9 +2907,11 @@
         "user-systemd"
       ],
       "display": {
-        "section": "Package updates",
+        "section": "Verification",
         "icon": "Codex LB",
-        "verb": "CHECK"
+        "verb": "CHECK",
+        "quiet": true,
+        "reports": true
       },
       "after": [],
       "check": [
@@ -2914,7 +2926,7 @@
     },
     {
       "id": "home:notjik:update:verify",
-      "label": "Notjik",
+      "label": "Notjik (Configuration)",
       "operation": "update",
       "scope": "home",
       "application": "notjik",
@@ -2938,9 +2950,11 @@
         "user-systemd"
       ],
       "display": {
-        "section": "Package updates",
+        "section": "Verification",
         "icon": "Notjik",
-        "verb": "CHECK"
+        "verb": "CHECK",
+        "quiet": true,
+        "reports": true
       },
       "after": [],
       "check": [
@@ -2955,7 +2969,7 @@
     },
     {
       "id": "home:bartjik:update:verify",
-      "label": "Bartjik",
+      "label": "Bartjik (Configuration)",
       "operation": "update",
       "scope": "home",
       "application": "bartjik",
@@ -2979,9 +2993,11 @@
         "user-systemd"
       ],
       "display": {
-        "section": "Package updates",
+        "section": "Verification",
         "icon": "Bartjik",
-        "verb": "CHECK"
+        "verb": "CHECK",
+        "quiet": true,
+        "reports": true
       },
       "after": [],
       "check": [
@@ -2996,7 +3012,7 @@
     },
     {
       "id": "home:runtjik:update:verify",
-      "label": "Runtjik",
+      "label": "Runtjik (Configuration)",
       "operation": "update",
       "scope": "home",
       "application": "runtjik",
@@ -3020,9 +3036,11 @@
         "user-systemd"
       ],
       "display": {
-        "section": "Package updates",
+        "section": "Verification",
         "icon": "Runtjik",
-        "verb": "CHECK"
+        "verb": "CHECK",
+        "quiet": true,
+        "reports": true
       },
       "after": [],
       "check": [
@@ -3037,7 +3055,7 @@
     },
     {
       "id": "system:hyprvoice:update:verify",
-      "label": "Hyprvoice",
+      "label": "Hyprvoice (Configuration)",
       "operation": "update",
       "scope": "home",
       "application": "hyprvoice",
@@ -3061,9 +3079,11 @@
         "user-systemd"
       ],
       "display": {
-        "section": "Package updates",
+        "section": "Verification",
         "icon": "Hyprvoice",
-        "verb": "CHECK"
+        "verb": "CHECK",
+        "quiet": true,
+        "reports": true
       },
       "after": [],
       "check": [

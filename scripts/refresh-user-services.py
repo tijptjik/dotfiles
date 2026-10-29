@@ -86,6 +86,7 @@ def refresh(units, state, *, check=False):
             saved = {}
     except (FileNotFoundError, ValueError):
         saved = {}
+    print("__tjikup_section__:" + os.environ.get("TJIKUP_SERVICE_SECTION", "Services"), flush=True)
     reloaded = False
     pending = 0
     for unit, inputs in units.items():
@@ -95,17 +96,19 @@ def refresh(units, state, *, check=False):
             reloaded = True
             info = properties(unit)
         if info.get("LoadState") != "loaded" or info.get("ActiveState") != "active":
-            print(f"SKIP    - {unit} inactive or unavailable", flush=True)
+            if not os.environ.get("TJIKUP_HIDE_UNCHANGED_SERVICES"):
+                print(f"SKIP    - {unit}  inactive or unavailable", flush=True)
             continue
         if unit.endswith(".service") and info.get("Type") == "oneshot":
             raise ValueError(f"Refusing to restart job: {unit}")
         current = fingerprint(unit, inputs, info)
         if saved.get(unit) == current:
-            print(f"SKIP    ✓ {unit} runtime unchanged", flush=True)
+            if not os.environ.get("TJIKUP_HIDE_UNCHANGED_SERVICES"):
+                print(f"SKIP    ✓ {unit}  runtime unchanged", flush=True)
             continue
         pending += 1
         if check:
-            print(f"CHECK   ✓ {unit} would refresh", flush=True)
+            print(f"CHECK   ✓ {unit}  would refresh", flush=True)
             continue
         # try-restart also preserves a service stopped since the active check.
         systemctl("try-restart", unit)
@@ -123,7 +126,7 @@ def refresh(units, state, *, check=False):
             os.replace(staged, state)
         finally:
             Path(staged).unlink(missing_ok=True)
-        print(f"RESTART ✓ {unit} updated runtime active", flush=True)
+        print(f"RESTART ✓ {unit}  updated runtime active", flush=True)
     if not pending:
         if reloaded:
             print("__stage_verb__:CONFIG", flush=True)

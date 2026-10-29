@@ -40,7 +40,7 @@ supporting comparisons; keep their links out of the docs.
 > broad palette cue: warm sand and amber, copper and coral, jade and turquoise,
 > indigo, violet and rose. Choose colours for the icon's subject and materials.
 > Useful pigments include `#e6ae62`, `#dd795f`, `#46b6a2`, `#65b9c8`, `#8596ed`,
-> `#b39bd9` and `#df77ac`, with warm ivory `#fff0da` and cool ink `#34304f`.
+> `#b39bd9` and `#df77ac`, plus sun-yellow `#f6cf58` for bright focal marks, with warm ivory `#fff0da` and cool ink `#34304f`.
 > Use multiple coordinated accents where they explain different parts. Preserve
 > recognizable brand structure and the Zed Stable/Preview distinction. Telegram
 > keeps its blue wings and rose-red/ivory bands; Codex uses filled violet and blue variants.
@@ -137,3 +137,13 @@ tile and reviewed per-icon scales/offsets from `framed-layout.json`, and emits
 **Rose Punk Framed** as a
 complete secondary theme and ZIP. Changes to the originals invalidate sign-off.
 See [the maintenance guide](rose-punk-icons.md#primary-frameless-set-and-secondary-framed-build).
+
+## Terminal applications
+
+Lazygit's terminal shell is the default for terminal-app identities: a plum
+`#34304f` rounded rectangle at `(7,9)`, `50 × 46`, radius `7` on the 64-unit
+canvas, with the ivory prompt at the upper left. Bottom uses a dotted activity
+trace; Vivid uses a finer branching color tree. Preserve individual application
+marks within that shared shell rather than replacing them with a generic prompt.
+Sun-yellow is recorded as `pigments.sun-yellow` in `palette.json`; protect it
+with ink when the identity otherwise disappears against light backgrounds.

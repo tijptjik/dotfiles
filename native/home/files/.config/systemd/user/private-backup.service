@@ -6,4 +6,4 @@ Type=oneshot
 UMask=0077
 TimeoutStartSec=infinity
 TimeoutStopSec=120
-ExecStart=%h/.local/bin/private-storage backup --scheduled
+ExecStart=%h/.local/bin/synctjik private-assets backup --scheduled

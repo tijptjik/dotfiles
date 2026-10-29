@@ -202,13 +202,15 @@
   "unpackerr": {
     "name": "Unpackerr",
     "geometry": "local/homepage/unpackerr.svg",
-    "sha256": "91e4054e7744a8a2c24a661791244f88b5735192d0efc190bea86db37ec7502a",
+    "sha256": "af2542ae516af74be36014d73e36524388f5cfcfb0e6a9ba85cb462dfc742ad6",
     "reference": "homepage-upstream/si-services/unpackerr.png",
     "reference_sha256": "e956f8c548233fdaf241c3851bd19a15c2f104250161b38f869f4a0741ba6740",
     "source": "https://raw.githubusercontent.com/Unpackerr/unpackerr/main/frontend/src/assets/icon.png",
     "license": "MIT",
-    "material_revision": 4,
-    "design_note": "Unpackerr\u2019s three escaping arrows retained as curved ribbon forms above a rose board carton. Folded flaps, shaded interior, brass straps and quiet board seams replace the hard outlines and flat striped crate."
+    "material_revision": 5,
+    "design_note": "Grounded kraft-board parcel with paper folds, address label and a single teal extraction arrow; removes the colourful ribbon-arrow burst and toy chest fittings. Visual design accepted by user on 2026-10-29.",
+    "reviewed": true,
+    "review_note": "Accepted by user on 2026-10-29; Art Nouveau/hyperpop exploration abandoned; retain the reviewed SVG design."
   },
   "bookshelf": {
     "name": "Bookshelf",

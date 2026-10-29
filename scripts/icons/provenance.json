@@ -645,13 +645,13 @@
     "material_revision": 1,
     "design_note": "Narrow slate edges define the existing metal scissor blades on light surfaces; copper handles and original illustration retained. Authored in scripts/icons/material_art.py."
   },
-  "chezetc": {
+  "systjik": {
     "source": "scripts/icons/local/systjik.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
     "sha256": "6effb5fddd41e8da4902c7a2099364650a4583672d689749779a8beffa26b24a",
     "material_revision": 4
   },
-  "chezmoi": {
+  "dotjik": {
     "source": "scripts/icons/local/dotjik.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
     "sha256": "e25f397253c40b2b63b5e8256265bd5c4efa193746288d7f7d9716fd96672260",

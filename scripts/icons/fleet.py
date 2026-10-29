@@ -33,7 +33,7 @@ SOURCES = {
     'Applications': 'software', 'Assets': 'file-roller', 'Assets (fonts)': 'fonts',
     'Assets (icon cache)': 'runtjik-grid', 'Assets (Rose Punk icons)': 'runtjik-grid',
     'Assets (symbolic link icon)': 'runtjik-grid',
-    'Systjik': 'chezetc', 'Dotjik': 'chezmoi', 'Codex Desktop': 'codex',
+    'Systjik': 'systjik', 'Dotjik': 'dotjik', 'Codex Desktop': 'codex',
     'Codex LB': 'codex-lb', 'Fedora': 'fedora-media-writer', 'Hyprvoice': 'hyprvoice',
     'Launcher': 'software', 'Media': 'video-player', 'Mullvad': 'mullvad',
     'NSS': 'passwords-and-keys', 'oo7': 'oo7', 'Storage': 'disks',
@@ -47,8 +47,8 @@ SOURCES = {
     'Bun': 'bun', 'Solaar': 'solaar', 'Fcitx': 'fcitx-5-configuration', 'Codex': 'codex',
     'Zapzap': 'zapzap', 'Gtk-bookmarks': 'bookmarks', 'Local Changes': 'gitfetch',
     'Templates': 'gitfetch', 'Home and system': 'settings',
-    'Dotjik': 'chezmoi', 'Systjik': 'chezetc', 'tjikOS': 'tjikup',
-    'dotjik': 'chezmoi', 'systjik': 'chezetc', 'tjikos': 'tjikup',
+    'Dotjik': 'dotjik', 'Systjik': 'systjik', 'tjikOS': 'tjikup',
+    'dotjik': 'dotjik', 'systjik': 'systjik', 'tjikos': 'tjikup',
     'Assets (user fonts)': 'fonts', 'Assets (font folder migration)': 'fonts',
 }
 

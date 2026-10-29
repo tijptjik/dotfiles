@@ -1173,12 +1173,11 @@
     "reviewed": true,
     "review_batch": 3
   },
-  "chezetc": {
-    "name": "chezetc",
+  "systjik": {
+    "name": "Systjik",
     "installed": true,
     "desktop_ids": [],
     "icon_names": [
-      "chezetc",
       "systjik"
     ],
     "mode": "illustrated-local",
@@ -1187,12 +1186,11 @@
     "review_batch": 6,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
-  "chezmoi": {
-    "name": "chezmoi",
+  "dotjik": {
+    "name": "Dotjik",
     "installed": true,
     "desktop_ids": [],
     "icon_names": [
-      "chezmoi",
       "dotjik"
     ],
     "mode": "illustrated-local",

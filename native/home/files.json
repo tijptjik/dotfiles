@@ -2686,16 +2686,26 @@
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chezetc.svg",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/systjik.svg",
     "group": "base",
     "kind": "file",
-    "source": "files/.local/share/icons/rose-punk/scalable/apps/chezetc.svg",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/systjik.svg",
     "mode": "0644"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chezmoi.svg",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dotjik.svg",
     "group": "base",
     "kind": "file",
-    "source": "files/.local/share/icons/rose-punk/scalable/apps/chezmoi.svg",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/dotjik.svg",
     "mode": "0644"
   },
   {
@@ -3706,15 +3716,13 @@
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chezetc.svg",
-    "group": "base",
-    "kind": "symlink",
-    "target": "chezetc.svg"
+    "kind": "absent",
+    "group": "base"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chezmoi.svg",
-    "group": "base",
-    "kind": "symlink",
-    "target": "chezmoi.svg"
+    "kind": "absent",
+    "group": "base"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chrome.svg",
@@ -5901,28 +5909,16 @@
     "path": "{{ user.home }}/.local/bin/chezetc"
   },
   {
-    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dotjik.svg",
-    "group": "base",
-    "kind": "symlink",
-    "target": "chezmoi.svg"
-  },
-  {
-    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/systjik.svg",
-    "group": "base",
-    "kind": "symlink",
-    "target": "chezetc.svg"
-  },
-  {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-dotjik.svg",
     "group": "base",
     "kind": "symlink",
-    "target": "chezmoi.svg"
+    "target": "dotjik.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-systjik.svg",
     "group": "base",
     "kind": "symlink",
-    "target": "chezetc.svg"
+    "target": "systjik.svg"
   },
   {
     "path": "{{ user.home }}/.config/synctjik/drive.json",

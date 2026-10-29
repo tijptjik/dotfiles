@@ -151,7 +151,7 @@ def render():
     arrow(1025, 1310, 933, "Restic copy")
     node(1330, 908, "desktop", "fi · main disk", "Weekly + daily catch-up", GREEN)
 
-    lane(999, "C", "Device archives + cloud recovery", "Selected config / state / secrets; R2 also holds public assets")
+    lane(999, "C", "Dotfiles LFS + cloud recovery", "Selected config / state / secrets; R2 also holds public assets")
     node(72, 1052, "archive", "fi + li + si", "Selected device folders")
     arrow(353, 613, 1077, "age archive + upload")
     node(637, 1052, "cloud", "cfR2 + DNS / KV", "Daily archives • per-folder retention", TEAL)

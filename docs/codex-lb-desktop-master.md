@@ -18,7 +18,7 @@ The existing laptop database and key are preserved. An account marked
 <http://localhost:2455/dashboard>. Authenticate independently on each machine;
 do not copy the desktop database or refresh tokens to bootstrap the laptop.
 Sharing a refresh token between running instances can cause refresh conflicts.
-Device archive synchronization does not distribute Codex LB accounts.
+Dotfiles LFS synchronization does not distribute Codex LB accounts.
 
 ## Verification
 

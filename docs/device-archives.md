@@ -1,4 +1,4 @@
-# Device archives and synchronization
+# Dotfiles LFS and synchronization
 
 The archival engine now lives in tjikOS at `apps/synctjik` (Rust). `synctjik` is
 the public command; `device-archives` and `dotjik-externals-backup` are compatibility
@@ -7,7 +7,7 @@ engine. Existing v2 snapshots and `~/.local/state/device-archives` remain compat
 New machines enroll collections with `synctjik enroll`, restore with `synctjik setup`,
 and enable backups with `synctjik schedule` only after `synctjik ready` succeeds.
 
-The retained `native/home/files/.local/lib/device_archives` Python sources are migration
+The retained Python sources under `tests/oracles/device_archives` are migration
 comparison fixtures. They are not installed by the native file manifest.
 
 

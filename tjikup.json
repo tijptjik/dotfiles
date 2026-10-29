@@ -377,7 +377,7 @@
       "Commit captured settings": "Commit captured changes",
       "Assets (user fonts)": "Fonts (bundled user fonts)",
       "Assets (fonts)": "Fonts (bundled user fonts)",
-      "Backup schedule": "Synctjik (device archives schedule)",
+      "Backup schedule": "Synctjik (Dotfiles LFS schedule)",
       "Tailscale daemon": "Tailscale (daemon)",
       "Tailscale auto-update": "Tailscale (auto-update)",
       "Tailnet DNS and routes": "Tailscale (DNS and routes)",

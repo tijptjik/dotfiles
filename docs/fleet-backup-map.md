@@ -30,7 +30,7 @@ has no independent copy; evaluating Immich on Si is a TODO.
 ## Source references
 
 - [Private storage](private-storage.md) and the managed `private-storage` tool.
-- [Device archives](device-archives.md) and `native/home/files/.config/archive-policy.json`.
+- [Dotfiles LFS](device-archives.md) and `native/home/files/.config/archive-policy.json`.
   The JSON policy is authoritative for current per-folder assignments.
 - [Si application backups](si-application-backups.md) and the server backup script.
 - [SnapRAID maintenance](si-snapraid-maintenance.md).

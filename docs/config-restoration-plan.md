@@ -100,7 +100,7 @@ project verifies enter/leave behavior and explicit `uv sync` after rendering.
 
 ### 2. Zen — no further integration
 
-Use Zen's own sync, as requested. Remove `.zen` from the scheduled device archive
+Use Zen's own sync, as requested. Remove `.zen` from the scheduled Dotfiles LFS backup
 policy without deleting existing snapshots. No workspace-format investigation,
 additional allowlist entries or Zen restore implementation is planned. This
 choice does not assert that Zen sync covers every local customization.

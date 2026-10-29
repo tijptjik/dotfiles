@@ -24,7 +24,7 @@ Schedules use HKT. Timer jobs run under each host's user systemd manager.
 | `gi` | Google | Parent provider grouping, not shorthand for a second machine or Drive |
 | `giD` | Google Drive | `type-drive:`; synchronized private files, cloud-only archives and Google-native documents |
 | `giP` | Google Photos | Provider-hosted personal photos; TODO: evaluate Immich on Si as a backup destination |
-| `cf` / `cfR2` | Cloudflare / R2 | DNS/KV exports and object storage, including device archives and public assets |
+| `cf` / `cfR2` | Cloudflare / R2 | DNS/KV exports and object storage, including Dotfiles LFS and public assets |
 | `git` | Git remotes | Committed code and configuration history |
 | `bw` | Bitwarden | Hosted vault and selected Secrets Manager provisioning; independently recoverable vault access is required |
 
@@ -52,7 +52,7 @@ a recurring job or a successful restore.
 | Photos | Personal images in local folders and/or Google Photos | Local images inherit their folder's protection; Google Photos has no configured independent copy. TODO: evaluate Immich on Si |
 | Assets | Public image and dataset releases, including R2 objects | Cloudflare R2 is included in the Fi Restic backup scope |
 | Configs | Git-managed dotfiles, scripts, templates, Compose and system configuration | Git history + Tjikup/Tjikup deployment; selected live state also in device/app backups |
-| Secrets | Keys, credentials, encryption/recovery material | Bitwarden provisioning and selected age-encrypted device archives; never committed to Git |
+| Secrets | Keys, credentials, encryption/recovery material | Bitwarden provisioning and selected age-encrypted Dotfiles LFS backups; never committed to Git |
 | **Mail** | Messages, attachments, indexes and reader exports | Encrypted structured archives under `giD:private/archives/mail/structured/`; included in the Si Drive backup |
 | **App state / databases** | Mutable application data, SQLite/Plex, MariaDB | Application-consistent exports → Si Restic → independently encrypted Fi repository |
 | **Recovery software** | Ephemera 2.0.0 final Docker image | Verified permanent export in `giD:private/backups/software/ephemera/v2.0.0-37d95e68394b/`; superseded Si tar removed. [Recovery instructions](si-application-backups.md#ephemera-final-image) |
@@ -68,10 +68,12 @@ All times HKT; persistent timers may catch up and some runs include jitter.
   can remain unprotected when its fallback skips. The repositories are
   `/mnt/storage/private/backups/clients/fi` and
   `/mnt/storage/private/backups/clients/li` on Si. The Si-to-Fi app
-  repository is separate from these client repositories.
+  repository is separate from these client repositories and does not include
+  them. No independent replica of their snapshot history is configured outside
+  Si; Drive synchronization is not a replica of that history.
 - **Server apps:** Si 04:00, 7 daily / 4 weekly. Fi Restic copy Sunday 06:00,
   daily 10:00 freshness/catch-up. Fi is geographically offsite only when elsewhere.
-- **Device archives:** Fi 00:00, Li 00:15, Si 00:30. Selected per-host folders;
+- **Dotfiles LFS:** Fi 00:00, Li 00:15, Si 00:30. Selected per-host folders;
   latest only, or latest + previous week + previous month according to policy.
 - **Google Drive archives and native documents:** Si daily backup at 02:00;
   1 daily / 1 weekly / 1 monthly snapshot per source.
@@ -84,7 +86,7 @@ All times HKT; persistent timers may catch up and some runs include jitter.
 
 - [Backup map](fleet-backup-map.md)
 - [Private storage](private-storage.md)
-- [Device archive policy](device-archives.md)
+- [Dotfiles LFS policy](device-archives.md)
 - [Si app recovery](si-application-backups.md)
 - [SnapRAID maintenance](si-snapraid-maintenance.md)
 - [Cloudflare backups](cloudflare-backups.md)

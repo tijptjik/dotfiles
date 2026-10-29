@@ -93,7 +93,7 @@
 <rect x="48" y="970" width="500" height="212" rx="18" fill="#ffffff" stroke="#dae2ee" stroke-width="1.5"/>
 <rect x="48" y="988" width="5" height="176" rx="2" fill="#3676d8"/>
 <text x="74" y="1004" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="#3676d8" text-anchor="start">FI + LI + SI · SELECTED STATE</text>
-<text x="74" y="1042" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">Device archive policy</text>
+<text x="74" y="1042" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">Dotfiles LFS policy</text>
 <text x="74" y="1079" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">SSH / GPG · selected app state · keys</text>
 <text x="74" y="1109" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Folder scope varies by host.</text>
 <text x="74" y="1139" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Fi 00:00 · Li 00:15 · Si 00:30</text>
@@ -101,7 +101,7 @@
 <rect x="710" y="970" width="500" height="212" rx="18" fill="#ffffff" stroke="#dae2ee" stroke-width="1.5"/>
 <rect x="710" y="988" width="5" height="176" rx="2" fill="#16836d"/>
 <text x="736" y="1004" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="#16836d" text-anchor="start">CLOUDFLARE R2 · OFF-MACHINE</text>
-<text x="736" y="1042" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">Device archive copies</text>
+<text x="736" y="1042" font-family="DejaVu Sans, sans-serif" font-size="26" font-weight="700" fill="#17283e" text-anchor="start">Dotfiles LFS copies</text>
 <text x="736" y="1079" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Age-encrypted, except designated assets.</text>
 <text x="736" y="1109" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">Per folder: latest only, or up to 3 tiers:</text>
 <text x="736" y="1139" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="400" fill="#52667f" text-anchor="start">latest · previous week · previous month</text>

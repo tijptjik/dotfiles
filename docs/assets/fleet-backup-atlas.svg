@@ -92,7 +92,7 @@
 <text x="1374" y="951" font-size="16" fill="#576B7D" font-weight="400" text-anchor="start">Weekly + daily catch-up</text>
 <rect x="40" y="999" width="1720" height="132" rx="16" fill="#FFFFFF" stroke="#DEE6ED"/>
 <text x="62" y="1030" font-size="15" fill="#286CC4" font-weight="700" text-anchor="start">C</text>
-<text x="105" y="1030" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Device archives + cloud recovery</text>
+<text x="105" y="1030" font-size="20" fill="#182C40" font-weight="650" text-anchor="start">Dotfiles LFS + cloud recovery</text>
 <text x="1736" y="1030" font-size="16" fill="#576B7D" font-weight="400" text-anchor="end">Selected config / state / secrets; R2 also holds public assets</text>
 <g transform="translate(72 1056) scale(1)" fill="none" stroke="#286CC4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="26" height="7" rx="1"/><path d="M5 11v17h22V11M12 17h8"/></g>
 <text x="116" y="1070" font-size="21" fill="#182C40" font-weight="650" text-anchor="start">fi + li + si</text>

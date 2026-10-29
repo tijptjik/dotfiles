@@ -1,4 +1,4 @@
-# Device archive content audit — 2026-10-25
+# Dotfiles LFS content audit — 2026-10-25
 
 This records the read-only audit baseline of the active policy and selected
 files on Fi. The user subsequently authorized the cache exclusions, compact

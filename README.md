@@ -78,13 +78,16 @@ backup locations, schedules, and retention.
   locations, content types, sync, snapshots, archives, parity and configuration.
 - **[Backup map](docs/fleet-backup-map.md)** — current scopes, schedules,
   retention and coverage boundaries.
-- [Device archives and cross-device restore](docs/device-archives.md) ·
+- [Dotfiles LFS and cross-device restore](docs/device-archives.md) ·
   [Private-file sync and backups](docs/private-storage.md) ·
   [Server application backups](docs/si-application-backups.md) ·
   [Cloudflare backups](docs/cloudflare-backups.md)
 
 The diagrams describe configured backup routes and schedules. The linked setup
 guides describe their scope and recovery procedures.
+
+- **TODO — Google Photos backup:** configure an independent backup and verify
+  restoration; evaluate Immich on Si as a destination. No backup is configured yet.
 
 ### Server media
 

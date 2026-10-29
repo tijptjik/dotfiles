@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 {% if is_desktop -%}
 
-source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
 
 function tailnet_running
     command tailscale status --json 2>/dev/null | command jq -e '.BackendState == "Running"' >/dev/null 2>&1

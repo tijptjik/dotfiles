@@ -1,0 +1,17 @@
+{
+  "launcher_replacements": {
+    "dev.zed.desktop": "dev.zed.Zed.desktop",
+    "zed.desktop": "dev.zed.Zed.desktop",
+    "com.brave.Browser.desktop": "brave-browser.desktop",
+    "com.google.Chrome.canary.desktop": "google-chrome-canary.desktop",
+    "org.telegram.desktop": "org.telegram.desktop._3e485da34fc040f9218e3891ecde1e6c.desktop",
+    "FFPWA-01KC3V7SZSJ8PMK49J7QBTP2FK.desktop": "FFPWA-01KCGW1793YX2BA145Z4NWQ2XY.desktop",
+    "FFPWA-01KVFQER39ASXCZ26D7724G54G.desktop": "FFPWA-01KVFSZ3Z9JKBJMMTW9DENGR0N.desktop"
+  },
+  "preserve_launcher_contents": [
+    "com.brave.Browser.desktop"
+  ],
+  "mime_replacements": {
+    "application/x-zerosize=evince.desktop": "application/x-zerosize=org.gnome.Papers.desktop"
+  }
+}

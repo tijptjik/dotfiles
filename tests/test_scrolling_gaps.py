@@ -47,5 +47,5 @@ for _,kind in ipairs({'floating','special','master','absent'}) do
     trace={};policy.resize(1);policy.update();assert(#trace==0)
 end
 '''
-        subprocess.run(['lua', '-', str(ROOT / 'home/dot_config/hypr/scrolling_gaps.lua')],
+        subprocess.run(['lua', '-', str(ROOT / 'native/home/files/.config/hypr/scrolling_gaps.lua')],
                        input=script, text=True, check=True)

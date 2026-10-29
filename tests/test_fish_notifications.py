@@ -8,8 +8,8 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / 'home/dot_config/fish/conf.d/done-notifications.fish'
-FUNCTION = ROOT / 'home/dot_config/fish/functions/__fish_done_notify.fish'
+CONFIG = ROOT / 'native/home/files/.config/fish/conf.d/done-notifications.fish'
+FUNCTION = ROOT / 'native/home/files/.config/fish/functions/__fish_done_notify.fish'
 
 
 @unittest.skipUnless(shutil.which('fish'), 'Fish required')

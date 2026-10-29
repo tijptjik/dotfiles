@@ -22,7 +22,7 @@ class DesktopUserTests(unittest.TestCase):
                 path.write_text('#!/bin/sh\n'+body+'\n')
                 path.chmod(0o755)
             script = root/'hook.fish'
-            script.write_text((REPO/'etc/.chezmoihelpers/desktop-user.fish').read_text()+'\necho SHOULD_NOT_RUN_AS_ROOT\n')
+            script.write_text((REPO/'../native/helpers/system/desktop-user.fish').read_text()+'\necho SHOULD_NOT_RUN_AS_ROOT\n')
             result = subprocess.run(['fish', '--no-config', str(script)],
                 env={**os.environ, 'PATH':f'{root}:/usr/bin:/bin', 'SUDO_USER':'desktop', 'TEST_HOME':tmp},
                 capture_output=True,text=True,check=True)
@@ -35,7 +35,7 @@ class DesktopUserTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
             (root/'id').write_text('#!/bin/sh\necho 0\n');(root/'id').chmod(0o755)
-            result=subprocess.run(['fish','--no-config',str(REPO/'etc/.chezmoihelpers/desktop-user.fish')],
+            result=subprocess.run(['fish','--no-config',str(REPO/'../native/helpers/system/desktop-user.fish')],
                 env={**os.environ,'PATH':f'{root}:/usr/bin:/bin','SUDO_USER':'root'},capture_output=True,text=True)
             self.assertEqual(result.returncode,1)
             self.assertIn('Cannot identify',result.stderr)
@@ -43,7 +43,7 @@ class DesktopUserTests(unittest.TestCase):
 
 class CoprTests(unittest.TestCase):
     def test_native_target_is_required_before_install(self):
-        text=(REPO/'etc/.chezmoitemplates/tjikup/run_10-install-copr-repos.fish.tmpl').read_text()
+        text=(REPO/'../native/tasks/system/run_10-install-copr-repos.fish.j2').read_text()
         function=text[text.index('function enable_copr'):text.index('# Retire the font COPR')]
         for available in (True,False):
             harness='''
@@ -65,7 +65,7 @@ function step_run_note_quiet; printf 'RUN %%s\\n' (string join '|' -- $argv); en
                 self.assertNotIn('RUN ',result.stdout)
 
     def test_only_native_release_can_be_selected(self):
-        text = (REPO/'etc/.chezmoitemplates/tjikup/run_10-install-copr-repos.fish.tmpl').read_text()
+        text = (REPO/'../native/tasks/system/run_10-install-copr-repos.fish.j2').read_text()
         function = text[text.index('function copr_native_chroot'):text.index('# Enable only')]
         for targets, expected in [(['fedora-43-x86_64'], None),
                                   (['fedora-43-x86_64', 'fedora-45-x86_64'], 'fedora-45-x86_64'),
@@ -85,7 +85,7 @@ function step_run_note_quiet; printf 'RUN %%s\\n' (string join '|' -- $argv); en
                     self.assertEqual(result.stdout, '')
 
     def test_disabled_configured_repo_is_recognized_exactly(self):
-        text = (REPO/'etc/.chezmoitemplates/tjikup/run_10-install-copr-repos.fish.tmpl').read_text()
+        text = (REPO/'../native/tasks/system/run_10-install-copr-repos.fish.j2').read_text()
         function = text[text.index('function is_copr_configured'):text.index('function copr_native_chroot')]
         for suffix, found in [('', True), (' (disabled)', True), ('-other', False)]:
             with self.subTest(suffix=suffix):
@@ -96,8 +96,8 @@ function step_run_note_quiet; printf 'RUN %%s\\n' (string join '|' -- $argv); en
                 self.assertEqual(result.returncode == 0, found, result.stderr)
 
     def test_quiet_success_hides_command_output_but_failure_reveals_it(self):
-        status=(REPO/'etc/.chezmoihelpers/status.fish').read_text()
-        logging=(REPO/'etc/.chezmoitemplates/fish_logging.fish').read_text()
+        status=(REPO/'../native/helpers/system/status.fish').read_text()
+        logging=(REPO/'../native/tasks/assets/system/templates/fish_logging.fish').read_text()
         for code in (0,7):
             script=status+'\n'+logging+"\nsetup_logging test\nstep_run_note_quiet 'COPR test' 'using fedora-43-x86_64' sh -c 'echo noisy-output; exit "+str(code)+"'"
             result=subprocess.run(['fish','--no-config','-c',script],env={**os.environ,'TJIKUP_NO_SPIN':'1','TJIKUP_COLOR':'0'},capture_output=True,text=True)
@@ -112,10 +112,10 @@ function step_run_note_quiet; printf 'RUN %%s\\n' (string join '|' -- $argv); en
 
 class ClientPackagePolicyTests(unittest.TestCase):
     def test_bartjik_font_has_no_system_package_or_copr_dependency(self):
-        policy = (REPO / 'etc/.chezmoidata/packages.json').read_text()
+        policy = (REPO / '../native/tasks/assets/system/data/packages.json').read_text()
         self.assertNotIn("'material-symbols-fonts'", policy)
         self.assertNotIn("'purian23/material-symbols-fonts'", policy)
 
     def test_retired_azahar_is_not_requested_for_reinstallation(self):
-        policy = (REPO / 'etc/.chezmoidata/packages.json').read_text()
+        policy = (REPO / '../native/tasks/assets/system/data/packages.json').read_text()
         self.assertNotIn("'org.azahar_emu.Azahar'", policy)

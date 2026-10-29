@@ -5,7 +5,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = (ROOT/'home/.chezmoitemplates/tjikup/run_after_73-mullvad-lan.fish.tmpl').read_text().split('# Device-independent policy.', 1)[1]
+SCRIPT = (ROOT/'native/tasks/home/run_after_73-mullvad-lan.fish.j2').read_text().split('# Device-independent policy.', 1)[1]
 HARNESS = 'function status_msg; echo $argv; end\n' + SCRIPT
 
 class MullvadLanTests(unittest.TestCase):

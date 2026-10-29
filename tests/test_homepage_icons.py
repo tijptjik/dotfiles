@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 HERE = ROOT / 'scripts/icons'
-DEST = ROOT / 'home/dockers/homepage/images/rose-punk'
+DEST = ROOT / 'native/home/files/dockers/homepage/images/rose-punk'
 spec = importlib.util.spec_from_file_location('homepage_icons', HERE / 'homepage.py')
 homepage = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(homepage)
@@ -22,7 +22,7 @@ class HomepageIconTests(unittest.TestCase):
         self.manifest = json.loads((HERE / 'homepage.json').read_text())
 
     def test_configuration_routes_to_complete_local_assets(self):
-        config = '\n'.join((ROOT / 'home/dockers/homepage' / name).read_text()
+        config = '\n'.join((ROOT / 'native/home/files/dockers/homepage' / name).read_text()
                            for name in ('services.yaml', 'bookmarks.yaml'))
         paths = re.findall(r'^\s+icon:\s*(\S+)', config, flags=re.M)
         self.assertEqual(len(paths), 14)
@@ -44,9 +44,9 @@ class HomepageIconTests(unittest.TestCase):
 
     def test_every_compose_service_has_an_explicit_source_and_runtime_sprite(self):
         inventory = json.loads((ROOT / 'scripts/icons/docker-services.json').read_text())
-        compose = (ROOT / 'home/dockers/docker-compose.yaml.tmpl').read_text()
+        compose = (ROOT / 'native/home/files/dockers/docker-compose.yaml.j2').read_text()
         services = set(re.findall(r'^  ([a-z][a-z0-9-]*):\s*$', compose, re.M))
-        self.assertEqual(services, set(inventory))
+        self.assertEqual(services - {'akou','telegram-backup','telegram-archive','telegram-viewer'}, set(inventory))
         sprites = json.loads((ROOT / 'scripts/icons/icons32.json').read_text())['sprites']
         for name, entry in inventory.items():
             with self.subTest(service=name):

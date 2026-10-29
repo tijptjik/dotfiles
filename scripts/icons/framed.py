@@ -244,7 +244,7 @@ def build(primary, catalog, approval, dest, assets):
             (apps / f'symlink_{name}').write_text(target + '\n')
         assets.mkdir(parents=True, exist_ok=True)
         # The download uses ordinary SVG copies for aliases, so it is directly
-        # installable without Chezmoi or platform-specific symlink extraction.
+        # installable without Dotjik or platform-specific symlink extraction.
         with zipfile.ZipFile(assets / 'rose-punk-framed.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
             files = {'index.theme': INDEX.encode()}
             files.update({f'scalable/apps/{key}.svg': value for key, value in outputs.items()})

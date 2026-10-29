@@ -8,7 +8,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-HOOK = ROOT / 'home/.chezmoitemplates/tjikup/run_after_97-secret-service.fish.tmpl'
+HOOK = ROOT / 'native/tasks/home/run_after_97-secret-service.fish.j2'
 
 
 @unittest.skipUnless(shutil.which('fish'), 'Fish required')
@@ -46,7 +46,7 @@ function systemctl
     return 0
 end
 '''
-            hooks = [HOOK.with_name('install-secret-service.fish.tmpl'), HOOK] if install else [HOOK]
+            hooks = [HOOK.with_name('install-secret-service.fish.j2'), HOOK] if install else [HOOK]
             script = prelude + '\n'.join(line for hook in hooks for line in hook.read_text().splitlines()
                                           if not line.startswith(('source ', '#!')))
             calls = Path(tmp) / 'calls'

@@ -7,7 +7,7 @@ RequiresMountsFor=/mnt/storage/meta/downloads
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/python3 /etc/si-transmission-cleanup/cleanup.py --apply
+ExecStart=/usr/local/lib/tjikup/tjikup system transmission-cleanup --apply
 StateDirectory=si-transmission-cleanup
 StateDirectoryMode=0700
 UMask=0077

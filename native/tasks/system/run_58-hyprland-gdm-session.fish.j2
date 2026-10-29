@@ -1,12 +1,12 @@
 #!/usr/bin/env fish
 {% if os == "linux" and is_client -%}
-{{ include(".chezmoihelpers/status.fish") }}
+{{ include("helpers/status.fish") }}
 # Keep the saved GDM session ID and the package-owned entry intact. GDM searches
 # /usr/local/share before /usr/share. Do not restart GDM or the current session.
 set -l installed /usr/local/share/wayland-sessions/hyprland-uwsm.desktop
 set -l session_dir (mktemp -d); or exit 1
 set -l session_file "$session_dir/hyprland-uwsm.desktop"
-printf '%s' {{ include(".chezmoitemplates/hyprland-uwsm.desktop") | b64enc | json_quote }} | base64 --decode > "$session_file"
+printf '%s' {{ include("templates/hyprland-uwsm.desktop") | b64enc | json_quote }} | base64 --decode > "$session_file"
 or begin
     rm -rf -- "$session_dir"
     exit 1

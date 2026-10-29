@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'tests'))
+import native_render
 """Run server hooks with real logging helpers and stubbed system commands."""
 import os
 from pathlib import Path
@@ -15,10 +19,10 @@ HOOKS = [
 
 class ServerHookLoggingTests(unittest.TestCase):
     def run_hook(self, name, failure=False, missing=False):
-        script = (REPO / 'etc/.chezmoitemplates/tjikup' / f'run_{name}.fish.tmpl').read_text()
-        script = re.sub(r'{{ include "([^"]+)" }}',
-                        lambda m: (REPO / 'etc' / m[1]).read_text(), script)
-        script = re.sub(r'{{ (?:if .*?|end) -}}', '', script)
+        with tempfile.TemporaryDirectory() as rendering:
+            config=Path(rendering)/'context.json'
+            config.write_text('{"data":{"isServer":true,"isClient":false}}')
+            script=subprocess.check_output(['render-native','--config',str(config),'-f',str(REPO/'../native/tasks/system'/f'run_{name}.fish.j2')],text=True)
         harness = '''
 function rpm; echo 44; end
 function systemd-cat; command cat >/dev/null; end

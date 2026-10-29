@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-loader = importlib.machinery.SourceFileLoader('obsidian_viewer', str(ROOT / 'home/dot_local/bin/executable_obsidian-viewer'))
+loader = importlib.machinery.SourceFileLoader('obsidian_viewer', str(ROOT / 'native/home/files/.local/bin/obsidian-viewer'))
 spec = importlib.util.spec_from_loader(loader.name, loader)
 viewer = importlib.util.module_from_spec(spec)
 loader.exec_module(viewer)

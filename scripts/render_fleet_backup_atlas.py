@@ -169,7 +169,7 @@ def render():
     node(72, 1340, "code", "Local repos", "Committed changes")
     arrow(318, 510, 1365, "Git push / pull", BLUE, both=True)
     node(530, 1340, "git", "git", "Code + config source", TEAL)
-    arrow(795, 1060, 1365, "Chezmoi / Chezetc", TEAL)
+    arrow(795, 1060, 1365, "Tjikup / Tjikup", TEAL)
     node(1080, 1340, "config", "fi / li / si", "Applied configuration", TEAL)
     arrow(1575, 1360, 1365, "provision", TEAL)
     node(1600, 1340, "key", "bw", "Secrets", TEAL)

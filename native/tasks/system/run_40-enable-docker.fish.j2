@@ -1,8 +1,8 @@
 #!/usr/bin/env fish
 # Run on every apply so Docker state is reported in its configured position.
 
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
 setup_logging linux-enable-docker
 
 step_header "Docker"

@@ -19,7 +19,7 @@ class IconContrastTests(unittest.TestCase):
     def test_mole_body_and_steam_linkage_contrast_on_light_and_dark_surfaces(self):
         import xml.etree.ElementTree as ET
 
-        folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+        folder = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
         surfaces = ('#eceaf0', '#f0ebe5', '#ffffff', '#26233a', '#191724')
         for key in ('mullvad', 'steam'):
             root = ET.parse(folder / f'{key}.svg')
@@ -44,7 +44,7 @@ class IconContrastTests(unittest.TestCase):
             'white': (255, 255, 255), 'plum': (38, 35, 58), 'dark': (25, 23, 36),
         }
         for key in ('signal', 'nginx', 'hyprvoice', 'tailscale'):
-            folder = 'home/dot_local/share/icons/rose-punk/scalable/apps'
+            folder = 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
             image = frameless.render((ROOT / folder / f'{key}.svg').read_text(), 128)
             # Evaluate rendered ramps as well as flat fills. Edge antialiasing
             # intentionally blends into the surface and is not pigment contrast.
@@ -64,7 +64,7 @@ class IconContrastTests(unittest.TestCase):
         import xml.etree.ElementTree as ET
         from PIL import ImageFilter
 
-        folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+        folder = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
         keys = ('strata', 'document-viewer', 'weather', 'help',
                 'python', 'qgis-desktop', 'software', 'llmtrim')
         for key in keys:
@@ -100,7 +100,7 @@ class IconContrastTests(unittest.TestCase):
     def test_power_and_sublime_marks_contrast_with_their_actual_surfaces(self):
         import xml.etree.ElementTree as ET
 
-        folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+        folder = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
 
         def pigments(root, shape, attribute):
             value = shape.get(attribute)
@@ -136,7 +136,7 @@ class IconContrastTests(unittest.TestCase):
     def test_discord_eyes_contrast_with_the_pink_face(self):
         import xml.etree.ElementTree as ET
 
-        path = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps/discord.svg'
+        path = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps/discord.svg'
         face, eyes = ET.parse(path).findall('.//{*}path')
         values = [luminance(tuple(int(shape.get('fill')[i:i + 2], 16)
                                   for i in (1, 3, 5))) for shape in (face, eyes)]
@@ -146,7 +146,7 @@ class IconContrastTests(unittest.TestCase):
     def test_bright_marks_contrast_with_their_own_dark_fills(self):
         import xml.etree.ElementTree as ET
 
-        folder = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+        folder = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
         for key in ('zed', 'zed-nightly', 'zed-preview', 'zen'):
             root = ET.parse(folder / f'{key}.svg')
             backing = root.find(f".//*[@id='{'zen-fill' if key == 'zen' else 'zed-fill'}']")

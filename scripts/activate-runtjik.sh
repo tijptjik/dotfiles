@@ -8,9 +8,9 @@ case "${1:-}" in
     *) echo "Usage: $0 [--check]" >&2; exit 2 ;;
 esac
 if (( check_only )); then
-    python3 "$repo_dir/scripts/cleanup-launcher-entries.py" --check
+    "${TJIKUP_BINARY:-tjikup}" workflow --repo "$repo_dir" desktop cleanup --check
 else
-    python3 "$repo_dir/scripts/cleanup-launcher-entries.py" --apply
+    "${TJIKUP_BINARY:-tjikup}" workflow --repo "$repo_dir" desktop cleanup --apply
 fi
 "$HOME/.local/bin/runtjik" check
 # No GUI or user service is started on the server. On desktops, retire only the

@@ -1,5 +1,5 @@
 #!/usr/bin/env fish
-source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
 
 # Device-independent policy. Mullvad persists this setting in its daemon.
 if not command -q mullvad

@@ -55,5 +55,5 @@ for _,kind in ipairs({'floating','fullscreen','unknown','master'}) do
  w.floating=false;w.fullscreen=0;w.layout.name='scrolling'
 end
 '''
-        subprocess.run(['lua', '-', str(ROOT / 'home/dot_config/hypr/scrolling_widths.lua')],
+        subprocess.run(['lua', '-', str(ROOT / 'native/home/files/.config/hypr/scrolling_widths.lua')],
                        input=script, text=True, check=True)

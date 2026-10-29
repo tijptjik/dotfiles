@@ -1,3 +1,4 @@
+import native_render
 """Render host policies and exercise service transitions with mocked systemctl."""
 import json
 import os
@@ -8,10 +9,10 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-HOOKS = ROOT / 'home/.chezmoitemplates/tjikup'
+HOOKS = ROOT / 'native/tasks/home'
 
 
-@unittest.skipUnless(shutil.which('chezmoi') and shutil.which('fish'), 'chezmoi and Fish required')
+@unittest.skipUnless(shutil.which('render-native') and shutil.which('fish'), 'render-native and Fish required')
 class CodexLbTests(unittest.TestCase):
     def render(self, name, host):
         data = dict(isDesktop=host == 'fi', isLaptop=host == 'li',
@@ -20,7 +21,7 @@ class CodexLbTests(unittest.TestCase):
             config = Path(tmp) / 'config.json'
             config.write_text(json.dumps({'data': data}))
             return subprocess.check_output([
-                'chezmoi', '--config', str(config), '--source', tmp,
+                'render-native', '--config', str(config), '--source', tmp,
                 '--persistent-state', str(Path(tmp) / 'state.db'),
                 'execute-template', '-f', str(HOOKS / name),
             ], text=True)
@@ -28,7 +29,7 @@ class CodexLbTests(unittest.TestCase):
     def test_runtime_on_both_clients_only(self):
         for host in ('fi', 'li', 'si'):
             with self.subTest(host=host):
-                script = self.render('run_after_33-codex-lb.fish.tmpl', host)
+                script = self.render('run_after_33-codex-lb.fish.j2', host)
                 subprocess.run(['fish', '--no-config', '-n'], input=script, text=True, check=True)
                 self.assertEqual('uv pip install' in script, host != 'si')
                 self.assertNotIn('uses desktop master', script)
@@ -42,7 +43,7 @@ class CodexLbTests(unittest.TestCase):
                                    'if [ -n "$FAIL_COMMAND" ] && [ "$2" = "$FAIL_COMMAND" ]; then exit 1; fi\n'
                                    'if [ "$2" = --quiet ] && [ "$4" = codex-lb.service ]; then exit 1; fi\n')
                 command.chmod(0o755)
-                script = self.render('run_after_99-systemd-reload.fish.tmpl', host)
+                script = self.render('run_after_99-systemd-reload.fish.j2', host)
                 # Exercise the Codex transition without the unrelated user-unit setup.
                 script = script.split('function user_units_need_reload')[0]
                 script = '\n'.join(line for line in script.splitlines()

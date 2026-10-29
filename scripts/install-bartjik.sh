@@ -9,7 +9,7 @@ command -v python3 >/dev/null
 # The native file phase owns units when invoked by Tjikup.
 "${TJIKUP_BINARY:-tjikup}" workflow --repo "$(dirname "$script_dir")" cache-install bartjik \
     --input "$tool_repo/apps/bartjik" --input "$tool_repo/scripts/install.sh" \
-    --input "$script_dir/cache-install.py" --input "$script_dir/install-bartjik.sh" \
+    --input "$tool_repo/apps/tjikup/src/workflow_services.rs" --input "$script_dir/install-bartjik.sh" \
     --output "$HOME/.local/bin/bartjik" --output "$HOME/.local/bin/bartjikctl" \
     --output "$HOME/.local/lib/bartjik" \
     -- bash -c '(cd "$1/apps/bartjik" && bash scripts/build.sh) && bash "$1/scripts/install.sh" bartjik' _ "$tool_repo" "$script_dir"

@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'tests'))
+import native_render
 """Exercise the client GDM session checker and installer in a temporary tree."""
 import configparser
 import os
@@ -9,13 +13,13 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-HOOK = ROOT / "etc/.chezmoitemplates/tjikup/run_58-hyprland-gdm-session.fish.tmpl"
-ENTRY = ROOT / "etc/.chezmoitemplates/hyprland-uwsm.desktop"
+HOOK = ROOT / "../native/tasks/system/run_58-hyprland-gdm-session.fish.j2"
+ENTRY = ROOT / "../native/tasks/assets/system/templates/hyprland-uwsm.desktop"
 
 
 @unittest.skipUnless(
-    all(shutil.which(name) for name in ("chezmoi", "fish", "desktop-file-validate")),
-    "chezmoi, fish and desktop-file-validate are required",
+    all(shutil.which(name) for name in ("render-native", "fish", "desktop-file-validate")),
+    "render-native, fish and desktop-file-validate are required",
 )
 class GdmSessionTests(unittest.TestCase):
     def test_client_session_checker_and_installer(self):
@@ -29,7 +33,7 @@ class GdmSessionTests(unittest.TestCase):
                 config = work / "config.toml"
                 config.write_text("[data]\nisClient = " + str(client).lower() + "\n")
                 rendered = subprocess.run(
-                    ["chezmoi", "--config", str(config), "--source", str(ROOT), "execute-template"],
+                    ["render-native", "--config", str(config), "--source", str(ROOT), "execute-template"],
                     input=HOOK.read_text(), text=True, capture_output=True, check=True,
                 ).stdout.replace("/usr/local/share/wayland-sessions/hyprland-uwsm.desktop", str(target))
                 script = work / "hook.fish"

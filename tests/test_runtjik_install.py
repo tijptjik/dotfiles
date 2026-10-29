@@ -24,10 +24,6 @@ class RuntjikInstallTests(unittest.TestCase):
                                .replace('$HOME', '${RUNTJIK_TEST_HOME}'))
         (scripts / 'activate-runtjik.sh').write_text((ROOT / 'scripts/activate-runtjik.sh').read_text().replace('$HOME', '${RUNTJIK_TEST_HOME}'))
         (scripts / 'ensure-tjikos.sh').write_text('tool_repo="$TJIKOS_REPO"\nensure_tjikos() { :; }\n')
-        (scripts / 'cleanup-launcher-entries.py').write_text(
-            'import os,sys\nraise SystemExit(int(os.environ.get("CLEANUP_PENDING", "0")) if "--check" in sys.argv else 0)\n')
-        (scripts / 'cache-install.py').write_text(
-            'import subprocess,sys\nraise SystemExit(subprocess.call(sys.argv[sys.argv.index("--")+1:]))\n')
         tools = root / 'tools/apps/runtjik/scripts'
         tools.mkdir(parents=True)
         (tools / 'build.sh').write_text('#!/bin/sh\necho build >> "$CALL_LOG"\nexit "${BUILD_RESULT:-0}"\n')
@@ -45,8 +41,11 @@ class RuntjikInstallTests(unittest.TestCase):
             path = bindir / name
             path.write_text('#!/bin/sh\n' + body)
             path.chmod(0o755)
+        runner=root/'native-runner'
+        runner.write_text('#!/usr/bin/python3\nimport os,subprocess,sys\na=sys.argv[1:]\nif "cache-install" in a: sys.exit(subprocess.call(a[a.index("--")+1:]))\nsys.exit(int(os.environ.get("CLEANUP_PENDING","0")) if "--check" in a else 0)\n')
+        runner.chmod(0o755)
         self.env = {**os.environ, 'RUNTJIK_TEST_HOME': str(self.home), 'XDG_STATE_HOME': str(root / 'state'),
-                    'TJIKOS_REPO': str(root / 'tools'), 'CALL_LOG': str(self.log),
+                    'TJIKUP_BINARY': str(runner), 'TJIKOS_REPO': str(root / 'tools'), 'CALL_LOG': str(self.log),
                     'PATH': str(bindir) + os.pathsep + os.environ['PATH']}
 
     def run_install(self, **env):
@@ -109,7 +108,7 @@ class RuntjikInstallTests(unittest.TestCase):
         task = next(row for row in plan if row['id'] == 'home:runtjik')
         self.assertNotIn('home:tjikup', task['needs'])
         self.assertIn('tjikos', task['resources'])
-        hook = (ROOT / 'home/.chezmoitemplates/tjikup' / (task['apply'][-1].split('/')[-1].removeprefix('home-') + '.tmpl')).read_text()
+        hook = (ROOT / 'native/tasks/home' / (task['apply'][-1].split('/')[-1].removeprefix('home-') + '.j2')).read_text()
         self.assertNotIn('.isClient', hook)
         self.assertNotIn('FLEET_DEFER_HOOKS', hook)
 

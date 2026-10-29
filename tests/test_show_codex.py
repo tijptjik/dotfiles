@@ -4,7 +4,7 @@ import unittest
 
 
 reveal_commands = runpy.run_path(str(Path(__file__).resolve().parents[1] /
-    "home/dot_local/bin/executable_show-codex"))["reveal_commands"]
+    "native/home/files/.local/bin/show-codex"))["reveal_commands"]
 
 
 class ShowCodexTests(unittest.TestCase):

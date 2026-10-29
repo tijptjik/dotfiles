@@ -1,3 +1,4 @@
+import native_render
 """The persisted TV selection is read on every compositor config load."""
 import json
 import os
@@ -16,9 +17,9 @@ class DisplayModeTests(unittest.TestCase):
             config = root / "config.json"
             config.write_text(json.dumps({"data": {"isDesktop": True, "isLaptop": False}}))
             rendered = subprocess.check_output([
-                "chezmoi", "--config", str(config), "--source", tmp,
-                "--persistent-state", str(root / "chezmoi.db"), "execute-template", "-f",
-                str(ROOT / "home/dot_config/hypr/monitors.lua.tmpl"),
+                "render-native", "--config", str(config), "--source", tmp,
+                "--persistent-state", str(root / "render-native.db"), "execute-template", "-f",
+                str(ROOT / "native/home/files/.config/hypr/monitors.lua.j2"),
             ], text=True)
             state = root / "hypr/display-mode"
             state.parent.mkdir()

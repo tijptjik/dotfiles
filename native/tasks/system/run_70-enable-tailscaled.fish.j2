@@ -2,10 +2,10 @@
 # Converge persistent tailnet availability after application networking.
 {% if os == "linux" -%}
 
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
 setup_logging linux-enable-tailscale
-set -g chezetc_stage CONFIG
+set -g tjikup_stage CONFIG
 
 step_header "Tailscale"
 
@@ -43,7 +43,7 @@ end
 {% endif -%}
 
 # Permit the interactive user and user services (including Collie) to manage
-# Serve without giving them general sudo access.  A Chezetc system apply may
+# Serve without giving them general sudo access.  A Tjikup system apply may
 # itself run under sudo, so preserve the account that invoked sudo rather than
 # assigning this role to root.
 set -l tailscale_operator "$SUDO_USER"

@@ -18,7 +18,7 @@ import icon_data
 class IconGalleryTests(unittest.TestCase):
     def test_workflow_preview_retains_camera_linked_gradients(self):
         scope_ids = runpy.run_path(str(ROOT / 'scripts/icons/workflow-review.py'))['scope_ids']
-        camera = ET.parse(ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps/camera.svg').getroot()
+        camera = ET.parse(ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps/camera.svg').getroot()
         scope_ids(camera, 'camera-96-')
         ids = {n.get('id') for n in camera.iter() if n.get('id')}
         references = []
@@ -60,7 +60,7 @@ class IconGalleryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             self.inputs(root)
-            theme = root / 'home/dot_local/share/icons/rose-punk/scalable/apps'
+            theme = root / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
             theme.mkdir(parents=True)
             for key in ('app', 'fish', 'runtjik', 'runtjik-refresh'):
                 (theme / (key + '.svg')).write_text('<svg xmlns="http://www.w3.org/2000/svg"/>')

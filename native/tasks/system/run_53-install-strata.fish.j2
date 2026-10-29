@@ -2,16 +2,16 @@
 # Keep Strata beside the custom application installs, including ChatGPT Desktop.
 {% if os == "linux" and is_client -%}
 
-{{ include(".chezmoihelpers/desktop-user.fish") }}
+{{ include("helpers/desktop-user.fish") }}
 
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
 setup_logging linux-install-strata
 
 function install_strata_dependencies
     set -l packages gtk4 gtksourceview5 poppler-glib fontconfig bubblewrap \
         ffmpegthumbnailer gstreamer1-plugins-base gstreamer1-plugins-good \
-        gstreamer1-plugin-libav gvfs desktop-file-utils xdg-utils curl tar coreutils sed python3
+        gstreamer1-plugin-libav gvfs desktop-file-utils xdg-utils curl tar coreutils sed
 
     # Keep either installed FFmpeg variant; Fedora provides ffmpeg-free.
     if not rpm -q ffmpeg >/dev/null 2>&1
@@ -26,9 +26,9 @@ function install_strata_dependencies
     end
     if test (count $missing) -gt 0
         sudo -n dnf install -y $missing; or return $status
-        echo CHEZETC_RESULT=changed
+        echo TJIKUP_RESULT=changed
     else
-        echo CHEZETC_RESULT=unchanged
+        echo TJIKUP_RESULT=unchanged
     end
     rpm -q $packages >/dev/null
 end
@@ -43,19 +43,7 @@ function install_strata
         return 1
     end
 
-    set -l installer_dir (mktemp -d); or return 1
-    set -l metadata_helper "$installer_dir/installer.py"
-    printf '%s' {{ include(".chezmoitemplates/github_api.py") | b64enc | json_quote }} | base64 --decode > "$installer_dir/github_api.py"
-    and printf '%s' {{ include(".chezmoitemplates/update-client-cli-releases.py") | b64enc | json_quote }} | base64 --decode > "$metadata_helper"
-    set -l result $status
-    if test $result -ne 0
-        rm -rf "$installer_dir"
-        return $result
-    end
-    set -l release_data (python3 -B "$metadata_helper" strata-metadata)
-    set result $status
-    rm -rf "$installer_dir"
-    test $result -eq 0; or return $result
+    set -l release_data (tjikup workflow install strata --metadata); or return $status
     set -l release_fields (string split "|" -- "$release_data")
     set -l latest_version $release_fields[1]
     set -l expected $release_fields[2]
@@ -64,20 +52,7 @@ function install_strata
     if string match -qr '^/opt/strata/[0-9]+\.[0-9]+\.[0-9]+/strata$' -- "$current_target"
         set current_version (path basename (path dirname "$current_target"))
     end
-    set -l update_available (python3 -c '
-import re
-import sys
-
-latest, current = sys.argv[1:]
-def version(value):
-    match = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", value)
-    return tuple(map(int, match.groups())) if match else None
-latest_version = version(latest)
-current_version = version(current) if current else None
-if latest_version is None:
-    raise SystemExit("Cannot compare Strata release versions")
-print("yes" if current_version is None or latest_version > current_version else "no")
-' "$latest_version" "$current_version"); or return $status
+    set -l update_available (tjikup workflow install newer "$latest_version" "$current_version"); or return $status
     if test "$update_available" = yes
         set -l target /opt/strata/$latest_version
         set -l archive strata-$latest_version-x86_64-unknown-linux-gnu
@@ -106,9 +81,9 @@ print("yes" if current_version is None or latest_version > current_version else 
     end
     set -l target /opt/strata/$current_version
     test -x "$target/strata"; or return 1
-    mkdir -p "$HOME/.local/bin" "$HOME/.local/state/chezetc/strata"; or return 1
+    mkdir -p "$HOME/.local/bin" "$HOME/.local/state/tjikup/strata"; or return 1
     if test -e "$HOME/.local/bin/strata"; and not test -L "$HOME/.local/bin/strata"
-        cp -p "$HOME/.local/bin/strata" "$HOME/.local/state/chezetc/strata/strata-"(date +%Y%m%dT%H%M%S%N); or return 1
+        cp -p "$HOME/.local/bin/strata" "$HOME/.local/state/tjikup/strata/strata-"(date +%Y%m%dT%H%M%S%N); or return 1
     end
     sudo -n install -d -m 755 /usr/local/bin; or return 1
     sudo -n ln -sfn "$target/strata" /usr/local/bin/strata; or return 1
@@ -116,9 +91,9 @@ print("yes" if current_version is None or latest_version > current_version else 
     set -l active_version ("$HOME/.local/bin/strata" --version | string match -r '[0-9]+\.[0-9]+\.[0-9]+')
     test "$active_version" = "$current_version"; or return 1
     if test "$update_available" = yes
-        echo CHEZETC_RESULT=changed
+        echo TJIKUP_RESULT=changed
     else
-        echo CHEZETC_RESULT=unchanged
+        echo TJIKUP_RESULT=unchanged
     end
 end
 
@@ -134,8 +109,8 @@ function install_strata_complete
     test $dependency_status -eq 0; or return $dependency_status
     install_strata; or return $status
     # Preserve a dependency installation even when the app is already current.
-    if contains -- CHEZETC_RESULT=changed $dependency_output
-        echo CHEZETC_RESULT=changed
+    if contains -- TJIKUP_RESULT=changed $dependency_output
+        echo TJIKUP_RESULT=changed
     end
 end
 step_run_quiet "Strata" install_strata_complete

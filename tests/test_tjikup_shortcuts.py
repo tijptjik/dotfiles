@@ -9,7 +9,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-FUNCTIONS = ROOT / "home/dot_config/fish/functions"
+FUNCTIONS = ROOT / "native/home/files/.config/fish/functions"
 
 
 class ShortcutTests(unittest.TestCase):
@@ -21,6 +21,8 @@ class ShortcutTests(unittest.TestCase):
                 "hostname": '#!/bin/sh\nprintf "%s\\n" "$TEST_HOST"\n',
                 "tjikup": '''#!/usr/bin/python3
 import json, os, sys
+if sys.argv[1:3] == ['workflow','timing']:
+    os.execv(os.environ['NATIVE_TJIKUP'],[os.environ['NATIVE_TJIKUP'],*sys.argv[1:]])
 print(json.dumps(sys.argv[1:]))
 if os.environ.get("TEST_REPORT"):
     with open(os.environ["TJIKUP_TIMING_EXPORT"], "x") as stream:
@@ -46,7 +48,7 @@ sys.exit(subprocess.call(["fish", "--no-config", "-c", sys.argv[-1]]))
                 script.chmod(0o755)
             environment = dict(os.environ, HOME=temporary, TEST_HOST=host,
                                XDG_STATE_HOME=str(directory / 'state'),
-                               UPDATE_STATUS=str(update_status),
+                               UPDATE_STATUS=str(update_status), NATIVE_TJIKUP=os.environ['TJIKUP_BINARY'],
                                PATH=f"{temporary}:/usr/bin:/bin")
             if report:
                 environment['TEST_REPORT'] = '1'
@@ -137,7 +139,7 @@ sys.exit(subprocess.call(["fish", "--no-config", "-c", sys.argv[-1]]))
              'string match -rq -- "$__done_exclude[-1]" "$name --dry-run"; '
              'or exit 1; end; '
              'string match -rq -- "$__done_exclude[-1]" "echo tjikup"; and exit 1; exit 0',
-             "--", str(ROOT / "home/dot_config/fish/conf.d/tjikup-notifications.fish")],
+             "--", str(ROOT / "native/home/files/.config/fish/conf.d/tjikup-notifications.fish")],
             capture_output=True, text=True,
         )
         self.assertEqual(result.returncode, 0, result.stderr)

@@ -1,0 +1,146 @@
+{
+  "obsidian": {
+    "repository": "obsidianmd/obsidian-releases",
+    "latest": true,
+    "asset": "Obsidian-{version}{arm_suffix}.AppImage",
+    "kind": "raw",
+    "binary": "Obsidian-{version}{arm_suffix}.AppImage",
+    "prefix": "{home}/.local/opt/obsidian/{version}",
+    "links": {
+      "{home}/.local/bin/obsidian-appimage": "{prefix}/Obsidian-{version}{arm_suffix}.AppImage"
+    }
+  },
+  "hyprvoice": {
+    "repository": "LeonardoTrapani/hyprvoice",
+    "asset": "hyprvoice-linux-x86_64",
+    "kind": "raw",
+    "binary": "hyprvoice",
+    "prefix": "/opt/hyprvoice/{version}",
+    "links": {
+      "/usr/local/bin/hyprvoice": "{prefix}/hyprvoice"
+    },
+    "check": [
+      "--help"
+    ],
+    "privileged": true,
+    "user_alias": "hyprvoice"
+  },
+  "strata": {
+    "repository": "lgse/strata",
+    "latest": true,
+    "asset": "strata-{version}-x86_64-unknown-linux-gnu.tar.gz"
+  },
+  "tennis": {
+    "repository": "gurgeous/tennis",
+    "asset": "tennis_{version}_linux_amd64.tar.gz",
+    "kind": "tar.gz",
+    "binary": "tennis",
+    "prefix": "/opt/tennis/{version}",
+    "links": {
+      "/usr/local/bin/tennis": "{prefix}/tennis"
+    },
+    "check": [
+      "--version"
+    ],
+    "privileged": true
+  },
+  "tinty": {
+    "repository": "tinted-theming/tinty",
+    "asset": "tinty-x86_64-unknown-linux-musl.tar.gz",
+    "kind": "tar.gz",
+    "binary": "tinty",
+    "prefix": "/opt/tinty/{version}",
+    "links": {
+      "/usr/local/bin/tinty": "{prefix}/tinty"
+    },
+    "check": [
+      "--version"
+    ],
+    "privileged": true
+  },
+  "tippecanoe": {
+    "repository": "felt/tippecanoe",
+    "latest": true,
+    "kind": "git-build",
+    "binary": "bin/tippecanoe",
+    "prefix": "/opt/tippecanoe/{version}",
+    "links": {
+      "/usr/local/bin/tippecanoe": "{prefix}/bin/tippecanoe",
+      "/usr/local/bin/tippecanoe-enumerate": "{prefix}/bin/tippecanoe-enumerate",
+      "/usr/local/bin/tippecanoe-decode": "{prefix}/bin/tippecanoe-decode",
+      "/usr/local/bin/tile-join": "{prefix}/bin/tile-join",
+      "/usr/local/bin/tippecanoe-json-tool": "{prefix}/bin/tippecanoe-json-tool",
+      "/usr/local/bin/tippecanoe-overzoom": "{prefix}/bin/tippecanoe-overzoom"
+    },
+    "privileged": true,
+    "packages": [
+      "git",
+      "make",
+      "gcc-c++",
+      "sqlite-devel",
+      "zlib-devel"
+    ],
+    "steps": [
+      [
+        "make",
+        "-j4"
+      ],
+      [
+        "{source}/unit"
+      ],
+      [
+        "{source}/tippecanoe",
+        "--version"
+      ],
+      [
+        "{source}/tippecanoe",
+        "-z",
+        "0",
+        "-o",
+        "{temp}/check.mbtiles",
+        "{repo}/native/fixtures/point.geojson"
+      ],
+      [
+        "make",
+        "install",
+        "PREFIX={stage}"
+      ]
+    ]
+  },
+  "gitfetch": {
+    "repository": "Matars/gitfetch",
+    "kind": "git-build",
+    "binary": "bin/gitfetch",
+    "prefix": "/opt/gitfetch/{version}",
+    "links": {
+      "/usr/local/bin/gitfetch": "{prefix}/bin/gitfetch"
+    },
+    "privileged": true,
+    "packages": [
+      "uv",
+      "python3"
+    ],
+    "steps": [
+      [
+        "uv",
+        "venv",
+        "--relocatable",
+        "--python",
+        "/usr/bin/python3",
+        "{stage}"
+      ],
+      [
+        "uv",
+        "pip",
+        "install",
+        "--python",
+        "{stage}/bin/python",
+        "{source}"
+      ],
+      [
+        "{stage}/bin/gitfetch",
+        "--help"
+      ]
+    ]
+  }
+}

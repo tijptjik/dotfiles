@@ -22,4 +22,4 @@ for cmd in tjikup-other 'echo tjikup' 'sleep 10'
 end
 exit 0
 '''
-        subprocess.run(['fish', '--no-config', '-c', script, '--', str(REPO / 'home/dot_config/fish/conf.d/tjikup-notifications.fish')], check=True)
+        subprocess.run(['fish', '--no-config', '-c', script, '--', str(REPO / 'native/home/files/.config/fish/conf.d/tjikup-notifications.fish')], check=True)

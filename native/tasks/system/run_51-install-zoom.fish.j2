@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 {% if os == "linux" and is_client -%}
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
 setup_logging linux-install-zoom
 
 # Zoom distributes an official RPM, but does not provide a DNF repository.

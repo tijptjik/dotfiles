@@ -1,3 +1,4 @@
+import native_render
 """Render host rules and check their ordered initial-width policy."""
 import json
 from pathlib import Path
@@ -9,7 +10,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 
-@unittest.skipUnless(shutil.which('chezmoi') and shutil.which('lua'), 'Chezmoi and Lua required')
+@unittest.skipUnless(shutil.which('render-native') and shutil.which('lua'), 'Native renderer and Lua required')
 class WindowWidthTests(unittest.TestCase):
     def test_host_chat_startup(self):
         for host in ('fi', 'li', 'si'):
@@ -20,10 +21,10 @@ class WindowWidthTests(unittest.TestCase):
                     'isDesktop': host == 'fi', 'isLaptop': host == 'li',
                 }}))
                 rendered = subprocess.check_output([
-                    'chezmoi', '--config', str(config), '--source', str(root),
+                    'render-native', '--config', str(config), '--source', str(root),
                     '--persistent-state', str(root / 'state.db'),
                     'execute-template', '-f',
-                    str(ROOT / 'home/dot_config/hypr/execs.lua.tmpl'),
+                    str(ROOT / 'native/home/files/.config/hypr/execs.lua.j2'),
                 ], text=True)
                 startup = root / 'startup.lua'
                 startup.write_text(rendered)
@@ -62,10 +63,10 @@ dofile(arg[1])
                     'isDesktop': host == 'fi', 'isLaptop': host == 'li',
                 }}))
                 rendered = subprocess.check_output([
-                    'chezmoi', '--config', str(config), '--source', str(root),
+                    'render-native', '--config', str(config), '--source', str(root),
                     '--persistent-state', str(root / 'state.db'),
                     'execute-template', '-f',
-                    str(ROOT / 'home/dot_config/hypr/windows.lua.tmpl'),
+                    str(ROOT / 'native/home/files/.config/hypr/windows.lua.j2'),
                 ], text=True)
                 rules = root / 'rules.lua'
                 rules.write_text(rendered)
@@ -128,4 +129,4 @@ end
 '''
                 check = root / 'check.lua'
                 check.write_text(script)
-                subprocess.run(['lua', str(check), str(rules), host, str(ROOT / 'home/dot_config/hypr')], check=True)
+                subprocess.run(['lua', str(check), str(rules), host, str(ROOT / 'native/home/files/.config/hypr')], check=True)

@@ -1171,27 +1171,27 @@
     "reviewed": true,
     "review_batch": 3
   },
-  "chezetc": {
-    "name": "Chezetc",
+  "systjik": {
+    "name": "Systjik",
     "installed": true,
     "desktop_ids": [],
     "icon_names": [
-      "chezetc"
+      "systjik"
     ],
     "mode": "illustrated-local",
-    "geometry": "local/chezetc.svg",
+    "geometry": "local/systjik.svg",
     "reviewed": true,
     "review_batch": 6
   },
-  "chezmoi": {
-    "name": "Chezmoi",
+  "dotjik": {
+    "name": "Dotjik",
     "installed": true,
     "desktop_ids": [],
     "icon_names": [
-      "chezmoi"
+      "dotjik"
     ],
     "mode": "illustrated-local",
-    "geometry": "local/chezmoi.svg",
+    "geometry": "local/dotjik.svg",
     "reviewed": true,
     "review_batch": 6
   },

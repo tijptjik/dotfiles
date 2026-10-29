@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 {% if os == "linux" and is_server -%}
-{{ include(".chezmoihelpers/status.fish") }}
+{{ include("helpers/status.fish") }}
 # Package presence and mounted disks do not prove content-format compatibility.
 # This command only reads state; it never syncs, scrubs, repairs or converts it.
 set -l report (sudo python3 /etc/si-snapraid-maintenance/maintenance.py status 2>&1)

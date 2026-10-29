@@ -29,7 +29,7 @@ class FramelessIconTests(unittest.TestCase):
                 source_hash = hashlib.sha256(historical.read_bytes()).hexdigest() if historical.is_file() else None
                 self.assertEqual(source_hash, manifest[key]['source_sha256'])
                 result = (ASSETS / 'frameless' / f'{key}.svg').read_bytes()
-                primary = ROOT / 'home/dot_local/share/icons/rose-punk/scalable/apps' / f'{key}.svg'
+                primary = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps' / f'{key}.svg'
                 self.assertEqual(primary.read_bytes(), result)
                 self.assertEqual(hashlib.sha256(result).hexdigest(), manifest[key]['frameless_sha256'])
 

@@ -16,8 +16,8 @@ python3 - <<'PY'
 import ast
 from pathlib import Path
 
-for path in (path for root in ("home", "native", "scripts") for path in Path(root).rglob("*")):
-    if path.is_file() and (path.suffix == ".py" or path.name == "executable_tjikup"):
+for path in (path for root in ("native", "scripts") for path in Path(root).rglob("*")):
+    if path.is_file() and (path.suffix == ".py" or path.read_bytes().splitlines()[0:1] == [b"#!/usr/bin/env python3"]):
         ast.parse(path.read_text(), filename=str(path))
 PY
 
@@ -32,7 +32,7 @@ while IFS= read -r -d '' script; do
             fi
             ;;
     esac
-done < <(find home native scripts -type f ! -name '*.tmpl' ! -name '*.j2' \( -name '*.sh' -o -name '*.fish' -o -path 'home/dot_local/bin/*' -o -path 'native/home/files/.local/bin/*' \) -print0)
+done < <(find native scripts -type f ! -name '*.tmpl' ! -name '*.j2' \( -name '*.sh' -o -name '*.fish' -o -path 'native/home/files/.local/bin/*' \) -print0)
 
 echo "[CHECK] Native task templates"
 python3 scripts/check-task-templates.py

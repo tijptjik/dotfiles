@@ -33,18 +33,9 @@ function __tjikup_host --description 'Run Tjikup on a fleet host with its termin
     if test -n "$directory"
         # Use the same routing and pinned host identity as the update. Never
         # replay the update command when collecting a report, even on failure.
-        set -l collector 'from pathlib import Path; import sys; p=Path(sys.argv[1]); p.exists() or sys.exit(44); sys.stdout.buffer.write(p.read_bytes()); sys.stdout.buffer.flush(); p.unlink()'
-        set -l fetch (string join ' ' -- python3 -c (string escape -- "$collector") (string escape -- "$export_path"))
+        set -l fetch (string join ' ' -- tjikup workflow timing take (string escape -- "$export_path"))
         if __tjikup_connect "$target" -T "$fetch" >"$directory/timings.json.part" 2>"$directory/transfer.log"
-            command python3 -c '
-import json, sys
-from pathlib import Path
-p = Path(sys.argv[1]) / "timings.json"
-part = p.with_suffix(".json.part")
-json.loads(part.read_text())
-part.replace(p)
-p.chmod(0o600)
-' "$directory"
+            command tjikup workflow timing accept "$directory"
             or echo "Could not read task timings: $directory" >&2
         else
             set -l transfer_status $status

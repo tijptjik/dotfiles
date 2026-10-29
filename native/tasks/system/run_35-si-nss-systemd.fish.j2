@@ -3,11 +3,11 @@
 # GDM 50 greeters use transient user records, including shadow entries.
 set fedora_release (rpm -E %fedora)
 if string match -qr '^[0-9]+$' -- "$fedora_release"; and test "$fedora_release" -ge 44
-    {{ include(".chezmoihelpers/status.fish") }}
-    {{ include(".chezmoitemplates/fish_logging.fish") }}
+    {{ include("helpers/status.fish") }}
+    {{ include("templates/fish_logging.fish") }}
     setup_logging si-nss-systemd
-    set chezetc_stage CHECK
-    step_run_note_quiet "Shadow lookups" configured sudo python3 /etc/si-provision/nss_systemd.py --apply
+    set tjikup_stage CHECK
+    step_run_note_quiet "Shadow lookups" configured sudo /usr/local/lib/tjikup/tjikup system nss --apply
     or exit 1
 end
 {% endif -%}

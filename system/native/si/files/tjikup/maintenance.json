@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "host": "si",
+  "root_required": true,
+  "nss": {
+    "target": "/etc/nsswitch.conf",
+    "backup": "/var/lib/si-provision/nss-shadow-before.conf"
+  },
+  "storage": {
+    "config": "/etc/si-snapraid-maintenance/config.json",
+    "docker_mount": "/mnt/data/disk22",
+    "pool": "/mnt/storage",
+    "swap": "/mnt/data/disk22/swap",
+    "fstab": "/etc/fstab",
+    "begin": "# BEGIN tjikup storage array",
+    "end": "# END tjikup storage array",
+    "previous_begin": "# BEGIN chezetc si array",
+    "previous_end": "# END chezetc si array",
+    "retired_mounts": [
+      "/mnt/data/disk4",
+      "/mnt/parity/disk1",
+      "/mnt/data/disk52"
+    ],
+    "array_prefixes": [
+      "/mnt/data/",
+      "/mnt/parity/"
+    ],
+    "pool_options": "defaults,allow_other,minfreespace=1M,moveonenospc=true,cache.files=partial,dropcacheonclose=true,category.create=mfs,fsname=mergerfs"
+  },
+  "provision": {
+    "accounts": [
+      {
+        "name": "m",
+        "uid": 1000,
+        "gid": 1000,
+        "home": "/home/m",
+        "shell": "/bin/fish"
+      },
+      {
+        "name": "media",
+        "uid": 954,
+        "gid": 950,
+        "home": "/home/media",
+        "shell": "/bin/false"
+      }
+    ],
+    "memberships": [
+      {
+        "user": "m",
+        "group": "media"
+      },
+      {
+        "user": "m",
+        "group": "docker"
+      },
+      {
+        "user": "plex",
+        "group": "media"
+      }
+    ],
+    "directories": "/etc/si-provision/directories.json",
+    "directory_prefixes": [
+      "/mnt/storage/",
+      "/appData/"
+    ],
+    "links": {
+      "/home/m/downloads": "/mnt/storage/meta/downloads",
+      "/var/lib/plexmediaserver": "/mnt/storage/meta/opt/plexmediaserver"
+    },
+    "mergerfs": "/etc/si-provision/mergerfs.json",
+    "beets": {
+      "source": "/home/m/dockers/beets-customizations",
+      "target": "/mnt/storage/meta/appData/beets",
+      "uid": 1000,
+      "gid": 950
+    }
+  },
+  "permissions": {
+    "policy": "/etc/si-media-permissions/policy.json",
+    "state": "/var/lib/si-media-permissions",
+    "locks": [
+      "/run/lock/si-snapraid-maintenance.lock",
+      "/run/lock/si-app-backup.lock"
+    ],
+    "allowed_roots": [
+      "public/movies",
+      "public/shows",
+      "meta/downloads/radarr",
+      "meta/downloads/sonarr"
+    ]
+  },
+  "media": {
+    "container": "transmission",
+    "rpc": "http://127.0.0.1:9091/transmission/rpc",
+    "downloads": "/mnt/storage/meta/downloads",
+    "download_prefixes": [
+      "/data/meta/downloads",
+      "/downloads"
+    ],
+    "cleanup_state": "/var/lib/si-transmission-cleanup",
+    "guard_state": "/var/lib/si-media-guard",
+    "labels": [
+      "sonarr",
+      "radarr",
+      "sonarred",
+      "radarred"
+    ],
+    "private_tracker_hosts": [
+      "localhost.stackoverflow.tech",
+      "routing.bgp.technology",
+      "ssl.empirehost.me"
+    ],
+    "private_tracker_domains": [
+      "iptorrents.com",
+      "iptorrents.me"
+    ],
+    "minimum_seed_seconds": 1296000,
+    "unsafe_extensions": [
+      ".exe",
+      ".scr",
+      ".lnk",
+      ".msi",
+      ".msp",
+      ".bat",
+      ".cmd",
+      ".ps1",
+      ".vbs",
+      ".vbe",
+      ".js",
+      ".jse",
+      ".wsf",
+      ".wsh",
+      ".com",
+      ".cpl",
+      ".hta"
+    ],
+    "replacement_limit_per_hour": 3,
+    "catalogs": {
+      "sonarr": {
+        "url": "http://127.0.0.1:8989/api/v3",
+        "config": "/mnt/storage/meta/appData/sonarr/config.xml"
+      },
+      "radarr": {
+        "url": "http://127.0.0.1:7878/api/v3",
+        "config": "/mnt/storage/meta/appData/radarr/config.xml"
+      }
+    }
+  },
+  "updates": {
+    "compose": [
+      "docker",
+      "compose",
+      "--project-directory",
+      "/home/m/dockers",
+      "-f",
+      "/home/m/dockers/docker-compose.yaml"
+    ],
+    "project": "dockers",
+    "plex_preferences": "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Preferences.xml",
+    "backup_receipt": "/var/lib/si-app-backup/last-success.json",
+    "backup_unit": "si-app-backup.service",
+    "state": "/var/lib/si-app-updates",
+    "max_backup_age_seconds": 86400,
+    "image_workers": 3,
+    "frozen_services": {
+      "ephemera": "final release"
+    },
+    "timeout_seconds": 1200,
+    "lock": "/run/lock/si-app-updates.lock",
+    "backup_lock": "/run/lock/si-app-backup.lock"
+  }
+}

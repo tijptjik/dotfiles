@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 {% if is_client -%}
-source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
 set -l changed 0
 # Retire the legacy whole-tree writers before enabling per-folder bisync.
 for unit in rclone_sync.type-drive:private.service rclone_sync.type-drive:system.service

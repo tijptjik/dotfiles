@@ -1,10 +1,10 @@
 #!/usr/bin/env fish
 # Run after managed files so the updater exists on its first apply.
 {% if os == "linux" and is_server -%}
-{{ include(".chezmoihelpers/status.fish") }}
+{{ include("helpers/status.fish") }}
 section_header "Server app updates"
 
-sudo python3 /etc/si-provision/update_apps.py | while read -l event
+sudo /usr/local/lib/tjikup/tjikup system update-apps | while read -l event
     set -l fields (string split \t -- "$event")
     if test (count $fields) -ne 3
         printf '%s\n' "$event"

@@ -25,7 +25,7 @@ hl={get_cursor_pos=function()return cursor end,get_layers=function()return {laye
         return {}
     end,
     dsp={window={drag=function()return drag_dispatcher end}}}
-local h=dofile('home/dot_config/hypr/helpers.lua')
+local h=dofile('native/home/files/.config/hypr/helpers.lua')
 assert(h.panel_under_pointer())
 assert(h.panel_aware_drag().pass_event and moves==0)
 cursor.x=600

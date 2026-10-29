@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "id": "bootstrap-archives",
+  "context": {},
+  "bitwarden": {
+    "command": [
+      "/usr/local/bin/bws"
+    ],
+    "access_token_file": "{{ user.home }}/.config/bws/environment"
+  },
+  "entries": [
+    {
+      "kind": "file",
+      "path": "{{ config_dir }}/synctjik/rclone.conf",
+      "source": "templates/rclone/rclone.conf.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "create_only": true,
+      "when": "not bootstrap_transport_exists"
+    },
+    {
+      "kind": "file",
+      "path": "{{ config_dir }}/archive-policy.json",
+      "source": "files/.config/archive-policy.json",
+      "mode": "0600",
+      "create_only": true,
+      "when": "not bootstrap_policy_exists"
+    }
+  ]
+}

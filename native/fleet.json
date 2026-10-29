@@ -1,0 +1,14 @@
+{
+  "hosts": {
+    "fi": {
+      "user": "io",
+      "host_key_alias": "fi.local",
+      "known_hosts": "{home}/.config/fleet-ssh/known_hosts"
+    },
+    "li": {
+      "user": "io",
+      "host_key_alias": "li.local",
+      "known_hosts": "{home}/.config/fleet-ssh/known_hosts"
+    }
+  }
+}

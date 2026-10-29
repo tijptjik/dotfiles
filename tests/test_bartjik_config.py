@@ -1,3 +1,4 @@
+import native_render
 import json
 from pathlib import Path
 import shutil
@@ -7,18 +8,18 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-TEMPLATE = ROOT / 'home/dot_config/bartjik/config.json.tmpl'
+TEMPLATE = ROOT / 'native/home/files/.config/bartjik/config.json.j2'
 
 
-@unittest.skipUnless(shutil.which('chezmoi'), 'Chezmoi required')
+@unittest.skipUnless(shutil.which('render-native'), 'Native renderer required')
 class BartjikConfigTests(unittest.TestCase):
     def render(self, host):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            config = root / 'chezmoi.json'
+            config = root / 'render-native.json'
             config.write_text(json.dumps({'data': {'isLaptop': host == 'li'}}))
             return json.loads(subprocess.check_output([
-                'chezmoi', '--config', str(config), '--source', str(root),
+                'render-native', '--config', str(config), '--source', str(root),
                 '--persistent-state', str(root / 'state.db'),
                 'execute-template', '-f', str(TEMPLATE),
             ], text=True))

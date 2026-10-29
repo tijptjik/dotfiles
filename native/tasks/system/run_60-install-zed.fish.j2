@@ -2,8 +2,8 @@
 # Run on every apply so Zed release status follows application checks.
 {% if os == "linux" -%}
 
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
 setup_logging linux-install-zed
 
 function detect_zed_target_user
@@ -57,7 +57,7 @@ end
 function latest_zed_version
     set channel $argv[1]
     set arch $argv[2]
-    set url "https://cloud.zed.dev/releases/$channel/latest/download?asset=zed&arch=$arch&os=linux&source=chezetc"
+    set url "https://cloud.zed.dev/releases/$channel/latest/download?asset=zed&arch=$arch&os=linux&source=tjikup"
 
     curl -fsSIL -X GET "$url" \
         | string match -r 'releases/download/v[^/]+/' \
@@ -127,7 +127,7 @@ function run_zed_installer
 
     set -l installer_command sh "$installer"
     if test "$TJIKUP_MANAGED_CONFIG" = 1
-        set installer_command python3 {{ (system_source ~ "/../../scripts/preserve-zed-launcher.py") | fish_quote }} --channel "$channel" -- sh "$installer"
+        set installer_command tjikup workflow --repo {{ repo_dir | fish_quote }} desktop zed --channel "$channel" -- sh "$installer"
     end
     if test (id -u) -eq 0; and test "$zed_target_user" != "root"
         step_run "Install Zed $channel for $zed_target_user" sudo -u "$zed_target_user" env $install_env $installer_command

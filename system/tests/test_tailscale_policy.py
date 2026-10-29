@@ -1,3 +1,7 @@
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'tests'))
+import native_render
 """Client apply resumes enrolled tailnets without enrolling or disconnecting."""
 import json
 import os
@@ -21,9 +25,9 @@ class TailscalePolicyTests(unittest.TestCase):
                     'isClient': host != 'si', 'isServer': host == 'si',
                 }}))
                 rendered = subprocess.run([
-                    'chezmoi', '--source', str(ROOT / 'etc'), '--config', str(config),
+                    'render-native', '--source', str(ROOT / 'etc'), '--config', str(config),
                     '--persistent-state', str(root / 'state.db'), 'execute-template',
-                    '-f', str(ROOT / 'etc/.chezmoitemplates/tjikup/run_70-enable-tailscaled.fish.tmpl'),
+                    '-f', str(ROOT / '../native/tasks/system/run_70-enable-tailscaled.fish.j2'),
                 ], capture_output=True, text=True)
                 self.assertEqual(rendered.returncode, 0, rendered.stderr)
                 self.assertNotIn('tailscale down', rendered.stdout)
@@ -73,9 +77,9 @@ end
             config = root / 'config.json'
             config.write_text(json.dumps({'data': {'isClient': True}}))
             rendered = subprocess.check_output([
-                'chezmoi', '--source', str(ROOT / 'etc'), '--config', str(config),
+                'render-native', '--source', str(ROOT / 'etc'), '--config', str(config),
                 '--persistent-state', str(root / 'state.db'), 'execute-template',
-                '-f', str(ROOT / 'etc/.chezmoitemplates/tjikup/run_70-enable-tailscaled.fish.tmpl'),
+                '-f', str(ROOT / '../native/tasks/system/run_70-enable-tailscaled.fish.j2'),
             ], text=True)
             policy = rendered.split('step_header "Tailscale"', 1)[1]
             tail = root / 'tailscale'

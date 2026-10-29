@@ -6,7 +6,7 @@ import sys
 import unittest
 from unittest.mock import patch
 
-sys.path.insert(0, str(Path(__file__).parents[1] / "home/dot_local/lib"))
+sys.path.insert(0, str(Path(__file__).parents[1] / "tests/oracles"))
 from device_archives.feedback import Feedback, cells
 from device_archives.cli import main
 

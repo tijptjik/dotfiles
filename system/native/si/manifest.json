@@ -39,13 +39,8 @@
       "source": "files/dnf/dnf.conf"
     },
     {
-      "kind": "file",
-      "path": "/etc/dnf/repos.override.d/60-chezetc-docker.repo",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "template": true,
-      "source": "files/dnf/repos.override.d/60-chezetc-docker.repo.j2"
+      "kind": "absent",
+      "path": "/etc/dnf/repos.override.d/60-chezetc-docker.repo"
     },
     {
       "kind": "file",
@@ -202,12 +197,8 @@
       "source": "files/si-app-backup/backup.py"
     },
     {
-      "kind": "file",
-      "path": "/etc/si-media-guard/guard.py",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-media-guard/guard.py"
+      "kind": "absent",
+      "path": "/etc/si-media-guard/guard.py"
     },
     {
       "kind": "file",
@@ -218,12 +209,8 @@
       "source": "files/si-media-permissions/README.md"
     },
     {
-      "kind": "file",
-      "path": "/etc/si-media-permissions/permissions.py",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-media-permissions/permissions.py"
+      "kind": "absent",
+      "path": "/etc/si-media-permissions/permissions.py"
     },
     {
       "kind": "file",
@@ -250,20 +237,12 @@
       "source": "files/si-provision/mergerfs.json"
     },
     {
-      "kind": "file",
-      "path": "/etc/si-provision/nss_systemd.py",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-provision/nss_systemd.py"
+      "kind": "absent",
+      "path": "/etc/si-provision/nss_systemd.py"
     },
     {
-      "kind": "file",
-      "path": "/etc/si-provision/provision.py",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-provision/provision.py"
+      "kind": "absent",
+      "path": "/etc/si-provision/provision.py"
     },
     {
       "kind": "file",
@@ -282,12 +261,8 @@
       "source": "files/si-provision/storage.py"
     },
     {
-      "kind": "file",
-      "path": "/etc/si-provision/update_apps.py",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-provision/update_apps.py"
+      "kind": "absent",
+      "path": "/etc/si-provision/update_apps.py"
     },
     {
       "kind": "file",
@@ -322,12 +297,8 @@
       "source": "files/si-transmission-cleanup/README.md"
     },
     {
-      "kind": "file",
-      "path": "/etc/si-transmission-cleanup/cleanup.py",
-      "mode": "0644",
-      "uid": 0,
-      "gid": 0,
-      "source": "files/si-transmission-cleanup/cleanup.py"
+      "kind": "absent",
+      "path": "/etc/si-transmission-cleanup/cleanup.py"
     },
     {
       "kind": "file",
@@ -746,6 +717,23 @@
       "gid": 0,
       "template": true,
       "source": "files/yum.repos.d/plex.repo.j2"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/dnf/repos.override.d/60-tjikup-docker.repo",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "template": true,
+      "source": "files/dnf/repos.override.d/60-tjikup-docker.repo.j2"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/tjikup/maintenance.json",
+      "source": "files/tjikup/maintenance.json",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
     }
   ]
 }

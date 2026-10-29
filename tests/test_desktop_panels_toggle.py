@@ -5,7 +5,7 @@ import unittest
 
 class DesktopPanelsToggleTests(unittest.TestCase):
     def test_all_panel_states_converge(self):
-        script = Path(__file__).resolve().parents[1] / 'home/dot_local/bin/executable_desktop-panels-toggle'
+        script = Path(__file__).resolve().parents[1] / 'native/home/files/.local/bin/desktop-panels-toggle'
         toggle = runpy.run_path(str(script))['toggle']
         for bar_open in (False, True):
             for history_open in (False, True):

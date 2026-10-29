@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 {% if is_desktop -%}
-source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
 # Generate the local CA without modifying a shell profile. Routing is opt-in:
 # the `herdr` Fish function supplies this environment only to Herdr and its panes.
 function configure_llmtrim

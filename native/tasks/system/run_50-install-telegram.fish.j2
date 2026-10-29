@@ -2,8 +2,8 @@
 # Run on every apply so application availability is reported consistently.
 {% if os == "linux" -%}
 
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
 setup_logging linux-install-telegram
 
 step_header "Applications"

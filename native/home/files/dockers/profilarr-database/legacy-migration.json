@@ -82,6 +82,6 @@
     "The migration edits only quality-profile references, then deletes unreferenced legacy profiles.",
     "It does not move files, change monitoring, or start a search. Normal acquisition remains active.",
     "Approved historical Seerr requests are updated while Seerr is stopped, without request hooks or notifications.",
-    "This script is never run automatically by chezmoi or tjikup."
+    "This script is never run automatically by tjikup."
   ]
 }

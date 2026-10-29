@@ -18,7 +18,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix='quickshell-style-') as directory:
         temp = Path(directory)
         style = temp / 'data/quickshell/styles/RosePunk'
-        shutil.copytree(ROOT / 'home/dot_local/share/quickshell/styles/RosePunk', style)
+        shutil.copytree(ROOT / 'native/home/files/.local/share/quickshell/styles/RosePunk', style)
         (temp / 'shell.qml').write_text('''
 //@ pragma UseQApplication
 //@ pragma RespectSystemStyle
@@ -64,7 +64,7 @@ ShellRoot {
         for key in ('QT_QUICK_CONTROLS_STYLE', 'QT_QUICK_CONTROLS_FALLBACK_STYLE'):
             env.pop(key, None)
         with (destination / 'style.log').open('w') as log:
-            process = subprocess.Popen(['sh', str(ROOT / 'home/dot_local/bin/executable_quickshell'),
+            process = subprocess.Popen(['sh', str(ROOT / 'native/home/files/.local/bin/quickshell'),
                                         '--path', str(temp)], env=env, stdout=log, stderr=log)
             try:
                 deadline = time.monotonic() + 10

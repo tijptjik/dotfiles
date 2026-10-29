@@ -160,7 +160,7 @@ DETAILS['settings'] = circle(32,32,12,'none',stroke='#cad9eb',stroke_width='.6',
 
 
 # Revision 2 sources carry their own clean material treatment.
-for key in ('vlc', 'cheese', 'bottles', 'disks', 'audio-player', 'bluetooth-adapters', 'bluetooth-manager', 'calendar', 'chezetc', 'chezmoi', 'chatgpt', 'codex', 'codex-lb', 'collie', 'disk-usage-analyzer', 'fonts', 'chrome', 'kitty', 'rust', 'zapzap', 'zoom', 'prowlarr'):
+for key in ('vlc', 'cheese', 'bottles', 'disks', 'audio-player', 'bluetooth-adapters', 'bluetooth-manager', 'calendar', 'systjik', 'dotjik', 'chatgpt', 'codex', 'codex-lb', 'collie', 'disk-usage-analyzer', 'fonts', 'chrome', 'kitty', 'rust', 'zapzap', 'zoom', 'prowlarr'):
     ART.pop(key, None)
     DETAILS.pop(key, None)
 

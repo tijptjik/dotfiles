@@ -133,16 +133,6 @@
             ]
           },
           {
-            "name": "home-run_after_31-device-archives.fish",
-            "source": "$DOTJIK_REPO/native/tasks/home/run_after_31-device-archives.fish.j2",
-            "syntax": [
-              "fish",
-              "--no-config",
-              "--no-execute",
-              "{script}"
-            ]
-          },
-          {
             "name": "home-run_after_31-install-llmtrim.fish",
             "source": "$DOTJIK_REPO/native/tasks/home/run_after_31-install-llmtrim.fish.j2",
             "syntax": [
@@ -1605,8 +1595,9 @@
         "run",
         "repositories",
         "--",
-        "python3",
-        "{config_dir}/../scripts/home-repositories.py",
+        "tjikup",
+        "workflow",
+        "repositories",
         "apply"
       ],
       "resources": [

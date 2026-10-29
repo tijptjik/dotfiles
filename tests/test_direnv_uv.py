@@ -7,7 +7,7 @@ import tempfile
 import unittest
 
 
-RC = Path(__file__).parents[1] / "home/dot_config/direnv/direnvrc"
+RC = Path(__file__).parents[1] / "native/home/files/.config/direnv/direnvrc"
 
 
 class LayoutUvTests(unittest.TestCase):

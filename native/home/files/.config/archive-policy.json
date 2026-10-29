@@ -3,7 +3,7 @@
   "master": "fi",
   "remote": "r2-tijpdata:tijpdata/acrhives",
   "recipient": "age10cpp7avz2zzlqea22d5c3l83ew36rxfjxl2gcxm79atjkcp7494s3lpvjx",
-  "identity": "~/.keys/chezmoi.txt",
+  "identity": "~/.keys/age.txt",
   "folders": {
     ".ssh": {
       "mode": "sync",

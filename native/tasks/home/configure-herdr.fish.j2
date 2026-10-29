@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 {% if is_desktop -%}
-source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
 if not command -q herdr; or not test -S "$HOME/.config/herdr/herdr.sock"
     status_msg SKIP "-" "Herdr local links" "Herdr unavailable"
     exit 0

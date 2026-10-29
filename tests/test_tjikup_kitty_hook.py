@@ -5,7 +5,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
-hook = runpy.run_path(str(Path(__file__).resolve().parents[1] / 'home/dot_config/kitty/notifications.py'))
+hook = runpy.run_path(str(Path(__file__).resolve().parents[1] / 'native/home/files/.config/kitty/notifications.py'))
 
 class KittyHookTests(unittest.TestCase):
     def test_local_binary_receives_only_display_metadata(self):

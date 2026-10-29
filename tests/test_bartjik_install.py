@@ -1,3 +1,4 @@
+import native_render
 """Exercise the client migration with synthetic files and mocked services."""
 import json
 import os
@@ -48,7 +49,9 @@ class BartjikInstallTests(unittest.TestCase):
             (ROOT / 'scripts/ensure-tjikos.sh').read_text()
             .replace('$HOME', '${BARTJIK_TEST_HOME}'))
         (self.root / 'activate-bartjik.sh').write_text((ROOT / 'scripts/activate-bartjik.sh').read_text().replace('$HOME', '${BARTJIK_TEST_HOME}'))
-        shutil.copy2(ROOT / 'scripts/cache-install.py', self.root / 'cache-install.py')
+        engine=self.tools/'apps/tjikup/src/workflow_services.rs'
+        engine.parent.mkdir(parents=True,exist_ok=True)
+        engine.write_text('synthetic fingerprint')
         self.log = self.root / 'calls'
         self.env = {**os.environ, 'BARTJIK_TEST_HOME': str(self.home),
                     'TJIKOS_REPO': str(self.tools), 'CALL_LOG': str(self.log),
@@ -101,71 +104,23 @@ class BartjikInstallTests(unittest.TestCase):
     def test_fleet_plan_orders_bar_after_notifications(self):
         plan = json.loads((ROOT / 'tjikup/recipes.json').read_text())["recipes"]
         bar = next(item for item in plan if item['id'] == 'home:bartjik')
-        self.assertEqual(bar['apply'][-1].split('/')[-1].removeprefix('home-') + '.tmpl', 'run_after_39-install-bartjik.fish.tmpl')
+        self.assertEqual(bar['apply'][-1].split('/')[-1].removeprefix('home-') + '.j2', 'run_after_39-install-bartjik.fish.j2')
         self.assertNotIn('home:notjik', bar['needs'])
         activation = next(item for item in plan if item['id'] == 'home:activate:bartjik')
         self.assertIn('home:config:bartjik', activation['needs'])
         self.assertIn('user-systemd', bar['resources'])
 
-    @unittest.skipUnless(shutil.which('chezmoi'), 'Chezmoi required')
-    def test_retired_panels_are_not_recreated_from_source_caches(self):
-        for host in ('fi', 'li', 'si'):
-            with self.subTest(host=host):
-                root = self.root / host
-                source = root / 'source'
-                destination = root / 'destination'
-                destination.mkdir(parents=True)
-                for panel in ('network', 'audio'):
-                    cache = source / 'dot_config/quickshell' / panel / '__pycache__'
-                    cache.mkdir(parents=True)
-                    (cache / 'pointer.cpython-313.pyc').write_bytes(b'stale cache')
-                shutil.copy(ROOT / 'home/.chezmoiignore', source / '.chezmoiignore')
-                config = root / 'chezmoi.json'
-                config.write_text(json.dumps({'data': {
-                    'isClient': host != 'si', 'isServer': host == 'si',
-                }}))
-                command = [
-                    'chezmoi', '--config', str(config), '--source', str(source),
-                    '--destination', str(destination),
-                    '--persistent-state', str(root / 'state.db'),
-                    '--cache', str(root / 'cache'), '--no-tty',
-                ]
-                # A missing archived panel must stay absent on repeated applies.
-                for _ in range(2):
-                    result = subprocess.run(command + ['apply'], capture_output=True,
-                                            text=True, timeout=10)
-                    self.assertEqual(result.returncode, 0, result.stderr)
-                    for panel in ('network', 'audio'):
-                        self.assertFalse((destination / '.config/quickshell' / panel).exists())
-                # Existing legacy settings belong to the migration, not Chezmoi.
-                legacy = destination / '.config/quickshell/network/settings.json'
-                legacy.parent.mkdir(parents=True, exist_ok=True)
-                legacy.write_text('personal settings\n')
-                result = subprocess.run(command + ['apply'], capture_output=True,
-                                        text=True, timeout=10)
-                self.assertEqual(result.returncode, 0, result.stderr)
-                self.assertEqual(legacy.read_text(), 'personal settings\n')
+    @unittest.skipUnless(shutil.which('render-native'), 'Native renderer required')
+    def test_retired_panels_have_no_native_file_sources(self):
+        entries=json.loads((ROOT/'native/home/files.json').read_text())
+        if isinstance(entries,dict): entries=entries['entries']
+        for entry in entries:
+            if any(name in entry['path'] for name in ['/.config/waybar','/.config/quickshell/audio','/.config/quickshell/network']):
+                self.assertEqual(entry['kind'],'absent')
 
-    @unittest.skipUnless(shutil.which('chezmoi') and shutil.which('fish'), 'Chezmoi and Fish required')
-    def test_client_only_hook_and_server_exclusions(self):
-        for host in ('fi', 'li', 'si'):
-            with self.subTest(host=host):
-                config = self.root / 'chezmoi.json'
-                config.write_text(json.dumps({'data': {
-                    'isClient': host != 'si', 'isServer': host == 'si',
-                }}))
-                def render(path):
-                    return subprocess.check_output([
-                        'chezmoi', '--config', str(config), '--source', str(self.root),
-                        '--persistent-state', str(self.root / 'state.db'),
-                        'execute-template', '-f', str(ROOT / path),
-                    ], text=True)
-                hook = render('home/.chezmoitemplates/tjikup/run_after_39-install-bartjik.fish.tmpl')
-                subprocess.run(['fish', '--no-config', '-n'], input=hook, text=True, check=True)
-                self.assertEqual('install-bartjik.sh' in hook, host != 'si')
-                ignored = render('home/.chezmoiignore').splitlines()
-                self.assertEqual('.config/systemd/user/bartjik.service' in ignored, host == 'si')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    def test_native_manifest_has_client_only_configuration(self):
+        entries=json.loads((ROOT/'native/home/files.json').read_text())
+        if isinstance(entries,dict): entries=entries['entries']
+        selected=[e for e in entries if e.get('group') == 'bartjik']
+        self.assertTrue(selected)
+        self.assertTrue(all(e.get('when') in ['is_client', 'hostname in ["fi", "li"]'] for e in selected))

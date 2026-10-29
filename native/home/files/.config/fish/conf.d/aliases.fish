@@ -152,19 +152,19 @@ alias undopush="git push -f origin HEAD^:master"
 alias gbcleanup='git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d'
 
 #################################
-### CHEZMOI
+### CONFIGURATION
 #################################
 
 alias cm='dotjik'
-alias ca='dotjik add'
+# Add new owned files to native/home/files.json.
 alias ce='dotjik edit'
-# Apply, skip externals
+# Apply declared files
 alias capply='dotjik apply'
-# Apply, after refreshing externals
+# Apply declared files
 alias ceapply='dotjik apply'
-# State changes, without externals
+# Planned file changes
 alias cdiff='dotjik diff'
-# State changes, with externals
+# Planned file changes
 alias cediff='dotjik diff'
 
 ################################
@@ -206,7 +206,7 @@ alias js='bun'
 ###  DOTFILES
 ################################
 
-# Chezmoi
+# Native configuration
 alias dotrc='zed-preview $HOME/.local/share/dotjik/'
 alias sysrc='zed-preview $HOME/.local/share/dotjik/system/'
 

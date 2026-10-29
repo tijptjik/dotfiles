@@ -8,7 +8,7 @@ import unittest
 @unittest.skipUnless(shutil.which("lua"), "Lua is required")
 class DetachedCardTests(unittest.TestCase):
     def test_focus_changes_raise_only_detached_cards_without_changing_focus(self):
-        helper = Path(__file__).resolve().parents[1] / "home/dot_config/hypr/helpers.lua"
+        helper = Path(__file__).resolve().parents[1] / "native/home/files/.config/hypr/helpers.lua"
         script = r'''
 local events, timers, raised = {}, {}, {}
 local ordinary = {address="editor", initial_title="Editor", mapped=true, floating=true}

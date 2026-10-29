@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[1]
-loader = importlib.machinery.SourceFileLoader('screen_record', str(ROOT/'home/dot_local/bin/executable_screen-record'))
+loader = importlib.machinery.SourceFileLoader('screen_record', str(ROOT/'native/home/files/.local/bin/screen-record'))
 spec = importlib.util.spec_from_loader(loader.name, loader)
 recorder = importlib.util.module_from_spec(spec)
 loader.exec_module(recorder)

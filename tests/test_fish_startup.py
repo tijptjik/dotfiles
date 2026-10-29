@@ -7,7 +7,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-UTILS = ROOT / 'home/dot_config/fish/conf.d/utils.fish'
+UTILS = ROOT / 'native/home/files/.config/fish/conf.d/utils.fish'
 
 
 @unittest.skipUnless(shutil.which('fish') and shutil.which('git'), 'Fish and Git required')

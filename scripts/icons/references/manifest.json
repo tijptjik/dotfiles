@@ -414,30 +414,6 @@
     "sha256": "e58a8fa57781d1dc7158b333b68c99461031fd2c25dfbd23eac15a8e984cae56"
   },
   {
-    "id": "chezmoi-blue",
-    "url": "https://raw.githubusercontent.com/twpayne/chezmoi/master/assets/images/logo_blue_64.svg",
-    "license": "MIT",
-    "kind": "brand",
-    "path": "scripts/icons/references/chezmoi-blue.svg",
-    "sha256": "ed446da51fab14ecd106b00f5a25d62b4bab356726bf6a90691cf546781d73b7"
-  },
-  {
-    "id": "chezmoi-yellow",
-    "url": "https://raw.githubusercontent.com/twpayne/chezmoi/master/assets/images/logo_yellow_144.svg",
-    "license": "MIT",
-    "kind": "brand",
-    "path": "scripts/icons/references/chezmoi-yellow.svg",
-    "sha256": "5e0fb66006450e4c474a074abf0451817ce42b8525983490190c75cd91b88f76"
-  },
-  {
-    "id": "chezmoi-license",
-    "url": "https://raw.githubusercontent.com/twpayne/chezmoi/master/LICENSE",
-    "license": "MIT",
-    "kind": "license",
-    "path": "scripts/icons/references/chezmoi-license.txt",
-    "sha256": "6ce2375d89522ac7a1417320c8406886bc0ecb984baf41e3c27b8a07a81a30b2"
-  },
-  {
     "id": "tjikup-existing",
     "url": "local:~/.local/share/icons/hicolor/scalable/apps/tjikup.svg",
     "license": "Existing local artwork",

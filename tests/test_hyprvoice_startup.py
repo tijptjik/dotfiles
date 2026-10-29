@@ -10,7 +10,7 @@ REPO=Path(__file__).resolve().parents[1]
 
 class HyprvoiceStartupTests(unittest.TestCase):
     def test_missing_binary_headless_session_and_real_start_failure(self):
-        hook=(REPO/'home/.chezmoitemplates/tjikup/run_after_99-systemd-reload.fish.tmpl').read_text()
+        hook=(REPO/'native/tasks/home/run_after_99-systemd-reload.fish.j2').read_text()
         function=hook[hook.index('function configure_hyprvoice_unit'):hook.index('configure_hyprvoice_unit; or exit')]
         harness='''
 function systemctl
@@ -43,11 +43,11 @@ function stage_note; $argv[5..]; end
                     self.assertIn('not installed' if mode=='missing' else 'waiting for Wayland',result.stdout)
 
     def test_service_uses_session_conditions_without_polling(self):
-        unit=(REPO/'home/dot_config/systemd/user/hyprvoice.service').read_text()
+        unit=(REPO/'native/home/files/.config/systemd/user/hyprvoice.service').read_text()
         self.assertIn('WantedBy=graphical-session.target',unit)
         self.assertIn('PartOf=graphical-session.target',unit)
         self.assertIn('ConditionEnvironment=WAYLAND_DISPLAY',unit)
         self.assertIn('ConditionFileIsExecutable=%h/.local/bin/hyprvoice',unit)
         self.assertNotIn('ExecStartPre=',unit)
-        startup=(REPO/'home/dot_config/hypr/execs.lua.tmpl').read_text()
+        startup=(REPO/'native/home/files/.config/hypr/execs.lua.j2').read_text()
         self.assertIn('SDL_IM_MODULE && systemctl --user start hyprvoice.service',startup)

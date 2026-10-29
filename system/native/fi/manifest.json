@@ -22,8 +22,8 @@
     },
     {
       "kind": "file",
-      "path": "/etc/dnf/repos.override.d/60-chezetc-docker.repo",
-      "source": "files/dnf/repos.override.d/60-chezetc-docker.repo.j2",
+      "path": "/etc/dnf/repos.override.d/60-tjikup-docker.repo",
+      "source": "files/dnf/repos.override.d/60-tjikup-docker.repo.j2",
       "mode": "0644",
       "uid": 0,
       "gid": 0,
@@ -152,6 +152,10 @@
     {
       "kind": "absent",
       "path": "/etc/yum.repos.d/plex.repo"
+    },
+    {
+      "kind": "absent",
+      "path": "/etc/dnf/repos.override.d/60-chezetc-docker.repo"
     }
   ]
 }

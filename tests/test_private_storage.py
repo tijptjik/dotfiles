@@ -1,12 +1,13 @@
 import importlib.machinery
 import importlib.util
 from pathlib import Path
+import os
 import tempfile
 import json
 import unittest
 from unittest.mock import patch
 
-SOURCE = Path(__file__).resolve().parents[1] / 'home/dot_local/bin/executable_private-storage'
+SOURCE = Path(os.environ.get('TJIKOS_REPO', Path.home()/'code/tjikos')) / 'apps/synctjik/tests/legacy/backends/private_assets.py'
 loader = importlib.machinery.SourceFileLoader('private_storage', str(SOURCE))
 spec = importlib.util.spec_from_loader(loader.name, loader)
 storage = importlib.util.module_from_spec(spec)

@@ -6,7 +6,7 @@ After=local-fs.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/python3 /etc/si-media-permissions/permissions.py --apply
+ExecStart=/usr/local/lib/tjikup/tjikup system permissions --apply
 SuccessExitStatus=75
 UMask=0077
 Nice=10

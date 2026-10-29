@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-PLUGIN = ROOT / 'home/dot_config/herdr/plugins/local/local-files'
+PLUGIN = ROOT / 'native/home/files/.config/herdr/plugins/local/local-files'
 spec = importlib.util.spec_from_file_location('herdr_local_files', PLUGIN / 'open_file.py')
 opener = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(opener)

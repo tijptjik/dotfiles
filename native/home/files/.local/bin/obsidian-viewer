@@ -187,7 +187,7 @@ def main():
         files.append(str(path))
     image = home / '.local/bin/obsidian-appimage'
     if not image.is_file():
-        raise ValueError('Install the official Obsidian AppImage with the Chezmoi install hook first')
+        raise ValueError('Install the official Obsidian AppImage with tjikup workflow install obsidian first')
     state = home / '.local/share/obsidian-viewer'
     state.mkdir(parents=True, exist_ok=True)
     with (state / '.prepare.lock').open('w') as lock:

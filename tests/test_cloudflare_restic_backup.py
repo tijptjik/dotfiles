@@ -1,17 +1,19 @@
 import importlib.util
 from importlib.machinery import SourceFileLoader
 from pathlib import Path
+import os
 import subprocess
 import tempfile
 import unittest
 from unittest import mock
 
 
-SCRIPT = (Path(__file__).parents[1] / "home/dot_local/bin/executable_cloudflare-restic-backup")
+SCRIPT = Path(os.environ.get('TJIKOS_REPO', Path.home()/'code/tjikos')) / 'apps/synctjik/tests/legacy/backends/cloudflare_backup.py'
 LOADER = SourceFileLoader("cloudflare_restic_backup", str(SCRIPT))
 SPEC = importlib.util.spec_from_loader("cloudflare_restic_backup", LOADER)
 backup = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(backup)
+backup.MOUNT_UUID = "fixture-drive"
 
 
 class CloudflareResticGuardTests(unittest.TestCase):

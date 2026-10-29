@@ -31,8 +31,11 @@ printf 'license' > "$HOME/.local/share/licenses/greetjik/LICENSE"
 ''')
             scripts = root / 'scripts'
             scripts.mkdir()
-            for name in ('install-greetjik.sh', 'ensure-tjikos.sh', 'cache-install.py'):
+            for name in ('install-greetjik.sh', 'ensure-tjikos.sh'):
                 shutil.copy2(ROOT / 'scripts' / name, scripts / name)
+            engine=tools/'apps/tjikup/src/workflow_services.rs'
+            engine.parent.mkdir(parents=True,exist_ok=True)
+            engine.write_text('synthetic engine')
             log = root / 'calls'
             env = {**os.environ, 'HOME': str(root / 'home'),
                    'TJIKOS_REPO': str(tools), 'CALL_LOG': str(log),

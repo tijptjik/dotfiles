@@ -18,9 +18,8 @@ class RecipeTests(unittest.TestCase):
         return [json.loads(p.read_text()) for p in [ROOT/'tjikup.json',ROOT/'tjikup/recipes.json',SYSTEM/'tjikup/recipes.json']]
 
     def test_capture_commit_is_exact_and_complete(self):
-        from fleet_capture import discover_propagators
         policy=next(r['autocommit'] for r in self.documents()[0]['recipes'] if 'autocommit' in r)
-        self.assertEqual(set(policy['files']),{str(p.source) for p in discover_propagators()})
+        self.assertEqual(set(policy['files']),{p['source'] for p in json.loads((ROOT/'tjikup/capture.json').read_text())})
 
     @unittest.skipUnless(BINARY.is_file() and shutil.which('fish'), 'build Rust tjikup first')
     def test_all_templates_render_and_parse_for_fi_li_si(self):
@@ -29,7 +28,7 @@ class RecipeTests(unittest.TestCase):
         render=runpy.run_path(str(ROOT/'scripts/check-task-templates.py'))['render']
         for host in ['fi','li','si']:
             with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'TJIKUP_BINARY':str(BINARY)}):
-                self.assertEqual(len(render(host,directory)),52)
+                self.assertEqual(len(render(host,directory)),51)
 
     @unittest.skipUnless(BINARY.is_file(), 'build Rust tjikup first')
     def test_complete_graph_orders_files_preparation_and_final_tasks(self):

@@ -1,3 +1,4 @@
+import native_render
 """Exercise the client migration with synthetic files and mocked services."""
 import json
 import os
@@ -46,7 +47,9 @@ class NotjikInstallTests(unittest.TestCase):
             (ROOT / 'scripts/ensure-tjikos.sh').read_text()
             .replace('$HOME', '${NOTJIK_TEST_HOME}'))
         (self.root / 'activate-notjik.sh').write_text((ROOT / 'scripts/activate-notjik.sh').read_text().replace('$HOME', '${NOTJIK_TEST_HOME}'))
-        shutil.copy2(ROOT / 'scripts/cache-install.py', self.root / 'cache-install.py')
+        engine=self.tools/'apps/tjikup/src/workflow_services.rs'
+        engine.parent.mkdir(parents=True,exist_ok=True)
+        engine.write_text('synthetic fingerprint')
         self.log = self.root / 'calls'
         self.env = {**os.environ, 'NOTJIK_TEST_HOME': str(self.home),
                     'TJIKOS_REPO': str(self.tools), 'CALL_LOG': str(self.log),
@@ -90,26 +93,10 @@ class NotjikInstallTests(unittest.TestCase):
         self.assertIn('--user enable notjik.service', self.log.read_text())
         self.assertNotIn('--user start notjik.service', self.log.read_text())
 
-    @unittest.skipUnless(shutil.which('chezmoi') and shutil.which('fish'), 'Chezmoi and Fish required')
-    def test_client_only_hook_and_server_exclusions(self):
-        for host in ('fi', 'li', 'si'):
-            with self.subTest(host=host):
-                config = self.root / 'chezmoi.json'
-                config.write_text(json.dumps({'data': {
-                    'isClient': host != 'si', 'isServer': host == 'si',
-                }}))
-                def render(path):
-                    return subprocess.check_output([
-                        'chezmoi', '--config', str(config), '--source', str(self.root),
-                        '--persistent-state', str(self.root / 'state.db'),
-                        'execute-template', '-f', str(ROOT / path),
-                    ], text=True)
-                hook = render('home/.chezmoitemplates/tjikup/run_after_37-install-notjik.fish.tmpl')
-                subprocess.run(['fish', '--no-config', '-n'], input=hook, text=True, check=True)
-                self.assertEqual('install-notjik.sh' in hook, host != 'si')
-                ignored = render('home/.chezmoiignore').splitlines()
-                self.assertEqual('.config/systemd/user/notjik.service.d' in ignored, host == 'si')
-
-
-if __name__ == '__main__':
-    unittest.main()
+    @unittest.skipUnless(shutil.which('render-native') and shutil.which('fish'), 'Native renderer and Fish required')
+    def test_native_manifest_has_client_only_configuration(self):
+        entries=json.loads((ROOT/'native/home/files.json').read_text())
+        if isinstance(entries,dict): entries=entries['entries']
+        selected=[e for e in entries if e.get('group') == 'notjik']
+        self.assertTrue(selected)
+        self.assertTrue(all(e.get('when') in ['is_client', 'hostname in ["fi", "li"]'] for e in selected))

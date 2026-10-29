@@ -128,7 +128,7 @@
       "source_sha256": "220be497dddc1481e06d1206c8730101e6eea1924626d8caef488e64e7ea5787",
       "note": "Retain current optical size."
     },
-    "chezetc": {
+    "systjik": {
       "scale": 0.8571428571428571,
       "offset": [
         0,
@@ -137,7 +137,7 @@
       "source_sha256": "1eff84eb628a07afc273ebac408383a8cac1963560a9c9ad7aaf3cf04cfd0962",
       "note": "Retain current optical size."
     },
-    "chezmoi": {
+    "dotjik": {
       "scale": 0.8571428571428571,
       "offset": [
         0,

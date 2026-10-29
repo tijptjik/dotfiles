@@ -90,7 +90,7 @@ assert(not pcall(shortcuts.pair,'l'))
 assert(active==original and fit==0 and not no_warps and follow_mouse==2)
 '''
         subprocess.run(
-            ["lua", "-", str(ROOT / "home/dot_config/hypr/scrolling_shortcuts.lua")],
+            ["lua", "-", str(ROOT / "native/home/files/.config/hypr/scrolling_shortcuts.lua")],
             input=script, text=True, check=True,
         )
 
@@ -161,7 +161,7 @@ for _,kind in ipairs({'floating','master','unmapped','absent'}) do
 end
 '''
         subprocess.run(
-            ["lua", "-", str(ROOT / "home/dot_config/hypr/scrolling_shortcuts.lua")],
+            ["lua", "-", str(ROOT / "native/home/files/.config/hypr/scrolling_shortcuts.lua")],
             input=script, text=True, check=True,
         )
 
@@ -204,5 +204,5 @@ monitors={a,b};calls={};w.workspace={id=-1};shortcuts.move_column('r');assert(#c
 w.workspace=a.active_workspace;w.fullscreen=1;shortcuts.move_column('l');assert(#calls==0)
 w.fullscreen=0;b.active_workspace.tiled_layout='master';shortcuts.move_column('l');assert(#calls==0)
 '''
-        subprocess.run(['lua', '-', str(ROOT / 'home/dot_config/hypr/scrolling_shortcuts.lua')],
+        subprocess.run(['lua', '-', str(ROOT / 'native/home/files/.config/hypr/scrolling_shortcuts.lua')],
                        input=script, text=True, check=True)

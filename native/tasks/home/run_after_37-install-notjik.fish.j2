@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 {% if is_client -%}
-source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
-stage_dynamic_note 'Install Notjik' INSTALL Notjik bash {{ (home_source ~ "/../scripts/install-notjik.sh") | fish_quote }}
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
+stage_dynamic_note 'Install Notjik' INSTALL Notjik bash {{ (repo_dir ~ "/scripts/install-notjik.sh") | fish_quote }}
 or exit $status
 {% endif -%}

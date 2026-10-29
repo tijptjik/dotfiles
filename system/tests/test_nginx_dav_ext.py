@@ -3,7 +3,7 @@ from pathlib import Path
 import subprocess
 import unittest
 
-TEMPLATE = Path(__file__).resolve().parents[1] / "etc/.chezmoitemplates/nginx_dav_ext.fish"
+TEMPLATE = Path(__file__).resolve().parents[1] / "../native/tasks/assets/system/templates/nginx_dav_ext.fish"
 
 class NginxModuleTests(unittest.TestCase):
     def fish(self, body):

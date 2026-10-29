@@ -91,14 +91,14 @@ document.querySelector('#search').oninput=e=>{const q=e.target.value.toLowerCase
     html = html.replace('Every symbol color and gradient stop comes from rose-punk.yml.', 'Symbol colors start with Rose Punk and extend into amber, copper, jade, turquoise and indigo for the camera-led material pass. Telegram and Codex retain purple identities.')
     html = html.replace('Local-tool shapes below are proposals using the first reference in each row; choosing another option records your preference for the next drawing pass.', 'These previews match the globally applied theme. Greetjik uses a custom Rainbow Dash-inspired mane.')
     html = html.replace('Current rose / lilac treatment on the left; proposed color family on the right.', 'Original app icons on the left, with their source colors and artwork intact; the current Rose Punk theme on the right.')
-    html = html.replace('It does not replace the managed icon theme.', 'The theme is deployed through Chezmoi; this page shows its current artwork.')
+    html = html.replace('It does not replace the managed icon theme.', 'The theme is deployed through Dotjik; this page shows its current artwork.')
     html = html.replace('Compare current', 'Show originals')
     html = html.replace('</nav>', '<a href="rose-punk-homepage-review.html">Homepage study</a><a href="rose-punk-icons-frameless.html">Primary frameless set</a></nav>')
     html = html.replace('raised finish', 'camera-led material detail')
     html = html.replace('Applied globally', 'Current source artwork')
     html = html.replace('These previews match the globally applied theme.', 'These previews match the managed theme sources.')
     html = html.replace('Telegram and Codex retain purple identities.', 'Telegram uses ivory wings with blue folds and rose decals.')
-    html = html.replace('The theme is deployed through Chezmoi; this page shows its current artwork.', 'This page shows managed theme sources; deployment is separate.')
+    html = html.replace('The theme is deployed through Dotjik; this page shows its current artwork.', 'This page shows managed theme sources; deployment is separate.')
     (ROOT / '.local/icon-reviews/docs/rose-punk-color-review.html').write_text(html)
     overview = '''<!doctype html><html lang="en"><meta charset="utf-8"><title>Rose Punk fleet overview</title>
 <style>body{margin:0;padding:36px;background:#191724;color:#e5e5e5;font:14px system-ui}h1{margin:0 0 8px;font-size:30px}p{margin:0 0 28px;color:#9ccfd8}.grid{display:grid;grid-template-columns:repeat(8,1fr);gap:12px}.card{background:#1f1d2e;border:1px solid #393348;border-radius:16px;text-align:center;padding:18px 8px}.card img{width:80px;height:80px;display:block;margin:0 auto 12px}.card strong{font-size:12px;font-weight:400}.card small{display:none}</style>

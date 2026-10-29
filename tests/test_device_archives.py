@@ -1,3 +1,4 @@
+import native_render
 import datetime as dt
 import contextlib
 import io
@@ -13,7 +14,7 @@ from unittest.mock import patch
 
 from telegram_fixtures import write_fixture as telegram_fixture
 
-sys.path.insert(0, str(Path(__file__).parents[1] / "home/dot_local/lib"))
+sys.path.insert(0, str(Path(__file__).parents[1] / "tests/oracles"))
 from device_archives.core import (
     retention_keep,
     Archives,
@@ -270,7 +271,7 @@ class ArchiveIntegrationTests(unittest.TestCase):
         self.assertNotIn("PUBLISH", events)
         self.assertNotIn("DONE", events)
 
-    def test_device_groups_match_chezmoi_roles(self):
+    def test_device_groups_match_enrolled_roles(self):
         self.config["device_groups"] = {
             "desktop": ["fi"],
             "laptop": ["li"],
@@ -368,7 +369,7 @@ class ArchiveIntegrationTests(unittest.TestCase):
     def test_telegram_settings_roundtrip_excludes_accounts_and_cache(self):
         repository = Path(__file__).parents[1]
         policy = json.loads(
-            (repository / "home/dot_config/archive-policy.json").read_text()
+            (repository / "native/home/files/.config/archive-policy.json").read_text()
         )
         folder = ".local/share/TelegramDesktop/tdata"
         self.config["folders"][folder] = policy["folders"][folder]
@@ -417,7 +418,7 @@ class ArchiveIntegrationTests(unittest.TestCase):
 
     def test_minimal_app_backups_roundtrip_without_runtime_or_sessions(self):
         policy = json.loads(
-            (Path(__file__).parents[1] / "home/dot_config/archive-policy.json").read_text()
+            (Path(__file__).parents[1] / "native/home/files/.config/archive-policy.json").read_text()
         )
         cases = {
             ".config/BraveSoftware/Brave-Browser": (
@@ -728,7 +729,7 @@ if __name__ == "__main__":
 class SelectedConfigurationTests(unittest.TestCase):
     def test_cache_exclusions_keep_configuration_credentials_and_saves(self):
         policy = json.loads(
-            (Path(__file__).parents[1] / "home/dot_config/archive-policy.json").read_text()
+            (Path(__file__).parents[1] / "native/home/files/.config/archive-policy.json").read_text()
         )["folders"]
         cases = {
             ".config/Bazecor": (

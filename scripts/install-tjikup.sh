@@ -14,7 +14,7 @@ ensure_tjikos apps/tjikup/scripts/install.sh
 # Reject stale checkouts before replacing a working executable or cache record.
 bash "$tool_repo/apps/tjikup/scripts/fetch-release.sh"
 compatible_runner() {
-    "$1" capabilities 2>/dev/null | grep -Eq '"native_workflow"[[:space:]]*:[[:space:]]*1'  &&
+    "$1" capabilities 2>/dev/null | jq -e '.native_workflow >= 1 and .bootstrap_archives >= 1 and .native_commands >= 1 and .native_installers >= 1 and .native_maintenance >= 1' >/dev/null  &&
         "$1" --config "$repo_dir/tjikup.json" --check >/dev/null 2>&1
 }
 if ! compatible_runner "$tool_repo/apps/tjikup/dist/tjikup"; then
@@ -32,7 +32,7 @@ if ! compatible_runner "$tool_repo/apps/tjikup/dist/tjikup"; then
 fi
 
 "$tool_repo/apps/tjikup/dist/tjikup" workflow --repo "$repo_dir" cache-install tjikup \
-    --input "$tool_repo/apps/tjikup" --input "$tool_repo/apps/tjikos-sh/release.json" --input "$repo_dir/scripts/cache-install.py" \
+    --input "$tool_repo/apps/tjikup" --input "$tool_repo/apps/tjikos-sh/release.json" --input "$tool_repo/apps/tjikup/src/workflow_services.rs" \
     --output "$HOME/.local/bin/tjikup" --output "$HOME/.local/share/icons/tjikup.png" \
     --output "$HOME/.local/share/icons/hicolor/256x256/apps/tjikup-notification.png" \
     -- bash "$tool_repo/apps/tjikup/scripts/install.sh"

@@ -1,8 +1,8 @@
 #!/usr/bin/env fish
 #
-# This script is run by chezmoi on `chezmoi apply`.
+# This script is run by Tjikup on `tjikup --apply-dotfiles`.
 # It ensures that systemd user services and timers are reloaded and enabled.
-source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
 
 section_header "Systemd User Units"
 
@@ -133,7 +133,7 @@ end
 configure_hyprvoice_unit; or exit $status
 
 # This unit is deliberately enabled without --now: starting it during a
-# chezmoi apply would lock the currently active graphical session.  systemd
+# tjikup --apply-dotfiles would lock the currently active graphical session.  systemd
 # starts it automatically with graphical-session.target on the next login.
 function configure_hyprlock_login_unit
     systemctl --user enable hyprlock-login.service

@@ -4,10 +4,10 @@
 
 set -x SUDO_ASKPASS ""           # force sudo to ask on the terminal
 
-# packages.json hash: {{ include(".chezmoidata/packages.json") | sha256 }}
+# packages.json hash: {{ include("data/packages.json") | sha256 }}
 
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
 setup_logging linux-install-copr
 
 # Check if a COPR repository is already configured. `dnf copr list` includes
@@ -50,7 +50,7 @@ set -l font_copr purian23/material-symbols-fonts
 if is_copr_configured "$font_copr"
     set -l repo_id "copr:copr.fedorainfracloud.org:purian23:material-symbols-fonts"
     set -l overrides /etc/dnf/repos.override.d/99-config_manager.repo
-    if test -f "$overrides"; and python3 -c 'import configparser,sys; c=configparser.ConfigParser(interpolation=None); c.read(sys.argv[1]); sys.exit(0 if c.has_option(sys.argv[2], "enabled") else 1)' "$overrides" "$repo_id"
+    if test -f "$overrides"; and tjikup workflow desktop ini-has "$overrides" "$repo_id" enabled
         step_run_note_as CONFIG "Material Symbols COPR override" retired sudo dnf config-manager unsetopt "$repo_id.enabled"
         or exit 1
     end

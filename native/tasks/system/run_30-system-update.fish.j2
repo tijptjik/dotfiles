@@ -1,17 +1,17 @@
 #!/usr/bin/env fish
 # Run on every apply so package maintenance has one consolidated report.
 
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/package_reporting.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/package_reporting.fish") }}
+{{ include("templates/fish_logging.fish") }}
 {% if is_server -%}
-{{ include(".chezmoitemplates/nginx_dav_ext.fish") }}
+{{ include("templates/nginx_dav_ext.fish") }}
 {% endif -%}
 setup_logging linux-dnf-update
 
 step_header "System Update"
 
-# Standalone Chezetc retains the complete original sequence. The fleet runs
+# Standalone Tjikup retains the complete original sequence. The fleet runs
 # these phases as separate tasks, sharing one global set of resource locks.
 set fleet_phase all
 if set -q FLEET_SYSTEM_PHASE
@@ -39,9 +39,9 @@ function available_fedora_release
     command "{{ user.home }}/.local/bin/tjikup" workflow fedora-release
 end
 
-set fedora_upgrade_state_dir "$HOME/.local/state/chezetc"
+set fedora_upgrade_state_dir "$HOME/.local/state/tjikup"
 if set -q XDG_STATE_HOME; and test -n "$XDG_STATE_HOME"
-    set fedora_upgrade_state_dir "$XDG_STATE_HOME/chezetc"
+    set fedora_upgrade_state_dir "$XDG_STATE_HOME/tjikup"
 end
 
 function fedora_upgrade_deferral_file --argument-names target_release
@@ -244,8 +244,8 @@ function install_dnf_packages
     set versions_before (mktemp)
     set versions_after (mktemp)
     snapshot_rpm_versions $versions_before $packages
-    set previous_stage $chezetc_stage
-    set chezetc_stage INSTALL
+    set previous_stage $tjikup_stage
+    set tjikup_stage INSTALL
     step_run_quiet "System packages (RPM)" sudo dnf install -y $dnf_install_args $packages
     set run_status $status
     if test $run_status -eq 0
@@ -260,7 +260,7 @@ function install_dnf_packages
         report_package_updates $versions_before $versions_after
     end
     rm -f $versions_before $versions_after
-    set chezetc_stage $previous_stage
+    set tjikup_stage $previous_stage
     return $run_status
 end
 
@@ -282,8 +282,8 @@ function install_flatpak_packages
     set versions_before (mktemp)
     set versions_after (mktemp)
     snapshot_flatpak_versions $versions_before $packages
-    set previous_stage $chezetc_stage
-    set chezetc_stage INSTALL
+    set previous_stage $tjikup_stage
+    set tjikup_stage INSTALL
     step_run_quiet "$subject" sudo env XDG_DATA_DIRS="/var/lib/flatpak/exports/share:/root/.local/share/flatpak/exports/share:/usr/local/share:/usr/share" dbus-run-session flatpak install --system $remote --noninteractive --assumeyes $packages
     set run_status $status
     if test $run_status -eq 0
@@ -298,7 +298,7 @@ function install_flatpak_packages
         report_package_updates $versions_before $versions_after
     end
     rm -f $versions_before $versions_after
-    set chezetc_stage $previous_stage
+    set tjikup_stage $previous_stage
     return $run_status
 end
 
@@ -354,8 +354,8 @@ if test "$package_operation" != install
 set flatpak_refs_before (mktemp)
 set flatpak_refs_after (mktemp)
 snapshot_flatpak_refs $flatpak_refs_before
-set previous_stage $chezetc_stage
-set chezetc_stage REMOVE
+set previous_stage $tjikup_stage
+set tjikup_stage REMOVE
 step_run_quiet "Flatpak packages (unused)" sudo env XDG_DATA_DIRS="/var/lib/flatpak/exports/share:/root/.local/share/flatpak/exports/share:/usr/local/share:/usr/share" dbus-run-session flatpak remove --system --unused -y
 set remove_status $status
 if test $remove_status -eq 0
@@ -368,7 +368,7 @@ if test $remove_status -eq 0
     end
     step_result_note "Flatpak packages (unused)" "$result_note"
 end
-set chezetc_stage $previous_stage
+set tjikup_stage $previous_stage
 rm -f $flatpak_refs_before $flatpak_refs_after
 test $remove_status -eq 0
 or exit 1

@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 {% if is_client -%}
-source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
-# The official Sublime repository is provisioned by Chezetc.
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
+# The official Sublime repository is provisioned by Tjikup.
 if not rpm -q sublime-text >/dev/null 2>&1
     stage 'Sublime Text' INSTALL 'Sublime Text' sudo dnf install -y sublime-text
     or exit $status

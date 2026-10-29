@@ -24,7 +24,7 @@ function pony --description "Show a fresh fortune with pony artwork"
     else if command -q ponysay
         command fortune | command ponysay $argv
     else
-        printf 'Install greetjik with the Chezmoi setup first.\n' >&2
+        printf 'Install greetjik with the Tjikup setup first.\n' >&2
         return 127
     end
 end

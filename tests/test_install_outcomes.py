@@ -43,11 +43,11 @@ class InstallOutcomeTests(unittest.TestCase):
                 trace, report = root / 'trace', root / 'report'
                 command = ['fish', '--no-config', '-c',
                            'source "$argv[1]"; stage_dynamic_note Install INSTALL "$argv[2]" '
-                           'python3 "$argv[3]" "$argv[2]" --input "$argv[4]" '
+                           '"$argv[3]" workflow cache-install "$argv[2]" --input "$argv[4]" '
                            '--output "$argv[5]" -- python3 "$argv[6]" '
                            '"$argv[4]" "$argv[5]" "$argv[7]"', '--',
-                           str(ROOT / 'home/.chezmoihelpers/status.fish'), app,
-                           str(ROOT / 'scripts/cache-install.py'), str(source), str(output),
+                           str(ROOT / 'native/helpers/home/status.fish'), app,
+                           os.environ['TJIKUP_BINARY'], str(source), str(output),
                            str(installer), str(trace)]
                 env = {**os.environ, 'TJIKUP_COLOR': '0', 'TJIKUP_NO_SPIN': '1',
                        'TJIKUP_STATUS_LINES': '1', 'TJIKUP_REPORT_FILE': str(report),
@@ -91,7 +91,7 @@ class InstallOutcomeTests(unittest.TestCase):
             root = Path(temporary)
             scripts = root / 'scripts'
             scripts.mkdir()
-            for name in ('cache-install.py', 'install-bartjik.sh', 'activate-bartjik.sh', 'ensure-tjikos.sh'):
+            for name in ( 'install-bartjik.sh', 'activate-bartjik.sh', 'ensure-tjikos.sh'):
                 shutil.copy2(ROOT / 'scripts' / name, scripts / name)
             unit = root / 'native/home/files/.config/systemd/user/bartjik.service'
             unit.parent.mkdir(parents=True)
@@ -111,6 +111,9 @@ printf control > "$HOME/.local/bin/bartjikctl"
 printf code > "$HOME/.local/lib/bartjik/bartjik.py"
 printf upstream > "$HOME/.config/systemd/user/bartjik.service"
 ''')
+            engine=tools/'apps/tjikup/src/workflow_services.rs'
+            engine.parent.mkdir(parents=True,exist_ok=True)
+            engine.write_text('synthetic engine')
             stubs = root / 'bin'
             stubs.mkdir()
             for name, body in {'quickshell': 'exit 0', 'pkill': 'exit 1',

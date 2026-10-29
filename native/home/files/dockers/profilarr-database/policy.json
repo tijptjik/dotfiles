@@ -293,5 +293,5 @@
     "sonarrAnime": "HD:4 Balanced"
   },
   "qualityNumbering": "Exact inversion of the user-approved rescore labels: new number = 10 - old number. 4K uses 1 Remux, 2 Quality, 3 Balanced, 4 Efficient; HD uses 1 Remux, 2 Quality HDR, 3 Quality, 4 Balanced, 5 Efficient, 6 Quality at 720p, 7 Compact; SD is 9.",
-  "qualityNumberingSource": "User explicit OK, rescore list captured in dotfiles 82686df:home/dockers/profilarr-database/policy.json tiers; not the earlier version-2 strategy codes."
+  "qualityNumberingSource": "User explicit OK, rescore list captured in dotfiles 82686df:native/home/files/dockers/profilarr-database/policy.json tiers; not the earlier version-2 strategy codes."
 }

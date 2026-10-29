@@ -4,17 +4,13 @@
     "data.json"
   ],
   "includes": {
-    ".chezmoidata/packages.json": "assets/system/chezmoidata/packages.json",
-    ".chezmoihelpers/status.fish": "assets/system/chezmoihelpers/status.fish",
-    ".chezmoitemplates/fish_logging.fish": "assets/system/chezmoitemplates/fish_logging.fish",
-    ".chezmoidata/repos.yaml": "assets/system/chezmoidata/repos.yaml",
-    ".chezmoitemplates/package_reporting.fish": "assets/system/chezmoitemplates/package_reporting.fish",
-    ".chezmoitemplates/nginx_dav_ext.fish": "assets/system/chezmoitemplates/nginx_dav_ext.fish",
-    ".chezmoihelpers/desktop-user.fish": "assets/system/chezmoihelpers/desktop-user.fish",
-    ".chezmoitemplates/github_api.py": "assets/system/chezmoitemplates/github_api.py",
-    ".chezmoitemplates/update-client-cli-releases.py": "assets/system/chezmoitemplates/update-client-cli-releases.py",
-    ".chezmoitemplates/install-tippecanoe.py": "assets/system/chezmoitemplates/install-tippecanoe.py",
-    ".chezmoitemplates/install-launcher-tools.py": "assets/system/chezmoitemplates/install-launcher-tools.py",
-    ".chezmoitemplates/hyprland-uwsm.desktop": "assets/system/chezmoitemplates/hyprland-uwsm.desktop"
+    "data/packages.json": "assets/system/data/packages.json",
+    "helpers/status.fish": "assets/system/helpers/status.fish",
+    "templates/fish_logging.fish": "assets/system/templates/fish_logging.fish",
+    "data/repos.yaml": "assets/system/data/repos.yaml",
+    "templates/package_reporting.fish": "assets/system/templates/package_reporting.fish",
+    "templates/nginx_dav_ext.fish": "assets/system/templates/nginx_dav_ext.fish",
+    "helpers/desktop-user.fish": "assets/system/helpers/desktop-user.fish",
+    "templates/hyprland-uwsm.desktop": "assets/system/templates/hyprland-uwsm.desktop"
   }
 }

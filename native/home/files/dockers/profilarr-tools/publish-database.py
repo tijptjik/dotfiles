@@ -4,7 +4,7 @@ import os
 import pathlib
 import subprocess
 
-PREFIX = "home/dockers/profilarr-database"
+PREFIX = "native/home/files/dockers/profilarr-database"
 BRANCH = "profilarr"
 
 def git(*args, check=True):

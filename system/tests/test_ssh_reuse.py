@@ -8,7 +8,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-POLICY = ROOT / 'etc/ssh/ssh_config.d/10-connection-reuse.conf'
+POLICY = ROOT / 'native/si/files/ssh/ssh_config.d/10-connection-reuse.conf'
 
 
 @unittest.skipUnless(shutil.which('ssh'), 'OpenSSH required')

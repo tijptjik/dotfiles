@@ -13,7 +13,7 @@ def render(host, directory, repo=ROOT):
     role = {'fi':'desktop','li':'laptop','si':'server'}[host]
     context = {'hostname':host,'role':role,'is_client':role!='server',
                'is_desktop':role=='desktop','is_laptop':role=='laptop','is_server':role=='server',
-               'home_source':str(repo/'home'),'system_source':str(repo/'system/etc'),
+               'repo_dir':str(repo),'home_source':str(repo/'native/home'),'system_source':str(repo/'system/native'),
                'user':{'name':'io','home':'/home/io'},'os':'linux'}
     directory = Path(directory)
     context_path = directory/'context.json'
@@ -36,7 +36,7 @@ def render(host, directory, repo=ROOT):
     result = subprocess.run([binary,'--config',str(config)],capture_output=True,text=True,
                             env={**os.environ,'XDG_STATE_HOME':str(directory/'state'),'XDG_CACHE_HOME':str(directory/'cache'),'TJIKUP_NOTIFY':'0'})
     if result.returncode:
-        raise RuntimeError(f'Native task rendering failed for {host}; inspect template syntax and context')
+        raise RuntimeError(f'Native task rendering failed for {host}: {result.stdout} {result.stderr}')
     run = output
     return {template['name']:(run/template['name']).read_text()
             for recipe in batches for template in recipe['render']['templates']}

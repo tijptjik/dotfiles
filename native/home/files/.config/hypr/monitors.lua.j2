@@ -46,7 +46,7 @@ hl.monitor({
 
 -- The display-mode commands write this file before reloading Hyprland. Keep
 -- it outside the managed configuration so the selected display mode survives
--- a compositor restart without becoming a chezmoi source change.
+-- a compositor restart without becoming a dotjik source change.
 local state_home = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
 local mode_file = io.open(state_home .. "/hypr/display-mode", "r")
 local game_mode = false

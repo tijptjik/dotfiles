@@ -8,9 +8,6 @@ import tempfile
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-spec = importlib.util.spec_from_file_location('icon_install', ROOT / 'scripts/icons/install.py')
-installer = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(installer)
 
 
 class RosePunkIconsTests(unittest.TestCase):
@@ -26,40 +23,6 @@ class RosePunkIconsTests(unittest.TestCase):
             (system / 'editor.desktop').write_text('[Desktop Entry]\nType=Application\nName=System Editor\n')
             (user / 'editor.desktop').write_text('[Desktop Entry]\nType=Application\nName=User Editor\n')
             self.assertEqual(audit.inventory([user, system]), {'editor.desktop': 'User Editor'})
-
-    def test_theme_settings_preserve_other_sections_and_qt_geometry(self):
-        text = '[SettingsWindow]\ngeometry=@ByteArray(\\x1\\xd9)\n\n[Appearance]\nstyle=Fusion\nicon_theme=old\n'
-        updated = installer.with_ini_setting(text, 'Appearance', 'icon_theme', 'rose-punk')
-        self.assertEqual(updated, text.replace('icon_theme=old', 'icon_theme=rose-punk'))
-        self.assertEqual(installer.with_ini_setting(updated, 'Appearance', 'icon_theme', 'rose-punk'), updated)
-        self.assertEqual(installer.with_ini_setting('[Settings]\nother=1\n[Next]\nx=2\n',
-                        'Settings', 'gtk-icon-theme-name', 'rose-punk'),
-                        '[Settings]\nother=1\ngtk-icon-theme-name=rose-punk\n[Next]\nx=2\n')
-
-    def test_theme_selection_updates_desktop_gtk_and_qt_without_rewriting_preferences(self):
-        with tempfile.TemporaryDirectory() as directory, \
-                patch.object(installer.subprocess, 'check_output', return_value="'Neuwaita'\n"), \
-                patch.object(installer.subprocess, 'run') as run:
-            config = Path(directory)
-            (config / 'gtk-3.0').mkdir()
-            (config / 'gtk-3.0/settings.ini').write_text('[Settings]\ngtk-application-prefer-dark-theme=0\n')
-            self.assertTrue(installer.select_theme(config, 'rose-punk', True))
-            self.assertIn('gtk-application-prefer-dark-theme=0', (config / 'gtk-3.0/settings.ini').read_text())
-            self.assertIn('icon_theme=rose-punk', (config / 'qt6ct/qt6ct.conf').read_text())
-            run.assert_called_once_with(['gsettings', 'set', 'org.gnome.desktop.interface',
-                                        'icon-theme', 'rose-punk'], check=True)
-            self.assertFalse(installer.select_theme(config, 'rose-punk', False))
-
-    def test_theme_fingerprint_detects_changed_artwork_without_desktop_changes(self):
-        with tempfile.TemporaryDirectory() as directory:
-            folder = Path(directory)
-            (folder / 'app.svg').write_text('<svg/>')
-            before = installer.icon_fingerprint(folder)
-            (folder / 'app.svg').write_text('<svg><circle/></svg>')
-            self.assertNotEqual(before, installer.icon_fingerprint(folder))
-            after = installer.icon_fingerprint(folder)
-            (folder / 'icon-theme.cache').write_bytes(b'cache-only-change')
-            self.assertEqual(after, installer.icon_fingerprint(folder))
 
     def test_codex_uses_the_wavy_identity_with_filled_faces(self):
         mapping = json.loads((ROOT / 'scripts/icons/apps.json').read_text())
@@ -101,15 +64,8 @@ class RosePunkIconsTests(unittest.TestCase):
         self.assertIsNone(tjikup.find('{*}circle'))
         self.assertEqual(tjikup.find('{*}path').get('d'), 'm24 36 8-8 8 8')
 
-    def test_main_icon_replacement_preserves_actions_and_launch_command(self):
-        text = '[Desktop Entry]\nName=Example\nExec=example --safe %U\nIcon=/old.png\n\n[Desktop Action New]\nIcon=other\nExec=example --new\n'
-        updated = installer.with_icon(text, 'rose-punk-example')
-        self.assertEqual(updated, text.replace('Icon=/old.png', 'Icon=rose-punk-example'))
-        self.assertEqual(installer.with_icon(updated, 'rose-punk-example'), updated)
-
-    def test_missing_icon_inserted_before_actions(self):
-        text = '[Desktop Entry]\nExec=example\n[Desktop Action New]\nIcon=other\n'
-        self.assertEqual(installer.with_icon(text, 'new'), '[Desktop Entry]\nExec=example\nIcon=new\n[Desktop Action New]\nIcon=other\n')
+    # Launcher edit/idempotence coverage moved to Tjikup desktop unit tests and
+    # tests/migration.rs, which execute the native implementation.
 
     def test_full_catalog_and_aliases_resolve(self):
         mapping = json.loads((ROOT / 'scripts/icons/apps.json').read_text())

@@ -64,7 +64,7 @@
       "calendar",
       "fonts",
       "power",
-      "chezetc",
+      "systjik",
       "llmtrim",
       "solaar",
       "sublime-text",
@@ -93,7 +93,7 @@
     "cyan": [
       "notjik",
       "hyprvoice",
-      "chezmoi",
+      "dotjik",
       "transmission",
       "tailscale",
       "weather",
@@ -216,7 +216,7 @@
       ]
     },
     {
-      "name": "Chezetc",
+      "name": "Systjik",
       "family": "amber",
       "note": "System configuration file versus a generic settings cog.",
       "refs": [
@@ -225,12 +225,12 @@
       ]
     },
     {
-      "name": "Chezmoi",
+      "name": "Dotjik",
       "family": "cyan",
       "note": "Two upstream logo treatments; the generic house is a concept comparison.",
       "refs": [
-        "chezmoi-blue",
-        "chezmoi-yellow",
+        "dotjik-blue",
+        "dotjik-yellow",
         "lucide-house"
       ]
     },

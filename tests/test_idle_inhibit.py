@@ -1,3 +1,4 @@
+import native_render
 """Persist intent without starting an intentionally stopped idle daemon."""
 
 import importlib.machinery
@@ -11,7 +12,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-HELPER = ROOT / "home/dot_local/bin/executable_idle-inhibit"
+HELPER = ROOT / "native/home/files/.local/bin/idle-inhibit"
 loader = importlib.machinery.SourceFileLoader("idle_inhibit", str(HELPER))
 spec = importlib.util.spec_from_loader(loader.name, loader)
 idle = importlib.util.module_from_spec(spec)
@@ -121,11 +122,11 @@ class IdlePolicyRenderingTests(unittest.TestCase):
                 }}))
                 def render(source):
                     return subprocess.check_output([
-                        "chezmoi", "--config", str(config), "--source", tmp,
+                        "render-native", "--config", str(config), "--source", tmp,
                         "--persistent-state", str(root / "state.db"),
                         "execute-template", "-f", str(ROOT / source),
                     ], text=True)
-                script = render("home/.chezmoitemplates/tjikup/run_after_99-systemd-reload.fish.tmpl")
+                script = render("native/tasks/home/run_after_99-systemd-reload.fish.j2")
                 subprocess.run(["fish", "--no-config", "-n"], input=script, text=True, check=True)
                 self.assertEqual('idle-inhibit" init' in script, host != "si")
                 if host == "si":
@@ -158,7 +159,7 @@ function stage_note; $argv[5..-1]; end
                 self.assertNotIn("--user start hypridle.service", result.stdout)
                 self.assertNotIn("--user start hyprsunset.service", result.stdout)
                 self.assertIn("--user start hyprpaper.service", result.stdout)
-                bar = json.loads(render("home/dot_config/bartjik/config.json.tmpl"))
+                bar = json.loads(render("native/home/files/.config/bartjik/config.json.j2"))
                 self.assertEqual(bar["modules"]["idle"]["actions"]["leftClick"][-1], "toggle")
                 self.assertTrue(bar["modules"]["filter"]["actions"]["leftClick"][0].endswith("/nightlight"))
 

@@ -2,9 +2,9 @@
 # Recheck after the normal DNF update has completed.
 {% if os == "linux" and is_server -%}
 
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
-{{ include(".chezmoitemplates/nginx_dav_ext.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
+{{ include("templates/nginx_dav_ext.fish") }}
 setup_logging linux-build-nginx-dav-ext
 
 ensure_nginx_dav_ext

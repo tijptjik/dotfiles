@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 {% if os == "linux" and is_client -%}
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
 setup_logging linux-install-chrome
 
 # Bootstrap Chrome before package install; Fedora may already supply its repo.

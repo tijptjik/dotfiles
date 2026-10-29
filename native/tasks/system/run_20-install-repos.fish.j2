@@ -4,10 +4,10 @@
 
 set -x SUDO_ASKPASS ""           # force sudo to ask on the terminal
 
-# repos.yaml hash: {{ include(".chezmoidata/repos.yaml") | sha256 }}
+# repos.yaml hash: {{ include("data/repos.yaml") | sha256 }}
 
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
 setup_logging linux-install-repos
 
 step_header "RPM Repositories"

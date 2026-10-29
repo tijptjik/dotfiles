@@ -9,7 +9,7 @@ REPO=Path(__file__).resolve().parents[1]
 
 class GraphicalStartupTests(unittest.TestCase):
     def test_only_running_wayland_session_starts_helpers(self):
-        text=(REPO/'home/.chezmoitemplates/tjikup/run_after_99-systemd-reload.fish.tmpl').read_text()
+        text=(REPO/'native/tasks/home/run_after_99-systemd-reload.fish.j2').read_text()
         function=text[text.index('function configure_client_user_units'):text.index('if user_units_need_reload; or units_need_enable_now $client_services')]
         harness='''
 function systemctl
@@ -35,8 +35,8 @@ function status_msg; echo (string join ' ' -- $argv); end
                 self.assertEqual(result.returncode,7 if should_start else 0)
 
     def test_lock_helper_cannot_pull_in_session(self):
-        for path in ['hyprlock-login.service.tmpl']:
-            text=(REPO/'home/dot_config/systemd/user'/path).read_text()
+        for path in ['hyprlock-login.service.j2']:
+            text=(REPO/'native/home/files/.config/systemd/user'/path).read_text()
             self.assertNotIn('\nWants=graphical-session.target',text)
             self.assertNotIn('\nRequires=graphical-session.target',text)
             self.assertIn('PartOf=graphical-session.target',text)

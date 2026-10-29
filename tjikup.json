@@ -23,21 +23,7 @@
     "tjikup/recipes.json",
     "$SYSTJIK_REPO/tjikup/recipes.json"
   ],
-  "prerequisites": [
-    {
-      "id": "require:python",
-      "check": [
-        "python3",
-        "-c",
-        "import sys; assert sys.version_info >= (3,11); import tomllib"
-      ],
-      "display": {
-        "icon": "Python",
-        "section": "Prerequisites"
-      },
-      "label": "Python"
-    }
-  ],
+  "prerequisites": [],
   "recipes": [
     {
       "id": "require:fish",
@@ -218,8 +204,8 @@
       "Applications": "\uf1b2",
       "Assets": "\uf187",
       "Bartjik": "\uf2d0",
-      "Chezetc": "\uf013",
-      "Chezmoi": "\uf015",
+      "Tjikup": "\uf013",
+      "Tjikup": "\uf015",
       "Codex Desktop": "\uf121",
       "Codex LB": "\uf121",
       "Collie": "\uf0c1",
@@ -440,7 +426,6 @@
       "sudo": "Terminal",
       "python": "Python",
       "fish": "Fish",
-      "chezmoi": "Chezmoi",
       "GTK Bookmarks": "Gtk-bookmarks",
       "ZapZap": "Zapzap",
       "ChatGPT": "ChatGPT Desktop",

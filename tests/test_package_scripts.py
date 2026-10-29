@@ -126,7 +126,7 @@ class BatchedRpmSnapshots(unittest.TestCase):
             rpm.write_text("#!/bin/sh\necho call >> \"$TRACE\"\nprintf 'alpha\\t1\\npackage absent is not installed\\nalpha\\t2\\nbeta\\t3\\n'\nexit 1\n")
             rpm.chmod(0o755)
             output = root / 'snapshot'
-            helper = ROOT / 'native/tasks/assets/system/chezmoitemplates/package_reporting.fish'
+            helper = ROOT / 'native/tasks/assets/system/templates/package_reporting.fish'
             result = subprocess.run(['fish','--no-config','-c',
                 'source $argv[1]; snapshot_rpm_versions $argv[2] alpha absent alpha beta',
                 '--',str(helper),str(output)], capture_output=True,text=True,

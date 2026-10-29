@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 {% if os == "linux" and is_server -%}
-{{ include(".chezmoihelpers/status.fish") }}
-{{ include(".chezmoitemplates/fish_logging.fish") }}
+{{ include("helpers/status.fish") }}
+{{ include("templates/fish_logging.fish") }}
 setup_logging si-notifications
 if sudo test -f /etc/si-notifications/telegram.json
     step_run_note_as CHECK "SnapRAID (notifications)" loaded sudo systemctl daemon-reload

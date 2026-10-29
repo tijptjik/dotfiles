@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 {% if is_desktop -%}
 
-source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
 
 function herdr_plugin_is_installed --argument-names plugin_id
     command herdr plugin list --json | command jq -e \

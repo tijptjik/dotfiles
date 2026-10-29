@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 set -l repo_dir (path resolve (dirname (status --current-filename))/../../..)
-source "$repo_dir/home/.chezmoihelpers/status.fish"
+source "$repo_dir/native/helpers/home/status.fish"
 
 # Ensure bws is installed and available.
 if not command -v bws >/dev/null 2>&1
@@ -15,18 +15,18 @@ if not command -v bws >/dev/null 2>&1
 end
 
 # --- User Configuration ---
-# TODO: Replace this with the actual URL to your encrypted access token.
+# Encrypted bootstrap credential source.
 set ENCRYPTED_TOKEN_URL "https://pub-05ad430ac346452fa7d511c8e383383f.r2.dev/bws-token.age"
 
-# TODO: Replace this with the Secret ID of your chezmoi key from Bitwarden.
-set CHEZMOI_KEY_SECRET_ID "efb21803-dbaa-425e-8762-b3b00077af36"
+# TODO: Replace this with the Secret ID of the age identity from Bitwarden.
+set AGE_KEY_SECRET_ID "efb21803-dbaa-425e-8762-b3b00077af36"
 # --------------------------
 
 # --- Main Logic ---
 
 set -l bws_config_dir "$HOME/.config/bws"
 set -l bws_config_file "$bws_config_dir/environment"
-set -l chezmoi_key_file "$HOME/.keys/chezmoi.txt"
+set -l age_key_file "$HOME/.keys/age.txt"
 set -l keys_dir "$HOME/.keys"
 umask 077
 
@@ -73,24 +73,24 @@ else
     end
 end
 
-# --- Handle chezmoi Decryption Key ---
-if not test -f "$chezmoi_key_file"
+# --- Handle age Decryption Key ---
+if not test -f "$age_key_file"
     # Check if we have the access token before proceeding
     if test -z "$BWS_ACCESS_TOKEN"
-        status_msg FAILED "✗" "chezmoi decryption key"
-        echo "BWS_ACCESS_TOKEN is not set. Cannot fetch chezmoi key."
+        status_msg FAILED "✗" "age decryption key"
+        echo "BWS_ACCESS_TOKEN is not set. Cannot fetch age key."
         exit 1
     end
 
-    stage "chezmoi decryption key" CONFIG "chezmoi decryption key" fish -c '
+    stage "age decryption key" CONFIG "age decryption key" fish -c '
         mkdir -p "$argv[2]"
-        set -l CHEZMOI_KEY (bws secret get "$argv[1]" | jq -r ".value")
-        if test $status -ne 0; or test -z "$CHEZMOI_KEY"
+        set -l AGE_KEY (bws secret get "$argv[1]" | jq -r ".value")
+        if test $status -ne 0; or test -z "$AGE_KEY"
             exit 1
         end
-        printf "%s\n" (string unescape $CHEZMOI_KEY) > "$argv[3]"
+        printf "%s\n" (string unescape $AGE_KEY) > "$argv[3]"
         chmod 600 "$argv[3]"
-    ' "$CHEZMOI_KEY_SECRET_ID" "$keys_dir" "$chezmoi_key_file"
+    ' "$AGE_KEY_SECRET_ID" "$keys_dir" "$age_key_file"
 else
-    status_msg CONFIG "✓" "chezmoi decryption key"
+    status_msg CONFIG "✓" "age decryption key"
 end

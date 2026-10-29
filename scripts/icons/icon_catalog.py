@@ -7,7 +7,7 @@ DOCKER_SERVICES = json.loads(Path(__file__).with_name("docker-services.json").re
 SERVICE_ICONS = {
     "Zoom Workplace": "\uf03d", "ChatGPT Desktop": "\uf075",
     "Applications": "\uf1b2", "Assets": "\uf187", "Bartjik": "\uf2d0",
-    "Chezetc": "\uf013", "Chezmoi": "\uf015", "Codex Desktop": "\uf121",
+    "Systjik": "\uf013", "Dotjik": "\uf015", "Codex Desktop": "\uf121",
     "Codex LB": "\uf121", "Collie": "\uf0c1", "Docker": "\uf308",
     "Fedora": "\uf30a", "Flatpak": "\uf49c", "Google Chrome stable": "\uf268",
     "GDM": "\uf361",

@@ -50,5 +50,5 @@ key(133,1); local count=#timers; key(133,1); assert(#timers==count)
 mouse['mouse:272'](); fire(); last('hide%-workspaces'); key(133,0)
 key(133,1); fire(); mouse.mouse_down(); last('show%-workspaces'); key(133,0); last('show%-workspaces'); fire(); last('hide%-workspaces')
 '''
-        subprocess.run(['lua', '-', str(ROOT / 'home/dot_config/hypr/workspace_reminder.lua')],
+        subprocess.run(['lua', '-', str(ROOT / 'native/home/files/.config/hypr/workspace_reminder.lua')],
                        input=script, text=True, check=True)

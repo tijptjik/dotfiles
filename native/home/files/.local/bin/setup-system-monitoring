@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploy the chezmoi-managed recorder configuration to the system.
+# Deploy the Tjikup-managed recorder configuration to the system.
 set -euo pipefail
 
 config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/system-monitoring"

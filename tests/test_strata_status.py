@@ -13,12 +13,12 @@ class StrataStatus(unittest.TestCase):
         for dependencies, app, failure in [('unchanged', 'unchanged', False), ('changed', 'unchanged', False), ('unchanged', 'changed', False), ('unchanged', 'changed', True)]:
             with self.subTest(dependencies=dependencies, app=app, failure=failure):
                 script = f'''function install_strata_dependencies
-    echo CHEZETC_RESULT={dependencies}
+    echo TJIKUP_RESULT={dependencies}
     return {1 if failure else 0}
 end
 function install_strata
     echo APP_RAN
-    echo CHEZETC_RESULT={app}
+    echo TJIKUP_RESULT={app}
 end
 function install_strata_complete
 {wrapper}
@@ -30,5 +30,5 @@ install_strata_complete
                     self.assertNotIn('APP_RAN', result.stdout)
                 else:
                     self.assertEqual(result.returncode, 0, result.stderr)
-                    markers = [line for line in result.stdout.splitlines() if line.startswith('CHEZETC_RESULT=')]
-                    self.assertEqual(markers[-1], 'CHEZETC_RESULT=' + ('changed' if 'changed' in (dependencies, app) else 'unchanged'))
+                    markers = [line for line in result.stdout.splitlines() if line.startswith('TJIKUP_RESULT=')]
+                    self.assertEqual(markers[-1], 'TJIKUP_RESULT=' + ('changed' if 'changed' in (dependencies, app) else 'unchanged'))

@@ -75,7 +75,7 @@ workspaces:
         panes:
           - command: clear
       - label: Etc
-        cwd: ../chezetc
+        cwd: system
         panes:
           - command: clear
       - label: CTRL

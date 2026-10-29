@@ -7,4 +7,4 @@ if [[ ! -f "$repo_dir/tjikup.json" || ! -f "$repo_dir/scripts/install-tjikup.sh"
     exit 1
 fi
 bash "$repo_dir/scripts/install-tjikup.sh"
-bash "$repo_dir/system/scripts/install-chezetc-wrapper.sh"
+printf '%s\n' 'System policy ready. Inspect: tjikup config system plan'

@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 {% if is_client -%}
-source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
 stage_dynamic_note 'Obsidian AppImage' INSTALL 'Obsidian' \
-    python3 {{ (home_source ~ "/../scripts/install-obsidian.py") | fish_quote }}
+    tjikup workflow install obsidian
 or exit $status
 {% endif -%}

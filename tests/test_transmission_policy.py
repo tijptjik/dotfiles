@@ -50,6 +50,37 @@ class TransmissionPolicyTests(unittest.TestCase):
                     self.assertTrue(settings['script-torrent-done-enabled'])
                     self.assertEqual(settings['download-dir'], '/home/test/downloads')
 
+    def test_application_preferences_survive_native_reapply(self):
+        paths = ('{{ user.home }}/.config/mimeapps.list',
+                 '{{ user.home }}/.config/transmission/settings.json')
+        entries = [e for e in json.loads((ROOT / 'native/home/files.json').read_text())
+                   if e['path'] in paths]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for entry in entries:
+                source = root / entry['source']
+                source.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(ROOT / 'native/home' / entry['source'], source)
+            manifest = {'version': 1, 'id': 'mutable-preferences', 'context': {
+                'hostname': 'fi', 'user': {'home': '/home/test'}}, 'entries': entries}
+            (root / 'manifest.json').write_text(json.dumps(manifest))
+            (root / 'stage').mkdir()
+            command = [BINARY, 'files', 'apply', '--manifest', str(root / 'manifest.json'),
+                       '--state-dir', str(root / 'state'), '--root', str(root / 'stage')]
+            subprocess.run(command, check=True, capture_output=True)
+            config = root / 'stage/home/test/.config'
+            settings = config / 'transmission/settings.json'
+            self.assertTrue(json.loads(settings.read_text())['script-torrent-done-enabled'])
+            changed = {
+                config / 'mimeapps.list': b'[Default Applications]\nx-scheme-handler/magnet=local-client.desktop;\n',
+                settings: b'{"main-window-width":731,"download-dir":"/custom/downloads"}\n',
+            }
+            for path, contents in changed.items():
+                path.write_bytes(contents)
+            subprocess.run(command, check=True, capture_output=True)
+            for path, contents in changed.items():
+                self.assertEqual(path.read_bytes(), contents)
+
     def test_server_startup_hook_preserves_daemon_identity(self):
         with tempfile.TemporaryDirectory() as directory:
             settings = Path(directory) / 'settings.json'

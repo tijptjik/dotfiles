@@ -1086,7 +1086,8 @@
     "kind": "file",
     "source": "files/.config/mimeapps.list",
     "mode": "0644",
-    "group": "base"
+    "group": "base",
+    "create_only": true
   },
   {
     "path": "{{ user.home }}/.config/monitors.xml",
@@ -1562,7 +1563,8 @@
     "mode": "0600",
     "template": true,
     "sensitive": true,
-    "group": "base"
+    "group": "base",
+    "create_only": true
   },
   {
     "path": "{{ user.home }}/.config/user-dirs.dirs",

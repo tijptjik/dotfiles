@@ -56,6 +56,16 @@ rollback is no longer needed. A package upgrade does not override this local
 repair automatically: retire it after a fixed packaged version passes the
 lifetime regression and desktop acceptance checks.
 
+## Mutable application preferences
+
+The native policy seeds missing desktop Transmission settings and MIME
+associations once. Existing files remain owned by the applications and user's
+preferences: opening Transmission registers a per-user magnet handler and saves
+window/session settings. Reapplying fixed templates to those files caused Fi's
+Tjikup run to fail on legitimate local changes. `create_only` preserves those
+updates without copying runtime values or generated desktop IDs into policy.
+Si's daemon settings remain outside this desktop template entirely.
+
 ## Validation boundary
 
 The installer and loopback regression passed on Fi. A fresh synthetic profile

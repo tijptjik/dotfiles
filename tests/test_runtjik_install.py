@@ -45,7 +45,7 @@ class RuntjikInstallTests(unittest.TestCase):
             path = bindir / name
             path.write_text('#!/bin/sh\n' + body)
             path.chmod(0o755)
-        self.env = {**os.environ, 'RUNTJIK_TEST_HOME': str(self.home),
+        self.env = {**os.environ, 'RUNTJIK_TEST_HOME': str(self.home), 'XDG_STATE_HOME': str(root / 'state'),
                     'TJIKOS_REPO': str(root / 'tools'), 'CALL_LOG': str(self.log),
                     'PATH': str(bindir) + os.pathsep + os.environ['PATH']}
 

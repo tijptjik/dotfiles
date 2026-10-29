@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname -- "${BASH_SOURCE[0]}")/ensure-tjikos.sh"
 ensure_tjikos apps/greetjik/scripts/build.sh
-python3 "$(dirname -- "${BASH_SOURCE[0]}")/cache-install.py" greetjik \
+"${TJIKUP_BINARY:-tjikup}" workflow --repo "$(dirname -- "$(dirname -- "${BASH_SOURCE[0]}")")" cache-install greetjik \
     --input "$tool_repo/apps/greetjik" --input "$tool_repo/scripts/install.sh" \
     --input "$(dirname -- "${BASH_SOURCE[0]}")/cache-install.py" \
     --output "$HOME/.local/bin/greetjik" --output "$HOME/.local/share/licenses/greetjik" \

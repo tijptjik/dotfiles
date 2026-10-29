@@ -7,7 +7,7 @@ ensure_tjikos apps/bartjik/scripts/build.sh
 command -v quickshell >/dev/null
 command -v python3 >/dev/null
 # The native file phase owns units when invoked by Tjikup.
-python3 "$script_dir/cache-install.py" bartjik \
+"${TJIKUP_BINARY:-tjikup}" workflow --repo "$(dirname "$script_dir")" cache-install bartjik \
     --input "$tool_repo/apps/bartjik" --input "$tool_repo/scripts/install.sh" \
     --input "$script_dir/cache-install.py" --input "$script_dir/install-bartjik.sh" \
     --output "$HOME/.local/bin/bartjik" --output "$HOME/.local/bin/bartjikctl" \

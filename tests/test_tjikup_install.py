@@ -54,10 +54,10 @@ class InstallTests(unittest.TestCase):
             (tool/'apps/tjikup/scripts').mkdir(parents=True);(tool/'apps/tjikup/dist').mkdir()
             (tool/'apps/tjikup/scripts/fetch-release.sh').write_text('#!/bin/sh\nexit 0\n')
             for path,code in [(tool/'apps/tjikup/dist/tjikup',candidate),(home/'.local/bin/tjikup',installed)]:
-                path.parent.mkdir(parents=True,exist_ok=True);path.write_text('#!/bin/sh\nif [ "$1" = capabilities ]; then\n  echo \'{"encrypted_credentials":' + str(int(candidate_cache if path == tool/'apps/tjikup/dist/tjikup' else installed_cache)) + '}\'\n  exit 0\nfi\nexit '+str(code)+'\n');path.chmod(0o755)
+                path.parent.mkdir(parents=True,exist_ok=True);path.write_text('#!/bin/sh\nif [ "$1" = capabilities ]; then\n  echo \'{"native_workflow":' + str(int(candidate_cache if path == tool/'apps/tjikup/dist/tjikup' else installed_cache)) + '}\'\n  exit 0\nfi\nif [ \"$1\" = workflow ]; then touch \"$TEST_CACHE_MARKER\"; exit 0; fi\nexit '+str(code)+'\n');path.chmod(0o755)
             target=home/'.local/bin/tjikup';before=target.read_bytes()
             result=subprocess.run(['bash',str(repo/'scripts/install-tjikup.sh')],capture_output=True,text=True,
-                env={**os.environ,'HOME':str(home),'XDG_CONFIG_HOME':str(home/'.config'),'TEST_TOOL_REPO':str(tool)})
+                env={**os.environ,'HOME':str(home),'XDG_CONFIG_HOME':str(home/'.config'),'TEST_TOOL_REPO':str(tool),'TEST_CACHE_MARKER':str(marker)})
             self.assertEqual(result.returncode==0,success,result.stderr)
             self.assertEqual(target.read_bytes(),before)
             self.assertEqual(marker.exists(),installs)

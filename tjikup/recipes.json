@@ -2,71 +2,18 @@
   "version": 2,
   "recipes": [
     {
-      "id": "home:render-prelude",
-      "label": "Home prerequisites",
-      "needs": [
-        "require:fish"
-      ],
-      "render": {
-        "templates": [
-          {
-            "name": "home-run_before_02-install-bws.fish",
-            "source": "$DOTJIK_REPO/native/tasks/home/run_before_02-install-bws.fish.j2",
-            "syntax": [
-              "fish",
-              "--no-config",
-              "--no-execute",
-              "{script}"
-            ]
-          },
-          {
-            "name": "home-run_before_71-consolidate-user-fonts.py",
-            "source": "$DOTJIK_REPO/native/tasks/home/run_before_71-consolidate-user-fonts.py.j2",
-            "syntax": [
-              "python3",
-              "-c",
-              "import ast,sys; ast.parse(open(sys.argv[1]).read())",
-              "{script}"
-            ]
-          }
-        ],
-        "native": "$DOTJIK_REPO/native/tasks/home.json",
-        "context_command": [
-          "python3",
-          "$DOTJIK_REPO/scripts/device-policy.py",
-          "context"
-        ]
-      },
-      "display": {
-        "section": "Preparation",
-        "quiet": true,
-        "icon": "Tjikup"
-      },
-      "optional": false,
-      "operation": "prepare",
-      "after": [
-        "repo:home:push",
-        "repo:tjikos:push"
-      ]
-    },
-    {
       "id": "home:bitwarden",
       "label": "Bitwarden CLIs",
       "needs": [
-        "home:render-prelude"
+        "require:sudo"
       ],
       "resources": [
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
-        "run",
-        "bitwarden",
-        "--",
-        "fish",
-        "--no-config",
-        "{run_dir}/home-run_before_02-install-bws.fish"
+        "tjikup",
+        "workflow",
+        "bitwarden"
       ],
       "env": {
         "TJIKUP_STATUS_LINES": "1",
@@ -78,7 +25,7 @@
       },
       "timeout": 7200,
       "display": {
-        "section": "Install applications",
+        "section": "Prerequisites",
         "reports": true,
         "icon": "Bitwarden"
       },
@@ -89,10 +36,14 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "bitwarden"
+      ],
+      "stop_codes": [
+        78
       ]
     },
     {
@@ -111,8 +62,9 @@
         "icon": "Tjikup"
       },
       "apply": [
-        "python3",
-        "{config_dir}/../scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "home-files",
         "apply",
         "--group",
@@ -133,7 +85,7 @@
     },
     {
       "id": "home:render",
-      "label": "Home scripts",
+      "label": "Maintenance scripts (home)",
       "needs": [
         "home:bitwarden",
         "require:fish"
@@ -423,14 +375,14 @@
         ],
         "native": "$DOTJIK_REPO/native/tasks/home.json",
         "context_command": [
-          "python3",
-          "$DOTJIK_REPO/scripts/device-policy.py",
+          "tjikup",
+          "workflow",
           "context"
         ]
       },
       "display": {
         "section": "Preparation",
-        "quiet": true,
+        "quiet": false,
         "icon": "Tjikup"
       },
       "optional": false,
@@ -453,8 +405,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "sublime",
         "--",
@@ -487,8 +440,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "sublime"
       ]
@@ -503,8 +457,9 @@
         "obsidian"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "obsidian",
         "--",
@@ -537,8 +492,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "obsidian"
       ]
@@ -553,8 +509,9 @@
         "cargo"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "rust",
         "--",
@@ -585,8 +542,9 @@
         "system:rpm"
       ],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "rust"
       ]
@@ -602,8 +560,9 @@
         "uv"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "python",
         "--",
@@ -634,8 +593,9 @@
         "system:rpm"
       ],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "python"
       ]
@@ -726,8 +686,9 @@
         "cargo"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "llmtrim",
         "--",
@@ -759,8 +720,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "llmtrim"
       ]
@@ -805,8 +767,9 @@
         "home:configure:llmtrim"
       ],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "llmtrim-herdr"
       ]
@@ -821,8 +784,9 @@
         "herdr"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "herdr-plugins",
         "--",
@@ -854,8 +818,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "herdr-plugins"
       ]
@@ -870,8 +835,9 @@
         "uv"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "codex-lb",
         "--",
@@ -904,8 +870,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "codex-lb"
       ]
@@ -921,8 +888,9 @@
         "icons"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "tjikup",
         "--",
@@ -951,8 +919,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "tjikup"
       ]
@@ -964,15 +933,15 @@
         "home:render",
         "home:tjikup",
         "home:archive-restore",
-        "home:files",
-        "home:render-prelude"
+        "home:files"
       ],
       "resources": [
         "icons"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/asset-setup.py",
+        "tjikup",
+        "workflow",
+        "assets",
         "icons",
         "--run-dir",
         "{run_dir}"
@@ -1010,8 +979,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "notjik",
         "--",
@@ -1046,8 +1016,9 @@
         "system:rpm"
       ],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "notjik"
       ]
@@ -1065,8 +1036,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "greetjik",
         "--",
@@ -1101,8 +1073,9 @@
         "system:rpm"
       ],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "greetjik"
       ]
@@ -1118,8 +1091,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "bartjik",
         "--",
@@ -1154,8 +1128,9 @@
         "system:rpm"
       ],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "bartjik"
       ]
@@ -1171,8 +1146,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "runtjik",
         "--",
@@ -1205,8 +1181,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "runtjik"
       ]
@@ -1223,8 +1200,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "collie",
         "--",
@@ -1256,8 +1234,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "collie"
       ]
@@ -1304,15 +1283,15 @@
       "needs": [
         "home:render",
         "home:archive-restore",
-        "home:files",
-        "home:render-prelude"
+        "home:files"
       ],
       "resources": [
         "fonts"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/asset-setup.py",
+        "tjikup",
+        "workflow",
+        "assets",
         "fonts",
         "--run-dir",
         "{run_dir}"
@@ -1425,8 +1404,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "secret-service",
         "--",
@@ -1459,8 +1439,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "secret-service"
       ]
@@ -1519,8 +1500,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/refresh-user-services.py",
+        "tjikup",
+        "workflow",
+        "services",
         "--exclude-unit",
         "notjik.service",
         "--exclude-unit",
@@ -1578,8 +1560,9 @@
         "home:bitwarden"
       ],
       "apply": [
-        "python3",
-        "{config_dir}/../scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "credentials",
         "apply"
       ],
@@ -1608,14 +1591,16 @@
         "home:render"
       ],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "repositories"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "repositories",
         "--",
@@ -1662,8 +1647,9 @@
         "system:zed"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "home-files",
         "apply",
         "--group",
@@ -1696,8 +1682,9 @@
         "system:telegram"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "home-files",
         "apply",
         "--group",
@@ -1730,8 +1717,9 @@
         "home:obsidian"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "home-files",
         "apply",
         "--group",
@@ -1764,8 +1752,9 @@
         "home:codex-lb"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "home-files",
         "apply",
         "--group",
@@ -1798,8 +1787,9 @@
         "home:notjik"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "home-files",
         "apply",
         "--group",
@@ -1832,8 +1822,9 @@
         "home:bitwarden"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "home-files",
         "apply",
         "--group",
@@ -1866,8 +1857,9 @@
         "home:runtjik"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "home-files",
         "apply",
         "--group",
@@ -1900,8 +1892,9 @@
         "system:hyprvoice"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "home-files",
         "apply",
         "--group",
@@ -1930,8 +1923,9 @@
         "home:bitwarden"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "home-files",
         "apply",
         "--group",
@@ -1950,20 +1944,16 @@
       "id": "home:bitwarden:update",
       "label": "Bitwarden CLIs updates",
       "needs": [
-        "home:render-prelude"
+        "require:sudo"
       ],
       "resources": [
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
-        "run",
+        "tjikup",
+        "workflow",
         "bitwarden",
-        "--",
-        "fish",
-        "--no-config",
-        "{run_dir}/home-run_before_02-install-bws.fish"
+        "--upgrade"
       ],
       "env": {
         "TJIKUP_STATUS_LINES": "1",
@@ -1986,12 +1976,16 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "bitwarden"
       ],
-      "part_of": "home:bitwarden"
+      "part_of": "home:bitwarden",
+      "stop_codes": [
+        78
+      ]
     },
     {
       "id": "home:obsidian:update",
@@ -2003,8 +1997,9 @@
         "obsidian"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "obsidian",
         "--",
@@ -2037,8 +2032,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "obsidian"
       ],
@@ -2054,8 +2050,9 @@
         "cargo"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "rust",
         "--",
@@ -2084,8 +2081,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "rust"
       ],
@@ -2101,8 +2099,9 @@
         "uv"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "python",
         "--",
@@ -2131,8 +2130,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "python"
       ],
@@ -2148,8 +2148,9 @@
         "cargo"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "llmtrim",
         "--",
@@ -2181,8 +2182,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "llmtrim"
       ],
@@ -2198,8 +2200,9 @@
         "uv"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "codex-lb",
         "--",
@@ -2232,8 +2235,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "codex-lb"
       ],
@@ -2250,8 +2254,9 @@
         "icons"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "tjikup",
         "--",
@@ -2280,8 +2285,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "tjikup"
       ],
@@ -2298,8 +2304,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "notjik",
         "--",
@@ -2332,8 +2339,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "notjik"
       ],
@@ -2351,8 +2359,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "greetjik",
         "--",
@@ -2385,8 +2394,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "greetjik"
       ],
@@ -2403,8 +2413,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "bartjik",
         "--",
@@ -2437,8 +2448,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "bartjik"
       ],
@@ -2455,8 +2467,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "runtjik",
         "--",
@@ -2489,8 +2502,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "runtjik"
       ],
@@ -2591,8 +2605,9 @@
         "home:config:notjik"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/activate-managed-service.py",
+        "tjikup",
+        "workflow",
+        "activate",
         "notjik"
       ],
       "resources": [
@@ -2623,8 +2638,9 @@
         "home:config:bartjik"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/activate-managed-service.py",
+        "tjikup",
+        "workflow",
+        "activate",
         "bartjik"
       ],
       "resources": [
@@ -2738,8 +2754,9 @@
         "system:zed:update"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "tjikup",
+        "workflow",
+        "verify",
         "zed"
       ],
       "resources": [
@@ -2755,8 +2772,9 @@
       },
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "zed"
       ],
@@ -2781,8 +2799,9 @@
         "home:obsidian:update"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "tjikup",
+        "workflow",
+        "verify",
         "obsidian"
       ],
       "resources": [
@@ -2798,8 +2817,9 @@
       },
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "obsidian"
       ],
@@ -2824,8 +2844,9 @@
         "home:codex-lb:update"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "tjikup",
+        "workflow",
+        "verify",
         "codex-lb"
       ],
       "resources": [
@@ -2841,8 +2862,9 @@
       },
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "codex-lb"
       ],
@@ -2867,8 +2889,9 @@
         "home:notjik:update"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "tjikup",
+        "workflow",
+        "verify",
         "notjik"
       ],
       "resources": [
@@ -2884,8 +2907,9 @@
       },
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "notjik"
       ],
@@ -2910,8 +2934,9 @@
         "home:bartjik:update"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "tjikup",
+        "workflow",
+        "verify",
         "bartjik"
       ],
       "resources": [
@@ -2927,8 +2952,9 @@
       },
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "bartjik"
       ],
@@ -2953,8 +2979,9 @@
         "home:runtjik:update"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "tjikup",
+        "workflow",
+        "verify",
         "runtjik"
       ],
       "resources": [
@@ -2970,8 +2997,9 @@
       },
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "runtjik"
       ],
@@ -2996,8 +3024,9 @@
         "system:hyprvoice:update"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/verify-app-config.py",
+        "tjikup",
+        "workflow",
+        "verify",
         "hyprvoice"
       ],
       "resources": [
@@ -3013,8 +3042,9 @@
       },
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "hyprvoice"
       ],
@@ -3050,8 +3080,8 @@
       "id": "home:migrate-sync-units",
       "label": "Synctjik (schedule migration)",
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/migrate-sync-units.py"
+        "synctjik",
+        "migrate-schedules"
       ],
       "resources": [
         "user-systemd",

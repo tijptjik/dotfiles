@@ -1,0 +1,55 @@
+[
+  {
+    "name": "zed",
+    "source": "native/home/files/.config/zed/settings.json.j2",
+    "target": ".config/zed/settings.json",
+    "kind": "jsonc-scalars",
+    "optional": true
+  },
+  {
+    "name": "herdr",
+    "source": "native/home/files/.config/herdr/session.json.j2",
+    "target": ".config/herdr/session.json",
+    "kind": "template-json",
+    "optional": true
+  },
+  {
+    "name": "solaar",
+    "source": "native/home/files/.config/solaar/config.yaml",
+    "target": ".config/solaar/config.yaml",
+    "kind": "copy",
+    "optional": true
+  },
+  {
+    "name": "fcitx",
+    "source": "native/home/files/.config/fcitx5/profile",
+    "target": ".config/fcitx5/profile",
+    "kind": "copy",
+    "optional": true,
+    "backup": true
+  },
+  {
+    "name": "codex",
+    "source": "native/home/files/.codex/config.toml",
+    "target": ".codex/config.toml",
+    "kind": "copy",
+    "optional": true
+  },
+  {
+    "name": "zapzap",
+    "source": "native/home/data/zapzap.json",
+    "target": ".config/ZapZap/ZapZap.conf",
+    "kind": "host-text",
+    "optional": true,
+    "field": "zapzapConfigs",
+    "short_hostname": true
+  },
+  {
+    "name": "gtk-bookmarks",
+    "source": "native/home/data/gtk-bookmarks.json",
+    "target": ".config/gtk-3.0/bookmarks",
+    "kind": "host-text",
+    "optional": true,
+    "field": "gtkBookmarks"
+  }
+]

@@ -70,4 +70,4 @@ class WorkflowRefinements(unittest.TestCase):
         for app in ['notjik','bartjik']:
             self.assertIn(app+'.service',refresh['apply'])
             activation=next(r for r in recipes if r['id']=='home:activate:'+app)
-            self.assertTrue(any('activate-managed-service.py' in v for v in activation['apply']))
+            self.assertEqual(activation['apply'][:3], ['tjikup', 'workflow', 'activate'])

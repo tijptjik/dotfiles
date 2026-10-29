@@ -72,8 +72,9 @@
       "id": "capture",
       "label": "Capture live settings",
       "apply": [
-        "python3",
-        "{config_dir}/scripts/capture-settings.py"
+        "tjikup",
+        "workflow",
+        "capture"
       ],
       "display": {
         "section": "Capture changes",

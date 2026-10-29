@@ -15,14 +15,16 @@
         "icon": "Tjikup"
       },
       "check": [
-        "python3",
-        "{config_dir}/../../scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "system",
         "check"
       ],
       "apply": [
-        "python3",
-        "{config_dir}/../../scripts/native-files.py",
+        "tjikup",
+        "workflow",
+        "files",
         "system",
         "apply"
       ],
@@ -41,7 +43,7 @@
     },
     {
       "id": "system:render",
-      "label": "System scripts",
+      "label": "Maintenance scripts (system)",
       "needs": [
         "home:bitwarden",
         "require:fish",
@@ -292,15 +294,15 @@
         ],
         "native": "$DOTJIK_REPO/native/tasks/system.json",
         "context_command": [
-          "python3",
-          "$DOTJIK_REPO/scripts/device-policy.py",
+          "tjikup",
+          "workflow",
           "context"
         ]
       },
       "timeout": 300,
       "display": {
         "section": "Preparation",
-        "quiet": true,
+        "quiet": false,
         "icon": "Tjikup"
       },
       "optional": false,
@@ -424,8 +426,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "chrome",
         "--",
@@ -471,8 +474,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "chrome"
       ]
@@ -493,8 +497,9 @@
         "storage"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "rpm",
         "--",
@@ -538,8 +543,9 @@
       "application": "rpm",
       "ecosystem": "custom",
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "rpm"
       ]
@@ -555,8 +561,9 @@
         "flatpak"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "flatpak",
         "--",
@@ -604,8 +611,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "flatpak"
       ]
@@ -962,8 +970,9 @@
         "telegram"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "telegram",
         "--",
@@ -1009,8 +1018,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "telegram"
       ]
@@ -1026,8 +1036,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "zoom",
         "--",
@@ -1073,8 +1084,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "zoom"
       ]
@@ -1090,8 +1102,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "chatgpt",
         "--",
@@ -1137,8 +1150,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "chatgpt"
       ]
@@ -1154,8 +1168,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "strata",
         "--",
@@ -1201,8 +1216,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "strata"
       ]
@@ -1218,8 +1234,9 @@
         "client-cli"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "hyprvoice",
         "--",
@@ -1265,8 +1282,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "hyprvoice"
       ]
@@ -1282,8 +1300,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "tippecanoe",
         "--",
@@ -1329,8 +1348,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "tippecanoe"
       ]
@@ -1347,8 +1367,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "gitfetch",
         "--",
@@ -1394,8 +1415,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "gitfetch"
       ]
@@ -1411,8 +1433,9 @@
         "client-cli"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "tennis",
         "--",
@@ -1460,8 +1483,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "tennis"
       ]
@@ -1477,8 +1501,9 @@
         "client-cli"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "tinty",
         "--",
@@ -1526,8 +1551,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "tinty"
       ]
@@ -1590,8 +1616,9 @@
         "zed"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "zed",
         "--",
@@ -1637,8 +1664,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "zed"
       ]
@@ -1655,8 +1683,9 @@
         "system-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "nginx-module",
         "--",
@@ -1704,8 +1733,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "check",
         "nginx-module"
       ]
@@ -1905,8 +1935,9 @@
         "storage"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "rpm",
         "--",
@@ -1950,8 +1981,9 @@
       "application": "rpm",
       "ecosystem": "custom",
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "rpm"
       ],
@@ -1967,8 +1999,9 @@
         "flatpak"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "flatpak",
         "--",
@@ -2016,8 +2049,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "flatpak"
       ],
@@ -2033,8 +2067,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "chatgpt",
         "--",
@@ -2080,8 +2115,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "chatgpt"
       ],
@@ -2097,8 +2133,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "strata",
         "--",
@@ -2144,8 +2181,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "strata"
       ],
@@ -2161,8 +2199,9 @@
         "client-cli"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "hyprvoice",
         "--",
@@ -2208,8 +2247,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "hyprvoice"
       ],
@@ -2225,8 +2265,9 @@
         "dnf"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "tippecanoe",
         "--",
@@ -2272,8 +2313,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "tippecanoe"
       ],
@@ -2290,8 +2332,9 @@
         "user-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "gitfetch",
         "--",
@@ -2337,8 +2380,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "gitfetch"
       ],
@@ -2354,8 +2398,9 @@
         "client-cli"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "tennis",
         "--",
@@ -2403,8 +2448,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "tennis"
       ],
@@ -2420,8 +2466,9 @@
         "client-cli"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "tinty",
         "--",
@@ -2469,8 +2516,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "tinty"
       ],
@@ -2487,8 +2535,9 @@
         "system-systemd"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "nginx-module",
         "--",
@@ -2538,8 +2587,9 @@
         "system:rpm:update"
       ],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "nginx-module"
       ],
@@ -2555,8 +2605,9 @@
         "zed"
       ],
       "apply": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "run",
         "zed",
         "--",
@@ -2602,8 +2653,9 @@
       "ecosystem": "custom",
       "after": [],
       "check": [
-        "python3",
-        "$DOTJIK_REPO/scripts/package-task.py",
+        "tjikup",
+        "workflow",
+        "package",
         "skip-update",
         "zed"
       ],

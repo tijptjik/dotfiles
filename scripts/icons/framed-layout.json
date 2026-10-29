@@ -413,8 +413,8 @@
         0,
         0
       ],
-      "source_sha256": "484cb9d310b39d256bc8e63bb1cc16dc97c7bf9415ad767714d2258c1e2d92fc",
-      "note": "Retain current optical size."
+      "source_sha256": "83c28453a6a073682842c349a2aa293501f9c1d699a2fcfd93c940c0d5310bc3",
+      "note": "Repository inbox revision; retain centred default scale. Frame clearance checked; approved for rc.10 by the user release instruction on 2026-10-29."
     },
     "gmail": {
       "scale": 0.8571428571428571,
@@ -638,8 +638,8 @@
         0,
         0
       ],
-      "source_sha256": "d46177bc4867722554c030e847bc96e4758615de0ada5ac079f96dfde7fa81dc",
-      "note": "Retain current optical size."
+      "source_sha256": "00057fdb41a53d5cf15e119059dca82150ffcd1254c984524bc87c915ff2928e",
+      "note": "Revised artwork; retained frame transform and verified tile clearance. Primary artwork accepted by user on 2026-10-29."
     },
     "navidrome": {
       "scale": 0.8571428571428571,
@@ -1142,8 +1142,8 @@
         0,
         0
       ],
-      "source_sha256": "c06ae35e88fdd03ad1dafa998a154f9160a1d8fe0bca4ea81caad9545323291f",
-      "note": "Retain current optical size."
+      "source_sha256": "9bc3599a8f3127439e82ecb63d90bccee21e77e56a5d3160e7b201863a6d18a2",
+      "note": "Revised artwork; retained frame transform and verified tile clearance. Primary artwork accepted by user on 2026-10-29."
     },
     "uuctl": {
       "scale": 0.8571428571428571,
@@ -1223,8 +1223,8 @@
         0,
         0
       ],
-      "source_sha256": "208d681eb93da6cfeb01e8af692b71e8cfaf814048a4df6a0b4ee358ca170af4",
-      "note": "Retain current optical size."
+      "source_sha256": "87959bffb133f77179470df1e4864a3481f7fb84b80a003518f700e417c2bafc",
+      "note": "Revised artwork; retained frame transform and verified tile clearance. Primary artwork accepted by user on 2026-10-29."
     },
     "zed-nightly": {
       "scale": 0.8571428571428571,
@@ -1232,8 +1232,8 @@
         0,
         0
       ],
-      "source_sha256": "6854d0b6400b8988348b333f11952569a73084c15dab8dca3e5b74235ee5e254",
-      "note": "Retain current optical size."
+      "source_sha256": "8fe1c4573c062f6ccdb85779c4fd9a3f7e2f921d2db6934b6a3a47934402e92d",
+      "note": "Revised artwork; retained frame transform and verified tile clearance. Primary artwork accepted by user on 2026-10-29."
     },
     "zed-preview": {
       "scale": 0.8571428571428571,
@@ -1241,8 +1241,8 @@
         0,
         0
       ],
-      "source_sha256": "a67a87b7204c213c2d517aeb197b0d87cc05ab38e9ddcd3586b6cf5fbad4bfc7",
-      "note": "Retain current optical size."
+      "source_sha256": "79b8f6ac965d1ee231cd37f9ccceecc50d4b88b32d1e60a074557a4c82e07b97",
+      "note": "Revised artwork; retained frame transform and verified tile clearance. Primary artwork accepted by user on 2026-10-29."
     },
     "zen": {
       "scale": 0.8571428571428571,

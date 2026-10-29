@@ -33,35 +33,10 @@ if contains -- "$fleet_phase" all rpm; and test "$package_operation" != update; 
     or exit 1
 end
 
-# Fedora publishes the active stable releases in this small JSON document.  It
-# avoids trying a system-upgrade transaction merely to discover whether a new
-# release exists, and keeps the check usable with both DNF 4 and DNF 5.
+# The native helper caches the official release date and waits 25 weeks before
+# querying upgrade availability. Status 2 means the check is not due yet.
 function available_fedora_release
-    command -q curl
-    and command -q python3
-    or return 1
-
-    command curl -fsSL --max-time 15 https://fedoraproject.org/releases.json | command python3 -c '
-import json
-import sys
-
-try:
-    releases = json.load(sys.stdin)
-except (OSError, ValueError, json.JSONDecodeError):
-    raise SystemExit(1)
-
-if isinstance(releases, dict):
-    releases = releases.get("releases", [])
-
-versions = []
-for release in releases:
-    version = str(release.get("version", ""))
-    if version.isdecimal():
-        versions.append(int(version))
-
-if versions:
-    print(max(versions))
-'
+    command "{{ user.home }}/.local/bin/tjikup" workflow fedora-release
 end
 
 set fedora_upgrade_state_dir "$HOME/.local/state/chezetc"
@@ -409,8 +384,11 @@ if contains -- "$fleet_phase" all release
 set installed_fedora_release (rpm -E %fedora 2>/dev/null)
 status_msg CHECK "..." "Fedora release check" "checking"
 set available_fedora_release (available_fedora_release)
+set release_check_status $status
 
-if string match -qr '^[0-9]+$' -- "$installed_fedora_release"; and string match -qr '^[0-9]+$' -- "$available_fedora_release"
+if test "$release_check_status" -eq 2
+    step_skip_ok "Fedora Release" "$available_fedora_release"
+else if test "$release_check_status" -eq 0; and string match -qr '^[0-9]+$' -- "$installed_fedora_release"; and string match -qr '^[0-9]+$' -- "$available_fedora_release"
     if test "$available_fedora_release" -gt "$installed_fedora_release"
         set upgrade_subject "Fedora $available_fedora_release release"
 

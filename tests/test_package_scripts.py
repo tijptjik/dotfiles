@@ -76,6 +76,28 @@ end
                             self.assertIn(' update ', calls)
                             self.assertNotIn(' install ', calls)
 
+    def test_fedora_gate_reports_skip_without_prompt_or_upgrade(self):
+        source = (ROOT / 'native/tasks/system/run_30-system-update.fish.j2').read_text()
+        body = source[source.index('if contains -- "$fleet_phase" all release'):]
+        harness = """
+set fleet_phase release
+function rpm; echo 45; end
+function status_msg; end
+function available_fedora_release
+    echo 'checks from 2027-04-20'
+    return 2
+end
+function step_skip_ok; echo "SKIP $argv"; end
+function step_check_ok; echo UNEXPECTED; end
+function gum; echo UNEXPECTED; return 1; end
+function step_run_as; echo UNEXPECTED; end
+"""
+        result = subprocess.run(['fish', '--no-config', '-c', harness + body],
+                                text=True, capture_output=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('SKIP Fedora Release checks from 2027-04-20', result.stdout)
+        self.assertNotIn('UNEXPECTED', result.stdout)
+
     def test_cargo_partial_group_never_updates_installed_siblings_during_install(self):
         source = ROOT / 'native/tasks/home/run_after_29-rust-packages.fish.j2'
         text = source.read_text()

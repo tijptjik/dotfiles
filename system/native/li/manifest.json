@@ -141,7 +141,8 @@
       "uid": 0,
       "gid": 0,
       "template": true,
-      "source": "files/xdg/monitors.xml.j2"
+      "source": "files/xdg/monitors.xml.j2",
+      "when": "is_desktop"
     },
     {
       "kind": "file",

@@ -85,7 +85,7 @@
     },
     {
       "id": "home:render",
-      "label": "Maintenance scripts (home)",
+      "label": "Templates (home)",
       "needs": [
         "home:bitwarden",
         "require:fish"

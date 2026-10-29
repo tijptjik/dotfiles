@@ -43,7 +43,7 @@
     },
     {
       "id": "system:render",
-      "label": "Maintenance scripts (system)",
+      "label": "Templates (system)",
       "needs": [
         "home:bitwarden",
         "require:fish",

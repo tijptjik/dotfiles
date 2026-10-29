@@ -5989,5 +5989,95 @@
     "source": "files/.config/imv/config",
     "mode": "0644",
     "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/chezup",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezup/__init__.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezup/core.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezup/propagators/__init__.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezup/propagators/herdr.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezup/propagators/solaar.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/chezup/propagators/zed.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/__init__.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/core.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/notifications.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/propagators/__init__.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/propagators/codex.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/propagators/fcitx.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/propagators/gtk_bookmarks.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/propagators/herdr.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/propagators/solaar.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/propagators/zapzap.py",
+    "kind": "absent",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/lib/tjikup/propagators/zed.py",
+    "kind": "absent",
+    "group": "base"
   }
 ]

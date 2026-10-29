@@ -1,0 +1,10 @@
+[Unit]
+Description=Sunday morning Tjikup maintenance
+
+[Timer]
+OnCalendar=Sun *-*-* 09:00:00 Asia/Hong_Kong
+Persistent=true
+AccuracySec=1min
+
+[Install]
+WantedBy=timers.target

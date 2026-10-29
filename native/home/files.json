@@ -680,7 +680,16 @@
     "mode": "0644",
     "template": true,
     "group": "base",
-    "when": "is_client"
+    "when": "is_client and hostname != \"li\""
+  },
+  {
+    "path": "{{ user.home }}/.config/herdr/session.json",
+    "kind": "file",
+    "source": "files/.config/herdr/session-li.json.j2",
+    "mode": "0644",
+    "template": true,
+    "group": "base",
+    "when": "hostname == \"li\""
   },
   {
     "path": "{{ user.home }}/.config/herdr/sounds",

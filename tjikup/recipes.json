@@ -2649,7 +2649,7 @@
     },
     {
       "id": "home:activate:notjik",
-      "label": "Notjik activation",
+      "label": "Notjik",
       "operation": "install",
       "scope": "home",
       "part_of": "home:notjik",
@@ -2671,13 +2671,19 @@
         "TJIKUP_MANAGED_CONFIG": "1"
       },
       "display": {
-        "section": "Install missing applications"
+        "section": "Service activation",
+        "verb": "ACTIVATE"
       },
-      "after": []
+      "after": [],
+      "check": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-notjik.sh",
+        "--check"
+      ]
     },
     {
       "id": "home:activate:bartjik",
-      "label": "Bartjik activation",
+      "label": "Bartjik",
       "operation": "install",
       "scope": "home",
       "part_of": "home:bartjik",
@@ -2699,10 +2705,16 @@
         "TJIKUP_MANAGED_CONFIG": "1"
       },
       "display": {
-        "section": "Install missing applications"
+        "section": "Service activation",
+        "verb": "ACTIVATE"
       },
       "after": [
         "home:activate:notjik"
+      ],
+      "check": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-bartjik.sh",
+        "--check"
       ]
     },
     {
@@ -2712,7 +2724,7 @@
         "$DOTJIK_REPO/scripts/activate-runtjik.sh",
         "--check"
       ],
-      "label": "Runtjik activation",
+      "label": "Runtjik",
       "operation": "install",
       "scope": "home",
       "part_of": "home:runtjik",
@@ -2734,13 +2746,14 @@
         "TJIKUP_MANAGED_CONFIG": "1"
       },
       "display": {
-        "section": "Install missing applications"
+        "section": "Service activation",
+        "verb": "ACTIVATE"
       },
       "after": []
     },
     {
       "id": "home:activate:services",
-      "label": "User service activation",
+      "label": "User services",
       "operation": "install",
       "scope": "home",
       "needs": [
@@ -2759,7 +2772,9 @@
         "TJIKUP_MANAGED_CONFIG": "1"
       },
       "display": {
-        "section": "Install missing applications"
+        "section": "Service activation",
+        "verb": "ACTIVATE",
+        "reports": true
       },
       "after": [
         "home:activate:notjik",

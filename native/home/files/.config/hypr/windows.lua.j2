@@ -416,3 +416,13 @@ hl.window_rule({
     center = true,
     match = { class = "^(org.gnome.Loupe|imv)$" },
 })
+
+-- Borderless imv permits gapless floating expansion without fullscreen.
+hl.window_rule({
+    name = "imv-borderless",
+    border_size = 0,
+    rounding = 0,
+    -- Expand/restore immediately: separate resize and move animations slide sideways.
+    no_anim = true,
+    match = { class = "^imv$" },
+})

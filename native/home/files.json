@@ -5966,5 +5966,28 @@
     "template": true,
     "mode": "0600",
     "group": "maintenance"
+  },
+  {
+    "path": "{{ user.home }}/.config/hypr/imv_gapless.lua",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/hypr/imv_gapless.lua",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/imv",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "directory",
+    "mode": "0755",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/imv/config",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/imv/config",
+    "mode": "0644",
+    "group": "base"
   }
 ]

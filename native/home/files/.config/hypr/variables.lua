@@ -160,7 +160,8 @@ hl.config({
 
 hl.config({
     render = {
-        cm_auto_hdr = 1,
+        -- Avoid display HDR mode switches when apps enter or leave fullscreen.
+        cm_auto_hdr = 0,
         -- Avoid scanout/compositing switches for gapless desktop columns.
         direct_scanout = 2, -- Games only.
     },

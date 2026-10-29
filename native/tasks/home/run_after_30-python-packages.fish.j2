@@ -3,13 +3,18 @@ source {{ (home_source ~ "/.chezmoihelpers/status.fish") | fish_quote }}
 
 {% if is_client -%}
 function sync_python_environment
-    # This is an after script so chezmoi has already deployed the project files
-    # under ~/.local/share/pytjik before uv reads them.
+    # Tjikup deploys the project files before this recipe runs.
+    # They live under ~/.local/share/pytjik.
     #
     # PaddlePaddle supports CPython through 3.13. Request it explicitly so an
     # installed system Python 3.14 does not make the sync unsatisfiable.
     set -l project "$HOME/.local/share/pytjik"
     set -lx UV_PROJECT_ENVIRONMENT "$HOME/.venv"
+    set -l before
+    if test -x "$UV_PROJECT_ENVIRONMENT/bin/python"
+        set before (uv pip list --quiet --python "$UV_PROJECT_ENVIRONMENT/bin/python" --format=json | string collect)
+        or return $status
+    end
     set -l verb SKIP
     if test "$TJIKUP_OPERATION" = update; or not uv sync --check --offline --project "$project" --python 3.13 --no-python-downloads >/dev/null 2>&1
         set -l upgrade_args
@@ -20,8 +25,11 @@ function sync_python_environment
         set verb SYNC
     end
 
-    set -l packages (uv pip list --quiet --python "$UV_PROJECT_ENVIRONMENT/bin/python" --format=json)
+    set -l packages (uv pip list --quiet --python "$UV_PROJECT_ENVIRONMENT/bin/python" --format=json | string collect)
     or return $status
+    if test "$before" = "$packages"
+        set verb SKIP
+    end
     set -l package_count (printf '%s\n' $packages | string match -ra '"name":' | count)
     printf '__stage_verb__:%s\n' "$verb"
     if test "$verb" = SKIP

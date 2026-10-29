@@ -58,3 +58,8 @@ from those files is a separate recovery procedure.
 After a reboot, confirm that the UUID disk is mounted at the repository path
 before the next scheduled run. Fi is offsite only while physically located
 elsewhere.
+
+Synctjik implements both backup engines natively in Rust. Cloudflare Resources
+exports DNS, Workers KV and R2 **from** Cloudflare into Restic. Runtime transfers
+require rclone and Restic, not Python. `synctjik capabilities` reports
+`native_backends: 1`; installers refuse to downgrade to the older Python wrapper.

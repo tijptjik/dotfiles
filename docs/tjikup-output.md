@@ -58,7 +58,7 @@ enrolled as a desktop; Li and Si require their own enrollment.
 | Backup schedule | Previously “Common Units”: user lingering, unit reload and the package-backup timer. |
 | Desktop session services | Previously “Clients Units”: desktop helper enablement/start checks. Idle/nightlight choices are preserved. |
 | Hyprlock | Enables the login-lock unit; it does not lock the session during apply. |
-| Synctjik (Cloudflare backup) | A separate Restic backup timer, gated on credentials and a verified restore. Synctjik owns the engine; the timer name and restore gate are retained. |
+| Synctjik (Cloudflare Resources) | A separate Restic backup timer, gated on credentials and a verified restore. Synctjik owns the engine; the timer name and restore gate are retained. |
 | User services | Refreshes changed active managed service runtimes and timers. It skips inactive services and refuses oneshot jobs; it does not restart pinned archive workers. |
 | Applications (Server) | Si's backup-gated Plex and Docker Compose application updater, with session/activity checks. |
 

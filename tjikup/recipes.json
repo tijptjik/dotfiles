@@ -720,7 +720,7 @@
       "check": [
         "bash",
         "-c",
-        "command -v rclone >/dev/null && command -v restic >/dev/null && synctjik capabilities | python3 -c 'import json,sys; c=json.load(sys.stdin); sys.exit(not (c.get(\"cloudflare_backup\") and c.get(\"private_assets\")))'"
+        "command -v rclone >/dev/null && command -v restic >/dev/null && synctjik capabilities | grep -Eq '\"native_backends\"[[:space:]]*:[[:space:]]*1([,}])'"
       ]
     },
     {

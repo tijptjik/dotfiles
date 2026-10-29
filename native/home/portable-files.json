@@ -177,5 +177,32 @@
     "template": true,
     "create_only": true,
     "group": "notjik"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/tjikup-weekly.service",
+    "kind": "file",
+    "source": "files/.config/systemd/user/tjikup-weekly.service",
+    "mode": "0644",
+    "group": "maintenance"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/tjikup-weekly.timer",
+    "kind": "file",
+    "source": "files/.config/systemd/user/tjikup-weekly.timer",
+    "mode": "0644",
+    "group": "maintenance"
+  },
+  {
+    "path": "{{ user.home }}/.config/tjikup/telegram-relay.json",
+    "kind": "absent",
+    "group": "maintenance"
+  },
+  {
+    "path": "{{ user.home }}/.config/tjikup/telegram.json",
+    "kind": "file",
+    "source": "files/.config/tjikup/telegram.json.j2",
+    "template": true,
+    "mode": "0600",
+    "group": "maintenance"
   }
 ]

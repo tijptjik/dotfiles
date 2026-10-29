@@ -46,7 +46,7 @@ captures new messages and observed edits/deletions; deletion mode is soft.
 The scheduler also performs its default daily sweep. Each media attempt has a
 30-minute timeout, up to three attempts within a run and a persistent retry
 budget of five. Exhausted files remain visible as failures; they do not establish
-that the archive is complete. Transcription is disabled.
+that the archive is complete. Transcription runs locally through akou; see below.
 
 ## Verification and maintenance
 
@@ -98,3 +98,47 @@ replacement together, then verify computed login layout, an actual login, and
 received WebSocket frames through the public Cloudflare hostname. A 403 WebSocket
 handshake while signed out is the app enforcing authentication, not evidence of a
 broken Upgrade proxy. The viewer password is in Si's private `viewer.env`.
+
+## Local English/Dutch transcription
+
+`akou` is pinned to `drumsergio/akou:0.5.4`, reachable only on the archive Docker
+network at `http://akou:8476`. There is no published host port. Its `fast` preset
+uses multilingual Parakeet TDT v3; language is detected automatically, and the
+settings declare English and Dutch. Speaker diarization is off for voice notes.
+One worker uses two CPU threads, with Compose limits of two CPUs and 6 GB RAM.
+
+The non-secret `akou-config.json` is managed alongside Compose. Persistent models,
+settings/keys, and jobs live under `telegram-archive/akou/{models,data}` in appData.
+Before first start, create the bind directories as uid 1000 and run:
+
+```sh
+cd /home/m/dockers
+docker compose run --rm --no-deps akou models pull fast
+docker compose up -d akou
+docker exec akou akou keys create --name telegram-archive --scope jobs --json
+```
+
+Save the returned API key privately as `TRANSCRIPTION_API_KEY` in `backup.env`;
+never put it in `viewer.env` or Git. The archive polls job results, so no callback
+secret or public transcription endpoint is needed. Model pulls verify checksums.
+
+Automatic transcription covers voice messages only. The timer runs every 15
+minutes with a maximum of five files per account per drain; the live listener also
+submits new downloaded voices. Existing downloaded voices are eligible for
+backfill. Original audio remains intact and transcripts are stored in SQLite.
+Akou's temporary job retention (seven days) does not remove transcripts already
+stored in Telegram Archive. Back up the archive independently as described above.
+
+The initial pilot submits exactly five distinct downloaded voices using the
+archive's own transcription client and event reconciliation, with automatic
+collection disabled during the pilot. It checks successful non-empty database
+results and unchanged audio hashes. Language labels and technical success are
+not a measured word-error rate: review samples against their audio before treating
+transcripts as exact quotations.
+
+Pilot verification on 2026-10-29: five distinct voice files (about 70 seconds total)
+produced five non-empty stored transcripts in 36.9 seconds, with original audio
+hashes unchanged. All five were retrieved through the authenticated public viewer.
+All output text was English; Dutch recognition and listening-based word accuracy
+remain unverified. Akou, backup and viewer health checks passed after enabling
+automatic voice-only transcription.

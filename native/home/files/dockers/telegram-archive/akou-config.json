@@ -1,0 +1,12 @@
+{
+  "server.behind_proxy": true,
+  "server.concurrency": 1,
+  "server.default_language": "auto",
+  "server.default_model": "fast",
+  "asr.languages": [
+    "en",
+    "nl"
+  ],
+  "asr.threads": 2,
+  "server.default_diarize": false
+}

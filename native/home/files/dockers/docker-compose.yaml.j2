@@ -12,6 +12,29 @@ services:
 ###  tga.type.hk      ###
 #########################
 
+  akou:
+    container_name: akou
+    image: drumsergio/akou:0.5.4
+    restart: unless-stopped
+    stop_grace_period: 60s
+    environment:
+      AKOU_BEHIND_PROXY: "true"
+      AKOU_ACCELERATOR: cpu
+    volumes:
+      - {{ paths.appData }}/telegram-archive/akou/data:/data:z
+      - {{ paths.appData }}/telegram-archive/akou/models:/models:z
+      - ./telegram-archive/akou-config.json:/data/.config/akou/config.json:ro,z
+    networks: [telegram-archive]
+    cpus: 2.0
+    mem_limit: 6g
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   telegram-backup:
     # Opt in after interactive authentication; ordinary stack updates must not
     # start an unauthenticated collector. See docs/telegram-archive.md.
@@ -39,7 +62,15 @@ services:
       ENABLE_LISTENER: "true"
       LISTEN_DELETIONS: "true"
       DELETION_MODE: soft
-      TRANSCRIPTION_ENABLED: "false"
+      TRANSCRIPTION_ENABLED: "true"
+      TRANSCRIPTION_URL: http://akou:8476
+      TRANSCRIPTION_PROVIDER: akou
+      TRANSCRIPTION_PRESET: fast
+      TRANSCRIPTION_LANGUAGE: ""
+      TRANSCRIPTION_DIARIZE: "false"
+      TRANSCRIPTION_TYPES: voice
+      TRANSCRIPTION_BACKFILL_PER_RUN: "5"
+      TRANSCRIPTION_DRAIN_INTERVAL_MINUTES: "15"
       VIEWER_HOST: telegram-viewer
       VIEWER_PORT: "8000"
     volumes:
@@ -75,7 +106,8 @@ services:
       CORS_ORIGINS: https://tga.type.hk
       SECURE_COOKIES: "true"
       TRUST_PROXY_HEADERS: "true"
-      TRANSCRIPTION_ENABLED: "false"
+      TRANSCRIPTION_ENABLED: "true"
+      TRANSCRIPTION_URL: http://akou:8476
       MEDIA_MAX_DOWNLOAD_ATTEMPTS: "5"
     ports:
       - 127.0.0.1:{{ ports.telegramArchive }}:8000

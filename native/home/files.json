@@ -5001,6 +5001,14 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/dockers/telegram-archive/akou-config.json",
+    "when": "hostname in [\"si\"]",
+    "kind": "file",
+    "source": "files/dockers/telegram-archive/akou-config.json",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/dockers/telegram-archive/all_chats.py",
     "when": "hostname in [\"si\"]",
     "kind": "file",

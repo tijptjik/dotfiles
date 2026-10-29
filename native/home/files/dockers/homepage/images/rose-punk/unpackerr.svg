@@ -1,28 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-material="authored">
-<g id="frameless-artwork" transform="translate(-0.730594 0.995434) scale(1.022831)"><title>unpackerr</title>
-<defs><linearGradient id="front" gradientUnits="userSpaceOnUse" x1="9" y1="36" x2="31" y2="56"><stop stop-color="#e99ab8" /><stop offset="1" stop-color="#ca6998" /></linearGradient><linearGradient id="side" gradientUnits="userSpaceOnUse" x1="32" y1="33" x2="54" y2="52"><stop stop-color="#ae759e" /><stop offset="1" stop-color="#795878" /></linearGradient><linearGradient id="flap" gradientUnits="userSpaceOnUse" x1="6" y1="30" x2="29" y2="44"><stop stop-color="#f6d9bb" /><stop offset="1" stop-color="#dba78c" /></linearGradient><linearGradient id="blue-arrow" gradientUnits="userSpaceOnUse" x1="17" y1="8" x2="24" y2="34"><stop stop-color="#80bfcd" /><stop offset="1" stop-color="#648dbb" /></linearGradient><linearGradient id="amber-arrow" gradientUnits="userSpaceOnUse" x1="39" y1="9" x2="32" y2="35"><stop stop-color="#e6ae62" /><stop offset="1" stop-color="#df9a60" /></linearGradient><linearGradient id="jade-arrow" gradientUnits="userSpaceOnUse" x1="45" y1="31" x2="37" y2="43"><stop stop-color="#71bfa8" /><stop offset="1" stop-color="#4aa995" /></linearGradient></defs>
-<g stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g id="frameless-artwork" transform="translate(0.000000 0.500000) scale(1.000000)"><title>Unpackerr</title><desc>An open kraft-board parcel with folded papers and a single teal unpacking arrow.</desc>
+<g data-material="authored" stroke-linecap="round" stroke-linejoin="round">
+<defs><linearGradient id="kraft" x1="10" y1="33" x2="29" y2="57" gradientUnits="userSpaceOnUse"><stop stop-color="#d9ae85" /><stop offset="1" stop-color="#c29274" /></linearGradient></defs>
 
-<path d="m9 30 22-8 23 8v19l-23 8L9 49Z" fill="#9a5f80" />
-<path d="m10 30 21-7 22 7-22 8Z" fill="#554359" />
-<path d="m9 31 22 7v19L9 49Z" fill="url(#front)" />
-<path d="m31 38 23-8v19l-23 8Z" fill="url(#side)" />
-<path d="m9 30 22 8-5 7-21-9Z" fill="url(#flap)" stroke="#a97885" stroke-width=".55" />
-<path d="m31 38 23-8 5 6-22 9Z" fill="#d6ad99" stroke="#9c6b84" stroke-width=".55" />
-<path d="m9 30 22 8 23-8m-23 8v18" fill="none" stroke="#854f72" stroke-width=".8" />
-<path d="m12 40 5 2v8l-5-2m28-5 4-2v9l-4 1.5" fill="#e8b46e" />
-<path d="m13 41 3 1m25 1 2-.7" stroke="#fff0da" stroke-width=".7" />
-<circle cx="14.5" cy="47.5" r=".65" fill="#a46c51" /><circle cx="42" cy="47" r=".65" fill="#996b59" />
-<path d="m18 46 7 2m-7 .8 5 1.4m24-6.4 4-1.3" stroke="#b9678b" stroke-width=".55" />
+<path d="m10 29 23-9 21 9-22 10Z" fill="#806657" />
+<path d="m10 29 23-9-6-7-23 9Z" fill="#e0bc97" />
+<path d="m33 20 21 9 5-7-21-9Z" fill="#d0a882" />
 
-<path d="M21 34c-5-6-6-13-4-20l-5-.3L23 4l7 13-6-1c-1 6-.2 12 2 16Z" fill="url(#blue-arrow)" stroke="#64738f" stroke-width=".6" />
-<path d="M21 34c-1.6-6-2.3-11-.8-18l3.8 0c-1 6-.2 12 2 16Z" fill="#4e7d9d" />
-<path d="m14 13 9-8 5.8 10.5" fill="none" stroke="#badde1" stroke-width=".75" />
-<path d="M27 34c7-6 10-12 10-18l-5 1 9-12 10 11-6-1c-.8 8-5 15-12 20Z" fill="url(#amber-arrow)" stroke="#a8745d" stroke-width=".6" />
-<path d="M33 35c7-6 11-13 12-20l-3 1c-1.3 7-5 12-11 17Z" fill="#ba7958" />
-<path d="m34 16 7-9 8 8" fill="none" stroke="#ffe0a9" stroke-width=".7" />
-<path d="m30 39 15-6-3-4 16 4-9 12-1-5-14 5Z" fill="url(#jade-arrow)" stroke="#468e80" stroke-width=".6" />
-<path d="m34 45 14-5-1-2-15 4Z" fill="#3f8b80" />
-<path d="m44 30 12 3.3-6.7 9" fill="none" stroke="#a0dfc4" stroke-width=".7" />
-</g>
-</g></svg>
+<path d="m19 19 15-6 11 6v18l-15 7-11-6Z" fill="#b9afc9" />
+<path d="m17 17 15-6 11 6v18l-15 7-11-6Z" fill="#f2e5d9" />
+<path d="m17 17 11 6 15-6-11-6Z" fill="#fff0da" />
+<path d="m28 23 15-6v18l-15 7Z" fill="#ddd1db" />
+<path d="m20 24 5 3m-5 1 5 3" fill="none" stroke="#c4a8ad" stroke-width="1.2" />
+
+<path d="M43 5 54 17h-7v13h-8V17h-7Z" fill="#4ca99f" />
+<path d="M43 5 54 17h-4L43 9Z" fill="#73c6b8" />
+<path d="m10 29 22 10v19L10 48Z" fill="url(#kraft)" />
+<path d="m32 39 22-10v19L32 58Z" fill="#ac806b" />
+<path d="m10 29 22 10-6 7-22-11Z" fill="#efd1aa" />
+<path d="m32 39 22-10 6 6-22 11Z" fill="#dfb995" />
+<path d="m32 40 22-10" fill="none" stroke="#c99c7b" stroke-width=".8" />
+
+<path d="m14 43 10 4v6l-10-4Z" fill="#f6e5ca" />
+<path d="m16 46 6 2.5m-6 0 4 1.7" fill="none" stroke="#aa897b" stroke-width=".8" />
+<path d="m42 45 5-2v8l-5 2Z" fill="#d1a278" />
+</g></g></svg>

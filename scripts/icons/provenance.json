@@ -124,11 +124,11 @@
   "zed": {
     "source": "https://zed.dev/brand",
     "license": "Upstream Zed mark; themed adaptation, trademark rights retained",
-    "sha256": "f19ae74815f9b754e74f54e974ad178aa95ca76e54b9d9eafd38854904e93b65",
+    "sha256": "e6bc8242e15a4fb07a283332e05b2852d71459ba2c5d7f203f0e219464134850",
     "reference": "upstream/zed-official.svg",
     "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00",
-    "material_revision": 2,
-    "design_note": "Original ivory Zed mark restored with a dark plum fill behind its open geometry; official geometry and material finish retained."
+    "material_revision": 3,
+    "design_note": "Add a substantial plum outer outline and plum backing; retain official geometry and channel pigment. Visual design accepted by user on 2026-10-29."
   },
   "gimp": {
     "source": "scripts/icons/local/gimp.svg",
@@ -169,9 +169,9 @@
   "mullvad": {
     "source": "scripts/icons/local/mullvad.svg",
     "license": "Themed vector artwork; underlying brand rights and source licenses retained",
-    "sha256": "57025e97df03c5bc857fa71446b23e83c342e9b67c8cfd4a0a1aca683d32e2e7",
-    "material_revision": 16,
-    "design_note": "Warm brown mole with a restrained ramp visible on light and dark surfaces; the authentic face, smoothed neck and amber hat are retained, with a brown hat edge for light surfaces. The mouth opening and shadow under the hat are filled with the dark plum background color (#26233a).",
+    "sha256": "e5f09c42dbbc4803845cf4ba2b41679e5a77c1a8fb8a6fc70e320c7202cfa85c",
+    "material_revision": 17,
+    "design_note": "Mole companion adapted to the Rose Punk animal family; amber mining helmet and lamp retain Mullvad identity. Visual design accepted by user on 2026-10-29.",
     "adapted_from": {
       "source": "scripts/icons/local/mullvad.svg",
       "license": "Original themed interpretation; app identity rights remain with their owners",
@@ -187,7 +187,9 @@
         }
       },
       "material_revision": 5
-    }
+    },
+    "reference": "scripts/icons/upstream/mullvad.svg",
+    "reference_sha256": "bf228c15811759a3b1e5c28ee9f23d603c0ce5fe06982416d0105e0b154a128d"
   },
   "files": {
     "source": "scripts/icons/build.py",
@@ -816,9 +818,9 @@
   "zed-preview": {
     "source": "scripts/icons/local/zed-preview.svg",
     "license": "Themed vector artwork; underlying brand rights and source licenses retained",
-    "sha256": "ebb9c37ea347f096705e236725cea16065f647a65edaa03d2a56ee196cfb78bd",
-    "material_revision": 14,
-    "design_note": "Original electric periwinkle-blue (#5685ff) restored with a dark plum fill behind the official Zed geometry; gold reserved for Nightly.",
+    "sha256": "bb9235cb2425d9fe84b6def49a2692a666dc55d7e28edc3b9c46bab041032b7b",
+    "material_revision": 15,
+    "design_note": "Add a substantial plum outer outline and plum backing; retain official geometry and channel pigment. Visual design accepted by user on 2026-10-29.",
     "adapted_from": {
       "source": "https://zed.dev/brand",
       "license": "Upstream Zed mark; themed adaptation, trademark rights retained",
@@ -843,17 +845,18 @@
   "zed-nightly": {
     "source": "https://zed.dev/brand",
     "license": "Upstream Zed mark; themed adaptation, trademark rights retained",
-    "sha256": "521b9331cd46a099b8e76753884ff8d1a65ea73f7f7be0d43e58208343ea9b94",
+    "sha256": "6c4fb833e0d334f55ae7bb5752bd5ecbd26b8a511f993425848d17662f311154",
     "reference": "upstream/zed-official.svg",
     "reference_sha256": "c6f6b6b78dbab2d730cb56df7949a9720aa5b80bc2c01cfacdd3674f7f0c4a00",
-    "material_revision": 20,
-    "design_note": "Original theme gold (#f6c177) restored with a dark plum fill behind the official Zed geometry; ivory Stable and electric-blue Preview preserved."
+    "material_revision": 21,
+    "design_note": "Add a substantial plum outer outline and plum backing; retain official geometry and channel pigment. Visual design accepted by user on 2026-10-29."
   },
   "gitfetch": {
     "source": "scripts/icons/local/gitfetch.svg",
     "license": "Original Rose Punk artwork",
-    "sha256": "0c2f9f4ae1ba05a43bc4d276a6a466615bec9b6df5d2dbbe8d72aef5947cff2d",
-    "design_note": "Copper Git branch and jade fetch arrow on an indigo terminal."
+    "sha256": "5cd9be43b9ecb1e6aaee71793bb4642f9ce164793229a688028f52725fd9101a",
+    "design_note": "Original illustrated repository inbox: violet folded casing, layered ivory commit cards, copper Git branch and mint fetch arrow. Replaces the terminal-window treatment; approved for rc.10 by the user release instruction on 2026-10-29.",
+    "material_revision": 2
   },
   "bitwarden": {
     "source": "scripts/icons/local/bitwarden.svg",

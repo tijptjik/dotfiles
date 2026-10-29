@@ -4,21 +4,33 @@
     "source": "native/home/files/.config/zed/settings.json.j2",
     "target": ".config/zed/settings.json",
     "kind": "jsonc-scalars",
-    "optional": true
+    "optional": true,
+    "hosts": [
+      "fi",
+      "li"
+    ]
   },
   {
     "name": "herdr",
     "source": "native/home/files/.config/herdr/session.json.j2",
     "target": ".config/herdr/session.json",
     "kind": "template-json",
-    "optional": true
+    "optional": true,
+    "hosts": [
+      "fi",
+      "li"
+    ]
   },
   {
     "name": "solaar",
     "source": "native/home/files/.config/solaar/config.yaml",
     "target": ".config/solaar/config.yaml",
     "kind": "copy",
-    "optional": true
+    "optional": true,
+    "hosts": [
+      "fi",
+      "li"
+    ]
   },
   {
     "name": "fcitx",
@@ -26,14 +38,22 @@
     "target": ".config/fcitx5/profile",
     "kind": "copy",
     "optional": true,
-    "backup": true
+    "backup": true,
+    "hosts": [
+      "fi",
+      "li"
+    ]
   },
   {
     "name": "codex",
     "source": "native/home/files/.codex/config.toml",
     "target": ".codex/config.toml",
     "kind": "copy",
-    "optional": true
+    "optional": true,
+    "hosts": [
+      "fi",
+      "li"
+    ]
   },
   {
     "name": "zapzap",

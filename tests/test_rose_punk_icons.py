@@ -100,15 +100,8 @@ class RosePunkIconsTests(unittest.TestCase):
         fox = ET.parse(ROOT / 'scripts/icons/upstream/firefoxbrowser.svg').find('.//{*}path').get('d')
         rendered = ET.parse(ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps/firefox.svg')
         self.assertIn(fox, [node.get('d') for node in rendered.findall('.//{*}path')])
-        original = ET.parse(ROOT / 'scripts/icons/upstream/mullvad.svg').getroot()
-        refined = ET.parse(ROOT / 'scripts/icons/local/mullvad.svg').getroot()
-        original_path = original.find('.//{*}path').get('d')
-        mole_only = 'M13.651 3.363' + original_path.split('zm1.651 3.363', 1)[1]
-        # Only the jagged neck edge is softened; hat and face stay authentic.
-        new_path = refined.find('.//{*}path').get('d')
-        self.assertEqual(new_path.split('l3.553 1.4')[0], mole_only.split('l3.553 1.4')[0])
-        self.assertEqual(new_path.split('-2.667 3.419')[1], mole_only.split('-2.667 3.419')[1])
-        self.assertLess(len(new_path), len(mole_only))
+        # Mullvad is now an original animal-family interpretation, requested by
+        # the user; its former side-profile path is no longer a geometry contract.
 
     def test_zed_channels_have_distinct_desktop_mappings_and_colors(self):
         mapping = json.loads((ROOT / 'scripts/icons/apps.json').read_text())

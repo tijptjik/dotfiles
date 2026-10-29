@@ -303,3 +303,23 @@ or historical bootstrap instructions; use the Tjikup entry points.
 Runtjik activation checks launcher health, duplicate desktop entries, MIME cleanup,
 and legacy launcher services before applying. A healthy installation with no pending
 cleanup is unchanged; the check does not stop services or modify files.
+
+### Encrypted Bitwarden cache
+
+Home manifests enable Tjikup's local encrypted credential cache. Ciphertext is
+stored in `~/.cache/tjikup/credentials` with owner-only permissions; its encryption
+key lives in the desktop Secret Service (oo7), accessed through `secret-tool`.
+Missing secrets are fetched from Bitwarden. Cached values have no TTL and no
+periodic refresh; service runners own their refresh policy. If Secret Service is
+unavailable, rendering uses Bitwarden directly without a plaintext cache.
+
+To explicitly refresh referenced credentials, run
+`tjikup --apply-dotfiles --refresh-secrets`.
+Changing the Bitwarden access token creates a separate cache scope.
+The installer retains a compatible installed runner until the pinned release
+supports this cache schema.
+
+Recipes may opt into one authentication recovery attempt with declared secret IDs,
+dedicated authentication exit codes, a refresh command, and `retry_safe: true`.
+Existing recipes are not automatically retried for generic failures. See the
+Tjikup README's credential recovery contract before enabling a service runner.

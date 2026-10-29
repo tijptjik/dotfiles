@@ -6,7 +6,8 @@
     "command": [
       "/usr/local/bin/bws"
     ],
-    "access_token_file": "{{ user.home }}/.config/bws/environment"
+    "access_token_file": "{{ user.home }}/.config/bws/environment",
+    "cache": {}
   },
   "entries": [
     {

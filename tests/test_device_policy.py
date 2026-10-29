@@ -1,4 +1,5 @@
-import json, os, sys, tempfile, unittest
+"""Compatibility bridge tests; selection is tested against the native owner."""
+import json, os, socket, sys, tempfile, unittest
 from pathlib import Path
 from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
@@ -6,52 +7,53 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 import device_policy as policy
 
 class DevicePolicyTests(unittest.TestCase):
-    def test_new_hostname_uses_role_and_selected_dependencies(self):
-        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}), patch('socket.gethostname',return_value='new-laptop'):
-            p=Path(directory)/'tjikup/device.json';p.parent.mkdir();p.write_text(json.dumps({'version':1,'hostname':'new-laptop','role':'laptop','subscriptions':['system:zed']}))
-            c=policy.context(ROOT)
-            self.assertTrue(c['is_client']);self.assertTrue(c['is_laptop']);self.assertFalse(c['is_server'])
-            self.assertIn('system:zed',c['subscriptions']);self.assertNotIn('home:collie',c['subscriptions'])
-            self.assertNotIn('system:apps',c['subscriptions'])
-    def test_merged_asset_subscriptions_resolve_without_changing_profile(self):
-        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}), patch('socket.gethostname',return_value='fi'):
-            path=Path(directory)/'tjikup/device.json';path.parent.mkdir()
-            path.write_text(json.dumps({'version':1,'hostname':'fi','role':'desktop',
-                'subscriptions':['home:font-migration','home:fonts','home:rose-punk-icons','home:icons']}))
-            before=path.read_bytes()
-            result=policy.context(ROOT)
-            self.assertNotIn('home:font-migration',result['subscriptions'])
-            self.assertNotIn('home:rose-punk-icons',result['subscriptions'])
-            self.assertEqual(result['subscriptions'].count('home:fonts'),1)
-            self.assertEqual(result['subscriptions'].count('home:icons'),1)
-            self.assertEqual(path.read_bytes(),before)
+    def enrolled(self, directory, role='desktop', subscriptions=None):
+        path = Path(directory) / 'tjikup/device.json'
+        path.parent.mkdir()
+        path.write_text(json.dumps({'version':1, 'hostname':socket.gethostname(),
+            'role':role, 'subscriptions':subscriptions or []}))
+        return path
 
-    def test_unknown_subscription_is_not_hidden_by_alias_support(self):
-        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}), patch('socket.gethostname',return_value='fi'):
-            path=Path(directory)/'tjikup/device.json';path.parent.mkdir()
-            path.write_text(json.dumps({'version':1,'hostname':'fi','role':'desktop','subscriptions':['missing:recipe']}))
-            with self.assertRaisesRegex(RuntimeError,'Unknown or unavailable'):
+    def test_selected_dependencies(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}):
+            self.enrolled(directory, 'laptop', ['system:zed'])
+            context = policy.context(ROOT)
+            self.assertTrue(context['is_laptop'])
+            self.assertIn('system:zed', context['subscriptions'])
+            self.assertNotIn('home:collie', context['subscriptions'])
+
+    def test_aliases_do_not_rewrite_profile(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}):
+            path = self.enrolled(directory, subscriptions=['home:font-migration','home:rose-punk-icons'])
+            before = path.read_bytes()
+            context = policy.context(ROOT)
+            self.assertIn('home:fonts', context['subscriptions'])
+            self.assertIn('home:icons', context['subscriptions'])
+            self.assertNotIn('home:font-migration', context['subscriptions'])
+            self.assertEqual(path.read_bytes(), before)
+
+    def test_unknown_subscription_fails(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}):
+            self.enrolled(directory, subscriptions=['missing:recipe'])
+            with self.assertRaisesRegex(RuntimeError, 'unknown recipe subscription'):
                 policy.context(ROOT)
 
-    def test_unknown_host_without_profile_fails(self):
-        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}), patch('socket.gethostname',return_value='new-host'):
-            with self.assertRaisesRegex(RuntimeError,'enroll'):policy.context(ROOT)
-    def test_existing_devices_keep_legacy_roles(self):
+    def test_existing_hostname_requires_enrollment(self):
         with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}):
-            for host,role in policy.LEGACY.items():
-                with patch('socket.gethostname',return_value=host):self.assertEqual(policy.context(Path('/tmp'))['role'],role)
-    def test_new_server_never_inherits_si_storage(self):
-        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}), patch('socket.gethostname',return_value='new-server'):
-            p=Path(directory)/'tjikup/device.json';p.parent.mkdir();p.write_text(json.dumps({'version':1,'hostname':'new-server','role':'server','subscriptions':['system:apps']}))
-            with self.assertRaisesRegex(RuntimeError,'unavailable'):policy.context(ROOT)
-    def test_configure_validates_without_touching_legacy_config(self):
-        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}), patch('socket.gethostname',return_value='fi'):
-            p=Path(directory)/'chezmoi/chezmoi.toml';p.parent.mkdir();p.write_text('untouched')
-            with patch('subprocess.run',side_effect=AssertionError('no external renderer')):
-                policy.configure(ROOT)
-            self.assertEqual(p.read_text(),'untouched')
-            self.assertEqual(policy.context(ROOT)['home_source'],str(ROOT/'home'))
+            with self.assertRaisesRegex(RuntimeError, 'Enroll'):
+                policy.context(ROOT)
 
+    def test_foreign_profile_rejected(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}):
+            path = self.enrolled(directory)
+            value = json.loads(path.read_text()); value['hostname'] = 'foreign-device'
+            path.write_text(json.dumps(value))
+            with self.assertRaisesRegex(RuntimeError, 'belongs to'):
+                policy.context(ROOT)
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_configure_leaves_old_configuration_untouched(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'XDG_CONFIG_HOME':directory}):
+            self.enrolled(directory)
+            old = Path(directory) / 'chezmoi/chezmoi.toml'; old.parent.mkdir(); old.write_text('untouched')
+            policy.configure(ROOT)
+            self.assertEqual(old.read_text(), 'untouched')

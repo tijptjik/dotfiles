@@ -24,8 +24,9 @@ discovery over IPv6 then IPv4. Link-local IPv6 addresses retain their interface
 scope. It never hardcodes DHCP addresses or requires MagicDNS to replace Mullvad
 DNS. `fitjikup` and `litjikup` use the same resolver.
 
-Mullvad remains connected with LAN sharing enabled. Tailscaled runs in Mullvad's
-split-tunnel cgroup; ordinary traffic keeps its existing VPN policy. Tailscale
+Mullvad remains connected with LAN sharing enabled. Fi runs tailscaled through
+Mullvad because its excluded route cannot reach coordination. Li retains its
+split-tunnel policy; ordinary traffic keeps its existing VPN policy. Tailscale
 DNS and advertised-route acceptance are disabled on both clients. IPv6 tailnet
 addresses are within Mullvad's permitted local ULA range; IPv4 tailnet addresses
 are in CGNAT space and may be blocked even with LAN sharing enabled.
@@ -96,7 +97,7 @@ sudo dnf config-manager addrepo \
 sudo dnf install tailscale
 ```
 
-On Fi and Li, Tjikup manages a `tailscaled` systemd drop-in that starts the daemon
+On Li, Tjikup manages a `tailscaled` systemd drop-in that starts the daemon
 through `mullvad-exclude`, keeping the daemon outside Mullvad while leaving
 ordinary Li traffic under its existing VPN policy. Before starting the service,
 check that the rendered drop-in is present:
@@ -105,7 +106,8 @@ check that the rendered drop-in is present:
 sudo systemctl cat tailscaled
 ```
 
-The effective `ExecStart` on Fi and Li should include
+Fi uses `/usr/sbin/tailscaled` directly, retaining `$FLAGS`, so coordination
+uses Mullvad. The effective `ExecStart` on Li should include
 `/usr/bin/mullvad-exclude /usr/bin/tailscaled`. If it does not, stop here and
 reconcile Li's managed Tjikup configuration and apply only that reviewed
 drop-in; do not replace the unit manually. Si is a server and does not use this
@@ -173,6 +175,17 @@ up. This transient systemd timer activates a service that runs `tailscale down`.
 It remains armed even when enrollment succeeds. The countdown starts when the
 timer is armed, so authentication time is included.
 
+**A pending browser approval can outlive this timer.** On 2026-10-29, completing
+login after `tailscale down` had already run brought Si online again. Do not
+complete an old approval after the deadline. If enrollment is still pending at
+expiry, stop `tailscaled` over the original SSH route before leaving the trial;
+for an unattended enrollment timeout, the expiry action must also stop the
+daemon. The `tailscale down` timer alone is not a bound on a late login callback.
+If late approval already brought the node online, disconnect it, verify the
+original route, and arm a fresh timer before testing the enrolled connection.
+Completed enrollment is retained; the fresh connection test needs no browser
+approval.
+
 ```sh
 sudo systemd-run --unit=tailscale-rollback-si --on-active=10m \
   --timer-property=AccuracySec=1s /usr/bin/tailscale down
@@ -203,7 +216,8 @@ From Fi or Li, open a **new** connection to Si's reported tailnet IPv6 address
 
 ```sh
 tailscale ping <Si-tailnet-IP>
-ssh -o HostKeyAlias=ssh.type.hk -o StrictHostKeyChecking=yes \
+ssh -o ControlMaster=no -o ControlPath=none \
+  -o HostKeyAlias=ssh.type.hk -o StrictHostKeyChecking=yes \
   m@<Si-tailnet-IP> 'hostname; date'
 ```
 
@@ -256,7 +270,8 @@ was armed at 19:44:29 HKT before `tailscale up`, with DNS/route acceptance and
 Tailscale SSH disabled. Enrollment reached the interactive login step but did
 not complete. The system journal records automatic `tailscale down` at
 19:54:29 and successful completion at 19:54:30; `WantRunning=false` was verified.
-Si remained `NeedsLogin`, so **tailnet membership and tailnet SSH are unproven**.
+At that point Si remained `NeedsLogin`, so tailnet membership and tailnet SSH
+were unproven. The later completed-enrollment trial is recorded below.
 
 Existing SSH sessions and a fresh post-rollback public SSH connection worked.
 nginx's master/worker PIDs and start times were unchanged, and `nginx -t` passed
@@ -266,3 +281,38 @@ interrupt those routes; it does not prove behavior after successful enrollment.
 Fi's temporary process-specific VPN routing change was restored afterward.
 Finish authentication and repeat a newly guarded connection test before relying
 on Si's tailnet path. No backup or restore was run as part of this trial.
+
+## Completed Si enrollment and connection trial — 2026-10-29
+
+Si is enrolled in the existing `type.hk` tailnet. A login approved after the
+22:15:08 rollback brought it online again; it was explicitly disconnected at
+22:24:23 before the already-enrolled connection test. This is the late-approval
+case described above, not a failure of systemd to execute the earlier timer.
+
+The fresh `tailscale-rollback-si-20261029-2224.timer` was armed at 22:25:22 HKT
+before reconnecting Si. The peer map reported Si online in the correct tailnet;
+a Tailscale ping and two fresh IPv6 OpenSSH connections passed with Si's existing
+pinned host key and connection sharing disabled. Both original SSH sessions and
+a fresh public SSH session remained usable. DNS/route acceptance, Tailscale SSH,
+exit-node selection and subnet advertisement remained disabled.
+
+The journal records automatic `tailscale down` at 22:35:22 and successful
+completion at 22:35:23. Si then reported `Stopped` and `WantRunning=false`; Fi
+reported it offline, and a fresh tailnet SSH connection timed out. Enrollment
+is retained. Si was left disconnected as requested; persistent connectivity has
+not been enabled.
+
+nginx's master and all eight workers kept their existing PIDs/start times, and
+`nginx -t` passed before and after. Periodic checks during the connection and
+after disconnect returned HTTP 200 for home/read/listen and HTTP 302 for music.
+A fresh post-disconnect public SSH connection passed. No nginx configuration,
+firewall, Docker service or backup job was changed by the trial. These are
+observed availability checks, not a claim of continuous packet-level monitoring.
+Fi's temporary tailscaled process-routing adjustment was restored afterward.
+
+Regular tailnet operation still needs Fi's coordination-route policy reconciled
+with the working VPN transport. The excluded route was unhealthy; the temporary
+in-VPN route worked. No persistent Fi networking policy was changed. Synctjik
+is installed with protection capabilities on Fi, but Si still lacks both user
+and root-owned Synctjik binaries and retains the old Drive service routing.
+Backup deployment and actual backup/restore acceptance remain separate steps.

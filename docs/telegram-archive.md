@@ -86,10 +86,14 @@ its own off-host backup must be verified separately.
 
 ## Deployment boundary
 
-Si still uses the legacy source layouts as of this setup: home Compose under
-`/home/m/.local/share/dotjik/native/home/files/dockers/` and nginx under
-`/home/m/.local/share/dotjik/system/native/nginx/`. The scoped deployment adds equivalent
-service blocks there without upgrading the server's entire policy checkout.
+Si still uses the pre-migration layouts: home Compose under
+`/home/m/.local/share/dotjik/home/dockers/` and nginx under
+`/home/m/.local/share/systjik/etc/nginx/`. These are the live server checkout
+paths, not the native source paths listed at the top of this guide. The scoped
+deployment added equivalent service blocks without upgrading the whole checkout.
+The 2026-10-29 comparison confirmed that all four archive helper/config/style
+files match native policy byte-for-byte. The Compose blocks are equivalent after
+resolving `ports.telegramArchive` to 8096, and the nginx archive block is identical.
 Recovery copies of pre-deployment Compose/templates/nginx are kept privately in
 `/home/m/.local/state/telegram-archive-setup/`. Reconcile those legacy changes when
 Si migrates to native policy; the native files in this repository remain authoritative.

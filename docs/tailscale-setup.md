@@ -64,6 +64,20 @@ Confirm that the tailnet policy permits the Fi/Li user or devices to reach Si
 on TCP port 22. Do not edit the policy during this procedure if that would
 remove another working access path.
 
+Check the actual SSH transport before assuming Si is down. On 2026-10-29,
+Fi reached Si's pinned public SSH endpoint through Mullvad, while the old
+`mullvad-exclude ssh` route timed out. Ordinary SSH with the same pinned identity
+is a valid fallback:
+
+```sh
+ssh -x -o HostKeyAlias=ssh.type.hk -o StrictHostKeyChecking=yes m@ssh.type.hk
+```
+
+Fi's split-excluded `tailscaled` process also could not reach the coordination
+server on that network. Routing only that process through the existing VPN
+restored coordination. Treat this as a network-dependent diagnostic result,
+not authorization to disable Mullvad or change every application's routing.
+
 ## Install and start the daemon
 
 Li and Si run Fedora. On each device, check whether the package is already
@@ -140,34 +154,52 @@ The final command should report `inactive` (or `unknown` after the transient
 unit is removed). If validation fails, leave the timer armed and let it expire;
 do not cancel it just to retry enrollment.
 
-## Enroll Si without risking SSH access
+## Enroll Si with a ten-minute automatic disconnect
 
-Only continue while the two original public SSH sessions to Si remain open.
-Check that `sshd` is active and the existing public SSH session still works.
-Do not change the SSH daemon, firewall, router forwarding, or DNS.
-
-On Si, arm a 20-minute rollback and verify it is waiting before enrollment:
+Keep two existing trusted SSH sessions to Si open: one untouched fallback and
+one for setup. Record nginx's state before enrollment and confirm the public
+sites load from outside the tailnet. Do not change nginx, sshd, firewall rules,
+router forwarding, or DNS, and do not run a broad Tjikup apply for enrollment.
 
 ```sh
-sudo systemd-run --unit=tailscale-rollback-si --on-active=20m \
-  /usr/bin/tailscale down
-sudo systemctl status tailscale-rollback-si.timer
+hostname
+sudo systemctl show nginx -p ActiveState -p SubState -p MainPID -p ExecMainStartTimestamp
+sudo nginx -t
+sudo systemctl is-active sshd
 ```
 
-Then enroll Si to the same tailnet. Authorize it through the one-time URL from
-the existing account. Keep DNS and route acceptance disabled so enrollment
-does not replace Si's resolver or install routes advertised by another device.
+Arm a ten-minute rollback and verify it is waiting **before** bringing Tailscale
+up. This transient systemd timer activates a service that runs `tailscale down`.
+It remains armed even when enrollment succeeds. The countdown starts when the
+timer is armed, so authentication time is included.
+
+```sh
+sudo systemd-run --unit=tailscale-rollback-si --on-active=10m \
+  --timer-property=AccuracySec=1s /usr/bin/tailscale down
+sudo systemctl show tailscale-rollback-si.timer \
+  -p ActiveState -p SubState -p NextElapseUSecMonotonic -p Triggers
+sudo systemctl show tailscale-rollback-si.service -p ExecStart
+```
+
+Require `ActiveState=active`, `SubState=waiting`, and the expected service command
+before proceeding. If arming or inspection fails, do not bring Tailscale up.
+Do not re-arm the timer to extend a failed test while the connection is uncertain.
+
+Then enroll Si in the existing `type.hk` tailnet using its one-time login URL.
+Keep DNS and route acceptance disabled, Tailscale SSH off, and no exit node or
+advertised subnet routes. Inspect existing preferences first if Si was enrolled
+previously; do not silently inherit an exit-node or subnet-router configuration.
 
 ```sh
 sudo tailscale up --accept-dns=false --accept-routes=false
 sudo tailscale status
+sudo tailscale ip -6
 sudo tailscale ip -4
 sudo systemctl is-active sshd
 ```
 
-Record Si's Tailscale IPv4 address. From Li or Fi, test reachability and open a
-**new** SSH connection over that address, while keeping both original public
-SSH sessions open:
+From Fi or Li, open a **new** connection to Si's reported tailnet IPv6 address
+(IPv4 is a fallback if reachable). Preserve Si's existing pinned SSH identity:
 
 ```sh
 tailscale ping <Si-tailnet-IP>
@@ -175,24 +207,32 @@ ssh -o HostKeyAlias=ssh.type.hk -o StrictHostKeyChecking=yes \
   m@<Si-tailnet-IP> 'hostname; date'
 ```
 
-The SSH command must report `si` and the current time without a host-key
-warning. A successful ping alone is not sufficient. Also open a second fresh
-SSH connection over Tailscale and verify the existing public SSH connection
-still works. Confirm the public HTTP sites still load from outside the tailnet.
+Require `si` and the current time without a host-key warning. Also verify a
+second fresh tailnet SSH connection and the original SSH route. Repeat the nginx
+state/configuration checks above: the master PID and start time should be
+unchanged. Check the public HTTP sites again from outside the tailnet.
 
-Only after all checks pass, cancel the Si rollback timer from the new Tailscale
-SSH session and verify that it is inactive:
+**Leave the timer armed.** After ten minutes, use the original SSH route to
+verify the journal records the rollback service's actual execution and success,
+and Tailscale reports `Stopped`. If enrollment never completed, it may instead
+report `NeedsLogin`; in either case require `WantRunning=false`. Transient units
+may already have been collected, so an empty `systemctl show` result or its
+default success status alone is not execution evidence:
 
 ```sh
-sudo systemctl stop tailscale-rollback-si.timer
-sudo systemctl is-active tailscale-rollback-si.timer
+sudo systemctl show tailscale-rollback-si.service -p Result -p ExecMainStatus
+sudo journalctl -u tailscale-rollback-si.service --no-pager -n 10
+sudo tailscale status --json
+sudo tailscale debug prefs | jq '{WantRunning}'
+sudo systemctl show nginx -p ActiveState -p SubState -p MainPID -p ExecMainStartTimestamp
 ```
 
-Keep the original public SSH sessions open until the timer is confirmed inactive
-and a fresh Tailscale SSH connection succeeds again. If any step fails, do not
-cancel the timer; the automatic `tailscale down` restores the pre-enrollment
-network path. Reconnect over public SSH after rollback before changing anything
-else.
+Verify public HTTP and fresh original-route SSH again after disconnection.
+`tailscale down` preserves enrollment but disconnects the tailnet; it does not
+undo unrelated network changes. Do not re-enable Si's tailnet or deploy a hook
+that reconnects it during this trial. Persistent connectivity is a subsequent
+explicit decision. No backup depending on this temporary route should start if
+it could outlast the ten-minute window.
 
 ## After enrollment
 
@@ -207,3 +247,22 @@ Tailscale SSH authentication is not enabled here; SSH continues to use the
 existing OpenSSH host key and user key. Do not accept a changed host key during
 testing. The `HostKeyAlias` option makes the tailnet-address test check Si
 against its existing `ssh.type.hk` known-host identity.
+
+## Si trial evidence — 2026-10-29
+
+Tailscale 1.98.8 was already installed and its daemon active, so no Tjikup/Dotjik
+rollout or daemon restart was needed. A transient `tailscale-rollback-si.timer`
+was armed at 19:44:29 HKT before `tailscale up`, with DNS/route acceptance and
+Tailscale SSH disabled. Enrollment reached the interactive login step but did
+not complete. The system journal records automatic `tailscale down` at
+19:54:29 and successful completion at 19:54:30; `WantRunning=false` was verified.
+Si remained `NeedsLogin`, so **tailnet membership and tailnet SSH are unproven**.
+
+Existing SSH sessions and a fresh post-rollback public SSH connection worked.
+nginx's master/worker PIDs and start times were unchanged, and `nginx -t` passed
+before and after. Repeated public probes of home/read/listen returned HTTP 200;
+music retained HTTP 302. This proves the observed trial and rollback did not
+interrupt those routes; it does not prove behavior after successful enrollment.
+Fi's temporary process-specific VPN routing change was restored afterward.
+Finish authentication and repeat a newly guarded connection test before relying
+on Si's tailnet path. No backup or restore was run as part of this trial.

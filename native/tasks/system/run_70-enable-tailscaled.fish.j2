@@ -59,8 +59,8 @@ else
 end
 
 {% if is_client -%}
-{% if is_desktop -%}
-# Fi: keep tailnet routes ahead of Mullvad and preserve its internet kill switch.
+{% if hostname == "fi" or hostname == "li" -%}
+# Fi and Li: keep tailnet routes ahead of Mullvad and preserve its internet kill switch.
 step_run_note "Tailnet/Mullvad policy" loaded sudo systemctl daemon-reload
 or exit 1
 step_run_note "Tailnet/Mullvad routing" enabled sudo systemctl enable --now tailnet-mullvad.service

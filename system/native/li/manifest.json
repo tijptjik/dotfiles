@@ -220,6 +220,24 @@
       "uid": 0,
       "gid": 0,
       "group": "tailnet-dns"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/tailnet-mullvad.nft",
+      "source": "files/tailnet-mullvad.nft",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tailnet-mullvad"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/tailnet-mullvad.service",
+      "source": "files/systemd/system/tailnet-mullvad.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tailnet-mullvad"
     }
   ]
 }

@@ -11,11 +11,11 @@ BINARY = os.environ.get('TJIKUP_BINARY', str(Path.home() / 'code/tjikos/apps/tji
 
 
 class TailnetMullvadTests(unittest.TestCase):
-    def test_fi_only_native_policy_and_synthetic_deployment(self):
+    def test_client_native_policy_and_synthetic_deployment(self):
         for host in ('fi', 'li', 'si'):
             manifest = json.loads((ROOT / 'native' / host / 'manifest.json').read_text())
             entries = [e for e in manifest['entries'] if e.get('group') == 'tailnet-mullvad']
-            self.assertEqual(len(entries), 2 if host == 'fi' else 0)
+            self.assertEqual(len(entries), 2 if host in ('fi', 'li') else 0)
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             manifest = json.loads((ROOT / 'native/fi/manifest.json').read_text())

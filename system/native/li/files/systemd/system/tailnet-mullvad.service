@@ -1,0 +1,21 @@
+[Unit]
+Description=Route tailnet traffic alongside Mullvad
+After=tailscaled.service mullvad-daemon.service
+Wants=tailscaled.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# Remove only this service's exact rules, including a prior temporary repair.
+ExecStartPre=-/usr/bin/ip -4 rule del priority 5200 to 100.64.0.0/10 lookup 52
+ExecStartPre=-/usr/bin/ip -6 rule del priority 5200 to fd7a:115c:a1e0::/48 lookup 52
+ExecStart=/usr/bin/nft -f /etc/tailnet-mullvad.nft
+ExecStart=/usr/bin/ip -4 rule add priority 5200 to 100.64.0.0/10 lookup 52
+ExecStart=/usr/bin/ip -6 rule add priority 5200 to fd7a:115c:a1e0::/48 lookup 52
+ExecReload=/usr/bin/nft -f /etc/tailnet-mullvad.nft
+ExecStopPost=-/usr/bin/ip -4 rule del priority 5200 to 100.64.0.0/10 lookup 52
+ExecStopPost=-/usr/bin/ip -6 rule del priority 5200 to fd7a:115c:a1e0::/48 lookup 52
+ExecStopPost=/usr/bin/nft destroy table inet tailnet_mullvad
+
+[Install]
+WantedBy=multi-user.target

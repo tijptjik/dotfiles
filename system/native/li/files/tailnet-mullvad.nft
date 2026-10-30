@@ -1,0 +1,16 @@
+# Tailnet-only Mullvad exception. Priority -1 runs after Tailscale saves
+# connection marks in mangle, but before Mullvad filters at priority 0.
+# Never flush or modify Mullvad's own table.
+destroy table inet tailnet_mullvad
+table inet tailnet_mullvad {
+    chain output {
+        type route hook output priority -1; policy accept;
+        oifname "tailscale0" ip daddr 100.64.0.0/10 ct mark set 0x00000f41 meta mark set 0x6d6f6c65 counter
+        oifname "tailscale0" ip6 daddr fd7a:115c:a1e0::/48 ct mark set 0x00000f41 meta mark set 0x6d6f6c65 counter
+    }
+    chain input {
+        type filter hook prerouting priority -1; policy accept;
+        iifname "tailscale0" ip saddr 100.64.0.0/10 ct mark set 0x00000f41 counter
+        iifname "tailscale0" ip6 saddr fd7a:115c:a1e0::/48 ct mark set 0x00000f41 counter
+    }
+}

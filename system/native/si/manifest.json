@@ -767,6 +767,51 @@
       "uid": 0,
       "gid": 0,
       "group": "tasktjik-api"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/tasktjik-shortcuts/dnsmasq.conf",
+      "source": "files/tasktjik-shortcuts/dnsmasq.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tasktjik-shortcuts"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/tasktjik-dns.service",
+      "source": "files/systemd/system/tasktjik-dns.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tasktjik-shortcuts"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/tasktjik-shortcuts/nginx.conf",
+      "source": "files/tasktjik-shortcuts/nginx.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tasktjik-shortcuts"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/tasktjik-shortcuts.service",
+      "source": "files/systemd/system/tasktjik-shortcuts.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tasktjik-shortcuts"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/firewalld/policies/tasktjik-dns.xml",
+      "source": "files/firewalld/policies/tasktjik-dns.xml",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tasktjik-shortcuts"
     }
   ]
 }

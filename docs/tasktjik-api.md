@@ -38,3 +38,34 @@ Legacy JSON import is explicit and transactional:
 
 Keep the original files until backup restore has been verified. No empty
 fallback authority is created when HTTPS is unavailable.
+
+
+## Short browser names
+
+Si runs a private DNS resolver on its tailnet addresses, port 53 (TCP/UDP),
+and a separate nginx redirect instance on tailnet port 80. Neither binds a
+public/LAN address or changes the public nginx configuration. Unknown DNS
+zones are refused; only the private alias zone and MagicDNS forwarding are
+served. The firewall accepts DNS only between tailnet addresses.
+
+`todo/` and `tasktjik/` resolve through the search domain `tjik.internal`.
+Both redirect to the existing authenticated HTTPS app; no task data is served
+over HTTP. Fi and Li use the managed tailnet-dns service to route only
+`tjik.internal` and `tailb49776.ts.net` through Si, preserving Mullvad's
+ordinary DNS and default route. Their tailnet-mullvad service owns only its
+own nft table and priority-5200 tailnet routes.
+
+For automatic enrollment on other tailnet devices, configure Tailscale DNS:
+
+- Add restricted nameserver `100.85.220.100` for `tjik.internal`.
+- Append search domain `tjik.internal`, preserving existing search domains.
+- Keep MagicDNS enabled and allow clients to accept Tailscale DNS.
+- If ACLs restrict traffic, allow the intended clients to Si on TCP/UDP 53
+  and TCP 80/443. Tasktjik itself still requires the allowed identity.
+
+These admin-console settings require tailnet administrator access; host-side
+services alone do not distribute them. Browsers using forced DNS-over-HTTPS
+or HTTPS-only mode may need a private-domain exception or `http://todo/`.
+
+Tjikup `home:activate:tasktjik-shortcuts` applies the scoped service/firewall
+policy on Si. `system:tailscale` maintains Fi/Li routing and resolver units.

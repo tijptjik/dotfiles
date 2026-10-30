@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policy target="CONTINUE" priority="-500">
+  <short>Tasktjik private DNS</short>
+  <ingress-zone name="ANY"/>
+  <egress-zone name="HOST"/>
+  <rule family="ipv4"><source address="100.64.0.0/10"/><destination address="100.85.220.100"/><port port="53" protocol="tcp"/><accept/></rule>
+  <rule family="ipv4"><source address="100.64.0.0/10"/><destination address="100.85.220.100"/><port port="53" protocol="udp"/><accept/></rule>
+  <rule family="ipv6"><source address="fd7a:115c:a1e0::/48"/><destination address="fd7a:115c:a1e0::32f:dc65"/><port port="53" protocol="tcp"/><accept/></rule>
+  <rule family="ipv6"><source address="fd7a:115c:a1e0::/48"/><destination address="fd7a:115c:a1e0::32f:dc65"/><port port="53" protocol="udp"/><accept/></rule>
+</policy>

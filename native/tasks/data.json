@@ -302,7 +302,8 @@
         "ffmpeg",
         "x265-libs",
         "nginx",
-        "nginx-mod-stream"
+        "nginx-mod-stream",
+        "dnsmasq"
       ],
       "flatpak": {
         "fedora": [],

@@ -7,8 +7,8 @@ BindsTo=sys-subsystem-net-devices-tailscale0.device
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/bin/resolvectl dns tailscale0 100.100.100.100
-ExecStart=/usr/bin/resolvectl domain tailscale0 ~tailb49776.ts.net
+ExecStart=/usr/bin/resolvectl dns tailscale0 100.85.220.100
+ExecStart=/usr/bin/resolvectl domain tailscale0 ~tailb49776.ts.net tjik.internal
 ExecStart=/usr/bin/resolvectl default-route tailscale0 no
 ExecStop=/usr/bin/resolvectl revert tailscale0
 

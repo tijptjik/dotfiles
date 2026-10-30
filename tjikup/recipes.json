@@ -3339,6 +3339,38 @@
         "icon": "Tasktjik"
       },
       "after": []
+    },
+    {
+      "id": "home:activate:tasktjik-shortcuts",
+      "label": "Tasktjik shortcuts",
+      "operation": "configure",
+      "scope": "home",
+      "part_of": "home:tasktjik",
+      "hosts": [
+        "si"
+      ],
+      "needs": [
+        "home:activate:tasktjik-api"
+      ],
+      "check": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-tasktjik-shortcuts.sh",
+        "--check"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-tasktjik-shortcuts.sh"
+      ],
+      "resources": [
+        "system-files",
+        "system-systemd"
+      ],
+      "display": {
+        "section": "Services",
+        "verb": "ACTIVATE",
+        "icon": "Tasktjik"
+      },
+      "after": []
     }
   ]
 }

@@ -43,6 +43,7 @@ class NotjikInstallTests(unittest.TestCase):
         self.script = self.root / 'install.sh'
         self.script.write_text((ROOT / 'scripts/install-notjik.sh').read_text()
                                .replace('$HOME', '${NOTJIK_TEST_HOME}'))
+        (self.root / 'install-tasktjik.sh').write_text('echo tasktjik-install >> \"$CALL_LOG\"\n')
         (self.root / 'ensure-tjikos.sh').write_text(
             (ROOT / 'scripts/ensure-tjikos.sh').read_text()
             .replace('$HOME', '${NOTJIK_TEST_HOME}'))

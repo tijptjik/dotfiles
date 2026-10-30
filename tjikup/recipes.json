@@ -963,7 +963,8 @@
       "id": "home:notjik",
       "label": "Notjik",
       "needs": [
-        "home:render"
+        "home:render",
+        "home:tasktjik"
       ],
       "resources": [
         "tjikos",
@@ -1130,7 +1131,8 @@
       "id": "home:runtjik",
       "label": "Runtjik",
       "needs": [
-        "home:render"
+        "home:render",
+        "home:tasktjik"
       ],
       "resources": [
         "tjikos",
@@ -1532,7 +1534,8 @@
         "home:configure:herdr",
         "home:configure:collie",
         "home:configure:secrets",
-        "home:configure:llmtrim"
+        "home:configure:llmtrim",
+        "home:config:tasktjik"
       ],
       "hosts": [
         "fi",
@@ -2289,7 +2292,8 @@
       "id": "home:notjik:update",
       "label": "Notjik updates",
       "needs": [
-        "home:render"
+        "home:render",
+        "home:tasktjik:update"
       ],
       "resources": [
         "tjikos",
@@ -2452,7 +2456,8 @@
       "id": "home:runtjik:update",
       "label": "Runtjik updates",
       "needs": [
-        "home:render"
+        "home:render",
+        "home:tasktjik:update"
       ],
       "resources": [
         "tjikos",
@@ -3092,6 +3097,215 @@
         1
       ],
       "needs": [],
+      "after": []
+    },
+    {
+      "id": "home:tasktjik",
+      "label": "Tasktjik",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/scripts/install-tasktjik.sh"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install applications",
+        "reports": true,
+        "icon": "Tasktjik"
+      },
+      "optional": false,
+      "operation": "install",
+      "scope": "home",
+      "application": "tasktjik",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "tjikup",
+        "workflow",
+        "package",
+        "check",
+        "tasktjik"
+      ],
+      "hosts": [
+        "fi",
+        "li",
+        "si"
+      ]
+    },
+    {
+      "id": "home:tasktjik:update",
+      "label": "Tasktjik updates",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "tjikos",
+        "user-systemd"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/scripts/install-tasktjik.sh"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Tasktjik"
+      },
+      "optional": false,
+      "operation": "update",
+      "scope": "home",
+      "application": "tasktjik",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "tjikup",
+        "workflow",
+        "package",
+        "skip-update",
+        "tasktjik"
+      ],
+      "part_of": "home:tasktjik",
+      "hosts": [
+        "fi",
+        "li",
+        "si"
+      ]
+    },
+    {
+      "id": "home:tasktjik:update:verify",
+      "label": "Tasktjik",
+      "operation": "update",
+      "scope": "home",
+      "application": "tasktjik",
+      "ecosystem": "configuration",
+      "part_of": "home:tasktjik",
+      "hosts": [
+        "fi",
+        "li",
+        "si"
+      ],
+      "needs": [
+        "home:tasktjik:update"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "verify",
+        "tasktjik"
+      ],
+      "resources": [
+        "home-files",
+        "user-systemd"
+      ],
+      "display": {
+        "section": "Verification",
+        "icon": "Tasktjik",
+        "verb": "CHECK",
+        "quiet": true,
+        "reports": true
+      },
+      "after": [],
+      "check": [
+        "tjikup",
+        "workflow",
+        "package",
+        "skip-update",
+        "tasktjik"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      }
+    },
+    {
+      "id": "home:config:tasktjik",
+      "label": "Tasktjik",
+      "operation": "configure",
+      "scope": "home",
+      "application": "tasktjik",
+      "ecosystem": "configuration",
+      "part_of": "home:tasktjik",
+      "hosts": [
+        "fi",
+        "li",
+        "si"
+      ],
+      "needs": [
+        "home:tasktjik"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "files",
+        "home-files",
+        "apply",
+        "--group",
+        "tasktjik"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Tasktjik"
+      },
+      "after": []
+    },
+    {
+      "id": "home:activate:tasktjik",
+      "check": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-tasktjik.sh",
+        "--check"
+      ],
+      "label": "Tasktjik",
+      "operation": "configure",
+      "scope": "home",
+      "part_of": "home:tasktjik",
+      "needs": [
+        "home:config:tasktjik"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-tasktjik.sh"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "env": {
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "display": {
+        "section": "Services",
+        "verb": "ACTIVATE",
+        "icon": "Tasktjik"
+      },
       "after": []
     }
   ]

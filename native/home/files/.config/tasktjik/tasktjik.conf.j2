@@ -1,0 +1,6 @@
+# Si is the only writable authority. Retain the existing task directory.
+[tasktjik]
+authority = "{% if hostname != 'si' %}m@ssh.type.hk{% endif %}"
+directory = "~/.local/share/runtjik-todo"
+ssh_command = [{% if hostname != 'si' %}"mullvad-exclude", {% endif %}"ssh"]
+vault = ""

@@ -387,5 +387,17 @@
       "desktop",
       "laptop"
     ]
+  },
+  "tasktjik": {
+    "checks": [
+      {
+        "executable": "~/.local/bin/tasktjik"
+      }
+    ],
+    "hosts": [
+      "fi",
+      "li",
+      "si"
+    ]
   }
 }

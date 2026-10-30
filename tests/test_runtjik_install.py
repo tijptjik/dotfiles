@@ -23,6 +23,7 @@ class RuntjikInstallTests(unittest.TestCase):
         self.script.write_text((ROOT / 'scripts/install-runtjik.sh').read_text()
                                .replace('$HOME', '${RUNTJIK_TEST_HOME}'))
         (scripts / 'activate-runtjik.sh').write_text((ROOT / 'scripts/activate-runtjik.sh').read_text().replace('$HOME', '${RUNTJIK_TEST_HOME}'))
+        (scripts / 'install-tasktjik.sh').write_text('echo tasktjik-install >> \"$CALL_LOG\"\n')
         (scripts / 'ensure-tjikos.sh').write_text('tool_repo="$TJIKOS_REPO"\nensure_tjikos() { :; }\n')
         tools = root / 'tools/apps/runtjik/scripts'
         tools.mkdir(parents=True)

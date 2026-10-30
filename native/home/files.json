@@ -6105,5 +6105,29 @@
     "path": "{{ user.home }}/.local/lib/chezupdate/propagators/zed.py",
     "kind": "absent",
     "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/tasktjik/tasktjik.conf",
+    "kind": "file",
+    "source": "files/.config/tasktjik/tasktjik.conf.j2",
+    "mode": "0600",
+    "group": "tasktjik",
+    "when": "hostname in [\"fi\", \"li\", \"si\"]"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/tasktjik.service",
+    "kind": "file",
+    "source": "files/.config/systemd/user/tasktjik.service",
+    "mode": "0644",
+    "group": "tasktjik",
+    "when": "is_client"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/tasktjik.timer",
+    "kind": "file",
+    "source": "files/.config/systemd/user/tasktjik.timer",
+    "mode": "0644",
+    "group": "tasktjik",
+    "when": "is_client"
   }
 ]

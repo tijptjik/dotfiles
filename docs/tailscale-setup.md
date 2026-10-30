@@ -316,3 +316,23 @@ in-VPN route worked. No persistent Fi networking policy was changed. Synctjik
 is installed with protection capabilities on Fi, but Si still lacks both user
 and root-owned Synctjik binaries and retains the old Drive service routing.
 Backup deployment and actual backup/restore acceptance remain separate steps.
+
+## Fi with Mullvad
+
+Tjikup's `system:tailscale` recipe enables `tailnet-mullvad.service` after native
+system-file deployment. Fi's manifest owns the unit and `/etc/tailnet-mullvad.nft`.
+Priority 5200 routes only tailnet IPv4/IPv6 ranges through Tailscale table 52,
+ahead of Mullvad's catch-all route. Firewall exceptions require the `tailscale0`
+interface and tailnet source/destination ranges. They run after Tailscale's
+mangle connection-mark save and before Mullvad's filter, using Mullvad's existing
+split-tunnel mark contract. Ordinary internet traffic retains Mullvad protection.
+The service's reload atomically replaces only its own nftables table. Stop removes
+only its exact route rules and table. Mullvad and Tailscale updates should be
+followed by direct tailnet SSH, `sshsi`, and ordinary route checks.
+
+Verification on Fi: `ip route get 100.85.220.100` must use `tailscale0`, while
+`ip route get 1.1.1.1` must use the Mullvad interface when connected. Verify SSH
+with the existing trusted `ssh.type.hk` host-key identity; do not accept a new
+key simply because the transport address changed. `sshsi` remains the configured
+`mullvad-exclude ssh -x m@ssh.type.hk` public endpoint. MagicDNS is intentionally
+disabled, so bare `si` is not a system DNS name.

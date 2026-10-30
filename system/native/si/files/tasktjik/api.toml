@@ -1,0 +1,5 @@
+[server]
+socket = "/run/tasktjik/api.sock"
+directory = "/var/lib/tasktjik"
+origin = "https://si.tailb49776.ts.net"
+allowed_users = ["m@type.hk"]

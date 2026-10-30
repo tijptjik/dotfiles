@@ -1,0 +1,14 @@
+[Unit]
+Description=Tasktjik private Tailscale HTTPS endpoint
+After=tasktjik-api.service tailscaled.service
+Requires=tasktjik-api.service tailscaled.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/tailscale serve --bg --https=443 --set-path=/tasktjik unix:/run/tasktjik/api.sock
+ExecStop=/usr/bin/tailscale serve --https=443 --set-path=/tasktjik off
+TimeoutStartSec=45
+
+[Install]
+WantedBy=multi-user.target

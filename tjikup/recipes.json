@@ -3307,6 +3307,38 @@
         "icon": "Tasktjik"
       },
       "after": []
+    },
+    {
+      "id": "home:activate:tasktjik-api",
+      "label": "Tasktjik API",
+      "operation": "configure",
+      "scope": "home",
+      "part_of": "home:tasktjik",
+      "hosts": [
+        "si"
+      ],
+      "needs": [
+        "home:tasktjik"
+      ],
+      "check": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-tasktjik-api.sh",
+        "--check"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/scripts/activate-tasktjik-api.sh"
+      ],
+      "resources": [
+        "system-files",
+        "system-systemd"
+      ],
+      "display": {
+        "section": "Services",
+        "verb": "ACTIVATE",
+        "icon": "Tasktjik"
+      },
+      "after": []
     }
   ]
 }

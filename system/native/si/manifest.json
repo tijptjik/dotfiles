@@ -721,7 +721,8 @@
       "mode": "0644",
       "uid": 0,
       "gid": 0,
-      "source": "files/si-app-backup/policy.json"
+      "source": "files/si-app-backup/policy.json",
+      "group": "tasktjik-api"
     },
     {
       "kind": "file",
@@ -730,6 +731,42 @@
       "uid": 0,
       "gid": 0,
       "source": "files/si-snapraid-maintenance/notifications.json"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/sysusers.d/tasktjik.conf",
+      "source": "files/sysusers.d/tasktjik.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tasktjik-api"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/tasktjik/api.toml",
+      "source": "files/tasktjik/api.toml",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tasktjik-api"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/tasktjik-api.service",
+      "source": "files/systemd/system/tasktjik-api.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tasktjik-api"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/tasktjik-serve.service",
+      "source": "files/systemd/system/tasktjik-serve.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tasktjik-api"
     }
   ]
 }

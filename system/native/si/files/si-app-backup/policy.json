@@ -127,6 +127,10 @@
         "/httpd/logs/",
         "**/__pycache__/"
       ]
+    ],
+    [
+      "/var/lib/tasktjik",
+      []
     ]
   ],
   "direct_sources": [
@@ -165,7 +169,8 @@
     "/etc/nginx",
     "/etc/pki/tls/private",
     "/etc/pki/tls/certs",
-    "/etc/si-notifications"
+    "/etc/si-notifications",
+    "/var/lib/tasktjik"
   ],
   "quiet_services": [
     "plexmediaserver"

@@ -1,0 +1,30 @@
+[Unit]
+Description=Tasktjik private Rust API
+After=local-fs.target
+
+[Service]
+User=tasktjik
+Group=tasktjik
+ExecStart=/usr/local/lib/tasktjik/tasktjik-api --config /etc/tasktjik/api.toml
+StateDirectory=tasktjik
+StateDirectoryMode=0700
+RuntimeDirectory=tasktjik
+RuntimeDirectoryMode=0700
+Environment=TZ=Asia/Hong_Kong
+UMask=0077
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

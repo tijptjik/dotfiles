@@ -15,11 +15,11 @@ class ProtectionRouting(unittest.TestCase):
             if isinstance(node,ast.Assign) and isinstance(node.targets[0],ast.Name) and node.targets[0].id in {'app_excludes','plex','sources'}:
                 exec(compile(ast.Module(body=[node],type_ignores=[]),str(source),'exec'),ns)
         policy=json.loads((NATIVE/'si-app-backup/policy.json').read_text())
-        self.assertEqual(policy['sources'],json.loads(json.dumps(ns['sources'])))
+        self.assertEqual(policy['sources'],json.loads(json.dumps(ns['sources'])) + [['/var/lib/tasktjik', []]])
         for node in ast.parse((ROOT/'system/tests/legacy/protection/restore.py').read_text()).body:
             if isinstance(node,ast.Assign) and isinstance(node.targets[0],ast.Name) and node.targets[0].id in {'DEFAULTS','EXTRA'}:
                 key='restore_defaults' if node.targets[0].id=='DEFAULTS' else 'restore_extra'
-                self.assertEqual(policy[key],ast.literal_eval(node.value))
+                self.assertEqual(policy[key],ast.literal_eval(node.value) + (['/var/lib/tasktjik'] if key == 'restore_extra' else []))
         self.assertEqual(policy['restic']['keep_daily'],7)
         self.assertEqual(policy['restic']['keep_weekly'],4)
         self.assertEqual(policy['mariadb']['receipt'],'/var/lib/si-provision/mariadb-restored.json')

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Toggle Bartjik and notification history from their current shared state."""
+"""Toggle Bartjik without changing notification history."""
 
 import fcntl
 import json
@@ -16,11 +16,8 @@ def control(name, *args):
 
 def toggle():
     bars = control('bartjikctl', 'bars')['bars']
-    history_open = control('notjikctl', 'status')['drawerOpen']
     bar_open = any(bar['visible'] and not bar['concealed'] for bar in bars)
-    close = bar_open and history_open
-    control('bartjikctl', 'hide-reveal' if close else 'show-reveal')
-    control('notjikctl', 'history', 'hide' if close else 'show')
+    control('bartjikctl', 'hide-reveal' if bar_open else 'show-reveal')
 
 
 if __name__ == '__main__':

@@ -4,26 +4,23 @@ import unittest
 
 
 class DesktopPanelsToggleTests(unittest.TestCase):
-    def test_all_panel_states_converge(self):
+    def test_toggles_only_bartjik_without_querying_notjik(self):
         script = Path(__file__).resolve().parents[1] / 'native/home/files/.local/bin/desktop-panels-toggle'
         toggle = runpy.run_path(str(script))['toggle']
-        for bar_open in (False, True):
-            for history_open in (False, True):
-                with self.subTest(bar=bar_open, history=history_open):
-                    calls = []
+        for visible, concealed in ((False, False), (True, True), (True, False)):
+            with self.subTest(visible=visible, concealed=concealed):
+                calls = []
 
-                    def control(name, *args):
-                        calls.append((name, *args))
-                        if args == ('bars',):
-                            return {'bars': [{'visible': True, 'concealed': not bar_open}]}
-                        if args == ('status',):
-                            return {'drawerOpen': history_open}
-                        return {'ok': True}
+                def control(name, *args):
+                    calls.append((name, *args))
+                    self.assertEqual(name, 'bartjikctl')
+                    if args == ('bars',):
+                        return {'bars': [{'visible': visible, 'concealed': concealed}]}
+                    return {'ok': True}
 
-                    toggle.__globals__['control'] = control
-                    toggle()
-                    close = bar_open and history_open
-                    self.assertEqual(calls[-2:], [
-                        ('bartjikctl', 'hide-reveal' if close else 'show-reveal'),
-                        ('notjikctl', 'history', 'hide' if close else 'show'),
-                    ])
+                toggle.__globals__['control'] = control
+                toggle()
+                self.assertEqual(calls, [
+                    ('bartjikctl', 'bars'),
+                    ('bartjikctl', 'hide-reveal' if visible and not concealed else 'show-reveal'),
+                ])

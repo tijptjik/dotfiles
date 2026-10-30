@@ -40,6 +40,9 @@ end
 -- Note : Key mappings are managed with QMK
 
 -- Global Application Shortcuts -- i.e. call an application shortcut without focus
+-- Save clipboard to Telegram Saved Messages without changing focus.
+-- This global chord takes precedence over terminal paste.
+hl.bind(ctrl("V", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl telegram save-clipboard"))
 hl.bind(super("R"), hl.dsp.pass({ window = "class:^(com\\.obsproject\\.Studio)$" }))
 
 -- #######################

@@ -7,7 +7,8 @@ if [[ ! -f "$profile" ]]; then
     exit 0
 fi
 case "${1:-}" in
-    check) exec synctjik ready ;;
-    apply) synctjik setup; synctjik ready; synctjik schedule ;;
+    # Readiness is an exit-status check; keep its JSON out of the interactive UI.
+    check) exec synctjik ready >/dev/null ;;
+    apply) synctjik setup; synctjik ready >/dev/null; synctjik schedule ;;
     *) exit 2 ;;
 esac

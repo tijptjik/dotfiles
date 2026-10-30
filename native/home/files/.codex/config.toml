@@ -151,7 +151,7 @@ trust_level = "trusted"
 [projects."/home/io/code/tjikos"]
 trust_level = "trusted"
 
-[projects."/home/io/.local/share/dotjik"]
+[projects."/home/io/code/dotjik"]
 trust_level = "trusted"
 
 [tui]
@@ -275,8 +275,8 @@ BROWSER_USE_TINYSKY_ENABLED = "1"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.1023.51421"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/io/.codex/plugins/cache/openai-bundled/browser/26.1023.51421/scripts/browser-service.mjs"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.1027.30824"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/io/.codex/plugins/cache/openai-bundled/browser/26.1027.30824/scripts/browser-service.mjs"}'
 CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
 
 [model_providers.codex-lb]

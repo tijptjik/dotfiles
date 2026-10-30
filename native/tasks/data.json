@@ -70,6 +70,7 @@
         "fuse-libs",
         "fzf",
         "gcc",
+        "gh",
         "glow",
         "gnome-disk-utility",
         "gnome-font-viewer",

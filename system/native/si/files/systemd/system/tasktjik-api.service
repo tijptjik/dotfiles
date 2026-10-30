@@ -9,7 +9,7 @@ ExecStart=/usr/local/lib/tasktjik/tasktjik-api --config /etc/tasktjik/api.toml
 StateDirectory=tasktjik
 StateDirectoryMode=0700
 RuntimeDirectory=tasktjik
-RuntimeDirectoryMode=0700
+RuntimeDirectoryMode=0750
 Environment=TZ=Asia/Hong_Kong
 UMask=0077
 Restart=on-failure

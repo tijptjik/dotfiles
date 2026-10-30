@@ -18,7 +18,10 @@ class TasktjikPolicyTests(unittest.TestCase):
                 config.write_text(json.dumps({'data': {'isDesktop': host == 'fi', 'isLaptop': host == 'li', 'isServer': host == 'si'}}))
                 result = subprocess.check_output(['python3', '-B', str(ROOT / 'tests/native_render.py'), '--config', str(config), '-f', str(ROOT / 'native/home/files/.config/tasktjik/tasktjik.conf.j2')], text=True)
                 settings = tomllib.loads(result)['tasktjik']
-                self.assertEqual(settings['url'], 'https://si.tailb49776.ts.net/tasktjik')
+                if host == 'si':
+                    self.assertEqual(settings['socket'], '/run/tasktjik/api.sock')
+                else:
+                    self.assertEqual(settings['url'], 'https://si.tailb49776.ts.net/tasktjik')
                 self.assertNotIn('authority', settings)
 
 

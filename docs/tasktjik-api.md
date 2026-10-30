@@ -6,8 +6,11 @@ Tjikup home:activate:tasktjik-api deploys the binary after home:tasktjik.
 No task state belongs in Git or a writable Synctjik replica.
 
 Tailscale Serve publishes https://si.tailb49776.ts.net/tasktjik/ privately.
-The API accepts root Unix-socket peers only, then requires the proxy-supplied
-Tailscale login m@type.hk. Other identities receive 403. This application
+Root Unix-socket peers must supply the proxy-authenticated Tailscale login
+m@type.hk. Si-local clients use the same socket: UID 1000 is explicitly mapped
+to m@type.hk through kernel peer credentials; supplied identity headers are
+ignored for that UID. The tasktjik group permits socket access but the database
+directory remains private to the service. Other identities receive 403. This application
 allowlist does not modify the tailnet network ACL; narrow that separately in
 the Tailscale admin policy. Funnel must stay disabled.
 

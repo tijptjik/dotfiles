@@ -6112,7 +6112,8 @@
     "source": "files/.config/tasktjik/tasktjik.conf.j2",
     "mode": "0600",
     "group": "tasktjik",
-    "when": "hostname in [\"fi\", \"li\", \"si\"]"
+    "when": "hostname in [\"fi\", \"li\", \"si\"]",
+    "template": true
   },
   {
     "path": "{{ user.home }}/.config/systemd/user/tasktjik.service",

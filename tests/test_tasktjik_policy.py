@@ -35,6 +35,8 @@ class TasktjikPolicyTests(unittest.TestCase):
             self.assertIn('home:tasktjik', recipes['home:' + app]['needs'])
             self.assertIn('home:tasktjik:update', recipes['home:' + app + ':update']['needs'])
         for entry in json.loads((ROOT / 'native/home/files.json').read_text()):
+            if entry.get('group') == 'tasktjik' and entry.get('source', '').endswith('.j2'):
+                self.assertTrue(entry.get('template'))
             if entry.get('group') == 'tasktjik' and entry['path'].endswith(('.service', '.timer')):
                 self.assertEqual(entry['when'], 'is_client')
 

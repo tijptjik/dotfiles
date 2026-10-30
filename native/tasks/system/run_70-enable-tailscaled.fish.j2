@@ -92,3 +92,7 @@ switch "$tailscale_state"
 end
 {% endif -%}
 {% endif -%}
+
+{% if hostname == "fi" or hostname == "li" %}
+step_run_note "Tailnet DNS" enabled sudo systemctl enable --now tailnet-dns.service
+{% endif %}

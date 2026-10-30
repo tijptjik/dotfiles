@@ -211,6 +211,15 @@
       "mode": "0644",
       "uid": 0,
       "gid": 0
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/tailnet-dns.service",
+      "source": "files/systemd/system/tailnet-dns.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "tailnet-dns"
     }
   ]
 }

@@ -41,6 +41,9 @@ class TailscalePolicyTests(unittest.TestCase):
                 harness = '''
 set -l tailscale_prefs '{"CorpDNS":true,"RouteAll":true}'
 function sudo; $argv; end
+function systemctl
+    echo "systemctl "(string join ' ' -- $argv) >> "$TRACE"
+end
 function timeout; set -e argv[1]; $argv; end
 function step_skip_ok; end
 function step_warn; echo warning; end
@@ -70,6 +73,8 @@ end
                         self.assertIn('set --accept-dns=false --accept-routes=false', calls)
                         self.assertEqual('up' in calls, state == 'Stopped')
                         self.assertNotIn('down', calls)
+                        self.assertEqual('systemctl enable --now tailnet-dns.service' in calls,
+                                         expected == 0)
 
     def test_current_preferences_issue_no_setters_and_drift_is_repaired(self):
         with tempfile.TemporaryDirectory() as temporary:

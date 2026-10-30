@@ -1,0 +1,16 @@
+[Unit]
+Description=Resolve only the private tailnet domain through Tailscale
+After=systemd-resolved.service sys-subsystem-net-devices-tailscale0.device
+Requires=systemd-resolved.service
+BindsTo=sys-subsystem-net-devices-tailscale0.device
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/resolvectl dns tailscale0 100.100.100.100
+ExecStart=/usr/bin/resolvectl domain tailscale0 ~tailb49776.ts.net
+ExecStart=/usr/bin/resolvectl default-route tailscale0 no
+ExecStop=/usr/bin/resolvectl revert tailscale0
+
+[Install]
+WantedBy=sys-subsystem-net-devices-tailscale0.device multi-user.target

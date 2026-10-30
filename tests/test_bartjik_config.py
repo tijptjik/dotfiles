@@ -17,7 +17,7 @@ class BartjikConfigTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             config = root / 'render-native.json'
-            config.write_text(json.dumps({'data': {'isLaptop': host == 'li'}}))
+            config.write_text(json.dumps({'data': {'isLaptop': host == 'li', 'isDesktop': host == 'fi', 'isServer': host == 'si'}}))
             return json.loads(subprocess.check_output([
                 'render-native', '--config', str(config), '--source', str(root),
                 '--persistent-state', str(root / 'state.db'),
@@ -35,7 +35,7 @@ class BartjikConfigTests(unittest.TestCase):
             self.assertEqual(bar['offsetY'], -24)
 
     def test_other_hosts_keep_desktop_layout(self):
-        for host in ('fi', 'si'):
+        for host in ('fi',):
             with self.subTest(host=host):
                 config = self.render(host)
                 left, right = config['bars']
@@ -65,3 +65,24 @@ class BartjikConfigTests(unittest.TestCase):
                 self.assertEqual(left['islands'][0]['modules'], ['prices'])
                 self.assertEqual(right['islands'][0]['modules'], ['tray'])
                 self.assertEqual(right['islands'][1]['modules'], ['quota', 'credit'])
+
+    def test_mode_icon_only_on_fi_and_battery_at_end_elsewhere(self):
+        for host in ('fi', 'li', 'si'):
+            with self.subTest(host=host):
+                config = self.render(host)
+                self.assertEqual(config['modules']['battery']['provider'], 'battery')
+                controls = next(island for bar in config['bars']
+                                for island in bar['islands'] if island['id'] == 'controls')
+                expected = ['notifications', 'idle', 'filter', 'battery']
+                if host == 'fi':
+                    expected.append('display')
+                else:
+                    self.assertNotIn('display', config['modules'])
+                self.assertEqual(controls['modules'], expected)
+
+    def test_si_uses_available_monitors(self):
+        config = self.render('si')
+        self.assertEqual(config['perMonitor'], {})
+        for bar in config['bars']:
+            self.assertEqual(bar['monitors'], 'all')
+            self.assertEqual(bar.get('perMonitor', {}), {})

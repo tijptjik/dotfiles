@@ -354,12 +354,22 @@
         }
       }
     },
-    "display": {
+    "battery": {
+      "provider": "battery",
+      "panel": {
+        "hover": true,
+        "delay": 300,
+        "closeDelay": 160
+      }
+    }
+{%- if hostname == "fi" %}
+    ,"display": {
       "provider": "monitor-layout",
       "actions": {
         "leftClick": "monitor.toggle"
       }
     }
+{%- endif %}
   },
   "perMonitor": {
 {%- if hostname == "fi" %}
@@ -494,7 +504,8 @@
             "notifications",
             "idle",
             "filter",
-            "display"
+            "battery"{% if hostname == "fi" %},
+            "display"{% endif %}
           ]
         }
       ],

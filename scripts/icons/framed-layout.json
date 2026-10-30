@@ -242,8 +242,8 @@
         0,
         0
       ],
-      "source_sha256": "194e184a9bd1fb1bb15df738f2ac5cd7cafe8db9908b5c2c086739cf141c8cd8",
-      "note": "Retain current optical size."
+      "source_sha256": "ad9c22d11f883cce67d8e76cb630a6263e36b638976c1ca7bc54b3e112bdd4e1",
+      "note": "Accepted construction trio for rc.11; existing frame transform retained."
     },
     "docker": {
       "scale": 0.8571428571428571,
@@ -341,8 +341,8 @@
         0,
         0
       ],
-      "source_sha256": "f6630a35dc05b6dab088f59bb903ab500ececf6ed32be66b6c269359e369f2fc",
-      "note": "Retain current optical size."
+      "source_sha256": "d2e30280c0e17e0cf2e274f3f250015e53294e5b8ca5348c748a013a9c564356",
+      "note": "Accepted construction trio for rc.11; existing frame transform retained."
     },
     "firefox": {
       "scale": 0.8571428571428571,
@@ -1070,8 +1070,8 @@
         0,
         0
       ],
-      "source_sha256": "c8f53a0bafc951a2bc13d81109a3718d42350ad5aa6923875352204c69fd28e0",
-      "note": "Retain current optical size."
+      "source_sha256": "1bcd3eb17ac6daa6deaa6ed649db5fe66cb10d0556cac77cc868ac8d9d862534",
+      "note": "Accepted construction trio for rc.11; existing frame transform retained."
     },
     "text-editor": {
       "scale": 0.8571428571428571,

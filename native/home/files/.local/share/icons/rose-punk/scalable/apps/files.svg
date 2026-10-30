@@ -1,7 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<g id="frameless-artwork" transform="translate(-7.396995 -8.628151) scale(1.231156)"><defs>
+<g id="frameless-artwork" transform="translate(-4.292397 -5.426535) scale(1.134137)"><defs>
  <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
  <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
  <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
 </defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="folder" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f4c77d" /><stop offset="1" stop-color="#e9a55f" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><path d="M11 22v-5q0-3 3-3h14l5 6h16q4 0 4 4v24H11Z" fill="#edb96f" /><rect x="15" y="22" width="33" height="24" rx="1" fill="#fbefda" /><path d="M10 27h44l-3 22q-.4 3-4 3H16q-4 0-4.5-4Z" fill="url(#folder)" /><rect x="17" y="33" width="15" height="4" rx="1" fill="#fff0d2" /><g opacity=".16"><circle cx="40" cy="42" r="0.3" fill="#9b673e" /><circle cx="40" cy="44" r="0.3" fill="#9b673e" /><circle cx="40" cy="46" r="0.3" fill="#9b673e" /><circle cx="42" cy="42" r="0.3" fill="#9b673e" /><circle cx="42" cy="44" r="0.3" fill="#9b673e" /><circle cx="42" cy="46" r="0.3" fill="#9b673e" /><circle cx="44" cy="42" r="0.3" fill="#9b673e" /><circle cx="44" cy="44" r="0.3" fill="#9b673e" /><circle cx="44" cy="46" r="0.3" fill="#9b673e" /><circle cx="46" cy="42" r="0.3" fill="#9b673e" /><circle cx="46" cy="44" r="0.3" fill="#9b673e" /><circle cx="46" cy="46" r="0.3" fill="#9b673e" /></g></g></g></svg>
+<g stroke-linecap="round" stroke-linejoin="round" /><title>files</title><desc>Near-frontal construction study. Shallow right and lower depth; upper-left illumination; material-specific surfaces.</desc><defs><linearGradient id="card" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#ffd17b" /><stop offset="1" stop-color="#efaa58" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round">
+
+<path d="M9 22v-7q0-2 2-2h15l6 7h19q3 0 3 3v29H9Z" fill="#d8915d" stroke="#8c6170" stroke-width=".85" />
+<path d="M10 22v-6q0-2 2-2h13l6 7h20l2 2Z" fill="#ffe0a0" />
+<path d="M12 24h39v24H12Z" fill="#886c9e" />
+
+<path d="M16 19h28l5 5v24H16Z" fill="#c8b7e1" />
+<path d="m44 19 5 5h-5Z" fill="#9e85bc" />
+<path d="M13 24h34v25H13Z" fill="#fff1d8" />
+<path d="M18 28h23m-23 4h16" stroke="#d2bfc4" stroke-width="1.1" />
+
+<path d="M8 31h45l3 2-4 20H12Z" fill="#bb785e" stroke="#8c6170" stroke-width=".85" />
+<path d="M8 31h45l-4 22H12Z" fill="url(#card)" />
+<path d="M9 31.5h43" stroke="#ffe7b0" stroke-width="1.1" />
+<path d="m53 32-2 9 3-7-3 17" fill="none" stroke="#955f66" stroke-width=".9" />
+
+<path d="M17 35h17v6H17Z" fill="#c38a65" /><path d="M17 34h17v6H17Z" fill="#fff0d9" />
+<path d="M20 37h10" stroke="#ba8b87" stroke-width="1" />
+</g></g></svg>

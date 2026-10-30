@@ -1,6 +1,4 @@
-# Si is the only writable authority. Retain the existing task directory.
+# Si is the only writable authority. No local replica fallback.
 [tasktjik]
-authority = "{% if hostname != 'si' %}m@ssh.type.hk{% endif %}"
-directory = "~/.local/share/runtjik-todo"
-ssh_command = [{% if hostname != 'si' %}"mullvad-exclude", {% endif %}"ssh"]
+url = "https://si.tailb49776.ts.net/tasktjik"
 vault = ""

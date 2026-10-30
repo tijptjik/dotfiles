@@ -10,6 +10,7 @@ if [[ "${1:-}" == --check ]]; then
 fi
 test -x "$HOME/.local/bin/tasktjik"
 test -f "${XDG_CONFIG_HOME:-$HOME/.config}/tasktjik/tasktjik.conf"
+"$HOME/.local/bin/tasktjik" connect https://si.tailb49776.ts.net/tasktjik --notifications
 systemctl --user daemon-reload
 if systemctl --user cat runtjik-todo.timer >/dev/null 2>&1; then
     systemctl --user disable --now runtjik-todo.timer

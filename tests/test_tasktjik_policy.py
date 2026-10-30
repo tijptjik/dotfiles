@@ -18,9 +18,9 @@ class TasktjikPolicyTests(unittest.TestCase):
                 config.write_text(json.dumps({'data': {'isDesktop': host == 'fi', 'isLaptop': host == 'li', 'isServer': host == 'si'}}))
                 result = subprocess.check_output(['python3', '-B', str(ROOT / 'tests/native_render.py'), '--config', str(config), '-f', str(ROOT / 'native/home/files/.config/tasktjik/tasktjik.conf.j2')], text=True)
                 settings = tomllib.loads(result)['tasktjik']
-                self.assertEqual(settings['authority'], '' if host == 'si' else 'm@ssh.type.hk')
-                self.assertEqual(settings['directory'], '~/.local/share/runtjik-todo')
-                self.assertEqual(settings['ssh_command'], ['ssh'] if host == 'si' else ['mullvad-exclude', 'ssh'])
+                self.assertEqual(settings['url'], 'https://si.tailb49776.ts.net/tasktjik')
+                self.assertNotIn('authority', settings)
+
 
     def test_authority_and_client_ordering(self):
         recipes = {r['id']: r for r in json.loads((ROOT / 'tjikup/recipes.json').read_text())['recipes']}

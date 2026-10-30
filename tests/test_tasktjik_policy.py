@@ -24,6 +24,7 @@ class TasktjikPolicyTests(unittest.TestCase):
 
     def test_authority_and_client_ordering(self):
         recipes = {r['id']: r for r in json.loads((ROOT / 'tjikup/recipes.json').read_text())['recipes']}
+        self.assertIn('tasktjik', json.loads((ROOT / 'native/home/groups.json').read_text()))
         self.assertIn('si', recipes['home:tasktjik']['hosts'])
         self.assertFalse(recipes['home:tasktjik']['optional'])
         self.assertEqual(recipes['home:activate:tasktjik']['roles'], ['desktop', 'laptop'])

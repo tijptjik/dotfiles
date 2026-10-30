@@ -48,17 +48,17 @@ public/LAN address or changes the public nginx configuration. Unknown DNS
 zones are refused; only the private alias zone and MagicDNS forwarding are
 served. The firewall accepts DNS only between tailnet addresses.
 
-`todo/` and `tasktjik/` resolve through the search domain `tjik.internal`.
+`todo/` and `tasktjik/` resolve through the search domain `type.internal`.
 Both redirect to the existing authenticated HTTPS app; no task data is served
 over HTTP. Fi and Li use the managed tailnet-dns service to route only
-`tjik.internal` and `tailb49776.ts.net` through Si, preserving Mullvad's
+`type.internal` and `tailb49776.ts.net` through Si, preserving Mullvad's
 ordinary DNS and default route. Their tailnet-mullvad service owns only its
 own nft table and priority-5200 tailnet routes.
 
 For automatic enrollment on other tailnet devices, configure Tailscale DNS:
 
-- Add restricted nameserver `100.85.220.100` for `tjik.internal`.
-- Append search domain `tjik.internal`, preserving existing search domains.
+- Add restricted nameserver `100.85.220.100` for `type.internal`.
+- Append search domain `type.internal`, preserving existing search domains.
 - Keep MagicDNS enabled and allow clients to accept Tailscale DNS.
 - If ACLs restrict traffic, allow the intended clients to Si on TCP/UDP 53
   and TCP 80/443. Tasktjik itself still requires the allowed identity.

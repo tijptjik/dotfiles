@@ -74,6 +74,15 @@
       "template": true,
       "mode": "0600",
       "sensitive": true
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/runtjik/amo.env",
+      "source": "templates/runtjik/amo.env.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "group": "runtjik-amo"
     }
   ]
 }

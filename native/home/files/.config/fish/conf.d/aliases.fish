@@ -207,8 +207,8 @@ alias js='bun'
 ################################
 
 # Native configuration
-alias dotrc='zed-preview $HOME/.local/share/dotjik/'
-alias sysrc='zed-preview $HOME/.local/share/dotjik/system/'
+alias dotrc='zed-preview $HOME/code/dotjik/'
+alias sysrc='zed-preview $HOME/code/dotjik/system/'
 
 # Fish
 function fish_config_edit -d "Edit a {file}.fish config file"

@@ -87,7 +87,7 @@ its own off-host backup must be verified separately.
 ## Deployment boundary
 
 Si still uses the pre-migration layouts: home Compose under
-`/home/m/.local/share/dotjik/home/dockers/` and nginx under
+`/home/m/code/dotjik/home/dockers/` and nginx under
 `/home/m/.local/share/systjik/etc/nginx/`. These are the live server checkout
 paths, not the native source paths listed at the top of this guide. The scoped
 deployment added equivalent service blocks without upgrading the whole checkout.

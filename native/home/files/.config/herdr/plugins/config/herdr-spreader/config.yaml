@@ -69,7 +69,7 @@ workspaces:
           - command: clear
 
   - name: tjikup
-    root: ~/.local/share/dotjik
+    root: ~/code/dotjik
     tabs:
       - label: tjikup
         panes:

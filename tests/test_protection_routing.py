@@ -15,7 +15,7 @@ class ProtectionRouting(unittest.TestCase):
             if isinstance(node,ast.Assign) and isinstance(node.targets[0],ast.Name) and node.targets[0].id in {'app_excludes','plex','sources'}:
                 exec(compile(ast.Module(body=[node],type_ignores=[]),str(source),'exec'),ns)
         policy=json.loads((NATIVE/'si-app-backup/policy.json').read_text())
-        self.assertEqual(policy['sources'],json.loads(json.dumps(ns['sources'])) + [['/var/lib/tasktjik', []]])
+        self.assertEqual(policy['sources'],json.loads(json.dumps(ns['sources']).replace('/home/m/.local/share/dotjik', '/home/m/code/dotjik')) + [['/var/lib/tasktjik', []]])
         for node in ast.parse((ROOT/'system/tests/legacy/protection/restore.py').read_text()).body:
             if isinstance(node,ast.Assign) and isinstance(node.targets[0],ast.Name) and node.targets[0].id in {'DEFAULTS','EXTRA'}:
                 key='restore_defaults' if node.targets[0].id=='DEFAULTS' else 'restore_extra'

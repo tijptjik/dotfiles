@@ -82,9 +82,9 @@ The approved mapping and migration tool are versioned. This is a manual operatio
 and is never invoked by dotjik, systjik or tjikup:
 
 ```sh
-sudo python3 /home/m/.local/share/dotjik/native/home/files/dockers/profilarr-tools/migrate-legacy-profiles.py
+sudo python3 /home/m/code/dotjik/native/home/files/dockers/profilarr-tools/migrate-legacy-profiles.py
 # After reviewing that dry run:
-sudo python3 /home/m/.local/share/dotjik/native/home/files/dockers/profilarr-tools/migrate-legacy-profiles.py --apply
+sudo python3 /home/m/code/dotjik/native/home/files/dockers/profilarr-tools/migrate-legacy-profiles.py --apply
 ```
 
 The tool checks profile identities, makes native Arr backups, and stores private

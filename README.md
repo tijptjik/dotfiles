@@ -1,8 +1,16 @@
 # Dotjik
 
 Home and system configuration applied by Tjikup. The GitHub repository remains
-`tijptjik/dotfiles`, checked out at `~/.local/share/dotjik`. System policy from
+`tijptjik/dotfiles`, checked out at `~/code/dotjik`. System policy from
 Systjik now lives in `system/` within this repository.
+
+Tjikup resolves this checkout from `DOTJIK_REPO`, or `~/code/dotjik` by default;
+`XDG_DATA_HOME` does not select the source checkout. When relocating an existing
+host, preserve the entire checkout (including `.git` and local changes), update
+the Tjikup config symlink and local session paths, and retain a compatibility
+symlink for older installed binaries and open sessions. Move each host before
+applying its updated paths; on Si this includes the app-backup source path.
+Relocating the checkout does not deploy services or publish bootstrap releases.
 
 Tjikup owns deployment and maintenance for every fleet host. Home configuration
 lives in `native/home/files/`; system policy lives in `system/native/`. MiniJinja

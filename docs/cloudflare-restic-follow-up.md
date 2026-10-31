@@ -14,7 +14,7 @@ completion requirements below remain applicable.
 
 ## Work sequence
 
-1. Read current backup policies and operational guides in `/home/io/.local/share/dotjik` and `/home/io/.local/share/systjik`. Inspect current Git status first and preserve unrelated staged, unstaged, and untracked work.
+1. Read current backup policies and operational guides in `/home/io/code/dotjik` and `/home/io/.local/share/systjik`. Inspect current Git status first and preserve unrelated staged, unstaged, and untracked work.
 2. Identify precisely which Cloudflare configuration and data must be recoverable, how those exports can be obtained, their size/change rate, and any provider/API limits. Do not assume that “Cloudflare” means a complete account backup. Separate configuration export from secrets and from data stored in Cloudflare products.
 3. Inspect the drive's current mount, UUID, available capacity, filesystem, and existing backup contents read-only. Confirm the accepted target path resolves to that UUID. The drive may be mounted read-only during earlier audits; do not remount it or write until the user has asked for implementation and current system policy supports the change.
 4. Design a fail-closed, least-privilege export-and-backup workflow using repository conventions. Include explicit source scope, encrypted Restic initialization, weekly scheduling, retention, locking/concurrency behavior, logs without secrets, failure alerts or status evidence, and restore instructions. Never put credentials in Tjikup plaintext or command-line arguments.

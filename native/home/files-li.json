@@ -13,7 +13,7 @@
     "is_laptop": true,
     "is_server": false,
     "anthropic_model_provider": "zai",
-    "repo_dir": "/home/io/.local/share/dotjik",
+    "repo_dir": "/home/io/code/dotjik",
     "live": {
       "gtk3_icon_theme": "",
       "gtk4_icon_theme": ""

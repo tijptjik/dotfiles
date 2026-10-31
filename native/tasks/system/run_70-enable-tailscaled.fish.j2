@@ -65,7 +65,7 @@ step_run_note "Tailnet/Mullvad policy" loaded sudo systemctl daemon-reload
 or exit 1
 step_run_note "Tailnet/Mullvad routing" enabled sudo systemctl enable --now tailnet-mullvad.service
 or exit 1
-step_run_note "Tailnet/Mullvad firewall" refreshed sudo systemctl reload tailnet-mullvad.service
+step_run_note "Tailnet/Mullvad policy" refreshed sudo systemctl restart tailnet-mullvad.service
 or exit 1
 {% endif -%}
 
@@ -95,4 +95,6 @@ end
 
 {% if hostname == "fi" or hostname == "li" %}
 step_run_note "Tailnet DNS" enabled sudo systemctl enable --now tailnet-dns.service
+or exit 1
+step_run_note "Tailnet DNS reconciliation" enabled sudo systemctl enable --now tailnet-dns.timer
 {% endif %}

@@ -6,21 +6,23 @@ Wants=tailscaled.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-# Tailnet rules must precede Mullvad priority 5199.
+# Tailnet rules must precede Mullvad priorities 5178/5179.
 # Remove the previous priority during migration as well as our current rules.
 ExecStartPre=-/usr/bin/ip -4 rule del priority 5200 to 100.64.0.0/10 lookup 52
 ExecStartPre=-/usr/bin/ip -6 rule del priority 5200 to fd7a:115c:a1e0::/48 lookup 52
-# Run before Mullvad priorities 5198/5199; match only tailnet destinations.
+# Priority 5100 precedes Mullvad reconnect rules; match only tailnet destinations.
 ExecStartPre=-/usr/bin/ip -4 rule del priority 5197 to 100.64.0.0/10 lookup 52
 ExecStartPre=-/usr/bin/ip -6 rule del priority 5197 to fd7a:115c:a1e0::/48 lookup 52
+ExecStartPre=-/usr/bin/ip -4 rule del priority 5100 to 100.64.0.0/10 lookup 52
+ExecStartPre=-/usr/bin/ip -6 rule del priority 5100 to fd7a:115c:a1e0::/48 lookup 52
 ExecStartPre=-/usr/bin/ip -4 rule del priority 5180 to 100.64.0.0/10 lookup 52
 ExecStartPre=-/usr/bin/ip -6 rule del priority 5180 to fd7a:115c:a1e0::/48 lookup 52
 ExecStart=/usr/bin/nft -f /etc/tailnet-mullvad.nft
-ExecStart=/usr/bin/ip -4 rule add priority 5180 to 100.64.0.0/10 lookup 52
-ExecStart=/usr/bin/ip -6 rule add priority 5180 to fd7a:115c:a1e0::/48 lookup 52
+ExecStart=/usr/bin/ip -4 rule add priority 5100 to 100.64.0.0/10 lookup 52
+ExecStart=/usr/bin/ip -6 rule add priority 5100 to fd7a:115c:a1e0::/48 lookup 52
 ExecReload=/usr/bin/nft -f /etc/tailnet-mullvad.nft
-ExecStopPost=-/usr/bin/ip -4 rule del priority 5180 to 100.64.0.0/10 lookup 52
-ExecStopPost=-/usr/bin/ip -6 rule del priority 5180 to fd7a:115c:a1e0::/48 lookup 52
+ExecStopPost=-/usr/bin/ip -4 rule del priority 5100 to 100.64.0.0/10 lookup 52
+ExecStopPost=-/usr/bin/ip -6 rule del priority 5100 to fd7a:115c:a1e0::/48 lookup 52
 ExecStopPost=/usr/bin/nft destroy table inet tailnet_mullvad
 
 [Install]

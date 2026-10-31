@@ -35,11 +35,23 @@ class TailnetMullvadTests(unittest.TestCase):
             unit = (target / 'etc/systemd/system/tailnet-mullvad.service').read_text()
             rules = (target / 'etc/tailnet-mullvad.nft').read_text()
             self.assertIn('WantedBy=multi-user.target', unit)
-            self.assertIn('priority 5180 to 100.64.0.0/10 lookup 52', unit)
-            self.assertIn('priority 5180 to fd7a:115c:a1e0::/48 lookup 52', unit)
+            self.assertIn('priority 5100 to 100.64.0.0/10 lookup 52', unit)
+            self.assertIn('priority 5100 to fd7a:115c:a1e0::/48 lookup 52', unit)
             self.assertIn('priority -1', rules)
             self.assertIn('meta mark 0x6d6f6c65 ct mark set 0x00000f41 counter', rules)
             self.assertIn('rule del priority 5200', unit)
             self.assertIn('oifname "tailscale0" ip daddr 100.64.0.0/10', rules)
             self.assertNotIn('flush ruleset', rules)
             self.assertNotIn('destroy table inet mullvad', rules)
+
+    def test_dns_reconciliation_survives_lost_resolver_state(self):
+        for host in ('fi', 'li'):
+            base = ROOT / 'native' / host
+            unit = (base / 'files/systemd/system/tailnet-dns.service').read_text()
+            timer = (base / 'files/systemd/system/tailnet-dns.timer').read_text()
+            self.assertNotIn('RemainAfterExit=yes', unit)
+            self.assertNotIn('ExecStop=', unit)
+            self.assertIn('OnUnitInactiveSec=30s', timer)
+            self.assertIn('~tailb49776.ts.net tjik.internal', unit)
+            manifest = json.loads((base / 'manifest.json').read_text())
+            self.assertTrue(any(e['path'] == '/etc/systemd/system/tailnet-dns.timer' for e in manifest['entries']))

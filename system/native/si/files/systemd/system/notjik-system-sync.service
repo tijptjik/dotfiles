@@ -1,0 +1,15 @@
+[Unit]
+Description=Notjik durable system notification delivery
+After=notjik-api.service
+Requires=notjik-api.service
+[Service]
+ExecStart=/usr/local/bin/notjik-sync run
+Environment=NOTJIK_SYNC_CONFIG=/etc/notjik/system-client.json
+Environment=NOTJIK_SYNC_STATE=/var/lib/notjik-system-client
+StateDirectory=notjik-system-client
+StateDirectoryMode=0700
+UMask=0077
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=multi-user.target

@@ -1,11 +1,12 @@
 [Unit]
 Description=Detect missed or stalled SnapRAID maintenance
 ConditionHost=si
-ConditionPathExists=/etc/si-notifications/telegram.json
+ConditionPathExists=/etc/notjik/system-client.json
 After=network-online.target
 StartLimitIntervalSec=0
 
 [Service]
+ReadWritePaths=/var/lib/notjik-system-client
 Type=oneshot
 StateDirectory=si-snapraid-notifications
 StateDirectoryMode=0700

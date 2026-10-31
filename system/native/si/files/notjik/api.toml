@@ -1,0 +1,11 @@
+[server]
+socket = "/run/notjik/api.sock"
+directory = "/var/lib/notjik"
+origin = "https://si.tailb49776.ts.net"
+allowed_users = ["m@type.hk"]
+firebase_credentials = "/var/lib/notjik/firebase-service-account.json"
+android_config = "/etc/notjik/android.json"
+
+[server.local_users]
+"1000" = "m@type.hk"
+"0" = "m@type.hk"

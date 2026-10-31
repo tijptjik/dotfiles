@@ -820,6 +820,51 @@
       "uid": 0,
       "gid": 0,
       "group": "tasktjik-shortcuts"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/sysusers.d/notjik.conf",
+      "source": "files/sysusers.d/notjik.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "notjik-api"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/notjik/api.toml",
+      "source": "files/notjik/api.toml",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "notjik-api"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/notjik-api.service",
+      "source": "files/systemd/system/notjik-api.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "notjik-api"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/notjik-serve.service",
+      "source": "files/systemd/system/notjik-serve.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "notjik-api"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/notjik-system-sync.service",
+      "source": "files/systemd/system/notjik-system-sync.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "notjik-api"
     }
   ]
 }

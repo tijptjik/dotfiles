@@ -131,6 +131,14 @@
     [
       "/var/lib/tasktjik",
       []
+    ],
+    [
+      "/var/lib/notjik",
+      []
+    ],
+    [
+      "/var/lib/notjik-system-client",
+      []
     ]
   ],
   "direct_sources": [

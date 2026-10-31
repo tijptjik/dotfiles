@@ -1,0 +1,174 @@
+/* Gmail message dark mode. Managed by Dotjik/Tjikup.
+ * Edit the Dotjik source; restart Firefox PWAs after applying changes.
+ * Gmail's own dark theme owns navigation, menus and dialogs.
+ * Conversation and reply surfaces are opaque; only sender HTML backgrounds
+ * are cleared. Never make the whole Gmail interface transparent.
+ */
+/* Initial empty document while the PWA loads its first page. */
+@-moz-document url("about:blank"), url("about:newtab") {
+    :root, body {
+        color-scheme: dark !important;
+        background-color: #191724 !important;
+        color: #e0def4 !important;
+    }
+}
+
+@-moz-document domain("mail.google.com") {
+    /* Set the canvas immediately, without clearing descendant surfaces. */
+    html, body {
+        color-scheme: dark !important;
+        background-color: #191724 !important;
+        color: #e0def4 !important;
+    }
+    /* Gmail's own loading splash is a full-window layer above html/body.
+     * Browser startup colors cannot override its explicit white background.
+     * Keep this separate from the loaded mailbox and sender HTML.
+     */
+    #loading {
+        color-scheme: dark !important;
+        background: #191724 !important;
+        color: #e0def4 !important;
+    }
+
+    #loading :where(.msg, .msgb, .lp, .loading, .loading-message) {
+        background-color: #191724 !important;
+        color: #e0def4 !important;
+    }
+
+    #loading :where(p, span, a) {
+        color: #e0def4 !important;
+        -webkit-text-fill-color: #e0def4 !important;
+    }
+
+    #loading a {
+        color: #c4a7e7 !important;
+        -webkit-text-fill-color: #c4a7e7 !important;
+    }
+
+    /* Closed-message Reply / Forward / reaction footer. This is separate
+     * from both the message body and the open inline-reply editor.
+     */
+    :where(.amn, .amn .amr) {
+        background-color: #191724 !important;
+        color: #e8eaed !important;
+    }
+
+    :where(.amn .ams, .amn button, .amn [role="button"]) {
+        background-color: #191724 !important;
+        color: #e8eaed !important;
+        border-color: #80868b !important;
+    }
+
+    :where(.amn .ams *, .amn button *, .amn [role="button"] *) {
+        color: #e8eaed !important;
+    }
+
+    :where(.amn .ams, .amn button, .amn [role="button"]):hover {
+        background-color: #26233a !important;
+    }
+
+    :where(.amn .ams img, .amn .ams .mL, .amn .ams .mK) {
+        filter: invert(0.85) !important;
+    }
+
+    /* Conversation canvas, message cards, inline reply and pop-out compose.
+     * Use opaque backgrounds on these containers, not all descendants: this
+     * preserves Gmail's warning banners, selected controls and send buttons.
+     */
+    :where(.AO, .aAU, .aia, .if, .iY, .adn, .ads, .ip,
+           .AD, .aoI, .aoP, .aoD, .aO7, .gA, .gU, .gO, .gQ, .gS) {
+        color-scheme: dark !important;
+        background-color: #191724 !important;
+        color: #e8eaed !important;
+        border-color: #5f6368 !important;
+    }
+
+    /* Conversation subject and message envelope have explicit text colors;
+     * changing only their parent background leaves dark text on dark cards.
+     * Keep label chips and warning banners under Gmail's own color rules.
+     */
+    :where(.hP, .hP *, .gD, .gD *) {
+        color: #e8eaed !important;
+        -webkit-text-fill-color: #e8eaed !important;
+    }
+
+    :where(.gE .go, .gE .go *, .gE .g3, .gE .g2,
+           .gE .g6, .gE .hb, .gE .hb *) {
+        color: #bdc1c6 !important;
+        -webkit-text-fill-color: #bdc1c6 !important;
+    }
+
+    /* Recipient/header text and editor toolbar have their own light colors. */
+    :where(.aoD .az9, .aoD .aB, .gO input, .gQ input, .gS input,
+           .aoI [name="subjectbox"], .aoI [name="to"],
+           .aoI [name="cc"], .aoI [name="bcc"]) {
+        background-color: #191724 !important;
+        color: #e8eaed !important;
+        caret-color: #e8eaed !important;
+    }
+
+    :where(.aDh, .aXjCH, .aDh .J-Z, .aXjCH .J-Z) {
+        background-color: #1f1d2e !important;
+        color: #e8eaed !important;
+        border-color: #5f6368 !important;
+    }
+
+    :where(.aDh .J-Z *, .aXjCH .J-Z *) {
+        color: #e8eaed !important;
+    }
+
+    /* Gmail uses dark image sprites for these editing icons. Limit inversion
+     * to the icon elements, never photos, message contents or whole buttons.
+     */
+    :where(.aDh .J-Z-I-J6, .aXjCH .J-Z-I-J6,
+           .aDh .J-Z-M-I-J6, .aXjCH .J-Z-M-I-J6,
+           .gU .aaA, .gU .aaB, .gU .aaC, .gU .aA7,
+           .gU .aA8, .gU .aA9, .gU .aA5, .gU .aA6) {
+        filter: invert(0.85) !important;
+    }
+
+    /* Sender HTML often hardcodes light colors, including inline !important.
+     * User-origin rules override those colors without changing layout.
+     * Image and video pixels are not filtered or inverted.
+     */
+    :where(.a3s, .a3s *, .Am, .Am *) {
+        background-color: transparent !important;
+        background-image: none !important;
+        color: #e8eaed !important;
+        -webkit-text-fill-color: #e8eaed !important;
+        border-color: #5f6368 !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Transparent sender logos can contain black lettering baked into the
+     * image. Give images a light backing instead of inverting their pixels.
+     * Opaque photos cover this backing and keep their original appearance.
+     */
+    :where(.a3s img) {
+        background-color: #f1f3f4 !important;
+    }
+
+    :where(.ii.gt, .a3s, .Am) {
+        color-scheme: dark !important;
+        background-color: #191724 !important;
+        color: #e8eaed !important;
+        caret-color: #e8eaed !important;
+    }
+
+    :where(.a3s a[href], .a3s a[href] *, .Am a[href], .Am a[href] *) {
+        color: #8ab4f8 !important;
+        -webkit-text-fill-color: #8ab4f8 !important;
+    }
+
+    :where(.a3s blockquote, .a3s .gmail_quote,
+           .Am blockquote, .Am .gmail_quote) {
+        border-color: #80868b !important;
+    }
+
+    :where(.a3s, .a3s *, .Am, .Am *)::selection {
+        background-color: #4a638a !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+}

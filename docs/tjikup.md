@@ -37,6 +37,28 @@ templates can produce configuration files or scripts. The preparation rows are
 **Templates (home)** and **Templates (system)**. Maintenance batches live in
 `native/tasks/`; shared shell helpers live in `native/helpers/`.
 
+Gmail's PWA `userContent.css` is shared as a plain managed file in
+`native/home/files/.local/share/firefoxpwa/profiles/00000000000000000000000000/chrome/`.
+It is deployed by the Fi/Li/Si manifests and the portable client manifest. Edit
+that source (or use `dotjik edit` with the live file path), synchronize the
+Dotjik repository, then apply dotfiles on each device. Live CSS edits are not
+automatically captured; native apply preserves drift for review. Restart all
+Firefox PWAs to load CSS changes. Use Gmail's built-in dark theme for the
+interface; the shared CSS recolors message content and the conversation/reply
+surfaces, leaving navigation, menus and warning banners to Gmail.
+
+The shared PWA `user.js` enables custom stylesheets and dark content defaults,
+and disables manifest background overrides. It also disables Firefox's early
+unstyled blank startup window (`browser.startup.blankWindow`); the real browser
+window opens with the palette styles instead. `userChrome.css` and the initial
+content canvas use the Rose Punk base `#191724`, so startup does not depend on
+Gmail having loaded. These appearance-only files apply to the shared PWA profile;
+`prefs.js` and other device/account state stay outside the managed source.
+These rules manage only the two CSS files and appearance-only `user.js`; profile
+directories, caches, sessions and credentials are not added to Git.
+Synctjik continues to back up `userContent.css` under its existing encrypted,
+per-device PWA policy.
+
 File applies preserve drift, use private recovery receipts and do not run
 maintenance tasks implicitly. System file deployment installs the current
 native maintenance binary at `/usr/local/lib/tjikup/tjikup`. Plan and check

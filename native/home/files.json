@@ -2299,6 +2299,20 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/.local/share/firefoxpwa/profiles/00000000000000000000000000/chrome/userContent.css",
+    "kind": "file",
+    "source": "files/.local/share/firefoxpwa/profiles/00000000000000000000000000/chrome/userContent.css",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/firefoxpwa/profiles/00000000000000000000000000/user.js",
+    "kind": "file",
+    "source": "files/.local/share/firefoxpwa/profiles/00000000000000000000000000/user.js",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/.local/share/fonts",
     "kind": "directory",
     "mode": "0755",

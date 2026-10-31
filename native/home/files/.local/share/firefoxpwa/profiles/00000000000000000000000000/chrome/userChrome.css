@@ -1,3 +1,14 @@
 #nav-bar, #identity-box, #tabbrowser-tabs, #TabsToolbar {
     visibility: collapse !important;
 }
+
+/* Rose Punk startup canvas, before any site document has painted. */
+:root {
+    background-color: #191724 !important;
+    color-scheme: dark !important;
+    --tabpanel-background-color: #191724 !important;
+}
+#main-window, #browser, #appcontent, #tabbrowser-tabbox,
+#tabbrowser-tabpanels, .browserStack, browser[type="content"] {
+    background-color: #191724 !important;
+}

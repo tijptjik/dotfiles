@@ -204,5 +204,29 @@
     "template": true,
     "mode": "0600",
     "group": "maintenance"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/firefoxpwa/profiles/00000000000000000000000000/chrome/userContent.css",
+    "kind": "file",
+    "source": "files/.local/share/firefoxpwa/profiles/00000000000000000000000000/chrome/userContent.css",
+    "mode": "0644",
+    "group": "base",
+    "when": "is_client"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/firefoxpwa/profiles/00000000000000000000000000/user.js",
+    "kind": "file",
+    "source": "files/.local/share/firefoxpwa/profiles/00000000000000000000000000/user.js",
+    "mode": "0644",
+    "group": "base",
+    "when": "is_client"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/firefoxpwa/profiles/00000000000000000000000000/chrome/userChrome.css",
+    "kind": "file",
+    "source": "files/.local/share/firefoxpwa/profiles/00000000000000000000000000/chrome/userChrome.css",
+    "mode": "0644",
+    "group": "base",
+    "when": "is_client"
   }
 ]

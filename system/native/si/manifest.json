@@ -101,6 +101,14 @@
     },
     {
       "kind": "symlink",
+      "path": "/etc/systemd/system/tmp.mount",
+      "target": "/dev/null",
+      "uid": 0,
+      "gid": 0,
+      "group": "disk-backed-tmp"
+    },
+    {
+      "kind": "symlink",
       "path": "/etc/nginx/sites-enabled/type.hk",
       "target": "/etc/nginx/sites-available/type.hk",
       "uid": 0,

@@ -243,6 +243,7 @@
         "gpu-screen-recorder",
         "slurp",
         "yt-dlp",
+        "yubikey-manager",
         "libnotify",
         "wireplumber-devel",
         "wl-clipboard",

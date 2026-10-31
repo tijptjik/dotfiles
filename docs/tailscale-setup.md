@@ -321,16 +321,22 @@ Backup deployment and actual backup/restore acceptance remain separate steps.
 
 Tjikup's `system:tailscale` recipe enables `tailnet-mullvad.service` after native
 system-file deployment. Fi's manifest owns the unit and `/etc/tailnet-mullvad.nft`.
-Priority 5200 routes only tailnet IPv4/IPv6 ranges through Tailscale table 52,
-ahead of Mullvad's catch-all route. Firewall exceptions require the `tailscale0`
-interface and tailnet source/destination ranges. They run after Tailscale's
+Priority 5100 routes only tailnet IPv4/IPv6 ranges through Tailscale table 52.
+Mullvad may choose an earlier catch-all priority when it reconnects, so the output
+route hook marks tailnet destinations for the existing split-tunnel exclusion
+and triggers a new route lookup. This skips Mullvad regardless of rule order.
+A postrouting guard requires remote tailnet traffic to leave through `tailscale0`;
+local loopback access is preserved and missing tailnet routes fail closed. Incoming exceptions require `tailscale0`
+and tailnet source ranges. They run after Tailscale's
 mangle connection-mark save and before Mullvad's filter, using Mullvad's existing
 split-tunnel mark contract. Ordinary internet traffic retains Mullvad protection.
 The service's reload atomically replaces only its own nftables table. Stop removes
 only its exact route rules and table. Mullvad and Tailscale updates should be
 followed by direct tailnet SSH, `sshsi`, and ordinary route checks.
 
-Verification on Fi: `ip route get 100.85.220.100` must use `tailscale0`, while
+Verification on Fi: `ip route get 100.85.220.100 mark 0x6d6f6c65` must use
+`tailscale0`; the unmarked initial lookup may select Mullvad before the output
+hook reroutes it. Verify a real HTTPS request to Si as well, while
 `ip route get 1.1.1.1` must use the Mullvad interface when connected. Verify SSH
 with the existing trusted `ssh.type.hk` host-key identity; do not accept a new
 key simply because the transport address changed. `sshsi` remains the configured

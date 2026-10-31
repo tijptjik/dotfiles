@@ -3,13 +3,30 @@
 # Never flush or modify Mullvad's own table.
 destroy table inet tailnet_mullvad
 table inet tailnet_mullvad {
+    chain route_tailnet {
+        # Mullvad can install its catch-all before our policy rule on reconnect.
+        # Mark first to trigger a new route lookup. Checking the
+        # original oif would miss packets initially routed into wg0-mullvad.
+        meta mark set 0x6d6f6c65
+        ct mark set 0x00000f41 counter
+    }
     chain output {
         type route hook output priority -1; policy accept;
         # Tailscale saves packet marks into conntrack, overwriting Mullvad's
         # exclusion mark. Restore it only for packets already excluded by Mullvad.
         meta mark 0x6d6f6c65 ct mark set 0x00000f41 counter
-        oifname "tailscale0" ip daddr 100.64.0.0/10 ct mark set 0x00000f41 meta mark set 0x6d6f6c65 counter
-        oifname "tailscale0" ip6 daddr fd7a:115c:a1e0::/48 ct mark set 0x00000f41 meta mark set 0x6d6f6c65 counter
+        # Local tailnet addresses already use loopback and need no exclusion.
+        oifname "lo" return
+        ip daddr 100.64.0.0/10 jump route_tailnet
+        ip6 daddr fd7a:115c:a1e0::/48 jump route_tailnet
+    }
+    chain guard_tailnet {
+        # The route hook has now rerouted marked traffic. Never allow a missing
+        # tailnet route to send these excluded packets through another interface.
+        type filter hook postrouting priority -1; policy accept;
+        oifname "lo" return
+        ip daddr 100.64.0.0/10 oifname != "tailscale0" drop
+        ip6 daddr fd7a:115c:a1e0::/48 oifname != "tailscale0" drop
     }
     chain input {
         type filter hook prerouting priority -1; policy accept;

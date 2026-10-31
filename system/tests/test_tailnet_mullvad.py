@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -40,7 +41,9 @@ class TailnetMullvadTests(unittest.TestCase):
             self.assertIn('priority -1', rules)
             self.assertIn('meta mark 0x6d6f6c65 ct mark set 0x00000f41 counter', rules)
             self.assertIn('rule del priority 5200', unit)
-            self.assertIn('oifname "tailscale0" ip daddr 100.64.0.0/10', rules)
+            self.assertIn('ip daddr 100.64.0.0/10 jump route_tailnet', rules)
+            self.assertIn('type filter hook postrouting priority -1', rules)
+            self.assertIn('ip daddr 100.64.0.0/10 oifname != "tailscale0" drop', rules)
             self.assertNotIn('flush ruleset', rules)
             self.assertNotIn('destroy table inet mullvad', rules)
 
@@ -55,3 +58,17 @@ class TailnetMullvadTests(unittest.TestCase):
             self.assertIn('~tailb49776.ts.net tjik.internal', unit)
             manifest = json.loads((base / 'manifest.json').read_text())
             self.assertTrue(any(e['path'] == '/etc/systemd/system/tailnet-dns.timer' for e in manifest['entries']))
+
+
+class TailnetMullvadNetworkTests(unittest.TestCase):
+    @unittest.skipUnless(os.environ.get('TAILNET_NETNS_TESTS') == '1',
+                         'set TAILNET_NETNS_TESTS=1 with permission to create network namespaces')
+    def test_vpn_precedence_and_missing_tailnet_routes(self):
+        for host in ('fi', 'li'):
+            with self.subTest(host=host):
+                result = subprocess.run([
+                    'unshare', '--net', sys.executable,
+                    str(ROOT / 'tests/fixtures/tailnet_mullvad_probe.py'),
+                    str(ROOT / 'native' / host / 'files/tailnet-mullvad.nft'),
+                ], text=True, capture_output=True, timeout=15)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)

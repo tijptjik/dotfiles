@@ -20,7 +20,7 @@ for folder in documents media projects resources
     end
 end
 # Initial merges are explicit; the hourly service skips until they finish.
-set -l reload (systemctl --user show synctjik-private-assets-sync.timer synctjik-private-assets-backup.timer --property=NeedDaemonReload --value)
+set -l reload (systemctl --user show private-mount-giprivate.service synctjik-private-assets-sync.timer synctjik-private-assets-backup.timer --property=NeedDaemonReload --value)
 or exit $status
 if contains -- yes $reload
     systemctl --user daemon-reload; or exit $status
@@ -31,6 +31,16 @@ for timer in synctjik-private-assets-sync.timer synctjik-private-assets-backup.t
         systemctl --user enable --now "$timer"; or exit $status
         set changed 1
     end
+end
+# Keep archive links available after reboot. Never restart an active writable
+# mount during configuration updates: it may have pending uploads/readers.
+if not systemctl --user --quiet is-enabled private-mount-giprivate.service
+    systemctl --user enable private-mount-giprivate.service; or exit $status
+    set changed 1
+end
+if not systemctl --user --quiet is-active private-mount-giprivate.service
+    systemctl --user start --no-block private-mount-giprivate.service; or exit $status
+    set changed 1
 end
 if test "$changed" = 1
     status_msg CONFIG "✓" "Synctjik (private assets)" "configured"

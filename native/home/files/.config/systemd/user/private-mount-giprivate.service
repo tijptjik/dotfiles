@@ -1,0 +1,17 @@
+[Unit]
+Description=Google Drive private files and archive links
+StartLimitIntervalSec=0
+
+[Service]
+Type=notify
+UMask=0077
+ExecStartPre=/usr/bin/mkdir -p -m 0700 %h/.mnt/google/private
+ExecStart=/usr/bin/rclone --config %h/.config/private-storage/drive.conf mount type-drive:private %h/.mnt/google/private --drive-skip-gdocs --devname gi-private --vfs-cache-mode writes
+ExecStopPost=-/usr/bin/fusermount3 -u %h/.mnt/google/private
+Restart=on-failure
+RestartSec=15
+TimeoutStartSec=120
+TimeoutStopSec=120
+
+[Install]
+WantedBy=default.target

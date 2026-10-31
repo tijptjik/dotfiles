@@ -1440,6 +1440,14 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/.config/systemd/user/private-mount-giprivate.service",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.config/systemd/user/private-mount-giprivate.service",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/.config/systemd/user/private-storage-initialize.service",
     "when": "hostname in [\"fi\", \"li\"]",
     "kind": "file",

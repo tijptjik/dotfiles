@@ -177,9 +177,16 @@ Google Drive and si both contain `public` and `private` mounts. Their Linux
 FUSE device labels include the source (`gi` or `si`) so the file manager shows
 four distinct names. Restart an existing mount service for its label to update.
 
-These mounts are writable, cache writes locally, and run in supervised transient
-user services named `private-mount-<name>`. A fast file-manager copy is not proof
-of upload completion. Check `systemctl --user status private-mount-giprivate`
+These mounts are writable and cache writes locally. On Fi and Li, the private
+Google Drive mount runs as the persistent `private-mount-giprivate.service`,
+enabled under the user manager's `default.target`. It starts when the user
+manager starts (at boot when lingering is enabled), retries network/startup
+failures, and supplies the archive links in the four local folders. Tjikup
+installs and enables it without restarting an already active mount or clearing
+its write cache. Other mounts use supervised transient user services named
+`private-mount-<name>`; the password-gated crypt mount remains manual.
+
+A fast file-manager copy is not proof of upload completion. Check `systemctl --user status private-mount-giprivate`
 (or the corresponding name) and wait for zero queued/uploading files before
 stopping a mount or shutting down. Keep cached writes until they upload.
 The synced local folders do not depend on these mounts.

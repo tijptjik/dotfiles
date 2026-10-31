@@ -75,8 +75,8 @@ hicolor links into Rose Punk themes, and restore launcher icon fields while
 preserving edited launch commands. Recovery evidence lives under
 `~/.local/state/rose-punk-icons/`. Unknown edited overrides remain for review.
 The installer preserves other theme selections. It migrates a
-`rose-punk-illustrated` selection to `rose-punk` only after the new primary theme
-is installed.
+`rose-punk-illustrated` selection to `rose-punk` in GTK, Qt and Runtjik settings
+only after the new primary theme is installed. Other theme selections are retained.
 
 ```sh
 python3 scripts/icons/choose.py            # select Rose Punk

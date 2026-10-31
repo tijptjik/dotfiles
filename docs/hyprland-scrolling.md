@@ -44,6 +44,7 @@ primary is `DP-1` and secondary is `DP-2`:
 | Obsidian | 50% | 100% |
 | Codex LB (both launcher entries) | 50% | 100% |
 | System Monitor | 50% | 75% |
+| Tasktjik | 50% (default) | 100% |
 
 ZapZap, ChatGPT, and Signal keep their existing floating layouts on `fi`.
 Telegram opens silently on `special:chat` on both `fi` and `li`. On `li`,

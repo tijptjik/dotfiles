@@ -96,6 +96,15 @@ for _, app in ipairs(app_widths) do
 {%- endif %}
 end
 
+{% if is_desktop %}
+-- Quickshell shares its app ID across tools; match Tasktjik's title as well.
+widths.rule({
+    name = "tasktjik-secondary-width",
+    scrolling_width = 1.0,
+    match = { class = "^org[.]quickshell$", title = "^Tasktjik$", workspace = "m[DP-2]" },
+})
+{% endif %}
+
 -- Playwright's headed Chrome windows must not interrupt the active workspace.
 hl.window_rule({
     name = "playwright-chrome",

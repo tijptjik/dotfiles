@@ -114,6 +114,12 @@ printf upstream > "$HOME/.config/systemd/user/bartjik.service"
             engine=tools/'apps/tjikup/src/workflow_services.rs'
             engine.parent.mkdir(parents=True,exist_ok=True)
             engine.write_text('synthetic engine')
+            shared = tools / 'packages/notification-history/qml'
+            shared.mkdir(parents=True)
+            notjik = tools / 'apps/notjik/qml'
+            notjik.mkdir(parents=True)
+            helper = notjik / 'Clipboard.js'
+            helper.write_text('version one')
             stubs = root / 'bin'
             stubs.mkdir()
             for name, body in {'quickshell': 'exit 0', 'pkill': 'exit 1',
@@ -146,6 +152,13 @@ printf upstream > "$HOME/.config/systemd/user/bartjik.service"
             (home / '.local/bin/bartjikctl').unlink()
             run('UPDATE', 2)
             run('SKIP', 2)
+            # Shared QML imports and their symlink targets are build inputs.
+            (shared / 'Clipboard.js').symlink_to(helper)
+            run('SKIP', 3)
+            run('SKIP', 3)
+            helper.write_text('version two')
+            run('SKIP', 4)
+            run('SKIP', 4)
 
 
 if __name__ == '__main__':

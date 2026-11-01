@@ -1423,6 +1423,15 @@
       ],
       "source_sha256": "6a6695146e51235867fa6afc1f6d2314a8691d8d4d4564f280048546b57ce60e",
       "note": "Default centred frame fit; current artwork accepted 2026-10-29."
+    },
+    "gmailtjik": {
+      "scale": 0.88,
+      "offset": [
+        0,
+        1
+      ],
+      "source_sha256": "ea874bc7ab2db53b539dc32cf09fc15c8724dde4e1645dce9dd3aafcd25d9d4a",
+      "note": "Approved original 40-unit rose frame at (12,12); undo primary optical normalization."
     }
   }
 }

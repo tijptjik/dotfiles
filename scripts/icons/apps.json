@@ -314,5 +314,8 @@
   "synctjik": [],
   "rpm-fusion": [],
   "tennis": [],
-  "tinty": []
+  "tinty": [],
+  "gmailtjik": [
+    "gmailtjik.desktop"
+  ]
 }

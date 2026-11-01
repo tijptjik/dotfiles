@@ -2708,8 +2708,8 @@
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chezetc.svg",
-    "kind": "absent",
-    "group": "base"
+    "group": "base",
+    "kind": "absent"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/systjik.svg",
@@ -2720,8 +2720,8 @@
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/chezmoi.svg",
-    "kind": "absent",
-    "group": "base"
+    "group": "base",
+    "kind": "absent"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/dotjik.svg",
@@ -3738,13 +3738,13 @@
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chezetc.svg",
-    "kind": "absent",
-    "group": "base"
+    "group": "base",
+    "kind": "absent"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chezmoi.svg",
-    "kind": "absent",
-    "group": "base"
+    "group": "base",
+    "kind": "absent"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-chrome.svg",
@@ -6152,5 +6152,18 @@
     "mode": "0644",
     "group": "tasktjik",
     "when": "is_client"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gmailtjik.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/gmailtjik.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gmailtjik.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "gmailtjik.svg"
   }
 ]

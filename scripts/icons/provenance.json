@@ -998,5 +998,11 @@
     "license": "Original themed interpretation; app identities remain with their respective owners",
     "sha256": "dbd4753dab26be3eca3d8ee4229660ee2b28defb0266e97bb6e29b533cd37d30",
     "reference": "https://github.com/tinted-theming/tinty"
+  },
+  "gmailtjik": {
+    "source": "scripts/icons/local/gmailtjik.svg",
+    "license": "Original themed artwork; Gmail identity remains with Google",
+    "sha256": "f7e61373c31e90c12f0bacffdcc3c0ae1b92639b36ab24ed219b23e226700819",
+    "design_note": "Original rose frame with a clean red M-shaped envelope flap; removed crossing folds for clarity at launcher size."
   }
 }

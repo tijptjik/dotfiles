@@ -1695,5 +1695,20 @@
     "mode": "illustrated-local",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
+  },
+  "gmailtjik": {
+    "name": "Gmailtjik",
+    "installed": true,
+    "desktop_ids": [
+      "gmailtjik.desktop"
+    ],
+    "icon_names": [
+      "gmailtjik"
+    ],
+    "introduced_batch": 16,
+    "geometry": "local/gmailtjik.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 16
   }
 }

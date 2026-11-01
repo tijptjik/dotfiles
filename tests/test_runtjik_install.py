@@ -32,6 +32,7 @@ class RuntjikInstallTests(unittest.TestCase):
         bindir = self.home / '.local/bin'
         bindir.mkdir(parents=True)
         for name, body in {
+            'bun': 'echo bun-install >> "$CALL_LOG"\n',
             'runtjik': 'echo check >> "$CALL_LOG"\nexit "${HEALTH_RESULT:-0}"\n',
             'quickshell': 'exit 0\n',
             'systemctl': 'echo "$*" >> "$CALL_LOG"\n'

@@ -2,24 +2,10 @@
 set -euo pipefail
 repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$repo_dir/scripts/ensure-tjikos.sh"
-# Si's existing branch is preserved when deployment uses a separate source worktree.
-if [[ "$(hostname -s)" == si && -f "$HOME/.local/state/notjik/source-2026-10-31/apps/notjik-service/scripts/build.sh" ]]; then
-    export TJIKOS_REPO="$HOME/.local/state/notjik/source-2026-10-31"
-fi
+# Notification transport owns only its own binaries. Producers are updated by
+# their normal workflows; never replace a running archive worker here.
 ensure_tjikos apps/notjik-service/scripts/build.sh
 bash "$tool_repo/apps/notjik-service/scripts/build.sh"
-# Keep the managed producers on the same protocol as their durable transport.
-for app in tasktjik tjikup synctjik; do bash "$tool_repo/apps/$app/scripts/build.sh"; done
-bash "$tool_repo/apps/tasktjik/scripts/install.sh"
-for app in tjikup synctjik; do
-    install -m755 "$tool_repo/apps/$app/dist/$app" "$HOME/.local/bin/.$app.notjik-pending"
-    mv "$HOME/.local/bin/.$app.notjik-pending" "$HOME/.local/bin/$app"
-done
-if [[ "$(hostname -s)" == si ]]; then
-    sudo install -m755 "$tool_repo/apps/synctjik/dist/synctjik" /usr/local/bin/.synctjik.notjik-pending
-    sudo mv /usr/local/bin/.synctjik.notjik-pending /usr/local/bin/synctjik
-fi
-bash "$tool_repo/apps/tjikup/scripts/install-weekly.sh" "$tool_repo/apps/tjikup/dist/tjikup"
 install -d -m755 "$HOME/.local/lib/notjik-service" "$HOME/.local/bin" "$HOME/.config/systemd/user"
 install -m755 "$tool_repo/apps/notjik-service/dist/bin/notjik-api" "$HOME/.local/lib/notjik-service/.notjik-api.pending"
 mv "$HOME/.local/lib/notjik-service/.notjik-api.pending" "$HOME/.local/lib/notjik-service/notjik-api"

@@ -3371,6 +3371,28 @@
         "icon": "Tasktjik"
       },
       "after": []
+    },
+    {
+      "id": "home:notjik-service",
+      "label": "Notification service",
+      "operation": "configure",
+      "scope": "home",
+      "needs": [
+        "home:tasktjik"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/scripts/install-notjik-service.sh"
+      ],
+      "resources": [
+        "user-systemd",
+        "system-systemd"
+      ],
+      "display": {
+        "section": "Services",
+        "icon": "Notjik"
+      },
+      "after": []
     }
   ]
 }

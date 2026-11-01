@@ -190,3 +190,24 @@ an explicit `uv sync`. Li's Tjikup fstab matches its current disks and mounts.
 
 See the [configuration restoration guide](docs/config-restoration-plan.md) for
 selected files, recovery limits and verification status.
+
+## Android development
+
+Fi and Li install Temurin JDK 21 and the Android SDK through Tjikup. The
+`home:android-sdk` recipe depends on the RPM phase for Java and installs under
+`~/.local/share/android-sdk`. It verifies Google's pinned command-line tools
+22.0 archive by SHA-256 before extracting it, then installs `platform-tools`,
+`platforms;android-35`, and `build-tools;35.0.0`. SDK packages, licenses, caches,
+and Gradle state remain outside Git. Enabling this installation accepts Google's
+SDK license for these packages; `home:android-sdk:update` refreshes the declared
+packages during normal updates. It does not install an emulator or system images.
+
+New Fish shells export `ANDROID_HOME` and expose SDK commands. From Bash, build
+Notjik with explicit paths (the system Java default stays unchanged):
+
+```sh
+cd ~/code/tjikos/apps/notjik-android
+JAVA_HOME=/usr/lib/jvm/temurin-21-jdk \
+ANDROID_HOME="$HOME/.local/share/android-sdk" \
+./gradlew :app:testDebugUnitTest :app:assembleDebug
+```

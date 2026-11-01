@@ -399,5 +399,31 @@
       "li",
       "si"
     ]
+  },
+  "android-sdk": {
+    "roles": [
+      "desktop",
+      "laptop"
+    ],
+    "checks": [
+      {
+        "executable": "~/.local/share/android-sdk/cmdline-tools/22.0/bin/sdkmanager"
+      },
+      {
+        "path": "~/.local/share/android-sdk/cmdline-tools/22.0/lib/sdkmanager-classpath.jar"
+      },
+      {
+        "path": "~/.local/share/android-sdk/platforms/android-35/android.jar"
+      },
+      {
+        "executable": "~/.local/share/android-sdk/build-tools/35.0.0/aapt2"
+      },
+      {
+        "executable": "~/.local/share/android-sdk/build-tools/35.0.0/apksigner"
+      },
+      {
+        "executable": "~/.local/share/android-sdk/platform-tools/adb"
+      }
+    ]
   }
 }

@@ -3393,6 +3393,111 @@
         "icon": "Notjik"
       },
       "after": []
+    },
+    {
+      "id": "home:android-sdk",
+      "label": "Android SDK",
+      "needs": [
+        "system:rpm"
+      ],
+      "resources": [
+        "android-sdk"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "package",
+        "run",
+        "android-sdk",
+        "--",
+        "fish",
+        "--no-config",
+        "$DOTJIK_REPO/native/helpers/home/android-sdk.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install applications",
+        "reports": true,
+        "icon": "Terminal"
+      },
+      "optional": true,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "android-sdk",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "tjikup",
+        "workflow",
+        "package",
+        "check",
+        "android-sdk"
+      ]
+    },
+    {
+      "id": "home:android-sdk:update",
+      "label": "Android SDK updates",
+      "needs": [
+        "system:rpm"
+      ],
+      "resources": [
+        "android-sdk"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "package",
+        "run",
+        "android-sdk",
+        "--",
+        "fish",
+        "--no-config",
+        "$DOTJIK_REPO/native/helpers/home/android-sdk.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "1",
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Terminal"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "home",
+      "application": "android-sdk",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "tjikup",
+        "workflow",
+        "package",
+        "skip-update",
+        "android-sdk"
+      ],
+      "part_of": "home:android-sdk"
     }
   ]
 }

@@ -6165,5 +6165,13 @@
     "group": "base",
     "kind": "symlink",
     "target": "gmailtjik.svg"
+  },
+  {
+    "path": "{{ user.home }}/.config/fish/conf.d/android-sdk.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/android-sdk.fish",
+    "mode": "0644",
+    "group": "base",
+    "when": "is_client"
   }
 ]

@@ -73,3 +73,57 @@ class TasktjikPolicyTests(unittest.TestCase):
             result = subprocess.run(['bash', str(scripts / 'install-tasktjik.sh')], env={**os.environ, 'TJIKUP_BINARY': str(runner), 'TEST_TOOLS': str(root / 'tools'), 'TEST_LOG': str(root / 'calls')}, capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual((root / 'calls').read_text().splitlines(), ['build', 'install'])
+
+    def test_server_enrollment_follows_install_and_survives_cache_hits(self):
+        for cached_runner, cache_hit, enrolled in ((False, False, True), (True, False, True), (True, True, True), (True, False, False)):
+            with self.subTest(cached_runner=cached_runner, cache_hit=cache_hit, enrolled=enrolled), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                home = root / 'home'
+                commands = home / '.local/bin'
+                commands.mkdir(parents=True)
+                scripts = root / 'scripts'
+                scripts.mkdir()
+                (scripts / 'install-tasktjik.sh').write_text((ROOT / 'scripts/install-tasktjik.sh').read_text())
+                (scripts / 'ensure-tjikos.sh').write_text('tool_repo="$TEST_TOOLS"\nensure_tjikos() { :; }\n')
+                source = root / 'tools/apps/tasktjik'
+                (source / 'scripts').mkdir(parents=True)
+                (source / 'systemd').mkdir()
+                for unit in ('tasktjik.service', 'tasktjik.timer'):
+                    (source / 'systemd' / unit).write_text('[Unit]\n')
+                (home / '.config/systemd/user').mkdir(parents=True)
+                if enrolled:
+                    (home / '.config/notjik').mkdir()
+                    (home / '.config/notjik/sync.json').write_text('{}')
+                current = root / 'current-tasktjik'
+                current.write_text('#!/bin/sh\n[ "$*" = "enroll --notifications" ] || exit 91\necho enroll >> "$TEST_LOG"\n')
+                current.chmod(0o755)
+                tasktjik = commands / 'tasktjik'
+                tasktjik.write_text(current.read_text() if cache_hit else '#!/bin/sh\necho stale >> "$TEST_LOG"\nexit 2\n')
+                tasktjik.chmod(0o755)
+                (source / 'scripts/build.sh').write_text('echo build >> "$TEST_LOG"\n')
+                (source / 'scripts/install.sh').write_text('echo install >> "$TEST_LOG"\ncp "$TEST_CURRENT" "$HOME/.local/bin/tasktjik"\n')
+                for name, body in {
+                    'hostname': 'echo si',
+                    'systemctl': 'echo "systemctl $*" >> "$TEST_LOG"',
+                }.items():
+                    command = commands / name
+                    command.write_text('#!/bin/sh\n' + body + '\n')
+                    command.chmod(0o755)
+                runner = root / 'runner'
+                runner.write_text('#!/bin/sh\nif [ "$1" = capabilities ]; then echo ' + json.dumps(json.dumps({'tasktjik_install_cache': int(cached_runner)})) + '; exit; fi\necho cache >> "$TEST_LOG"\n' + ('exit 0\n' if cache_hit else 'while [ "$1" != -- ]; do shift; done\nshift\nexec "$@"\n'))
+                runner.chmod(0o755)
+                env = {**os.environ, 'HOME': str(home), 'XDG_CONFIG_HOME': str(home / '.config'), 'PATH': str(commands) + ':' + os.environ['PATH'], 'TJIKUP_BINARY': str(runner), 'TEST_TOOLS': str(root / 'tools'), 'TEST_LOG': str(root / 'calls'), 'TEST_CURRENT': str(current)}
+                result = subprocess.run(['bash', str(scripts / 'install-tasktjik.sh')], env=env, capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                calls = (root / 'calls').read_text().splitlines()
+                self.assertNotIn('stale', calls)
+                self.assertEqual(calls.count('enroll'), int(enrolled))
+                if enrolled:
+                    self.assertLess(calls.index('enroll'), calls.index('systemctl --user enable --now tasktjik.timer'))
+                    if not cache_hit:
+                        self.assertLess(calls.index('install'), calls.index('enroll'))
+                    override = home / '.config/systemd/user/tasktjik.service.d/socket-group.conf'
+                    self.assertIn('sg tasktjik', override.read_text())
+                    self.assertIn('sg notjik', override.read_text())
+                else:
+                    self.assertFalse(any(call.startswith('systemctl') for call in calls))

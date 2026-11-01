@@ -9,7 +9,8 @@ function scrolling_gaps.start() end
 
 local function strip(window)
     if not window or not window.mapped or window.floating or not window.workspace
-        or window.workspace.id <= 0 then return end
+        -- Hyprland 0.57 exposes no numeric ID for special/named workspaces.
+        or type(window.workspace.id) ~= "number" or window.workspace.id <= 0 then return end
     local layout = window.layout
     if not layout or layout.name ~= "scrolling" or not layout.column then return end
     return window.workspace.id, layout.column

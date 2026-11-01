@@ -37,7 +37,7 @@ end
 
 function shortcuts.move_column(direction)
     local window, layout = current()
-    if not window or not window.workspace or window.workspace.id <= 0
+    if not window or not window.workspace or type(window.workspace.id) ~= "number" or window.workspace.id <= 0
         or window.fullscreen ~= 0 then return end
     local indices = columns(window.workspace.id)
     local at_edge = direction == "l" and layout.column.index == indices[1]
@@ -66,7 +66,7 @@ function shortcuts.move_column(direction)
         return place(window, direction == "r" and indices[1] or indices[#indices])
     end
     local workspace = destination.active_workspace
-    if workspace.tiled_layout ~= "scrolling" then return end
+    if type(workspace.id) ~= "number" or workspace.id <= 0 or workspace.tiled_layout ~= "scrolling" then return end
     local members = layout.column.windows
     local anchor
     for _, member in ipairs(members) do
@@ -88,7 +88,7 @@ end
 
 function shortcuts.pair(direction)
     local window, layout = current()
-    if not window or not window.workspace or window.workspace.id <= 0
+    if not window or not window.workspace or type(window.workspace.id) ~= "number" or window.workspace.id <= 0
         or window.fullscreen ~= 0 or window.fullscreen_client ~= 0 then return end
     local offset = direction == "l" and -1 or 1
     local neighbor

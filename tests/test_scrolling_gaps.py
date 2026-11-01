@@ -38,14 +38,21 @@ end
 -- Another workspace must not be treated as an adjacent column.
 active=wide;windows={wide,window(.5,1,18)};trace={}
 policy.focus('r');assert(table.concat(trace,',')=='monitor')
-for _,kind in ipairs({'floating','special','master','absent'}) do
+for _,kind in ipairs({'floating','special','master','absent','missing_workspace','nil_id'}) do
     active=window(.5,0)
     if kind=='floating' then active.floating=true
     elseif kind=='special' then active.workspace.id=-99
     elseif kind=='master' then active.layout.name='master'
+    elseif kind=='missing_workspace' then active.workspace=nil
+    elseif kind=='nil_id' then active.workspace={name='special:chat',special=true}
     else active=nil end
     trace={};policy.resize(1);policy.update();assert(#trace==0)
+    policy.focus('r');assert(table.concat(trace,',')=='monitor')
 end
+-- A mapped candidate can also have a workspace without a numeric ID.
+active=wide;local special=window(.5,1);special.workspace={special=true}
+windows={wide,special};trace={}
+policy.focus('r');assert(table.concat(trace,',')=='monitor')
 '''
         subprocess.run(['lua', '-', str(ROOT / 'native/home/files/.config/hypr/scrolling_gaps.lua')],
                        input=script, text=True, check=True)

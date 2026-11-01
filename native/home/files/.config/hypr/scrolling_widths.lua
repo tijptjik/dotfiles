@@ -32,7 +32,8 @@ end
 
 local function normal(window)
     return window.mapped and not window.floating and window.workspace
-        and window.workspace.id > 0 and window.monitor
+        -- Special/named workspace handles can exist with a nil numeric ID.
+        and type(window.workspace.id) == "number" and window.workspace.id > 0 and window.monitor
 end
 
 function widths.refresh()

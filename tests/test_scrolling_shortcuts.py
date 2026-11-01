@@ -68,7 +68,7 @@ for _,direction in ipairs({'l','r'}) do
     assert(offset==(direction=='l' and .25 or 1.25), 'pair must fill the viewport')
 end
 for _,kind in ipairs({'edge','floating','fullscreen','client_fullscreen','scratch','master',
-    'unmapped','absent','other_workspace','floating_neighbor','fullscreen_neighbor'}) do
+    'unmapped','absent','other_workspace','floating_neighbor','fullscreen_neighbor','nil_id'}) do
     setup(1)
     local direction='r'
     if kind=='edge' then direction='l'
@@ -76,6 +76,7 @@ for _,kind in ipairs({'edge','floating','fullscreen','client_fullscreen','scratc
     elseif kind=='fullscreen' then active.fullscreen=1
     elseif kind=='client_fullscreen' then active.fullscreen_client=1
     elseif kind=='scratch' then active.workspace.id=-1
+    elseif kind=='nil_id' then active.workspace={name='special:chat',special=true}
     elseif kind=='master' then active.layout.name='master'
     elseif kind=='unmapped' then active.mapped=false
     elseif kind=='absent' then active=nil
@@ -201,8 +202,11 @@ monitors={a};w.monitor=a;w.workspace=a.active_workspace;w.layout.column.index=1;
 shortcuts.move_column('r');assert(calls[1]=='swapcol l' and w.layout.column.index==0)
 -- Scratch, fullscreen and non-scrolling destinations are not transferred.
 monitors={a,b};calls={};w.workspace={id=-1};shortcuts.move_column('r');assert(#calls==0)
+w.workspace={name='special:chat',special=true};shortcuts.move_column('r');assert(#calls==0)
 w.workspace=a.active_workspace;w.fullscreen=1;shortcuts.move_column('l');assert(#calls==0)
 w.fullscreen=0;b.active_workspace.tiled_layout='master';shortcuts.move_column('l');assert(#calls==0)
+b.active_workspace={name='named',tiled_layout='scrolling'}
+shortcuts.move_column('l');assert(#calls==0) -- never dispatch a nil destination
 '''
         subprocess.run(['lua', '-', str(ROOT / 'native/home/files/.config/hypr/scrolling_shortcuts.lua')],
                        input=script, text=True, check=True)

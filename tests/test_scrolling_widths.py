@@ -33,6 +33,12 @@ widths.rule({match={class='kitty'},scrolling_width=.5})
 widths.rule({match={class='kitty',workspace='m[B]'},scrolling_width=.75})
 assert(rules[4].tag=='+arrival-width-2')
 widths.start();assert(#actions==0)
+-- Special workspace handles have no numeric ID in Hyprland 0.57.
+-- Ignore them on open/start/refresh without losing the last ordinary monitor.
+local ordinary=w.workspace
+w.workspace={name='special:chat',special=true};w.monitor=b
+events['window.open'](w);widths.refresh();assert(#actions==0)
+w.workspace=ordinary;w.monitor=a
 w.workspace.id=2;events['window.move_to_workspace']();timer();assert(#actions==0)
 w.monitor=b;w.tags={'arrival-width-1*','arrival-width-2*'}
 events['window.move_to_workspace']();assert(#actions==0);timer()

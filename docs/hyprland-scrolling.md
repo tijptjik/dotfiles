@@ -54,7 +54,7 @@ keeps their existing workspace rules.
 The current Codex LB launcher is routed to workspace 15 and explicitly gets its
 secondary-display width even when launched from the primary display.
 
-On `li`, Zed and Spotify use 100%, the other listed apps use 50%, and Spotify opens
+On `li`, Kitty, Zed and Spotify use 100%, the other listed apps use 50%, and Spotify opens
 on workspace 10. Other apps retain the 50% global default. Existing floating
 rules are unaffected. `scrolling_width` sets an initial column width, not
 fullscreen mode. A lone column keeps its configured width because

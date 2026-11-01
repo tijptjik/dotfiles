@@ -67,7 +67,7 @@ hl.window_rule({
 
 widths.rule({
     name = "kitty",
-    scrolling_width = 0.5,
+    scrolling_width = {{ 1.0 if hostname == "li" else 0.5 }},
     -- no_anim = true,
     match = { class = "kitty" },
 })

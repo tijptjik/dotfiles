@@ -31,7 +31,7 @@ if [[ "$(hostname -s)" == si ]]; then
     "$HOME/.local/bin/tasktjik" enroll --notifications >/dev/null
     install -m644 "$tool_repo/apps/tasktjik/systemd/tasktjik.service" "$tool_repo/apps/tasktjik/systemd/tasktjik.timer" "$HOME/.config/systemd/user/"
     install -d -m755 "$HOME/.config/systemd/user/tasktjik.service.d"
-    printf '%s\n' '[Service]' 'ExecStart=' 'ExecStart=/usr/bin/sg notjik -c "%h/.local/bin/tasktjik notify"' > "$HOME/.config/systemd/user/tasktjik.service.d/socket-group.conf"
+    printf '%s\n' '[Service]' 'ExecStart=' 'ExecStart=/usr/bin/sg tasktjik -c "sg notjik -c \"%h/.local/bin/tasktjik notify\""' > "$HOME/.config/systemd/user/tasktjik.service.d/socket-group.conf"
     systemctl --user daemon-reload
     systemctl --user enable --now tasktjik.timer
 fi

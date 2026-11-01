@@ -39,6 +39,11 @@ end
 -- See https://wiki.hypr.land/Configuring/Basics/Binds/
 -- Note : Key mappings are managed with QMK
 
+-- Physical Escape adds the CAPS modifier under caps:swapescape.
+-- Shift + physical Escape types a tilde; Ctrl + physical Escape types a backtick.
+hl.bind(shift("code:9", "CAPS"), hl.dsp.send_shortcut({ mods = "SHIFT", key = "grave" }), { repeating = true })
+hl.bind(ctrl("code:9", "CAPS"), hl.dsp.send_shortcut({ mods = "", key = "grave" }), { repeating = true })
+
 -- Global Application Shortcuts -- i.e. call an application shortcut without focus
 -- Save clipboard to Telegram Saved Messages without changing focus.
 -- This global chord takes precedence over terminal paste.

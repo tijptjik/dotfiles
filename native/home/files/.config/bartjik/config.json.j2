@@ -355,8 +355,9 @@
           }
         }
       }
-    },
-    "battery": {
+    }
+{%- if is_laptop %}
+    ,"battery": {
       "provider": "battery",
       "panel": {
         "hover": true,
@@ -364,6 +365,7 @@
         "closeDelay": 160
       }
     }
+{%- endif %}
 {%- if hostname == "fi" %}
     ,"display": {
       "provider": "monitor-layout",
@@ -505,8 +507,8 @@
           "modules": [
             "notifications",
             "idle",
-            "filter",
-            "battery"{% if hostname == "fi" %},
+            "filter"{% if is_laptop %},
+            "battery"{% endif %}{% if hostname == "fi" %},
             "display"{% endif %}
           ]
         }

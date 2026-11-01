@@ -66,14 +66,19 @@ class BartjikConfigTests(unittest.TestCase):
                 self.assertEqual(right['islands'][0]['modules'], ['tray'])
                 self.assertEqual(right['islands'][1]['modules'], ['quota', 'credit'])
 
-    def test_mode_icon_only_on_fi_and_battery_at_end_elsewhere(self):
+    def test_mode_icon_only_on_fi_and_battery_only_on_laptops(self):
         for host in ('fi', 'li', 'si'):
             with self.subTest(host=host):
                 config = self.render(host)
-                self.assertEqual(config['modules']['battery']['provider'], 'battery')
+                if host == 'li':
+                    self.assertEqual(config['modules']['battery']['provider'], 'battery')
+                else:
+                    self.assertNotIn('battery', config['modules'])
                 controls = next(island for bar in config['bars']
                                 for island in bar['islands'] if island['id'] == 'controls')
-                expected = ['notifications', 'idle', 'filter', 'battery']
+                expected = ['notifications', 'idle', 'filter']
+                if host == 'li':
+                    expected.append('battery')
                 if host == 'fi':
                     expected.append('display')
                 else:

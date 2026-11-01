@@ -16,6 +16,17 @@ local function command_output(command)
     return output
 end
 
+-- Return the original shortcut to Kitty instead of consuming terminal paste.
+function helpers.telegram_clipboard_shortcut()
+    local window = hl.get_active_window()
+    if window == nil
+        or (window.class or ""):lower():find("kitty", 1, true)
+        or (window.initial_class or ""):lower():find("kitty", 1, true) then
+        return { pass_event = true }
+    end
+    return hl.dispatch(hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl telegram save-clipboard"))
+end
+
 local function is_idle(hyprvoice_status)
     return hyprvoice_status:find("status=idle", 1, true) ~= nil
 end

@@ -46,8 +46,8 @@ hl.bind(ctrl("code:9", "CAPS"), hl.dsp.send_shortcut({ mods = "", key = "grave" 
 
 -- Global Application Shortcuts -- i.e. call an application shortcut without focus
 -- Save clipboard to Telegram Saved Messages without changing focus.
--- This global chord takes precedence over terminal paste.
-hl.bind(ctrl("V", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl telegram save-clipboard"))
+-- Kitty keeps its native paste shortcut.
+hl.bind(ctrl("V", "SHIFT"), helpers.telegram_clipboard_shortcut)
 hl.bind(super("R"), hl.dsp.pass({ window = "class:^(com\\.obsproject\\.Studio)$" }))
 
 -- #######################
@@ -214,10 +214,13 @@ hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locke
 -- KEY BINDINGS : HYPRVOICE
 -- #######################
 
-hl.bind(super("N"), function()
+-- Physical Escape is keycode 9; caps:swapescape adds the CAPS modifier.
+-- Toggle dictation; Ctrl discards it; Shift opens configuration.
+hl.bind(super("code:9", "CAPS"), function()
     helpers.toggle_hyprvoice()
-end)
-hl.bind(super("N", "SHIFT"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"))
+end, { dont_inhibit = true })
+hl.bind(super("code:9", "CAPS", "CTRL"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"), { dont_inhibit = true })
+hl.bind(super("code:9", "CAPS", "SHIFT"), hl.dsp.exec_cmd("uwsm app -- kitty -- $HOME/.local/bin/hyprvoice configure"), { dont_inhibit = true })
 
 -- #######################
 -- KEY BINDINGS : LAUNCH

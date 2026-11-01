@@ -96,7 +96,7 @@ for _, app in ipairs(app_widths) do
 {%- endif %}
 end
 
-{% if is_desktop %}
+{%- if is_desktop %}
 widths.rule({
     name = "gmailtjik-secondary-width",
     scrolling_width = 1.0,
@@ -109,7 +109,7 @@ widths.rule({
     scrolling_width = 1.0,
     match = { class = "^org[.]quickshell$", title = "^Tasktjik$", workspace = "m[DP-2]" },
 })
-{% endif %}
+{%- endif %}
 
 -- Playwright's headed Chrome windows must not interrupt the active workspace.
 hl.window_rule({

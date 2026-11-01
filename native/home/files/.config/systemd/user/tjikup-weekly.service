@@ -1,10 +1,10 @@
 [Unit]
-Description=Weekly Tjikup maintenance and Telegram status
+Description=Weekly Tjikup maintenance and notification status
 
 [Service]
 Type=oneshot
 ExecStart=/usr/local/libexec/tjikup-weekly scheduled
-Environment="PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="PATH=%h/.local/bin:%h/.bun/bin:%h/.config/bun/bin:/usr/local/bin:/usr/bin:/bin"
 Environment=GIT_TERMINAL_PROMPT=0
 Environment=TJIKUP_TELEGRAM_CONFIG=%h/.config/tjikup/telegram.json
 StandardInput=null

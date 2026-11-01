@@ -151,7 +151,7 @@ trust_level = "trusted"
 [projects."/home/io/code/tjikos"]
 trust_level = "trusted"
 
-[projects."/home/io/code/dotjik"]
+[projects."/home/io/.local/share/dotjik"]
 trust_level = "trusted"
 
 [tui]

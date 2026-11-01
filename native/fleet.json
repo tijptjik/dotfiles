@@ -9,6 +9,11 @@
       "user": "io",
       "host_key_alias": "li.local",
       "known_hosts": "{home}/.config/fleet-ssh/known_hosts"
+    },
+    "si": {
+      "user": "m",
+      "host_key_alias": "ssh.type.hk",
+      "known_hosts": "{home}/.config/fleet-ssh/known_hosts"
     }
   }
 }

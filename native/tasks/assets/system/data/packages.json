@@ -273,7 +273,8 @@
         "showtime",
         "simple-scan",
         "snapshot",
-        "yelp"
+        "yelp",
+        "temurin-21-jdk"
       ],
       "flatpak": {
         "fedora": [

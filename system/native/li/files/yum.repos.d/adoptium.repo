@@ -1,0 +1,7 @@
+[adoptium]
+name=Eclipse Adoptium - JDK 21
+baseurl=https://packages.adoptium.net/artifactory/rpm/fedora/$releasever/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.adoptium.net/artifactory/api/gpg/key/public
+includepkgs=temurin-21-jdk

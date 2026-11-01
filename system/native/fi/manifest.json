@@ -200,6 +200,14 @@
       "uid": 0,
       "gid": 0,
       "group": "tailnet-dns"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/yum.repos.d/adoptium.repo",
+      "source": "files/yum.repos.d/adoptium.repo",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0
     }
   ]
 }

@@ -88,7 +88,10 @@ alias yc='sudo dnf clean packages -y'       # clean packages
 #################################
 
 # Printers
-alias cat='bat --paging=never'
+# SSH transports need byte-preserving cat; the viewer is interactive only.
+if status is-interactive
+    alias cat='bat --paging=never'
+end
 alias b='bat'
 alias icat='kitten icat'
 

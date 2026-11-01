@@ -5,7 +5,7 @@ repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 source "$repo_dir/scripts/ensure-tjikos.sh"
 ensure_tjikos apps/runtjik/scripts/build.sh
 bash "$(dirname -- "${BASH_SOURCE[0]}")/install-tasktjik.sh"
-python3 -c 'import sys; assert sys.version_info >= (3, 11), "Runtjik requires Python 3.11+"'
+(cd "$tool_repo" && bun install --frozen-lockfile)
 "${TJIKUP_BINARY:-tjikup}" workflow --repo "$repo_dir" cache-install runtjik \
     --input "$tool_repo/apps/runtjik" --input "$tool_repo/apps/tasktjik" --input "$tool_repo/apps/tjikup/src/workflow_services.rs" \
     --output "$HOME/.local/bin/runtjik" --output "$HOME/.local/bin/runtjik-image" \

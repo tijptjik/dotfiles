@@ -3,7 +3,9 @@
 [daemon]
 # Uncomment the line below to force the login screen to use Xorg
 #WaylandEnable=false
-AutomaticLoginEnable=True
+# Password login lets GDM's pam_oo7 auth/session hooks unlock the keyring
+# before desktop applications start. Hyprlock does not open a PAM session.
+AutomaticLoginEnable=False
 {% if is_client %}
 AutomaticLogin=io
 {% elif is_server -%}

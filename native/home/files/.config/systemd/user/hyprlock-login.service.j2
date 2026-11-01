@@ -7,6 +7,11 @@ After=graphical-session.target
 
 [Service]
 Type=simple
+# GDM password login already authenticated and unlocked the credential store.
+# Keep the lock for autologin, other session types, and failed session queries;
+# this also protects machines whose system login policy has not been applied.
+# Double dollars preserve shell variables through systemd's command expansion.
+ExecCondition=/usr/bin/sh -c 'session=$$(/usr/bin/loginctl show-user %u --property=Display --value) || exit 0; [ -n "$$session" ] || exit 0; service=$$(/usr/bin/loginctl show-session "$$session" --property=Service --value) || exit 0; [ "$$service" != gdm-password ]'
 # graphical-session.target is reached before Hyprland imports its Wayland
 # socket into the user manager. Wait for that import so the lock is not lost
 # to a compositor-startup race.

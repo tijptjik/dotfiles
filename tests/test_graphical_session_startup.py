@@ -2,12 +2,47 @@
 import os
 from pathlib import Path
 import subprocess
+import shlex
+import tempfile
 import unittest
 
 REPO=Path(__file__).resolve().parents[1]
 
 
 class GraphicalStartupTests(unittest.TestCase):
+    def test_login_lock_skips_only_password_authenticated_gdm_session(self):
+        unit=(REPO/'native/home/files/.config/systemd/user/hyprlock-login.service.j2').read_text()
+        command=next(line.removeprefix('ExecCondition=') for line in unit.splitlines()
+                     if line.startswith('ExecCondition='))
+        with tempfile.TemporaryDirectory() as directory:
+            loginctl=Path(directory)/'loginctl'
+            loginctl.write_text('''#!/bin/sh
+case "$1" in
+  show-user) printf '%s' "$SESSION"; exit "$USER_STATUS" ;;
+  show-session) printf '%s' "$SERVICE"; exit "$SESSION_STATUS" ;;
+  *) exit 99 ;;
+esac
+''')
+            loginctl.chmod(0o755)
+            # Model systemd's specifier and dollar expansion before invoking sh.
+            args=shlex.split(command.replace('/usr/bin/loginctl',str(loginctl))
+                             .replace('%u','fixture').replace('$$','$'))
+            cases=[('gdm-password','2','0','0',1),
+                   ('gdm-autologin','2','0','0',0),
+                   ('gdm-fingerprint','2','0','0',0),
+                   ('login','2','0','0',0),
+                   ('','2','0','0',0),
+                   ('gdm-password','','0','0',0),
+                   ('gdm-password','2','1','0',0),
+                   ('gdm-password','2','0','1',0)]
+            for service,session,user_status,session_status,expected in cases:
+                with self.subTest(service=service,session=session,
+                                  user_status=user_status,session_status=session_status):
+                    result=subprocess.run(args,env={**os.environ,'SERVICE':service,
+                        'SESSION':session,'USER_STATUS':user_status,
+                        'SESSION_STATUS':session_status},capture_output=True,text=True,timeout=5)
+                    self.assertEqual(result.returncode,expected,result.stderr)
+
     def test_only_running_wayland_session_starts_helpers(self):
         text=(REPO/'native/tasks/home/run_after_99-systemd-reload.fish.j2').read_text()
         function=text[text.index('function configure_client_user_units'):text.index('if user_units_need_reload; or units_need_enable_now $client_services')]

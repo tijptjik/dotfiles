@@ -97,6 +97,12 @@ for _, app in ipairs(app_widths) do
 end
 
 {% if is_desktop %}
+widths.rule({
+    name = "gmailtjik-secondary-width",
+    scrolling_width = 1.0,
+    match = { class = "^gmailtjik$", workspace = "m[DP-2]" },
+})
+
 -- Quickshell shares its app ID across tools; match Tasktjik's title as well.
 widths.rule({
     name = "tasktjik-secondary-width",

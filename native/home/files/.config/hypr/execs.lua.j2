@@ -22,6 +22,11 @@ helpers.start_zen_extensions()
 helpers.start_detached_cards()
 
 startup.subscription = hl.on("hyprland.start", function()
+    -- GDM 51 otherwise waits ten seconds to register the display. Its Plymouth
+    -- quit fallback can restore tty1 and bring the greeter over our locked tty2.
+    -- Report compositor readiness immediately, before that fallback expires.
+    hl.exec_cmd("if systemctl --quiet is-active gdm.service; then busctl --system --auto-start=no call org.gnome.DisplayManager /org/gnome/DisplayManager/Manager org.gnome.DisplayManager.Manager RegisterDisplay; fi")
+
     -- Ensure Environment Variables Are Available
     -- hyprlock requires $WAYLAND_DISPLAY to be set in the systemd user environment.
     -- GDM doesn't always propagate this automatically to systemd.

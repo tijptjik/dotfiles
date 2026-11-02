@@ -50,3 +50,10 @@ Zed and other clients before the first Hyprlock authentication; concurrent
 Secret Service requests can queue many independent password prompts. The
 `after-keyring-unlock` helper only reads lock state and never requests an unlock
 or handles a password. Missing or unavailable Login collections keep apps waiting.
+
+Hyprland reports display readiness to GDM with `RegisterDisplay` from its startup
+callback. GDM 51 otherwise uses a ten-second fallback; quitting Plymouth without
+retaining the splash can restore tty1 and open a greeter over the already locked
+Hyprland session on tty2. The explicit readiness call avoids waiting for that
+fallback. It runs only while GDM is active. The November 2 Li boot matched this
+timing; the change still requires a fresh boot to verify the visible handoff.

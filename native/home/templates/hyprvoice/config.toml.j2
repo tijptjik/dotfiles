@@ -5,10 +5,6 @@
 # Keywords help transcription and LLM spell names/terms correctly
 keywords = ["Sherin"]
 
-# API Keys for providers
-[providers.openai]
-  api_key = {{ secret("3c9cd228-913b-4062-b22d-b3ed0048e73d") | json_quote }}
-
 # Audio Recording Configuration
 [recording]
   sample_rate = 16000
@@ -21,17 +17,17 @@ keywords = ["Sherin"]
 
 # Speech Transcription Configuration
 [transcription]
-  provider = "openai"
+  provider = "codex"
   language = "en"
-  model = "whisper-1"
+  model = "gpt-4o-transcribe"
   streaming = false
   threads = 0
 
 # LLM Post-Processing Configuration
 [llm]
   enabled = true
-  provider = "openai"
-  model = "gpt-4o-mini"
+  provider = "codex"
+  model = "gpt-6-luna"
 
   [llm.post_processing]
     remove_stutters = true

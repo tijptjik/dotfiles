@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import os
 import shutil
 import subprocess
@@ -41,7 +42,16 @@ class InstallTests(unittest.TestCase):
     def test_old_release_and_old_runner_fail_even_with_valid_workflow(self):
         self.release_case(candidate=0, installed=0, success=False, installs=False, candidate_cache=False, installed_cache=False)
 
-    def release_case(self, candidate, installed, success, installs, candidate_cache=True, installed_cache=True):
+    def test_newer_installed_build_is_not_downgraded_or_cached(self):
+        self.release_case(candidate=0, installed=0, success=True, installs=False, provenance="newer")
+
+    def test_release_can_upgrade_older_installed_build(self):
+        self.release_case(candidate=0, installed=0, success=True, installs=True, provenance="older")
+
+    def test_equal_source_revision_enters_normal_install_path(self):
+        self.release_case(candidate=0, installed=0, success=True, installs=True, provenance="equal")
+
+    def release_case(self, candidate, installed, success, installs, candidate_cache=True, installed_cache=True, provenance=None):
         with tempfile.TemporaryDirectory() as directory:
             home=Path(directory);repo=home/'checkout';tool=home/'tool'
             (repo/'scripts').mkdir(parents=True);(repo/'system/tjikup').mkdir(parents=True)
@@ -55,6 +65,32 @@ class InstallTests(unittest.TestCase):
             (tool/'apps/tjikup/scripts/install-weekly.sh').write_text('#!/bin/sh\ntouch "$HOME/weekly-installed"\n')
             for path,code in [(tool/'apps/tjikup/dist/tjikup',candidate),(home/'.local/bin/tjikup',installed)]:
                 path.parent.mkdir(parents=True,exist_ok=True);path.write_text('#!/bin/sh\nif [ "$1" = capabilities ]; then\n  echo \'{"bootstrap_archives":1,"native_commands":1,"native_installers":1,"native_maintenance":1,"scheduled_telegram":1,"scheduled_telegram_bws":1,"native_workflow":' + str(int(candidate_cache if path == tool/'apps/tjikup/dist/tjikup' else installed_cache)) + '}\'\n  exit 0\nfi\nif [ \"$1\" = workflow ]; then touch \"$TEST_CACHE_MARKER\"; exit 0; fi\nexit '+str(code)+'\n');path.chmod(0o755)
+            if provenance:
+                def git(*args):
+                    return subprocess.check_output(
+                        ['git', '-C', str(tool), *args], text=True,
+                        env={**os.environ, 'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_CONFIG_NOSYSTEM': '1'},
+                        stderr=subprocess.DEVNULL,
+                    ).strip()
+                git('init')
+                git('config', 'user.name', 'Fixture')
+                git('config', 'user.email', 'fixture@example.test')
+                git('-c', 'commit.gpgsign=false', 'commit', '--allow-empty', '-m', 'old')
+                old = git('rev-parse', 'HEAD')
+                git('-c', 'commit.gpgsign=false', 'commit', '--allow-empty', '-m', 'new')
+                new = git('rev-parse', 'HEAD')
+                pinned, running = (old, new) if provenance == "newer" else (new, old)
+                if provenance == "equal":
+                    running = pinned
+                manifest = tool / 'apps/tjikos-sh/release.json'
+                manifest.parent.mkdir(parents=True)
+                manifest.write_text(json.dumps({'tjikup_binary': {'source_revision': pinned}}))
+                executable = home / '.local/bin/tjikup'
+                executable.write_text(executable.read_text().replace(
+                    '#!/bin/sh\n',
+                    '#!/bin/sh\nif [ "$1" = --build-info ]; then echo \'{ "source_revision": "' + running + '" }\'; exit 0; fi\n',
+                    1,
+                ))
             target=home/'.local/bin/tjikup';before=target.read_bytes()
             result=subprocess.run(['bash',str(repo/'scripts/install-tjikup.sh')],capture_output=True,text=True,
                 env={**os.environ,'HOME':str(home),'XDG_CONFIG_HOME':str(home/'.config'),'TEST_TOOL_REPO':str(tool),'TEST_CACHE_MARKER':str(marker)})
@@ -64,4 +100,4 @@ class InstallTests(unittest.TestCase):
             self.assertEqual((home/'weekly-installed').exists(),success)
             if success and not installs:
                 self.assertIn('__stage_verb__:SKIP',result.stdout)
-                self.assertIn('__stage_note__:awaiting compatible release',result.stdout)
+                self.assertIn('__stage_note__:newer installed build retained' if provenance == 'newer' else '__stage_note__:awaiting compatible release',result.stdout)

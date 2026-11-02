@@ -17,6 +17,22 @@ compatible_runner() {
     "$1" capabilities 2>/dev/null | jq -e '.native_workflow >= 1 and .bootstrap_archives >= 1 and .native_commands >= 1 and .native_installers >= 1 and .native_maintenance >= 1 and .scheduled_telegram >= 1 and .scheduled_telegram_bws >= 1' >/dev/null  &&
         "$1" --config "$repo_dir/tjikup.json" --check >/dev/null 2>&1
 }
+# A locally built runner can be newer than the published pin. Compare exact
+# source revisions before entering cache-install, which would otherwise silently
+# replace that runner with an older but still capability-compatible release.
+installed_runner="$HOME/.local/bin/tjikup"
+installed_revision="$("$installed_runner" --build-info 2>/dev/null | jq -er '.source_revision' 2>/dev/null || true)"
+pinned_revision="$(jq -er '.tjikup_binary.source_revision' "$tool_repo/apps/tjikos-sh/release.json" 2>/dev/null || true)"
+if [[ "$installed_revision" =~ ^[a-f0-9]{40}$ && "$pinned_revision" =~ ^[a-f0-9]{40}$ &&
+      "$installed_revision" != "$pinned_revision" ]] &&
+    git -C "$tool_repo" merge-base --is-ancestor "$pinned_revision" "$installed_revision" &&
+    compatible_runner "$installed_runner"; then
+    bash "$tool_repo/apps/tjikup/scripts/install-weekly.sh" "$installed_runner"
+    printf '%s\n' 'SKIP    ✓ Tjikup    installed build is newer than the pinned release' \
+        '__stage_verb__:SKIP' '__stage_note__:newer installed build retained'
+    exit 0
+fi
+
 if ! compatible_runner "$tool_repo/apps/tjikup/dist/tjikup"; then
     # A local migration can require features newer than the pinned release.
     # Keep a proven-compatible installed runner; never downgrade it or record

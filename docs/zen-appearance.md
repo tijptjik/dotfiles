@@ -45,3 +45,32 @@ Apply just `~/.config/zen/userChrome.css` and `~/.config/hypr/windows.lua` with
 Tjikup, then reload Hyprland. A Zen restart is required for stylesheet changes.
 To undo, remove the import, restore the Zen `border_size = 0` rule and restart
 Zen/reload Hyprland.
+
+## Closing the last regular tab
+
+Dotjik manages `~/.config/zen/close-last-regular-tab.sys.mjs` in the `zen`
+home-file group. `home:config:zen` follows `home:files` for all roles. Fi, Li and
+Si system manifests manage `/opt/zen/config.js` and
+`/opt/zen/defaults/pref/config-prefs.js` (Si targets the resolved
+`/mnt/storage/meta/opt/zen/` directory because `/opt` is a symlink); this loads the behavior for every profile,
+including profiles created later. Existing per-profile userChromeJS loaders are
+preserved. The installed RPM does not own either autoconfig file.
+
+Only a completed `TabClose` carrying Zen's explicit
+`metricsContext.isUserTriggered` marker can trigger window closure. Keyboard,
+close-button and context-menu handlers carry that marker; startup cleanup and
+window-sync removals do not. The active window closes only if no regular tabs
+remain, including other workspaces and collapsed groups. Pinned tabs, Essentials,
+Glance overlays and internal empty tabs are excluded. The normal window-close
+command retains unload prompts. An empty or pinned-only startup stays open.
+
+Apply the home file with `tjikup workflow files home-files apply --group zen`.
+Apply the system loader through the native system manifest's `zen` group (normal
+system-file applies also include it). No browser restart is forced: restart Zen
+when convenient to activate changes. The managed script's window marker prevents
+duplicate listeners when an older per-profile copy is present.
+
+This depends on Zen's chrome APIs; retest empty startup, explicit last-tab
+closure, pins/Essentials and multiple synced windows after browser updates.
+To disable immediately, rename the managed `.sys.mjs` file and restart Zen;
+remove its manifest entries as well to prevent a later apply from restoring it.

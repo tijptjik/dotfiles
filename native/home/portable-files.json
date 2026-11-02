@@ -228,5 +228,12 @@
     "mode": "0644",
     "group": "base",
     "when": "is_client"
+  },
+  {
+    "path": "{{ user.home }}/.config/zen/close-last-regular-tab.sys.mjs",
+    "kind": "file",
+    "source": "files/.config/zen/close-last-regular-tab.sys.mjs",
+    "mode": "0644",
+    "group": "zen"
   }
 ]

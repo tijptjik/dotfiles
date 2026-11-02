@@ -3498,6 +3498,34 @@
         "android-sdk"
       ],
       "part_of": "home:android-sdk"
+    },
+    {
+      "id": "home:config:zen",
+      "label": "Zen tab closing",
+      "operation": "configure",
+      "scope": "home",
+      "application": "zen",
+      "ecosystem": "configuration",
+      "part_of": "home:files",
+      "needs": [
+        "home:files"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "files",
+        "home-files",
+        "apply",
+        "--group",
+        "zen"
+      ],
+      "resources": [
+        "home-files"
+      ],
+      "display": {
+        "section": "Configuration",
+        "icon": "Zen"
+      }
     }
   ]
 }

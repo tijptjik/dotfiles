@@ -865,6 +865,24 @@
       "uid": 0,
       "gid": 0,
       "group": "notjik-api"
+    },
+    {
+      "kind": "file",
+      "path": "/mnt/storage/meta/opt/zen/config.js",
+      "source": "files/zen/config.js",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "zen"
+    },
+    {
+      "kind": "file",
+      "path": "/mnt/storage/meta/opt/zen/defaults/pref/config-prefs.js",
+      "source": "files/zen/config-prefs.js",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "zen"
     }
   ]
 }

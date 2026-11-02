@@ -1,12 +1,12 @@
 [Unit]
 Description=Copy si application backup to this computer
 ConditionHost=fi
-OnFailure=si-app-backup-pull-failure.service
 StartLimitIntervalSec=0
 
 [Service]
 Type=oneshot
 ExecStart=%h/.local/bin/synctjik app-pull copy
+ExecStopPost=-%h/.local/bin/synctjik app-pull notify
 TimeoutStartSec=6h
 Restart=on-failure
 RestartSec=1h

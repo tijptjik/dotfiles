@@ -37,6 +37,25 @@ class ProtectionRouting(unittest.TestCase):
             content=(ROOT/'native/home/files/.local/bin'/name).read_text()
             self.assertIn('exec ',content);self.assertNotIn('python',content);self.assertLess(len(content.splitlines()),5)
 
+    def test_backup_retry_and_notifications_cover_each_failed_attempt(self):
+        home = ROOT / 'native/home/files/.config/systemd/user'
+        units = [NATIVE / 'systemd/system/si-app-backup.service',
+                 home / 'si-app-backup-health.service', home / 'si-app-backup-pull.service']
+        for path in units:
+            content = path.read_text()
+            self.assertIn('Restart=on-failure', content)
+            self.assertIn('RestartSec=1h', content)
+            self.assertIn('StartLimitIntervalSec=0', content)
+            self.assertIn('ExecStopPost=-', content)
+            self.assertIn(' notify', content)
+            self.assertNotIn('OnFailure=', content)
+        self.assertIn('--defer-if-busy', units[0].read_text())
+        self.assertIn('notify --health-check', units[1].read_text())
+        for path in [NATIVE / 'systemd/system/si-app-backup-failure.service',
+                     home / 'si-app-backup-pull-failure.service']:
+            self.assertIn('synctjik ', path.read_text())
+            self.assertNotIn('notify-send', path.read_text())
+
     def test_manifest_retires_engines_and_owns_policy(self):
         entries={e['path']:e for e in json.loads((NATIVE.parent/'manifest.json').read_text())['entries']}
         for name in ['si-app-backup/backup.py','si-provision/restore.py','si-snapraid-maintenance/maintenance.py','si-snapraid-maintenance/notify.py']:

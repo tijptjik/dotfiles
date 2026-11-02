@@ -1,10 +1,13 @@
 [Unit]
 Description=Check si backups and fetch a missed weekly copy
 ConditionHost=fi
-OnFailure=si-app-backup-pull-failure.service
+StartLimitIntervalSec=0
 
 [Service]
 Type=oneshot
 ExecStart=%h/.local/bin/synctjik app-pull health
+ExecStopPost=-%h/.local/bin/synctjik app-pull notify --health-check
 TimeoutStartSec=6h
+Restart=on-failure
+RestartSec=1h
 UMask=0077

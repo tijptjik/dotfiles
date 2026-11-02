@@ -4,8 +4,8 @@
 
 - Server: `si-app-backup.timer`, daily at 04:00 Asia/Hong_Kong with up to five minutes jitter. Retain seven daily and four weekly snapshots (overlap means up to eleven, not necessarily eleven).
 - Computer `fi`: user `si-app-backup-pull.timer`, Sundays at 06:00 Asia/Hong_Kong with up to ten minutes jitter. Copies all retained server snapshots into an independently encrypted repository, retaining seven daily and four weekly restore points as of the latest weekly transfer.
-- Timers catch up after missed runs. Weekly copies retry hourly on failure and raise a desktop notification. Both computer and server must be reachable; the script tries `192.168.1.150`, then the existing `ssh.type.hk` address, verifying the host key and hostname.
-- Daily 10:00 HKT check on `fi` (up to five minutes jitter): rejects server backups older than 24 hours. If no verified local copy has completed since the latest Sunday 06:00, it fetches the retained snapshots, applies retention and verifies all local repository data before recording success. A current receipt must also match a snapshot still present locally. Failed catch-up attempts notify and are attempted again at the next daily check.
+- Timers catch up after missed runs. Server backups, weekly copies and health checks retry hourly on failure and raise structured Synctjik result cards. A server backup defers immediately with exit 75 when storage maintenance holds its lock, then retries after an hour; the two-hour execution limit applies to actual backup work. Both computer and server must be reachable; the script tries `192.168.1.150`, then the existing `ssh.type.hk` address, verifying the host key and hostname.
+- Daily 10:00 HKT check on `fi` (up to five minutes jitter): rejects server backups older than 24 hours. If no verified local copy has completed since the latest Sunday 06:00, it fetches the retained snapshots, applies retention and verifies all local repository data before recording success. A current receipt must also match a snapshot still present locally. Failed health checks and catch-up attempts notify and retry hourly until successful.
 - All transfers are initiated by `fi` over outbound SSH/SFTP; `fi` does not need an SSH server. Persistent timers catch missed runs when its user systemd manager starts.
 - Weekly transfer cap: 2,048 KiB/s. Restic deduplicates and compresses data; snapshots are independently restorable, not a fragile chain of delta archives.
 - Interrupted copies reconnect up to three times with 10/20-second backoff and
@@ -70,7 +70,7 @@ later storage and network use depend on changed content. Daily full reads cost
 disk I/O, but do not create daily full copies. Retention groups by host and tags
 so adding this source does not create an extra independent retention group.
 
-Restic checks repository structure after each server backup; the weekly copy reads and verifies all stored data. A successful-copy receipt is written only after verification. Server failures are logged to the system journal; weekly stale-backup detection rejects a server snapshot older than 36 hours.
+Restic checks repository structure after each server backup; the weekly copy reads and verifies all stored data. A successful-copy receipt is written only after verification. Failure cards show the affected job, available prior-success and verification details, and the service's actual retry policy. Stop hooks cover timeouts and retrying failures; missing optional data is omitted. Server failures are logged to the system journal; weekly stale-backup detection rejects a server snapshot older than 36 hours.
 
 ## Locations and secrets
 

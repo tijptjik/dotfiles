@@ -3,11 +3,14 @@ Description=Consistent encrypted application-state backup
 ConditionHost=si
 RequiresMountsFor=/mnt/storage /mnt/data/disk42
 After=docker.service
-OnFailure=si-app-backup-failure.service
+StartLimitIntervalSec=0
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/synctjik app-backup backup
+ExecStart=/usr/local/bin/synctjik app-backup backup --defer-if-busy
+ExecStopPost=-/usr/local/bin/synctjik app-backup notify
+Restart=on-failure
+RestartSec=1h
 TimeoutStartSec=2h
 TimeoutStopSec=5min
 Nice=10

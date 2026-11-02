@@ -4,4 +4,4 @@ ConditionHost=si
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/logger -p daemon.err -t si-app-backup -- BACKUP FAILED - inspect journalctl -u si-app-backup.service
+ExecStart=/usr/local/bin/synctjik app-backup notify

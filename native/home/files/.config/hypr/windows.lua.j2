@@ -111,6 +111,47 @@ widths.rule({
 })
 {%- endif %}
 
+-- Settings are separate native surfaces, never scrolling-layout columns.
+hl.window_rule({
+    name = "tasktjik-settings",
+    float = true,
+    no_anim = true,
+    no_blur = true,
+    match = { class = "^org[.]quickshell$", initial_title = "^Tasktjik Settings$" },
+})
+
+-- Capture the invoker before the floating layout can change focus. Place the
+-- settings surface after its final initial geometry has been committed.
+local settings_parents, settings_timers = {}, {}
+local function is_task_settings(window)
+    return window.class == "org.quickshell" and window.initial_title == "Tasktjik Settings"
+end
+_G.tasktjik_settings_placement = {
+    hl.on("window.open_early", function(window)
+        if not is_task_settings(window) then return end
+        local parent = hl.get_active_window()
+        if parent and parent ~= window and parent.mapped and parent.pid == window.pid then
+            settings_parents[window.address] = parent
+        end
+    end),
+    hl.on("window.open", function(window)
+        local parent = settings_parents[window.address]
+        settings_parents[window.address] = nil
+        if not parent then return end
+        local address = window.address
+        settings_timers[address] = hl.timer(function()
+            settings_timers[address] = nil
+            if not window.mapped or not parent.mapped then return end
+            hl.dispatch(hl.dsp.window.move({
+                window = window,
+                x = parent.at.x + (parent.size.x - window.size.x) / 2,
+                y = parent.at.y + (parent.size.y - window.size.y) / 2,
+                relative = false,
+            }))
+        end, { timeout = 1, type = "oneshot" })
+    end),
+}
+
 -- Playwright's headed Chrome windows must not interrupt the active workspace.
 hl.window_rule({
     name = "playwright-chrome",

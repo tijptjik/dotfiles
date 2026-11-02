@@ -71,14 +71,36 @@ dofile(arg[1])
                 rules = root / 'rules.lua'
                 rules.write_text(rendered)
                 script = r'''
-local rules, order = {}, {}
-hl = {window_rule = function(rule)
+local rules, order, events, actions = {}, {}, {}, {}
+local active, timer
+hl = {on=function(event, callback) events[event]=callback; return {} end,
+get_active_window=function() return active end,
+timer=function(callback, options) assert(options.timeout==1);timer=callback;return {} end,
+dsp={window={move=function(spec) return spec end}},
+dispatch=function(spec) actions[#actions+1]=spec end,
+window_rule = function(rule)
     rules[rule.name] = rule
     order[rule.name] = #order + 1
     table.insert(order, rule.name)
 end}
 package.path = arg[3] .. "/?.lua;" .. package.path
 dofile(arg[1])
+local settings = rules["tasktjik-settings"]
+assert(settings.float and settings.no_anim and settings.no_blur)
+assert(settings.match.class == "^org[.]quickshell$" and settings.match.initial_title == "^Tasktjik Settings$")
+local parent = {mapped=true,pid=42,at={x=120,y=140},size={x=1000,y=700}}
+local window = {address="settings",class="org.quickshell",initial_title="Tasktjik Settings",mapped=true,pid=42,size={x=900,y=660}}
+active=parent;events["window.open_early"](window)
+active=window;events["window.open"](window)
+assert(#actions==0);timer()
+assert(#actions==1 and actions[1].window==window and actions[1].x==170 and actions[1].y==160 and actions[1].relative==false)
+-- Never center over a different application's window.
+parent.pid=7;active=parent;timer=nil
+events["window.open_early"](window);events["window.open"](window)
+assert(timer==nil and #actions==1)
+-- The invoker may disappear before the deferred placement runs.
+parent.pid=42;active=parent;events["window.open_early"](window);events["window.open"](window)
+parent.mapped=false;timer();assert(#actions==1)
 assert(rules.zed.scrolling_width == 1.0)
 assert(rules.zed.match.class == "^dev[.]zed[.]Zed(-Preview|-Nightly)?$")
 assert(rules.spotify.scrolling_width == 1.0)

@@ -20,6 +20,8 @@ class TailnetMullvadTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             manifest = json.loads((ROOT / 'native/fi/manifest.json').read_text())
+            # Render Fi's policy into a temporary root on any test host.
+            manifest['host'] = os.uname().nodename
             manifest['entries'] = [e for e in manifest['entries'] if e.get('group') == 'tailnet-mullvad']
             for entry in manifest['entries']:
                 entry['uid'], entry['gid'] = os.getuid(), os.getgid()

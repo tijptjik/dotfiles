@@ -26,7 +26,13 @@ hl={window_rule=function(r) rules[#rules+1]=r end,
     exec_scheduled_prop_refresh_immediately=function() end,
     on=function(e,f) events[e]=f; return {} end,
     timer=function(f,o) assert(o.timeout==1);timer=f; return {} end,
-    dsp={layout=function(s) return s end,focus=function(s) return s end,cursor={move=function(s) return s end}},
+    dsp={layout=function(s) return s end,focus=function(s)
+        -- Hyprland accepts workspace handles/selectors, not numeric IDs.
+        if s.workspace ~= nil then
+            assert(type(s.workspace)=='table' or type(s.workspace)=='string', 'invalid workspace target')
+        end
+        return s
+    end,cursor={move=function(s) return s end}},
     dispatch=function(s) actions[#actions+1]=s end}
 local widths=dofile(arg[1])
 widths.rule({match={class='kitty'},scrolling_width=.5})
@@ -47,7 +53,22 @@ widths.refresh();assert(#actions==1) -- no repeated enforcement
 w.layout.column.width=.75;w.monitor=a;w.workspace.id=1;w.tags={'arrival-width-1*'}
 active=nil;events['window.move_to_workspace']();timer()
 assert(actions[2].window==w and actions[3]=='colresize 0.5')
-assert(actions[4].workspace==1 and actions[5].x==17 and actions[5].y==23)
+assert(actions[4].workspace==a.active_workspace and actions[5].x==17 and actions[5].y==23)
+actions={}
+-- Restore the destination's visible workspace and the original active window.
+local original={mapped=true}
+active=original;w.monitor=b;w.workspace={id=20}
+widths.refresh()
+assert(actions[1].window==w and actions[2]=='colresize 0.5')
+assert(actions[3].workspace==b.active_workspace and actions[4].window==original)
+assert(actions[5].x==17 and actions[5].y==23)
+actions={}
+-- Named workspaces have no numeric ID; retain their handle when restoring.
+active=nil;a.active_workspace={name='named'};w.monitor=a
+widths.refresh()
+assert(actions[3].workspace==a.active_workspace and actions[4].workspace==a.active_workspace)
+assert(actions[5].x==17 and actions[5].y==23)
+a.active_workspace={id=1};w.workspace={id=1}
 actions={}
 -- Scratch visits do not replace the last ordinary monitor.
 w.workspace.id=-1;w.monitor=b;widths.refresh();assert(#actions==0)

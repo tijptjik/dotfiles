@@ -67,12 +67,12 @@ function widths.refresh()
                             require("scrolling_gaps").resize(width)
                         end)
                         if destination_workspace and destination_workspace.id ~= window.workspace.id then
-                            hl.dispatch(hl.dsp.focus({ workspace = destination_workspace.id }))
+                            hl.dispatch(hl.dsp.focus({ workspace = destination_workspace }))
                         end
                         if active and active.mapped then
                             hl.dispatch(hl.dsp.focus({ window = active }))
                         elseif focused_workspace then
-                            hl.dispatch(hl.dsp.focus({ workspace = focused_workspace.id }))
+                            hl.dispatch(hl.dsp.focus({ workspace = focused_workspace }))
                         else
                             hl.dispatch(hl.dsp.focus({ monitor = focused_monitor.name }))
                         end

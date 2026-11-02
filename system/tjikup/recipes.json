@@ -21,10 +21,6 @@
       ],
       "timeout": 1800,
       "optional": false,
-      "roles": [
-        "desktop",
-        "laptop"
-      ],
       "operation": "install",
       "scope": "system",
       "application": "hyprlock-keyring",

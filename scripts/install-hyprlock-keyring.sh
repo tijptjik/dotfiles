@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # Build incrementally, then install only when the root-owned module differs.
 set -euo pipefail
+# System files depend on this check on every role, but only clients use oo7 PAM.
+if [[ "${TJIKUP_ROLE:-}" == server ]]; then
+    printf '%s\n' 'SKIP    - Hyprlock keyring    not used on servers'
+    exit 0
+fi
 if [[ "${1:-}" == --check ]]; then
     tool_repo="${TJIKOS_REPO:-$HOME/code/tjikos}"
     exec bash "$tool_repo/apps/oo7-pam/scripts/install.sh" --check

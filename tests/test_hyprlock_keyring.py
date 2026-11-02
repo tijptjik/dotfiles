@@ -2,6 +2,7 @@
 import json
 import os
 from pathlib import Path
+import socket
 import subprocess
 import tempfile
 import unittest
@@ -28,8 +29,45 @@ class HyprlockKeyringTests(unittest.TestCase):
         self.assertIn(install['id'], recipes['system:files']['needs'])
         self.assertFalse(install['optional'])
         self.assertEqual(install['operation'], 'install')
-        self.assertEqual(set(install['roles']), {'desktop', 'laptop'})
+        self.assertFalse(install.get('roles'))
         self.assertEqual(install['check'][-1], '--check')
+
+    def test_server_check_and_apply_do_not_access_the_client_installer(self):
+        with tempfile.TemporaryDirectory() as directory:
+            for args in ([], ['--check']):
+                result = subprocess.run(
+                    ['bash', str(ROOT / 'scripts/install-hyprlock-keyring.sh'), *args],
+                    env={**os.environ, 'TJIKUP_ROLE': 'server', 'TJIKOS_REPO': directory},
+                    capture_output=True, text=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn('not used on servers', result.stdout)
+                self.assertEqual(list(Path(directory).iterdir()), [])
+
+    def test_complete_and_configuration_plans_accept_each_device_role(self):
+        binary = os.environ.get('TJIKUP_BINARY', str(Path.home() / '.local/bin/tjikup'))
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            profile = directory / 'device.json'
+            config = json.loads((ROOT / 'tjikup.json').read_text())
+            config['device_file'] = str(profile)
+            config['env']['DOTJIK_REPO'] = str(ROOT)
+            config['env']['SYSTJIK_REPO'] = str(ROOT / 'system')
+            config['includes'] = [str(ROOT / 'tjikup/recipes.json'), str(ROOT / 'system/tjikup/recipes.json')]
+            config_path = directory / 'tjikup.json'
+            config_path.write_text(json.dumps(config))
+            for role in ('desktop', 'laptop', 'server'):
+                profile.write_text(json.dumps({
+                    'version': 1, 'hostname': socket.gethostname(), 'role': role, 'subscriptions': [],
+                }))
+                for flags in ([], ['--apply-dotfiles', '--apply-sysfiles']):
+                    with self.subTest(role=role, flags=flags):
+                        result = subprocess.run(
+                            [binary, '--config', str(config_path), '--plan', *flags],
+                            env={**os.environ, 'XDG_STATE_HOME': str(directory / 'state')},
+                            capture_output=True, text=True,
+                        )
+                        self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_check_does_not_build_install_or_clone(self):
         with tempfile.TemporaryDirectory() as directory:

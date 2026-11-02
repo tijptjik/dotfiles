@@ -4,7 +4,8 @@ Documentation=man:hyprlock(1)
 # Start with the graphical session and stop if that session ends.
 PartOf=graphical-session.target
 After=graphical-session.target
-
+{% if is_client %}Wants=oo7-daemon.service
+{% endif %}
 [Service]
 Type=simple
 # GDM password login already authenticated and unlocked the credential store.
@@ -16,7 +17,7 @@ ExecCondition=/usr/bin/sh -c 'session=$$(/usr/bin/loginctl show-user %u --proper
 # socket into the user manager. Wait for that import so the lock is not lost
 # to a compositor-startup race.
 ExecStartPre=/usr/bin/sh -c 'until /usr/bin/systemctl --user show-environment | /usr/bin/grep -q "^WAYLAND_DISPLAY=."; do /usr/bin/sleep 0.2; done'
-ExecStart={% if is_client %}%h/.local/bin/tailscale-lock{% else %}/usr/bin/hyprlock{% endif %}
+ExecStart={% if is_client %}%h/.local/bin/tailscale-lock{% else %}/usr/bin/hyprlock{% endif %} --grace 0 --immediate-render --no-fade-in
 Restart=on-failure
 RestartSec=2s
 # PAM authentication must run outside a private filesystem namespace. In

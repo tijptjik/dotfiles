@@ -55,7 +55,8 @@
       "uid": 0,
       "gid": 0,
       "template": true,
-      "source": "files/gdm/custom.conf.j2"
+      "source": "files/gdm/custom.conf.j2",
+      "group": "desktop-login"
     },
     {
       "kind": "file",
@@ -63,7 +64,8 @@
       "mode": "0644",
       "uid": 0,
       "gid": 0,
-      "source": "files/pam.d/hyprlock"
+      "source": "files/pam.d/hyprlock",
+      "group": "desktop-login"
     },
     {
       "kind": "absent",

@@ -2,11 +2,51 @@
   "version": 2,
   "recipes": [
     {
+      "id": "system:hyprlock-keyring",
+      "label": "Hyprlock keyring",
+      "needs": [
+        "require:sudo"
+      ],
+      "after": [
+        "repo:home:push",
+        "repo:tjikos:push"
+      ],
+      "resources": [
+        "tjikos",
+        "system-files"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/scripts/install-hyprlock-keyring.sh"
+      ],
+      "timeout": 1800,
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "system",
+      "application": "hyprlock-keyring",
+      "ecosystem": "configuration",
+      "display": {
+        "section": "Configuration",
+        "reports": true,
+        "icon": "oo7"
+      },
+      "check": [
+        "bash",
+        "$DOTJIK_REPO/scripts/install-hyprlock-keyring.sh",
+        "--check"
+      ]
+    },
+    {
       "id": "system:files",
       "label": "System files",
       "needs": [
         "home:bitwarden",
-        "require:sudo"
+        "require:sudo",
+        "system:hyprlock-keyring"
       ],
       "timeout": 1800,
       "display": {

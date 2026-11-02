@@ -1,6 +1,8 @@
 # PAM configuration file for hyprlock.
-#
-# Authenticate against the host's normal authselect-managed policy.  This
-# keeps password and configured biometric authentication working while never
-# allowing an unlock merely because PAM is reachable.
-auth    include     system-auth
+# Keep the host's authentication policy authoritative. Substack confines its
+# sufficient-module shortcuts so oo7 can observe the resulting password.
+auth    substack    system-auth
+# Only pam_end(PAM_SUCCESS) delivers the token. Failed authentication, empty
+# tokens and biometrics alone never unlock the keyring. Keyring failure does
+# not prevent a valid desktop unlock. Fedora's PAM module remains untouched.
+auth    optional    /usr/local/lib/security/pam_oo7_tjik.so unlock_on_auth

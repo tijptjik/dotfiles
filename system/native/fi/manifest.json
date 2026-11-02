@@ -53,7 +53,8 @@
       "mode": "0644",
       "uid": 0,
       "gid": 0,
-      "template": true
+      "template": true,
+      "group": "desktop-login"
     },
     {
       "kind": "file",
@@ -61,7 +62,8 @@
       "source": "files/pam.d/hyprlock",
       "mode": "0644",
       "uid": 0,
-      "gid": 0
+      "gid": 0,
+      "group": "desktop-login"
     },
     {
       "kind": "file",

@@ -2222,7 +2222,7 @@
   "notjik": {
     "source": "scripts/icons/local/reviewed/notjik.svg",
     "license": "Original artwork based on user-provided reference",
-    "sha256": "de1dc15d75b83308931f9c2881f89f687400017109bc5253d5be6595f0017c28",
+    "sha256": "fa8de652d3fe7312b7fe3f4f163c9b7e2f5fb6711860800db0425b8926cf1022",
     "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik’s circular dot.",
     "previous_source": {
       "source": "scripts/icons/local/notjik.svg",
@@ -2242,6 +2242,11 @@
         "sha256": "63c281d14390f2eff62bf7df136eed40e61049dd51b5ec58ed323769d6167caa",
         "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik’s circular dot."
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "de1dc15d75b83308931f9c2881f89f687400017109bc5253d5be6595f0017c28",
+      "reason": "Use the shared warm ivory #fff0da for functional foreground marks, keeping identity frame colours."
     }
   },
   "collie": {
@@ -2807,7 +2812,7 @@
   "tjikup": {
     "source": "scripts/icons/local/reviewed/tjikup.svg",
     "license": "Original artwork",
-    "sha256": "b93635fb3ca445cbd6aa2ca23cb7d70f9f5d37ed6ce944acb037cc74cc37e8b8",
+    "sha256": "b86283dde6522d308f87554baac63a5a9d112ed6cdade59fafe4542d9117d7e6",
     "previous_source": {
       "source": "Original local artwork",
       "license": "Original artwork",
@@ -2824,6 +2829,11 @@
         "license": "Original artwork",
         "sha256": "880e8171200ce8f1495b7ad506cc7e705ca27ba0b3f50922dfa61d00602f5fd2"
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "b93635fb3ca445cbd6aa2ca23cb7d70f9f5d37ed6ce944acb037cc74cc37e8b8",
+      "reason": "Use the shared warm ivory #fff0da for functional foreground marks, keeping identity frame colours."
     }
   },
   "greetjik": {
@@ -2907,7 +2917,7 @@
   "runtjik": {
     "source": "scripts/icons/local/reviewed/runtjik.svg",
     "license": "Themed vector artwork; underlying brand rights and source licenses retained",
-    "sha256": "c5884a04225e67dc1ccecd6014e9a08cfe3d66f94fbde02b453a5d775a0eaa34",
+    "sha256": "4255b3ae4b6e4495ddb9d03845f1a86acc938c8ea9a000827bf5859a2deba139",
     "material_revision": 12,
     "design_note": "Theme periwinkle frame and pale pink Command symbol at 75 percent scale, with the shared dark inset and material shading.",
     "previous_source": {
@@ -2930,6 +2940,11 @@
         "material_revision": 12,
         "design_note": "Theme periwinkle frame and pale pink Command symbol at 75 percent scale, with the shared dark inset and material shading."
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "c5884a04225e67dc1ccecd6014e9a08cfe3d66f94fbde02b453a5d775a0eaa34",
+      "reason": "Use the shared warm ivory #fff0da for functional foreground marks, keeping identity frame colours."
     }
   },
   "mailtjik": {
@@ -3485,7 +3500,7 @@
   "gmailtjik": {
     "source": "scripts/icons/local/reviewed/gmailtjik.svg",
     "license": "Original themed artwork; Gmail identity remains with Google",
-    "sha256": "6435286bb7926b54922921128273ace92f21e7febec9990a9862af9720b334cc",
+    "sha256": "0a454ca47d54df636f376338901b6452e4a1ea74e893cb16736618c29cc5fc49",
     "design_note": "Original rose frame with a clean red M-shaped envelope flap; removed crossing folds for clarity at launcher size.",
     "previous_source": {
       "source": "scripts/icons/local/gmailtjik.svg",
@@ -3505,6 +3520,11 @@
         "sha256": "f7e61373c31e90c12f0bacffdcc3c0ae1b92639b36ab24ed219b23e226700819",
         "design_note": "Original rose frame with a clean red M-shaped envelope flap; removed crossing folds for clarity at launcher size."
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "6435286bb7926b54922921128273ace92f21e7febec9990a9862af9720b334cc",
+      "reason": "Use the shared warm ivory #fff0da for functional foreground marks, keeping identity frame colours."
     }
   },
   "photocraft": {

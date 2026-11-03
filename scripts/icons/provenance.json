@@ -124,7 +124,7 @@
   "steam": {
     "source": "scripts/icons/local/reviewed/steam.svg",
     "license": "Original artwork",
-    "sha256": "037df072f69d88dc03102713cd1c6be73b70644f6b81bea4153e4e7a0abb2375",
+    "sha256": "d6aa0ef549078851f40897991fb187b4ed9b0c28f8a592fc3982974fe44c0a05",
     "material_revision": 10,
     "reference_file": ".local/icon-reviews/docs/assets/icon-review/originals/steam.png",
     "reference_sha256": "b7087da76b8315024887b9a9313be5b9e6ba87d25eb624eac2d6542a823bb87d",
@@ -156,6 +156,11 @@
         "geometry_note": "Solid tapered connecting rod and continuous crank arm redrawn against the packaged Steam mark.",
         "design_note": "Deeper periwinkle linkage; the ivory crank arm has a narrow navy edge for visibility on light surfaces. Original blue and ivory identity retained."
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "037df072f69d88dc03102713cd1c6be73b70644f6b81bea4153e4e7a0abb2375",
+      "reason": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces."
     }
   },
   "brave": {
@@ -475,7 +480,7 @@
   "strata": {
     "source": "scripts/icons/local/reviewed/strata.svg",
     "license": "Upstream installed Strata artwork; themed adaptation",
-    "sha256": "eea4c53f5739c108f5a19f5952b11e79555c3fa945ead5828c2bb327d4c28b37",
+    "sha256": "6ef4c8efbf353ddd1baef79f38c93679fab0457fec1683cc15d547f4f1fd283b",
     "reference": "upstream/strata-official.svg",
     "reference_sha256": "5be5eebbe949e0bd112e676a911fae603ad7f603c99daa1cfbe96dd2a60b375f",
     "material_revision": 1,
@@ -519,6 +524,11 @@
         ],
         "sizing": "One uniform outer transform restores the four-unit margin after widening the contour."
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "eea4c53f5739c108f5a19f5952b11e79555c3fa945ead5828c2bb327d4c28b37",
+      "reason": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces."
     }
   },
   "kitty": {
@@ -1063,7 +1073,7 @@
   "neovim": {
     "source": "scripts/icons/local/reviewed/neovim.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "f89f93b67fda0bdfbdffcd5ddb0bfb44b3ac97d572a8cee11cb2caa6d557631e",
+    "sha256": "46e9461b398466c593ece4802dbc1a3a090407233d5f41760eeb3839f2314298",
     "reference": "local icon theme: Neuwaita/scalable/apps/nvim.svg",
     "reference_sha256": "acca7f960640a16b1436a8238ad6ce12d52fe08e1f5c8e516de4c8422b3839d7",
     "material_revision": 5,
@@ -1089,6 +1099,11 @@
         "reference_sha256": "acca7f960640a16b1436a8238ad6ce12d52fe08e1f5c8e516de4c8422b3839d7",
         "material_revision": 5
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "f89f93b67fda0bdfbdffcd5ddb0bfb44b3ac97d572a8cee11cb2caa6d557631e",
+      "reason": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces."
     }
   },
   "fedora-media-writer": {
@@ -2651,7 +2666,7 @@
   "python": {
     "source": "scripts/icons/local/reviewed/python.svg",
     "license": "Python Software Foundation logo; PSF trademark and artwork rights retained; unofficial themed adaptation",
-    "sha256": "b37210d162108a9177e4a2efa538aa6eb3ad0c0daa463cb8d81d96e2a5fbb555",
+    "sha256": "c82365793ba0b0005ccde4aabe79b91359e742d0681c07da07f2686465d4b062",
     "reference": "https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/files/python-logo-only.svg",
     "reference_sha256": "baec8662a1461c2cacc326b54d2727cb2f1ce07ba02d00f5b826d035104f649f",
     "material_revision": 12,
@@ -2701,6 +2716,11 @@
           }
         ]
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "b37210d162108a9177e4a2efa538aa6eb3ad0c0daa463cb8d81d96e2a5fbb555",
+      "reason": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces."
     }
   },
   "rust": {

@@ -1,17 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<title>Steam — proposed Rose Punk refinement</title><desc>The established tapered linkage, circular bearings and ivory crank arm. Preserve the linkage geometry, lighten the edge weight and use a narrow steel-blue material ramp. Fourth-batch review selection; source attribution accompanies the bundle.</desc><g id="frameless-artwork" transform="translate(-6.471545 -6.850949) scale(1.214092)"><defs>
- <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#b94e87" /></linearGradient>
- <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#b39bd9" /></linearGradient>
- <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9c3f2" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#71385f" /></linearGradient>
-</defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="s-paper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#fff0da" /><stop offset="1" stop-color="#d7cbd3" /></linearGradient><linearGradient id="s-jade" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#88cdb9" /><stop offset="1" stop-color="#44878c" /></linearGradient><linearGradient id="s-blue" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#9ab8d8" /><stop offset="1" stop-color="#5d74a5" /></linearGradient><linearGradient id="s-violet" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#b3a1d9" /><stop offset="1" stop-color="#8274a9" /></linearGradient><linearGradient id="s-rose" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#eca2bc" /><stop offset="1" stop-color="#b66696" /></linearGradient><linearGradient id="s-copper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#f0c582" /><stop offset="1" stop-color="#d59965" /></linearGradient><linearGradient id="s-steel" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#cbd9d9" /><stop offset="1" stop-color="#8298b0" /></linearGradient><linearGradient id="s-coral" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#ef9b83" /><stop offset="1" stop-color="#cc697c" /></linearGradient><linearGradient id="screen-glass" gradientUnits="userSpaceOnUse" x1="32" y1="10" x2="32" y2="45"><stop stop-color="#42516c" /><stop offset="1" stop-color="#29283e" /></linearGradient>
-<linearGradient id="rubber-handle" gradientUnits="userSpaceOnUse" x1="32" y1="8" x2="32" y2="24"><stop stop-color="#ee9c91" /><stop offset=".45" stop-color="#e87f8d" /><stop offset="1" stop-color="#b85c7b" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><g data-material="authored" transform="translate(2.7 2.8)">
-  <path d="M32 22 23.25 33.25 32.208 38.875 42 32Z" fill="url(#s-blue)" />
-  <circle cx="42" cy="22" r="10" fill="url(#s-blue)" />
+<title>Steam — Rose Punk refinement</title><desc>Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces. Original source attribution is retained in the provenance manifest.</desc><g id="frameless-artwork" transform="translate(-6.471545 -6.850949) scale(1.214092)"><defs>
+ </defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs /><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><g data-material="authored" transform="translate(2.7 2.8)">
+  <path d="M32 22 23.25 33.25 32.208 38.875 42 32Z" fill="#708bd2" />
+  <circle cx="42" cy="22" r="10" fill="#708bd2" />
   <circle cx="42" cy="22" r="6.667" fill="#353b56" />
   <circle cx="42" cy="22" r="5" fill="#fff0da" />
-  <circle cx="25.125" cy="38.875" r="7.5" fill="url(#s-blue)" />
+  <circle cx="25.125" cy="38.875" r="7.5" fill="#708bd2" />
   <circle cx="25.125" cy="38.875" r="5.6" fill="#353b56" />
-  <path d="M6.583 26.583 26.75 34.875A4.318 4.318 0 1 1 23.5 42.875L6.583 35.917Z" fill="#fff0da" stroke="#353b56" stroke-width="1.1" stroke-linejoin="round" />
+  <path d="M6.583 26.583 26.75 34.875A4.318 4.318 0 1 1 23.5 42.875L6.583 35.917Z" fill="#708bd2" stroke-linejoin="round" />
 </g>
 </g></g></svg>

@@ -1397,40 +1397,55 @@
       "priority": 94,
       "id": "neovim",
       "name": "Neovim",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "262dc5441653a489ceb78ea0b73c7460d283eb9ae1ad719ab967b6f9f5106884",
       "review_selection_sha256": "f89f93b67fda0bdfbdffcd5ddb0bfb44b3ac97d572a8cee11cb2caa6d557631e",
-      "suggested_sha256": "f89f93b67fda0bdfbdffcd5ddb0bfb44b3ac97d572a8cee11cb2caa6d557631e",
+      "suggested_sha256": "46e9461b398466c593ece4802dbc1a3a090407233d5f41760eeb3839f2314298",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/neovim.svg",
       "critique": "The offset side faces create a heavy doubled silhouette beneath the three coloured strokes.",
       "preserve": "Exact cyan, rose and violet N faces and their three-dimensional construction.",
-      "proposal": "Retain all source paths and reduce the sidewall offset so the front faces dominate."
+      "proposal": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "f89f93b67fda0bdfbdffcd5ddb0bfb44b3ac97d572a8cee11cb2caa6d557631e",
+        "reason": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces."
+      }
     },
     {
       "priority": 95,
       "id": "python",
       "name": "Python",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "4bf10f36a4c67e4b41e8aa631676ddfb3252ba5aba319e18c5f0536f02ec60e2",
       "review_selection_sha256": "b37210d162108a9177e4a2efa538aa6eb3ad0c0daa463cb8d81d96e2a5fbb555",
-      "suggested_sha256": "b37210d162108a9177e4a2efa538aa6eb3ad0c0daa463cb8d81d96e2a5fbb555",
+      "suggested_sha256": "c82365793ba0b0005ccde4aabe79b91359e742d0681c07da07f2686465d4b062",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/python.svg",
       "critique": "The thick coloured contours narrow the gaps between the two snakes.",
       "preserve": "Exact PSF snake curves, dark eye apertures and blue/amber separation.",
-      "proposal": "Keep official geometry, reduce contour weight and use quieter coordinated pigment ramps."
+      "proposal": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "b37210d162108a9177e4a2efa538aa6eb3ad0c0daa463cb8d81d96e2a5fbb555",
+        "reason": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces."
+      }
     },
     {
       "priority": 96,
       "id": "steam",
       "name": "Steam",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "883e94e0eea334266efc8e4fbd77d694c505b1a8fe5cdb1b44f2076866a8fa23",
       "review_selection_sha256": "037df072f69d88dc03102713cd1c6be73b70644f6b81bea4153e4e7a0abb2375",
-      "suggested_sha256": "037df072f69d88dc03102713cd1c6be73b70644f6b81bea4153e4e7a0abb2375",
+      "suggested_sha256": "d6aa0ef549078851f40897991fb187b4ed9b0c28f8a592fc3982974fe44c0a05",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/steam.svg",
       "critique": "The dark crank-arm edge is heavy compared with the blue connecting rod.",
       "preserve": "The established tapered linkage, circular bearings and ivory crank arm.",
-      "proposal": "Preserve the linkage geometry, lighten the edge weight and use a narrow steel-blue material ramp."
+      "proposal": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "037df072f69d88dc03102713cd1c6be73b70644f6b81bea4153e4e7a0abb2375",
+        "reason": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces."
+      }
     },
     {
       "priority": 97,
@@ -1889,15 +1904,20 @@
       "priority": 130,
       "id": "strata",
       "name": "Strata",
-      "decision": "Accepted with final light-surface contour correction",
+      "decision": "Revised from final review feedback",
       "before_sha256": "d993473c221f6e8f4cc8b5b17329b10ae6f5758bbd099065539208a9a74f1892",
       "review_selection_sha256": "00a32fb1478480ccd23efbb1ec2475e7ff9d26afed6ce5d28a842508af9cbc85",
-      "suggested_sha256": "eea4c53f5739c108f5a19f5952b11e79555c3fa945ead5828c2bb327d4c28b37",
+      "suggested_sha256": "6ef4c8efbf353ddd1baef79f38c93679fab0457fec1683cc15d547f4f1fd283b",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/strata.svg",
       "critique": "The ivory upper ribbon has a thick contour unlike the other ribbon faces.",
       "preserve": "Exact interlocking S ribbons, blue lower face and cyan upper tab.",
-      "proposal": "Use a narrower, darker contour to protect the ivory face and coordinate the existing blue and cyan pigments.",
-      "final_refinement": [
+      "proposal": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "eea4c53f5739c108f5a19f5952b11e79555c3fa945ead5828c2bb327d4c28b37",
+        "reason": "Follow the majority filled-logo treatment: remove added keylines or offset shadows; retain identifying geometry and internal spaces."
+      },
+      "previous_contour_refinement": [
         {
           "before": "stroke-width=\"5.5\"",
           "after": "stroke-width=\"11\""

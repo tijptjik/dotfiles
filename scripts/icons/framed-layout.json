@@ -638,7 +638,7 @@
         0,
         0
       ],
-      "source_sha256": "f89f93b67fda0bdfbdffcd5ddb0bfb44b3ac97d572a8cee11cb2caa6d557631e",
+      "source_sha256": "46e9461b398466c593ece4802dbc1a3a090407233d5f41760eeb3839f2314298",
       "note": "Retain current optical size."
     },
     "nginx": {
@@ -773,7 +773,7 @@
         0,
         0
       ],
-      "source_sha256": "b37210d162108a9177e4a2efa538aa6eb3ad0c0daa463cb8d81d96e2a5fbb555",
+      "source_sha256": "c82365793ba0b0005ccde4aabe79b91359e742d0681c07da07f2686465d4b062",
       "note": "Retain current optical size."
     },
     "qgis-desktop": {
@@ -989,7 +989,7 @@
         0,
         0
       ],
-      "source_sha256": "037df072f69d88dc03102713cd1c6be73b70644f6b81bea4153e4e7a0abb2375",
+      "source_sha256": "d6aa0ef549078851f40897991fb187b4ed9b0c28f8a592fc3982974fe44c0a05",
       "note": "Retain current optical size."
     },
     "strata": {
@@ -998,7 +998,7 @@
         0,
         0
       ],
-      "source_sha256": "eea4c53f5739c108f5a19f5952b11e79555c3fa945ead5828c2bb327d4c28b37",
+      "source_sha256": "6ef4c8efbf353ddd1baef79f38c93679fab0457fec1683cc15d547f4f1fd283b",
       "note": "Retain current optical size."
     },
     "sublime-text": {

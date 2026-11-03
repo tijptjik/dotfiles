@@ -50,7 +50,10 @@ are required. Sources are fetched into `~/.cache/hypr-windowshade`; the
 binary is atomically installed under `~/.local/lib/hypr`.
 
 After a Hyprland upgrade, review upstream compatibility and its release pin
-before rebuilding. A binary with a different internal ABI refuses to load.
+before rebuilding. The Lua loader skips binaries that do not embed the running
+compositor's commit (from `HYPRLAND_INSTANCE_SIGNATURE`), avoiding stale-plugin
+error banners. Matching commits still undergo the native library ABI check.
+Chat shader tags are registered only when the binary passes this preflight.
 
 ## Verification
 

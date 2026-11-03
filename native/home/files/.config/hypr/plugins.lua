@@ -11,10 +11,6 @@
 -- Fail closed to ordinary gaps if the version-matched plugin is not built.
 -- Build with: ~/.local/share/hypr/plugins/scrolling-gaps/build.sh
 local gap_plugin = os.getenv("HOME") .. "/.local/lib/hypr/scrolling-gaps-local.so"
-local gap_binary = io.open(gap_plugin, "rb")
-if gap_binary then
-    gap_binary:close()
-    hl.plugin.load(gap_plugin)
-end
+require("plugin_loader").load(gap_plugin)
 
 require("chat_appearance")

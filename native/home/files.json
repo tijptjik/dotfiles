@@ -856,6 +856,13 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/.config/hypr/plugin_loader.lua",
+    "kind": "file",
+    "mode": "0644",
+    "source": "files/.config/hypr/plugin_loader.lua",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/.config/hypr/plugins.lua",
     "when": "hostname in [\"fi\", \"li\"]",
     "kind": "file",

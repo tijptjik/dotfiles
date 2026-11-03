@@ -121,7 +121,9 @@ hyprctl configerrors
 The build helper also accepts `SCROLLING_GAPS_SDK_DIR`, an extracted development-RPM
 root containing `usr/include`, and an optional output `.so` path. It replaces the
 binary atomically. `plugins.lua` loads `~/.local/lib/hypr/scrolling-gaps-local.so` when
-present. Rebuild after a compositor ABI change. To replace an already loaded
+it embeds the running compositor's commit. Stale builds are skipped before load;
+the native ABI guard remains in place. Rebuild after a compositor ABI change.
+To replace an already loaded
 build, unload it before reloading configuration:
 
 ```sh

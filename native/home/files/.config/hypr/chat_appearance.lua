@@ -5,10 +5,7 @@ hl.config({ decoration = { dim_special = 0.65 } })
 -- The plugin build has an ABI guard and must be rebuilt after Hyprland upgrades.
 local home = os.getenv("HOME")
 local plugin = home .. "/.local/lib/hypr/HyprWindowShade.so"
-local binary = io.open(plugin, "rb")
-if binary then
-    binary:close()
-    hl.plugin.load(plugin)
+if require("plugin_loader").load(plugin) then
     local shader = home .. "/.config/hypr/shaders/chat-blur-dim.glsl"
     -- Replace-mode gives each transition the original full-colour texture,
     -- rather than stacking it on an already monochrome intermediate image.

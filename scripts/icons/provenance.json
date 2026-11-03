@@ -475,7 +475,7 @@
   "strata": {
     "source": "scripts/icons/local/reviewed/strata.svg",
     "license": "Upstream installed Strata artwork; themed adaptation",
-    "sha256": "00a32fb1478480ccd23efbb1ec2475e7ff9d26afed6ce5d28a842508af9cbc85",
+    "sha256": "eea4c53f5739c108f5a19f5952b11e79555c3fa945ead5828c2bb327d4c28b37",
     "reference": "upstream/strata-official.svg",
     "reference_sha256": "5be5eebbe949e0bd112e676a911fae603ad7f603c99daa1cfbe96dd2a60b375f",
     "material_revision": 1,
@@ -503,6 +503,21 @@
         "reference_sha256": "5be5eebbe949e0bd112e676a911fae603ad7f603c99daa1cfbe96dd2a60b375f",
         "material_revision": 1,
         "design_note": "Ivory upper band retained with a narrow slate edge; deeper blue and cyan facets keep the unbacked logo visible on light surfaces."
+      },
+      "final_refinement": {
+        "change": "stroke-width=\"5.5\" to stroke-width=\"11\"",
+        "reason": "Strengthen the existing ivory-face contour at 24 px on light surfaces; preserve paths and pigments.",
+        "changes": [
+          {
+            "before": "stroke-width=\"5.5\"",
+            "after": "stroke-width=\"11\""
+          },
+          {
+            "before": "translate(-10.207715 -6.967359) scale(1.329377)",
+            "after": "translate(-9.339084 -6.080071) scale(1.311730)"
+          }
+        ],
+        "sizing": "One uniform outer transform restores the four-unit margin after widening the contour."
       }
     }
   },
@@ -2035,7 +2050,7 @@
   "flatseal": {
     "source": "scripts/icons/local/reviewed/flatseal.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "33157fcdaa82a7116cb9966ebc81b8bdbbb91ec12a983c887842b4b9c9f9fa81",
+    "sha256": "db084f5436d5087dca14719c704f31f4495fbb410f3ed0ab3e2cc4ef5262d83a",
     "previous_source": {
       "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/com.github.tchx84.Flatseal.svg",
       "license": "See bundled upstream theme licenses; source metadata retained",
@@ -2051,6 +2066,21 @@
         "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/com.github.tchx84.Flatseal.svg",
         "license": "See bundled upstream theme licenses; source metadata retained",
         "sha256": "ce576a50466f35dcad5723472b0aafaee0fcec4b884abeda44e97489fd670fc4"
+      },
+      "final_refinement": {
+        "change": "stroke-width:1.5; to stroke-width:3;",
+        "reason": "Strengthen the existing ivory-face contour at 24 px on light surfaces; preserve paths and pigments.",
+        "changes": [
+          {
+            "before": "stroke-width:1.5;",
+            "after": "stroke-width:3;"
+          },
+          {
+            "before": "translate(-1.784038 -1.652582) scale(1.051643)",
+            "after": "translate(-1.409492 -1.094072) scale(1.039984)"
+          }
+        ],
+        "sizing": "One uniform outer transform restores the four-unit margin after widening the contour."
       }
     }
   },

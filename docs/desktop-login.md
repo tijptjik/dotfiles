@@ -43,3 +43,10 @@ uses Fedora's real oo7 daemon, a private D-Bus session, temporary encrypted
 keyring and synthetic tokens; it requires python3-dbus and dbus-run-session.
 No test uses the real account password or the live keyring. A fresh login is
 still needed to verify the complete boot-to-Hyprlock flow on each host.
+
+Hyprland's interactive startup applications wait for the Login collection's
+`Locked` property to become false before launching. Autologin otherwise starts
+Zed and other clients before the first Hyprlock authentication; concurrent
+Secret Service requests can queue many independent password prompts. The
+`after-keyring-unlock` helper only reads lock state and never requests an unlock
+or handles a password. Missing or unavailable Login collections keep apps waiting.

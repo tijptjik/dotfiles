@@ -1,0 +1,11 @@
+#!/bin/sh
+# Wait without invoking Secret Service Unlock (which would create a prompt).
+# Missing/unavailable collections stay closed until PAM has unlocked Login.
+set -eu
+[ "$#" -gt 0 ] || exit 2
+until [ "$(busctl --user --timeout=2 get-property org.freedesktop.secrets \
+    /org/freedesktop/secrets/collection/login \
+    org.freedesktop.Secret.Collection Locked 2>/dev/null)" = "b false" ]; do
+    sleep 0.5
+done
+exec "$@"

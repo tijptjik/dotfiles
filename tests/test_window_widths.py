@@ -1,6 +1,7 @@
 import native_render
 """Render host rules and check their ordered initial-width policy."""
 import json
+import shlex
 from pathlib import Path
 import shutil
 import subprocess
@@ -45,6 +46,10 @@ dofile(arg[1])
                 commands = subprocess.check_output(
                     ['lua', str(check), str(startup)], text=True,
                 ).splitlines()
+                gated = [c for c in commands if 'after-keyring-unlock' in c]
+                self.assertTrue(gated)
+                commands = [shlex.split(c)[-1] if 'after-keyring-unlock' in c else c
+                            for c in commands]
                 self.assertIn('uwsm app -- /opt/Telegram/Telegram', commands)
                 zapzap = [c for c in commands if '/bin/zapzap' in c]
                 signal = [c for c in commands if 'org.signal.Signal' in c]

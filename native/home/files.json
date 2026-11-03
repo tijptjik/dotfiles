@@ -1,5 +1,12 @@
 [
   {
+    "path": "{{ user.home }}/.local/bin/after-keyring-unlock",
+    "kind": "file",
+    "source": "files/.local/bin/after-keyring-unlock",
+    "mode": "0755",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/.codex",
     "kind": "directory",
     "mode": "0755",

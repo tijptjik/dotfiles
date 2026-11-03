@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 import sys
 import unittest
+import xml.etree.ElementTree as ET
+from collections import Counter
 
 ROOT = Path(__file__).resolve().parents[1]
 HERE = ROOT / 'scripts/icons'
@@ -38,13 +40,23 @@ class ReviewedSelectionTests(unittest.TestCase):
             'profilarr', 'audiobookshelf', 'grimmory', 'system-monitor',
             'problem-reporting', 'hyprvoice', 'gum', 'gpu-screen-recorder',
             'unpackerr', 'simplescreenrecorder', 'bookmarks', 'scrutiny',
-            'obsidian', 'chrome', 'signal', 'tinty', 'vectorcraft', 'lightcraft',
-            'effectcraft', 'designcraft', 'texturecraft', 'soundcraft', 'filmcraft',
+            'obsidian', 'chrome', 'signal', 'tinty',
             'camera', 'bartjik', 'codex', 'codex-lb', 'kitty', 'zed', 'zed-preview',
             'zed-nightly',
         }
         self.assertEqual({k for k, i in byid.items()
                           if i['before_sha256'] == i['suggested_sha256']}, protected)
+        # The requested Craft finish changes paint and edges, not the retained
+        # animal silhouettes. Keep the original paths as geometry references.
+        for key in ('vectorcraft', 'lightcraft', 'effectcraft', 'designcraft',
+                    'texturecraft', 'soundcraft', 'filmcraft'):
+            with self.subTest(craft_geometry=key):
+                def paths(path):
+                    return Counter(n.get('d') for n in ET.parse(path).getroot().iter()
+                                   if n.tag.endswith('}path'))
+                original = paths(HERE / 'local' / f'{key}.svg')
+                revised = paths(HERE / 'local/reviewed' / f'{key}.svg')
+                self.assertFalse(original - revised)
         self.assertEqual(set(selection['groups']['configuration']), {'chezmoi', 'chezetc'})
         self.assertFalse({'chezmoi', 'chezetc', 'dotjik', 'systjik'} &
                          set(selection['groups']['tjik-family']))

@@ -2307,27 +2307,35 @@
       "priority": 145,
       "id": "photocraft",
       "name": "PhotoCraft",
-      "decision": "Accepted",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "78854ba58195f6356d98b69b9fa9495f492ce426d861c853d45f68048c046560",
       "review_selection_sha256": "bef647004d470425d30ded3cb5d5fba53ae67cf101f040dc9a0422c65da5f529",
-      "suggested_sha256": "bef647004d470425d30ded3cb5d5fba53ae67cf101f040dc9a0422c65da5f529",
+      "suggested_sha256": "fcea8030700a10b3655dd1c0a1195dc3587c5884909e86f99b2cb4532bb2bbad",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/photocraft.svg",
       "critique": "The pale tips of the nine tails compete with the ivory face, especially at 24 px.",
       "preserve": "All nine tail contours, seated fox proportions and the approved face.",
-      "proposal": "Quiet the lavender tail-tip pigment so the face remains the focal point; preserve all geometry."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "craft_finish": {
+        "previous_sha256": "bef647004d470425d30ded3cb5d5fba53ae67cf101f040dc9a0422c65da5f529",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 146,
       "id": "pdfcraft",
       "name": "PdfCraft",
-      "decision": "Accepted",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "b9b835a567fda2c6ac9f22d9ae9ac86bc1162848114137fbd13146a882c38091",
       "review_selection_sha256": "ebbcbe2508c5abdbde774d2e0317e843343eff28ac85203075e78adb8c4e5f8e",
-      "suggested_sha256": "ebbcbe2508c5abdbde774d2e0317e843343eff28ac85203075e78adb8c4e5f8e",
+      "suggested_sha256": "f80495704a4574073b0e2fd8ac58d2f8ffc111469aa42ed73f060f8ab4195d3d",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/pdfcraft.svg",
       "critique": "Dark maroon patches at the lower mane read as separate masses around the chin.",
       "preserve": "The approved lion head, muzzle proportions, copper mane and ivory whisker pads.",
-      "proposal": "Lift and coordinate only the mane shadow pigments; keep the full portrait geometry."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "craft_finish": {
+        "previous_sha256": "ebbcbe2508c5abdbde774d2e0317e843343eff28ac85203075e78adb8c4e5f8e",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 147,
@@ -2359,144 +2367,203 @@
       "priority": 149,
       "id": "wordcraft",
       "name": "WordCraft",
-      "decision": "Accepted",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "5c759a30291b12b1a5f14fc03a4a2ec8a8063ae1721c4bdae85ae32f9e276e73",
       "review_selection_sha256": "046441da645f7f6334d815ff2723a1366df03f761bc9add9241843221ce923ab",
-      "suggested_sha256": "046441da645f7f6334d815ff2723a1366df03f761bc9add9241843221ce923ab",
+      "suggested_sha256": "abb4753692efe1fd747718ec850bf0aa2ae41271b124c01f8c550dc17a25c605",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/wordcraft.svg",
       "critique": "The long diagonal pencil makes the paper look undersized beside the other document icons.",
       "preserve": "Folded ivory page, three ink lines and the constructed blue pencil with rose eraser.",
-      "proposal": "Shorten the whole pencil uniformly around its tip, retaining its shape and overlap with the page."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "046441da645f7f6334d815ff2723a1366df03f761bc9add9241843221ce923ab",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      },
+      "craft_finish": {
+        "previous_sha256": "04ef001f22eb75510de82e5929d675454095f1bf6c9b1c8d8f2e67babb8cd12d",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 150,
       "id": "deckcraft",
       "name": "DeckCraft",
-      "decision": "Accepted",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "4fcd60c25417e49e43f2fe8632c808d15702a60ab3913533b911f90555a6d001",
       "review_selection_sha256": "0ce80b6872a4e32b69063b2830b0736e5b176d68fff225126a57ac9d6755bcd5",
-      "suggested_sha256": "0ce80b6872a4e32b69063b2830b0736e5b176d68fff225126a57ac9d6755bcd5",
+      "suggested_sha256": "ae33162aa11300800d8527eb2edbdaf12b694fa9f9943da3d8ef22aa0be1eb41",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/deckcraft.svg",
       "critique": "The round accent competes with the three narrow bars at launcher sizes.",
       "preserve": "Presentation screen, ivory slide, three coloured bars and violet stand.",
-      "proposal": "Widen the chart bars slightly and reduce the accent circle; preserve the screen and stand."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "0ce80b6872a4e32b69063b2830b0736e5b176d68fff225126a57ac9d6755bcd5",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      },
+      "craft_finish": {
+        "previous_sha256": "fa8abcae3af7cfe03d2afd0b19d99c837c1022d5b45abcd6b37bfca18a0509cc",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 151,
       "id": "cadcraft",
       "name": "CADCraft",
-      "decision": "Accepted",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "556ecc1d5bcb76855465c7a2f37277006f7c3e07616256b678a95bbb87ad2e5e",
       "review_selection_sha256": "a24c1dd5e608d2ce0aae3cae0de7a9882b805fe9b48144bd78f578ab461a9309",
-      "suggested_sha256": "a24c1dd5e608d2ce0aae3cae0de7a9882b805fe9b48144bd78f578ab461a9309",
+      "suggested_sha256": "a3d03cc19ad05feb68ad81afca734fdfe46326a81ecc233ddbe430462f2a0c41",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/cadcraft.svg",
       "critique": "The dashed construction guides are uneven at small sizes and the aperture tint is slightly heavy.",
       "preserve": "Exact set-square silhouette, translucent aperture, concentric quarter-circle and amber endpoint.",
-      "proposal": "Use slightly stronger, more frequent guide dashes and quieter transparent cyan in the aperture."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "craft_finish": {
+        "previous_sha256": "a24c1dd5e608d2ce0aae3cae0de7a9882b805fe9b48144bd78f578ab461a9309",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 152,
       "id": "gridcraft",
       "name": "GridCraft",
-      "decision": "Accepted",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "55dfd600fad18a9db5a84b6b71c5b3724b5d3e070d08432b4edd19a70e46702e",
       "review_selection_sha256": "c9474162461fb37c9622d005ac07a37d03f0f1d455d4ec3e5a8ac2e1aa28261b",
-      "suggested_sha256": "c9474162461fb37c9622d005ac07a37d03f0f1d455d4ec3e5a8ac2e1aa28261b",
+      "suggested_sha256": "4f1be51fcb1b7bf05067bea06c952426cb818b168c01ee29424e73e9451f2d8d",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/gridcraft.svg",
       "critique": "The grid and selected cell have almost equal contrast, while the large handle crowds the cell corner.",
       "preserve": "Folded spreadsheet page, jade headers, amber selected cell and dark selection border.",
-      "proposal": "Quiet the ordinary grid lines and reduce the selection handle, keeping the selected cell dominant."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "c9474162461fb37c9622d005ac07a37d03f0f1d455d4ec3e5a8ac2e1aa28261b",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      },
+      "craft_finish": {
+        "previous_sha256": "670fb84b3bdd1c8e28c7cd98515f2421569e65eefed6c50a876902ee23ad1652",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 153,
       "id": "vectorcraft",
       "name": "VectorCraft",
-      "decision": "Keep original",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "684b739ae451b4861f1a7e282359d0739d637ae5b059988068deb974e13bc4d7",
       "review_selection_sha256": "684b739ae451b4861f1a7e282359d0739d637ae5b059988068deb974e13bc4d7",
-      "suggested_sha256": "684b739ae451b4861f1a7e282359d0739d637ae5b059988068deb974e13bc4d7",
+      "suggested_sha256": "4bb0750ef2cc23af09b8d5526c94843573527827b53cad7b87a399c1f7e69d88",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/vectorcraft.svg",
       "critique": "The eye, jaw and horns remain distinct at 24 px; the belly plane explains the neck volume.",
       "preserve": "Approved dragon silhouette, horns, tooth, amber belly and jade coat.",
-      "proposal": "Recommend keeping the current artwork. Further smoothing would weaken the dragon’s angular identity."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "craft_finish": {
+        "previous_sha256": "684b739ae451b4861f1a7e282359d0739d637ae5b059988068deb974e13bc4d7",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 154,
       "id": "lightcraft",
       "name": "LightCraft",
-      "decision": "Keep original",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "0bda9db2b5e9e9d788b8457d100738bc3f66450eabdcc34dafaad0b224db30ff",
       "review_selection_sha256": "0bda9db2b5e9e9d788b8457d100738bc3f66450eabdcc34dafaad0b224db30ff",
-      "suggested_sha256": "0bda9db2b5e9e9d788b8457d100738bc3f66450eabdcc34dafaad0b224db30ff",
+      "suggested_sha256": "fb3655a027c2dfebfa11bebcb019322e12e3537f13282615d4be3288a081a97d",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/lightcraft.svg",
       "critique": "The lynx reads from ear tufts, narrow eyes and cheek ruff before the small face details.",
       "preserve": "Approved symmetrical lynx face, tufted ears, amber coat and ivory muzzle.",
-      "proposal": "Recommend keeping the current artwork; fine tufts can recede at small sizes without losing the identity."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "craft_finish": {
+        "previous_sha256": "0bda9db2b5e9e9d788b8457d100738bc3f66450eabdcc34dafaad0b224db30ff",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 155,
       "id": "effectcraft",
       "name": "EffectCraft",
-      "decision": "Keep original",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "20cd4b1edbc049372f797d379d1d631a99f3e7e338f578ab6143d2f90cee4a2f",
       "review_selection_sha256": "20cd4b1edbc049372f797d379d1d631a99f3e7e338f578ab6143d2f90cee4a2f",
-      "suggested_sha256": "20cd4b1edbc049372f797d379d1d631a99f3e7e338f578ab6143d2f90cee4a2f",
+      "suggested_sha256": "75fe2c95a2fa0dee8da4e6482162613af8efc05987c04d24a592327a6b0a56ef",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/effectcraft.svg",
       "critique": "The corrected neck, jaw and muzzle form a convincing profile. The horn remains secondary.",
       "preserve": "Approved unicorn anatomy, curved neck, rose mane and ivory coat.",
-      "proposal": "Recommend keeping the current artwork. No further anatomy or highlight changes are justified."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "craft_finish": {
+        "previous_sha256": "20cd4b1edbc049372f797d379d1d631a99f3e7e338f578ab6143d2f90cee4a2f",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 156,
       "id": "designcraft",
       "name": "DesignCraft",
-      "decision": "Keep original",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "866fdad0d53015928a05ee9afc3169bd7eb7bbac7302430e0b2bc69b37d8236e",
       "review_selection_sha256": "866fdad0d53015928a05ee9afc3169bd7eb7bbac7302430e0b2bc69b37d8236e",
-      "suggested_sha256": "866fdad0d53015928a05ee9afc3169bd7eb7bbac7302430e0b2bc69b37d8236e",
+      "suggested_sha256": "a26a3fd2a76e18ae10167c8ec589d5c1f0866fba0b11a8362d1683fd755329a1",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/designcraft.svg",
       "critique": "The two face patches and scarf distinguish the cat from the other portraits.",
       "preserve": "Approved cat contour, mismatched coat patches, amber eyes and patterned scarf.",
-      "proposal": "Recommend keeping the current artwork; the small scarf dots disappear gracefully."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "craft_finish": {
+        "previous_sha256": "866fdad0d53015928a05ee9afc3169bd7eb7bbac7302430e0b2bc69b37d8236e",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 157,
       "id": "texturecraft",
       "name": "TextureCraft",
-      "decision": "Keep original",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "992aa8f62999117ed31c7ac0ec702a6693e95f8d01ac8a5b7b93392df64fb645",
       "review_selection_sha256": "992aa8f62999117ed31c7ac0ec702a6693e95f8d01ac8a5b7b93392df64fb645",
-      "suggested_sha256": "992aa8f62999117ed31c7ac0ec702a6693e95f8d01ac8a5b7b93392df64fb645",
+      "suggested_sha256": "3f968e5657144dc31bdd444a9e22fcabb6f4ed6f75fdf9b3289ed8fd7b7cf227",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/texturecraft.svg",
       "critique": "The curved stripes follow the neck and leave a clear eye and muzzle.",
       "preserve": "Approved zebra profile, rounded neck, upright mane and wrapped dark stripes.",
-      "proposal": "Recommend keeping the current artwork. Avoid turning its natural stripes into regular graphic chevrons."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "craft_finish": {
+        "previous_sha256": "992aa8f62999117ed31c7ac0ec702a6693e95f8d01ac8a5b7b93392df64fb645",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 158,
       "id": "soundcraft",
       "name": "SoundCraft",
-      "decision": "Keep original",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "21b37daa128759f51ab07a224e0dcae33c0050e40f5099f655029658ef7eb560",
       "review_selection_sha256": "21b37daa128759f51ab07a224e0dcae33c0050e40f5099f655029658ef7eb560",
-      "suggested_sha256": "21b37daa128759f51ab07a224e0dcae33c0050e40f5099f655029658ef7eb560",
+      "suggested_sha256": "626fe3f45ef207d92162cc72e9833b4ddd370f6dd68baae6276d8e703b49fa60",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/soundcraft.svg",
       "critique": "The corrected fine beak and long tail establish the bird; the pale breast keeps the body readable.",
       "preserve": "Approved bird proportions, split singing beak, folded wing and sound marks.",
-      "proposal": "Recommend keeping the current artwork, including the explicitly corrected beak."
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "craft_finish": {
+        "previous_sha256": "21b37daa128759f51ab07a224e0dcae33c0050e40f5099f655029658ef7eb560",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 159,
       "id": "filmcraft",
       "name": "FilmCraft",
-      "decision": "Keep original",
+      "decision": "Brighter ivory; filled edges",
       "before_sha256": "bf41f02b819bc528999ba7d7995eab4cca5fa35cff7175aa8f537821dee90dcd",
       "review_selection_sha256": "bf41f02b819bc528999ba7d7995eab4cca5fa35cff7175aa8f537821dee90dcd",
-      "suggested_sha256": "bf41f02b819bc528999ba7d7995eab4cca5fa35cff7175aa8f537821dee90dcd",
+      "suggested_sha256": "5b5a37a7dcb11afeb3cfc4b3e7004be88bf1be599feb74fb270c8560d62fdae8",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/filmcraft.svg",
       "critique": "The owl remains the strongest example of controlled geometry and focused facial detail.",
-      "preserve": "Frozen owl reference: complete silhouette, eye rings, beak, wings and feet.",
-      "proposal": "Keep the reference byte-for-byte unchanged."
+      "preserve": "Original owl silhouette, eye rings, beak, wings, feet and shading structure.",
+      "proposal": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained.",
+      "craft_finish": {
+        "previous_sha256": "bf41f02b819bc528999ba7d7995eab4cca5fa35cff7175aa8f537821dee90dcd",
+        "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+      }
     },
     {
       "priority": 160,

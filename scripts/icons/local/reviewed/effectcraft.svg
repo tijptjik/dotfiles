@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<desc>Original geometry and individual identity retained. Bright warm ivory, clean cool shading and filled colour boundaries replace greyed whites and enclosing outlines; functional marks remain.</desc><g id="frameless-artwork" transform="translate(-1.266667 -3.066667) scale(1.066667)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs>
+<linearGradient id="copper" x2=".2" y2="1"><stop stop-color="#ffe0a3" /><stop offset=".35" stop-color="#e6ae62" /><stop offset="1" stop-color="#a7585d" /></linearGradient>
+<linearGradient id="jade" x2=".3" y2="1"><stop stop-color="#b4ead5" /><stop offset=".4" stop-color="#46b6a2" /><stop offset="1" stop-color="#306779" /></linearGradient>
+<linearGradient id="rose-metal" x2=".3" y2="1"><stop stop-color="#f8c5c2" /><stop offset=".35" stop-color="#df77ac" /><stop offset="1" stop-color="#8e477e" /></linearGradient>
+<linearGradient id="indigo" x2=".4" y2="1"><stop stop-color="#b6b5ec" /><stop offset=".4" stop-color="#8596ed" /><stop offset="1" stop-color="#494f85" /></linearGradient>
+<linearGradient id="paper" x2=".2" y2="1"><stop stop-color="#fff4df" /><stop offset="1" stop-color="#d8c5b9" /></linearGradient>
+<linearGradient id="metal" x2=".8" y2="1"><stop stop-color="#f3e8df" /><stop offset=".35" stop-color="#9cb9c6" /><stop offset=".5" stop-color="#d5dcde" /><stop offset="1" stop-color="#61788f" /></linearGradient>
+<radialGradient id="glass" cx=".35" cy=".27" r=".8"><stop stop-color="#b0a5df" /><stop offset=".4" stop-color="#5b70b5" /><stop offset=".75" stop-color="#35446d" /><stop offset="1" stop-color="#172b41" /></radialGradient>
+<linearGradient id="screen" x2=".6" y2="1"><stop stop-color="#354b67" /><stop offset=".5" stop-color="#232c46" /><stop offset="1" stop-color="#182339" /></linearGradient>
+</defs><defs>
+<linearGradient id="craft-sand" x2=".4" y2="1"><stop stop-color="#f1cc92" /><stop offset=".4" stop-color="#dfab6e" /><stop offset="1" stop-color="#b57668" /></linearGradient>
+<linearGradient id="craft-jade" x2=".4" y2="1"><stop stop-color="#9fd6c3" /><stop offset=".4" stop-color="#5fb7a5" /><stop offset="1" stop-color="#3d7d83" /></linearGradient>
+<linearGradient id="craft-rose" x2=".4" y2="1"><stop stop-color="#efb7ce" /><stop offset=".4" stop-color="#d784b0" /><stop offset="1" stop-color="#925a8b" /></linearGradient>
+<linearGradient id="craft-paper" x2="1" y2=".35"><stop stop-color="#fffaf2" /><stop offset=".45" stop-color="#fff7ed" /><stop offset="1" stop-color="#ccc5e8" /></linearGradient>
+</defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><path d="M29 18C18 11 8 21 9 32C10 41 4 49 9 56Q15 60 22 56L28 32 35 19Z" fill="url(#craft-rose)" /><path d="M24 19C15 24 19 32 14 41Q10 49 12 55Q20 50 19 41C25 32 20 27 24 19Z" fill="#a55086" /><path d="M38 23 47 7 43 26Z" fill="#dfab6e" /><path d="M44 14 45 15M41.5 18.5 43.8 20" fill="none" stroke="#fffaf2" stroke-width="0.75" /><path d="M30 19Q28 14 30 9Q35 12 36 20C41 21 44 27 46 32L54 44Q57 49 52 51Q49 52 46 49L36 40Q32 39 30 35C27 43 30 49 36 52Q41 54 42 57Q26 61 10 56C16 47 13 39 17 29Q21 20 30 19Z" fill="url(#craft-paper)" /><path d="M31 13Q34 16 34 19L32 18Z" fill="#b39bd9" /><path d="M30 21C25 21 23 27 18 31Q19 21 27 18Z" fill="#d784b0" /><path d="M29 37C25 45 29 52 36 57Q31 59 27 58C21 51 23 42 29 37Z" fill="#b9b2dc" /><path d="M31 30Q32 36 37 37L40 40Q32 40 30 35Z" fill="#ded8ed" /><path d="M35 28Q38 26 41 29Q38 31 35 28Z" fill="#34304f" /><circle cx="38.5" cy="28.7" r="0.9" fill="#e6ae62" /><path d="M50 43Q53 43 52 46Q49 47 49 45Z" fill="#34304f" /><path d="M48 49 52 48" fill="none" stroke="#34304f" stroke-width="1.1" /></g></g></svg>

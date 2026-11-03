@@ -3733,7 +3733,7 @@
   "photocraft": {
     "source": "scripts/icons/local/reviewed/photocraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "bef647004d470425d30ded3cb5d5fba53ae67cf101f040dc9a0422c65da5f529",
+    "sha256": "fcea8030700a10b3655dd1c0a1195dc3587c5884909e86f99b2cb4532bb2bbad",
     "reference": "https://getartcraft.com/images/apps/photocraft/icon.webp",
     "reference_sha256": "3dc4caf2a44de97ddde2d18fcb6b5629f97c3bd159ff8a4a35f3bf122854513a",
     "reference_page": "https://getartcraft.com/apps/photocraft",
@@ -3774,12 +3774,16 @@
         "design_note": "Seated kitsune with a larger head and body, nine layered tails and tapered facial marks; tail planes stay behind the haunch. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
         "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-photocraft.txt"
       }
+    },
+    "craft_finish": {
+      "previous_sha256": "bef647004d470425d30ded3cb5d5fba53ae67cf101f040dc9a0422c65da5f529",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
     }
   },
   "vectorcraft": {
-    "source": "scripts/icons/local/vectorcraft.svg",
+    "source": "scripts/icons/local/reviewed/vectorcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "6d3792e8fd40d7b6856ad118b53a3c6dd8d850531fd546d1196f227bd0bc180d",
+    "sha256": "4bb0750ef2cc23af09b8d5526c94843573527827b53cad7b87a399c1f7e69d88",
     "reference": "https://getartcraft.com/images/apps/vectorcraft/icon.webp",
     "reference_sha256": "c48f5f530363ea86278c80729a4fcd75346be8bf2f5718d3beaffcbbcfe093cf",
     "reference_page": "https://getartcraft.com/apps/vectorcraft",
@@ -3787,25 +3791,59 @@
     "desktop_reference": "https://github.com/storytold/vectorcraft/blob/main/packaging/linux/ai.storyteller.vectorcraft.desktop",
     "material_revision": 3,
     "design_note": "Dragon with a defined brow and jaw, amber slit pupil and a continuous shaded neck; restrained belly divisions. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-vectorcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-vectorcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/vectorcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "6d3792e8fd40d7b6856ad118b53a3c6dd8d850531fd546d1196f227bd0bc180d",
+      "reference": "https://getartcraft.com/images/apps/vectorcraft/icon.webp",
+      "reference_sha256": "c48f5f530363ea86278c80729a4fcd75346be8bf2f5718d3beaffcbbcfe093cf",
+      "reference_page": "https://getartcraft.com/apps/vectorcraft",
+      "upstream_repository": "https://github.com/storytold/vectorcraft",
+      "desktop_reference": "https://github.com/storytold/vectorcraft/blob/main/packaging/linux/ai.storyteller.vectorcraft.desktop",
+      "material_revision": 3,
+      "design_note": "Dragon with a defined brow and jaw, amber slit pupil and a continuous shaded neck; restrained belly divisions. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-vectorcraft.txt"
+    },
+    "craft_finish": {
+      "previous_sha256": "684b739ae451b4861f1a7e282359d0739d637ae5b059988068deb974e13bc4d7",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+    }
   },
   "filmcraft": {
-    "source": "scripts/icons/local/filmcraft.svg",
+    "source": "scripts/icons/local/reviewed/filmcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "116152ecfff6a26f6a8ca73a603aae1c75b4a210c597a15f40211e3ac613c65b",
+    "sha256": "5b5a37a7dcb11afeb3cfc4b3e7004be88bf1be599feb74fb270c8560d62fdae8",
     "reference": "https://getartcraft.com/images/apps/filmcraft/icon.webp",
     "reference_sha256": "b9da03e528790c6bcca4403d45cd538512e82accf1a6b6384d0cfb59834f3b35",
     "reference_page": "https://getartcraft.com/apps/filmcraft",
     "upstream_repository": "https://github.com/storytold/filmcraft",
     "desktop_reference": "https://github.com/storytold/filmcraft/blob/main/packaging/linux/ai.storyteller.filmcraft.desktop",
     "material_revision": 2,
-    "design_note": "Tufted owl with paired facial discs. User-selected geometry and shading reference: continuous symmetric contour, aligned eyes and beak, mirrored wings, three curved feather marks and matching feet. Artwork unchanged during the family coherence pass.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-filmcraft.txt"
+    "design_note": "Original owl geometry, shading structure and details retained; facial ivory brightened with the family at user request.",
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-filmcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/filmcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "116152ecfff6a26f6a8ca73a603aae1c75b4a210c597a15f40211e3ac613c65b",
+      "reference": "https://getartcraft.com/images/apps/filmcraft/icon.webp",
+      "reference_sha256": "b9da03e528790c6bcca4403d45cd538512e82accf1a6b6384d0cfb59834f3b35",
+      "reference_page": "https://getartcraft.com/apps/filmcraft",
+      "upstream_repository": "https://github.com/storytold/filmcraft",
+      "desktop_reference": "https://github.com/storytold/filmcraft/blob/main/packaging/linux/ai.storyteller.filmcraft.desktop",
+      "material_revision": 2,
+      "design_note": "Tufted owl with paired facial discs. User-selected geometry and shading reference: continuous symmetric contour, aligned eyes and beak, mirrored wings, three curved feather marks and matching feet. Artwork unchanged during the family coherence pass.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-filmcraft.txt"
+    },
+    "craft_finish": {
+      "previous_sha256": "bf41f02b819bc528999ba7d7995eab4cca5fa35cff7175aa8f537821dee90dcd",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+    }
   },
   "lightcraft": {
-    "source": "scripts/icons/local/lightcraft.svg",
+    "source": "scripts/icons/local/reviewed/lightcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "e4e09f426e811eb4c00b31c1b33e7413b90319d50c12ed7079cc0a9d869e370e",
+    "sha256": "fb3655a027c2dfebfa11bebcb019322e12e3537f13282615d4be3288a081a97d",
     "reference": "https://getartcraft.com/images/apps/lightcraft/icon.webp",
     "reference_sha256": "8db8bf365af9a422f37c96ef29a25e55c9508993e782f291cdfd15d4d33dc47e",
     "reference_page": "https://getartcraft.com/apps/lightcraft",
@@ -3813,12 +3851,29 @@
     "desktop_reference": "https://github.com/storytold/lightcraft/blob/main/packaging/linux/ai.storyteller.lightcraft.desktop",
     "material_revision": 4,
     "design_note": "Lynx with curved cheek tufts, broader almond eyes and a compact muzzle; warm face and quiet fur markings. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-lightcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-lightcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/lightcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "e4e09f426e811eb4c00b31c1b33e7413b90319d50c12ed7079cc0a9d869e370e",
+      "reference": "https://getartcraft.com/images/apps/lightcraft/icon.webp",
+      "reference_sha256": "8db8bf365af9a422f37c96ef29a25e55c9508993e782f291cdfd15d4d33dc47e",
+      "reference_page": "https://getartcraft.com/apps/lightcraft",
+      "upstream_repository": "https://github.com/storytold/lightcraft",
+      "desktop_reference": "https://github.com/storytold/lightcraft/blob/main/packaging/linux/ai.storyteller.lightcraft.desktop",
+      "material_revision": 4,
+      "design_note": "Lynx with curved cheek tufts, broader almond eyes and a compact muzzle; warm face and quiet fur markings. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-lightcraft.txt"
+    },
+    "craft_finish": {
+      "previous_sha256": "0bda9db2b5e9e9d788b8457d100738bc3f66450eabdcc34dafaad0b224db30ff",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+    }
   },
   "pdfcraft": {
     "source": "scripts/icons/local/reviewed/pdfcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "ebbcbe2508c5abdbde774d2e0317e843343eff28ac85203075e78adb8c4e5f8e",
+    "sha256": "f80495704a4574073b0e2fd8ac58d2f8ffc111469aa42ed73f060f8ab4195d3d",
     "reference": "https://getartcraft.com/images/apps/pdfcraft/icon.webp",
     "reference_sha256": "1d55e801eb80869dcfd085ac802d9446e13c076bbbea7a64d108d7a3d543a9c1",
     "reference_page": "https://getartcraft.com/apps/pdfcraft",
@@ -3859,12 +3914,16 @@
         "design_note": "Lion with a larger face, almond eyes, broad whisker pads and four quiet mane masses shaded around the head. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
         "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-pdfcraft.txt"
       }
+    },
+    "craft_finish": {
+      "previous_sha256": "ebbcbe2508c5abdbde774d2e0317e843343eff28ac85203075e78adb8c4e5f8e",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
     }
   },
   "effectcraft": {
-    "source": "scripts/icons/local/effectcraft.svg",
+    "source": "scripts/icons/local/reviewed/effectcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "7fcc3f1e98e327e645852ccb2ab419ce965a2e536fafd3e395fc3f0be5e35c29",
+    "sha256": "75fe2c95a2fa0dee8da4e6482162613af8efc05987c04d24a592327a6b0a56ef",
     "reference": "https://getartcraft.com/images/apps/effectcraft/icon.webp",
     "reference_sha256": "0c65ee3b451a5447315725fb93d454fabd7adf3a598c835ebe293eebf3e799e0",
     "reference_page": "https://getartcraft.com/apps/effectcraft",
@@ -3872,12 +3931,29 @@
     "desktop_reference": "https://github.com/storytold/effectcraft/blob/main/packaging/linux/ai.storyteller.effectcraft.desktop",
     "material_revision": 5,
     "design_note": "Unicorn with an arched neck, rounded shoulder, curved jaw shading and a long muzzle; ivory coat separated from the rose mane. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-effectcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-effectcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/effectcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "7fcc3f1e98e327e645852ccb2ab419ce965a2e536fafd3e395fc3f0be5e35c29",
+      "reference": "https://getartcraft.com/images/apps/effectcraft/icon.webp",
+      "reference_sha256": "0c65ee3b451a5447315725fb93d454fabd7adf3a598c835ebe293eebf3e799e0",
+      "reference_page": "https://getartcraft.com/apps/effectcraft",
+      "upstream_repository": "https://github.com/storytold/effectcraft",
+      "desktop_reference": "https://github.com/storytold/effectcraft/blob/main/packaging/linux/ai.storyteller.effectcraft.desktop",
+      "material_revision": 5,
+      "design_note": "Unicorn with an arched neck, rounded shoulder, curved jaw shading and a long muzzle; ivory coat separated from the rose mane. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-effectcraft.txt"
+    },
+    "craft_finish": {
+      "previous_sha256": "20cd4b1edbc049372f797d379d1d631a99f3e7e338f578ab6143d2f90cee4a2f",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+    }
   },
   "designcraft": {
-    "source": "scripts/icons/local/designcraft.svg",
+    "source": "scripts/icons/local/reviewed/designcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "dcd86d213b9c3a909b16ebaae16f2b7f830cf0cfcfa4184239d30c65766997a5",
+    "sha256": "a26a3fd2a76e18ae10167c8ec589d5c1f0866fba0b11a8362d1683fd755329a1",
     "reference": "https://getartcraft.com/images/apps/designcraft/icon.webp",
     "reference_sha256": "e51060f1e246783bf3163db378d8adcfd53e0a468590df9bad9f36243323fb6a",
     "reference_page": "https://getartcraft.com/apps/designcraft",
@@ -3885,7 +3961,24 @@
     "desktop_reference": "https://github.com/storytold/designcraft/blob/main/packaging/linux/ai.storyteller.designcraft.desktop",
     "material_revision": 3,
     "design_note": "Calico cat with shorter ears, warm and cool coat patches, smaller eyes and a spotted scarf. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-designcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-designcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/designcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "dcd86d213b9c3a909b16ebaae16f2b7f830cf0cfcfa4184239d30c65766997a5",
+      "reference": "https://getartcraft.com/images/apps/designcraft/icon.webp",
+      "reference_sha256": "e51060f1e246783bf3163db378d8adcfd53e0a468590df9bad9f36243323fb6a",
+      "reference_page": "https://getartcraft.com/apps/designcraft",
+      "upstream_repository": "https://github.com/storytold/designcraft",
+      "desktop_reference": "https://github.com/storytold/designcraft/blob/main/packaging/linux/ai.storyteller.designcraft.desktop",
+      "material_revision": 3,
+      "design_note": "Calico cat with shorter ears, warm and cool coat patches, smaller eyes and a spotted scarf. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-designcraft.txt"
+    },
+    "craft_finish": {
+      "previous_sha256": "866fdad0d53015928a05ee9afc3169bd7eb7bbac7302430e0b2bc69b37d8236e",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+    }
   },
   "figcraft": {
     "source": "scripts/icons/local/reviewed/figcraft.svg",
@@ -3934,9 +4027,9 @@
     }
   },
   "texturecraft": {
-    "source": "scripts/icons/local/texturecraft.svg",
+    "source": "scripts/icons/local/reviewed/texturecraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "e30b3f5fc8984f1934625052e9046e9f0bd0164dcf3f260cb09c0a584d7297ed",
+    "sha256": "3f968e5657144dc31bdd444a9e22fcabb6f4ed6f75fdf9b3289ed8fd7b7cf227",
     "reference": "https://getartcraft.com/images/apps/texturecraft/icon.webp",
     "reference_sha256": "0f407e9b8fe26464bdff48e38d6dda57b8890dcaa18005b7d7e9b993b5797712",
     "reference_page": "https://getartcraft.com/apps/texturecraft",
@@ -3944,12 +4037,29 @@
     "desktop_reference": "https://github.com/storytold/texturecraft/blob/main/packaging/linux/ai.storyteller.texturecraft.desktop",
     "material_revision": 4,
     "design_note": "Zebra with shorter ears, a longer muzzle, a clearer eye and thinner violet-ink stripes following the head and neck. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-texturecraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-texturecraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/texturecraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "e30b3f5fc8984f1934625052e9046e9f0bd0164dcf3f260cb09c0a584d7297ed",
+      "reference": "https://getartcraft.com/images/apps/texturecraft/icon.webp",
+      "reference_sha256": "0f407e9b8fe26464bdff48e38d6dda57b8890dcaa18005b7d7e9b993b5797712",
+      "reference_page": "https://getartcraft.com/apps/texturecraft",
+      "upstream_repository": "https://github.com/storytold/texturecraft",
+      "desktop_reference": "https://github.com/storytold/texturecraft/blob/main/packaging/linux/ai.storyteller.texturecraft.desktop",
+      "material_revision": 4,
+      "design_note": "Zebra with shorter ears, a longer muzzle, a clearer eye and thinner violet-ink stripes following the head and neck. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-texturecraft.txt"
+    },
+    "craft_finish": {
+      "previous_sha256": "992aa8f62999117ed31c7ac0ec702a6693e95f8d01ac8a5b7b93392df64fb645",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+    }
   },
   "wordcraft": {
     "source": "scripts/icons/local/reviewed/wordcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "046441da645f7f6334d815ff2723a1366df03f761bc9add9241843221ce923ab",
+    "sha256": "abb4753692efe1fd747718ec850bf0aa2ae41271b124c01f8c550dc17a25c605",
     "reference": "https://getartcraft.com/images/apps/wordcraft/icon.webp",
     "reference_sha256": "55fedf6a8cd338392034669b2c94283f56d18d08cb02492540d60082cd245e70",
     "reference_page": "https://getartcraft.com/apps/wordcraft",
@@ -3990,12 +4100,21 @@
         "design_note": "Document and pencil with clearer page thickness and three readable text lines; quiet paper and violet pencil shading. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
         "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-wordcraft.txt"
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "046441da645f7f6334d815ff2723a1366df03f761bc9add9241843221ce923ab",
+      "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+    },
+    "craft_finish": {
+      "previous_sha256": "04ef001f22eb75510de82e5929d675454095f1bf6c9b1c8d8f2e67babb8cd12d",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
     }
   },
   "soundcraft": {
-    "source": "scripts/icons/local/soundcraft.svg",
+    "source": "scripts/icons/local/reviewed/soundcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "26278405e6772d5f5bb10e82b49cd6bae0a904c604cb5e755313c20014cdd476",
+    "sha256": "626fe3f45ef207d92162cc72e9833b4ddd370f6dd68baae6276d8e703b49fa60",
     "reference": "https://getartcraft.com/images/apps/soundcraft/icon.webp",
     "reference_sha256": "f02169fc5dbf594f2516f0dc22cfa7ac2ce324a8dd7ea92958270649e75f8ef2",
     "reference_page": "https://getartcraft.com/apps/soundcraft",
@@ -4003,12 +4122,29 @@
     "desktop_reference": "https://github.com/storytold/soundcraft/blob/main/packaging/linux/ai.storyteller.soundcraft.desktop",
     "material_revision": 3,
     "design_note": "Singing nightingale with a fine bill, smaller eye, full ivory breast, copper back, rose wing and long rufous tail. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-soundcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-soundcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/soundcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "26278405e6772d5f5bb10e82b49cd6bae0a904c604cb5e755313c20014cdd476",
+      "reference": "https://getartcraft.com/images/apps/soundcraft/icon.webp",
+      "reference_sha256": "f02169fc5dbf594f2516f0dc22cfa7ac2ce324a8dd7ea92958270649e75f8ef2",
+      "reference_page": "https://getartcraft.com/apps/soundcraft",
+      "upstream_repository": "https://github.com/storytold/soundcraft",
+      "desktop_reference": "https://github.com/storytold/soundcraft/blob/main/packaging/linux/ai.storyteller.soundcraft.desktop",
+      "material_revision": 3,
+      "design_note": "Singing nightingale with a fine bill, smaller eye, full ivory breast, copper back, rose wing and long rufous tail. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-soundcraft.txt"
+    },
+    "craft_finish": {
+      "previous_sha256": "21b37daa128759f51ab07a224e0dcae33c0050e40f5099f655029658ef7eb560",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
+    }
   },
   "deckcraft": {
     "source": "scripts/icons/local/reviewed/deckcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "0ce80b6872a4e32b69063b2830b0736e5b176d68fff225126a57ac9d6755bcd5",
+    "sha256": "ae33162aa11300800d8527eb2edbdaf12b694fa9f9943da3d8ef22aa0be1eb41",
     "reference": "https://getartcraft.com/images/apps/deckcraft/icon.webp",
     "reference_sha256": "65401162c7f979b6b1156115164103996d92889c2cb14db0cd443cc8095fb8b0",
     "reference_page": "https://getartcraft.com/apps/deckcraft",
@@ -4049,12 +4185,21 @@
         "design_note": "Presentation monitor with a lighter frame, slimmer stand and three clear chart bars. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
         "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-deckcraft.txt"
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "0ce80b6872a4e32b69063b2830b0736e5b176d68fff225126a57ac9d6755bcd5",
+      "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+    },
+    "craft_finish": {
+      "previous_sha256": "fa8abcae3af7cfe03d2afd0b19d99c837c1022d5b45abcd6b37bfca18a0509cc",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
     }
   },
   "cadcraft": {
     "source": "scripts/icons/local/reviewed/cadcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "a24c1dd5e608d2ce0aae3cae0de7a9882b805fe9b48144bd78f578ab461a9309",
+    "sha256": "a3d03cc19ad05feb68ad81afca734fdfe46326a81ecc233ddbe430462f2a0c41",
     "reference": "https://getartcraft.com/images/apps/cadcraft/icon.webp",
     "reference_sha256": "6e5031366dfc3b01abd92496767483f7311cf126f3f8c6c5453f2464fb1e54ef",
     "reference_page": "https://getartcraft.com/apps/cadcraft",
@@ -4095,12 +4240,16 @@
         "design_note": "Drafting triangle with a stronger measured arc and fewer ticks, balanced for small-size reading. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
         "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-cadcraft.txt"
       }
+    },
+    "craft_finish": {
+      "previous_sha256": "a24c1dd5e608d2ce0aae3cae0de7a9882b805fe9b48144bd78f578ab461a9309",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
     }
   },
   "gridcraft": {
     "source": "scripts/icons/local/reviewed/gridcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "c9474162461fb37c9622d005ac07a37d03f0f1d455d4ec3e5a8ac2e1aa28261b",
+    "sha256": "4f1be51fcb1b7bf05067bea06c952426cb818b168c01ee29424e73e9451f2d8d",
     "reference": "https://getartcraft.com/images/apps/gridcraft/icon.webp",
     "reference_sha256": "dc1fd8dfa6510ddd7e12c33ec84dfe25c058ab84054b07158f00959788170b3c",
     "reference_page": "https://getartcraft.com/apps/gridcraft",
@@ -4141,6 +4290,15 @@
         "design_note": "Spreadsheet with fewer cells, lighter grid lines and a larger amber selection. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
         "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-gridcraft.txt"
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "c9474162461fb37c9622d005ac07a37d03f0f1d455d4ec3e5a8ac2e1aa28261b",
+      "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+    },
+    "craft_finish": {
+      "previous_sha256": "670fb84b3bdd1c8e28c7cd98515f2421569e65eefed6c50a876902ee23ad1652",
+      "reason": "Bright warm ivory replaces yellow-grey whites; enclosing contour strokes removed in favour of filled colour boundaries, cool side shading and physical paper edges. Existing identifying paths, proportions and functional marks retained."
     }
   },
   "craft-anything": {

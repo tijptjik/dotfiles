@@ -425,5 +425,27 @@
         "executable": "~/.local/share/android-sdk/platform-tools/adb"
       }
     ]
+  },
+  "pdfcraft": {
+    "checks": [
+      {
+        "flatpak": "ai.storyteller.pdfcraft"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
+  },
+  "wordcraft": {
+    "checks": [
+      {
+        "flatpak": "ai.storyteller.wordcraft"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
   }
 }

@@ -1948,6 +1948,8 @@
         "system:apps",
         "system:rpm:update",
         "system:flatpak:update",
+        "system:pdfcraft:update",
+        "system:wordcraft:update",
         "system:codex-desktop:update",
         "system:strata:update",
         "system:hyprvoice:update",
@@ -2105,6 +2107,98 @@
         "skip-update",
         "flatpak"
       ],
+      "part_of": "system:flatpak"
+    },
+    {
+      "id": "system:pdfcraft:update",
+      "label": "PdfCraft updates",
+      "needs": [
+        "require:sudo"
+      ],
+      "after": [
+        "system:flatpak:update"
+      ],
+      "resources": [
+        "flatpak"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "install",
+        "pdfcraft"
+      ],
+      "check": [
+        "tjikup",
+        "workflow",
+        "package",
+        "skip-update",
+        "pdfcraft"
+      ],
+      "env": {
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 1800,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Flatpak"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "system",
+      "application": "pdfcraft",
+      "ecosystem": "flatpak",
+      "part_of": "system:flatpak"
+    },
+    {
+      "id": "system:wordcraft:update",
+      "label": "WordCraft updates",
+      "needs": [
+        "require:sudo"
+      ],
+      "after": [
+        "system:flatpak:update"
+      ],
+      "resources": [
+        "flatpak"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "install",
+        "wordcraft"
+      ],
+      "check": [
+        "tjikup",
+        "workflow",
+        "package",
+        "skip-update",
+        "wordcraft"
+      ],
+      "env": {
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 1800,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Flatpak"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "system",
+      "application": "wordcraft",
+      "ecosystem": "flatpak",
       "part_of": "system:flatpak"
     },
     {

@@ -3566,6 +3566,8 @@
         "system:apps",
         "system:codex-desktop:update",
         "system:flatpak:update",
+        "system:pdfcraft:update",
+        "system:wordcraft:update",
         "system:hyprvoice:update",
         "system:hyprvoice:update:verify",
         "system:launcher:update",

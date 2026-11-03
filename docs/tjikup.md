@@ -74,6 +74,26 @@ Read-only plans can read the previous identity without creating files.
 `native/installers.json` declares release identity, artifacts, checks and target
 paths. `tjikup workflow install NAME` verifies release digests and deployed
 bytes, preserves newer installed releases, and rejects unmanaged executables.
+
+PdfCraft and WordCraft installed as system Flatpak bundles are updated with the
+existing `system:flatpak` subscription on desktops and laptops. Their dedicated
+update recipes query GitHub's structured Releases API, select the matching
+architecture's `.flatpak` asset, and verify its SHA-256 digest before installation.
+The version comes from `tag_name`, not release-note text. These recipes skip apps
+that are absent; they do not install PdfCraft or WordCraft on another device.
+`--skip-package-updates` and configuration-only runs exclude them. Explicit first
+installation is available through `tjikup workflow install pdfcraft` or
+`tjikup workflow install wordcraft`.
+
+The upstream ArtCraft OCI remote exists, but on 2026-11-04 its PdfCraft and
+WordCraft indexes returned HTTP 503 because their GHCR images denied anonymous
+access, and its catalog lagged GitHub Releases. The bundle policy therefore uses
+`https://api.github.com/repos/storytold/APP/releases/latest` directly. Existing
+Flatpak app IDs, installation scope, branch and user data are preserved. Reopen a
+running application after an update to load the new version.
+This policy requires `flatpak_bundle_installers: 1`; runner installation retains a
+compatible local build until the published release advertises that capability.
+
 `workflow bitwarden` owns bws/bw bootstrap. `workflow desktop` owns launcher
 preservation, duplicate-launcher cleanup and icon override migration.
 

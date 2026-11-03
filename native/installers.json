@@ -142,5 +142,27 @@
         "--help"
       ]
     ]
+  },
+  "pdfcraft": {
+    "repository": "storytold/pdfcraft",
+    "latest": true,
+    "asset": "pdfcraft-{version}-linux-{arch}.flatpak",
+    "kind": "flatpak-bundle",
+    "flatpak": {
+      "app_id": "ai.storyteller.pdfcraft",
+      "branch": "stable",
+      "installation": "system"
+    }
+  },
+  "wordcraft": {
+    "repository": "storytold/wordcraft",
+    "latest": true,
+    "asset": "wordcraft-{version}-linux-{arch}.flatpak",
+    "kind": "flatpak-bundle",
+    "flatpak": {
+      "app_id": "ai.storyteller.wordcraft",
+      "branch": "stable",
+      "installation": "system"
+    }
   }
 }

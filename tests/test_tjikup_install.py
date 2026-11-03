@@ -51,7 +51,16 @@ class InstallTests(unittest.TestCase):
     def test_equal_source_revision_enters_normal_install_path(self):
         self.release_case(candidate=0, installed=0, success=True, installs=True, provenance="equal")
 
-    def release_case(self, candidate, installed, success, installs, candidate_cache=True, installed_cache=True, provenance=None):
+    def test_equal_revision_without_flatpak_support_preserves_new_backend(self):
+        self.release_case(candidate=0, installed=0, success=True, installs=False,
+                          provenance="equal", candidate_flatpak=False)
+
+    def test_missing_flatpak_support_in_both_runners_fails_closed(self):
+        self.release_case(candidate=0, installed=0, success=False, installs=False,
+                          provenance="equal", candidate_flatpak=False, installed_flatpak=False)
+
+    def release_case(self, candidate, installed, success, installs, candidate_cache=True, installed_cache=True,
+                     provenance=None, candidate_flatpak=True, installed_flatpak=True):
         with tempfile.TemporaryDirectory() as directory:
             home=Path(directory);repo=home/'checkout';tool=home/'tool'
             (repo/'scripts').mkdir(parents=True);(repo/'system/tjikup').mkdir(parents=True)
@@ -64,7 +73,16 @@ class InstallTests(unittest.TestCase):
             (tool/'apps/tjikup/scripts/fetch-release.sh').write_text('#!/bin/sh\nexit 0\n')
             (tool/'apps/tjikup/scripts/install-weekly.sh').write_text('#!/bin/sh\ntouch "$HOME/weekly-installed"\n')
             for path,code in [(tool/'apps/tjikup/dist/tjikup',candidate),(home/'.local/bin/tjikup',installed)]:
-                path.parent.mkdir(parents=True,exist_ok=True);path.write_text('#!/bin/sh\nif [ "$1" = capabilities ]; then\n  echo \'{"bootstrap_archives":1,"native_commands":1,"native_installers":1,"native_maintenance":1,"scheduled_telegram":1,"scheduled_telegram_bws":1,"native_workflow":' + str(int(candidate_cache if path == tool/'apps/tjikup/dist/tjikup' else installed_cache)) + '}\'\n  exit 0\nfi\nif [ \"$1\" = workflow ]; then touch \"$TEST_CACHE_MARKER\"; exit 0; fi\nexit '+str(code)+'\n');path.chmod(0o755)
+                capabilities = {
+                    'bootstrap_archives': 1, 'native_commands': 1, 'native_installers': 1,
+                    'native_maintenance': 1, 'scheduled_telegram': 1, 'scheduled_telegram_bws': 1,
+                    'native_workflow': int(candidate_cache if path == tool / 'apps/tjikup/dist/tjikup' else installed_cache),
+                    'flatpak_bundle_installers': int(candidate_flatpak if path == tool / 'apps/tjikup/dist/tjikup' else installed_flatpak),
+                }
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('#!/bin/sh\nif [ "$1" = capabilities ]; then\n  echo \'' + json.dumps(capabilities) + '\'\n  exit 0\nfi\n'
+                                'if [ "$1" = workflow ]; then touch "$TEST_CACHE_MARKER"; exit 0; fi\nexit ' + str(code) + '\n')
+                path.chmod(0o755)
             if provenance:
                 def git(*args):
                     return subprocess.check_output(

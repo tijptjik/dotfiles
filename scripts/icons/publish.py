@@ -106,7 +106,11 @@ def cut(trees, files, output, version, site=None):
         services = json.loads((HERE / 'homepage.json').read_text())
         import homepage
         gallery = []
-        for key, entry in sorted({**services, **catalog}.items()):
+        selections = HERE / 'review-selections.json'
+        review_order = {entry['id']: index for index, entry in enumerate(
+            json.loads(selections.read_text())['icons'])} if selections.exists() else {}
+        for key, entry in sorted({**services, **catalog}.items(),
+                                 key=lambda item: (review_order.get(item[0], len(review_order)), item[0])):
             data = trees[PRIMARY / 'scalable/apps'].get(key + '.svg')
             if data is None:
                 data = trees[homepage.DEST][key + '.svg']

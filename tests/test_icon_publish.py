@@ -199,6 +199,8 @@ class IconPublishTests(unittest.TestCase):
                 'fish': {'name': 'Fish shell', 'role': 'shell'},
                 'runtjik-refresh': {'name': 'Refresh index', 'role': 'control'}}))
             (inputs / 'homepage.json').write_bytes(publish.encoded({'service': {'name': 'Service'}}))
+            (inputs / 'review-selections.json').write_bytes(publish.encoded({
+                'icons': [{'id': 'fish'}, {'id': 'service'}, {'id': 'app'}]}))
             svg = b'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M4 4h56v56H4Z"/></svg>'
             trees = {publish.PRIMARY / 'scalable/apps': {
                 key + '.svg': svg for key in ('app', 'fish', 'runtjik-refresh')},
@@ -223,6 +225,7 @@ class IconPublishTests(unittest.TestCase):
                 snapshot = publish.cut(trees, {}, root, '0.1.0')
             gallery = json.loads((snapshot / 'gallery.json').read_text())
             self.assertEqual({entry['id'] for entry in gallery}, {'app', 'fish', 'service'})
+            self.assertEqual([entry['id'] for entry in gallery], ['fish', 'service', 'app'])
             for entry in gallery:
                 self.assertEqual((snapshot / 'icons' / (entry['id'] + '.svg')).read_bytes(), svg)
             manifest = publish.verify_snapshot(snapshot)

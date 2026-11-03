@@ -632,53 +632,73 @@
       "priority": 30,
       "id": "logs",
       "name": "Logs",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "32240fba99c99ffaec0a193f3ef0d01413ff43869d31c50d574e7c081638cabd",
       "review_selection_sha256": "e026bce1740e5685fedc108b4a291b88324b522b8848fc9c69bb6b134528d9ab",
-      "suggested_sha256": "e026bce1740e5685fedc108b4a291b88324b522b8848fc9c69bb6b134528d9ab",
+      "suggested_sha256": "cf37c9c10d1f792e4764c91052284db88298d3aff6522e535462ff060131371c",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/logs.svg",
       "critique": "Dense ruled lines make the page feel like lined stationery and flatten beneath the loupe.",
       "preserve": "A folded log page with rows of entries and a magnifying glass.",
-      "proposal": "Use five structured rows and an uncluttered transparent lens, with one paper fold and restrained thickness."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "e026bce1740e5685fedc108b4a291b88324b522b8848fc9c69bb6b134528d9ab",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 31,
       "id": "document-viewer",
       "name": "Document Viewer",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "e53a07986bcdfe0b82380586444225deaf9651fc5f368abb2201305c7be2d568",
       "review_selection_sha256": "80d7fe47549eedd30f39922f2babcd4a57f61ebeaa76ec8de04636812e9ef675",
-      "suggested_sha256": "80d7fe47549eedd30f39922f2babcd4a57f61ebeaa76ec8de04636812e9ef675",
+      "suggested_sha256": "0a688aee434f70291c5e318b9b20d880303acff2bcf7cca522432b4d72ad983c",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/document-viewer.svg",
       "critique": "Three differently skewed sheets and dense rules create a restless perimeter.",
       "preserve": "A sheaf of documents with an illustrated front page.",
-      "proposal": "Use two coherent sheet angles, one image panel and three readable text rules."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "80d7fe47549eedd30f39922f2babcd4a57f61ebeaa76ec8de04636812e9ef675",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 32,
       "id": "connections",
       "name": "Connections",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "4f9bc19b11960b8b3946e4e1c97aa5c4bbdc2954f18b81f967b106693ac8f6ce",
       "review_selection_sha256": "a65bf9b345d244f2191dd65a830540b6115d25dc82d39395bbd1df6c788b71d1",
-      "suggested_sha256": "a65bf9b345d244f2191dd65a830540b6115d25dc82d39395bbd1df6c788b71d1",
+      "suggested_sha256": "b50f03d0bb40a84b1c0a1fe4ff75aa4a7c59f0dd33a369779fa556bd536c7506",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/connections.svg",
       "critique": "Small stands and equally pale screens weaken the two-computer relationship.",
       "preserve": "Two offset screens and opposing transfer arrows.",
-      "proposal": "Keep the diagonal pairing, distinguish the screen pigments and make each arrow a clear right-angle route."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "a65bf9b345d244f2191dd65a830540b6115d25dc82d39395bbd1df6c788b71d1",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 33,
       "id": "scrcpy",
       "name": "scrcpy",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "8b64ccf4aac3c681496105c5b4bcffc93a7595b66c1072a4b448c021a5d50e13",
       "review_selection_sha256": "85fb1117c23db1ef6e9e440c7b4e0a4292363e784a7505021d42e075baf109e1",
-      "suggested_sha256": "85fb1117c23db1ef6e9e440c7b4e0a4292363e784a7505021d42e075baf109e1",
+      "suggested_sha256": "ce76b7977efcd57cd73941692b64699d962969f50e45e4fa4e58db905edad11b",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/scrcpy.svg",
       "critique": "The phone and desktop share similar pale surfaces; the transfer direction carries too little contrast.",
       "preserve": "Phone-to-desktop mirroring, with the tall phone on the right.",
-      "proposal": "Use dark screens, a larger phone and one continuous mint arrow pointing into the desktop."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "85fb1117c23db1ef6e9e440c7b4e0a4292363e784a7505021d42e075baf109e1",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 34,
@@ -845,40 +865,55 @@
       "priority": 44,
       "id": "eye-of-gnome",
       "name": "Eye of GNOME",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "2517af6989de6c650677555de4f191da66ff652645bb9ac9caf6351e4dbe88a9",
       "review_selection_sha256": "b50b381801ec8635c1ace4a5b0ad3a9b4326289cafcd3bfef863099765c4f454",
-      "suggested_sha256": "b50b381801ec8635c1ace4a5b0ad3a9b4326289cafcd3bfef863099765c4f454",
+      "suggested_sha256": "52ca79d181fa9178b61f612705e93cf0033670009260184c4e30db8a059de64c",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/eye-of-gnome.svg",
       "critique": "The large opaque-looking lens can obscure the image and makes the handle feel detached.",
       "preserve": "Ivory photo frame and a large loupe at the lower left.",
-      "proposal": "Use transparent cyan glass, a connected handle and the shared blue-sky/mint-landscape materials."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "b50b381801ec8635c1ace4a5b0ad3a9b4326289cafcd3bfef863099765c4f454",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 45,
       "id": "image-viewer",
       "name": "Image Viewer",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "eac2562178eca05114118181c6d171cacc31b830dff32c892fb491696b130afc",
       "review_selection_sha256": "dbebd31c17553b9fe1dd33ca173074c1741cb7b0c4f7c90c7cb0ed682e3fb6d5",
-      "suggested_sha256": "dbebd31c17553b9fe1dd33ca173074c1741cb7b0c4f7c90c7cb0ed682e3fb6d5",
+      "suggested_sha256": "407abd3c2d97cbef709829ae5338e9dac4917c92ec411e51931460959e504938",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/image-viewer.svg",
       "critique": "Its frame and lens use slightly different proportions and highlights from Eye of GNOME.",
       "preserve": "A wider photo with the inspection loupe at the lower right.",
-      "proposal": "Match the photo and glass materials while retaining its wider frame, right-side lens and handle direction."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "dbebd31c17553b9fe1dd33ca173074c1741cb7b0c4f7c90c7cb0ed682e3fb6d5",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 46,
       "id": "thumbnails",
       "name": "Thumbnails",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "282a8de7bd4a2c3305a51c0b36ec3564d848d0d0e994c0dde4c51c8ed8ec19d5",
       "review_selection_sha256": "69b8a3f56b7907c6ca7ee84ada20e5a73510d30736793da6d51952693d6bb25c",
-      "suggested_sha256": "69b8a3f56b7907c6ca7ee84ada20e5a73510d30736793da6d51952693d6bb25c",
+      "suggested_sha256": "5c883feffce0656c1ff4c0b774f4d5448626260a5cf1e0f5093a6c20369f8944",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/thumbnails.svg",
       "critique": "The tiny marks below the picture look like controls, not thumbnail images.",
       "preserve": "A framed landscape and a row of three image previews.",
-      "proposal": "Give each preview its own ivory frame and one coloured landscape shape; keep the main picture dominant."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "69b8a3f56b7907c6ca7ee84ada20e5a73510d30736793da6d51952693d6bb25c",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 47,
@@ -975,14 +1010,19 @@
       "priority": 54,
       "id": "text-editor",
       "name": "Text Editor",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "efe4157d87ee1b9fa4816e26bf87dac1521d1d2aee925dad768a759f882f3f00",
       "review_selection_sha256": "bf8f95a6522514e37e4c919586bd811e474b9021b556a07754f00fd6bf513913",
-      "suggested_sha256": "bf8f95a6522514e37e4c919586bd811e474b9021b556a07754f00fd6bf513913",
+      "suggested_sha256": "ea383715f92d4294c0a2113da6bc1268fae6566b91bca56bbf2bd6b25360240f",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/text-editor.svg",
       "critique": "The pencil ferrule and tip merge with the rules, so the writing tool reads as a stripe.",
       "preserve": "Ivory notepad, jade header and coral pencil.",
-      "proposal": "Give the pencil a distinct ferrule, wood tip and graphite point; leave clear room between it and the writing."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "bf8f95a6522514e37e4c919586bd811e474b9021b556a07754f00fd6bf513913",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 55,
@@ -1001,14 +1041,19 @@
       "priority": 56,
       "id": "video-player",
       "name": "Video Player",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "535a0017571658d81b965cdb5fe893730f2cbdc722ed8ba39583d7c778ef8cf5",
       "review_selection_sha256": "e977d7698490c52880fd5cd64147def9b1920d6da6167c5b1023bb301f0f2991",
-      "suggested_sha256": "e977d7698490c52880fd5cd64147def9b1920d6da6167c5b1023bb301f0f2991",
+      "suggested_sha256": "18c987e3d9190afc5c8d1d75f0997062ee2b64f17e35b1b719f2f7249c6e19bc",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/video-player.svg",
       "critique": "The clapper stripes share a flat uninterrupted rectangle, making the hinge and board hard to distinguish.",
       "preserve": "Blue clapperboard with ivory stripes and a play triangle.",
-      "proposal": "Open the top clapper slightly around a visible hinge and separate it from the board with quiet thickness."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "e977d7698490c52880fd5cd64147def9b1920d6da6167c5b1023bb301f0f2991",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 57,
@@ -1342,40 +1387,59 @@
       "priority": 81,
       "id": "calendar",
       "name": "Calendar",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "5a2882789bea33db3c2fa3b961fd152569a1ad98769c742165cdff2b7569c550",
       "review_selection_sha256": "2a145e82dc869013548ad5747502ad8810a88f7c45130364c479e82bc91386f6",
-      "suggested_sha256": "2a145e82dc869013548ad5747502ad8810a88f7c45130364c479e82bc91386f6",
+      "suggested_sha256": "bc1a9fe602a4e0bd5bc3d5ef4c6750a4b97c7bd3b334edd7236377404f97a773",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/calendar.svg",
       "critique": "Three stacked page edges and mixed binding highlights compete with the date.",
       "preserve": "Rose header, ivory page, jade page edge, two binding rings and outlined 31.",
-      "proposal": "Use one shallow page stack, consistent binding hardware and a cleaner date drawing."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "2a145e82dc869013548ad5747502ad8810a88f7c45130364c479e82bc91386f6",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 82,
       "id": "google-calendar",
       "name": "Google Calendar",
-      "decision": "Accepted",
+      "decision": "Blue Calendar variant",
       "before_sha256": "d559406842cd859a9900bb3951b443fc8b3aef6f3542241ceecb89910e08c0e6",
       "review_selection_sha256": "420279d851a67b8fc0982620dc64888c7c85fbb255b8a76bbad90e1e0b54317f",
-      "suggested_sha256": "420279d851a67b8fc0982620dc64888c7c85fbb255b8a76bbad90e1e0b54317f",
+      "suggested_sha256": "6ef993212e3ca698012accd9b60000f243756fbad9d781d1d673e294f59eb79f",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/google-calendar.svg",
       "critique": "The date is crowded against the curled corner and the binding differs from Calendar.",
       "preserve": "Blue header, ivory page, amber folded corner and 31.",
-      "proposal": "Use the same paper and binding construction as Calendar while preserving the blue header and amber corner."
+      "proposal": "Exact Calendar geometry and materials, changing only the rose header to blue.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "420279d851a67b8fc0982620dc64888c7c85fbb255b8a76bbad90e1e0b54317f",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      },
+      "object_revision": {
+        "previous_sha256": "98b352cf9d3b414f2e9f0f30dc52bbf78a44e78b58e3503da9d9db3b9a87989a",
+        "reason": "Exact Calendar geometry and materials, changing only the rose header to blue."
+      }
     },
     {
       "priority": 83,
       "id": "gmail",
       "name": "Gmail",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "4464a34c466e866a69e124ba7f898c398cb7a3ffcdb592a440cde2752aa8b828",
       "review_selection_sha256": "b8f1c081d3ca7d5a9ea045e7d4401203fb5a65f45fc2209165b558ed035f9942",
-      "suggested_sha256": "b8f1c081d3ca7d5a9ea045e7d4401203fb5a65f45fc2209165b558ed035f9942",
+      "suggested_sha256": "d560447ac755a4d64d9fa076a6b4e28d8a813668f53d0d627261871a83d8e8d5",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/gmail.svg",
       "critique": "The large pale lower panel has little paper structure, while the M fold has a soft doubled edge.",
       "preserve": "Gmail red M and folded ivory envelope.",
-      "proposal": "Keep the proposed paper construction and restore red using the existing Gmailtjik red pigment ramp."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "b8f1c081d3ca7d5a9ea045e7d4401203fb5a65f45fc2209165b558ed035f9942",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 84,

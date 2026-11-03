@@ -113,8 +113,8 @@
       "brave-dpjgkjccaekddppdhcjcahhloipkffle-Default",
       "tv.plex.PlexDesktop"
     ],
-    "geometry": "local/plex.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/plex.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 18
   },
@@ -204,8 +204,8 @@
       "com.transmissionbt.Transmission",
       "transmission-gtk"
     ],
-    "geometry": "local/transmission.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/transmission.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 13
   },
@@ -232,8 +232,8 @@
     "icon_names": [
       "gimp"
     ],
-    "geometry": "local/gimp.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/gimp.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 14
   },
@@ -301,8 +301,8 @@
     "icon_names": [
       "org.gnome.Nautilus"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/files.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/files.svg",
     "reviewed": true,
     "review_batch": 11,
     "review_note": "Accepted by user for 0.1.0-rc.11 on 2026-10-30. Wider style direction remains exploratory."
@@ -316,8 +316,8 @@
     "icon_names": [
       "org.gnome.Settings"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/settings.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/settings.svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -429,8 +429,8 @@
     "icon_names": [
       "blueman-device"
     ],
-    "geometry": "local/bluetooth-adapters.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/bluetooth-adapters.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 4
   },
@@ -457,8 +457,8 @@
     "icon_names": [
       "fcitx"
     ],
-    "geometry": "local/fcitx-5-configuration.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/fcitx-5-configuration.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 2
   },
@@ -485,8 +485,8 @@
     "icon_names": [
       "htop"
     ],
-    "geometry": "local/htop.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/htop.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -499,8 +499,8 @@
     "icon_names": [
       "input-keyboard"
     ],
-    "geometry": "local/keyboard-layout-viewer.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/keyboard-layout-viewer.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -513,8 +513,8 @@
     "icon_names": [
       "mpv"
     ],
-    "geometry": "local/mpv-media-player.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/mpv-media-player.svg",
+    "mode": "reviewed-svg",
     "reviewed": true
   },
   "lutris": {
@@ -580,8 +580,8 @@
     "icon_names": [
       "org.freedesktop.MalcontentControl"
     ],
-    "geometry": "local/parental-controls.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/parental-controls.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 9
   },
@@ -636,8 +636,8 @@
     "icon_names": [
       "org.gnome.Connections"
     ],
-    "geometry": "local/connections.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/connections.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -650,8 +650,8 @@
     "icon_names": [
       "org.gnome.Contacts"
     ],
-    "geometry": "local/contacts.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/contacts.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -664,8 +664,8 @@
     "icon_names": [
       "org.gnome.Decibels"
     ],
-    "geometry": "local/audio-player.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/audio-player.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 4
   },
@@ -678,8 +678,8 @@
     "icon_names": [
       "org.gnome.DiskUtility"
     ],
-    "geometry": "local/disks.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/disks.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 4,
     "review_note": "Accepted by user for 0.1.0-rc.11 on 2026-10-30. Wider style direction remains exploratory."
@@ -695,8 +695,8 @@
       "org.gnome.Evince",
       "org.gnome.Papers"
     ],
-    "geometry": "local/document-viewer.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/document-viewer.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 6
   },
@@ -709,8 +709,8 @@
     "icon_names": [
       "org.gnome.FileRoller"
     ],
-    "geometry": "local/file-roller.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/file-roller.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -723,8 +723,8 @@
     "icon_names": [
       "org.gnome.Logs"
     ],
-    "geometry": "local/logs.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/logs.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 12
   },
@@ -737,8 +737,8 @@
     "icon_names": [
       "org.gnome.Loupe"
     ],
-    "geometry": "local/image-viewer.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/image-viewer.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -751,8 +751,8 @@
     "icon_names": [
       "org.gnome.Maps"
     ],
-    "geometry": "local/maps.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/maps.svg",
+    "mode": "reviewed-svg",
     "reviewed": true
   },
   "video-player": {
@@ -764,8 +764,8 @@
     "icon_names": [
       "org.gnome.Showtime"
     ],
-    "geometry": "local/video-player.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/video-player.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 12
   },
@@ -778,8 +778,8 @@
     "icon_names": [
       "org.gnome.SimpleScan"
     ],
-    "geometry": "local/document-scanner.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/document-scanner.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 12
   },
@@ -804,8 +804,8 @@
     "icon_names": [
       "org.gnome.Software"
     ],
-    "geometry": "local/software.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/software.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -818,8 +818,8 @@
     "icon_names": [
       "org.gnome.Terminal"
     ],
-    "geometry": "local/terminal.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/terminal.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11,
     "review_note": "Accepted by user for 0.1.0-rc.11 on 2026-10-30. Wider style direction remains exploratory."
@@ -833,8 +833,8 @@
     "icon_names": [
       "org.gnome.TextEditor"
     ],
-    "geometry": "local/text-editor.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/text-editor.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 14
   },
@@ -847,8 +847,8 @@
     "icon_names": [
       "org.gnome.Tour"
     ],
-    "geometry": "upstream/tour-source.svg",
-    "mode": "illustration"
+    "geometry": "local/reviewed/tour.svg",
+    "mode": "reviewed-svg"
   },
   "weather": {
     "name": "Weather",
@@ -859,8 +859,8 @@
     "icon_names": [
       "org.gnome.Weather"
     ],
-    "geometry": "local/weather.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/weather.svg",
+    "mode": "reviewed-svg",
     "reviewed": true
   },
   "help": {
@@ -872,8 +872,8 @@
     "icon_names": [
       "org.gnome.Yelp"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/help.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/help.svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -886,8 +886,8 @@
     "icon_names": [
       "org.gnome.baobab"
     ],
-    "geometry": "local/disk-usage-analyzer.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/disk-usage-analyzer.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 9
   },
@@ -900,8 +900,8 @@
     "icon_names": [
       "org.gnome.clocks"
     ],
-    "geometry": "local/clocks.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/clocks.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 2
   },
@@ -914,8 +914,8 @@
     "icon_names": [
       "org.gnome.eog"
     ],
-    "geometry": "local/eye-of-gnome.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/eye-of-gnome.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -942,8 +942,8 @@
     "icon_names": [
       "org.gnome.gthumb"
     ],
-    "geometry": "local/thumbnails.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/thumbnails.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -956,8 +956,8 @@
     "icon_names": [
       "org.gnome.tweaks"
     ],
-    "geometry": "local/tweaks.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/tweaks.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 12
   },
@@ -970,8 +970,8 @@
     "icon_names": [
       "org.pulseaudio.pavucontrol"
     ],
-    "geometry": "local/volume-control.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/volume-control.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 10
   },
@@ -999,8 +999,8 @@
     "icon_names": [
       "scrcpy"
     ],
-    "geometry": "local/scrcpy.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/scrcpy.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 12
   },
@@ -1052,8 +1052,8 @@
     "icon_names": [
       "com.github.tchx84.Flatseal"
     ],
-    "geometry": "upstream/flatseal-source.svg",
-    "mode": "illustration"
+    "geometry": "local/reviewed/flatseal.svg",
+    "mode": "reviewed-svg"
   },
   "obs-studio": {
     "name": "OBS Studio",
@@ -1078,8 +1078,8 @@
     "icon_names": [
       "org.gnome.seahorse.Application"
     ],
-    "geometry": "local/passwords-and-keys.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/passwords-and-keys.svg",
+    "mode": "reviewed-svg",
     "reviewed": true
   },
   "yuzu": {
@@ -1103,8 +1103,8 @@
     "icon_names": [
       "rocks.koreader.KOReader"
     ],
-    "geometry": "upstream/koreader-source.svg",
-    "mode": "illustration"
+    "geometry": "local/reviewed/koreader.svg",
+    "mode": "reviewed-svg"
   },
   "zoom": {
     "name": "Zoom",
@@ -1159,8 +1159,8 @@
     "icon_names": [
       "herdr"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/herdr.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/herdr.svg",
     "reviewed": true,
     "review_batch": 5
   },
@@ -1171,8 +1171,8 @@
     "icon_names": [
       "llmtrim"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/llmtrim.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/llmtrim.svg",
     "reviewed": true,
     "review_batch": 3
   },
@@ -1233,8 +1233,8 @@
     "icon_names": [
       "snapraid"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/snapraid.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/snapraid.svg",
     "reviewed": true,
     "review_batch": 3
   },
@@ -1245,8 +1245,8 @@
     "icon_names": [
       "tippecanoe"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/tippecanoe.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/tippecanoe.svg",
     "reviewed": true,
     "review_batch": 14
   },
@@ -1257,8 +1257,8 @@
     "icon_names": [
       "power"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/power.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/power.svg",
     "reviewed": true,
     "review_batch": 3
   },
@@ -1463,8 +1463,8 @@
     "icon_names": [
       "gitfetch"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/gitfetch.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/gitfetch.svg",
     "reviewed": true,
     "review_note": "Included and approved for rc.10 by the user release instruction on 2026-10-29."
   },

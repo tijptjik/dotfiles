@@ -1,15 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" data-material="authored">
-<g id="frameless-artwork" transform="translate(-3.286157 -3.286157) scale(1.102692)"><title>lidarr</title>
-<defs><linearGradient id="glass" gradientUnits="userSpaceOnUse" x1="0" y1="10" x2="13" y2="54"><stop stop-color="#56879b" /><stop offset="1" stop-color="#304d66" /></linearGradient><linearGradient id="jade" gradientUnits="userSpaceOnUse" x1="28" y1="14" x2="38" y2="49"><stop stop-color="#a4dfc1" /><stop offset="1" stop-color="#57b7a5" /></linearGradient></defs>
-<g stroke-linecap="round" stroke-linejoin="round">
-<circle cx="32" cy="32" r="24" fill="#8da7b9" />
-<circle cx="32" cy="32" r="21.8" fill="url(#glass)" />
-<circle cx="32" cy="32" r="16" fill="none" stroke="#9bc4cc" stroke-width="1.05" />
-<path d="M32 13v38M13 32h38" fill="none" stroke="#88aebb" stroke-width="1.05" />
-<path d="m33 12-2 20H17Z" fill="url(#jade)" />
-<path d="m31 52 2-20h14Z" fill="url(#jade)" />
-<path d="m33 12-2 20H17m14 20 2-20h14" fill="none" stroke="#c0edda" stroke-width="1.05" />
-<circle cx="32" cy="32" r="8.5" fill="#79ccb7" />
-<circle cx="32" cy="32" r="2.5" fill="#304d66" />
-</g>
-</g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<title>Lidarr — proposed Rose Punk refinement</title><desc>Lidarr’s opposing blades, record and centre hub. Make the vinyl record dominant; remove the crosshair grid and retain two quiet grooves. Review selection; source attribution accompanies the bundle.</desc><g id="frameless-artwork" transform="translate(-0.571670 -0.571670) scale(1.017865)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#b94e87" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#b39bd9" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9c3f2" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#71385f" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="s-paper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#fff0da" /><stop offset="1" stop-color="#d7cbd3" /></linearGradient><linearGradient id="s-jade" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#88cdb9" /><stop offset="1" stop-color="#44878c" /></linearGradient><linearGradient id="s-blue" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#9ab8d8" /><stop offset="1" stop-color="#5d74a5" /></linearGradient><linearGradient id="s-violet" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#b3a1d9" /><stop offset="1" stop-color="#8274a9" /></linearGradient><linearGradient id="s-rose" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#eca2bc" /><stop offset="1" stop-color="#b66696" /></linearGradient><linearGradient id="s-copper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#efbd78" /><stop offset="1" stop-color="#c58162" /></linearGradient><linearGradient id="s-steel" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#cbd9d9" /><stop offset="1" stop-color="#8298b0" /></linearGradient><linearGradient id="s-coral" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#ef9b83" /><stop offset="1" stop-color="#cc697c" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="26" fill="#8298b0" /><circle cx="32" cy="32" r="23" fill="#34304f" /><circle cx="32" cy="32" r="19" fill="none" stroke="#58657e" stroke-width="1" /><circle cx="32" cy="32" r="13" fill="none" stroke="#58657e" stroke-width="1" /><path d="M34 10C34 22 23 23 18 28L25 33Q30 26 34 10Z" fill="#65b9c8" /><path d="M30 54C30 42 41 41 46 36L39 31Q34 38 30 54Z" fill="#46b6a2" /><circle cx="32" cy="32" r="7.5" fill="#65b9c8" /><circle cx="32" cy="32" r="3" fill="#34304f" /></g></g></svg>

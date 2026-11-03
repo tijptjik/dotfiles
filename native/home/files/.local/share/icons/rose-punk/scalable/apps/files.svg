@@ -1,25 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<g id="frameless-artwork" transform="translate(-4.292397 -5.426535) scale(1.134137)"><defs>
- <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
- <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
- <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
+<title>Files — proposed Rose Punk refinement</title><desc>Warm tabbed folder with ivory papers and a front label. Use two paper sheets, one label and a single shallow lower/right fold. Second-batch review selection; source attribution accompanies the bundle.</desc><g id="frameless-artwork" transform="translate(-1.038011 -3.296469) scale(1.032438)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#b94e87" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#b39bd9" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9c3f2" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#71385f" /></linearGradient>
 </defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><title>files</title><desc>Near-frontal construction study. Shallow right and lower depth; upper-left illumination; material-specific surfaces.</desc><defs><linearGradient id="card" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#ffd17b" /><stop offset="1" stop-color="#efaa58" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round">
-
-<path d="M9 22v-7q0-2 2-2h15l6 7h19q3 0 3 3v29H9Z" fill="#d8915d" stroke="#8c6170" stroke-width=".85" />
-<path d="M10 22v-6q0-2 2-2h13l6 7h20l2 2Z" fill="#ffe0a0" />
-<path d="M12 24h39v24H12Z" fill="#886c9e" />
-
-<path d="M16 19h28l5 5v24H16Z" fill="#c8b7e1" />
-<path d="m44 19 5 5h-5Z" fill="#9e85bc" />
-<path d="M13 24h34v25H13Z" fill="#fff1d8" />
-<path d="M18 28h23m-23 4h16" stroke="#d2bfc4" stroke-width="1.1" />
-
-<path d="M8 31h45l3 2-4 20H12Z" fill="#bb785e" stroke="#8c6170" stroke-width=".85" />
-<path d="M8 31h45l-4 22H12Z" fill="url(#card)" />
-<path d="M9 31.5h43" stroke="#ffe7b0" stroke-width="1.1" />
-<path d="m53 32-2 9 3-7-3 17" fill="none" stroke="#955f66" stroke-width=".9" />
-
-<path d="M17 35h17v6H17Z" fill="#c38a65" /><path d="M17 34h17v6H17Z" fill="#fff0d9" />
-<path d="M20 37h10" stroke="#ba8b87" stroke-width="1" />
-</g></g></svg>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="s-paper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#fff0da" /><stop offset="1" stop-color="#d7cbd3" /></linearGradient><linearGradient id="s-jade" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#88cdb9" /><stop offset="1" stop-color="#44878c" /></linearGradient><linearGradient id="s-blue" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#9ab8d8" /><stop offset="1" stop-color="#5d74a5" /></linearGradient><linearGradient id="s-violet" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#b3a1d9" /><stop offset="1" stop-color="#8274a9" /></linearGradient><linearGradient id="s-rose" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#eca2bc" /><stop offset="1" stop-color="#b66696" /></linearGradient><linearGradient id="s-copper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#f0c582" /><stop offset="1" stop-color="#d59965" /></linearGradient><linearGradient id="s-steel" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#cbd9d9" /><stop offset="1" stop-color="#8298b0" /></linearGradient><linearGradient id="s-coral" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#ef9b83" /><stop offset="1" stop-color="#cc697c" /></linearGradient><linearGradient id="screen-glass" gradientUnits="userSpaceOnUse" x1="32" y1="10" x2="32" y2="45"><stop stop-color="#42516c" /><stop offset="1" stop-color="#29283e" /></linearGradient>
+<linearGradient id="rubber-handle" gradientUnits="userSpaceOnUse" x1="32" y1="8" x2="32" y2="24"><stop stop-color="#ee9c91" /><stop offset=".45" stop-color="#e87f8d" /><stop offset="1" stop-color="#b85c7b" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15Q7 12 10 12H24L29 17H54Q57 17 57 20V53H7Z" fill="#b58268" /><path d="M12 17H47V44H12Z" fill="url(#s-paper)" stroke="#8b8392" stroke-width="0.6" /><path d="M18 20H51V46H18Z" fill="#f6e6cd" stroke="#8b8392" stroke-width="0.6" /><path d="M6 26H58L54 56H10Z" fill="url(#s-copper)" stroke="#ac785f" stroke-width="0.65" /><path d="M54 29H58L54 56H10L10 53H52Z" fill="#bc8063" /><rect x="17" y="31" width="28" height="8" rx="1" fill="#fff0da" /><path d="M22 35H39" fill="none" stroke="#9d7669" stroke-width="1.2" /></g></g></svg>

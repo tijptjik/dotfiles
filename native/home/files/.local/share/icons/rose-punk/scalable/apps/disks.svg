@@ -1,29 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<g id="frameless-artwork" transform="translate(0.233235 0.233235) scale(1.008469)"><defs>
- <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
- <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
- <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
+<title>Disks — proposed Rose Punk refinement</title><desc>An exposed hard drive with platter, actuator and connector. Use restrained steel planes and a narrow copper actuator; reserve rings for machined parts. Review selection; source attribution accompanies the bundle.</desc><g id="frameless-artwork" transform="translate(-0.912915 -0.912915) scale(1.028529)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#b94e87" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#b39bd9" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9c3f2" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#71385f" /></linearGradient>
 </defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><title>disks</title><desc>Near-frontal construction study. Shallow right and lower depth; upper-left illumination; material-specific surfaces.</desc><defs>
-<linearGradient id="housing" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#cab5e3" /><stop offset=".5" stop-color="#a991ce" /><stop offset="1" stop-color="#8b79b9" /></linearGradient>
-<linearGradient id="platter" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f2e8ed" /><stop offset=".25" stop-color="#c5cbe4" /><stop offset=".48" stop-color="#8d9fce" /><stop offset=".65" stop-color="#d5dcec" /><stop offset="1" stop-color="#8b9aca" /></linearGradient>
-<linearGradient id="arm" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe2b4" /><stop offset="1" stop-color="#d19180" /></linearGradient>
-</defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round">
-
-<rect x="12" y="9" width="41" height="47" rx="3" fill="#70608d" stroke="#5f4d71" stroke-width=".85" />
-<rect x="10" y="7" width="41" height="47" rx="3" fill="url(#housing)" stroke="#756084" stroke-width=".85" />
-<path d="M14 8h33" stroke="#e4d4ee" stroke-width="1" />
-<path d="M15 12h30q2 0 2 2v32H14V14Z" fill="#554663" />
-
-<circle cx="29" cy="29" r="13.5" fill="#31344e" />
-<circle cx="29" cy="28" r="13" fill="url(#platter)" />
-<circle cx="29" cy="28" r="10.5" fill="none" stroke="#dde0ef" stroke-width=".55" />
-<circle cx="29" cy="28" r="5" fill="#7e80ab" /><circle cx="29" cy="28" r="3.6" fill="#d9c9df" /><circle cx="29" cy="28" r="1.5" fill="#65557d" />
-
-<path d="M44 17 43 37 33 32l1-3 6 3 1-15Z" fill="#865b76" />
-<path d="M43 16 42 35 33 30l1-2 6 3 1-15Z" fill="url(#arm)" />
-<circle cx="42" cy="17" r="3" fill="#c1908d" /><circle cx="42" cy="17" r="1.8" fill="#fce1b9" />
-
-<g fill="#756080"><circle cx="14" cy="11" r="1" /><circle cx="47" cy="11" r="1" /><circle cx="14" cy="49" r="1" /><circle cx="47" cy="49" r="1" /></g>
-<path d="M22 49h18v5H22Z" fill="#51405f" /><path d="M25 50v3m4-3v3m4-3v3m4-3v3" stroke="#e9b182" stroke-width="1.2" />
-</g></g></svg>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="s-paper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#fff0da" /><stop offset="1" stop-color="#d7cbd3" /></linearGradient><linearGradient id="s-jade" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#88cdb9" /><stop offset="1" stop-color="#44878c" /></linearGradient><linearGradient id="s-blue" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#9ab8d8" /><stop offset="1" stop-color="#5d74a5" /></linearGradient><linearGradient id="s-violet" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#b3a1d9" /><stop offset="1" stop-color="#8274a9" /></linearGradient><linearGradient id="s-rose" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#eca2bc" /><stop offset="1" stop-color="#b66696" /></linearGradient><linearGradient id="s-copper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#efbd78" /><stop offset="1" stop-color="#c58162" /></linearGradient><linearGradient id="s-steel" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#cbd9d9" /><stop offset="1" stop-color="#8298b0" /></linearGradient><linearGradient id="s-coral" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#ef9b83" /><stop offset="1" stop-color="#cc697c" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><rect x="11" y="7" width="42" height="50" rx="5" fill="url(#s-steel)" /><path d="M48 9Q53 9 53 14V52Q53 57 48 57H16V54H48Z" fill="#6d7f9c" /><circle cx="31" cy="29" r="15.5" fill="#596981" /><defs><linearGradient id="machined-platter" gradientUnits="userSpaceOnUse" x1="20" y1="16" x2="42" y2="41"><stop stop-color="#a8bdca" /><stop offset=".4" stop-color="#dce3dd" /><stop offset="1" stop-color="#91a9bd" /></linearGradient></defs><circle cx="31" cy="29" r="13.7" fill="url(#machined-platter)" /><circle cx="31" cy="29" r="11.5" fill="none" stroke="#d2dedb" stroke-width="0.6" /><circle cx="31" cy="29" r="9" fill="none" stroke="#95abbc" stroke-width="1" /><circle cx="31" cy="29" r="4.7" fill="#34304f" /><circle cx="31" cy="29" r="2.5" fill="#bbcbd2" /><path d="M45 15 48 17 40 37 32 40 29 36 37 33Z" fill="url(#s-copper)" stroke="#34304f" stroke-width="0.65" /><circle cx="45.5" cy="17.5" r="2.1" fill="#e5d8c6" /><rect x="21" y="49" width="22" height="7" rx="1" fill="#34304f" /><rect x="23" y="50" width="2" height="5" rx="0.4" fill="#e6ae62" /><rect x="28" y="50" width="2" height="5" rx="0.4" fill="#e6ae62" /><rect x="33" y="50" width="2" height="5" rx="0.4" fill="#e6ae62" /><rect x="38" y="50" width="2" height="5" rx="0.4" fill="#e6ae62" /><circle cx="15" cy="12" r="1" fill="#657894" /><circle cx="48" cy="51" r="1" fill="#cbd9d9" /><circle cx="15" cy="52" r="1" fill="#657894" /><circle cx="48" cy="12" r="1" fill="#657894" /></g></g></svg>

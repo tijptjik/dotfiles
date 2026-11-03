@@ -1,40 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<g id="frameless-artwork" transform="translate(-3.396226 -2.339623) scale(1.056604)"><defs>
- <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
- <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
- <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
+<title>Gitfetch — proposed Rose Punk refinement</title><desc>Violet repository tray, copper Git branch and incoming mint arrow. Use one clearly readable commit card, an open dark tray and one solid downward arrow. Second-batch review selection; source attribution accompanies the bundle.</desc><g id="frameless-artwork" transform="translate(-2.147106 -1.947025) scale(1.067097)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#b94e87" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#b39bd9" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9c3f2" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#71385f" /></linearGradient>
 </defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><title>Gitfetch</title>
-<desc>A violet repository inbox holding ivory commit cards, with a copper branch and an incoming mint arrow.</desc>
-<g data-material="authored" stroke-linejoin="round" stroke-linecap="round">
-<defs>
-  <linearGradient id="repo-front" x1="9" y1="34" x2="30" y2="58" gradientUnits="userSpaceOnUse"><stop stop-color="#ad94d1" /><stop offset="1" stop-color="#8065b1" /></linearGradient>
-  <linearGradient id="repo-paper" x1="18" y1="17" x2="30" y2="43" gradientUnits="userSpaceOnUse"><stop stop-color="#fff0da" /><stop offset="1" stop-color="#e7d4d9" /></linearGradient>
-  <linearGradient id="fetch-mint" x1="43" y1="7" x2="51" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#76d8c1" /><stop offset="1" stop-color="#3ba69d" /></linearGradient>
-</defs>
-
-<path d="m8 32 28-14 21 12v15L28 59 8 47Z" fill="#67518f" />
-<path d="m8 32 28-14 21 12-29 15Z" fill="#b39bd9" />
-<path d="m12 32 24-11 17 9-25 12Z" fill="#453b68" />
-
-<path d="m13 28 4-14 24 3-4 23-24-3Z" fill="#af9cc7" />
-<path d="m15 25 5-14 23 5-5 24-24-5Z" fill="#f0e5ef" />
-<path d="m15 22 7-11 22 10-10 24-22-10Z" fill="#c3aecb" />
-<path d="m12 22 11-11 21 11-11 24-21-11Z" fill="url(#repo-paper)" />
-<path d="m12 22 11 5 10 19-21-11Z" fill="#f8e8d6" />
-
-<path d="m23 23-5 12m3-7c6 3 7 2 10-4" fill="none" stroke="#c46e59" stroke-width="2.8" />
-<g fill="#e7a466"><circle cx="23" cy="23" r="2.6" /><circle cx="18" cy="35" r="2.6" /><circle cx="31" cy="24" r="2.6" /></g>
-
-<path d="M44 7h8v13h7L47 34 35 20h9Z" fill="#328c8e" />
-<path d="M42 6h8v13h7L45 32 33 19h9Z" fill="url(#fetch-mint)" />
-<path d="M42 6h8l2 1h-8Z" fill="#b0e9ce" />
-
-<path d="m8 32 20 11 29-13v15L28 59 8 47Z" fill="url(#repo-front)" />
-<path d="m28 43 29-13v15L28 59Z" fill="#70539e" />
-<path d="m8 32 20 11v4L8 36Z" fill="#c3a9e0" />
-<path d="m28 43 29-13v4L28 47Z" fill="#9978c4" />
-<path d="m14 40 8 4v5l-8-4Z" fill="#f1bad0" />
-<path d="m16 43 4 2" stroke="#aa668e" stroke-width="1" />
-<path d="m33 49 17-8" stroke="#b49bd3" stroke-width="1.1" />
-</g></g></svg>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="s-paper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#fff0da" /><stop offset="1" stop-color="#d7cbd3" /></linearGradient><linearGradient id="s-jade" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#88cdb9" /><stop offset="1" stop-color="#44878c" /></linearGradient><linearGradient id="s-blue" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#9ab8d8" /><stop offset="1" stop-color="#5d74a5" /></linearGradient><linearGradient id="s-violet" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#b3a1d9" /><stop offset="1" stop-color="#8274a9" /></linearGradient><linearGradient id="s-rose" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#eca2bc" /><stop offset="1" stop-color="#b66696" /></linearGradient><linearGradient id="s-copper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#f0c582" /><stop offset="1" stop-color="#d59965" /></linearGradient><linearGradient id="s-steel" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#cbd9d9" /><stop offset="1" stop-color="#8298b0" /></linearGradient><linearGradient id="s-coral" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#ef9b83" /><stop offset="1" stop-color="#cc697c" /></linearGradient><linearGradient id="screen-glass" gradientUnits="userSpaceOnUse" x1="32" y1="10" x2="32" y2="45"><stop stop-color="#42516c" /><stop offset="1" stop-color="#29283e" /></linearGradient>
+<linearGradient id="rubber-handle" gradientUnits="userSpaceOnUse" x1="32" y1="8" x2="32" y2="24"><stop stop-color="#ee9c91" /><stop offset=".45" stop-color="#e87f8d" /><stop offset="1" stop-color="#b85c7b" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><path d="M7 33 32 22 57 33V47L32 58 7 47Z" fill="#74618f" /><path d="M10 33 32 24 54 33 32 43Z" fill="#34304f" /><g transform="rotate(-10 28 27)"><rect x="15" y="10" width="25" height="33" rx="1" fill="#c2b4ca" /><rect x="12" y="8" width="25" height="32" rx="1" fill="url(#s-paper)" /><path d="M20 16V32M20 24Q30 25 30 17" fill="none" stroke="#bb745f" stroke-width="2.4" /><circle cx="20" cy="16" r="2.4" fill="#e6ae62" /><circle cx="20" cy="32" r="2.4" fill="#e6ae62" /><circle cx="30" cy="17" r="2.4" fill="#e6ae62" /></g><path d="M43 6H50V23H56L46.5 33 37 23H43Z" fill="url(#s-jade)" stroke="#478b8a" stroke-width="0.6" /><path d="M7 33 32 44V58L7 47Z" fill="url(#s-violet)" /><path d="M32 44 57 33V47L32 58Z" fill="#8271a6" /><path d="M14 40 24 44V48L14 44Z" fill="#e2d6df" /></g></g></svg>

@@ -33,7 +33,7 @@ class ReviewedSelectionTests(unittest.TestCase):
                 if key in catalog and catalog[key]['mode'] == 'reviewed-svg':
                     self.assertEqual((HERE / catalog[key]['geometry']).read_bytes(), expected)
 
-    def test_protected_originals_and_configuration_identity(self):
+    def test_protected_originals_and_system_identity(self):
         selection = json.loads((HERE / 'review-selections.json').read_text())
         byid = {i['id']: i for i in selection['icons']}
         protected = {
@@ -57,7 +57,8 @@ class ReviewedSelectionTests(unittest.TestCase):
                 original = paths(HERE / 'local' / f'{key}.svg')
                 revised = paths(HERE / 'local/reviewed' / f'{key}.svg')
                 self.assertFalse(original - revised)
-        self.assertEqual(set(selection['groups']['configuration']), {'chezmoi', 'chezetc'})
+        self.assertNotIn('configuration', selection['groups'])
+        self.assertTrue({'chezmoi', 'chezetc'} <= set(selection['groups']['system-hardware']))
         self.assertFalse({'chezmoi', 'chezetc', 'dotjik', 'systjik'} &
                          set(selection['groups']['tjik-family']))
         catalog = json.loads((HERE / 'catalog.json').read_text())

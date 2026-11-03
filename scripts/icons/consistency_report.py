@@ -30,31 +30,24 @@ def write_report(out, selection, metrics):
         bounds[item['id']] = measured
     font = ImageFont.truetype('DejaVuSans.ttf', 14)
     head = ImageFont.truetype('DejaVuSans.ttf', 21)
-    evidence = Image.new('RGB', (1160, 700), '#191724')
+    checkpoints = ['herdr', 'disks', 'flatseal', 'file-roller',
+                   'contacts', 'files', 'google-calendar', 'camera']
+    evidence = Image.new('RGB', (1160, 90 + 120 * len(checkpoints)), '#191724')
     draw = ImageDraw.Draw(evidence)
-    draw.text((20, 15), 'Final contour corrections / previous selection and final', font=head, fill='#fff0da')
-    draw.text((20, 48), 'Native 24 / 32 / 64 px. Stronger contours with a small uniform margin adjustment; paths and pigments retained.', font=font, fill='#fff0da')
-    for row, (key, old, new) in enumerate([
-            ('strata', 'stroke-width="5.5"', 'stroke-width="11"'),
-            ('flatseal', 'stroke-width:1.5;', 'stroke-width:3;')]):
-        after = (ROOT / byid[key]['output']).read_text()
-        before = after
-        for change in byid[key]['final_refinement']:
-            before = before.replace(change['after'], change['before'])
-        assert hashlib.sha256(before.encode()).hexdigest() == byid[key]['review_selection_sha256']
-        y = 90 + row * 300
+    draw.text((20, 15), 'Style checkpoints / current artwork', font=head, fill='#fff0da')
+    draw.text((20, 48), 'Native 24 / 32 / 64 px. Camera is the unchanged material reference.', font=font, fill='#fff0da')
+    for row, key in enumerate(checkpoints):
+        svg = (ROOT / byid[key]['output']).read_text()
+        y = 90 + row * 120
         for col, (surface, bg) in enumerate(SURFACES.items()):
             x = col * 290
             ink = '#34304f' if surface in ('ivory', 'white') else '#fff0da'
-            draw.rectangle((x, y, x + 289, y + 299), fill=bg)
-            draw.text((x + 12, y + 12), f'{byid[key]["name"]} / {surface}', font=font, fill=ink)
-            for j, (label, svg) in enumerate([('Previous', before), ('Final', after)]):
-                yy = y + 65 + j * 115
-                draw.text((x + 12, yy), label, font=font, fill=ink)
-                for size, dx in [(24, 15), (32, 65), (64, 140)]:
-                    image = render(svg, size)
-                    evidence.paste(image, (x + dx, yy + 25 + (64 - size) // 2), image)
-    evidence.save(out / 'contour-corrections.png')
+            draw.rectangle((x, y, x + 289, y + 119), fill=bg)
+            draw.text((x + 12, y + 8), f'{byid[key]["name"]} / {surface}', font=font, fill=ink)
+            for size, dx in [(24, 15), (32, 65), (64, 140)]:
+                image = render(svg, size)
+                evidence.paste(image, (x + dx, y + 42 + (64 - size) // 2), image)
+    evidence.save(out / 'style-checkpoints.png')
 
     # Review the existing optical layouts without recording release sign-off.
     policy = framed.load_layout()
@@ -86,14 +79,18 @@ def write_report(out, selection, metrics):
     }
     (out / 'verification.json').write_text(json.dumps(verification, indent=2) + '\n')
     report = {
-        'result': 'The accepted set is integrated. Both outstanding contour issues are corrected.',
+        'result': 'The construction critique is implemented: the newer key design retained with the ring threaded through both holes, restrained tape and dial surfaces, simpler hardware and more legible small marks.',
         'resolved': [
-            'Strata: existing ivory-face contour widened from 5.5 to 11 source units; ribbons, negative spaces and pigments retained; uniform sizing restores the four-unit margin.',
-            'Flatseal: existing reel contour widened from 1.5 to 3 source units; upstream reel, aperture and tape end retained; uniform sizing restores the four-unit margin.',
-            'Chezmoi and Chezetc: canonical names and cyan/red house identities, grouped under configuration rather than Tjik. Old lookups remain aliases.',
+            'Fish shell: approved flat jade silhouette with a mint contour and a dark chevron fin, paired with unchanged Kitty. No eye or gradients.',
+            'Craft: brighter warm ivory, cool side shading and filled colour boundaries. Facial marks, stripes and drafting guides remain; all existing geometry is preserved.',
+            'Herdr: three clean agent panes in the terminal shell; tiny pane symbols removed.',
+            'The newer gold and jade key geometry stays unchanged; the ring passes behind the upper heads and emerges through both holes along its foreground lower arc. Flatseal keeps an ivory tape face and jade sides with only two faint winding lines. The rotary dial has a light face with colour in its rim and arcs.',
+            'The keyboard has quieter cap spacing; File Roller has simplified teeth, a coherent slider and an open pull. Contacts uses a direct ivory portrait. Files loses redundant gusset lines. Disks is retained.',
+            'Google Calendar: exact Calendar geometry and materials, with only the rose header pigments changed to blue.',
+            'Ephemera is in Brand Marks - Open. Gmail, Bun, Brave and the three Zed channels are in Brand Marks - Solid. Video Player is in Media. Craft contains all 15 Craft identities; categories allow multiple memberships.',
         ],
         'preserved': [
-            'All 31 retained originals are byte-exact, including Camera, FilmCraft owl, the requested old designs and Signal.',
+            f'{len(retained)} retained originals are byte-exact, including Camera and Signal. Craft animal geometry is preserved; the latest family pass brightens ivory and removes enclosing outlines.',
             'Gmail retains the restored red ramp; Volume Control retains its concentric arc; Disk Usage Analyzer shares Disks construction.',
             'Tjik applications keep their shared shell, while Bartjik stays circular. Animals keep individual proportions and silhouettes.',
             'Existing framed scales and offsets all fit the new artwork. Framed previews derive from the same originals.',
@@ -110,16 +107,16 @@ def write_report(out, selection, metrics):
     html += '<p>167 icons at 24, 32, 48, 64 and 96 px on dark, plum, ivory and white.</p><p><a href="index.html">Explore all icons by size, surface and family</a> · <a href="review.zip">Download the review</a> · <a href="verification.json">Verification record</a></p>'
     for label, key in [('Resolved', 'resolved'), ('Preserved', 'preserved'), ('Review limits', 'limits')]:
         html += '<h2>' + label + '</h2><ul>' + ''.join('<li>' + escape(x) + '</li>' for x in report[key]) + '</ul>'
-    html += '<h2>Contour comparison</h2><img src="contour-corrections.png" alt="Previous and final Strata and Flatseal at native sizes on four surfaces">'
+    html += '<h2>Style checkpoints</h2><img src="style-checkpoints.png" alt="Current object and terminal redesigns with the unchanged Camera reference">'
     html += '<h2>Families</h2><ul>'
     for group in selection['groups']:
-        html += '<li>' + escape(group.replace('-', ' ')) + ': ' + ' · '.join(f'<a href="family-{group}-{s}.png">{s}</a>' for s in SURFACES) + '</li>'
+        html += '<li>' + escape(selection.get('group_labels', {}).get(group, group)) + ': ' + ' · '.join(f'<a href="family-{group}-{s}.png">{s}</a>' for s in SURFACES) + '</li>'
     html += '</ul><h2>Derived framed fit</h2><p>Existing transforms retained; minimum tile clearance ' + f'{min(margins.values()):.2f}' + ' units. These are review previews, not a newly approved framed release.</p><ul>'
     for surface in ('dark', 'ivory'):
         html += '<li>' + surface + ': ' + ' · '.join(f'<a href="framed-{surface}-{p}.png">page {p}</a>' for p in range(1, 5)) + '</li>'
     html += '</ul></html>'
     (out / 'report.html').write_text(html)
-    names = ['index.html', 'report.html', 'report.json', 'manifest.json', 'metrics.json', 'verification.json', 'contour-corrections.png']
+    names = ['index.html', 'report.html', 'report.json', 'manifest.json', 'metrics.json', 'verification.json', 'style-checkpoints.png']
     names += [p.name for pattern in ('catalog-*.png', 'family-*.png', 'framed-*.png') for p in sorted(out.glob(pattern))]
     with zipfile.ZipFile(out / 'review.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
         for name in names:

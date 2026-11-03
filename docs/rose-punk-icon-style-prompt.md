@@ -103,17 +103,32 @@ them back when making a new study. Their sources remain historical inputs.
 Accepted normalized revisions live in `local/reviewed/*.svg` with the
 `reviewed-svg` build mode: verify provenance and preserve their exact bytes,
 without another shading or sizing pass. `review-selections.json` records all
-167 final decisions, including the 31 unchanged originals. Chezmoi and Chezetc
-share cyan/red house geometry in the configuration family, outside Tjik.
+167 final decisions, including the 24 unchanged originals. Chezmoi and Chezetc
+share cyan/red house geometry in System and hardware, outside Tjik.
 Codex uses the attributed Lobe Icons vector in `upstream/codex-lobe.svg`.
+
+Review numbering follows `display_sections` in `review-selections.json`: TjikOS
+comes first, with Greetjik at number 1, Gmailtjik second-last and Mailtjik last.
+Terminal Apps, Brand Marks - Solid and Brand Marks - Open follow, then Starfix
+and Craft, then Everyday desktop, System and hardware, Media and graphics,
+and Developer tools. Starfix tags the media and
+library service suite; icons already shown as brand marks are not repeated
+in the full review.
+`original_review_number` retains earlier batch references; provenance review
+numbers remain historical. Category tags overlap and follow the current order.
+Fish shell follows Kitty in Terminal Apps. Its approved icon shares Kitty’s
+flat treatment: a jade fish silhouette, mint contour and one dark chevron fin.
+Keep it free of eyes, separate fins and gradients. Within Craft, the Adobe-style
+creative apps precede WordCraft, DeckCraft and GridCraft; FigCraft, CADCraft
+and Craft Anything follow the office-style group.
 
 ## Google family, Herdr and Brave
 
 Interpret Google products as filled objects and forms in the shared palette:
 Gmail's folded envelope, Calendar's bound page, Photos' four-petal pinwheel and
 Chrome's interlocking blades with a blue glass centre. Keep distinguishing
-geometry and warm/cool colour separation at small sizes. Herdr is a solid
-timber fence with painted rails. Brave's original lion paths use copper/ochre
+geometry and warm/cool colour separation at small sizes. Herdr uses the terminal family shell with a proposed three-pane agent-runtime
+mark, based on its persistent terminals and pane status. Brave's original lion paths use copper/ochre
 pigment and an ivory face; avoid pale pink-on-white that washes out the mark.
 
 ## Material consistency pass
@@ -133,8 +148,14 @@ to match the number of details in Camera.
 ## ArtCraft family consistency
 
 FilmCraft's cleaned owl is the user-selected geometry and shading reference for
-the fifteen Craft apps. Keep that SVG unchanged when refining its siblings;
-the frozen camera remains the overall Rose Punk material reference.
+the fifteen Craft apps. Preserve its geometry and shading structure; the family
+finish pass brightens its facial ivory together with its siblings. The frozen
+camera remains the unchanged overall Rose Punk material reference.
+
+Craft whites use bright warm ivory `#fffaf2`, with restrained cool side shading
+where pale forms meet a light canvas. Avoid enclosing contour strokes: use
+filled colour boundaries and physical edge thickness. Retain functional lines
+such as mouths, drafting guides, grid divisions and feather marks.
 
 Use continuous filled contours, balanced curves and deliberate negative spaces.
 Keep bilateral features aligned where the subject is frontal; preserve the
@@ -175,3 +196,46 @@ trace; Vivid uses a finer branching color tree. Preserve individual application
 marks within that shared shell rather than replacing them with a generic prompt.
 Sun-yellow is recorded as `pigments.sun-yellow` in `palette.json`; protect it
 with ink when the identity otherwise disappears against light backgrounds.
+
+## Freshness and edge consistency
+
+Use `#fff0da` for the functional foreground marks in Mailtjik, Gmailtjik,
+Synctjik, Runtjik, Notjik and Tjikup. Bartjik keeps its deliberately blush
+centre. Paper uses a lighter warm highlight (`#fff8ec`) and a shallow warm
+shadow (`#f8ecda`); avoid grey-violet shading across the main paper face.
+Metal can use cool blue highlights. These material highlights are distinct
+from the shared foreground ivory. Keep shadows coloured and supporting
+surfaces quiet; preserve Camera as the unchanged material reference.
+
+Simple logos follow the majority filled-silhouette treatment. Avoid added
+hairline outlines and offset shadow copies; preserve borders and dark
+backings that belong to an identity, including the Zed channel backings.
+Use visible coloured fills for exposed logo shapes rather than pale fills
+that need an added keyline. Strata's upper ribbon is rose; Steam's exposed
+link is blue. Paper edges and physical part boundaries remain material detail.
+
+Gitfetch and uuctl use Lazygit's terminal shell and ivory prompt. Gitfetch
+combines a copper branch with jade statistics; uuctl uses control sliders.
+Keep each application mark distinct inside the shared shell.
+
+## Object construction and review categories
+
+Use Camera, Disk Usage Analyzer, Tweaks and Document Scanner as the material
+references for this pass. Give objects a focal material feature: wound tape
+layers, cut key teeth, machined platter rings, a real zipper pull aperture,
+raised keycaps, book binding or folded folder gussets. Use coordinated colours
+for different physical parts. Flatseal keeps its upstream reel geometry with an ivory tape face,
+jade side thickness and only two faint winding lines; Volume Control keeps its concentric arc and dial relationship.
+Google Calendar is an exact blue-header variant of Calendar.
+
+Review categories are overlapping tags. Craft contains all 15 Craft identities;
+Media contains Video Player and related media tools. Ephemera belongs to Brand
+Marks - Open. Gmail, Bun, Brave and all three Zed variants appear in Brand
+Marks - Solid, alongside Color Profile Viewer, Python, Steam and Telegram.
+Category moves do not remove icons from the full catalog.
+
+The construction review favours legible parts over extra detail: keys retain their newer gold and jade geometry, with the steel ring passing behind
+the upper heads and through both holes into a foreground lower arc; the rotary dial face stays light,
+and keyboard caps do not have overlapping shadow blocks. Archive zipper teeth
+are secondary to a coherent slider and open pull. Contacts uses a direct ivory
+portrait on its bound cover. Herdr keeps three clean panes without tiny symbols.

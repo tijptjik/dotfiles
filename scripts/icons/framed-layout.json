@@ -341,7 +341,7 @@
         0,
         0
       ],
-      "source_sha256": "b8b82c69d41eb21d79888706ff0ba33dc2078014499c61c7e76b77e5ef535267",
+      "source_sha256": "69a5ec60ddd5d6d104a7ad9f9b2f6d9064a9a4302e3c2bca3a8faa67b27624f3",
       "note": "Retain current optical size."
     },
     "flaresolverr": {
@@ -395,7 +395,7 @@
         0,
         0
       ],
-      "source_sha256": "62146aa2ca08f81f70161669afd8d7e97ca1f4b1ce80847ab056a0580e44eda6",
+      "source_sha256": "b12170401ebd8cdf926cf7c6470cb5f234b142eae877dfd9f6426225bf6a87d3",
       "note": "Repository inbox revision; retain centred default scale. Frame clearance checked; approved for rc.10 by the user release instruction on 2026-10-29."
     },
     "gmail": {
@@ -467,7 +467,7 @@
         0,
         0
       ],
-      "source_sha256": "d96c0d1173e58c236a21a871ade6d7bcaffd890c5fab4f7bfcf0d5950afb17a8",
+      "source_sha256": "ea636295fe5f61302680cee1fd976ab9676bef0fd8c802048ca12180a48a6a84",
       "note": "Retain current optical size."
     },
     "homepage": {
@@ -1133,7 +1133,7 @@
         0,
         0
       ],
-      "source_sha256": "b4cb4ad9b0b9051e1ee5a73f35edb2cb901fbe067375fdfb9465814f8e11c5b3",
+      "source_sha256": "39d1f3b3d5bc2de4c1e0ca25b8714510f05cd5ffec09ad5d3dea869e0c2124f1",
       "note": "Retain current optical size."
     },
     "video-player": {

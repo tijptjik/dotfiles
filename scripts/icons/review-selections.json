@@ -202,7 +202,7 @@
       "suggested_sha256": "be52cbb9bf2ccca8069057d9b04cf7abda0297692378536c707746bda8e60c67",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/htop.svg",
       "critique": "Dozens of narrow meter segments turn into a dense striped rectangle.",
-      "preserve": "A process monitor, distinct from Bottom\u2019s dotted activity trace.",
+      "preserve": "A process monitor, distinct from Bottom’s dotted activity trace.",
       "proposal": "Use the shared terminal shell, two CPU meters and three readable process rows."
     },
     {
@@ -215,7 +215,7 @@
       "suggested_sha256": "8d4f65206b8720ec53a41095c35b91acac4a285854739869ba4671dfd42fe1ba",
       "output": "native/home/files/dockers/homepage/images/rose-punk/lidarr.svg",
       "critique": "The record and green blades are overwhelmed by the same radar grid used by other services.",
-      "preserve": "Lidarr\u2019s opposing blades, record and centre hub.",
+      "preserve": "Lidarr’s opposing blades, record and centre hub.",
       "proposal": "Make the vinyl record dominant; remove the crosshair grid and retain two quiet grooves."
     },
     {
@@ -492,14 +492,19 @@
       "priority": 26,
       "id": "gitfetch",
       "name": "Gitfetch",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "83c28453a6a073682842c349a2aa293501f9c1d699a2fcfd93c940c0d5310bc3",
       "review_selection_sha256": "62146aa2ca08f81f70161669afd8d7e97ca1f4b1ce80847ab056a0580e44eda6",
-      "suggested_sha256": "62146aa2ca08f81f70161669afd8d7e97ca1f4b1ce80847ab056a0580e44eda6",
+      "suggested_sha256": "b12170401ebd8cdf926cf7c6470cb5f234b142eae877dfd9f6426225bf6a87d3",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/gitfetch.svg",
       "critique": "Multiple crossing cards and doubled arrow edges make the repository look crushed.",
       "preserve": "Violet repository tray, copper Git branch and incoming mint arrow.",
-      "proposal": "Use one clearly readable commit card, an open dark tray and one solid downward arrow."
+      "proposal": "Use the shared Lazygit terminal shell; Gitfetch has a branch and statistics, uuctl has unit-control sliders.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "62146aa2ca08f81f70161669afd8d7e97ca1f4b1ce80847ab056a0580e44eda6",
+        "reason": "Use the shared Lazygit terminal shell; Gitfetch has a branch and statistics, uuctl has unit-control sliders."
+      }
     },
     {
       "priority": 27,
@@ -960,14 +965,25 @@
       "priority": 62,
       "id": "herdr",
       "name": "Herdr",
-      "decision": "Accepted",
+      "decision": "Refined after construction critique",
       "before_sha256": "801b2d5d2f77c81f0e0fdab695883a2250fe37e87ecb895682dccf7ba0655797",
       "review_selection_sha256": "d96c0d1173e58c236a21a871ade6d7bcaffd890c5fab4f7bfcf0d5950afb17a8",
-      "suggested_sha256": "d96c0d1173e58c236a21a871ade6d7bcaffd890c5fab4f7bfcf0d5950afb17a8",
+      "suggested_sha256": "ea636295fe5f61302680cee1fd976ab9676bef0fd8c802048ca12180a48a6a84",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/herdr.svg",
       "critique": "Very small bolts and thin grain marks compete with the solid timber construction.",
       "preserve": "Three pointed timber posts, two blue painted rails and visible fixings.",
-      "proposal": "Use substantial aligned posts, a restrained grain line and consistent dark bolts at the rail crossings."
+      "proposal": "Three clean terminal panes with the shared ivory prompt; the subpixel pane symbols are removed.",
+      "object_revision": {
+        "previous_sha256": "d96c0d1173e58c236a21a871ade6d7bcaffd890c5fab4f7bfcf0d5950afb17a8",
+        "reason": "Three coordinated agent panes in the shared Rose Punk terminal shell. Based on Herdr's persistent terminals, split panes and agent status.",
+        "research": "https://github.com/herdrdev/herdr/blob/master/README.md",
+        "research_readme_sha": "55ea278919613ffcd4840c42f343c5fd2ed1aa02",
+        "status": "Proposed terminal identity"
+      },
+      "construction_refinement": {
+        "previous_sha256": "c140e92578e908ae2cdd8bbbb99af9722bf1a44d3c169658221ee6d6ab441787",
+        "reason": "Three clean terminal panes with the shared ivory prompt; the subpixel pane symbols are removed."
+      }
     },
     {
       "priority": 63,
@@ -1057,7 +1073,7 @@
       "suggested_sha256": "1a8e0f863fd25911a4cc6476aae6511ff88625c871e70abe91234fc1ff71a6c6",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/mpv-media-player.svg",
       "critique": "The bright inner ring is nearly as strong as the play mark, and the blue disc resembles other players.",
-      "preserve": "mpv\u2019s circular identity, inner ring and ivory play triangle.",
+      "preserve": "mpv’s circular identity, inner ring and ivory play triangle.",
       "proposal": "Use a restrained violet disc, a quieter concentric ring and a larger optically centred play mark."
     },
     {
@@ -1259,14 +1275,19 @@
       "priority": 85,
       "id": "uuctl",
       "name": "uuctl",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "9a495e35953c96963aded2695a2c0e1f5413c77845cdbb5bd91fc4168373138d",
       "review_selection_sha256": "b4cb4ad9b0b9051e1ee5a73f35edb2cb901fbe067375fdfb9465814f8e11c5b3",
-      "suggested_sha256": "b4cb4ad9b0b9051e1ee5a73f35edb2cb901fbe067375fdfb9465814f8e11c5b3",
+      "suggested_sha256": "39d1f3b3d5bc2de4c1e0ca25b8714510f05cd5ffec09ad5d3dea869e0c2124f1",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/uuctl.svg",
       "critique": "The small stand and narrow screen make the system terminal feel lighter than other hardware icons.",
       "preserve": "A steel monitor with a mint terminal prompt, distinct from the rose Terminal enclosure.",
-      "proposal": "Strengthen the monitor proportions and prompt, retaining a shallow steel chin and simple stand."
+      "proposal": "Use the shared Lazygit terminal shell; Gitfetch has a branch and statistics, uuctl has unit-control sliders.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "b4cb4ad9b0b9051e1ee5a73f35edb2cb901fbe067375fdfb9465814f8e11c5b3",
+        "reason": "Use the shared Lazygit terminal shell; Gitfetch has a branch and statistics, uuctl has unit-control sliders."
+      }
     },
     {
       "priority": 86,
@@ -1290,7 +1311,7 @@
       "review_selection_sha256": "e90922b428aa241708770d449fe07d77945fafa8a37a817834a509cb49be99d9",
       "suggested_sha256": "e90922b428aa241708770d449fe07d77945fafa8a37a817834a509cb49be99d9",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/starship.svg",
-      "critique": "The bright white rocket and star sit somewhat apart from the family\u2019s warm light pigments.",
+      "critique": "The bright white rocket and star sit somewhat apart from the family’s warm light pigments.",
       "preserve": "The exact rocket, star, exhaust and circular identity geometry.",
       "proposal": "Retain all upstream paths, use warm ivory for the marks and a slightly deeper violet field."
     },
@@ -1329,7 +1350,7 @@
       "review_selection_sha256": "d26713c8ae37c2e0c3a0d91f44e4e7c4e1e9d49450039b76c1a4e7c71f976bd9",
       "suggested_sha256": "d26713c8ae37c2e0c3a0d91f44e4e7c4e1e9d49450039b76c1a4e7c71f976bd9",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/fnm.svg",
-      "critique": "Several similar green facets merge, reducing the crystal\u2019s useful structure.",
+      "critique": "Several similar green facets merge, reducing the crystal’s useful structure.",
       "preserve": "Faceted Node hexagon and plain unoutlined lightning bolt.",
       "proposal": "Keep all facets and bolt geometry; separate the cool shadow plane from the brighter jade face."
     },
@@ -1368,7 +1389,7 @@
       "review_selection_sha256": "d01259ae0a256495527b70bd9ca6bef1e3ecd6371f579ebe629a3dbeaccc99fc",
       "suggested_sha256": "d01259ae0a256495527b70bd9ca6bef1e3ecd6371f579ebe629a3dbeaccc99fc",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/rust.svg",
-      "critique": "Separate rectangular teeth and tiny rivets crowd the monogram\u2019s circular frame.",
+      "critique": "Separate rectangular teeth and tiny rivets crowd the monogram’s circular frame.",
       "preserve": "Twelve-tooth rose gear, dark centre and ivory R.",
       "proposal": "Build a continuous toothed contour, omit subpixel rivets and preserve the large R aperture."
     },
@@ -1493,14 +1514,18 @@
       "priority": 103,
       "id": "fish",
       "name": "Fish shell",
-      "decision": "Accepted",
+      "decision": "Accepted flat Fish revision",
       "before_sha256": "352b6f41d3a05e2458382fdea1aa6358f3b0b07104fa2a2dc899fb9d2c034a19",
       "review_selection_sha256": "b8b82c69d41eb21d79888706ff0ba33dc2078014499c61c7e76b77e5ef535267",
-      "suggested_sha256": "b8b82c69d41eb21d79888706ff0ba33dc2078014499c61c7e76b77e5ef535267",
+      "suggested_sha256": "69a5ec60ddd5d6d104a7ad9f9b2f6d9064a9a4302e3c2bca3a8faa67b27624f3",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/fish.svg",
       "critique": "Small scale marks clutter the body, while the ventral fin hangs low.",
-      "preserve": "Jade fish, copper tail and fins, rose dorsal fin and expressive face.",
-      "proposal": "Shorten the lower fin, join the pectoral fin more naturally and omit secondary scale marks."
+      "preserve": "Jade fish identity, natural horizontal proportions and the shared flat style with Kitty.",
+      "proposal": "Approved flat jade fish with a mint contour and a single dark chevron serving as its fin. No eye, separate fins or gradients; matches Kitty visual language.",
+      "kitty_style_revision": {
+        "previous_sha256": "b8b82c69d41eb21d79888706ff0ba33dc2078014499c61c7e76b77e5ef535267",
+        "reason": "Approved flat jade fish with a mint contour and a single dark chevron serving as its fin. No eye, separate fins or gradients; matches Kitty visual language."
+      }
     },
     {
       "priority": 104,
@@ -2015,7 +2040,7 @@
       "review_selection_sha256": "5ebb6120be8de38dc63e8daa85360530db15516fd7ce9b6cf03d848c4eec2652",
       "suggested_sha256": "5ebb6120be8de38dc63e8daa85360530db15516fd7ce9b6cf03d848c4eec2652",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/uv.svg",
-      "critique": "The very saturated purple feels isolated from the family\u2019s quieter violet marks.",
+      "critique": "The very saturated purple feels isolated from the family’s quieter violet marks.",
       "preserve": "Exact U-shaped monogram, narrow opening and flat treatment.",
       "proposal": "Make a modest violet pigment adjustment with no added texture or geometry changes."
     },
@@ -2160,7 +2185,7 @@
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/vectorcraft.svg",
       "critique": "The eye, jaw and horns remain distinct at 24 px; the belly plane explains the neck volume.",
       "preserve": "Approved dragon silhouette, horns, tooth, amber belly and jade coat.",
-      "proposal": "Recommend keeping the current artwork. Further smoothing would weaken the dragon\u2019s angular identity."
+      "proposal": "Recommend keeping the current artwork. Further smoothing would weaken the dragon’s angular identity."
     },
     {
       "priority": 154,

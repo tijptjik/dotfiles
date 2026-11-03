@@ -21,7 +21,7 @@ COMMANDS = {
     'config': ('Configuration', ['/config'], 'Three steel slider rails with pigment-coloured controls'),
     'shortcuts': ('Keyboard shortcuts', ['/bindings', '/shortcuts'], 'Ivory and violet arrow-key caps'),
 }
-SHELLS = {'fish': ('Fish shell', [], 'Friendly jade fish with copper fins and a rose dorsal fin')}
+SHELLS = {'fish': ('Fish shell', [], 'Flat jade fish with a mint contour and dark chevron fin')}
 
 
 def render():

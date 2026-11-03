@@ -227,19 +227,19 @@
   "fish": {
     "name": "Fish shell",
     "commands": [],
-    "description": "Friendly jade fish with copper fins and a rose dorsal fin",
+    "description": "Flat jade fish with a mint contour and dark chevron fin",
     "role": "shell",
     "source": "scripts/icons/local/fish.svg",
     "authored_in": "scripts/icons/local/reviewed/fish.svg",
     "license": "Original artwork",
-    "sha256": "b8b82c69d41eb21d79888706ff0ba33dc2078014499c61c7e76b77e5ef535267",
+    "sha256": "69a5ec60ddd5d6d104a7ad9f9b2f6d9064a9a4302e3c2bca3a8faa67b27624f3",
     "sizing": {
       "reviewed_original": true,
       "result_bounds": [
-        4.0,
-        8.875,
-        60.0,
-        55.0
+        4.5,
+        16.375,
+        59.5,
+        47.625
       ]
     }
   }

@@ -772,7 +772,7 @@
     "reference": "https://www.sublimetext.com/images/logo.svg",
     "reference_sha256": "607c5dd40873c6ae788e676963a48701299a2f9b30a9615eb1234d81b700dfd2",
     "material_revision": 3,
-    "design_note": "The three curved ribbon faces are taken from Sublime Text\u2019s official wordmark SVG. Amber front faces and a copper return fold sit on the quiet charcoal backing used in established Sublime desktop icons; no raised rim or theme-wide tile.",
+    "design_note": "The three curved ribbon faces are taken from Sublime Text’s official wordmark SVG. Amber front faces and a copper return fold sit on the quiet charcoal backing used in established Sublime desktop icons; no raised rim or theme-wide tile.",
     "reference_file": "scripts/icons/upstream/sublime-brand.svg",
     "inspiration": [
       {
@@ -787,7 +787,7 @@
       "reference": "https://www.sublimetext.com/images/logo.svg",
       "reference_sha256": "607c5dd40873c6ae788e676963a48701299a2f9b30a9615eb1234d81b700dfd2",
       "material_revision": 3,
-      "design_note": "The three curved ribbon faces are taken from Sublime Text\u2019s official wordmark SVG. Amber front faces and a copper return fold sit on the quiet charcoal backing used in established Sublime desktop icons; no raised rim or theme-wide tile.",
+      "design_note": "The three curved ribbon faces are taken from Sublime Text’s official wordmark SVG. Amber front faces and a copper return fold sit on the quiet charcoal backing used in established Sublime desktop icons; no raised rim or theme-wide tile.",
       "reference_file": "scripts/icons/upstream/sublime-brand.svg",
       "inspiration": [
         {
@@ -809,7 +809,7 @@
         "reference": "https://www.sublimetext.com/images/logo.svg",
         "reference_sha256": "607c5dd40873c6ae788e676963a48701299a2f9b30a9615eb1234d81b700dfd2",
         "material_revision": 3,
-        "design_note": "The three curved ribbon faces are taken from Sublime Text\u2019s official wordmark SVG. Amber front faces and a copper return fold sit on the quiet charcoal backing used in established Sublime desktop icons; no raised rim or theme-wide tile.",
+        "design_note": "The three curved ribbon faces are taken from Sublime Text’s official wordmark SVG. Amber front faces and a copper return fold sit on the quiet charcoal backing used in established Sublime desktop icons; no raised rim or theme-wide tile.",
         "reference_file": "scripts/icons/upstream/sublime-brand.svg",
         "inspiration": [
           {
@@ -2022,7 +2022,7 @@
     "source": "scripts/icons/local/reviewed/uuctl.svg",
     "license": "Original artwork",
     "material_revision": 10,
-    "sha256": "b4cb4ad9b0b9051e1ee5a73f35edb2cb901fbe067375fdfb9465814f8e11c5b3",
+    "sha256": "39d1f3b3d5bc2de4c1e0ca25b8714510f05cd5ffec09ad5d3dea869e0c2124f1",
     "previous_source": {
       "source": "scripts/icons/extra_art.py",
       "license": "Original artwork",
@@ -2041,6 +2041,11 @@
         "material_revision": 10,
         "sha256": "0d92ccb2c309995e2de04630af110136127cd2a963b76646d04f2127411e07df"
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "b4cb4ad9b0b9051e1ee5a73f35edb2cb901fbe067375fdfb9465814f8e11c5b3",
+      "reason": "Use the shared Lazygit terminal shell; Gitfetch has a branch and statistics, uuctl has unit-control sliders."
     }
   },
   "gpu-screen-recorder": {
@@ -2218,12 +2223,12 @@
     "source": "scripts/icons/local/reviewed/notjik.svg",
     "license": "Original artwork based on user-provided reference",
     "sha256": "de1dc15d75b83308931f9c2881f89f687400017109bc5253d5be6595f0017c28",
-    "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik\u2019s circular dot.",
+    "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik’s circular dot.",
     "previous_source": {
       "source": "scripts/icons/local/notjik.svg",
       "license": "Original artwork based on user-provided reference",
       "sha256": "63c281d14390f2eff62bf7df136eed40e61049dd51b5ec58ed323769d6167caa",
-      "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik\u2019s circular dot."
+      "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik’s circular dot."
     },
     "consistency_review": {
       "number": 127,
@@ -2235,7 +2240,7 @@
         "source": "scripts/icons/local/notjik.svg",
         "license": "Original artwork based on user-provided reference",
         "sha256": "63c281d14390f2eff62bf7df136eed40e61049dd51b5ec58ed323769d6167caa",
-        "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik\u2019s circular dot."
+        "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik’s circular dot."
       }
     }
   },
@@ -2276,7 +2281,7 @@
   "herdr": {
     "source": "scripts/icons/local/reviewed/herdr.svg",
     "license": "Original themed interpretation; app identities remain with their respective owners",
-    "sha256": "d96c0d1173e58c236a21a871ade6d7bcaffd890c5fab4f7bfcf0d5950afb17a8",
+    "sha256": "ea636295fe5f61302680cee1fd976ab9676bef0fd8c802048ca12180a48a6a84",
     "reference": "scripts/icons/references/tabler-fence.svg",
     "reference_sha256": "910fb0f242c6c0b6dc86e294c1d6de359e75d62f058354564bebccf51cd3872e",
     "material_revision": 3,
@@ -2302,6 +2307,17 @@
         "reference_sha256": "910fb0f242c6c0b6dc86e294c1d6de359e75d62f058354564bebccf51cd3872e",
         "material_revision": 3
       }
+    },
+    "object_revision": {
+      "previous_sha256": "d96c0d1173e58c236a21a871ade6d7bcaffd890c5fab4f7bfcf0d5950afb17a8",
+      "reason": "Three coordinated agent panes in the shared Rose Punk terminal shell. Based on Herdr's persistent terminals, split panes and agent status.",
+      "research": "https://github.com/herdrdev/herdr/blob/master/README.md",
+      "research_readme_sha": "55ea278919613ffcd4840c42f343c5fd2ed1aa02",
+      "status": "Proposed terminal identity"
+    },
+    "construction_refinement": {
+      "previous_sha256": "c140e92578e908ae2cdd8bbbb99af9722bf1a44d3c169658221ee6d6ab441787",
+      "reason": "Three clean terminal panes with the shared ivory prompt; the subpixel pane symbols are removed."
     }
   },
   "llmtrim": {
@@ -2953,7 +2969,7 @@
   "gitfetch": {
     "source": "scripts/icons/local/reviewed/gitfetch.svg",
     "license": "Original Rose Punk artwork",
-    "sha256": "62146aa2ca08f81f70161669afd8d7e97ca1f4b1ce80847ab056a0580e44eda6",
+    "sha256": "b12170401ebd8cdf926cf7c6470cb5f234b142eae877dfd9f6426225bf6a87d3",
     "design_note": "Original illustrated repository inbox: violet folded casing, layered ivory commit cards, copper Git branch and mint fetch arrow. Replaces the terminal-window treatment; approved for rc.10 by the user release instruction on 2026-10-29.",
     "material_revision": 2,
     "previous_source": {
@@ -2976,6 +2992,11 @@
         "design_note": "Original illustrated repository inbox: violet folded casing, layered ivory commit cards, copper Git branch and mint fetch arrow. Replaces the terminal-window treatment; approved for rc.10 by the user release instruction on 2026-10-29.",
         "material_revision": 2
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "62146aa2ca08f81f70161669afd8d7e97ca1f4b1ce80847ab056a0580e44eda6",
+      "reason": "Use the shared Lazygit terminal shell; Gitfetch has a branch and statistics, uuctl has unit-control sliders."
     }
   },
   "bitwarden": {

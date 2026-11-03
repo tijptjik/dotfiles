@@ -1,7 +1,7 @@
 {
   "fish": {
     "geometry": "local/reviewed/fish.svg",
-    "sha256": "b8b82c69d41eb21d79888706ff0ba33dc2078014499c61c7e76b77e5ef535267",
+    "sha256": "69a5ec60ddd5d6d104a7ad9f9b2f6d9064a9a4302e3c2bca3a8faa67b27624f3",
     "consistency_review": {
       "number": 103,
       "baseline_release": "0.1.0-rc.13",
@@ -38,6 +38,11 @@
           ]
         }
       }
+    },
+    "kitty_style_revision": {
+      "previous_sha256": "b8b82c69d41eb21d79888706ff0ba33dc2078014499c61c7e76b77e5ef535267",
+      "decision": "Accepted",
+      "design_note": "Approved flat jade fish with a mint contour and a single dark chevron serving as its fin. No eye, separate fins or gradients; matches Kitty visual language."
     }
   }
 }

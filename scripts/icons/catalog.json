@@ -1177,32 +1177,6 @@
     "reviewed": true,
     "review_batch": 3
   },
-  "systjik": {
-    "name": "Systjik",
-    "installed": true,
-    "desktop_ids": [],
-    "icon_names": [
-      "systjik"
-    ],
-    "mode": "illustrated-local",
-    "geometry": "local/systjik.svg",
-    "reviewed": true,
-    "review_batch": 6,
-    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
-  },
-  "dotjik": {
-    "name": "Dotjik",
-    "installed": true,
-    "desktop_ids": [],
-    "icon_names": [
-      "dotjik"
-    ],
-    "mode": "illustrated-local",
-    "geometry": "local/dotjik.svg",
-    "reviewed": true,
-    "review_batch": 6,
-    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
-  },
   "hyprvoice": {
     "name": "Hyprvoice",
     "installed": true,
@@ -1966,5 +1940,35 @@
     "review_batch": 22,
     "introduced_batch": 22,
     "suite": "artcraft"
+  },
+  "chezmoi": {
+    "name": "Chezmoi",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "dotjik",
+      "chezmoi"
+    ],
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/chezmoi.svg",
+    "reviewed": true,
+    "review_batch": 6,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred.",
+    "family": "configuration"
+  },
+  "chezetc": {
+    "name": "Chezetc",
+    "installed": true,
+    "desktop_ids": [],
+    "icon_names": [
+      "systjik",
+      "chezetc"
+    ],
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/chezetc.svg",
+    "reviewed": true,
+    "review_batch": 6,
+    "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred.",
+    "family": "configuration"
   }
 }

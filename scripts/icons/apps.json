@@ -265,8 +265,6 @@
   "collie": [],
   "herdr": [],
   "llmtrim": [],
-  "systjik": [],
-  "dotjik": [],
   "hyprvoice": [],
   "oo7": [],
   "snapraid": [],
@@ -362,5 +360,7 @@
   ],
   "craft-anything": [
     "ai.storyteller.craft-anything.desktop"
-  ]
+  ],
+  "chezmoi": [],
+  "chezetc": []
 }

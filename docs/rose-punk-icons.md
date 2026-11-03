@@ -45,12 +45,12 @@ animal family, adds plum outlines to all three Zed channels, and simplifies
 Unpackerr into a kraft parcel. Both download variants derive from these SVGs;
 the discarded Art Nouveau/hyperpop concept is not a release input.
 
-On 2026-10-29, the 13 additions since `0.1.0-rc.8` were accepted as-is;
-further visual revisions are deferred. The blue house is published as
-**Dotjik** (`dotjik.svg`), and the pink house as **Systjik** (`systjik.svg`).
-The `rose-punk-dotjik` and `rose-punk-systjik` aliases resolve to those canonical
-files. The 2026-10-30 native cutover retires the old deployment-tool icon names
-through manifest removal rules; artwork and its provenance remain unchanged.
+The configuration icons are **Chezmoi** (`chezmoi.svg`, cyan) and
+**Chezetc** (`chezetc.svg`, red). They share the approved house geometry and
+belong to the configuration family, separate from the Tjik application family.
+The previous `dotjik`, `systjik`, `rose-punk-dotjik` and `rose-punk-systjik`
+lookups remain compatibility aliases. Fleet policy labels keep their existing
+names and resolve to the new canonical artwork.
 
 From the repository root:
 

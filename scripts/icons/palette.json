@@ -64,7 +64,6 @@
       "calendar",
       "fonts",
       "power",
-      "systjik",
       "llmtrim",
       "solaar",
       "sublime-text",
@@ -99,7 +98,7 @@
     "cyan": [
       "notjik",
       "hyprvoice",
-      "dotjik",
+      "chezmoi",
       "transmission",
       "tailscale",
       "weather",
@@ -169,7 +168,8 @@
       "obs-studio",
       "problem-reporting",
       "parental-controls",
-      "lutris"
+      "lutris",
+      "chezetc"
     ],
     "blush": [
       "zed",

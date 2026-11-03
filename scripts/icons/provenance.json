@@ -2308,18 +2308,6 @@
       }
     }
   },
-  "systjik": {
-    "source": "scripts/icons/local/systjik.svg",
-    "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "6effb5fddd41e8da4902c7a2099364650a4583672d689749779a8beffa26b24a",
-    "material_revision": 4
-  },
-  "dotjik": {
-    "source": "scripts/icons/local/dotjik.svg",
-    "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "e25f397253c40b2b63b5e8256265bd5c4efa193746288d7f7d9716fd96672260",
-    "material_revision": 4
-  },
   "hyprvoice": {
     "source": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/audio-lines.svg",
     "license": "ISC",
@@ -3921,6 +3909,56 @@
         "desktop_reference": "https://github.com/storytold/craft-anything/blob/main/packaging/linux/ai.storyteller.craft-anything.desktop",
         "material_revision": 4,
         "design_note": "Independent raven drawing with a broad skull, low brow, tapered closed bill and restrained throat feather planes. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction."
+      }
+    }
+  },
+  "chezmoi": {
+    "source": "scripts/icons/local/reviewed/chezmoi.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "3297dc224a07767d2bda1726509cb8ab384602f82f44cc3ae899054f600d505e",
+    "material_revision": 4,
+    "previous_source": {
+      "source": "scripts/icons/local/dotjik.svg",
+      "license": "Original themed artwork; app identity rights remain with their owners",
+      "sha256": "e25f397253c40b2b63b5e8256265bd5c4efa193746288d7f7d9716fd96672260",
+      "material_revision": 4
+    },
+    "consistency_review": {
+      "number": 123,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "120e8a5634237add637fac5f0da18616643abef4cab5ce49b5d5fb3b9697abe6",
+      "decision": "Accepted; configuration family",
+      "design_note": "Keep the accepted cyan house and rename this identity Chezmoi.",
+      "attribution": {
+        "source": "scripts/icons/local/dotjik.svg",
+        "license": "Original themed artwork; app identity rights remain with their owners",
+        "sha256": "e25f397253c40b2b63b5e8256265bd5c4efa193746288d7f7d9716fd96672260",
+        "material_revision": 4
+      }
+    }
+  },
+  "chezetc": {
+    "source": "scripts/icons/local/reviewed/chezetc.svg",
+    "license": "Original themed artwork; app identity rights remain with their owners",
+    "sha256": "5f810e2c6bf419dc742361ff941004090d6c4d9cdcad29ae9ed325f02426d5ec",
+    "material_revision": 4,
+    "previous_source": {
+      "source": "scripts/icons/local/systjik.svg",
+      "license": "Original themed artwork; app identity rights remain with their owners",
+      "sha256": "6effb5fddd41e8da4902c7a2099364650a4583672d689749779a8beffa26b24a",
+      "material_revision": 4
+    },
+    "consistency_review": {
+      "number": 124,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "1eff84eb628a07afc273ebac408383a8cac1963560a9c9ad7aaf3cf04cfd0962",
+      "decision": "Accepted; configuration family",
+      "design_note": "Use the accepted Chezmoi house paths, door, window and side plane in red; rename this identity Chezetc.",
+      "attribution": {
+        "source": "scripts/icons/local/systjik.svg",
+        "license": "Original themed artwork; app identity rights remain with their owners",
+        "sha256": "6effb5fddd41e8da4902c7a2099364650a4583672d689749779a8beffa26b24a",
+        "material_revision": 4
       }
     }
   }

@@ -128,24 +128,6 @@
       "source_sha256": "220be497dddc1481e06d1206c8730101e6eea1924626d8caef488e64e7ea5787",
       "note": "Retain current optical size."
     },
-    "systjik": {
-      "scale": 0.8571428571428571,
-      "offset": [
-        0,
-        0
-      ],
-      "source_sha256": "1eff84eb628a07afc273ebac408383a8cac1963560a9c9ad7aaf3cf04cfd0962",
-      "note": "Retain current optical size."
-    },
-    "dotjik": {
-      "scale": 0.8571428571428571,
-      "offset": [
-        0,
-        0
-      ],
-      "source_sha256": "120e8a5634237add637fac5f0da18616643abef4cab5ce49b5d5fb3b9697abe6",
-      "note": "Retain current optical size."
-    },
     "chrome": {
       "scale": 0.8571428571428571,
       "offset": [
@@ -1553,6 +1535,24 @@
         0
       ],
       "source_sha256": "f1a5e3df42d01d6bfbdb3be3b9963c0c9b8e57f297298734f1d26e5b2672c7c8"
+    },
+    "chezmoi": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "3297dc224a07767d2bda1726509cb8ab384602f82f44cc3ae899054f600d505e",
+      "note": "Retain current optical size."
+    },
+    "chezetc": {
+      "scale": 0.8571428571428571,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "5f810e2c6bf419dc742361ff941004090d6c4d9cdcad29ae9ed325f02426d5ec",
+      "note": "Retain current optical size."
     }
   }
 }

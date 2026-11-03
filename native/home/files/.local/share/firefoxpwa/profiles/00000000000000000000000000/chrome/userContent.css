@@ -83,6 +83,21 @@
         border-color: #5f6368 !important;
     }
 
+    /* The reply frame has light wrappers outside .Am/.aoI, including the
+     * padding around the editor and the recipient row. Follow only ancestors
+     * of an actual compose editor so changing Gmail's wrapper classes cannot
+     * leave a white frame. Never clear every descendant of the reply: that
+     * would also erase action, warning and attachment colors.
+     */
+    :where(.ip, .AD) :where(div, td, section):has(.Am[contenteditable="true"]),
+    :where(.ip .nr, .AD .nr, .ip .aO9, .AD .aO9,
+           .ip .aO8, .AD .aO8, .ip .aYF, .AD .aYF) {
+        color-scheme: dark !important;
+        background-color: #191724 !important;
+        color: #e8eaed !important;
+        border-color: #5f6368 !important;
+    }
+
     /* Conversation subject and message envelope have explicit text colors;
      * changing only their parent background leaves dark text on dark cards.
      * Keep label chips and warning banners under Gmail's own color rules.
@@ -115,6 +130,35 @@
 
     :where(.aDh .J-Z *, .aXjCH .J-Z *) {
         color: #e8eaed !important;
+    }
+
+    /* Nested writing-assistant fields and toolbar controls can keep their
+     * own light fill even after the toolbar itself is darkened. Do not match
+     * the send/action row (.gU), whose buttons carry Gmail's accent colors.
+     */
+    :where(.aDh, .aXjCH) :where(input, textarea, [role="textbox"],
+                               button, [role="button"],
+                               div:has(> input), div:has(> textarea),
+                               div:has(> [role="textbox"])) {
+        color-scheme: dark !important;
+        background-color: #26233a !important;
+        color: #e8eaed !important;
+        caret-color: #e8eaed !important;
+        border-color: #5f6368 !important;
+    }
+
+    :where(.aDh, .aXjCH) :where(input, textarea)::placeholder {
+        color: #bdc1c6 !important;
+        opacity: 1 !important;
+    }
+
+    :where(.aDh, .aXjCH) :where(button, [role="button"]):hover {
+        background-color: #393552 !important;
+    }
+
+    :where(.aDh, .aXjCH) :where(button, [role="button"])[aria-disabled="true"],
+    :where(.aDh, .aXjCH) :where(button, input, textarea):disabled {
+        color: #908caa !important;
     }
 
     /* Gmail uses dark image sprites for these editing icons. Limit inversion

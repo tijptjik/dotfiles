@@ -40,6 +40,7 @@ class TailscalePolicyTests(unittest.TestCase):
                 policy = rendered.stdout[rendered.stdout.index('# Keep ordinary DNS'):]
                 harness = '''
 set -l tailscale_prefs '{"CorpDNS":true,"RouteAll":true}'
+function converge_tailnet; echo converge $argv[1] >> "$TRACE"; end
 function sudo; $argv; end
 function systemctl
     echo "systemctl "(string join ' ' -- $argv) >> "$TRACE"
@@ -73,7 +74,7 @@ end
                         self.assertIn('set --accept-dns=false --accept-routes=false', calls)
                         self.assertEqual('up' in calls, state == 'Stopped')
                         self.assertNotIn('down', calls)
-                        self.assertEqual('systemctl enable --now tailnet-dns.service' in calls,
+                        self.assertEqual('converge dns' in calls,
                                          expected == 0)
 
     def test_current_preferences_issue_no_setters_and_drift_is_repaired(self):
@@ -96,7 +97,10 @@ elif args==['status','--json']: print('{"BackendState":"Running"}')
 ''')
             tail.chmod(0o755)
             harness = '''
-function sudo; $argv; end
+function sudo
+    if test "$argv[1]" = bash; return 0; end
+    $argv
+end
 function systemctl; return 0; end
 function step_skip_ok; printf 'SKIP %s\\n' $argv[1]; end
 function step_fail; printf 'FAILED %s\\n' $argv[1]; end

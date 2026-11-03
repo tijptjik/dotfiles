@@ -60,13 +60,24 @@ end
 
 {% if is_client -%}
 {% if hostname == "fi" or hostname == "li" -%}
-# Fi and Li: keep tailnet routes ahead of Mullvad and preserve its internet kill switch.
-step_run_note "Tailnet/Mullvad policy" loaded sudo systemctl daemon-reload
-or exit 1
-step_run_note "Tailnet/Mullvad routing" enabled sudo systemctl enable --now tailnet-mullvad.service
-or exit 1
-step_run_note "Tailnet/Mullvad policy" refreshed sudo systemctl restart tailnet-mullvad.service
-or exit 1
+# Each component has a read-only check: 0=current, 1=drift, 2=probe failure.
+set -g tailnet_helper {{ (repo_dir ~ "/scripts/tailnet-services.sh") | fish_quote }}
+function converge_tailnet --argument-names component title note
+    sudo bash "$tailnet_helper" --check "$component"
+    set -l checked $status
+    switch $checked
+        case 0
+            step_skip_ok "$title" "$note"
+        case 1
+            step_run_note "$title" "$note" sudo bash "$tailnet_helper" --apply "$component"
+            or return 1
+        case '*'
+            step_fail "$title check failed"
+            return $checked
+    end
+end
+converge_tailnet policy "Tailnet/Mullvad policy" configured; or exit 1
+converge_tailnet routing "Tailnet/Mullvad routing" enabled; or exit 1
 {% endif -%}
 
 # Keep ordinary DNS and default routes with Mullvad. Fleet SSH discovers peers
@@ -94,7 +105,6 @@ end
 {% endif -%}
 
 {% if hostname == "fi" or hostname == "li" %}
-step_run_note "Tailnet DNS" enabled sudo systemctl enable --now tailnet-dns.service
-or exit 1
-step_run_note "Tailnet DNS reconciliation" enabled sudo systemctl enable --now tailnet-dns.timer
+converge_tailnet dns "Tailnet DNS" configured; or exit 1
+converge_tailnet timer "Tailnet DNS reconciliation" enabled; or exit 1
 {% endif %}

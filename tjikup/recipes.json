@@ -3392,7 +3392,12 @@
         "section": "Services",
         "icon": "Notjik"
       },
-      "after": []
+      "after": [],
+      "check": [
+        "bash",
+        "$DOTJIK_REPO/scripts/install-notjik-service.sh",
+        "--check"
+      ]
     },
     {
       "id": "home:android-sdk",

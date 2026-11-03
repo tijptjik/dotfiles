@@ -2780,7 +2780,13 @@
       "scope": "system",
       "application": "tailscale",
       "ecosystem": "rpm",
-      "part_of": "system:tailscale"
+      "part_of": "system:tailscale",
+      "check": [
+        "fish",
+        "--no-config",
+        "{run_dir}/system-run_21-tailscale-package.fish",
+        "--check-update"
+      ]
     }
   ]
 }

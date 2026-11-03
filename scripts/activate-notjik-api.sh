@@ -5,9 +5,21 @@ repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 runner="${TJIKUP_BINARY:-$HOME/.local/bin/tjikup}"
 source_binary="$HOME/.local/lib/notjik-service/notjik-api"
 if [[ "${1:-}" == --check ]]; then
+    [[ -x "$source_binary" && -x "$HOME/.local/bin/notjik-sync" ]] || exit 1
+    sudo -n true || exit 2
+    for file in /usr/local/lib/notjik/notjik-api /usr/local/bin/notjik-sync; do
+        sudo -n test -x "$file" || exit 1
+    done
     sudo -n cmp -s "$source_binary" /usr/local/lib/notjik/notjik-api
     sudo -n "$runner" files check --manifest "$repo_dir/system/native/si/manifest.json" --state-dir /var/lib/tjikup/files --group notjik-api
-    systemctl is-active --quiet notjik-api.service notjik-serve.service notjik-system-sync.service
+    sudo -n cmp -s "$HOME/.local/bin/notjik-sync" /usr/local/bin/notjik-sync
+    sudo -n test -f /etc/notjik/system-client.json || exit 1
+    for unit in notjik-api.service notjik-serve.service notjik-system-sync.service; do
+        for pair in UnitFileState:enabled ActiveState:active NeedDaemonReload:no; do
+            value=$(systemctl show --property="${pair%%:*}" --value "$unit") || exit 2
+            [[ "$value" == "${pair#*:}" ]] || exit 1
+        done
+    done
     exit 0
 fi
 test -x "$source_binary"

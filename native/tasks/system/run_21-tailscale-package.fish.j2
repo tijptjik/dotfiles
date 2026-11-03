@@ -4,8 +4,11 @@
 {{ include("templates/fish_logging.fish") }}
 setup_logging linux-tailscale-package
 set -l mode $argv[1]
-if not contains -- "$mode" --check --apply --update
-    echo "Expected --check, --apply or --update" >&2
+if test "$mode" = --update
+    set -g tjikup_stage UPDATE
+end
+if not contains -- "$mode" --check --check-update --apply --update
+    echo "Expected --check, --check-update, --apply or --update" >&2
     exit 2
 end
 set -l repo /etc/yum.repos.d/tailscale.repo
@@ -14,26 +17,58 @@ set -l upstream 0
 if test (rpm -q --qf '%{PACKAGER}' tailscale 2>/dev/null) = 'Tailscale Inc <info@tailscale.com>'
     set upstream 1
 end
+set -l override /etc/systemd/system/tailscaled.service.d/override.conf
+set -l old_override 0
+if test -f "$override"; and string match -q '*/usr/bin/tailscaled*' -- (cat "$override")
+    set old_override 1
+end
 if test "$mode" = --check
-    if cmp -s "$source" "$repo"; and test $upstream -eq 1
+    if cmp -s "$source" "$repo"; and test $upstream -eq 1; and test $old_override -eq 0
         exit 0
     end
     exit 1
 end
+# DNF returns 100 when updates exist, 0 when current, and other codes on
+# failure. Never convert a repository/probe failure into permission to apply.
+function check_update
+    sudo dnf --refresh --repo=tailscale-stable check-upgrade tailscale >/dev/null
+    set -l result $status
+    switch $result
+        case 0; return 0
+        case 100; return 1
+        case '*'; return 2
+    end
+end
+if test "$mode" = --check-update
+    if not cmp -s "$source" "$repo"; or test $upstream -eq 0; or test $old_override -eq 1
+        exit 1
+    end
+    check_update
+    exit $status
+end
+set -l update_needed 0
+if test "$mode" = --update; and test $upstream -eq 1; and cmp -s "$source" "$repo"
+    check_update
+    switch $status
+        case 1; set update_needed 1
+        case 0
+        case '*'; exit 2
+    end
+end
 if not cmp -s "$source" "$repo"
+    if test "$mode" = --update; set update_needed 1; end
     step_run_note "Tailscale official repository" configured sudo install -m 644 "$source" "$repo"; or exit 1
 end
 # Upstream installs the daemon in /usr/sbin, unlike Fedora's /usr/bin build.
 # Prepare the managed override before the package transaction restarts the daemon.
-set -l override /etc/systemd/system/tailscaled.service.d/override.conf
 if test -f "$override"; and string match -q '*/usr/bin/tailscaled*' -- (cat "$override")
     step_run_note "Tailscale upstream daemon path" configured sudo sed -i 's|/usr/bin/tailscaled|/usr/sbin/tailscaled|g' "$override"; or exit 1
     sudo systemctl daemon-reload; or exit 1
 end
-if test $upstream -eq 0; or test "$mode" = --update
+if test $upstream -eq 0; or test $update_needed -eq 1
     # Explicit repository selection prevents Fedora from satisfying this declaration.
     if rpm -q tailscale >/dev/null 2>&1
-        step_run "Tailscale upstream package" sudo dnf --refresh --repo=tailscale-stable distro-sync -y tailscale; or exit 1
+        step_run_note "Tailscale upstream package" updated sudo dnf --refresh --repo=tailscale-stable distro-sync -y tailscale; or exit 1
     else
         step_run "Tailscale upstream package" sudo dnf --refresh --repo=tailscale-stable install -y tailscale; or exit 1
     end

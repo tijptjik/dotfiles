@@ -122,8 +122,8 @@ The build helper also accepts `SCROLLING_GAPS_SDK_DIR`, an extracted development
 root containing `usr/include`, and an optional output `.so` path. It replaces the
 binary atomically. `plugins.lua` loads `~/.local/lib/hypr/scrolling-gaps-local.so` when
 it embeds the running compositor's commit. Stale builds are skipped before load;
-the native ABI guard remains in place. Rebuild after a compositor ABI change.
-To replace an already loaded
+the native ABI guard remains in place. The source supports the 0.56.2 and 0.57.0
+workspace, IPC and decoration APIs. Rebuild after a compositor ABI change. To replace an already loaded
 build, unload it before reloading configuration:
 
 ```sh
@@ -154,6 +154,12 @@ The probe also checks that floating focus and reload preserve the underlying
 geometry, while focusing a narrow tiled neighbor restores gaps. It checks 108
 edge/interior targets across left, middle and right full-width columns with
 border resizing enabled, plus floating-window hit priority.
+
+On 0.57.0, the disposable-compositor probe passed all geometry, 96 animation
+samples, 108 hit tests, floating/special workspace, cross-monitor and reload
+checks. Captures select the test output explicitly and have a timeout so a
+disabled nested output cannot hang the probe. The compositor then crashed on
+shutdown; the same exit crash reproduced in a separate run without any plugins.
 
 The 100% window still changes height during gap transitions. Explicit column-width
 changes, monitor changes, and stacking windows can resize its client width.

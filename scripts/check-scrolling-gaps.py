@@ -52,7 +52,9 @@ with open(sys.argv[1], 'w', buffering=1) as log:
 ''')
 try:
     assert not ctl('configerrors').strip()
-    print(ctl('plugin','load',str(args.plugin.resolve())),flush=True)
+    loaded = ctl('plugin','load',str(args.plugin.resolve()))
+    assert loaded.strip() == 'ok', loaded
+    print(loaded,flush=True)
     time.sleep(.4)
     originals=json.loads(ctl('-j','monitors'))
     print(ctl('output','create','headless','SLIDES-PROBE'),flush=True)
@@ -95,11 +97,11 @@ try:
                 assert all(abs(x-y)<.01 for x,y in zip(rendered[neighbor]['current'],baseline[neighbor]['size'])),rendered[neighbor]
             frames.append({'turn':turn,'frame':frame,'wide':rendered[a]['current'],'ordinary':rendered[b]['current']})
             if frame==6 and turn==0:
-                subprocess.run(['grim',str(args.artifacts / 'mid-transition.png')],env=env,check=True)
+                subprocess.run(['grim','-o','SLIDES-PROBE',str(args.artifacts / 'mid-transition.png')],env=env,check=True,timeout=15)
             time.sleep(.025)
     assert len({tuple(f['wide']) for f in frames})>2, 'expected animated intermediate sizes'
     (args.artifacts / 'animation-frames.json').write_text(json.dumps(frames,indent=2))
-    subprocess.run(['grim',str(args.artifacts / 'focused-gapless.png')],env=env,check=True)
+    subprocess.run(['grim','-o','SLIDES-PROBE',str(args.artifacts / 'focused-gapless.png')],env=env,check=True,timeout=15)
     for line in wide_log.read_text().splitlines()[len(initial_geometry):]:
         assert json.loads(line)[0] == terminal_columns, ('terminal width changed', initial_geometry, line)
     print('PASS: 96 animation samples, all widths and Kitty columns invariant; wide height still animates, fullscreen always zero',flush=True)
@@ -154,8 +156,8 @@ try:
             current={w['address']:w for w in json.loads(ctl('scrolling-gaps:state'))}
             assert current[a]['gapless'] and not current[c]['gapless'], current
             for address in (a,b):
-                assert current[address]['goal']==tiled_before[address]['goal']
-                assert all(abs(x-y)<.01 for x,y in zip(current[address]['current'],tiled_before[address]['current']))
+                assert current[address]['goal']==tiled_before[address]['goal'], (current[address], tiled_before[address])
+                assert all(abs(x-y)<.01 for x,y in zip(current[address]['current'],tiled_before[address]['current'])), (current[address], tiled_before[address])
             time.sleep(.025)
     for address in (c,a,c):
         focus(address)
@@ -180,7 +182,7 @@ try:
     focus(opened['address'])
     assert_float_preserves_tiling()
     (args.artifacts / 'floating-focused-clients.json').write_text(ctl('-j','clients'))
-    subprocess.run(['grim',str(args.artifacts / 'floating-focused-gapless.png')],env=env,check=True)
+    subprocess.run(['grim','-o','SLIDES-PROBE',str(args.artifacts / 'floating-focused-gapless.png')],env=env,check=True,timeout=15)
     popup.terminate();popup.wait(timeout=5)
     focus(c)
     assert_float_preserves_tiling()
@@ -238,7 +240,7 @@ try:
     time.sleep(.5)
     current={w['address']:w for w in json.loads(ctl('scrolling-gaps:state'))}
     assert current[a]['gapless'] and current[d]['gapless'], current
-    subprocess.run(['grim','-o','SLIDES-PROBE',str(args.artifacts / 'unfocused-monitor.png')],env=env,check=True)
+    subprocess.run(['grim','-o','SLIDES-PROBE',str(args.artifacts / 'unfocused-monitor.png')],env=env,check=True,timeout=15)
     print('PASS: cross-monitor focus and plugin reload preserve both gapless columns',flush=True)
     # A stack must remain gapped, even when its column width is 100%.
     focus(b);evaluate('hl.dispatch(hl.dsp.window.move({direction="l"}))')

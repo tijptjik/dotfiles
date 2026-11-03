@@ -531,14 +531,19 @@
       "priority": 24,
       "id": "ephemera",
       "name": "Ephemera",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "d46df36796119078d0413e2b88be1835e176e0205f9a0d213ffaa4614a370e5d",
       "review_selection_sha256": "54e8a6a727a37306dce3441fc4d4435281be9ad3a9cc4c38d1824e8340703c23",
-      "suggested_sha256": "54e8a6a727a37306dce3441fc4d4435281be9ad3a9cc4c38d1824e8340703c23",
+      "suggested_sha256": "cac0f654ec90c31118c5fe78c5d18af22abc998aec4780524ed29d30178b09c2",
       "output": "native/home/files/dockers/homepage/images/rose-punk/ephemera.svg",
       "critique": "The equal-width outline makes the centre hinge and page shapes feel schematic.",
       "preserve": "Transparent open-book pages and the central spine; no extra badge.",
-      "proposal": "Refine the paired page curves and give the hinge a restrained rose fold."
+      "proposal": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "54e8a6a727a37306dce3441fc4d4435281be9ad3a9cc4c38d1824e8340703c23",
+        "reason": "Use luminous warm paper, brighter skies and mint landscapes, retaining thickness, folds and clear functional marks."
+      }
     },
     {
       "priority": 25,
@@ -1098,14 +1103,19 @@
       "priority": 60,
       "id": "byparr",
       "name": "Byparr",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "312cb75d3602a0ff1ca7c7828b756a5f21f8ea07f80b009f822aaff22986b68f",
       "review_selection_sha256": "8fdbb349c7f9f388ba17b5170f8f7972512ca575b20dc9596170f04145f39ea9",
-      "suggested_sha256": "8fdbb349c7f9f388ba17b5170f8f7972512ca575b20dc9596170f04145f39ea9",
+      "suggested_sha256": "d5fb83651d91b41f76e0334ccb03cc3af741d258020d804c06ade7297853b739",
       "output": "native/home/files/dockers/homepage/images/rose-punk/byparr.svg",
       "critique": "The nested plate outlines are strong while the small chocolate marks disappear.",
       "preserve": "Irregular baked cookie on an ivory plate with dark chocolate pieces.",
-      "proposal": "Keep the cookie outline, soften the plate groove and enlarge the chocolate marks without adding decorative shine."
+      "proposal": "Use a warm ivory plate and golden biscuit pigments instead of beige-grey shading.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "8fdbb349c7f9f388ba17b5170f8f7972512ca575b20dc9596170f04145f39ea9",
+        "reason": "Use a warm ivory plate and golden biscuit pigments instead of beige-grey shading."
+      }
     },
     {
       "priority": 61,

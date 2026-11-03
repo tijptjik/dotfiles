@@ -75,14 +75,46 @@
   "seerr": {
     "name": "Seerr",
     "dashboard_icon": "seerr.png",
-    "geometry": "local/homepage/seerr.svg",
-    "sha256": "6422344d47e02efe0963e7db3e25a8d35735defcd076f822221869f7df57d292",
+    "geometry": "local/reviewed/seerr.svg",
+    "sha256": "af8c4c29b054b32bfe93dea7d08a508b5401a9dec6b238799e2ba81cdea6c1d3",
     "reference_sha256": "a631922a007a104cf79120691f599b56862f285dd765bab0b744da0079a705cc",
     "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/seerr.png",
     "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
     "material_revision": 6,
     "design_note": "Continuous, restrained lavender pigment bands replace isolated iris scratches; the crescent pupil and matte finish remain.",
-    "reference_name": "seerr.png"
+    "reference_name": "seerr.png",
+    "mode": "reviewed-svg",
+    "previous_source": {
+      "name": "Seerr",
+      "dashboard_icon": "seerr.png",
+      "geometry": "local/homepage/seerr.svg",
+      "sha256": "6422344d47e02efe0963e7db3e25a8d35735defcd076f822221869f7df57d292",
+      "reference_sha256": "a631922a007a104cf79120691f599b56862f285dd765bab0b744da0079a705cc",
+      "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/seerr.png",
+      "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+      "material_revision": 6,
+      "design_note": "Continuous, restrained lavender pigment bands replace isolated iris scratches; the crescent pupil and matte finish remain.",
+      "reference_name": "seerr.png"
+    },
+    "consistency_review": {
+      "number": 109,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "f9963d294f8465b1992104de755bab913a8fddb99fb48cd57cb637a5bf618167",
+      "decision": "Accepted",
+      "design_note": "Reduce the secondary iris accents so the crescent remains the first read.",
+      "attribution": {
+        "name": "Seerr",
+        "dashboard_icon": "seerr.png",
+        "geometry": "local/homepage/seerr.svg",
+        "sha256": "6422344d47e02efe0963e7db3e25a8d35735defcd076f822221869f7df57d292",
+        "reference_sha256": "a631922a007a104cf79120691f599b56862f285dd765bab0b744da0079a705cc",
+        "source": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/seerr.png",
+        "license": "See homepage-upstream/LICENSE and NOTICE.md; app identities remain with their owners",
+        "material_revision": 6,
+        "design_note": "Continuous, restrained lavender pigment bands replace isolated iris scratches; the crescent pupil and matte finish remain.",
+        "reference_name": "seerr.png"
+      }
+    }
   },
   "tautulli": {
     "name": "Tautulli",
@@ -393,8 +425,8 @@
     "name": "Prowlarr",
     "dashboard_icon": "prowlarr.png",
     "theme_key": "prowlarr",
-    "geometry": "local/prowlarr.svg",
-    "sha256": "54599b9c94db4b0ebe2bfc9856b44843bd17eeb94d149a4d7dfcdf2b00d21a95",
+    "geometry": "local/reviewed/prowlarr.svg",
+    "sha256": "e79d3288fb00f1d544799c392719623434665f331d7b3129597c42ba2d1ad21b",
     "attribution": {
       "source": "scripts/icons/local/prowlarr.svg",
       "license": "Original tiger-face interpretation; app identity rights remain with their owners",
@@ -402,6 +434,37 @@
       "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prowlarr.svg",
       "reference_sha256": "324c3501087a8f6337d4c73ead8bd848b8c0491e062abececb2b9eea398c62a4",
       "material_revision": 5
+    },
+    "mode": "reviewed-svg",
+    "previous_source": {
+      "name": "Prowlarr",
+      "dashboard_icon": "prowlarr.png",
+      "theme_key": "prowlarr",
+      "geometry": "local/prowlarr.svg",
+      "sha256": "54599b9c94db4b0ebe2bfc9856b44843bd17eeb94d149a4d7dfcdf2b00d21a95",
+      "attribution": {
+        "source": "scripts/icons/local/prowlarr.svg",
+        "license": "Original tiger-face interpretation; app identity rights remain with their owners",
+        "sha256": "54599b9c94db4b0ebe2bfc9856b44843bd17eeb94d149a4d7dfcdf2b00d21a95",
+        "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prowlarr.svg",
+        "reference_sha256": "324c3501087a8f6337d4c73ead8bd848b8c0491e062abececb2b9eea398c62a4",
+        "material_revision": 5
+      }
+    },
+    "consistency_review": {
+      "number": 75,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "b4329206e3e25553c27c24a7136c2a4c1392cea3c9002f2cba3bbcbbd5d68422",
+      "decision": "Accepted",
+      "design_note": "Join the muzzle into one continuous form, slightly reduce the eyes and add a quiet right-cheek shadow.",
+      "attribution": {
+        "source": "scripts/icons/local/prowlarr.svg",
+        "license": "Original tiger-face interpretation; app identity rights remain with their owners",
+        "sha256": "54599b9c94db4b0ebe2bfc9856b44843bd17eeb94d149a4d7dfcdf2b00d21a95",
+        "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prowlarr.svg",
+        "reference_sha256": "324c3501087a8f6337d4c73ead8bd848b8c0491e062abececb2b9eea398c62a4",
+        "material_revision": 5
+      }
     }
   },
   "scrutiny": {
@@ -420,26 +483,85 @@
     "name": "Telegram",
     "dashboard_icon": "telegram.png",
     "theme_key": "telegram",
-    "geometry": "local/telegram.svg",
-    "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
+    "geometry": "local/reviewed/telegram.svg",
+    "sha256": "d7cb401bb6b4bb666518a88dfd6f821ee219fb7bb7ec76df3703c17ebe762e50",
     "attribution": {
       "source": "/home/io/code/tjikos/apps/bartjik/qml/icons/tray/telegram-outline.svg",
       "license": "Original artwork",
       "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
       "material_revision": 13,
       "design_note": "Solid blue wings; two continuously shaded paper faces meet along a straight nose-to-tail crease. Slightly deeper return-face shading sharpens the right wing fold. Matching rose-red and ivory wing bands. Shared with Homepage."
+    },
+    "mode": "reviewed-svg",
+    "previous_source": {
+      "name": "Telegram",
+      "dashboard_icon": "telegram.png",
+      "theme_key": "telegram",
+      "geometry": "local/telegram.svg",
+      "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
+      "attribution": {
+        "source": "/home/io/code/tjikos/apps/bartjik/qml/icons/tray/telegram-outline.svg",
+        "license": "Original artwork",
+        "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
+        "material_revision": 13,
+        "design_note": "Solid blue wings; two continuously shaded paper faces meet along a straight nose-to-tail crease. Slightly deeper return-face shading sharpens the right wing fold. Matching rose-red and ivory wing bands. Shared with Homepage."
+      }
+    },
+    "consistency_review": {
+      "number": 106,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "d78a97dec5d67fe7f941ca3a9cf524896aa4fbf05596d7826ea8dccc1415a770",
+      "decision": "Accepted",
+      "design_note": "Deepen the blue faces and rose-red bands while preserving the folded construction.",
+      "attribution": {
+        "source": "/home/io/code/tjikos/apps/bartjik/qml/icons/tray/telegram-outline.svg",
+        "license": "Original artwork",
+        "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
+        "material_revision": 13,
+        "design_note": "Solid blue wings; two continuously shaded paper faces meet along a straight nose-to-tail crease. Slightly deeper return-face shading sharpens the right wing fold. Matching rose-red and ivory wing bands. Shared with Homepage."
+      }
     }
   },
   "homepage": {
     "name": "Homepage",
-    "geometry": "local/homepage/homepage.svg",
-    "sha256": "2abe6d3c5e53ebecc29cffccac352bb3f6b1f3374798f97c61aa235034062e17",
+    "geometry": "local/reviewed/homepage.svg",
+    "sha256": "24550eac391c6e046ced7c534b6fd076bb445f313adf53040218941e637d5260",
     "reference": "homepage-upstream/si-services/homepage.png",
     "reference_sha256": "e1feb712b750b4888bdc75510d48ea7724fc628e8ce006c735c00ca3150f27cc",
     "source": "https://raw.githubusercontent.com/gethomepage/homepage/dev/public/apple-touch-icon.png",
     "license": "GPL-3.0",
     "material_revision": 6,
-    "design_note": "Simplified using Dotjik\u2019s house proportions and restraint: seven broad flat shapes, a rose roof, warm ivory walls, two dark windows and blue/jade bookmark tails. No roof texture, chimney, glazing, seams or small trim. Dotjik\u2019s house silhouette is shared; the window bookmarks distinguish Homepage."
+    "design_note": "Simplified using Dotjik\u2019s house proportions and restraint: seven broad flat shapes, a rose roof, warm ivory walls, two dark windows and blue/jade bookmark tails. No roof texture, chimney, glazing, seams or small trim. Dotjik\u2019s house silhouette is shared; the window bookmarks distinguish Homepage.",
+    "mode": "reviewed-svg",
+    "previous_source": {
+      "name": "Homepage",
+      "geometry": "local/homepage/homepage.svg",
+      "sha256": "2abe6d3c5e53ebecc29cffccac352bb3f6b1f3374798f97c61aa235034062e17",
+      "reference": "homepage-upstream/si-services/homepage.png",
+      "reference_sha256": "e1feb712b750b4888bdc75510d48ea7724fc628e8ce006c735c00ca3150f27cc",
+      "source": "https://raw.githubusercontent.com/gethomepage/homepage/dev/public/apple-touch-icon.png",
+      "license": "GPL-3.0",
+      "material_revision": 6,
+      "design_note": "Simplified using Dotjik\u2019s house proportions and restraint: seven broad flat shapes, a rose roof, warm ivory walls, two dark windows and blue/jade bookmark tails. No roof texture, chimney, glazing, seams or small trim. Dotjik\u2019s house silhouette is shared; the window bookmarks distinguish Homepage."
+    },
+    "consistency_review": {
+      "number": 86,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "a8661f30268617bc5dcc33510548ea9f9b8fae754df4dd121fd6e135eac3c15a",
+      "decision": "Accepted",
+      "design_note": "Keep the house and seven-shape flat treatment; straighten the two tails and give their notches matching proportions.",
+      "attribution": {
+        "name": "Homepage",
+        "geometry": "local/homepage/homepage.svg",
+        "sha256": "2abe6d3c5e53ebecc29cffccac352bb3f6b1f3374798f97c61aa235034062e17",
+        "reference": "homepage-upstream/si-services/homepage.png",
+        "reference_sha256": "e1feb712b750b4888bdc75510d48ea7724fc628e8ce006c735c00ca3150f27cc",
+        "source": "https://raw.githubusercontent.com/gethomepage/homepage/dev/public/apple-touch-icon.png",
+        "license": "GPL-3.0",
+        "material_revision": 6,
+        "design_note": "Simplified using Dotjik\u2019s house proportions and restraint: seven broad flat shapes, a rose roof, warm ivory walls, two dark windows and blue/jade bookmark tails. No roof texture, chimney, glazing, seams or small trim. Dotjik\u2019s house silhouette is shared; the window bookmarks distinguish Homepage."
+      }
+    }
   },
   "unpackerr": {
     "name": "Unpackerr",

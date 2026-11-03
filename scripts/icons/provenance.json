@@ -1,27 +1,96 @@
 {
   "google-photos": {
-    "source": "scripts/icons/local/google-photos.svg",
+    "source": "scripts/icons/local/reviewed/google-photos.svg",
     "license": "Original themed interpretation; app identities remain with their respective owners",
-    "sha256": "5701ca700b25053e003eeb6109d97e250593f1ce64f33857a54a36f613e42ab5",
+    "sha256": "429dd5ed39810e8f9ee821318b384263ce5d6a0215f39e96d95dfa40084cb21d",
     "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlephotos.svg",
     "reference_sha256": "096222b445207536884cf856c48d80dfed8ce5215707e9228966626a41b2188a",
-    "material_revision": 3
+    "material_revision": 3,
+    "previous_source": {
+      "source": "scripts/icons/local/google-photos.svg",
+      "license": "Original themed interpretation; app identities remain with their respective owners",
+      "sha256": "5701ca700b25053e003eeb6109d97e250593f1ce64f33857a54a36f613e42ab5",
+      "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlephotos.svg",
+      "reference_sha256": "096222b445207536884cf856c48d80dfed8ce5215707e9228966626a41b2188a",
+      "material_revision": 3
+    },
+    "consistency_review": {
+      "number": 80,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "8e9e26a5c9713dae6d1ca2839eda3579fa71bd78bc7ac650738209f1c64df73a",
+      "decision": "Accepted",
+      "design_note": "Keep all petal geometry and use coordinated restrained ramps so each petal carries similar weight.",
+      "attribution": {
+        "source": "scripts/icons/local/google-photos.svg",
+        "license": "Original themed interpretation; app identities remain with their respective owners",
+        "sha256": "5701ca700b25053e003eeb6109d97e250593f1ce64f33857a54a36f613e42ab5",
+        "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlephotos.svg",
+        "reference_sha256": "096222b445207536884cf856c48d80dfed8ce5215707e9228966626a41b2188a",
+        "material_revision": 3
+      }
+    }
   },
   "gmail": {
-    "source": "scripts/icons/local/gmail.svg",
+    "source": "scripts/icons/local/reviewed/gmail.svg",
     "license": "Original themed interpretation; app identities remain with their respective owners",
-    "sha256": "5d2e61bfd5040ad01e561c672b49c86339584aee6ef2fc9b67be00ad5e24798c",
+    "sha256": "b8f1c081d3ca7d5a9ea045e7d4401203fb5a65f45fc2209165b558ed035f9942",
     "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gmail.svg",
     "reference_sha256": "a537f5d85d9a27efa3a5d6086e8df6072ee93f76b4d176639a5e483f74b74b9f",
-    "material_revision": 4
+    "material_revision": 4,
+    "previous_source": {
+      "source": "scripts/icons/local/gmail.svg",
+      "license": "Original themed interpretation; app identities remain with their respective owners",
+      "sha256": "5d2e61bfd5040ad01e561c672b49c86339584aee6ef2fc9b67be00ad5e24798c",
+      "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gmail.svg",
+      "reference_sha256": "a537f5d85d9a27efa3a5d6086e8df6072ee93f76b4d176639a5e483f74b74b9f",
+      "material_revision": 4
+    },
+    "consistency_review": {
+      "number": 83,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "4464a34c466e866a69e124ba7f898c398cb7a3ffcdb592a440cde2752aa8b828",
+      "decision": "Accepted",
+      "design_note": "Keep the proposed paper construction and restore red using the existing Gmailtjik red pigment ramp.",
+      "attribution": {
+        "source": "scripts/icons/local/gmail.svg",
+        "license": "Original themed interpretation; app identities remain with their respective owners",
+        "sha256": "5d2e61bfd5040ad01e561c672b49c86339584aee6ef2fc9b67be00ad5e24798c",
+        "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gmail.svg",
+        "reference_sha256": "a537f5d85d9a27efa3a5d6086e8df6072ee93f76b4d176639a5e483f74b74b9f",
+        "material_revision": 4
+      }
+    }
   },
   "google-calendar": {
-    "source": "scripts/icons/local/google-calendar.svg",
+    "source": "scripts/icons/local/reviewed/google-calendar.svg",
     "license": "Original themed interpretation; app identities remain with their respective owners",
-    "sha256": "b8054e039258d95814f86079db8373fa82e96510eb78a5130bf3caf8dc1d4975",
+    "sha256": "420279d851a67b8fc0982620dc64888c7c85fbb255b8a76bbad90e1e0b54317f",
     "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlecalendar.svg",
     "reference_sha256": "39b434d3264d123629a12509e9f5bdf57bf9e5ed9a6eafffb714cff5f05f032f",
-    "material_revision": 3
+    "material_revision": 3,
+    "previous_source": {
+      "source": "scripts/icons/local/google-calendar.svg",
+      "license": "Original themed interpretation; app identities remain with their respective owners",
+      "sha256": "b8054e039258d95814f86079db8373fa82e96510eb78a5130bf3caf8dc1d4975",
+      "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlecalendar.svg",
+      "reference_sha256": "39b434d3264d123629a12509e9f5bdf57bf9e5ed9a6eafffb714cff5f05f032f",
+      "material_revision": 3
+    },
+    "consistency_review": {
+      "number": 82,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "d559406842cd859a9900bb3951b443fc8b3aef6f3542241ceecb89910e08c0e6",
+      "decision": "Accepted",
+      "design_note": "Use the same paper and binding construction as Calendar while preserving the blue header and amber corner.",
+      "attribution": {
+        "source": "scripts/icons/local/google-calendar.svg",
+        "license": "Original themed interpretation; app identities remain with their respective owners",
+        "sha256": "b8054e039258d95814f86079db8373fa82e96510eb78a5130bf3caf8dc1d4975",
+        "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/googlecalendar.svg",
+        "reference_sha256": "39b434d3264d123629a12509e9f5bdf57bf9e5ed9a6eafffb714cff5f05f032f",
+        "material_revision": 3
+      }
+    }
   },
   "codex-lb": {
     "source": "scripts/icons/local/codex-lb.svg",
@@ -33,26 +102,92 @@
     "reference_sha256": "d08b4e824cd6727e89617f59e4737273ff53e44c1da849d016dd64dfd08b33e1"
   },
   "drizzle": {
-    "source": "scripts/icons/build.py",
-    "license": "Original artwork"
+    "source": "scripts/icons/local/reviewed/drizzle.svg",
+    "license": "Original artwork",
+    "sha256": "f8914818a167359728ab6f0420344f31d7b5730f6a2f77daef0bdd97740d7bf2",
+    "previous_source": {
+      "source": "scripts/icons/build.py",
+      "license": "Original artwork"
+    },
+    "consistency_review": {
+      "number": 131,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "5c7788536d507635673ebab2ea0aa75d03090eb0713eca42d68a7e83a502a493",
+      "decision": "Accepted",
+      "design_note": "Keep every stroke and gap; bring both pigment ramps into a clearer rose/blush relationship.",
+      "attribution": {
+        "source": "scripts/icons/build.py",
+        "license": "Original artwork"
+      }
+    }
   },
   "steam": {
-    "source": "scripts/icons/local/steam.svg",
+    "source": "scripts/icons/local/reviewed/steam.svg",
     "license": "Original artwork",
-    "sha256": "6e6270483377895c129737f7f3fc294c762dea9526a4a7251a5c004497210de2",
+    "sha256": "037df072f69d88dc03102713cd1c6be73b70644f6b81bea4153e4e7a0abb2375",
     "material_revision": 10,
     "reference_file": ".local/icon-reviews/docs/assets/icon-review/originals/steam.png",
     "reference_sha256": "b7087da76b8315024887b9a9313be5b9e6ba87d25eb624eac2d6542a823bb87d",
     "geometry_note": "Solid tapered connecting rod and continuous crank arm redrawn against the packaged Steam mark.",
-    "design_note": "Deeper periwinkle linkage; the ivory crank arm has a narrow navy edge for visibility on light surfaces. Original blue and ivory identity retained."
+    "design_note": "Deeper periwinkle linkage; the ivory crank arm has a narrow navy edge for visibility on light surfaces. Original blue and ivory identity retained.",
+    "previous_source": {
+      "source": "scripts/icons/local/steam.svg",
+      "license": "Original artwork",
+      "sha256": "6e6270483377895c129737f7f3fc294c762dea9526a4a7251a5c004497210de2",
+      "material_revision": 10,
+      "reference_file": ".local/icon-reviews/docs/assets/icon-review/originals/steam.png",
+      "reference_sha256": "b7087da76b8315024887b9a9313be5b9e6ba87d25eb624eac2d6542a823bb87d",
+      "geometry_note": "Solid tapered connecting rod and continuous crank arm redrawn against the packaged Steam mark.",
+      "design_note": "Deeper periwinkle linkage; the ivory crank arm has a narrow navy edge for visibility on light surfaces. Original blue and ivory identity retained."
+    },
+    "consistency_review": {
+      "number": 96,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "883e94e0eea334266efc8e4fbd77d694c505b1a8fe5cdb1b44f2076866a8fa23",
+      "decision": "Accepted",
+      "design_note": "Preserve the linkage geometry, lighten the edge weight and use a narrow steel-blue material ramp.",
+      "attribution": {
+        "source": "scripts/icons/local/steam.svg",
+        "license": "Original artwork",
+        "sha256": "6e6270483377895c129737f7f3fc294c762dea9526a4a7251a5c004497210de2",
+        "material_revision": 10,
+        "reference_file": ".local/icon-reviews/docs/assets/icon-review/originals/steam.png",
+        "reference_sha256": "b7087da76b8315024887b9a9313be5b9e6ba87d25eb624eac2d6542a823bb87d",
+        "geometry_note": "Solid tapered connecting rod and continuous crank arm redrawn against the packaged Steam mark.",
+        "design_note": "Deeper periwinkle linkage; the ivory crank arm has a narrow navy edge for visibility on light surfaces. Original blue and ivory identity retained."
+      }
+    }
   },
   "brave": {
-    "source": "scripts/icons/local/brave.svg",
+    "source": "scripts/icons/local/reviewed/brave.svg",
     "license": "CC0-1.0; themed adaptation",
-    "sha256": "504ce1b5e97854f6d7920c8a9e580daf528273c384bbae714ca33f74ad2b7492",
+    "sha256": "9b0a9834dcc844dd443385fb18beb139145ababa52ee28777aa0b87cbe628a70",
     "reference": "upstream/brave-official.svg",
     "reference_sha256": "48fa2ac9d7601b3a146ad7e16a908a52820e069398e0b5f84b2217dee98aa7fd",
-    "material_revision": 3
+    "material_revision": 3,
+    "previous_source": {
+      "source": "scripts/icons/local/brave.svg",
+      "license": "CC0-1.0; themed adaptation",
+      "sha256": "504ce1b5e97854f6d7920c8a9e580daf528273c384bbae714ca33f74ad2b7492",
+      "reference": "upstream/brave-official.svg",
+      "reference_sha256": "48fa2ac9d7601b3a146ad7e16a908a52820e069398e0b5f84b2217dee98aa7fd",
+      "material_revision": 3
+    },
+    "consistency_review": {
+      "number": 105,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "b0c37bcef0d7c4f8edff3b2b603574ded09af1ab964757ed894793b6b28b147d",
+      "decision": "Accepted",
+      "design_note": "Use a more continuous copper-to-ochre mane while retaining all geometry.",
+      "attribution": {
+        "source": "scripts/icons/local/brave.svg",
+        "license": "CC0-1.0; themed adaptation",
+        "sha256": "504ce1b5e97854f6d7920c8a9e580daf528273c384bbae714ca33f74ad2b7492",
+        "reference": "upstream/brave-official.svg",
+        "reference_sha256": "48fa2ac9d7601b3a146ad7e16a908a52820e069398e0b5f84b2217dee98aa7fd",
+        "material_revision": 3
+      }
+    }
   },
   "plex": {
     "source": "scripts/icons/local/reviewed/plex.svg",
@@ -113,21 +248,69 @@
     }
   },
   "chatgpt": {
-    "source": "scripts/icons/local/chatgpt.svg",
+    "source": "scripts/icons/local/reviewed/chatgpt.svg",
     "license": "MIT; brand rights remain with their owners",
     "reference": "upstream/openai.svg",
     "reference_sha256": "802335af1ddb4e135468f689aabe7ac7798a3177c1b71bbd4549fc602e9264ed",
-    "sha256": "0b6d05bc27d9d50583e107bda5658176a7e2d669b76b34972ad8d1674729efdc",
-    "material_revision": 2
+    "sha256": "63eee0383feaeeecc98b82ad307e0ca09e2382e9486eb3ce5c98930af8630824",
+    "material_revision": 2,
+    "previous_source": {
+      "source": "scripts/icons/local/chatgpt.svg",
+      "license": "MIT; brand rights remain with their owners",
+      "reference": "upstream/openai.svg",
+      "reference_sha256": "802335af1ddb4e135468f689aabe7ac7798a3177c1b71bbd4549fc602e9264ed",
+      "sha256": "0b6d05bc27d9d50583e107bda5658176a7e2d669b76b34972ad8d1674729efdc",
+      "material_revision": 2
+    },
+    "consistency_review": {
+      "number": 134,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "220be497dddc1481e06d1206c8730101e6eea1924626d8caef488e64e7ea5787",
+      "decision": "Accepted",
+      "design_note": "Strengthen the turquoise pigment without altering the interlaced paths or their gaps.",
+      "attribution": {
+        "source": "scripts/icons/local/chatgpt.svg",
+        "license": "MIT; brand rights remain with their owners",
+        "reference": "upstream/openai.svg",
+        "reference_sha256": "802335af1ddb4e135468f689aabe7ac7798a3177c1b71bbd4549fc602e9264ed",
+        "sha256": "0b6d05bc27d9d50583e107bda5658176a7e2d669b76b34972ad8d1674729efdc",
+        "material_revision": 2
+      }
+    }
   },
   "discord": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/discord.svg",
+    "source": "scripts/icons/local/reviewed/discord.svg",
     "license": "CC0-1.0; themed adaptation",
-    "sha256": "d2ebdadffdfc785c307f7a0cb1cdf4e0a327e3520fad8c4a1508764733e7eb56",
+    "sha256": "114b8e6d22ddecc9a7710bb0a4dcc1576c338f18cbb141181f35b0fff7b30e95",
     "reference": "upstream/discord-official.svg",
     "reference_sha256": "a2625a85ff8a4aa0703ba7c9db39bc57257b3223cd8c19394e8ec491f50b9b83",
     "material_revision": 18,
-    "design_note": "Rose Discord silhouette retained; deeper indigo eyes (#344278) provide 3.83:1 contrast against the pink face."
+    "design_note": "Rose Discord silhouette retained; deeper indigo eyes (#344278) provide 3.83:1 contrast against the pink face.",
+    "previous_source": {
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/discord.svg",
+      "license": "CC0-1.0; themed adaptation",
+      "sha256": "d2ebdadffdfc785c307f7a0cb1cdf4e0a327e3520fad8c4a1508764733e7eb56",
+      "reference": "upstream/discord-official.svg",
+      "reference_sha256": "a2625a85ff8a4aa0703ba7c9db39bc57257b3223cd8c19394e8ec491f50b9b83",
+      "material_revision": 18,
+      "design_note": "Rose Discord silhouette retained; deeper indigo eyes (#344278) provide 3.83:1 contrast against the pink face."
+    },
+    "consistency_review": {
+      "number": 135,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "9e6112a00950fbd659da5be67dd5f9fd944f009b6b77e6a9a49dd1b9481e098c",
+      "decision": "Accepted",
+      "design_note": "Keep the mark flat; use shared plum eyes and a slightly quieter rose body.",
+      "attribution": {
+        "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/discord.svg",
+        "license": "CC0-1.0; themed adaptation",
+        "sha256": "d2ebdadffdfc785c307f7a0cb1cdf4e0a327e3520fad8c4a1508764733e7eb56",
+        "reference": "upstream/discord-official.svg",
+        "reference_sha256": "a2625a85ff8a4aa0703ba7c9db39bc57257b3223cd8c19394e8ec491f50b9b83",
+        "material_revision": 18,
+        "design_note": "Rose Discord silhouette retained; deeper indigo eyes (#344278) provide 3.83:1 contrast against the pink face."
+      }
+    }
   },
   "chrome": {
     "source": "scripts/icons/local/chrome.svg",
@@ -136,21 +319,71 @@
     "material_revision": 3
   },
   "zapzap": {
-    "source": "scripts/icons/local/zapzap.svg",
+    "source": "scripts/icons/local/reviewed/zapzap.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "6c8d32039debf6825eef4af2ee40d5cf3eecb477e463b09fb73fd633e4c45baf",
-    "material_revision": 8
+    "sha256": "90a797455e11cd8233017a062025d34a720367974d7ac787b0b1ba7d13e1d70e",
+    "material_revision": 8,
+    "previous_source": {
+      "source": "scripts/icons/local/zapzap.svg",
+      "license": "Original themed artwork; app identity rights remain with their owners",
+      "sha256": "6c8d32039debf6825eef4af2ee40d5cf3eecb477e463b09fb73fd633e4c45baf",
+      "material_revision": 8
+    },
+    "consistency_review": {
+      "number": 118,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "7dec613d4dfa7d2c81a4b20739e939d4c305fa6b0b92acaf1373c2d21669e2e2",
+      "decision": "Accepted",
+      "design_note": "Nudge the handset upward and left and deepen the jade field to protect the ivory handset.",
+      "attribution": {
+        "source": "scripts/icons/local/zapzap.svg",
+        "license": "Original themed artwork; app identity rights remain with their owners",
+        "sha256": "6c8d32039debf6825eef4af2ee40d5cf3eecb477e463b09fb73fd633e4c45baf",
+        "material_revision": 8
+      }
+    }
   },
   "spotify": {
-    "source": "scripts/icons/local/spotify.svg",
+    "source": "scripts/icons/local/reviewed/spotify.svg",
     "license": "Themed vector artwork; underlying brand rights and source licenses retained",
-    "sha256": "78d06dfa2e61eaeaaae40230e0c42292afc872d1474617851292fb4e9dc1d883",
+    "sha256": "82e7d0767d3173ee9e1b36a3723852f6b88427b99b579ad8f9b1fd09062cdcd7",
     "material_revision": 14,
     "design_note": "Shared mint material ramp with Audio Player; ivory waves retained.",
     "adapted_from": {
       "source": "scripts/icons/local/spotify.svg",
       "license": "Original themed redraw; app identity rights remain with their owners",
       "sha256": "12dea27cfea0d77ebeafecccdacbef7fb9cd7218890018d1cb3442993307b16e"
+    },
+    "previous_source": {
+      "source": "scripts/icons/local/spotify.svg",
+      "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+      "sha256": "78d06dfa2e61eaeaaae40230e0c42292afc872d1474617851292fb4e9dc1d883",
+      "material_revision": 14,
+      "design_note": "Shared mint material ramp with Audio Player; ivory waves retained.",
+      "adapted_from": {
+        "source": "scripts/icons/local/spotify.svg",
+        "license": "Original themed redraw; app identity rights remain with their owners",
+        "sha256": "12dea27cfea0d77ebeafecccdacbef7fb9cd7218890018d1cb3442993307b16e"
+      }
+    },
+    "consistency_review": {
+      "number": 116,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "d48a89abee212701e32e4446f127b1e78144dfe3f4aef0e06cedf4edab237e62",
+      "decision": "Accepted",
+      "design_note": "Deepen the jade field and keep the three waves clean and warm ivory.",
+      "attribution": {
+        "source": "scripts/icons/local/spotify.svg",
+        "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+        "sha256": "78d06dfa2e61eaeaaae40230e0c42292afc872d1474617851292fb4e9dc1d883",
+        "material_revision": 14,
+        "design_note": "Shared mint material ramp with Audio Player; ivory waves retained.",
+        "adapted_from": {
+          "source": "scripts/icons/local/spotify.svg",
+          "license": "Original themed redraw; app identity rights remain with their owners",
+          "sha256": "12dea27cfea0d77ebeafecccdacbef7fb9cd7218890018d1cb3442993307b16e"
+        }
+      }
     }
   },
   "transmission": {
@@ -240,13 +473,38 @@
     }
   },
   "strata": {
-    "source": "/opt/strata/1.1.1/io.github.lgse.Strata.svg",
+    "source": "scripts/icons/local/reviewed/strata.svg",
     "license": "Upstream installed Strata artwork; themed adaptation",
-    "sha256": "2c95b0b16fbe56040f66a95b9d83467c8d39c44d22937ec812e0ddf046d30154",
+    "sha256": "00a32fb1478480ccd23efbb1ec2475e7ff9d26afed6ce5d28a842508af9cbc85",
     "reference": "upstream/strata-official.svg",
     "reference_sha256": "5be5eebbe949e0bd112e676a911fae603ad7f603c99daa1cfbe96dd2a60b375f",
     "material_revision": 1,
-    "design_note": "Ivory upper band retained with a narrow slate edge; deeper blue and cyan facets keep the unbacked logo visible on light surfaces."
+    "design_note": "Ivory upper band retained with a narrow slate edge; deeper blue and cyan facets keep the unbacked logo visible on light surfaces.",
+    "previous_source": {
+      "source": "/opt/strata/1.1.1/io.github.lgse.Strata.svg",
+      "license": "Upstream installed Strata artwork; themed adaptation",
+      "sha256": "2c95b0b16fbe56040f66a95b9d83467c8d39c44d22937ec812e0ddf046d30154",
+      "reference": "upstream/strata-official.svg",
+      "reference_sha256": "5be5eebbe949e0bd112e676a911fae603ad7f603c99daa1cfbe96dd2a60b375f",
+      "material_revision": 1,
+      "design_note": "Ivory upper band retained with a narrow slate edge; deeper blue and cyan facets keep the unbacked logo visible on light surfaces."
+    },
+    "consistency_review": {
+      "number": 130,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "d993473c221f6e8f4cc8b5b17329b10ae6f5758bbd099065539208a9a74f1892",
+      "decision": "Accepted",
+      "design_note": "Use a narrower, darker contour to protect the ivory face and coordinate the existing blue and cyan pigments.",
+      "attribution": {
+        "source": "/opt/strata/1.1.1/io.github.lgse.Strata.svg",
+        "license": "Upstream installed Strata artwork; themed adaptation",
+        "sha256": "2c95b0b16fbe56040f66a95b9d83467c8d39c44d22937ec812e0ddf046d30154",
+        "reference": "upstream/strata-official.svg",
+        "reference_sha256": "5be5eebbe949e0bd112e676a911fae603ad7f603c99daa1cfbe96dd2a60b375f",
+        "material_revision": 1,
+        "design_note": "Ivory upper band retained with a narrow slate edge; deeper blue and cyan facets keep the unbacked logo visible on light surfaces."
+      }
+    }
   },
   "kitty": {
     "source": "scripts/icons/local/kitty.svg",
@@ -264,9 +522,9 @@
     "design_note": "Preserves the original chipped-stone contour and four curved facets; removes the generic pointed crystal and floating highlight strokes. Rose, violet and periwinkle pigment ramps separate the faces."
   },
   "mullvad": {
-    "source": "scripts/icons/local/mullvad.svg",
+    "source": "scripts/icons/local/reviewed/mullvad.svg",
     "license": "Themed vector artwork; underlying brand rights and source licenses retained",
-    "sha256": "e5f09c42dbbc4803845cf4ba2b41679e5a77c1a8fb8a6fc70e320c7202cfa85c",
+    "sha256": "10b770854284dde3b08447dd9e65ee1044166f6a7462893714af898d00bd6839",
     "material_revision": 17,
     "design_note": "Mole companion adapted to the Rose Punk animal family; amber mining helmet and lamp retain Mullvad identity. Visual design accepted by user on 2026-10-29.",
     "adapted_from": {
@@ -286,7 +544,64 @@
       "material_revision": 5
     },
     "reference": "scripts/icons/upstream/mullvad.svg",
-    "reference_sha256": "bf228c15811759a3b1e5c28ee9f23d603c0ce5fe06982416d0105e0b154a128d"
+    "reference_sha256": "bf228c15811759a3b1e5c28ee9f23d603c0ce5fe06982416d0105e0b154a128d",
+    "previous_source": {
+      "source": "scripts/icons/local/mullvad.svg",
+      "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+      "sha256": "e5f09c42dbbc4803845cf4ba2b41679e5a77c1a8fb8a6fc70e320c7202cfa85c",
+      "material_revision": 17,
+      "design_note": "Mole companion adapted to the Rose Punk animal family; amber mining helmet and lamp retain Mullvad identity. Visual design accepted by user on 2026-10-29.",
+      "adapted_from": {
+        "source": "scripts/icons/local/mullvad.svg",
+        "license": "Original themed interpretation; app identity rights remain with their owners",
+        "sha256": "6f340273224d38c863be29a3885ab6e5ac21afdc6413a00e5301a1c78a4130d5",
+        "adapted_from": {
+          "source": "scripts/icons/local/mullvad.svg",
+          "license": "Original themed redraw; app identity rights remain with their owners",
+          "sha256": "8acccb3686322ce00f88cd2d89a9488cc43c3b163b2ad1030478859520e2a302",
+          "adapted_from": {
+            "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/mullvad.svg",
+            "license": "CC0-1.0 (brand rights remain with their owners)",
+            "sha256": "bf228c15811759a3b1e5c28ee9f23d603c0ce5fe06982416d0105e0b154a128d"
+          }
+        },
+        "material_revision": 5
+      },
+      "reference": "scripts/icons/upstream/mullvad.svg",
+      "reference_sha256": "bf228c15811759a3b1e5c28ee9f23d603c0ce5fe06982416d0105e0b154a128d"
+    },
+    "consistency_review": {
+      "number": 74,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "00057fdb41a53d5cf15e119059dca82150ffcd1254c984524bc87c915ff2928e",
+      "decision": "Accepted",
+      "design_note": "Tuck the ears closer to the helmet, quiet the nose highlight and give the lamp and coat clear material separation.",
+      "attribution": {
+        "source": "scripts/icons/local/mullvad.svg",
+        "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+        "sha256": "e5f09c42dbbc4803845cf4ba2b41679e5a77c1a8fb8a6fc70e320c7202cfa85c",
+        "material_revision": 17,
+        "design_note": "Mole companion adapted to the Rose Punk animal family; amber mining helmet and lamp retain Mullvad identity. Visual design accepted by user on 2026-10-29.",
+        "adapted_from": {
+          "source": "scripts/icons/local/mullvad.svg",
+          "license": "Original themed interpretation; app identity rights remain with their owners",
+          "sha256": "6f340273224d38c863be29a3885ab6e5ac21afdc6413a00e5301a1c78a4130d5",
+          "adapted_from": {
+            "source": "scripts/icons/local/mullvad.svg",
+            "license": "Original themed redraw; app identity rights remain with their owners",
+            "sha256": "8acccb3686322ce00f88cd2d89a9488cc43c3b163b2ad1030478859520e2a302",
+            "adapted_from": {
+              "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/mullvad.svg",
+              "license": "CC0-1.0 (brand rights remain with their owners)",
+              "sha256": "bf228c15811759a3b1e5c28ee9f23d603c0ce5fe06982416d0105e0b154a128d"
+            }
+          },
+          "material_revision": 5
+        },
+        "reference": "scripts/icons/upstream/mullvad.svg",
+        "reference_sha256": "bf228c15811759a3b1e5c28ee9f23d603c0ce5fe06982416d0105e0b154a128d"
+      }
+    }
   },
   "files": {
     "source": "scripts/icons/local/reviewed/files.svg",
@@ -342,13 +657,38 @@
     }
   },
   "firefox": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/firefoxbrowser.svg",
+    "source": "scripts/icons/local/reviewed/firefox.svg",
     "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "5a5349f12d2a2b28dac4832da2744c3f152533a18001af01b3c84166de9886db",
+    "sha256": "010157be890fc8336a4bb9d57fee2e6879c620240f3c14e84b2b0f43fd538565",
     "reference": "upstream/firefoxbrowser.svg",
     "reference_sha256": "5bb2f58d6b27b191af5d7793016b06de8ae571120f4f1d530c235b350ae83371",
     "material_revision": 17,
-    "design_note": "Pale cream-amber upper-left fur and muzzle transitioning through warm orange; localized pigment variation rather than uniform orange. Blue-mint globe unchanged."
+    "design_note": "Pale cream-amber upper-left fur and muzzle transitioning through warm orange; localized pigment variation rather than uniform orange. Blue-mint globe unchanged.",
+    "previous_source": {
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/firefoxbrowser.svg",
+      "license": "CC0-1.0 (brand rights remain with their owners)",
+      "sha256": "5a5349f12d2a2b28dac4832da2744c3f152533a18001af01b3c84166de9886db",
+      "reference": "upstream/firefoxbrowser.svg",
+      "reference_sha256": "5bb2f58d6b27b191af5d7793016b06de8ae571120f4f1d530c235b350ae83371",
+      "material_revision": 17,
+      "design_note": "Pale cream-amber upper-left fur and muzzle transitioning through warm orange; localized pigment variation rather than uniform orange. Blue-mint globe unchanged."
+    },
+    "consistency_review": {
+      "number": 102,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "0f79e76e2ab171c2d6eb56d15842157110bb9c9988873f5268aef3752b44f173",
+      "decision": "Accepted",
+      "design_note": "Remove the stray highlight and separate the cool globe from the warm fox with quieter pigments.",
+      "attribution": {
+        "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/firefoxbrowser.svg",
+        "license": "CC0-1.0 (brand rights remain with their owners)",
+        "sha256": "5a5349f12d2a2b28dac4832da2744c3f152533a18001af01b3c84166de9886db",
+        "reference": "upstream/firefoxbrowser.svg",
+        "reference_sha256": "5bb2f58d6b27b191af5d7793016b06de8ae571120f4f1d530c235b350ae83371",
+        "material_revision": 17,
+        "design_note": "Pale cream-amber upper-left fur and muzzle transitioning through warm orange; localized pigment variation rather than uniform orange. Blue-mint globe unchanged."
+      }
+    }
   },
   "signal": {
     "source": "scripts/icons/build.py",
@@ -358,22 +698,62 @@
     "design_note": "Deeper periwinkle dashed perimeter and blue bubble for light and plum surfaces; original silhouette and dash geometry retained."
   },
   "telegram": {
-    "source": "/home/io/code/tjikos/apps/bartjik/qml/icons/tray/telegram-outline.svg",
+    "source": "scripts/icons/local/reviewed/telegram.svg",
     "license": "Original artwork",
-    "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
+    "sha256": "d7cb401bb6b4bb666518a88dfd6f821ee219fb7bb7ec76df3703c17ebe762e50",
     "material_revision": 13,
-    "design_note": "Solid blue wings; two continuously shaded paper faces meet along a straight nose-to-tail crease. Slightly deeper return-face shading sharpens the right wing fold. Matching rose-red and ivory wing bands. Shared with Homepage."
+    "design_note": "Solid blue wings; two continuously shaded paper faces meet along a straight nose-to-tail crease. Slightly deeper return-face shading sharpens the right wing fold. Matching rose-red and ivory wing bands. Shared with Homepage.",
+    "previous_source": {
+      "source": "/home/io/code/tjikos/apps/bartjik/qml/icons/tray/telegram-outline.svg",
+      "license": "Original artwork",
+      "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
+      "material_revision": 13,
+      "design_note": "Solid blue wings; two continuously shaded paper faces meet along a straight nose-to-tail crease. Slightly deeper return-face shading sharpens the right wing fold. Matching rose-red and ivory wing bands. Shared with Homepage."
+    },
+    "consistency_review": {
+      "number": 106,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "d78a97dec5d67fe7f941ca3a9cf524896aa4fbf05596d7826ea8dccc1415a770",
+      "decision": "Accepted",
+      "design_note": "Deepen the blue faces and rose-red bands while preserving the folded construction.",
+      "attribution": {
+        "source": "/home/io/code/tjikos/apps/bartjik/qml/icons/tray/telegram-outline.svg",
+        "license": "Original artwork",
+        "sha256": "7713550b12a1f1ff474089256f33c4f89e1e4773a9b3f8edf59f0ebf1b82bdc8",
+        "material_revision": 13,
+        "design_note": "Solid blue wings; two continuously shaded paper faces meet along a straight nose-to-tail crease. Slightly deeper return-face shading sharpens the right wing fold. Matching rose-red and ivory wing bands. Shared with Homepage."
+      }
+    }
   },
   "vlc": {
-    "source": "scripts/icons/local/vlc.svg",
+    "source": "scripts/icons/local/reviewed/vlc.svg",
     "license": "Original artwork",
-    "sha256": "be88f150bc3db2c2665414414b7137bf95b17427c468271e8b8087578c03fb0c",
-    "material_revision": 7
+    "sha256": "95115edc85bd156866494312d11abd5e1e9902f7a3a79fba23fc99bebb0103d5",
+    "material_revision": 7,
+    "previous_source": {
+      "source": "scripts/icons/local/vlc.svg",
+      "license": "Original artwork",
+      "sha256": "be88f150bc3db2c2665414414b7137bf95b17427c468271e8b8087578c03fb0c",
+      "material_revision": 7
+    },
+    "consistency_review": {
+      "number": 77,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "1560c8cc9561a11637828015464f5c23e4b523349990983a0f7d539f1f0b666f",
+      "decision": "Accepted",
+      "design_note": "Wrap the bands around one tapered surface and give the plastic a restrained lateral material ramp.",
+      "attribution": {
+        "source": "scripts/icons/local/vlc.svg",
+        "license": "Original artwork",
+        "sha256": "be88f150bc3db2c2665414414b7137bf95b17427c468271e8b8087578c03fb0c",
+        "material_revision": 7
+      }
+    }
   },
   "sublime-text": {
-    "source": "scripts/icons/local/sublime-text.svg",
+    "source": "scripts/icons/local/reviewed/sublime-text.svg",
     "license": "Sublime Text official brand artwork; underlying Sublime HQ rights retained; unofficial themed adaptation",
-    "sha256": "b7ba53f07ac61d89b66125348cb64d605766e030ae9c1a29a1bba862fb85efad",
+    "sha256": "3fe0814405b4339fa642a9122f32634250b1b4b9b553c8eb88578844e236f109",
     "reference": "https://www.sublimetext.com/images/logo.svg",
     "reference_sha256": "607c5dd40873c6ae788e676963a48701299a2f9b30a9615eb1234d81b700dfd2",
     "material_revision": 3,
@@ -384,14 +764,74 @@
         "url": "https://github.com/PapirusDevelopmentTeam/papirus-icon-theme/blob/master/Papirus/64x64/apps/sublime-text.svg",
         "use": "Established charcoal app backing and folded ribbon presentation; no SVG paths copied"
       }
-    ]
+    ],
+    "previous_source": {
+      "source": "scripts/icons/local/sublime-text.svg",
+      "license": "Sublime Text official brand artwork; underlying Sublime HQ rights retained; unofficial themed adaptation",
+      "sha256": "b7ba53f07ac61d89b66125348cb64d605766e030ae9c1a29a1bba862fb85efad",
+      "reference": "https://www.sublimetext.com/images/logo.svg",
+      "reference_sha256": "607c5dd40873c6ae788e676963a48701299a2f9b30a9615eb1234d81b700dfd2",
+      "material_revision": 3,
+      "design_note": "The three curved ribbon faces are taken from Sublime Text\u2019s official wordmark SVG. Amber front faces and a copper return fold sit on the quiet charcoal backing used in established Sublime desktop icons; no raised rim or theme-wide tile.",
+      "reference_file": "scripts/icons/upstream/sublime-brand.svg",
+      "inspiration": [
+        {
+          "url": "https://github.com/PapirusDevelopmentTeam/papirus-icon-theme/blob/master/Papirus/64x64/apps/sublime-text.svg",
+          "use": "Established charcoal app backing and folded ribbon presentation; no SVG paths copied"
+        }
+      ]
+    },
+    "consistency_review": {
+      "number": 140,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "64cd529ea1ff48664859d8fa706160f1e43131f2df092f068fba926fb269a530",
+      "decision": "Accepted",
+      "design_note": "Deepen the return face so the folded construction reads without extra highlights.",
+      "attribution": {
+        "source": "scripts/icons/local/sublime-text.svg",
+        "license": "Sublime Text official brand artwork; underlying Sublime HQ rights retained; unofficial themed adaptation",
+        "sha256": "b7ba53f07ac61d89b66125348cb64d605766e030ae9c1a29a1bba862fb85efad",
+        "reference": "https://www.sublimetext.com/images/logo.svg",
+        "reference_sha256": "607c5dd40873c6ae788e676963a48701299a2f9b30a9615eb1234d81b700dfd2",
+        "material_revision": 3,
+        "design_note": "The three curved ribbon faces are taken from Sublime Text\u2019s official wordmark SVG. Amber front faces and a copper return fold sit on the quiet charcoal backing used in established Sublime desktop icons; no raised rim or theme-wide tile.",
+        "reference_file": "scripts/icons/upstream/sublime-brand.svg",
+        "inspiration": [
+          {
+            "url": "https://github.com/PapirusDevelopmentTeam/papirus-icon-theme/blob/master/Papirus/64x64/apps/sublime-text.svg",
+            "use": "Established charcoal app backing and folded ribbon presentation; no SVG paths copied"
+          }
+        ]
+      }
+    }
   },
   "zen": {
-    "source": "scripts/icons/local/zen.svg",
+    "source": "scripts/icons/local/reviewed/zen.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "a84ddde0a9a1cf524a322701df2cc09e2405d39097dbe5ba2da9bb6037effec9",
+    "sha256": "b5e6178a3113625260b178bf5b8d2c8efe3a70522e4636e3a09306d74f57b9e5",
     "material_revision": 2,
-    "design_note": "Original rose, pale blush and ivory rings restored with their material finish over a dark plum circular fill."
+    "design_note": "Original rose, pale blush and ivory rings restored with their material finish over a dark plum circular fill.",
+    "previous_source": {
+      "source": "scripts/icons/local/zen.svg",
+      "license": "Original themed redraw; app identity rights remain with their owners",
+      "sha256": "a84ddde0a9a1cf524a322701df2cc09e2405d39097dbe5ba2da9bb6037effec9",
+      "material_revision": 2,
+      "design_note": "Original rose, pale blush and ivory rings restored with their material finish over a dark plum circular fill."
+    },
+    "consistency_review": {
+      "number": 144,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "4a1be24b1f69552997e59ec2db41450ea414ebd630ce8d49bd8d3ac9c4ed2c03",
+      "decision": "Accepted",
+      "design_note": "Keep all circle geometry and lift the lower pigments so the rings retain their colour around the full circumference.",
+      "attribution": {
+        "source": "scripts/icons/local/zen.svg",
+        "license": "Original themed redraw; app identity rights remain with their owners",
+        "sha256": "a84ddde0a9a1cf524a322701df2cc09e2405d39097dbe5ba2da9bb6037effec9",
+        "material_revision": 2,
+        "design_note": "Original rose, pale blush and ivory rings restored with their material finish over a dark plum circular fill."
+      }
+    }
   },
   "simplescreenrecorder": {
     "source": "scripts/icons/local/simplescreenrecorder.svg",
@@ -424,10 +864,29 @@
     }
   },
   "bluetooth-manager": {
-    "source": "scripts/icons/local/bluetooth-manager.svg",
+    "source": "scripts/icons/local/reviewed/bluetooth-manager.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "ad9efaa433297521afda3aec9cfe7184b6c2087917aef73f95960626e41d47c9",
-    "material_revision": 4
+    "sha256": "e20a90a07f0f2bddbff21dd11318cb4d02abda1c874eed702fed103c675ce076",
+    "material_revision": 4,
+    "previous_source": {
+      "source": "scripts/icons/local/bluetooth-manager.svg",
+      "license": "Original themed artwork; app identity rights remain with their owners",
+      "sha256": "ad9efaa433297521afda3aec9cfe7184b6c2087917aef73f95960626e41d47c9",
+      "material_revision": 4
+    },
+    "consistency_review": {
+      "number": 119,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "8ec8ed9711ca198e9ad12aa2aee9242070990132efbbaeedfe7f07e504bbe070",
+      "decision": "Accepted",
+      "design_note": "Make the rune symmetric, retain the flat treatment and use a single blue pigment.",
+      "attribution": {
+        "source": "scripts/icons/local/bluetooth-manager.svg",
+        "license": "Original themed artwork; app identity rights remain with their owners",
+        "sha256": "ad9efaa433297521afda3aec9cfe7184b6c2087917aef73f95960626e41d47c9",
+        "material_revision": 4
+      }
+    }
   },
   "fcitx-5-configuration": {
     "source": "scripts/icons/local/reviewed/fcitx-5-configuration.svg",
@@ -547,31 +1006,106 @@
     }
   },
   "lutris": {
-    "source": "scripts/icons/local/lutris.svg",
+    "source": "scripts/icons/local/reviewed/lutris.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "73885cf6171b5d9f48e1ffc47e144bea5ad783445e6e631ae1e8ee5ae06c1aa2",
+    "sha256": "ad1adc8af1f3c383ec6f949d263d2a8610bd84df2ec3d2cbb50da6145323d40a",
     "adapted_from": {
       "source": "local icon theme: Neuwaita/scalable/apps/net.lutris.Lutris.svg",
       "license": "See bundled upstream theme licenses; source metadata retained",
       "sha256": "1d6a52c9ff8d99e741a73f1bddabeea1c53031cc51867619b9384a3904c2f2de"
     },
-    "material_revision": 10
+    "material_revision": 10,
+    "previous_source": {
+      "source": "scripts/icons/local/lutris.svg",
+      "license": "Original themed redraw; app identity rights remain with their owners",
+      "sha256": "73885cf6171b5d9f48e1ffc47e144bea5ad783445e6e631ae1e8ee5ae06c1aa2",
+      "adapted_from": {
+        "source": "local icon theme: Neuwaita/scalable/apps/net.lutris.Lutris.svg",
+        "license": "See bundled upstream theme licenses; source metadata retained",
+        "sha256": "1d6a52c9ff8d99e741a73f1bddabeea1c53031cc51867619b9384a3904c2f2de"
+      },
+      "material_revision": 10
+    },
+    "consistency_review": {
+      "number": 101,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "f11db08592f5205f2373b237a347b0d7e2708931874fa9c3e2895d0e08b15cd2",
+      "decision": "Accepted",
+      "design_note": "Keep the source geometry and darken only the eye and nose.",
+      "attribution": {
+        "source": "scripts/icons/local/lutris.svg",
+        "license": "Original themed redraw; app identity rights remain with their owners",
+        "sha256": "73885cf6171b5d9f48e1ffc47e144bea5ad783445e6e631ae1e8ee5ae06c1aa2",
+        "adapted_from": {
+          "source": "local icon theme: Neuwaita/scalable/apps/net.lutris.Lutris.svg",
+          "license": "See bundled upstream theme licenses; source metadata retained",
+          "sha256": "1d6a52c9ff8d99e741a73f1bddabeea1c53031cc51867619b9384a3904c2f2de"
+        },
+        "material_revision": 10
+      }
+    }
   },
   "neovim": {
-    "source": "scripts/icons/local/neovim.svg",
+    "source": "scripts/icons/local/reviewed/neovim.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "131269605bd2751dff62bf8e07a639dff87d708ba614008724dd3be575f28c7e",
+    "sha256": "f89f93b67fda0bdfbdffcd5ddb0bfb44b3ac97d572a8cee11cb2caa6d557631e",
     "reference": "local icon theme: Neuwaita/scalable/apps/nvim.svg",
     "reference_sha256": "acca7f960640a16b1436a8238ad6ce12d52fe08e1f5c8e516de4c8422b3839d7",
-    "material_revision": 5
+    "material_revision": 5,
+    "previous_source": {
+      "source": "scripts/icons/local/neovim.svg",
+      "license": "See bundled upstream theme licenses; source metadata retained",
+      "sha256": "131269605bd2751dff62bf8e07a639dff87d708ba614008724dd3be575f28c7e",
+      "reference": "local icon theme: Neuwaita/scalable/apps/nvim.svg",
+      "reference_sha256": "acca7f960640a16b1436a8238ad6ce12d52fe08e1f5c8e516de4c8422b3839d7",
+      "material_revision": 5
+    },
+    "consistency_review": {
+      "number": 94,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "262dc5441653a489ceb78ea0b73c7460d283eb9ae1ad719ab967b6f9f5106884",
+      "decision": "Accepted",
+      "design_note": "Retain all source paths and reduce the sidewall offset so the front faces dominate.",
+      "attribution": {
+        "source": "scripts/icons/local/neovim.svg",
+        "license": "See bundled upstream theme licenses; source metadata retained",
+        "sha256": "131269605bd2751dff62bf8e07a639dff87d708ba614008724dd3be575f28c7e",
+        "reference": "local icon theme: Neuwaita/scalable/apps/nvim.svg",
+        "reference_sha256": "acca7f960640a16b1436a8238ad6ce12d52fe08e1f5c8e516de4c8422b3839d7",
+        "material_revision": 5
+      }
+    }
   },
   "fedora-media-writer": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/fedora.svg",
+    "source": "scripts/icons/local/reviewed/fedora-media-writer.svg",
     "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "f2de75f6a7d6b62a82225fddd6bd64ee30c9bf18214bbd403790f6ad6bdd1b97",
+    "sha256": "cb436d634d3a0ccec2b422278b8e046e4f1dbcec5d3c35e7b12caaca691c5481",
     "reference": "upstream/fedora.svg",
     "reference_sha256": "c234757373cab5ed80d7b2df8ff26ea039bcec16a9e9a47adbd29f5d0e94489a",
-    "material_revision": 7
+    "material_revision": 7,
+    "previous_source": {
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/fedora.svg",
+      "license": "CC0-1.0 (brand rights remain with their owners)",
+      "sha256": "f2de75f6a7d6b62a82225fddd6bd64ee30c9bf18214bbd403790f6ad6bdd1b97",
+      "reference": "upstream/fedora.svg",
+      "reference_sha256": "c234757373cab5ed80d7b2df8ff26ea039bcec16a9e9a47adbd29f5d0e94489a",
+      "material_revision": 7
+    },
+    "consistency_review": {
+      "number": 133,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "7b761841531e2d9ad738885f55be97df72fd2d5b261771734b20d71b1505f9bf",
+      "decision": "Accepted",
+      "design_note": "Deepen the blue field while retaining the bright mark and deliberately flat construction.",
+      "attribution": {
+        "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/fedora.svg",
+        "license": "CC0-1.0 (brand rights remain with their owners)",
+        "sha256": "f2de75f6a7d6b62a82225fddd6bd64ee30c9bf18214bbd403790f6ad6bdd1b97",
+        "reference": "upstream/fedora.svg",
+        "reference_sha256": "c234757373cab5ed80d7b2df8ff26ea039bcec16a9e9a47adbd29f5d0e94489a",
+        "material_revision": 7
+      }
+    }
   },
   "problem-reporting": {
     "source": "/usr/share/icons/hicolor/scalable/apps/org.freedesktop.GnomeAbrt.svg",
@@ -604,24 +1138,85 @@
     }
   },
   "calendar": {
-    "source": "scripts/icons/local/calendar.svg",
+    "source": "scripts/icons/local/reviewed/calendar.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "b2f1bdc15d3d48794e11be044b4872f151561a4ce1dbf4791254fdf5e8d2b69c",
-    "material_revision": 2
+    "sha256": "2a145e82dc869013548ad5747502ad8810a88f7c45130364c479e82bc91386f6",
+    "material_revision": 2,
+    "previous_source": {
+      "source": "scripts/icons/local/calendar.svg",
+      "license": "Original themed artwork; app identity rights remain with their owners",
+      "sha256": "b2f1bdc15d3d48794e11be044b4872f151561a4ce1dbf4791254fdf5e8d2b69c",
+      "material_revision": 2
+    },
+    "consistency_review": {
+      "number": 81,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "5a2882789bea33db3c2fa3b961fd152569a1ad98769c742165cdff2b7569c550",
+      "decision": "Accepted",
+      "design_note": "Use one shallow page stack, consistent binding hardware and a cleaner date drawing.",
+      "attribution": {
+        "source": "scripts/icons/local/calendar.svg",
+        "license": "Original themed artwork; app identity rights remain with their owners",
+        "sha256": "b2f1bdc15d3d48794e11be044b4872f151561a4ce1dbf4791254fdf5e8d2b69c",
+        "material_revision": 2
+      }
+    }
   },
   "characters": {
-    "source": "scripts/icons/local/characters.svg",
+    "source": "scripts/icons/local/reviewed/characters.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "6744017dd66d624bb6af5b7140f06434f77bf24627ac0a97c8d457728a73b5df",
-    "material_revision": 6
+    "sha256": "894148a29877cebbaa70c6d0248163314bdab82fa72b3b5dd7c253413c2f27a7",
+    "material_revision": 6,
+    "previous_source": {
+      "source": "scripts/icons/local/characters.svg",
+      "license": "Original themed redraw; app identity rights remain with their owners",
+      "sha256": "6744017dd66d624bb6af5b7140f06434f77bf24627ac0a97c8d457728a73b5df",
+      "material_revision": 6
+    },
+    "consistency_review": {
+      "number": 92,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "f2f8e4365926b74ed192989b8949bf5b35d68f9cf8fc704b13e6f17edb16ee4c",
+      "decision": "Accepted",
+      "design_note": "Rebalance the three authored glyphs, strengthen the smaller strokes and deepen the backing slightly.",
+      "attribution": {
+        "source": "scripts/icons/local/characters.svg",
+        "license": "Original themed redraw; app identity rights remain with their owners",
+        "sha256": "6744017dd66d624bb6af5b7140f06434f77bf24627ac0a97c8d457728a73b5df",
+        "material_revision": 6
+      }
+    }
   },
   "color-profile-viewer": {
-    "source": "scripts/icons/local/color-profile-viewer.svg",
+    "source": "scripts/icons/local/reviewed/color-profile-viewer.svg",
     "license": "Original themed colour-flower interpretation; app identity rights remain with their owners",
-    "sha256": "58de98430ba79d1b626a3e3d219e175b31f13f00a98b8b9a3e8201946abe5c28",
+    "sha256": "39abfd0ae60591a0c728c8cedb0c3ca9db6c336c2d897d8a2c1744b010bd5f2b",
     "reference": "/usr/share/icons/hicolor/scalable/apps/gnome-color-manager.svg",
     "reference_sha256": "5c18875d183efb84236abb58addf421430a7932a61f3846f2831894d18834cac",
-    "material_revision": 4
+    "material_revision": 4,
+    "previous_source": {
+      "source": "scripts/icons/local/color-profile-viewer.svg",
+      "license": "Original themed colour-flower interpretation; app identity rights remain with their owners",
+      "sha256": "58de98430ba79d1b626a3e3d219e175b31f13f00a98b8b9a3e8201946abe5c28",
+      "reference": "/usr/share/icons/hicolor/scalable/apps/gnome-color-manager.svg",
+      "reference_sha256": "5c18875d183efb84236abb58addf421430a7932a61f3846f2831894d18834cac",
+      "material_revision": 4
+    },
+    "consistency_review": {
+      "number": 84,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "0ad2a7ac131d7f911af4985e55a44db2a328711839f3393bab25e2208dec484d",
+      "decision": "Accepted",
+      "design_note": "Preserve the flower construction, deepen the exposed pigments slightly and balance the petal proportions.",
+      "attribution": {
+        "source": "scripts/icons/local/color-profile-viewer.svg",
+        "license": "Original themed colour-flower interpretation; app identity rights remain with their owners",
+        "sha256": "58de98430ba79d1b626a3e3d219e175b31f13f00a98b8b9a3e8201946abe5c28",
+        "reference": "/usr/share/icons/hicolor/scalable/apps/gnome-color-manager.svg",
+        "reference_sha256": "5c18875d183efb84236abb58addf421430a7932a61f3846f2831894d18834cac",
+        "material_revision": 4
+      }
+    }
   },
   "connections": {
     "source": "scripts/icons/local/reviewed/connections.svg",
@@ -1174,10 +1769,29 @@
     }
   },
   "fonts": {
-    "source": "scripts/icons/local/fonts.svg",
+    "source": "scripts/icons/local/reviewed/fonts.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "a6b8e16930f7b5535f03bc6aca81ab8f3f2505852db2353472050c0075543d0c",
-    "material_revision": 2
+    "sha256": "b3946e096ffa0e651ed09984e2f322a3570f515704e226535279f5c29976915c",
+    "material_revision": 2,
+    "previous_source": {
+      "source": "scripts/icons/local/fonts.svg",
+      "license": "Original themed artwork; app identity rights remain with their owners",
+      "sha256": "a6b8e16930f7b5535f03bc6aca81ab8f3f2505852db2353472050c0075543d0c",
+      "material_revision": 2
+    },
+    "consistency_review": {
+      "number": 121,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "08c4fd125c88197979285780e34726f78ccbbbd8677363d13f38c16b682d3103",
+      "decision": "Accepted",
+      "design_note": "Draw a clean single-storey bowl and stem and deepen the blue backing to support both letter colours.",
+      "attribution": {
+        "source": "scripts/icons/local/fonts.svg",
+        "license": "Original themed artwork; app identity rights remain with their owners",
+        "sha256": "a6b8e16930f7b5535f03bc6aca81ab8f3f2505852db2353472050c0075543d0c",
+        "material_revision": 2
+      }
+    }
   },
   "thumbnails": {
     "source": "scripts/icons/local/reviewed/thumbnails.svg",
@@ -1267,9 +1881,9 @@
     }
   },
   "qgis-desktop": {
-    "source": "scripts/icons/local/qgis-desktop.svg",
+    "source": "scripts/icons/local/reviewed/qgis-desktop.svg",
     "license": "QGIS official brand artwork; underlying QGIS project rights retained; unofficial themed adaptation",
-    "sha256": "297184d7f8e2208fd3412e693e57190d0f9c5872a7c7d295e285d80565ceb996",
+    "sha256": "16ef84e454f97a4d6d316e0fac21e4fa40797449e999dc6cb02ca081f3e2fbd2",
     "reference": "https://www.qgis.org/styleguide/visual/qgis-icon64.svg",
     "reference_sha256": "31a00d54f861b236086b98b575cb3030f3e466b0f7d6ef7c64ca4df2981c29d0",
     "material_revision": 12,
@@ -1280,7 +1894,46 @@
         "url": "https://www.qgis.org/styleguide/",
         "use": "Official brand geometry and identifying structure"
       }
-    ]
+    ],
+    "previous_source": {
+      "source": "scripts/icons/local/qgis-desktop.svg",
+      "license": "QGIS official brand artwork; underlying QGIS project rights retained; unofficial themed adaptation",
+      "sha256": "297184d7f8e2208fd3412e693e57190d0f9c5872a7c7d295e285d80565ceb996",
+      "reference": "https://www.qgis.org/styleguide/visual/qgis-icon64.svg",
+      "reference_sha256": "31a00d54f861b236086b98b575cb3030f3e466b0f7d6ef7c64ca4df2981c29d0",
+      "material_revision": 12,
+      "design_note": "Official QGIS 64px geometry retains the connected Q and arrow. Jade, coral and amber faces have restrained material ramps and colored contour edges. No pencil strip, artificial arrow gap, diagonal gloss or ground shadow.",
+      "reference_file": "scripts/icons/upstream/qgis-brand64.svg",
+      "inspiration": [
+        {
+          "url": "https://www.qgis.org/styleguide/",
+          "use": "Official brand geometry and identifying structure"
+        }
+      ]
+    },
+    "consistency_review": {
+      "number": 120,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "8d5ae4857f2e79f935197fb9c2b3ae435f14244917cf005f33da29fc8ebd6c1c",
+      "decision": "Accepted",
+      "design_note": "Narrow the existing seams so the coloured faces and apertures remain clear.",
+      "attribution": {
+        "source": "scripts/icons/local/qgis-desktop.svg",
+        "license": "QGIS official brand artwork; underlying QGIS project rights retained; unofficial themed adaptation",
+        "sha256": "297184d7f8e2208fd3412e693e57190d0f9c5872a7c7d295e285d80565ceb996",
+        "reference": "https://www.qgis.org/styleguide/visual/qgis-icon64.svg",
+        "reference_sha256": "31a00d54f861b236086b98b575cb3030f3e466b0f7d6ef7c64ca4df2981c29d0",
+        "material_revision": 12,
+        "design_note": "Official QGIS 64px geometry retains the connected Q and arrow. Jade, coral and amber faces have restrained material ramps and colored contour edges. No pencil strip, artificial arrow gap, diagonal gloss or ground shadow.",
+        "reference_file": "scripts/icons/upstream/qgis-brand64.svg",
+        "inspiration": [
+          {
+            "url": "https://www.qgis.org/styleguide/",
+            "use": "Official brand geometry and identifying structure"
+          }
+        ]
+      }
+    }
   },
   "scrcpy": {
     "source": "scripts/icons/local/reviewed/scrcpy.svg",
@@ -1308,22 +1961,72 @@
     }
   },
   "solaar": {
-    "source": "scripts/icons/local/solaar.svg",
+    "source": "scripts/icons/local/reviewed/solaar.svg",
     "license": "CC-BY-SA-3.0; adapted from Solaar by Daniel Pavel",
-    "sha256": "e17353cd344c4620a76ab3bd9d0d9f61804372813c6eb1ec16e2ea92a1ec3253",
+    "sha256": "17f0b759286b18a91e4e08985a95af3d2d636e59b1a85a75be0f27521fcef801",
     "material_revision": 12,
     "design_note": "Ivory central sun with teal hub; original geometry retained.",
     "adapted_from": {
       "source": "/usr/share/icons/hicolor/scalable/apps/solaar.svg",
       "license": "See bundled upstream theme licenses; source metadata retained",
       "sha256": "f4428b1f9b37e17e8e81dfdcb83c0a917fa1d55ea0ff29bba3703b4a8a60cc6c"
+    },
+    "previous_source": {
+      "source": "scripts/icons/local/solaar.svg",
+      "license": "CC-BY-SA-3.0; adapted from Solaar by Daniel Pavel",
+      "sha256": "e17353cd344c4620a76ab3bd9d0d9f61804372813c6eb1ec16e2ea92a1ec3253",
+      "material_revision": 12,
+      "design_note": "Ivory central sun with teal hub; original geometry retained.",
+      "adapted_from": {
+        "source": "/usr/share/icons/hicolor/scalable/apps/solaar.svg",
+        "license": "See bundled upstream theme licenses; source metadata retained",
+        "sha256": "f4428b1f9b37e17e8e81dfdcb83c0a917fa1d55ea0ff29bba3703b4a8a60cc6c"
+      }
+    },
+    "consistency_review": {
+      "number": 89,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "77c2816c35b0a13b59af04ccd4a04f68427a61a44dbd4396695b8f5d0c62011b",
+      "decision": "Accepted",
+      "design_note": "Retain original geometry and deepen the jade field while keeping warm ivory intact.",
+      "attribution": {
+        "source": "scripts/icons/local/solaar.svg",
+        "license": "CC-BY-SA-3.0; adapted from Solaar by Daniel Pavel",
+        "sha256": "e17353cd344c4620a76ab3bd9d0d9f61804372813c6eb1ec16e2ea92a1ec3253",
+        "material_revision": 12,
+        "design_note": "Ivory central sun with teal hub; original geometry retained.",
+        "adapted_from": {
+          "source": "/usr/share/icons/hicolor/scalable/apps/solaar.svg",
+          "license": "See bundled upstream theme licenses; source metadata retained",
+          "sha256": "f4428b1f9b37e17e8e81dfdcb83c0a917fa1d55ea0ff29bba3703b4a8a60cc6c"
+        }
+      }
     }
   },
   "uuctl": {
-    "source": "scripts/icons/extra_art.py",
+    "source": "scripts/icons/local/reviewed/uuctl.svg",
     "license": "Original artwork",
     "material_revision": 10,
-    "sha256": "0d92ccb2c309995e2de04630af110136127cd2a963b76646d04f2127411e07df"
+    "sha256": "b4cb4ad9b0b9051e1ee5a73f35edb2cb901fbe067375fdfb9465814f8e11c5b3",
+    "previous_source": {
+      "source": "scripts/icons/extra_art.py",
+      "license": "Original artwork",
+      "material_revision": 10,
+      "sha256": "0d92ccb2c309995e2de04630af110136127cd2a963b76646d04f2127411e07df"
+    },
+    "consistency_review": {
+      "number": 85,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "9a495e35953c96963aded2695a2c0e1f5413c77845cdbb5bd91fc4168373138d",
+      "decision": "Accepted",
+      "design_note": "Strengthen the monitor proportions and prompt, retaining a shallow steel chin and simple stand.",
+      "attribution": {
+        "source": "scripts/icons/extra_art.py",
+        "license": "Original artwork",
+        "material_revision": 10,
+        "sha256": "0d92ccb2c309995e2de04630af110136127cd2a963b76646d04f2127411e07df"
+      }
+    }
   },
   "gpu-screen-recorder": {
     "source": "scripts/icons/extra_art.py",
@@ -1352,12 +2055,35 @@
     }
   },
   "obs-studio": {
-    "source": "scripts/icons/local/obs-studio.svg",
+    "source": "scripts/icons/local/reviewed/obs-studio.svg",
     "license": "CC0-1.0",
-    "sha256": "ec548e9d4797b775574e78242523e804903c0f258226ed8e038586a572377b6e",
+    "sha256": "da12b873b013fb1d7890e0a4e33decba56ba0337c434b92821070960746f0c80",
     "reference": "upstream/obs-flat.svg",
     "reference_sha256": "85a9ce2350ae32ef8cb19477855ce156bb1f64ed9d8ca6128afce589f9f8631f",
-    "material_revision": 5
+    "material_revision": 5,
+    "previous_source": {
+      "source": "scripts/icons/local/obs-studio.svg",
+      "license": "CC0-1.0",
+      "sha256": "ec548e9d4797b775574e78242523e804903c0f258226ed8e038586a572377b6e",
+      "reference": "upstream/obs-flat.svg",
+      "reference_sha256": "85a9ce2350ae32ef8cb19477855ce156bb1f64ed9d8ca6128afce589f9f8631f",
+      "material_revision": 5
+    },
+    "consistency_review": {
+      "number": 110,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "6c6747741d8cd5282557848d2abb48e226ffec7c29d8411226500b4ee58395e7",
+      "decision": "Accepted",
+      "design_note": "Narrow and quiet the violet rim so the swirl carries the identity.",
+      "attribution": {
+        "source": "scripts/icons/local/obs-studio.svg",
+        "license": "CC0-1.0",
+        "sha256": "ec548e9d4797b775574e78242523e804903c0f258226ed8e038586a572377b6e",
+        "reference": "upstream/obs-flat.svg",
+        "reference_sha256": "85a9ce2350ae32ef8cb19477855ce156bb1f64ed9d8ca6128afce589f9f8631f",
+        "material_revision": 5
+      }
+    }
   },
   "passwords-and-keys": {
     "source": "scripts/icons/local/reviewed/passwords-and-keys.svg",
@@ -1382,9 +2108,26 @@
     }
   },
   "yuzu": {
-    "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/org.yuzu_emu.yuzu.svg",
+    "source": "scripts/icons/local/reviewed/yuzu.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "05d2f036dc9028074749f9c91e5efb63dc438bc19bcf4870f0b39df2a0c92617"
+    "sha256": "2f95a421ef988fda43b72d02b6672d370e5c1b0d4797f4da7714cdd7f4fcfec7",
+    "previous_source": {
+      "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/org.yuzu_emu.yuzu.svg",
+      "license": "See bundled upstream theme licenses; source metadata retained",
+      "sha256": "05d2f036dc9028074749f9c91e5efb63dc438bc19bcf4870f0b39df2a0c92617"
+    },
+    "consistency_review": {
+      "number": 88,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "9301499c534914f9fd73f50782f5eb9e44a59d4da095374493fec61263f2a610",
+      "decision": "Accepted",
+      "design_note": "Preserve every source path and deepen only the existing pigment ramps.",
+      "attribution": {
+        "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/org.yuzu_emu.yuzu.svg",
+        "license": "See bundled upstream theme licenses; source metadata retained",
+        "sha256": "05d2f036dc9028074749f9c91e5efb63dc438bc19bcf4870f0b39df2a0c92617"
+      }
+    }
   },
   "koreader": {
     "source": "scripts/icons/local/reviewed/koreader.svg",
@@ -1409,11 +2152,32 @@
     }
   },
   "zoom": {
-    "source": "scripts/icons/local/zoom.svg",
+    "source": "scripts/icons/local/reviewed/zoom.svg",
     "license": "CC0-1.0 (brand rights remain with their owners)",
-    "sha256": "0cb3025266807165babbb9413f6824f53a5f9b1d736e019103e97d4212cf370c",
+    "sha256": "8aac0eaa15db2689be3ee5b472e93eb50632b22c672918113f0149ab976a3d2a",
     "material_revision": 2,
-    "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/zoom.svg"
+    "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/zoom.svg",
+    "previous_source": {
+      "source": "scripts/icons/local/zoom.svg",
+      "license": "CC0-1.0 (brand rights remain with their owners)",
+      "sha256": "0cb3025266807165babbb9413f6824f53a5f9b1d736e019103e97d4212cf370c",
+      "material_revision": 2,
+      "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/zoom.svg"
+    },
+    "consistency_review": {
+      "number": 117,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "ac226d35945fd9a27f562af5d51edb5b65d2661249589cb17f487578bcd99089",
+      "decision": "Accepted",
+      "design_note": "Quiet the blue field and use the shared warm ivory camera pigment.",
+      "attribution": {
+        "source": "scripts/icons/local/zoom.svg",
+        "license": "CC0-1.0 (brand rights remain with their owners)",
+        "sha256": "0cb3025266807165babbb9413f6824f53a5f9b1d736e019103e97d4212cf370c",
+        "material_revision": 2,
+        "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/zoom.svg"
+      }
+    }
   },
   "bartjik": {
     "source": "scripts/icons/local/bartjik.svg",
@@ -1421,19 +2185,63 @@
     "sha256": "dd06ca9fd9cbbca3fef2258a95d01392aec9e8d005c1a05dccb5def1a8c33973"
   },
   "notjik": {
-    "source": "scripts/icons/local/notjik.svg",
+    "source": "scripts/icons/local/reviewed/notjik.svg",
     "license": "Original artwork based on user-provided reference",
-    "sha256": "63c281d14390f2eff62bf7df136eed40e61049dd51b5ec58ed323769d6167caa",
-    "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik\u2019s circular dot."
+    "sha256": "de1dc15d75b83308931f9c2881f89f687400017109bc5253d5be6595f0017c28",
+    "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik\u2019s circular dot.",
+    "previous_source": {
+      "source": "scripts/icons/local/notjik.svg",
+      "license": "Original artwork based on user-provided reference",
+      "sha256": "63c281d14390f2eff62bf7df136eed40e61049dd51b5ec58ed323769d6167caa",
+      "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik\u2019s circular dot."
+    },
+    "consistency_review": {
+      "number": 127,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "5ecd46605ae3b07383f2aed181e021eb97d9bf409e900c54e43ebe9bf8a6ad1b",
+      "decision": "Accepted",
+      "design_note": "Slightly enlarge the centre and give it a quiet warm-ivory ramp; soften the frame shading.",
+      "attribution": {
+        "source": "scripts/icons/local/notjik.svg",
+        "license": "Original artwork based on user-provided reference",
+        "sha256": "63c281d14390f2eff62bf7df136eed40e61049dd51b5ec58ed323769d6167caa",
+        "design_note": "Cyan rounded-square frame with a small rounded-square center, distinct from Bartjik\u2019s circular dot."
+      }
+    }
   },
   "collie": {
-    "source": "scripts/icons/local/collie.svg",
+    "source": "scripts/icons/local/reviewed/collie.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "33cf467b9c477d930f3dfb5b2a3c63f4b34bd75b4adc0441d9523afa29fb760b",
+    "sha256": "5fdbdf3ef89e6e08c689140e7f1f78cba4fc6a9ee05a1729f5a1be0cab13b0b5",
     "reference": "scripts/icons/references/tabler-dog.svg",
     "reference_sha256": "0b9d24084db08758cdc9e0f8f05ce414b94d499aee85ba46d1a2073d4e9cf3e7",
     "material_revision": 14,
-    "design_note": "Sable collie portrait with tipped ears, cream blaze, layered muzzle and highlighted eyes at the detail level of Prowlarr."
+    "design_note": "Sable collie portrait with tipped ears, cream blaze, layered muzzle and highlighted eyes at the detail level of Prowlarr.",
+    "previous_source": {
+      "source": "scripts/icons/local/collie.svg",
+      "license": "Original themed artwork; app identity rights remain with their owners",
+      "sha256": "33cf467b9c477d930f3dfb5b2a3c63f4b34bd75b4adc0441d9523afa29fb760b",
+      "reference": "scripts/icons/references/tabler-dog.svg",
+      "reference_sha256": "0b9d24084db08758cdc9e0f8f05ce414b94d499aee85ba46d1a2073d4e9cf3e7",
+      "material_revision": 14,
+      "design_note": "Sable collie portrait with tipped ears, cream blaze, layered muzzle and highlighted eyes at the detail level of Prowlarr."
+    },
+    "consistency_review": {
+      "number": 76,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "5fc98c6559744e465774849d14f3adfaf6a2a3653c9ceec84b823819950e5991",
+      "decision": "Accepted",
+      "design_note": "Keep the portrait geometry; lower the nose slightly, quiet secondary face marks and shade one cheek.",
+      "attribution": {
+        "source": "scripts/icons/local/collie.svg",
+        "license": "Original themed artwork; app identity rights remain with their owners",
+        "sha256": "33cf467b9c477d930f3dfb5b2a3c63f4b34bd75b4adc0441d9523afa29fb760b",
+        "reference": "scripts/icons/references/tabler-dog.svg",
+        "reference_sha256": "0b9d24084db08758cdc9e0f8f05ce414b94d499aee85ba46d1a2073d4e9cf3e7",
+        "material_revision": 14,
+        "design_note": "Sable collie portrait with tipped ears, cream blaze, layered muzzle and highlighted eyes at the detail level of Prowlarr."
+      }
+    }
   },
   "herdr": {
     "source": "scripts/icons/local/reviewed/herdr.svg",
@@ -1522,11 +2330,32 @@
     "design_note": "Deeper cyan ramp keeps every exposed waveform/dot pigment above 3:1 on light and dark canvases; geometry retained."
   },
   "oo7": {
-    "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/fingerprint.svg",
+    "source": "scripts/icons/local/reviewed/oo7.svg",
     "license": "MIT",
-    "sha256": "51d975d7313dceb64bf6dd2a2d3d48577e35b3ba99a3a869119b0ab3d2e663bd",
+    "sha256": "846f87c7bc34b8dca3579fb23286ddb83c7c2f940250fc981fc5f5db1d470bb5",
     "reference": "scripts/icons/references/tabler-fingerprint.svg",
-    "reference_sha256": "cd1ff19081e56af42bd183a98eec4ba68d7a7affbfc37775b10604824489a96b"
+    "reference_sha256": "cd1ff19081e56af42bd183a98eec4ba68d7a7affbfc37775b10604824489a96b",
+    "previous_source": {
+      "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/fingerprint.svg",
+      "license": "MIT",
+      "sha256": "51d975d7313dceb64bf6dd2a2d3d48577e35b3ba99a3a869119b0ab3d2e663bd",
+      "reference": "scripts/icons/references/tabler-fingerprint.svg",
+      "reference_sha256": "cd1ff19081e56af42bd183a98eec4ba68d7a7affbfc37775b10604824489a96b"
+    },
+    "consistency_review": {
+      "number": 136,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "fbdc421353aed0dcb231baa436ea828eeec09b0e01b390d46361b9c29ff4d4ad",
+      "decision": "Accepted",
+      "design_note": "Reduce ridge weight slightly and use a deeper rose pigment to keep the open gaps legible.",
+      "attribution": {
+        "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/fingerprint.svg",
+        "license": "MIT",
+        "sha256": "51d975d7313dceb64bf6dd2a2d3d48577e35b3ba99a3a869119b0ab3d2e663bd",
+        "reference": "scripts/icons/references/tabler-fingerprint.svg",
+        "reference_sha256": "cd1ff19081e56af42bd183a98eec4ba68d7a7affbfc37775b10604824489a96b"
+      }
+    }
   },
   "snapraid": {
     "source": "scripts/icons/local/reviewed/snapraid.svg",
@@ -1658,14 +2487,31 @@
     }
   },
   "docker": {
-    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/docker.svg",
+    "source": "scripts/icons/local/reviewed/docker.svg",
     "license": "CC0-1.0",
-    "sha256": "12c23b2939ddfb640dac0d205abc57766052941e227441693cdd1e06ef06aa81"
+    "sha256": "eac5347af3433d0d45c2ec42c7091bff5da5afefe4b3fc9f120ababa764317e3",
+    "previous_source": {
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/docker.svg",
+      "license": "CC0-1.0",
+      "sha256": "12c23b2939ddfb640dac0d205abc57766052941e227441693cdd1e06ef06aa81"
+    },
+    "consistency_review": {
+      "number": 112,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "cb119687eff4c4f473b978d209d6d9135f62ae1d48c9e32e6b91a62b70b0e857",
+      "decision": "Accepted",
+      "design_note": "Retain all geometry and replace the glossy ramp with a restrained periwinkle surface.",
+      "attribution": {
+        "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/docker.svg",
+        "license": "CC0-1.0",
+        "sha256": "12c23b2939ddfb640dac0d205abc57766052941e227441693cdd1e06ef06aa81"
+      }
+    }
   },
   "flatpak": {
-    "source": "scripts/icons/local/flatpak.svg",
+    "source": "scripts/icons/local/reviewed/flatpak.svg",
     "license": "Themed vector artwork; underlying brand rights and source licenses retained",
-    "sha256": "4653230c0b2d0457336b58d8a621d0acdba6ebb4442d5ae8d241f052cc3fab8f",
+    "sha256": "4a3ed683624cb5568fa8eb6acaee6cc0cef2be25ebf582f4b74fa3c72d0ab82f",
     "material_revision": 12,
     "design_note": "Original package contour with amber, blue and jade faces.",
     "adapted_from": {
@@ -1677,24 +2523,96 @@
         "license": "CC0-1.0",
         "sha256": "1bea9ecc81b9d6c99eb8ccbfb9caf873d587c762aa6843d4a71b13d6c079d04f"
       }
+    },
+    "previous_source": {
+      "source": "scripts/icons/local/flatpak.svg",
+      "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+      "sha256": "4653230c0b2d0457336b58d8a621d0acdba6ebb4442d5ae8d241f052cc3fab8f",
+      "material_revision": 12,
+      "design_note": "Original package contour with amber, blue and jade faces.",
+      "adapted_from": {
+        "source": "scripts/icons/local/flatpak.svg",
+        "license": "Original themed redraw; app identity rights remain with their owners",
+        "sha256": "e94603793f42560f01fa23ac1cd82a301ae1506d6964bc62c0e5166bd3d470e3",
+        "adapted_from": {
+          "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/flatpak.svg",
+          "license": "CC0-1.0",
+          "sha256": "1bea9ecc81b9d6c99eb8ccbfb9caf873d587c762aa6843d4a71b13d6c079d04f"
+        }
+      }
+    },
+    "consistency_review": {
+      "number": 91,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "05c3b7b14b0e8f1ac0fd19e187cc2b30b596b8dfcf630ac57d8e7ea7c18d44e8",
+      "decision": "Accepted",
+      "design_note": "Keep the source geometry and balance the face pigments, especially the blue rim.",
+      "attribution": {
+        "source": "scripts/icons/local/flatpak.svg",
+        "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+        "sha256": "4653230c0b2d0457336b58d8a621d0acdba6ebb4442d5ae8d241f052cc3fab8f",
+        "material_revision": 12,
+        "design_note": "Original package contour with amber, blue and jade faces.",
+        "adapted_from": {
+          "source": "scripts/icons/local/flatpak.svg",
+          "license": "Original themed redraw; app identity rights remain with their owners",
+          "sha256": "e94603793f42560f01fa23ac1cd82a301ae1506d6964bc62c0e5166bd3d470e3",
+          "adapted_from": {
+            "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/flatpak.svg",
+            "license": "CC0-1.0",
+            "sha256": "1bea9ecc81b9d6c99eb8ccbfb9caf873d587c762aa6843d4a71b13d6c079d04f"
+          }
+        }
+      }
     }
   },
   "nginx": {
-    "source": "scripts/icons/local/nginx.svg",
+    "source": "scripts/icons/local/reviewed/nginx.svg",
     "license": "Original themed interpretation; app identity rights remain with their owners",
-    "sha256": "f541fd8949095940f82dd741cfd104b7d3ba0483e46033ef0ba98f99be0c57c1",
+    "sha256": "10927a668bfe88cb3c8ded0d709019945b4a8b3a883324aac170b79047fb1829",
     "adapted_from": {
       "source": "scripts/icons/local/nginx.svg",
       "license": "Original themed redraw; app identity rights remain with their owners",
       "sha256": "2d8fb2dfa31c3bf5c5fa797f20dac655c787be0886d77e228964c4b192a791c1"
     },
     "material_revision": 1,
-    "design_note": "Muted jade pigment with a restrained tonal ramp for light and plum surfaces; original N silhouette retained."
+    "design_note": "Muted jade pigment with a restrained tonal ramp for light and plum surfaces; original N silhouette retained.",
+    "previous_source": {
+      "source": "scripts/icons/local/nginx.svg",
+      "license": "Original themed interpretation; app identity rights remain with their owners",
+      "sha256": "f541fd8949095940f82dd741cfd104b7d3ba0483e46033ef0ba98f99be0c57c1",
+      "adapted_from": {
+        "source": "scripts/icons/local/nginx.svg",
+        "license": "Original themed redraw; app identity rights remain with their owners",
+        "sha256": "2d8fb2dfa31c3bf5c5fa797f20dac655c787be0886d77e228964c4b192a791c1"
+      },
+      "material_revision": 1,
+      "design_note": "Muted jade pigment with a restrained tonal ramp for light and plum surfaces; original N silhouette retained."
+    },
+    "consistency_review": {
+      "number": 138,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "a8f2c23a2c4c245b3ae251b22d3c00b6045f01fd36eb4c3ac1302403cb58621e",
+      "decision": "Accepted",
+      "design_note": "Lift the shadow pigment slightly, keeping the existing geometry and green identity.",
+      "attribution": {
+        "source": "scripts/icons/local/nginx.svg",
+        "license": "Original themed interpretation; app identity rights remain with their owners",
+        "sha256": "f541fd8949095940f82dd741cfd104b7d3ba0483e46033ef0ba98f99be0c57c1",
+        "adapted_from": {
+          "source": "scripts/icons/local/nginx.svg",
+          "license": "Original themed redraw; app identity rights remain with their owners",
+          "sha256": "2d8fb2dfa31c3bf5c5fa797f20dac655c787be0886d77e228964c4b192a791c1"
+        },
+        "material_revision": 1,
+        "design_note": "Muted jade pigment with a restrained tonal ramp for light and plum surfaces; original N silhouette retained."
+      }
+    }
   },
   "python": {
-    "source": "scripts/icons/local/python.svg",
+    "source": "scripts/icons/local/reviewed/python.svg",
     "license": "Python Software Foundation logo; PSF trademark and artwork rights retained; unofficial themed adaptation",
-    "sha256": "ea5f4f9c2f93b47045819bb1f9636e8a6a8c48aac471abdba366f5cb3cba9742",
+    "sha256": "b37210d162108a9177e4a2efa538aa6eb3ad0c0daa463cb8d81d96e2a5fbb555",
     "reference": "https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/files/python-logo-only.svg",
     "reference_sha256": "baec8662a1461c2cacc326b54d2727cb2f1ce07ba02d00f5b826d035104f649f",
     "material_revision": 12,
@@ -1705,43 +2623,179 @@
         "url": "https://www.python.org/community/logos/",
         "use": "Official brand geometry and identifying structure"
       }
-    ]
+    ],
+    "previous_source": {
+      "source": "scripts/icons/local/python.svg",
+      "license": "Python Software Foundation logo; PSF trademark and artwork rights retained; unofficial themed adaptation",
+      "sha256": "ea5f4f9c2f93b47045819bb1f9636e8a6a8c48aac471abdba366f5cb3cba9742",
+      "reference": "https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/files/python-logo-only.svg",
+      "reference_sha256": "baec8662a1461c2cacc326b54d2727cb2f1ce07ba02d00f5b826d035104f649f",
+      "material_revision": 12,
+      "design_note": "Exact smooth curves and eye apertures from the PSF two-snakes SVG. Blue and amber enamel faces use restrained ramps, violet/rose material edges and dark eyes; original cast shadow omitted.",
+      "reference_file": "scripts/icons/upstream/python-psf.svg",
+      "inspiration": [
+        {
+          "url": "https://www.python.org/community/logos/",
+          "use": "Official brand geometry and identifying structure"
+        }
+      ]
+    },
+    "consistency_review": {
+      "number": 95,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "4bf10f36a4c67e4b41e8aa631676ddfb3252ba5aba319e18c5f0536f02ec60e2",
+      "decision": "Accepted",
+      "design_note": "Keep official geometry, reduce contour weight and use quieter coordinated pigment ramps.",
+      "attribution": {
+        "source": "scripts/icons/local/python.svg",
+        "license": "Python Software Foundation logo; PSF trademark and artwork rights retained; unofficial themed adaptation",
+        "sha256": "ea5f4f9c2f93b47045819bb1f9636e8a6a8c48aac471abdba366f5cb3cba9742",
+        "reference": "https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/files/python-logo-only.svg",
+        "reference_sha256": "baec8662a1461c2cacc326b54d2727cb2f1ce07ba02d00f5b826d035104f649f",
+        "material_revision": 12,
+        "design_note": "Exact smooth curves and eye apertures from the PSF two-snakes SVG. Blue and amber enamel faces use restrained ramps, violet/rose material edges and dark eyes; original cast shadow omitted.",
+        "reference_file": "scripts/icons/upstream/python-psf.svg",
+        "inspiration": [
+          {
+            "url": "https://www.python.org/community/logos/",
+            "use": "Official brand geometry and identifying structure"
+          }
+        ]
+      }
+    }
   },
   "rust": {
-    "source": "scripts/icons/local/rust.svg",
+    "source": "scripts/icons/local/reviewed/rust.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "743e714cdac43ad3b234b68747b4b17cd50790b94cc0c9cfaa04991fd28e2494",
-    "material_revision": 2
+    "sha256": "d01259ae0a256495527b70bd9ca6bef1e3ecd6371f579ebe629a3dbeaccc99fc",
+    "material_revision": 2,
+    "previous_source": {
+      "source": "scripts/icons/local/rust.svg",
+      "license": "Original themed artwork; app identity rights remain with their owners",
+      "sha256": "743e714cdac43ad3b234b68747b4b17cd50790b94cc0c9cfaa04991fd28e2494",
+      "material_revision": 2
+    },
+    "consistency_review": {
+      "number": 93,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "57964c59921c2b8abf8cb4aad62d3971b547b493c61d83a7a44182d3943f1c95",
+      "decision": "Accepted",
+      "design_note": "Build a continuous toothed contour, omit subpixel rivets and preserve the large R aperture.",
+      "attribution": {
+        "source": "scripts/icons/local/rust.svg",
+        "license": "Original themed artwork; app identity rights remain with their owners",
+        "sha256": "743e714cdac43ad3b234b68747b4b17cd50790b94cc0c9cfaa04991fd28e2494",
+        "material_revision": 2
+      }
+    }
   },
   "tailscale": {
-    "source": "scripts/icons/local/tailscale.svg",
+    "source": "scripts/icons/local/reviewed/tailscale.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "2c7666c8aab07ec6c4bdc4101f1098743005034168046684acf9ce23dad0b34f",
+    "sha256": "a3b3a2d48e38baf2f8f6ebd251589ae0b4e2b6e1c17d0334df2e844ee827284f",
     "material_revision": 1,
-    "design_note": "Deeper cyan ramp keeps every exposed waveform/dot pigment above 3:1 on light and dark canvases; geometry retained."
+    "design_note": "Deeper cyan ramp keeps every exposed waveform/dot pigment above 3:1 on light and dark canvases; geometry retained.",
+    "previous_source": {
+      "source": "scripts/icons/local/tailscale.svg",
+      "license": "Original themed redraw; app identity rights remain with their owners",
+      "sha256": "2c7666c8aab07ec6c4bdc4101f1098743005034168046684acf9ce23dad0b34f",
+      "material_revision": 1,
+      "design_note": "Deeper cyan ramp keeps every exposed waveform/dot pigment above 3:1 on light and dark canvases; geometry retained."
+    },
+    "consistency_review": {
+      "number": 114,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "4253078633a7e1ce9666cb976ad13f2368dede6c0dc71502654ef7688cf1c3be",
+      "decision": "Accepted",
+      "design_note": "Increase filled-node diameter for optical balance and lift the cyan shadow slightly for plum backgrounds.",
+      "attribution": {
+        "source": "scripts/icons/local/tailscale.svg",
+        "license": "Original themed redraw; app identity rights remain with their owners",
+        "sha256": "2c7666c8aab07ec6c4bdc4101f1098743005034168046684acf9ce23dad0b34f",
+        "material_revision": 1,
+        "design_note": "Deeper cyan ramp keeps every exposed waveform/dot pigment above 3:1 on light and dark canvases; geometry retained."
+      }
+    }
   },
   "vite": {
-    "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/vite.svg",
+    "source": "scripts/icons/local/reviewed/vite.svg",
     "license": "CC0-1.0",
-    "sha256": "4ac74e33a5f85c721d9f3980fd6793f6ddacea9274f295dde0b6d74903c6e609"
+    "sha256": "3836cdf4a6af29a624d5e46e8ae1781696bf5d1a57769f0f3ce93a5ff223aee3",
+    "previous_source": {
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/vite.svg",
+      "license": "CC0-1.0",
+      "sha256": "4ac74e33a5f85c721d9f3980fd6793f6ddacea9274f295dde0b6d74903c6e609"
+    },
+    "consistency_review": {
+      "number": 143,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "44dc175fafc27cc6dbf7ae0aa20c574de01486320a706f95237197ff34473bf7",
+      "decision": "Accepted",
+      "design_note": "Replace the generic glossy ramp with a restrained three-stop rose surface.",
+      "attribution": {
+        "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/vite.svg",
+        "license": "CC0-1.0",
+        "sha256": "4ac74e33a5f85c721d9f3980fd6793f6ddacea9274f295dde0b6d74903c6e609"
+      }
+    }
   },
   "prowlarr": {
-    "source": "scripts/icons/local/prowlarr.svg",
+    "source": "scripts/icons/local/reviewed/prowlarr.svg",
     "license": "Original tiger-face interpretation; app identity rights remain with their owners",
-    "sha256": "54599b9c94db4b0ebe2bfc9856b44843bd17eeb94d149a4d7dfcdf2b00d21a95",
+    "sha256": "e79d3288fb00f1d544799c392719623434665f331d7b3129597c42ba2d1ad21b",
     "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prowlarr.svg",
     "reference_sha256": "324c3501087a8f6337d4c73ead8bd848b8c0491e062abececb2b9eea398c62a4",
-    "material_revision": 5
+    "material_revision": 5,
+    "previous_source": {
+      "source": "scripts/icons/local/prowlarr.svg",
+      "license": "Original tiger-face interpretation; app identity rights remain with their owners",
+      "sha256": "54599b9c94db4b0ebe2bfc9856b44843bd17eeb94d149a4d7dfcdf2b00d21a95",
+      "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prowlarr.svg",
+      "reference_sha256": "324c3501087a8f6337d4c73ead8bd848b8c0491e062abececb2b9eea398c62a4",
+      "material_revision": 5
+    },
+    "consistency_review": {
+      "number": 75,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "b4329206e3e25553c27c24a7136c2a4c1392cea3c9002f2cba3bbcbbd5d68422",
+      "decision": "Accepted",
+      "design_note": "Join the muzzle into one continuous form, slightly reduce the eyes and add a quiet right-cheek shadow.",
+      "attribution": {
+        "source": "scripts/icons/local/prowlarr.svg",
+        "license": "Original tiger-face interpretation; app identity rights remain with their owners",
+        "sha256": "54599b9c94db4b0ebe2bfc9856b44843bd17eeb94d149a4d7dfcdf2b00d21a95",
+        "reference": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/prowlarr.svg",
+        "reference_sha256": "324c3501087a8f6337d4c73ead8bd848b8c0491e062abececb2b9eea398c62a4",
+        "material_revision": 5
+      }
+    }
   },
   "tjikup": {
-    "source": "Original local artwork",
+    "source": "scripts/icons/local/reviewed/tjikup.svg",
     "license": "Original artwork",
-    "sha256": "880e8171200ce8f1495b7ad506cc7e705ca27ba0b3f50922dfa61d00602f5fd2"
+    "sha256": "b93635fb3ca445cbd6aa2ca23cb7d70f9f5d37ed6ce944acb037cc74cc37e8b8",
+    "previous_source": {
+      "source": "Original local artwork",
+      "license": "Original artwork",
+      "sha256": "880e8171200ce8f1495b7ad506cc7e705ca27ba0b3f50922dfa61d00602f5fd2"
+    },
+    "consistency_review": {
+      "number": 128,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "07c2d89ad32bc43cd713f9075311e38de1ff4ad51481c3eff8aa194e97b87529",
+      "decision": "Accepted",
+      "design_note": "Lift and lighten the chevron, retaining the frame geometry and amber/blush identity.",
+      "attribution": {
+        "source": "Original local artwork",
+        "license": "Original artwork",
+        "sha256": "880e8171200ce8f1495b7ad506cc7e705ca27ba0b3f50922dfa61d00602f5fd2"
+      }
+    }
   },
   "greetjik": {
-    "source": "scripts/icons/local/greetjik.svg",
+    "source": "scripts/icons/local/reviewed/greetjik.svg",
     "license": "Original fan artwork; Rainbow Dash character design belongs to Hasbro",
-    "sha256": "1353cc3698846df8d74aad480ae9acb5d240445b87fe064e4c6bf4161a686a7f",
+    "sha256": "84727fda81cdceaba28bf0d1fccd40934e808927e5db453d16d3caff76f37808",
     "note": "Greetjik rainbow mane icon, renamed from Pony; historical pony command aliases remain compatible.",
     "previous_identity": {
       "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/horse.svg",
@@ -1752,7 +2806,46 @@
       "note": "Custom Pony service symbol using the attributed Tabler horse; not an official project logo."
     },
     "material_revision": 17,
-    "design_note": "Renamed Pony icon to Greetjik; existing rainbow-mane artwork retained."
+    "design_note": "Renamed Pony icon to Greetjik; existing rainbow-mane artwork retained.",
+    "previous_source": {
+      "source": "scripts/icons/local/greetjik.svg",
+      "license": "Original fan artwork; Rainbow Dash character design belongs to Hasbro",
+      "sha256": "1353cc3698846df8d74aad480ae9acb5d240445b87fe064e4c6bf4161a686a7f",
+      "note": "Greetjik rainbow mane icon, renamed from Pony; historical pony command aliases remain compatible.",
+      "previous_identity": {
+        "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/horse.svg",
+        "license": "MIT",
+        "sha256": "fc9f3418d2f1b2d656808555b483ac8516dc9cf05cf9433b084db6e640243e04",
+        "reference": "scripts/icons/references/tabler-horse.svg",
+        "reference_sha256": "1cd61cafb3465be6e413ca92879b0f42a7870583312bdff36c81f698d45daf27",
+        "note": "Custom Pony service symbol using the attributed Tabler horse; not an official project logo."
+      },
+      "material_revision": 17,
+      "design_note": "Renamed Pony icon to Greetjik; existing rainbow-mane artwork retained."
+    },
+    "consistency_review": {
+      "number": 139,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "742226f0b3175b2567c62a94dc25a379e38002a8cfd06fb8651ec8be15edb803",
+      "decision": "Accepted",
+      "design_note": "Open the inner ribbon spacing slightly and coordinate the trailing pigments without changing the outer silhouette.",
+      "attribution": {
+        "source": "scripts/icons/local/greetjik.svg",
+        "license": "Original fan artwork; Rainbow Dash character design belongs to Hasbro",
+        "sha256": "1353cc3698846df8d74aad480ae9acb5d240445b87fe064e4c6bf4161a686a7f",
+        "note": "Greetjik rainbow mane icon, renamed from Pony; historical pony command aliases remain compatible.",
+        "previous_identity": {
+          "source": "https://raw.githubusercontent.com/tabler/tabler-icons/main/icons/outline/horse.svg",
+          "license": "MIT",
+          "sha256": "fc9f3418d2f1b2d656808555b483ac8516dc9cf05cf9433b084db6e640243e04",
+          "reference": "scripts/icons/references/tabler-horse.svg",
+          "reference_sha256": "1cd61cafb3465be6e413ca92879b0f42a7870583312bdff36c81f698d45daf27",
+          "note": "Custom Pony service symbol using the attributed Tabler horse; not an official project logo."
+        },
+        "material_revision": 17,
+        "design_note": "Renamed Pony icon to Greetjik; existing rainbow-mane artwork retained."
+      }
+    }
   },
   "codex": {
     "source": "scripts/icons/local/codex.svg",
@@ -1778,17 +2871,57 @@
     }
   },
   "runtjik": {
-    "source": "scripts/icons/local/runtjik.svg",
+    "source": "scripts/icons/local/reviewed/runtjik.svg",
     "license": "Themed vector artwork; underlying brand rights and source licenses retained",
-    "sha256": "ed33da8233177f17b0450c848a653e495b50acebb367af7f4b65751b52216326",
+    "sha256": "c5884a04225e67dc1ccecd6014e9a08cfe3d66f94fbde02b453a5d775a0eaa34",
     "material_revision": 12,
-    "design_note": "Theme periwinkle frame and pale pink Command symbol at 75 percent scale, with the shared dark inset and material shading."
+    "design_note": "Theme periwinkle frame and pale pink Command symbol at 75 percent scale, with the shared dark inset and material shading.",
+    "previous_source": {
+      "source": "scripts/icons/local/runtjik.svg",
+      "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+      "sha256": "ed33da8233177f17b0450c848a653e495b50acebb367af7f4b65751b52216326",
+      "material_revision": 12,
+      "design_note": "Theme periwinkle frame and pale pink Command symbol at 75 percent scale, with the shared dark inset and material shading."
+    },
+    "consistency_review": {
+      "number": 126,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "8f206f65201cc2750b9b40f9b91af2c722d6cf274e2486d0ca8184cf52950cf8",
+      "decision": "Accepted",
+      "design_note": "Enlarge the mark uniformly, compensate its stroke weight and quiet the frame and mark ramps.",
+      "attribution": {
+        "source": "scripts/icons/local/runtjik.svg",
+        "license": "Themed vector artwork; underlying brand rights and source licenses retained",
+        "sha256": "ed33da8233177f17b0450c848a653e495b50acebb367af7f4b65751b52216326",
+        "material_revision": 12,
+        "design_note": "Theme periwinkle frame and pale pink Command symbol at 75 percent scale, with the shared dark inset and material shading."
+      }
+    }
   },
   "mailtjik": {
-    "source": "scripts/icons/local/mailtjik.svg",
+    "source": "scripts/icons/local/reviewed/mailtjik.svg",
     "license": "Original artwork",
-    "sha256": "00beeec21482a42ca192a0c99dcc25f94e1189d6e0a5639198e69cafff1ec567",
-    "design_note": "Canonical rounded-square Tjik frame with a dark inset and blue, rose-red and white airmail dashes. The centered envelope flap uses the exact border white, joins the 45-degree points of the upper rounded corners and sits beneath the border."
+    "sha256": "ac9ae5b194f00ca5435ea33e029966f58b672ed55399f8db67c28a5b08fbdb80",
+    "design_note": "Canonical rounded-square Tjik frame with a dark inset and blue, rose-red and white airmail dashes. The centered envelope flap uses the exact border white, joins the 45-degree points of the upper rounded corners and sits beneath the border.",
+    "previous_source": {
+      "source": "scripts/icons/local/mailtjik.svg",
+      "license": "Original artwork",
+      "sha256": "00beeec21482a42ca192a0c99dcc25f94e1189d6e0a5639198e69cafff1ec567",
+      "design_note": "Canonical rounded-square Tjik frame with a dark inset and blue, rose-red and white airmail dashes. The centered envelope flap uses the exact border white, joins the 45-degree points of the upper rounded corners and sits beneath the border."
+    },
+    "consistency_review": {
+      "number": 107,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "122682775b2e0e4f1deb0d4ad3da550232d2dbd6a630f1c893917633873849be",
+      "decision": "Accepted",
+      "design_note": "Use matching warm ivory in the stripe and flap and reduce the fold stroke slightly.",
+      "attribution": {
+        "source": "scripts/icons/local/mailtjik.svg",
+        "license": "Original artwork",
+        "sha256": "00beeec21482a42ca192a0c99dcc25f94e1189d6e0a5639198e69cafff1ec567",
+        "design_note": "Canonical rounded-square Tjik frame with a dark inset and blue, rose-red and white airmail dashes. The centered envelope flap uses the exact border white, joins the 45-degree points of the upper rounded corners and sits beneath the border."
+      }
+    }
   },
   "zed-nightly": {
     "source": "https://zed.dev/brand",
@@ -1828,37 +2961,131 @@
     }
   },
   "bitwarden": {
-    "source": "scripts/icons/local/bitwarden.svg",
+    "source": "scripts/icons/local/reviewed/bitwarden.svg",
     "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
-    "sha256": "3feedd631668bed9910c9d4ea2cea4d46a5353ed6cf7e186f7441d14ba400927",
+    "sha256": "8ec9832c3eec8cb1ff434f04c855b65f57bfe0b444eca03c7bb5708a60bfe42b",
     "design_note": "Approved in workflow icon review; artwork unchanged.",
     "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/bitwarden.svg",
     "reference_file": "scripts/icons/upstream/bitwarden-simpleicons.svg",
-    "reference_sha256": "024626ec72d252bded6042e9e38052440bada37a36064edd415fac18be1e6824"
+    "reference_sha256": "024626ec72d252bded6042e9e38052440bada37a36064edd415fac18be1e6824",
+    "previous_source": {
+      "source": "scripts/icons/local/bitwarden.svg",
+      "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
+      "sha256": "3feedd631668bed9910c9d4ea2cea4d46a5353ed6cf7e186f7441d14ba400927",
+      "design_note": "Approved in workflow icon review; artwork unchanged.",
+      "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/bitwarden.svg",
+      "reference_file": "scripts/icons/upstream/bitwarden-simpleicons.svg",
+      "reference_sha256": "024626ec72d252bded6042e9e38052440bada37a36064edd415fac18be1e6824"
+    },
+    "consistency_review": {
+      "number": 113,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "259947cb5c3ede50fcdd4de76226c3bd5c2dcf407de13a318b94d379bb61900d",
+      "decision": "Accepted",
+      "design_note": "Make a small blue pigment adjustment without adding bevels or detail.",
+      "attribution": {
+        "source": "scripts/icons/local/bitwarden.svg",
+        "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
+        "sha256": "3feedd631668bed9910c9d4ea2cea4d46a5353ed6cf7e186f7441d14ba400927",
+        "design_note": "Approved in workflow icon review; artwork unchanged.",
+        "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/bitwarden.svg",
+        "reference_file": "scripts/icons/upstream/bitwarden-simpleicons.svg",
+        "reference_sha256": "024626ec72d252bded6042e9e38052440bada37a36064edd415fac18be1e6824"
+      }
+    }
   },
   "uv": {
-    "source": "scripts/icons/local/uv.svg",
+    "source": "scripts/icons/local/reviewed/uv.svg",
     "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
-    "sha256": "6a8fd92668da2a4a1e26498194e3fcc797dc2e9e3fb3fe438fddc658e367d231",
+    "sha256": "5ebb6120be8de38dc63e8daa85360530db15516fd7ce9b6cf03d848c4eec2652",
     "design_note": "Official U silhouette in a single rose-violet pigment, without the green diagonal treatment. Pending user review.",
     "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/uv.svg",
     "reference_file": "scripts/icons/upstream/uv-simpleicons.svg",
-    "reference_sha256": "5ad031d1a80f9be4e9e1e2aa24bc76117284e5486a306de5b92c8c1777d5f38d"
+    "reference_sha256": "5ad031d1a80f9be4e9e1e2aa24bc76117284e5486a306de5b92c8c1777d5f38d",
+    "previous_source": {
+      "source": "scripts/icons/local/uv.svg",
+      "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
+      "sha256": "6a8fd92668da2a4a1e26498194e3fcc797dc2e9e3fb3fe438fddc658e367d231",
+      "design_note": "Official U silhouette in a single rose-violet pigment, without the green diagonal treatment. Pending user review.",
+      "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/uv.svg",
+      "reference_file": "scripts/icons/upstream/uv-simpleicons.svg",
+      "reference_sha256": "5ad031d1a80f9be4e9e1e2aa24bc76117284e5486a306de5b92c8c1777d5f38d"
+    },
+    "consistency_review": {
+      "number": 142,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "b873777f82920e1876ea09f5268d6a7773d5f49d4701586cdbcb3a32bb8e85fb",
+      "decision": "Accepted",
+      "design_note": "Make a modest violet pigment adjustment with no added texture or geometry changes.",
+      "attribution": {
+        "source": "scripts/icons/local/uv.svg",
+        "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
+        "sha256": "6a8fd92668da2a4a1e26498194e3fcc797dc2e9e3fb3fe438fddc658e367d231",
+        "design_note": "Official U silhouette in a single rose-violet pigment, without the green diagonal treatment. Pending user review.",
+        "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/uv.svg",
+        "reference_file": "scripts/icons/upstream/uv-simpleicons.svg",
+        "reference_sha256": "5ad031d1a80f9be4e9e1e2aa24bc76117284e5486a306de5b92c8c1777d5f38d"
+      }
+    }
   },
   "bun": {
-    "source": "scripts/icons/local/bun.svg",
+    "source": "scripts/icons/local/reviewed/bun.svg",
     "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
-    "sha256": "ca1e0e6fd3117677d973d8a8bb501992474b09277cce0f3c8b98b39206b655db",
+    "sha256": "af8f5c38d512abc9a3fa0ad0fb544242d12dd8aa501548846b303b08ab268634",
     "design_note": "Ivory dough with a fine warm contour instead of the dark all-around border; folded top, bright eyes, rose cheeks and coral smile. Pending user review.",
     "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/bun.svg",
     "reference_file": "scripts/icons/upstream/bun-simpleicons.svg",
-    "reference_sha256": "f356fc1ec5659e73e9b1e881ef2785a4fc4e0e3d82b446e6484f55303546dc6d"
+    "reference_sha256": "f356fc1ec5659e73e9b1e881ef2785a4fc4e0e3d82b446e6484f55303546dc6d",
+    "previous_source": {
+      "source": "scripts/icons/local/bun.svg",
+      "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
+      "sha256": "ca1e0e6fd3117677d973d8a8bb501992474b09277cce0f3c8b98b39206b655db",
+      "design_note": "Ivory dough with a fine warm contour instead of the dark all-around border; folded top, bright eyes, rose cheeks and coral smile. Pending user review.",
+      "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/bun.svg",
+      "reference_file": "scripts/icons/upstream/bun-simpleicons.svg",
+      "reference_sha256": "f356fc1ec5659e73e9b1e881ef2785a4fc4e0e3d82b446e6484f55303546dc6d"
+    },
+    "consistency_review": {
+      "number": 104,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "9356bee1aefc6176295ac040d9c40eade4f8bc2fc7cd2c24a6acfe9f2b6ceea6",
+      "decision": "Accepted",
+      "design_note": "Spread the warm dough ramp over more of the form and reduce the eye glints.",
+      "attribution": {
+        "source": "scripts/icons/local/bun.svg",
+        "license": "CC0-1.0 (Simple Icons); app identity rights remain with its owner",
+        "sha256": "ca1e0e6fd3117677d973d8a8bb501992474b09277cce0f3c8b98b39206b655db",
+        "design_note": "Ivory dough with a fine warm contour instead of the dark all-around border; folded top, bright eyes, rose cheeks and coral smile. Pending user review.",
+        "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/bun.svg",
+        "reference_file": "scripts/icons/upstream/bun-simpleicons.svg",
+        "reference_sha256": "f356fc1ec5659e73e9b1e881ef2785a4fc4e0e3d82b446e6484f55303546dc6d"
+      }
+    }
   },
   "fnm": {
-    "source": "scripts/icons/local/fnm.svg",
+    "source": "scripts/icons/local/reviewed/fnm.svg",
     "license": "Original artwork",
-    "sha256": "7785f1eb85f9d3888b5b9b6f28457a1ee6ff673a4d650e06045d55072a28f0b0",
-    "design_note": "Faceted jade Node shape with a plain white lightning bolt; no bolt outline. Pending user review."
+    "sha256": "d26713c8ae37c2e0c3a0d91f44e4e7c4e1e9d49450039b76c1a4e7c71f976bd9",
+    "design_note": "Faceted jade Node shape with a plain white lightning bolt; no bolt outline. Pending user review.",
+    "previous_source": {
+      "source": "scripts/icons/local/fnm.svg",
+      "license": "Original artwork",
+      "sha256": "7785f1eb85f9d3888b5b9b6f28457a1ee6ff673a4d650e06045d55072a28f0b0",
+      "design_note": "Faceted jade Node shape with a plain white lightning bolt; no bolt outline. Pending user review."
+    },
+    "consistency_review": {
+      "number": 90,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "dabf4751219cec2775f77330f29790b330dd3b596185ee45ecc25de804641c15",
+      "decision": "Accepted",
+      "design_note": "Keep all facets and bolt geometry; separate the cool shadow plane from the brighter jade face.",
+      "attribution": {
+        "source": "scripts/icons/local/fnm.svg",
+        "license": "Original artwork",
+        "sha256": "7785f1eb85f9d3888b5b9b6f28457a1ee6ff673a4d650e06045d55072a28f0b0",
+        "design_note": "Faceted jade Node shape with a plain white lightning bolt; no bolt outline. Pending user review."
+      }
+    }
   },
   "gum": {
     "source": "scripts/icons/local/gum.svg",
@@ -1873,91 +3100,342 @@
     "design_note": "Approved in workflow icon review; artwork unchanged."
   },
   "gnome": {
-    "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gnome.svg",
+    "source": "scripts/icons/local/reviewed/gnome.svg",
     "license": "CC0-1.0 (brand rights remain with the GNOME Foundation)",
-    "sha256": "9279436e987accc54ffff566c407f821a287c1518b3efe4b9979fe634fc7e146"
+    "sha256": "0834f4ba26a0bb15b39f7deacaf3eca60ca1ee8386c1bb7b2fe14e375e692317",
+    "previous_source": {
+      "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gnome.svg",
+      "license": "CC0-1.0 (brand rights remain with the GNOME Foundation)",
+      "sha256": "9279436e987accc54ffff566c407f821a287c1518b3efe4b9979fe634fc7e146"
+    },
+    "consistency_review": {
+      "number": 132,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "3c1f318e30a3608629c4ab4c1936f073569f940e138a1c9d9acdbc26be767675",
+      "decision": "Accepted",
+      "design_note": "Use a quieter, deeper rose ramp across the original geometry.",
+      "attribution": {
+        "source": "https://github.com/simple-icons/simple-icons/blob/develop/icons/gnome.svg",
+        "license": "CC0-1.0 (brand rights remain with the GNOME Foundation)",
+        "sha256": "9279436e987accc54ffff566c407f821a287c1518b3efe4b9979fe634fc7e146"
+      }
+    }
   },
   "duckdb": {
-    "source": "scripts/icons/local/duckdb.svg",
+    "source": "scripts/icons/local/reviewed/duckdb.svg",
     "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/duckdb.svg",
     "reference_sha256": "2d53f8978d58ac12411fc618569a492922bb15e3e1798b56ba1511e72c62f826",
     "license": "CC0-1.0",
-    "sha256": "b8d5ad2e90d68ef3a9b954b3e8e90461880bf9991f7e5a1dae73327f0c09f3be",
+    "sha256": "58f514c482e842c00cd78b05370a7152466c86050531cfab37fda26b735e19e6",
     "material_revision": 3,
-    "treatment": "Sun-yellow on a dark plum backing with the same edge language as Zed and Zen"
+    "treatment": "Sun-yellow on a dark plum backing with the same edge language as Zed and Zen",
+    "previous_source": {
+      "source": "scripts/icons/local/duckdb.svg",
+      "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/duckdb.svg",
+      "reference_sha256": "2d53f8978d58ac12411fc618569a492922bb15e3e1798b56ba1511e72c62f826",
+      "license": "CC0-1.0",
+      "sha256": "b8d5ad2e90d68ef3a9b954b3e8e90461880bf9991f7e5a1dae73327f0c09f3be",
+      "material_revision": 3,
+      "treatment": "Sun-yellow on a dark plum backing with the same edge language as Zed and Zen"
+    },
+    "consistency_review": {
+      "number": 141,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "b2e5f8d3d394b75fe37cf10c6b236c72637604ff69ce5f2fdcf1efa3a0c5852c",
+      "decision": "Accepted",
+      "design_note": "Thin the outside backing slightly while preserving the bright yellow and all upstream paths.",
+      "attribution": {
+        "source": "scripts/icons/local/duckdb.svg",
+        "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/duckdb.svg",
+        "reference_sha256": "2d53f8978d58ac12411fc618569a492922bb15e3e1798b56ba1511e72c62f826",
+        "license": "CC0-1.0",
+        "sha256": "b8d5ad2e90d68ef3a9b954b3e8e90461880bf9991f7e5a1dae73327f0c09f3be",
+        "material_revision": 3,
+        "treatment": "Sun-yellow on a dark plum backing with the same edge language as Zed and Zen"
+      }
+    }
   },
   "hyprland": {
-    "source": "scripts/icons/local/hyprland.svg",
+    "source": "scripts/icons/local/reviewed/hyprland.svg",
     "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/hyprland.svg",
     "reference_sha256": "13df311e080018f3e5208cec68388c1efb79e3800a2b6bdfa73d351615374757",
     "license": "CC0-1.0",
-    "sha256": "69fb90d644c7276081fc1b075b9835280dfde22f27157377e76ab864f29c3f4a",
+    "sha256": "48a88cc81e90616ec65e3e6fe3c48b07970818e02a584515cc379af9d561a0ab",
     "material_revision": 2,
-    "treatment": "Redrawn split-tip droplet with wider tapered ribbon and rounded basin"
+    "treatment": "Redrawn split-tip droplet with wider tapered ribbon and rounded basin",
+    "previous_source": {
+      "source": "scripts/icons/local/hyprland.svg",
+      "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/hyprland.svg",
+      "reference_sha256": "13df311e080018f3e5208cec68388c1efb79e3800a2b6bdfa73d351615374757",
+      "license": "CC0-1.0",
+      "sha256": "69fb90d644c7276081fc1b075b9835280dfde22f27157377e76ab864f29c3f4a",
+      "material_revision": 2,
+      "treatment": "Redrawn split-tip droplet with wider tapered ribbon and rounded basin"
+    },
+    "consistency_review": {
+      "number": 137,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "144adcdb7cb869b4083e9182825ba44d0fa2fcbfdf24a10d9ba0c91b64e0f142",
+      "decision": "Accepted",
+      "design_note": "Balance the cyan-to-jade ramp, retaining the thin upper points and broad base.",
+      "attribution": {
+        "source": "scripts/icons/local/hyprland.svg",
+        "reference": "https://github.com/simple-icons/simple-icons/blob/develop/icons/hyprland.svg",
+        "reference_sha256": "13df311e080018f3e5208cec68388c1efb79e3800a2b6bdfa73d351615374757",
+        "license": "CC0-1.0",
+        "sha256": "69fb90d644c7276081fc1b075b9835280dfde22f27157377e76ab864f29c3f4a",
+        "material_revision": 2,
+        "treatment": "Redrawn split-tip droplet with wider tapered ribbon and rounded basin"
+      }
+    }
   },
   "bottom": {
-    "source": "scripts/icons/local/bottom.svg",
+    "source": "scripts/icons/local/reviewed/bottom.svg",
     "reference": "https://github.com/ClementTsang/bottom/blob/master/assets/icons/bottom-system-monitor.svg",
     "reference_sha256": "98839723b809349a383c5c3ba70faffcc8edb3f6e2d97b7557b7bc8d664dd149",
     "license": "MIT",
-    "sha256": "63587d63e2d5a7f24fb43134d6978b2a3871ce2170ce5f68e944cf5b051dde44",
+    "sha256": "f189cb673ec08f8c0e70be0c41ddb92f30caf4b45834700c0c03ad4748bfc651",
     "material_revision": 2,
-    "treatment": "Shared Lazygit terminal shell and dotted activity trace"
+    "treatment": "Shared Lazygit terminal shell and dotted activity trace",
+    "previous_source": {
+      "source": "scripts/icons/local/bottom.svg",
+      "reference": "https://github.com/ClementTsang/bottom/blob/master/assets/icons/bottom-system-monitor.svg",
+      "reference_sha256": "98839723b809349a383c5c3ba70faffcc8edb3f6e2d97b7557b7bc8d664dd149",
+      "license": "MIT",
+      "sha256": "63587d63e2d5a7f24fb43134d6978b2a3871ce2170ce5f68e944cf5b051dde44",
+      "material_revision": 2,
+      "treatment": "Shared Lazygit terminal shell and dotted activity trace"
+    },
+    "consistency_review": {
+      "number": 97,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "e6cce2b4a2fa3128e3373d6265ef4e333c967e47aa26e31adab4dae17cfb0a7b",
+      "decision": "Accepted",
+      "design_note": "Use fewer evenly separated samples so the dotted trace survives at 24 px.",
+      "attribution": {
+        "source": "scripts/icons/local/bottom.svg",
+        "reference": "https://github.com/ClementTsang/bottom/blob/master/assets/icons/bottom-system-monitor.svg",
+        "reference_sha256": "98839723b809349a383c5c3ba70faffcc8edb3f6e2d97b7557b7bc8d664dd149",
+        "license": "MIT",
+        "sha256": "63587d63e2d5a7f24fb43134d6978b2a3871ce2170ce5f68e944cf5b051dde44",
+        "material_revision": 2,
+        "treatment": "Shared Lazygit terminal shell and dotted activity trace"
+      }
+    }
   },
   "starship": {
-    "source": "scripts/icons/local/starship.svg",
+    "source": "scripts/icons/local/reviewed/starship.svg",
     "reference": "https://github.com/starship/starship/blob/master/media/icon.svg",
     "reference_sha256": "5d6a0c4b91ce00cd54c6e58d613e67fb926375fcaf46a739c7788ed6adea8bc9",
     "license": "ISC",
-    "sha256": "10c6ad44b0dd2e4c089c1d62d10ecfb2db3201777d27cf42131d0d848cd5406c",
-    "material_revision": 1
+    "sha256": "e90922b428aa241708770d449fe07d77945fafa8a37a817834a509cb49be99d9",
+    "material_revision": 1,
+    "previous_source": {
+      "source": "scripts/icons/local/starship.svg",
+      "reference": "https://github.com/starship/starship/blob/master/media/icon.svg",
+      "reference_sha256": "5d6a0c4b91ce00cd54c6e58d613e67fb926375fcaf46a739c7788ed6adea8bc9",
+      "license": "ISC",
+      "sha256": "10c6ad44b0dd2e4c089c1d62d10ecfb2db3201777d27cf42131d0d848cd5406c",
+      "material_revision": 1
+    },
+    "consistency_review": {
+      "number": 87,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "bff93a883ecf4300cbcf785994c80b5057e4d043dfa9397e9d83cebee4e854e4",
+      "decision": "Accepted",
+      "design_note": "Retain all upstream paths, use warm ivory for the marks and a slightly deeper violet field.",
+      "attribution": {
+        "source": "scripts/icons/local/starship.svg",
+        "reference": "https://github.com/starship/starship/blob/master/media/icon.svg",
+        "reference_sha256": "5d6a0c4b91ce00cd54c6e58d613e67fb926375fcaf46a739c7788ed6adea8bc9",
+        "license": "ISC",
+        "sha256": "10c6ad44b0dd2e4c089c1d62d10ecfb2db3201777d27cf42131d0d848cd5406c",
+        "material_revision": 1
+      }
+    }
   },
   "quickshell": {
-    "source": "scripts/icons/local/quickshell.svg",
+    "source": "scripts/icons/local/reviewed/quickshell.svg",
     "reference": "https://github.com/quickshell-mirror/quickshell/blob/master/assets/quickshell.svg",
     "reference_sha256": "2516892a4d02385fc6baa1450b549a9f65f90ba613444cc0aa00af84cb3c9fda",
     "license": "LGPL-3.0",
-    "sha256": "c0a0d241d0f0b5e81ef8c7c3f946e2178a1ebbe3caf7721214d3ffafb523da11",
+    "sha256": "a36712cf89e11dcf9333b2ea042efae2d4958eba1e389417721cea2071f52d21",
     "material_revision": 2,
-    "treatment": "Redrawn rounded clipped backing and softened eight-tooth Q gear"
+    "treatment": "Redrawn rounded clipped backing and softened eight-tooth Q gear",
+    "previous_source": {
+      "source": "scripts/icons/local/quickshell.svg",
+      "reference": "https://github.com/quickshell-mirror/quickshell/blob/master/assets/quickshell.svg",
+      "reference_sha256": "2516892a4d02385fc6baa1450b549a9f65f90ba613444cc0aa00af84cb3c9fda",
+      "license": "LGPL-3.0",
+      "sha256": "c0a0d241d0f0b5e81ef8c7c3f946e2178a1ebbe3caf7721214d3ffafb523da11",
+      "material_revision": 2,
+      "treatment": "Redrawn rounded clipped backing and softened eight-tooth Q gear"
+    },
+    "consistency_review": {
+      "number": 129,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "6d3ca48c4a45aa787152e6e6746b71058e59ab7e529ac2df15206d7da8dfa1a0",
+      "decision": "Accepted",
+      "design_note": "Open the counter slightly and reduce tail weight while keeping the outer geometry.",
+      "attribution": {
+        "source": "scripts/icons/local/quickshell.svg",
+        "reference": "https://github.com/quickshell-mirror/quickshell/blob/master/assets/quickshell.svg",
+        "reference_sha256": "2516892a4d02385fc6baa1450b549a9f65f90ba613444cc0aa00af84cb3c9fda",
+        "license": "LGPL-3.0",
+        "sha256": "c0a0d241d0f0b5e81ef8c7c3f946e2178a1ebbe3caf7721214d3ffafb523da11",
+        "material_revision": 2,
+        "treatment": "Redrawn rounded clipped backing and softened eight-tooth Q gear"
+      }
+    }
   },
   "lazygit": {
-    "source": "scripts/icons/local/lazygit.svg",
+    "source": "scripts/icons/local/reviewed/lazygit.svg",
     "license": "Original artwork; app names belong to their respective owners",
-    "sha256": "1205e5db31ea1e5beef59e652d7e45e5202435981c0359c255d54bbfedc9e5b1",
+    "sha256": "30d909656c026252e5460e34c0230c39c85618b5f45c21053925aaf55888849c",
     "reference": "https://github.com/jesseduffield/lazygit",
     "note": "Original concept; upstream has no standalone logo in its source tree",
-    "material_revision": 1
+    "material_revision": 1,
+    "previous_source": {
+      "source": "scripts/icons/local/lazygit.svg",
+      "license": "Original artwork; app names belong to their respective owners",
+      "sha256": "1205e5db31ea1e5beef59e652d7e45e5202435981c0359c255d54bbfedc9e5b1",
+      "reference": "https://github.com/jesseduffield/lazygit",
+      "note": "Original concept; upstream has no standalone logo in its source tree",
+      "material_revision": 1
+    },
+    "consistency_review": {
+      "number": 98,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "bdd8bb3b4f4fec875a5d1c662fa5b87c7b9d15ed65bcf4cd46e6c92a52faad8e",
+      "decision": "Accepted",
+      "design_note": "Smooth the branch junction and slightly reduce its stroke weight.",
+      "attribution": {
+        "source": "scripts/icons/local/lazygit.svg",
+        "license": "Original artwork; app names belong to their respective owners",
+        "sha256": "1205e5db31ea1e5beef59e652d7e45e5202435981c0359c255d54bbfedc9e5b1",
+        "reference": "https://github.com/jesseduffield/lazygit",
+        "note": "Original concept; upstream has no standalone logo in its source tree",
+        "material_revision": 1
+      }
+    }
   },
   "vivid": {
-    "source": "scripts/icons/local/vivid.svg",
+    "source": "scripts/icons/local/reviewed/vivid.svg",
     "license": "Original artwork; app names belong to their respective owners",
-    "sha256": "d71533f49b1fcb9112e3bccb6f9f27c48fa0d544b437e32ff7d1ee6caa9d572f",
+    "sha256": "e24cb6c8a98c5d4dfb1138b32c0cc182b1f66db4a159ac5298e6e8f55019f0fe",
     "reference": "https://github.com/sharkdp/vivid",
     "note": "Original concept; upstream has no standalone logo in its source tree",
     "material_revision": 2,
-    "treatment": "Shared Lazygit terminal shell and fine color tree"
+    "treatment": "Shared Lazygit terminal shell and fine color tree",
+    "previous_source": {
+      "source": "scripts/icons/local/vivid.svg",
+      "license": "Original artwork; app names belong to their respective owners",
+      "sha256": "d71533f49b1fcb9112e3bccb6f9f27c48fa0d544b437e32ff7d1ee6caa9d572f",
+      "reference": "https://github.com/sharkdp/vivid",
+      "note": "Original concept; upstream has no standalone logo in its source tree",
+      "material_revision": 2,
+      "treatment": "Shared Lazygit terminal shell and fine color tree"
+    },
+    "consistency_review": {
+      "number": 100,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "fa4b7992cc8fdae1000aa7b38e27f683a651fae1efb92457549aacffaf2ba76d",
+      "decision": "Accepted",
+      "design_note": "Strengthen the tree slightly and close the visual gap to each coloured leaf.",
+      "attribution": {
+        "source": "scripts/icons/local/vivid.svg",
+        "license": "Original artwork; app names belong to their respective owners",
+        "sha256": "d71533f49b1fcb9112e3bccb6f9f27c48fa0d544b437e32ff7d1ee6caa9d572f",
+        "reference": "https://github.com/sharkdp/vivid",
+        "note": "Original concept; upstream has no standalone logo in its source tree",
+        "material_revision": 2,
+        "treatment": "Shared Lazygit terminal shell and fine color tree"
+      }
+    }
   },
   "synctjik": {
-    "source": "scripts/icons/local/synctjik.svg",
+    "source": "scripts/icons/local/reviewed/synctjik.svg",
     "license": "Original artwork; app names belong to their respective owners",
-    "sha256": "5835cb7e277e92c18e732a672acd2c8cd8ef969204dc66f7e069d3b56de6c0cb",
+    "sha256": "ce276848bf78dd015fa98bcff457f43a48390d9f5b8a1bb8be865153e41c057e",
     "reference": "Existing local Notjik, Bartjik, Runtjik family",
     "note": "Copper family variant with syncing arrows",
     "material_revision": 2,
-    "treatment": "Two opposing rounded corner forms abstract the synchronization cycle"
+    "treatment": "Two opposing rounded corner forms abstract the synchronization cycle",
+    "previous_source": {
+      "source": "scripts/icons/local/synctjik.svg",
+      "license": "Original artwork; app names belong to their respective owners",
+      "sha256": "5835cb7e277e92c18e732a672acd2c8cd8ef969204dc66f7e069d3b56de6c0cb",
+      "reference": "Existing local Notjik, Bartjik, Runtjik family",
+      "note": "Copper family variant with syncing arrows",
+      "material_revision": 2,
+      "treatment": "Two opposing rounded corner forms abstract the synchronization cycle"
+    },
+    "consistency_review": {
+      "number": 125,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "07392a4c58ff13921e021143acc43f01d10b8192c376d7647396fb20a14ee1cf",
+      "decision": "Accepted",
+      "design_note": "Use the family frame proportions and rebalance the internal mark with a lighter stroke.",
+      "attribution": {
+        "source": "scripts/icons/local/synctjik.svg",
+        "license": "Original artwork; app names belong to their respective owners",
+        "sha256": "5835cb7e277e92c18e732a672acd2c8cd8ef969204dc66f7e069d3b56de6c0cb",
+        "reference": "Existing local Notjik, Bartjik, Runtjik family",
+        "note": "Copper family variant with syncing arrows",
+        "material_revision": 2,
+        "treatment": "Two opposing rounded corner forms abstract the synchronization cycle"
+      }
+    }
   },
   "rpm-fusion": {
-    "source": "scripts/icons/local/rpm-fusion.svg",
+    "source": "scripts/icons/local/reviewed/rpm-fusion.svg",
     "license": "Original themed interpretation; app identities remain with their respective owners",
-    "sha256": "80fe76bc5cf8841eae74d168d0999c4d8d79760d8289334a2c5d73f25803b883",
-    "reference": "User supplied RPM Fusion atomic logo; https://rpmfusion.org/"
+    "sha256": "112965f49f67d4f08f21a1d8c5d1e8696265a2ca5ae5968f0e7c629ccf1e8e32",
+    "reference": "User supplied RPM Fusion atomic logo; https://rpmfusion.org/",
+    "previous_source": {
+      "source": "scripts/icons/local/rpm-fusion.svg",
+      "license": "Original themed interpretation; app identities remain with their respective owners",
+      "sha256": "80fe76bc5cf8841eae74d168d0999c4d8d79760d8289334a2c5d73f25803b883",
+      "reference": "User supplied RPM Fusion atomic logo; https://rpmfusion.org/"
+    },
+    "consistency_review": {
+      "number": 111,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "c6c0c5c3d21ed04330dfa52c617f2812168bcdbf85a5ac0b570cc019643d5f6a",
+      "decision": "Accepted",
+      "design_note": "Inset the orbits, slightly reduce electrons and deepen the blue field.",
+      "attribution": {
+        "source": "scripts/icons/local/rpm-fusion.svg",
+        "license": "Original themed interpretation; app identities remain with their respective owners",
+        "sha256": "80fe76bc5cf8841eae74d168d0999c4d8d79760d8289334a2c5d73f25803b883",
+        "reference": "User supplied RPM Fusion atomic logo; https://rpmfusion.org/"
+      }
+    }
   },
   "tennis": {
-    "source": "scripts/icons/local/tennis.svg",
+    "source": "scripts/icons/local/reviewed/tennis.svg",
     "license": "Original themed interpretation; app identities remain with their respective owners",
-    "sha256": "515de3e391a91dce75888c8a217fb3ca402efa232a5166a2d0ebbaf83297868d",
-    "reference": "https://github.com/gurgeous/tennis"
+    "sha256": "480c55abc758b4588f209d8617e64972509c275bb80064df48c45a506d56e824",
+    "reference": "https://github.com/gurgeous/tennis",
+    "previous_source": {
+      "source": "scripts/icons/local/tennis.svg",
+      "license": "Original themed interpretation; app identities remain with their respective owners",
+      "sha256": "515de3e391a91dce75888c8a217fb3ca402efa232a5166a2d0ebbaf83297868d",
+      "reference": "https://github.com/gurgeous/tennis"
+    },
+    "consistency_review": {
+      "number": 99,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "7c8805f480584f720dc829106079e071f9c1928e96b61a7431111c29f27de98e",
+      "decision": "Accepted",
+      "design_note": "Use explicit gaps and clean filled cells with consistent corner radii.",
+      "attribution": {
+        "source": "scripts/icons/local/tennis.svg",
+        "license": "Original themed interpretation; app identities remain with their respective owners",
+        "sha256": "515de3e391a91dce75888c8a217fb3ca402efa232a5166a2d0ebbaf83297868d",
+        "reference": "https://github.com/gurgeous/tennis"
+      }
+    }
   },
   "tinty": {
     "source": "scripts/icons/local/tinty.svg",
@@ -1966,15 +3444,34 @@
     "reference": "https://github.com/tinted-theming/tinty"
   },
   "gmailtjik": {
-    "source": "scripts/icons/local/gmailtjik.svg",
+    "source": "scripts/icons/local/reviewed/gmailtjik.svg",
     "license": "Original themed artwork; Gmail identity remains with Google",
-    "sha256": "f7e61373c31e90c12f0bacffdcc3c0ae1b92639b36ab24ed219b23e226700819",
-    "design_note": "Original rose frame with a clean red M-shaped envelope flap; removed crossing folds for clarity at launcher size."
+    "sha256": "6435286bb7926b54922921128273ace92f21e7febec9990a9862af9720b334cc",
+    "design_note": "Original rose frame with a clean red M-shaped envelope flap; removed crossing folds for clarity at launcher size.",
+    "previous_source": {
+      "source": "scripts/icons/local/gmailtjik.svg",
+      "license": "Original themed artwork; Gmail identity remains with Google",
+      "sha256": "f7e61373c31e90c12f0bacffdcc3c0ae1b92639b36ab24ed219b23e226700819",
+      "design_note": "Original rose frame with a clean red M-shaped envelope flap; removed crossing folds for clarity at launcher size."
+    },
+    "consistency_review": {
+      "number": 108,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "ea874bc7ab2db53b539dc32cf09fc15c8724dde4e1645dce9dd3aafcd25d9d4a",
+      "decision": "Accepted",
+      "design_note": "Quiet the frame and lift the M fold slightly while keeping the red ramp intact.",
+      "attribution": {
+        "source": "scripts/icons/local/gmailtjik.svg",
+        "license": "Original themed artwork; Gmail identity remains with Google",
+        "sha256": "f7e61373c31e90c12f0bacffdcc3c0ae1b92639b36ab24ed219b23e226700819",
+        "design_note": "Original rose frame with a clean red M-shaped envelope flap; removed crossing folds for clarity at launcher size."
+      }
+    }
   },
   "photocraft": {
-    "source": "scripts/icons/local/photocraft.svg",
+    "source": "scripts/icons/local/reviewed/photocraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "49c0c01ff5837a397ee621bce7c30694b35ca50e79764fef8caeaa247cf58fd1",
+    "sha256": "bef647004d470425d30ded3cb5d5fba53ae67cf101f040dc9a0422c65da5f529",
     "reference": "https://getartcraft.com/images/apps/photocraft/icon.webp",
     "reference_sha256": "3dc4caf2a44de97ddde2d18fcb6b5629f97c3bd159ff8a4a35f3bf122854513a",
     "reference_page": "https://getartcraft.com/apps/photocraft",
@@ -1982,7 +3479,40 @@
     "desktop_reference": "https://github.com/storytold/photocraft/blob/main/packaging/linux/ai.storyteller.photocraft.desktop",
     "material_revision": 3,
     "design_note": "Seated kitsune with a larger head and body, nine layered tails and tapered facial marks; tail planes stay behind the haunch. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-photocraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-photocraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/photocraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "49c0c01ff5837a397ee621bce7c30694b35ca50e79764fef8caeaa247cf58fd1",
+      "reference": "https://getartcraft.com/images/apps/photocraft/icon.webp",
+      "reference_sha256": "3dc4caf2a44de97ddde2d18fcb6b5629f97c3bd159ff8a4a35f3bf122854513a",
+      "reference_page": "https://getartcraft.com/apps/photocraft",
+      "upstream_repository": "https://github.com/storytold/photocraft",
+      "desktop_reference": "https://github.com/storytold/photocraft/blob/main/packaging/linux/ai.storyteller.photocraft.desktop",
+      "material_revision": 3,
+      "design_note": "Seated kitsune with a larger head and body, nine layered tails and tapered facial marks; tail planes stay behind the haunch. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-photocraft.txt"
+    },
+    "consistency_review": {
+      "number": 145,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "78854ba58195f6356d98b69b9fa9495f492ce426d861c853d45f68048c046560",
+      "decision": "Accepted",
+      "design_note": "Quiet the lavender tail-tip pigment so the face remains the focal point; preserve all geometry.",
+      "attribution": {
+        "source": "scripts/icons/local/photocraft.svg",
+        "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+        "sha256": "49c0c01ff5837a397ee621bce7c30694b35ca50e79764fef8caeaa247cf58fd1",
+        "reference": "https://getartcraft.com/images/apps/photocraft/icon.webp",
+        "reference_sha256": "3dc4caf2a44de97ddde2d18fcb6b5629f97c3bd159ff8a4a35f3bf122854513a",
+        "reference_page": "https://getartcraft.com/apps/photocraft",
+        "upstream_repository": "https://github.com/storytold/photocraft",
+        "desktop_reference": "https://github.com/storytold/photocraft/blob/main/packaging/linux/ai.storyteller.photocraft.desktop",
+        "material_revision": 3,
+        "design_note": "Seated kitsune with a larger head and body, nine layered tails and tapered facial marks; tail planes stay behind the haunch. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+        "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-photocraft.txt"
+      }
+    }
   },
   "vectorcraft": {
     "source": "scripts/icons/local/vectorcraft.svg",
@@ -2024,9 +3554,9 @@
     "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-lightcraft.txt"
   },
   "pdfcraft": {
-    "source": "scripts/icons/local/pdfcraft.svg",
+    "source": "scripts/icons/local/reviewed/pdfcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "833213e6823ad2f03820fdca890dfed113bc4dd2fd676d132d8013622c26cd2f",
+    "sha256": "ebbcbe2508c5abdbde774d2e0317e843343eff28ac85203075e78adb8c4e5f8e",
     "reference": "https://getartcraft.com/images/apps/pdfcraft/icon.webp",
     "reference_sha256": "1d55e801eb80869dcfd085ac802d9446e13c076bbbea7a64d108d7a3d543a9c1",
     "reference_page": "https://getartcraft.com/apps/pdfcraft",
@@ -2034,7 +3564,40 @@
     "desktop_reference": "https://github.com/storytold/pdfcraft/blob/main/packaging/linux/ai.storyteller.pdfcraft.desktop",
     "material_revision": 4,
     "design_note": "Lion with a larger face, almond eyes, broad whisker pads and four quiet mane masses shaded around the head. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-pdfcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-pdfcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/pdfcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "833213e6823ad2f03820fdca890dfed113bc4dd2fd676d132d8013622c26cd2f",
+      "reference": "https://getartcraft.com/images/apps/pdfcraft/icon.webp",
+      "reference_sha256": "1d55e801eb80869dcfd085ac802d9446e13c076bbbea7a64d108d7a3d543a9c1",
+      "reference_page": "https://getartcraft.com/apps/pdfcraft",
+      "upstream_repository": "https://github.com/storytold/pdfcraft",
+      "desktop_reference": "https://github.com/storytold/pdfcraft/blob/main/packaging/linux/ai.storyteller.pdfcraft.desktop",
+      "material_revision": 4,
+      "design_note": "Lion with a larger face, almond eyes, broad whisker pads and four quiet mane masses shaded around the head. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-pdfcraft.txt"
+    },
+    "consistency_review": {
+      "number": 146,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "b9b835a567fda2c6ac9f22d9ae9ac86bc1162848114137fbd13146a882c38091",
+      "decision": "Accepted",
+      "design_note": "Lift and coordinate only the mane shadow pigments; keep the full portrait geometry.",
+      "attribution": {
+        "source": "scripts/icons/local/pdfcraft.svg",
+        "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+        "sha256": "833213e6823ad2f03820fdca890dfed113bc4dd2fd676d132d8013622c26cd2f",
+        "reference": "https://getartcraft.com/images/apps/pdfcraft/icon.webp",
+        "reference_sha256": "1d55e801eb80869dcfd085ac802d9446e13c076bbbea7a64d108d7a3d543a9c1",
+        "reference_page": "https://getartcraft.com/apps/pdfcraft",
+        "upstream_repository": "https://github.com/storytold/pdfcraft",
+        "desktop_reference": "https://github.com/storytold/pdfcraft/blob/main/packaging/linux/ai.storyteller.pdfcraft.desktop",
+        "material_revision": 4,
+        "design_note": "Lion with a larger face, almond eyes, broad whisker pads and four quiet mane masses shaded around the head. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+        "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-pdfcraft.txt"
+      }
+    }
   },
   "effectcraft": {
     "source": "scripts/icons/local/effectcraft.svg",
@@ -2063,9 +3626,9 @@
     "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-designcraft.txt"
   },
   "figcraft": {
-    "source": "scripts/icons/local/figcraft.svg",
+    "source": "scripts/icons/local/reviewed/figcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "f3c389a0832c0cd4cd3b4d49e30962beafa88e27314132324319266ba45d9e66",
+    "sha256": "2f977da63e103af82cae88c3c1715e5caf29e98cc37d9102f7c7d5f9f6f4f0e5",
     "reference": "https://getartcraft.com/images/apps/figcraft/icon.webp",
     "reference_sha256": "c9e9753431a038b186bcf411c1c98a126bf326e03e618f3cf59b41f562833fad",
     "reference_page": "https://getartcraft.com/apps/figcraft",
@@ -2073,7 +3636,40 @@
     "desktop_reference": "https://github.com/storytold/figcraft/blob/main/packaging/linux/ai.storyteller.figcraft.desktop",
     "material_revision": 3,
     "design_note": "Chameleon with a horizontal ribcage, articulated folded limbs, a smaller turret eye and a continuous curled tail. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-figcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-figcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/figcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "f3c389a0832c0cd4cd3b4d49e30962beafa88e27314132324319266ba45d9e66",
+      "reference": "https://getartcraft.com/images/apps/figcraft/icon.webp",
+      "reference_sha256": "c9e9753431a038b186bcf411c1c98a126bf326e03e618f3cf59b41f562833fad",
+      "reference_page": "https://getartcraft.com/apps/figcraft",
+      "upstream_repository": "https://github.com/storytold/figcraft",
+      "desktop_reference": "https://github.com/storytold/figcraft/blob/main/packaging/linux/ai.storyteller.figcraft.desktop",
+      "material_revision": 3,
+      "design_note": "Chameleon with a horizontal ribcage, articulated folded limbs, a smaller turret eye and a continuous curled tail. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-figcraft.txt"
+    },
+    "consistency_review": {
+      "number": 147,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "57c681d42196aa0d84d29a5c49fa6d5e00b720d282957130b302d167f2032d5e",
+      "decision": "Accepted",
+      "design_note": "Remove the isolated back highlight and bring the rear leg pigment closer to the body shadow.",
+      "attribution": {
+        "source": "scripts/icons/local/figcraft.svg",
+        "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+        "sha256": "f3c389a0832c0cd4cd3b4d49e30962beafa88e27314132324319266ba45d9e66",
+        "reference": "https://getartcraft.com/images/apps/figcraft/icon.webp",
+        "reference_sha256": "c9e9753431a038b186bcf411c1c98a126bf326e03e618f3cf59b41f562833fad",
+        "reference_page": "https://getartcraft.com/apps/figcraft",
+        "upstream_repository": "https://github.com/storytold/figcraft",
+        "desktop_reference": "https://github.com/storytold/figcraft/blob/main/packaging/linux/ai.storyteller.figcraft.desktop",
+        "material_revision": 3,
+        "design_note": "Chameleon with a horizontal ribcage, articulated folded limbs, a smaller turret eye and a continuous curled tail. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+        "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-figcraft.txt"
+      }
+    }
   },
   "texturecraft": {
     "source": "scripts/icons/local/texturecraft.svg",
@@ -2089,9 +3685,9 @@
     "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-texturecraft.txt"
   },
   "wordcraft": {
-    "source": "scripts/icons/local/wordcraft.svg",
+    "source": "scripts/icons/local/reviewed/wordcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "285e5e96432537e28794e75d399f80aadc84a19b4725402c050dae42942f437a",
+    "sha256": "046441da645f7f6334d815ff2723a1366df03f761bc9add9241843221ce923ab",
     "reference": "https://getartcraft.com/images/apps/wordcraft/icon.webp",
     "reference_sha256": "55fedf6a8cd338392034669b2c94283f56d18d08cb02492540d60082cd245e70",
     "reference_page": "https://getartcraft.com/apps/wordcraft",
@@ -2099,7 +3695,40 @@
     "desktop_reference": "https://github.com/storytold/wordcraft/blob/main/packaging/linux/ai.storyteller.wordcraft.desktop",
     "material_revision": 3,
     "design_note": "Document and pencil with clearer page thickness and three readable text lines; quiet paper and violet pencil shading. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-wordcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-wordcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/wordcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "285e5e96432537e28794e75d399f80aadc84a19b4725402c050dae42942f437a",
+      "reference": "https://getartcraft.com/images/apps/wordcraft/icon.webp",
+      "reference_sha256": "55fedf6a8cd338392034669b2c94283f56d18d08cb02492540d60082cd245e70",
+      "reference_page": "https://getartcraft.com/apps/wordcraft",
+      "upstream_repository": "https://github.com/storytold/wordcraft",
+      "desktop_reference": "https://github.com/storytold/wordcraft/blob/main/packaging/linux/ai.storyteller.wordcraft.desktop",
+      "material_revision": 3,
+      "design_note": "Document and pencil with clearer page thickness and three readable text lines; quiet paper and violet pencil shading. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-wordcraft.txt"
+    },
+    "consistency_review": {
+      "number": 149,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "5c759a30291b12b1a5f14fc03a4a2ec8a8063ae1721c4bdae85ae32f9e276e73",
+      "decision": "Accepted",
+      "design_note": "Shorten the whole pencil uniformly around its tip, retaining its shape and overlap with the page.",
+      "attribution": {
+        "source": "scripts/icons/local/wordcraft.svg",
+        "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+        "sha256": "285e5e96432537e28794e75d399f80aadc84a19b4725402c050dae42942f437a",
+        "reference": "https://getartcraft.com/images/apps/wordcraft/icon.webp",
+        "reference_sha256": "55fedf6a8cd338392034669b2c94283f56d18d08cb02492540d60082cd245e70",
+        "reference_page": "https://getartcraft.com/apps/wordcraft",
+        "upstream_repository": "https://github.com/storytold/wordcraft",
+        "desktop_reference": "https://github.com/storytold/wordcraft/blob/main/packaging/linux/ai.storyteller.wordcraft.desktop",
+        "material_revision": 3,
+        "design_note": "Document and pencil with clearer page thickness and three readable text lines; quiet paper and violet pencil shading. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+        "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-wordcraft.txt"
+      }
+    }
   },
   "soundcraft": {
     "source": "scripts/icons/local/soundcraft.svg",
@@ -2115,9 +3744,9 @@
     "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-soundcraft.txt"
   },
   "deckcraft": {
-    "source": "scripts/icons/local/deckcraft.svg",
+    "source": "scripts/icons/local/reviewed/deckcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "e97903d8d38022ad950d08137002de6a7cc7b5841b8de7026e933ce086e7cf1c",
+    "sha256": "0ce80b6872a4e32b69063b2830b0736e5b176d68fff225126a57ac9d6755bcd5",
     "reference": "https://getartcraft.com/images/apps/deckcraft/icon.webp",
     "reference_sha256": "65401162c7f979b6b1156115164103996d92889c2cb14db0cd443cc8095fb8b0",
     "reference_page": "https://getartcraft.com/apps/deckcraft",
@@ -2125,12 +3754,45 @@
     "desktop_reference": "https://github.com/storytold/deckcraft/blob/main/packaging/linux/ai.storyteller.deckcraft.desktop",
     "material_revision": 3,
     "design_note": "Presentation monitor with a lighter frame, slimmer stand and three clear chart bars. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-deckcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-deckcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/deckcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "e97903d8d38022ad950d08137002de6a7cc7b5841b8de7026e933ce086e7cf1c",
+      "reference": "https://getartcraft.com/images/apps/deckcraft/icon.webp",
+      "reference_sha256": "65401162c7f979b6b1156115164103996d92889c2cb14db0cd443cc8095fb8b0",
+      "reference_page": "https://getartcraft.com/apps/deckcraft",
+      "upstream_repository": "https://github.com/storytold/deckcraft",
+      "desktop_reference": "https://github.com/storytold/deckcraft/blob/main/packaging/linux/ai.storyteller.deckcraft.desktop",
+      "material_revision": 3,
+      "design_note": "Presentation monitor with a lighter frame, slimmer stand and three clear chart bars. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-deckcraft.txt"
+    },
+    "consistency_review": {
+      "number": 150,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "4fcd60c25417e49e43f2fe8632c808d15702a60ab3913533b911f90555a6d001",
+      "decision": "Accepted",
+      "design_note": "Widen the chart bars slightly and reduce the accent circle; preserve the screen and stand.",
+      "attribution": {
+        "source": "scripts/icons/local/deckcraft.svg",
+        "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+        "sha256": "e97903d8d38022ad950d08137002de6a7cc7b5841b8de7026e933ce086e7cf1c",
+        "reference": "https://getartcraft.com/images/apps/deckcraft/icon.webp",
+        "reference_sha256": "65401162c7f979b6b1156115164103996d92889c2cb14db0cd443cc8095fb8b0",
+        "reference_page": "https://getartcraft.com/apps/deckcraft",
+        "upstream_repository": "https://github.com/storytold/deckcraft",
+        "desktop_reference": "https://github.com/storytold/deckcraft/blob/main/packaging/linux/ai.storyteller.deckcraft.desktop",
+        "material_revision": 3,
+        "design_note": "Presentation monitor with a lighter frame, slimmer stand and three clear chart bars. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+        "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-deckcraft.txt"
+      }
+    }
   },
   "cadcraft": {
-    "source": "scripts/icons/local/cadcraft.svg",
+    "source": "scripts/icons/local/reviewed/cadcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "c01e68c854847480d8ee5da699454d3ef748ea8a73386ba5eecc3272cd64d087",
+    "sha256": "a24c1dd5e608d2ce0aae3cae0de7a9882b805fe9b48144bd78f578ab461a9309",
     "reference": "https://getartcraft.com/images/apps/cadcraft/icon.webp",
     "reference_sha256": "6e5031366dfc3b01abd92496767483f7311cf126f3f8c6c5453f2464fb1e54ef",
     "reference_page": "https://getartcraft.com/apps/cadcraft",
@@ -2138,12 +3800,45 @@
     "desktop_reference": "https://github.com/storytold/cadcraft/blob/main/packaging/linux/ai.storyteller.cadcraft.desktop",
     "material_revision": 3,
     "design_note": "Drafting triangle with a stronger measured arc and fewer ticks, balanced for small-size reading. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-cadcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-cadcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/cadcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "c01e68c854847480d8ee5da699454d3ef748ea8a73386ba5eecc3272cd64d087",
+      "reference": "https://getartcraft.com/images/apps/cadcraft/icon.webp",
+      "reference_sha256": "6e5031366dfc3b01abd92496767483f7311cf126f3f8c6c5453f2464fb1e54ef",
+      "reference_page": "https://getartcraft.com/apps/cadcraft",
+      "upstream_repository": "https://github.com/storytold/cadcraft",
+      "desktop_reference": "https://github.com/storytold/cadcraft/blob/main/packaging/linux/ai.storyteller.cadcraft.desktop",
+      "material_revision": 3,
+      "design_note": "Drafting triangle with a stronger measured arc and fewer ticks, balanced for small-size reading. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-cadcraft.txt"
+    },
+    "consistency_review": {
+      "number": 151,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "556ecc1d5bcb76855465c7a2f37277006f7c3e07616256b678a95bbb87ad2e5e",
+      "decision": "Accepted",
+      "design_note": "Use slightly stronger, more frequent guide dashes and quieter transparent cyan in the aperture.",
+      "attribution": {
+        "source": "scripts/icons/local/cadcraft.svg",
+        "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+        "sha256": "c01e68c854847480d8ee5da699454d3ef748ea8a73386ba5eecc3272cd64d087",
+        "reference": "https://getartcraft.com/images/apps/cadcraft/icon.webp",
+        "reference_sha256": "6e5031366dfc3b01abd92496767483f7311cf126f3f8c6c5453f2464fb1e54ef",
+        "reference_page": "https://getartcraft.com/apps/cadcraft",
+        "upstream_repository": "https://github.com/storytold/cadcraft",
+        "desktop_reference": "https://github.com/storytold/cadcraft/blob/main/packaging/linux/ai.storyteller.cadcraft.desktop",
+        "material_revision": 3,
+        "design_note": "Drafting triangle with a stronger measured arc and fewer ticks, balanced for small-size reading. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+        "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-cadcraft.txt"
+      }
+    }
   },
   "gridcraft": {
-    "source": "scripts/icons/local/gridcraft.svg",
+    "source": "scripts/icons/local/reviewed/gridcraft.svg",
     "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
-    "sha256": "d988969f1315b617de865316361f883441b89583b2184091e0fae55c67766f6b",
+    "sha256": "c9474162461fb37c9622d005ac07a37d03f0f1d455d4ec3e5a8ac2e1aa28261b",
     "reference": "https://getartcraft.com/images/apps/gridcraft/icon.webp",
     "reference_sha256": "dc1fd8dfa6510ddd7e12c33ec84dfe25c058ab84054b07158f00959788170b3c",
     "reference_page": "https://getartcraft.com/apps/gridcraft",
@@ -2151,18 +3846,82 @@
     "desktop_reference": "https://github.com/storytold/gridcraft/blob/main/packaging/linux/ai.storyteller.gridcraft.desktop",
     "material_revision": 3,
     "design_note": "Spreadsheet with fewer cells, lighter grid lines and a larger amber selection. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
-    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-gridcraft.txt"
+    "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-gridcraft.txt",
+    "previous_source": {
+      "source": "scripts/icons/local/gridcraft.svg",
+      "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+      "sha256": "d988969f1315b617de865316361f883441b89583b2184091e0fae55c67766f6b",
+      "reference": "https://getartcraft.com/images/apps/gridcraft/icon.webp",
+      "reference_sha256": "dc1fd8dfa6510ddd7e12c33ec84dfe25c058ab84054b07158f00959788170b3c",
+      "reference_page": "https://getartcraft.com/apps/gridcraft",
+      "upstream_repository": "https://github.com/storytold/gridcraft",
+      "desktop_reference": "https://github.com/storytold/gridcraft/blob/main/packaging/linux/ai.storyteller.gridcraft.desktop",
+      "material_revision": 3,
+      "design_note": "Spreadsheet with fewer cells, lighter grid lines and a larger amber selection. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+      "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-gridcraft.txt"
+    },
+    "consistency_review": {
+      "number": 152,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "55dfd600fad18a9db5a84b6b71c5b3724b5d3e070d08432b4edd19a70e46702e",
+      "decision": "Accepted",
+      "design_note": "Quiet the ordinary grid lines and reduce the selection handle, keeping the selected cell dominant.",
+      "attribution": {
+        "source": "scripts/icons/local/gridcraft.svg",
+        "license": "Original themed redraw; upstream identity reference MIT (ArtCraft Team and respective project contributors); trademark rights retained",
+        "sha256": "d988969f1315b617de865316361f883441b89583b2184091e0fae55c67766f6b",
+        "reference": "https://getartcraft.com/images/apps/gridcraft/icon.webp",
+        "reference_sha256": "dc1fd8dfa6510ddd7e12c33ec84dfe25c058ab84054b07158f00959788170b3c",
+        "reference_page": "https://getartcraft.com/apps/gridcraft",
+        "upstream_repository": "https://github.com/storytold/gridcraft",
+        "desktop_reference": "https://github.com/storytold/gridcraft/blob/main/packaging/linux/ai.storyteller.gridcraft.desktop",
+        "material_revision": 3,
+        "design_note": "Spreadsheet with fewer cells, lighter grid lines and a larger amber selection. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+        "license_file": "scripts/icons/upstream/artcraft/LICENSE-MIT-gridcraft.txt"
+      }
+    }
   },
   "craft-anything": {
-    "source": "scripts/icons/local/craft-anything.svg",
+    "source": "scripts/icons/local/reviewed/craft-anything.svg",
     "license": "Original independently drawn Raven; restricted upstream ArtCraft brand artwork is reference only, not copied or relicensed",
-    "sha256": "461093ae314fc3d0a1e107a14e9fcf7770bed51ae8ac968a7d3c55dc89ad8f92",
+    "sha256": "5fb0def22828cb8e24cad05cba6800cf5727ee562301656868fca602850afbcb",
     "reference": "https://getartcraft.com/images/apps/craft-anything/icon.webp",
     "reference_sha256": "263fd694f6ec528a731b5ab3e2b1bcf993396fb0757cd826fbbf74eece8b7a95",
     "reference_page": "https://getartcraft.com/apps/craft-anything",
     "upstream_repository": "https://github.com/storytold/craft-anything",
     "desktop_reference": "https://github.com/storytold/craft-anything/blob/main/packaging/linux/ai.storyteller.craft-anything.desktop",
     "material_revision": 4,
-    "design_note": "Independent raven drawing with a broad skull, low brow, tapered closed bill and restrained throat feather planes. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction."
+    "design_note": "Independent raven drawing with a broad skull, low brow, tapered closed bill and restrained throat feather planes. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction.",
+    "previous_source": {
+      "source": "scripts/icons/local/craft-anything.svg",
+      "license": "Original independently drawn Raven; restricted upstream ArtCraft brand artwork is reference only, not copied or relicensed",
+      "sha256": "461093ae314fc3d0a1e107a14e9fcf7770bed51ae8ac968a7d3c55dc89ad8f92",
+      "reference": "https://getartcraft.com/images/apps/craft-anything/icon.webp",
+      "reference_sha256": "263fd694f6ec528a731b5ab3e2b1bcf993396fb0757cd826fbbf74eece8b7a95",
+      "reference_page": "https://getartcraft.com/apps/craft-anything",
+      "upstream_repository": "https://github.com/storytold/craft-anything",
+      "desktop_reference": "https://github.com/storytold/craft-anything/blob/main/packaging/linux/ai.storyteller.craft-anything.desktop",
+      "material_revision": 4,
+      "design_note": "Independent raven drawing with a broad skull, low brow, tapered closed bill and restrained throat feather planes. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction."
+    },
+    "consistency_review": {
+      "number": 148,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "f1a5e3df42d01d6bfbdb3be3b9963c0c9b8e57f297298734f1d26e5b2672c7c8",
+      "decision": "Accepted",
+      "design_note": "Blend only the lower feather plane into the main coat; keep every profile and beak path.",
+      "attribution": {
+        "source": "scripts/icons/local/craft-anything.svg",
+        "license": "Original independently drawn Raven; restricted upstream ArtCraft brand artwork is reference only, not copied or relicensed",
+        "sha256": "461093ae314fc3d0a1e107a14e9fcf7770bed51ae8ac968a7d3c55dc89ad8f92",
+        "reference": "https://getartcraft.com/images/apps/craft-anything/icon.webp",
+        "reference_sha256": "263fd694f6ec528a731b5ab3e2b1bcf993396fb0757cd826fbbf74eece8b7a95",
+        "reference_page": "https://getartcraft.com/apps/craft-anything",
+        "upstream_repository": "https://github.com/storytold/craft-anything",
+        "desktop_reference": "https://github.com/storytold/craft-anything/blob/main/packaging/linux/ai.storyteller.craft-anything.desktop",
+        "material_revision": 4,
+        "design_note": "Independent raven drawing with a broad skull, low brow, tapered closed bill and restrained throat feather planes. Geometry and shading revision against the unchanged owl; Accepted for 0.1.0-rc.13 by the user release instruction."
+      }
+    }
   }
 }

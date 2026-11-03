@@ -1,1 +1,43 @@
-{}
+{
+  "fish": {
+    "geometry": "local/reviewed/fish.svg",
+    "sha256": "b8b82c69d41eb21d79888706ff0ba33dc2078014499c61c7e76b77e5ef535267",
+    "consistency_review": {
+      "number": 103,
+      "baseline_release": "0.1.0-rc.13",
+      "baseline_sha256": "352b6f41d3a05e2458382fdea1aa6358f3b0b07104fa2a2dc899fb9d2c034a19",
+      "decision": "Accepted",
+      "design_note": "Shorten the lower fin, join the pectoral fin more naturally and omit secondary scale marks.",
+      "attribution": {
+        "name": "Fish shell",
+        "commands": [],
+        "description": "Friendly jade fish with copper fins and a rose dorsal fin",
+        "role": "shell",
+        "source": "scripts/icons/local/fish.svg",
+        "authored_in": "scripts/icons/material_art.py:COMMAND_ART",
+        "license": "Original artwork",
+        "sha256": "352b6f41d3a05e2458382fdea1aa6358f3b0b07104fa2a2dc899fb9d2c034a19",
+        "sizing": {
+          "source_bounds": [
+            5.0,
+            8.0,
+            58.5,
+            56.0
+          ],
+          "alpha_area": 1243.3146,
+          "scale": 1.046729,
+          "translate": [
+            -1.233645,
+            -1.495327
+          ],
+          "result_bounds": [
+            4.0,
+            6.875,
+            60.0,
+            57.125
+          ]
+        }
+      }
+    }
+  }
+}

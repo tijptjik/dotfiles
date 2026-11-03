@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<title>Starship — proposed Rose Punk refinement</title><desc>The exact rocket, star, exhaust and circular identity geometry. Retain all upstream paths, use warm ivory for the marks and a slightly deeper violet field. Fourth-batch review selection; source attribution accompanies the bundle.</desc><g id="frameless-artwork" transform="translate(-0.571670 -0.571670) scale(1.017865)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#b94e87" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#b39bd9" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9c3f2" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#71385f" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="s-paper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#fff0da" /><stop offset="1" stop-color="#d7cbd3" /></linearGradient><linearGradient id="s-jade" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#88cdb9" /><stop offset="1" stop-color="#44878c" /></linearGradient><linearGradient id="s-blue" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#9ab8d8" /><stop offset="1" stop-color="#5d74a5" /></linearGradient><linearGradient id="s-violet" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#b3a1d9" /><stop offset="1" stop-color="#8274a9" /></linearGradient><linearGradient id="s-rose" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#eca2bc" /><stop offset="1" stop-color="#b66696" /></linearGradient><linearGradient id="s-copper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#f0c582" /><stop offset="1" stop-color="#d59965" /></linearGradient><linearGradient id="s-steel" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#cbd9d9" /><stop offset="1" stop-color="#8298b0" /></linearGradient><linearGradient id="s-coral" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#ef9b83" /><stop offset="1" stop-color="#cc697c" /></linearGradient><linearGradient id="screen-glass" gradientUnits="userSpaceOnUse" x1="32" y1="10" x2="32" y2="45"><stop stop-color="#42516c" /><stop offset="1" stop-color="#29283e" /></linearGradient>
+<linearGradient id="rubber-handle" gradientUnits="userSpaceOnUse" x1="32" y1="8" x2="32" y2="24"><stop stop-color="#ee9c91" /><stop offset=".45" stop-color="#e87f8d" /><stop offset="1" stop-color="#b85c7b" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><g data-material="authored"><svg fill="none" viewBox="0 0 2854 2854" x="6" y="6" width="52" height="52" preserveAspectRatio="xMidYMid meet">
+  <mask id="starship-a" width="2854" height="2854" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha">
+    <circle cx="1427" cy="1427" r="1427" fill="#76599d" />
+  </mask>
+  <g mask="url(#starship-a)">
+    <path fill="url(#starship-b)" d="M3351-313H-498v3480.04h3849V-313Z" />
+    <path fill="#fff0da" fill-rule="evenodd" d="M543 785.6c138.837 26.901 217.616 109.138 241.537 241.6-2.462-137.201 79.15-217.068 241.533-241.6-146.358-15.472-224.161-98.824-241.533-241.6C767.723 681.851 692.939 767.666 543 785.6Zm1227.54 1028.55-52.67 140.51-432.48-126.28 43.73-150.69-330.462-131.2c105.352-128.74 210.702-191.97 374.182-272.23-14.58-252.74 189.46-433.817 432.47-612.26 193.15 237.105 278.66 447.51 146.61 742.75 109.39 118.55 156.28 308.94 154.52 486.86l-335.9-77.46Zm75.18-670.18c0 69.45-56.29 125.76-125.73 125.76-69.43 0-125.72-56.31-125.72-125.76s56.29-125.75 125.72-125.75c69.44 0 125.73 56.3 125.73 125.75Z" clip-rule="evenodd" />
+    <path fill="#fff0da" d="M1606.37 2246.91S1509 2830 1095 2978l-650-414c572.5 0 777.71-442.31 777.71-442.31l383.66 125.22Z" />
+  </g>
+  <defs>
+    <linearGradient id="starship-b" x1="112.463" x2="2365.33" y1="3485.86" y2="-827.778" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#76599d" />
+      <stop offset="1" stop-color="#76599d" />
+    </linearGradient>
+  </defs>
+</svg></g></g></g></svg>

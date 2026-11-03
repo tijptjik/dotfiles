@@ -12,8 +12,8 @@
       "FFPWA-01KCGW1793YX2BA145Z4NWQ2XY",
       "brave-ncmjhecbjeaamljdfahankockkkdmedg-Default"
     ],
-    "geometry": "local/google-photos.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/google-photos.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 5
   },
@@ -26,8 +26,8 @@
     "icon_names": [
       "FFPWA-01KC5NHD5A581XBAPMZG1PET4K"
     ],
-    "geometry": "local/gmail.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/gmail.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 6
   },
@@ -40,8 +40,8 @@
     "icon_names": [
       "FFPWA-01KCGZY23320CJPTJNB8ZVMVPH"
     ],
-    "geometry": "local/google-calendar.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/google-calendar.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 5
   },
@@ -65,9 +65,10 @@
       "FFPWA-01KVFS96FMVBM4QZ9NKX2J01VD.desktop"
     ],
     "icon_names": [],
-    "mode": "original",
+    "mode": "reviewed-svg",
     "reviewed": true,
-    "review_batch": 3
+    "review_batch": 3,
+    "geometry": "local/reviewed/drizzle.svg"
   },
   "steam": {
     "name": "Steam",
@@ -80,10 +81,10 @@
     "icon_names": [
       "steam"
     ],
-    "mode": "illustrated-local",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11,
-    "geometry": "local/steam.svg"
+    "geometry": "local/reviewed/steam.svg"
   },
   "brave": {
     "name": "Brave",
@@ -97,8 +98,8 @@
       "brave-browser",
       "brave-browser-beta"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/brave.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/brave.svg",
     "reviewed": true,
     "review_batch": 5
   },
@@ -127,10 +128,10 @@
     "icon_names": [
       "chatgpt"
     ],
-    "mode": "illustrated-local",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 4,
-    "geometry": "local/chatgpt.svg"
+    "geometry": "local/reviewed/chatgpt.svg"
   },
   "discord": {
     "name": "Discord",
@@ -141,8 +142,8 @@
     "icon_names": [
       "com.discordapp.Discord"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/discord.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/discord.svg",
     "reviewed": true,
     "review_batch": 19
   },
@@ -174,8 +175,8 @@
     "icon_names": [
       "com.rtosta.zapzap"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/zapzap.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/zapzap.svg",
     "reviewed": true,
     "review_batch": 10
   },
@@ -188,8 +189,8 @@
     "icon_names": [
       "com.spotify.Client"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/spotify.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/spotify.svg",
     "reviewed": true,
     "review_batch": 16
   },
@@ -246,8 +247,8 @@
     "icon_names": [
       "io.github.lgse.Strata"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/strata.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/strata.svg",
     "reviewed": true
   },
   "kitty": {
@@ -286,8 +287,8 @@
     "icon_names": [
       "mullvad-vpn"
     ],
-    "geometry": "local/mullvad.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/mullvad.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 14,
     "review_note": "Accepted by user on 2026-10-29; Art Nouveau/hyperpop exploration abandoned; retain the reviewed SVG design."
@@ -330,8 +331,8 @@
     "icon_names": [
       "firefox"
     ],
-    "geometry": "local/firefox.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/firefox.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 19
   },
@@ -360,8 +361,8 @@
     "icon_names": [
       "org.telegram.desktop"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/telegram.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/telegram.svg",
     "reviewed": true,
     "review_batch": 15
   },
@@ -376,8 +377,8 @@
       "org.videolan.VLC",
       "vlc"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/vlc.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/vlc.svg",
     "reviewed": true,
     "review_batch": 9
   },
@@ -390,8 +391,8 @@
     "icon_names": [
       "sublime-text"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/sublime-text.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/sublime-text.svg",
     "reviewed": true
   },
   "zen": {
@@ -403,8 +404,8 @@
     "icon_names": [
       "zen-browser"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/zen.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/zen.svg",
     "reviewed": true
   },
   "simplescreenrecorder": {
@@ -443,8 +444,8 @@
     "icon_names": [
       "blueman"
     ],
-    "geometry": "local/bluetooth-manager.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/bluetooth-manager.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 6
   },
@@ -526,8 +527,8 @@
     "icon_names": [
       "net.lutris.Lutris"
     ],
-    "geometry": "local/lutris.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/lutris.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 12
   },
@@ -540,8 +541,8 @@
     "icon_names": [
       "nvim"
     ],
-    "geometry": "local/neovim.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/neovim.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 7
   },
@@ -554,8 +555,8 @@
     "icon_names": [
       "org.fedoraproject.MediaWriter"
     ],
-    "geometry": "local/fedora-media-writer.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/fedora-media-writer.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 9
   },
@@ -594,8 +595,8 @@
     "icon_names": [
       "org.gnome.Calendar"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/calendar.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/calendar.svg",
     "reviewed": true,
     "review_batch": 4
   },
@@ -608,8 +609,8 @@
     "icon_names": [
       "org.gnome.Characters"
     ],
-    "geometry": "local/characters.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/characters.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 8
   },
@@ -622,8 +623,8 @@
     "icon_names": [
       "gnome-color-manager"
     ],
-    "geometry": "local/color-profile-viewer.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/color-profile-viewer.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 6
   },
@@ -928,8 +929,8 @@
     "icon_names": [
       "org.gnome.font-viewer"
     ],
-    "geometry": "local/fonts.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/fonts.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 4
   },
@@ -984,8 +985,8 @@
     "icon_names": [
       "qgis"
     ],
-    "geometry": "local/qgis-desktop.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/qgis-desktop.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -1013,8 +1014,8 @@
     "icon_names": [
       "solaar"
     ],
-    "geometry": "local/solaar.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/solaar.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 14
   },
@@ -1027,8 +1028,8 @@
     "icon_names": [
       "applications-system"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/uuctl.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/uuctl.svg",
     "reviewed": true,
     "review_batch": 12
   },
@@ -1064,8 +1065,8 @@
     "icon_names": [
       "com.obsproject.Studio"
     ],
-    "geometry": "local/obs-studio.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/obs-studio.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 7
   },
@@ -1091,8 +1092,8 @@
     "icon_names": [
       "org.yuzu_emu.yuzu"
     ],
-    "geometry": "upstream/yuzu-source.svg",
-    "mode": "illustration"
+    "geometry": "local/reviewed/yuzu.svg",
+    "mode": "reviewed-svg"
   },
   "koreader": {
     "name": "KOReader",
@@ -1115,8 +1116,8 @@
     "icon_names": [
       "us.zoom.Zoom"
     ],
-    "geometry": "local/zoom.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/zoom.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 4
   },
@@ -1137,8 +1138,8 @@
     "icon_names": [
       "notjik"
     ],
-    "geometry": "local/notjik.svg",
-    "mode": "identity"
+    "geometry": "local/reviewed/notjik.svg",
+    "mode": "reviewed-svg"
   },
   "collie": {
     "name": "Collie",
@@ -1147,8 +1148,8 @@
     "icon_names": [
       "collie"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/collie.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/collie.svg",
     "reviewed": true,
     "review_batch": 16
   },
@@ -1221,8 +1222,8 @@
     "icon_names": [
       "oo7"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/oo7.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/oo7.svg",
     "reviewed": true,
     "review_batch": 3
   },
@@ -1269,9 +1270,9 @@
     "icon_names": [
       "docker"
     ],
-    "mode": "reference",
+    "mode": "reviewed-svg",
     "reference": "simple-docker",
-    "geometry": "references/simple-docker.svg"
+    "geometry": "local/reviewed/docker.svg"
   },
   "flatpak": {
     "name": "Flatpak",
@@ -1280,8 +1281,8 @@
     "icon_names": [
       "flatpak"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/flatpak.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/flatpak.svg",
     "reviewed": true,
     "review_batch": 14
   },
@@ -1292,8 +1293,8 @@
     "icon_names": [
       "nginx"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/nginx.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/nginx.svg",
     "reviewed": true,
     "review_batch": 3
   },
@@ -1304,9 +1305,9 @@
     "icon_names": [
       "python"
     ],
-    "mode": "illustrated-local",
+    "mode": "reviewed-svg",
     "reference": "simple-python",
-    "geometry": "local/python.svg",
+    "geometry": "local/reviewed/python.svg",
     "reviewed": true,
     "review_batch": 11
   },
@@ -1317,8 +1318,8 @@
     "icon_names": [
       "rust"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/rust.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/rust.svg",
     "reviewed": true,
     "review_batch": 4
   },
@@ -1329,8 +1330,8 @@
     "icon_names": [
       "tailscale"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/tailscale.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/tailscale.svg",
     "reviewed": true
   },
   "vite": {
@@ -1340,9 +1341,9 @@
     "icon_names": [
       "vite"
     ],
-    "mode": "reference",
+    "mode": "reviewed-svg",
     "reference": "simple-vite",
-    "geometry": "references/simple-vite.svg"
+    "geometry": "local/reviewed/vite.svg"
   },
   "prowlarr": {
     "name": "Prowlarr",
@@ -1351,8 +1352,8 @@
     "icon_names": [
       "prowlarr"
     ],
-    "mode": "illustrated-local",
-    "geometry": "local/prowlarr.svg",
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/prowlarr.svg",
     "reviewed": true,
     "review_batch": 7
   },
@@ -1364,8 +1365,8 @@
       "tjikup",
       "tjikup-notification"
     ],
-    "geometry": "local/tjikup.svg",
-    "mode": "identity"
+    "geometry": "local/reviewed/tjikup.svg",
+    "mode": "reviewed-svg"
   },
   "greetjik": {
     "name": "Greetjik",
@@ -1377,8 +1378,8 @@
       "pony-rs",
       "ponysay"
     ],
-    "geometry": "local/greetjik.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/greetjik.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 19
   },
@@ -1423,8 +1424,8 @@
       "runtjik"
     ],
     "introduced_batch": 14,
-    "geometry": "local/runtjik.svg",
-    "mode": "identity",
+    "geometry": "local/reviewed/runtjik.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 14
   },
@@ -1436,8 +1437,8 @@
       "mailtjik"
     ],
     "introduced_batch": 15,
-    "geometry": "local/mailtjik.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/mailtjik.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 15
   },
@@ -1476,8 +1477,8 @@
     "icon_names": [
       "bitwarden"
     ],
-    "geometry": "local/bitwarden.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/bitwarden.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 21,
     "introduced_batch": 21,
@@ -1491,8 +1492,8 @@
     "icon_names": [
       "uv"
     ],
-    "geometry": "local/uv.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/uv.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 21,
     "introduced_batch": 21
@@ -1505,8 +1506,8 @@
     "icon_names": [
       "bun"
     ],
-    "geometry": "local/bun.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/bun.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 21,
     "introduced_batch": 21
@@ -1519,8 +1520,8 @@
     "icon_names": [
       "fnm"
     ],
-    "geometry": "local/fnm.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/fnm.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 21,
     "introduced_batch": 21
@@ -1561,8 +1562,8 @@
     "icon_names": [
       "gnome"
     ],
-    "mode": "brand",
-    "geometry": "upstream/gnome.svg"
+    "mode": "reviewed-svg",
+    "geometry": "local/reviewed/gnome.svg"
   },
   "duckdb": {
     "name": "DuckDB",
@@ -1571,8 +1572,8 @@
     "icon_names": [
       "duckdb"
     ],
-    "geometry": "local/duckdb.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/duckdb.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
@@ -1583,8 +1584,8 @@
     "icon_names": [
       "hyprland"
     ],
-    "geometry": "local/hyprland.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/hyprland.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
@@ -1595,8 +1596,8 @@
     "icon_names": [
       "bottom"
     ],
-    "geometry": "local/bottom.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/bottom.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
@@ -1607,8 +1608,8 @@
     "icon_names": [
       "starship"
     ],
-    "geometry": "local/starship.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/starship.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
@@ -1619,8 +1620,8 @@
     "icon_names": [
       "quickshell"
     ],
-    "geometry": "local/quickshell.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/quickshell.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
@@ -1631,8 +1632,8 @@
     "icon_names": [
       "lazygit"
     ],
-    "geometry": "local/lazygit.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/lazygit.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
@@ -1643,8 +1644,8 @@
     "icon_names": [
       "vivid"
     ],
-    "geometry": "local/vivid.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/vivid.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
@@ -1655,8 +1656,8 @@
     "icon_names": [
       "synctjik"
     ],
-    "geometry": "local/synctjik.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/synctjik.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
@@ -1667,8 +1668,8 @@
     "icon_names": [
       "rpm-fusion"
     ],
-    "geometry": "local/rpm-fusion.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/rpm-fusion.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
@@ -1679,8 +1680,8 @@
     "icon_names": [
       "tennis"
     ],
-    "geometry": "local/tennis.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/tennis.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_note": "Accepted current artwork by user on 2026-10-29; visual revisions deferred."
   },
@@ -1706,8 +1707,8 @@
       "gmailtjik"
     ],
     "introduced_batch": 16,
-    "geometry": "local/gmailtjik.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/gmailtjik.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 16
   },
@@ -1721,8 +1722,8 @@
       "photocraft",
       "ai.storyteller.photocraft"
     ],
-    "geometry": "local/photocraft.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/photocraft.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 22,
     "introduced_batch": 22,
@@ -1789,8 +1790,8 @@
       "pdfcraft",
       "ai.storyteller.pdfcraft"
     ],
-    "geometry": "local/pdfcraft.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/pdfcraft.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 22,
     "introduced_batch": 22,
@@ -1840,8 +1841,8 @@
       "figcraft",
       "ai.storyteller.figcraft"
     ],
-    "geometry": "local/figcraft.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/figcraft.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 22,
     "introduced_batch": 22,
@@ -1874,8 +1875,8 @@
       "wordcraft",
       "ai.storyteller.wordcraft"
     ],
-    "geometry": "local/wordcraft.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/wordcraft.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 22,
     "introduced_batch": 22,
@@ -1908,8 +1909,8 @@
       "deckcraft",
       "ai.storyteller.deckcraft"
     ],
-    "geometry": "local/deckcraft.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/deckcraft.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 22,
     "introduced_batch": 22,
@@ -1925,8 +1926,8 @@
       "cadcraft",
       "ai.storyteller.cadcraft"
     ],
-    "geometry": "local/cadcraft.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/cadcraft.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 22,
     "introduced_batch": 22,
@@ -1942,8 +1943,8 @@
       "gridcraft",
       "ai.storyteller.gridcraft"
     ],
-    "geometry": "local/gridcraft.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/gridcraft.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 22,
     "introduced_batch": 22,
@@ -1959,8 +1960,8 @@
       "craft-anything",
       "ai.storyteller.craft-anything"
     ],
-    "geometry": "local/craft-anything.svg",
-    "mode": "illustrated-local",
+    "geometry": "local/reviewed/craft-anything.svg",
+    "mode": "reviewed-svg",
     "reviewed": true,
     "review_batch": 22,
     "introduced_batch": 22,

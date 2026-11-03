@@ -2385,6 +2385,13 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/.local/share/hypr/plugins/windowshade/chat-render-isolation-0.57.patch",
+    "kind": "file",
+    "source": "files/.local/share/hypr/plugins/windowshade/chat-render-isolation-0.57.patch",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/.local/share/icons",
     "kind": "directory",
     "mode": "0755",

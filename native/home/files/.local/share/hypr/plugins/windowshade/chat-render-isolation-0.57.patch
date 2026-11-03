@@ -1,0 +1,117 @@
+--- a/Globals.hpp
++++ b/Globals.hpp
+@@ -164,6 +164,7 @@
+ // owned by Hyprland, which may already be torn down by the time a global's
+ // destructor would run.
+ struct StageFramebuffers {
++    SP<Render::GL::CGLFramebuffer> normalized;
+     Render::GL::CGLFramebuffer fb[2];
+     // When this bucket was last drawn into. Buckets are evicted by age rather
+     // than by dropping the whole pool — see the note in runIntermediateStages.
+--- a/Hooks.cpp
++++ b/Hooks.cpp
+@@ -989,7 +989,7 @@
+ // Returns nullptr when the chain can't run, in which case the caller falls back
+ // to drawing the top stage alone — degraded, but never broken.
+ static SP<Render::ITexture> runIntermediateStages(Render::CRenderContext& ctx, CompiledShader* const* stages, int count,
+-                                                  const SP<Render::ITexture>& src, int animIndex = -1) {
++                                                  const SP<Render::ITexture>& src, int animIndex = -1, SP<CWLSurfaceResource> sourceSurface = nullptr) {
+     if (count <= 0 || !src || !Render::GL::g_pHyprOpenGL || !g_pHyprRenderer) return nullptr;
+ 
+     // A rotated or flipped source buffer would need the targets' dimensions
+@@ -1043,16 +1043,20 @@
+     auto&          fbs = (*g_pStageFBs)[key];
+     fbs.lastUsed       = poolNow;
+ 
++    if (!fbs.normalized)
++        fbs.normalized = Hyprutils::Memory::makeShared<Render::GL::CGLFramebuffer>();
++    if (!fbs.normalized->isAllocated() || fbs.normalized->m_size != size) {
++        fbs.normalized->release();
++        if (!fbs.normalized->alloc(w, h)) return nullptr;
++    }
++
+     for (auto& fb : fbs.fb) {
+         if (!fb.isAllocated() || fb.m_size != size) {
+             fb.release();
+             if (!fb.alloc(w, h)) return nullptr;
+         }
+-        // Carry the source's color description down the chain, so a stage reads
+-        // the previous stage's output in the same color space the window's own
+-        // texture was in. Without this a wide-gamut or HDR surface picks up a
+-        // conversion at every hop.
+-        fb.setImageDescription(src->m_imageDescription);
++        // Shader palette constants and normalized intermediate textures use sRGB.
++        fb.setImageDescription(NColorManagement::getDefaultImageDescription());
+     }
+ 
+     auto& R = ctx.m_data;
+@@ -1098,6 +1102,9 @@
+     // R.currentFB is deliberately left alone: the stage targets are bound
+     // through fb.bind(), which never touches it (only IHyprRenderer::bindFB
+     // does), so it keeps naming the on-screen target throughout.
++    const auto      savedSurface  = R.surface;
++    const auto      savedFB       = R.currentFB;
++    R.surface = sourceSurface;
+     const CRegion   savedDamage   = R.damage;
+     const auto      savedModif    = R.renderModif;
+     const CBox      savedClipBox  = R.clipBox;
+@@ -1148,6 +1155,21 @@
+         // name and "restored" it, so the bar drew into our scratch buffer and
+         // vanished from the screen for as long as any shaded surface was visible.
+         Render::GL::CFramebufferBindingGuard fbGuard{g_pHyprRenderer->glBackend()};
++        // Normalize through the native renderer with this surface's colour state.
++        // Keep the 0.57 binding guard so both GL state and its cache are restored.
++        fbs.normalized->setImageDescription(NColorManagement::getDefaultImageDescription());
++        R.currentFB = fbs.normalized;
++        fbs.normalized->bind();
++        Render::GL::g_pHyprOpenGL->setCapStatus(GL_SCISSOR_TEST, false);
++        Render::GL::g_pHyprOpenGL->blend(false);
++        g_pCurrentCompiledShader = nullptr;
++        CHyprOpenGLImpl::STextureRenderData normalizeData;
++        normalizeData.a = 1.0f;
++        normalizeData.damage = &R.damage;
++        normalizeData.allowDim = false;
++        Render::GL::g_pHyprOpenGL->renderTexture(ctx, src, box, normalizeData);
++        cur = fbs.normalized->getTexture();
++
+         for (int i = 0; i < count; ++i) {
+             auto& fb = fbs.fb[i % 2];
+ 
+@@ -1180,6 +1202,8 @@
+     g_pCurrentSettle       = savedSettle;
+     g_pCurrentOneShotKind  = savedOneShot;
+ 
++    R.currentFB                   = savedFB;
++    R.surface                     = savedSurface;
+     R.damage                      = savedDamage;
+     R.renderModif                 = savedModif;
+     R.clipBox                     = savedClipBox;
+@@ -1304,6 +1328,19 @@
+         pLS = elem->m_data.currentLS.lock();
+     }
+ 
++    // This local build only affects the two chat side panes. All other surfaces
++    // bypass shaders and colour conversion, including Telegram and layer surfaces.
++    const bool targetChat = pWindow && pWindow->m_workspace
++        && pWindow->m_workspace->addressableName() == "special:chat"
++        && (pWindow->metadata().appID() == "com.rtosta.zapzap" || pWindow->metadata().appID() == "org.signal.Signal");
++    if (!targetChat) {
++        g_pCurrentCompiledShader = nullptr;
++        g_pCurrentRenderWindow.reset();
++        g_pCurrentRenderLayer.reset();
++        ((TGLDrawTex)g_pGLDrawTexHook->m_original)(thisptr, ctx, element, damage);
++        return;
++    }
++
+     // --- FULLSCREEN FAST PATH ---
+     // A fullscreen window that opted into nothing must cost nothing. Everything
+     // below — the class/manual/rule lookups, the stack build, the offscreen
+@@ -1466,7 +1503,7 @@
+             // The animation is the top stage when there is one; tell the chain
+             // so it keeps its progress instead of rendering its finished state.
+             const int animIdx = topIsAnim ? nStages - 1 : -1;
+-            if (auto composed = runIntermediateStages(ctx, stages, offscreen, elem->m_data.tex, animIdx)) {
++            if (auto composed = runIntermediateStages(ctx, stages, offscreen, elem->m_data.tex, animIdx, elem->m_data.surface)) {
+                 originalTex      = elem->m_data.tex;
+                 elem->m_data.tex = composed;
+                 nativeFinal      = wantsNativeFinal;

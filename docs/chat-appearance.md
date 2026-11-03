@@ -31,10 +31,13 @@ attached after the workspace changes.
 
 Upstream: https://github.com/ManofJELLO/HyprWindowShade
 
-The build helper pins upstream commit
-`a4c6b8af424a189072427c4c90ef2938e1b481d3`, its release for Hyprland 0.56.2
-(`efb50993780079460b0cbed1363e2166a2de1d9f`). It adds an ABI check before
-installing any hooks. It does not load the plugin or restart Hyprland.
+The build helper selects a pinned release from the Hyprland development headers:
+`a4c6b8af424a189072427c4c90ef2938e1b481d3` for 0.56.2, or
+`0766b631a18a532c094d25ae6b6fcc242545aafe` for 0.57.0. Each has a matching
+chat-isolation patch; unknown compositor commits are rejected. The 0.57 patch
+uses its render context and framebuffer binding guard to preserve renderer state.
+Both builds check the native ABI before installing hooks. Building does not load
+the plugin or restart Hyprland.
 
 With matching Hyprland, Lua and glslang development headers installed:
 
@@ -56,6 +59,13 @@ error banners. Matching commits still undergo the native library ABI check.
 Chat shader tags are registered only when the binary passes this preflight.
 
 ## Verification
+
+The 0.57 port was checked in a disposable compositor with synthetic Signal,
+ZapZap and Telegram classes. Both chat panes produced identical subdued colours;
+focus restored the original colour, Telegram stayed unchanged, and unloading
+restored both chat panes. This does not replace checking real application buffers.
+The nested compositor crashed on shutdown after unloading; the same shutdown
+crash reproduced with no plugins loaded.
 
 Headless checks passed for intermediate fade frames, both focus directions,
 matching tint for identical Signal/ZapZap inputs, and removal outside chat.

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<g id="frameless-artwork" transform="translate(-5.265207 -4.992701) scale(1.090024)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f5c3ca" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#a4688f" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3b6c0" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#a25682" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ceb7cc" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#6e5991" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs>
+<linearGradient id="copper" x2=".2" y2="1"><stop stop-color="#ffe0a3" /><stop offset=".35" stop-color="#e6ae62" /><stop offset="1" stop-color="#a7585d" /></linearGradient>
+<linearGradient id="jade" x2=".3" y2="1"><stop stop-color="#b4ead5" /><stop offset=".4" stop-color="#46b6a2" /><stop offset="1" stop-color="#306779" /></linearGradient>
+<linearGradient id="rose-metal" x2=".3" y2="1"><stop stop-color="#f8c5c2" /><stop offset=".35" stop-color="#df77ac" /><stop offset="1" stop-color="#8e477e" /></linearGradient>
+<linearGradient id="indigo" x2=".4" y2="1"><stop stop-color="#b6b5ec" /><stop offset=".4" stop-color="#8596ed" /><stop offset="1" stop-color="#494f85" /></linearGradient>
+<linearGradient id="paper" x2=".2" y2="1"><stop stop-color="#fff4df" /><stop offset="1" stop-color="#d8c5b9" /></linearGradient>
+<linearGradient id="metal" x2=".8" y2="1"><stop stop-color="#f3e8df" /><stop offset=".35" stop-color="#9cb9c6" /><stop offset=".5" stop-color="#d5dcde" /><stop offset="1" stop-color="#61788f" /></linearGradient>
+<radialGradient id="glass" cx=".35" cy=".27" r=".8"><stop stop-color="#b0a5df" /><stop offset=".4" stop-color="#5b70b5" /><stop offset=".75" stop-color="#35446d" /><stop offset="1" stop-color="#172b41" /></radialGradient>
+<linearGradient id="screen" x2=".6" y2="1"><stop stop-color="#354b67" /><stop offset=".5" stop-color="#232c46" /><stop offset="1" stop-color="#182339" /></linearGradient>
+</defs><defs>
+<linearGradient id="craft-sand" x2=".4" y2="1"><stop stop-color="#f1cc92" /><stop offset=".4" stop-color="#dfab6e" /><stop offset="1" stop-color="#b57668" /></linearGradient>
+<linearGradient id="craft-jade" x2=".4" y2="1"><stop stop-color="#9fd6c3" /><stop offset=".4" stop-color="#5fb7a5" /><stop offset="1" stop-color="#3d7d83" /></linearGradient>
+<linearGradient id="craft-rose" x2=".4" y2="1"><stop stop-color="#efb7ce" /><stop offset=".4" stop-color="#d784b0" /><stop offset="1" stop-color="#925a8b" /></linearGradient>
+<linearGradient id="craft-paper" x2=".4" y2="1"><stop stop-color="#fff3de" /><stop offset=".4" stop-color="#f4e7d4" /><stop offset="1" stop-color="#d2c8ce" /></linearGradient>
+</defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12 54 57H9Zm9 20v16h16Z" fill="url(#craft-paper)" fill-rule="evenodd" stroke="#706079" stroke-width="0.9" /><path d="M18 32V48H34Z" fill="#65b9c8" fill-opacity=".24" stroke="#706079" stroke-width="0.9" /><path d="M34 12A23 23 0 0 1 57 35" fill="none" stroke="#5b9b93" stroke-width="3.2" /><path d="M34 12V35H57" fill="none" stroke-dasharray="3 3" stroke="#8596ed" stroke-width="1.4" /><circle cx="34" cy="35" r="2" fill="#34304f" /><circle cx="57" cy="35" r="2.8" fill="#dfab6e" /><path d="M10 28h3M10 38h3M10 48h3" fill="none" stroke="#34304f" stroke-width="1.1" /></g></g></svg>

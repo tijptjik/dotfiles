@@ -1710,5 +1710,260 @@
     "mode": "illustrated-local",
     "reviewed": true,
     "review_batch": 16
+  },
+  "photocraft": {
+    "name": "PhotoCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.photocraft.desktop"
+    ],
+    "icon_names": [
+      "photocraft",
+      "ai.storyteller.photocraft"
+    ],
+    "geometry": "local/photocraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "vectorcraft": {
+    "name": "VectorCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.vectorcraft.desktop"
+    ],
+    "icon_names": [
+      "vectorcraft",
+      "ai.storyteller.vectorcraft"
+    ],
+    "geometry": "local/vectorcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "filmcraft": {
+    "name": "FilmCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.filmcraft.desktop"
+    ],
+    "icon_names": [
+      "filmcraft",
+      "ai.storyteller.filmcraft"
+    ],
+    "geometry": "local/filmcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "lightcraft": {
+    "name": "LightCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.lightcraft.desktop"
+    ],
+    "icon_names": [
+      "lightcraft",
+      "ai.storyteller.lightcraft"
+    ],
+    "geometry": "local/lightcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "pdfcraft": {
+    "name": "PdfCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.pdfcraft.desktop"
+    ],
+    "icon_names": [
+      "pdfcraft",
+      "ai.storyteller.pdfcraft"
+    ],
+    "geometry": "local/pdfcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "effectcraft": {
+    "name": "EffectCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.effectcraft.desktop"
+    ],
+    "icon_names": [
+      "effectcraft",
+      "ai.storyteller.effectcraft"
+    ],
+    "geometry": "local/effectcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "designcraft": {
+    "name": "DesignCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.designcraft.desktop"
+    ],
+    "icon_names": [
+      "designcraft",
+      "ai.storyteller.designcraft"
+    ],
+    "geometry": "local/designcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "figcraft": {
+    "name": "FigCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.figcraft.desktop"
+    ],
+    "icon_names": [
+      "figcraft",
+      "ai.storyteller.figcraft"
+    ],
+    "geometry": "local/figcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "texturecraft": {
+    "name": "TextureCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.texturecraft.desktop"
+    ],
+    "icon_names": [
+      "texturecraft",
+      "ai.storyteller.texturecraft"
+    ],
+    "geometry": "local/texturecraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "wordcraft": {
+    "name": "WordCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.wordcraft.desktop"
+    ],
+    "icon_names": [
+      "wordcraft",
+      "ai.storyteller.wordcraft"
+    ],
+    "geometry": "local/wordcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "soundcraft": {
+    "name": "SoundCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.soundcraft.desktop"
+    ],
+    "icon_names": [
+      "soundcraft",
+      "ai.storyteller.soundcraft"
+    ],
+    "geometry": "local/soundcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "deckcraft": {
+    "name": "DeckCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.deckcraft.desktop"
+    ],
+    "icon_names": [
+      "deckcraft",
+      "ai.storyteller.deckcraft"
+    ],
+    "geometry": "local/deckcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "cadcraft": {
+    "name": "CADCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.cadcraft.desktop"
+    ],
+    "icon_names": [
+      "cadcraft",
+      "ai.storyteller.cadcraft"
+    ],
+    "geometry": "local/cadcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "gridcraft": {
+    "name": "GridCraft",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.gridcraft.desktop"
+    ],
+    "icon_names": [
+      "gridcraft",
+      "ai.storyteller.gridcraft"
+    ],
+    "geometry": "local/gridcraft.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
+  },
+  "craft-anything": {
+    "name": "Craft Anything",
+    "installed": false,
+    "desktop_ids": [
+      "ai.storyteller.craft-anything.desktop"
+    ],
+    "icon_names": [
+      "craft-anything",
+      "ai.storyteller.craft-anything"
+    ],
+    "geometry": "local/craft-anything.svg",
+    "mode": "illustrated-local",
+    "reviewed": true,
+    "review_batch": 22,
+    "introduced_batch": 22,
+    "suite": "artcraft"
   }
 }

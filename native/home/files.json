@@ -6180,5 +6180,290 @@
     "source": "files/.config/zen/close-last-regular-tab.sys.mjs",
     "mode": "0644",
     "group": "zen"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/photocraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/photocraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-photocraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "photocraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/vectorcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/vectorcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-vectorcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "vectorcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/filmcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/filmcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-filmcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "filmcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/lightcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/lightcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-lightcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "lightcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/pdfcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/pdfcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-pdfcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "pdfcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/effectcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/effectcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-effectcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "effectcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/designcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/designcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-designcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "designcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/figcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/figcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-figcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "figcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/texturecraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/texturecraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-texturecraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "texturecraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/wordcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/wordcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-wordcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "wordcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/soundcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/soundcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-soundcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "soundcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/deckcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/deckcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-deckcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "deckcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/cadcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/cadcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-cadcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "cadcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/gridcraft.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/gridcraft.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-gridcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "gridcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/craft-anything.svg",
+    "group": "base",
+    "kind": "file",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/craft-anything.svg",
+    "mode": "0644"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-craft-anything.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "craft-anything.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.cadcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "cadcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.craft-anything.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "craft-anything.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.deckcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "deckcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.designcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "designcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.effectcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "effectcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.figcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "figcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.filmcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "filmcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.gridcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "gridcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.lightcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "lightcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.pdfcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "pdfcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.photocraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "photocraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.soundcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "soundcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.texturecraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "texturecraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.vectorcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "vectorcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/ai.storyteller.wordcraft.svg",
+    "group": "base",
+    "kind": "symlink",
+    "target": "wordcraft.svg"
   }
 ]

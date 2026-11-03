@@ -69,7 +69,9 @@
       "solaar",
       "sublime-text",
       "tjikup",
-      "zed-nightly"
+      "zed-nightly",
+      "lightcraft",
+      "deckcraft"
     ],
     "blue": [
       "docker",
@@ -88,7 +90,11 @@
       "connections",
       "steam",
       "qgis-desktop",
-      "zed-preview"
+      "zed-preview",
+      "photocraft",
+      "filmcraft",
+      "wordcraft",
+      "craft-anything"
     ],
     "cyan": [
       "notjik",
@@ -105,7 +111,9 @@
       "terminal",
       "text-editor",
       "snapraid",
-      "tippecanoe"
+      "tippecanoe",
+      "soundcraft",
+      "cadcraft"
     ],
     "teal": [
       "nginx",
@@ -118,7 +126,11 @@
       "document-viewer",
       "document-scanner",
       "nss",
-      "tour"
+      "tour",
+      "vectorcraft",
+      "designcraft",
+      "figcraft",
+      "gridcraft"
     ],
     "magenta": [
       "bartjik",
@@ -144,7 +156,9 @@
       "drizzle",
       "passwords-and-keys",
       "oo7",
-      "zen"
+      "zen",
+      "pdfcraft",
+      "effectcraft"
     ],
     "red": [
       "rust",
@@ -165,7 +179,8 @@
       "plex",
       "uuctl",
       "video-player",
-      "mpv-media-player"
+      "mpv-media-player",
+      "texturecraft"
     ]
   },
   "shape_choices": [

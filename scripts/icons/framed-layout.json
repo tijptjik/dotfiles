@@ -1432,6 +1432,127 @@
       ],
       "source_sha256": "ea874bc7ab2db53b539dc32cf09fc15c8724dde4e1645dce9dd3aafcd25d9d4a",
       "note": "Approved original 40-unit rose frame at (12,12); undo primary optical normalization."
+    },
+    "photocraft": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "78854ba58195f6356d98b69b9fa9495f492ce426d861c853d45f68048c046560"
+    },
+    "vectorcraft": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "684b739ae451b4861f1a7e282359d0739d637ae5b059988068deb974e13bc4d7"
+    },
+    "filmcraft": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "bf41f02b819bc528999ba7d7995eab4cca5fa35cff7175aa8f537821dee90dcd"
+    },
+    "lightcraft": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "0bda9db2b5e9e9d788b8457d100738bc3f66450eabdcc34dafaad0b224db30ff"
+    },
+    "pdfcraft": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "b9b835a567fda2c6ac9f22d9ae9ac86bc1162848114137fbd13146a882c38091"
+    },
+    "effectcraft": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "20cd4b1edbc049372f797d379d1d631a99f3e7e338f578ab6143d2f90cee4a2f"
+    },
+    "designcraft": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "866fdad0d53015928a05ee9afc3169bd7eb7bbac7302430e0b2bc69b37d8236e"
+    },
+    "figcraft": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "57c681d42196aa0d84d29a5c49fa6d5e00b720d282957130b302d167f2032d5e"
+    },
+    "texturecraft": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "992aa8f62999117ed31c7ac0ec702a6693e95f8d01ac8a5b7b93392df64fb645",
+      "note": "Revised zebra proportions; reduce optical scale to preserve rounded-tile clearance. Accepted for the 0.1.0-rc.13 framed derivative by the user release instruction."
+    },
+    "wordcraft": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "5c759a30291b12b1a5f14fc03a4a2ec8a8063ae1721c4bdae85ae32f9e276e73"
+    },
+    "soundcraft": {
+      "scale": 0.84,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "21b37daa128759f51ab07a224e0dcae33c0050e40f5099f655029658ef7eb560"
+    },
+    "deckcraft": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "4fcd60c25417e49e43f2fe8632c808d15702a60ab3913533b911f90555a6d001"
+    },
+    "cadcraft": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "556ecc1d5bcb76855465c7a2f37277006f7c3e07616256b678a95bbb87ad2e5e"
+    },
+    "gridcraft": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "55dfd600fad18a9db5a84b6b71c5b3724b5d3e070d08432b4edd19a70e46702e"
+    },
+    "craft-anything": {
+      "scale": 0.8,
+      "offset": [
+        0,
+        0
+      ],
+      "source_sha256": "f1a5e3df42d01d6bfbdb3be3b9963c0c9b8e57f297298734f1d26e5b2672c7c8"
     }
   }
 }

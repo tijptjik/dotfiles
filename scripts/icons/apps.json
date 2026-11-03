@@ -317,5 +317,50 @@
   "tinty": [],
   "gmailtjik": [
     "gmailtjik.desktop"
+  ],
+  "photocraft": [
+    "ai.storyteller.photocraft.desktop"
+  ],
+  "vectorcraft": [
+    "ai.storyteller.vectorcraft.desktop"
+  ],
+  "filmcraft": [
+    "ai.storyteller.filmcraft.desktop"
+  ],
+  "lightcraft": [
+    "ai.storyteller.lightcraft.desktop"
+  ],
+  "pdfcraft": [
+    "ai.storyteller.pdfcraft.desktop"
+  ],
+  "effectcraft": [
+    "ai.storyteller.effectcraft.desktop"
+  ],
+  "designcraft": [
+    "ai.storyteller.designcraft.desktop"
+  ],
+  "figcraft": [
+    "ai.storyteller.figcraft.desktop"
+  ],
+  "texturecraft": [
+    "ai.storyteller.texturecraft.desktop"
+  ],
+  "wordcraft": [
+    "ai.storyteller.wordcraft.desktop"
+  ],
+  "soundcraft": [
+    "ai.storyteller.soundcraft.desktop"
+  ],
+  "deckcraft": [
+    "ai.storyteller.deckcraft.desktop"
+  ],
+  "cadcraft": [
+    "ai.storyteller.cadcraft.desktop"
+  ],
+  "gridcraft": [
+    "ai.storyteller.gridcraft.desktop"
+  ],
+  "craft-anything": [
+    "ai.storyteller.craft-anything.desktop"
   ]
 }

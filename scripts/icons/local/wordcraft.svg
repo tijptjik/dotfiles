@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+<title>WordCraft — Rose Punk</title><desc>Document and pencil with clearer page thickness and three readable text lines; quiet paper and violet pencil shading. Official identity: https://getartcraft.com/apps/wordcraft. See scripts/icons/provenance.json for credits.</desc><g id="frameless-artwork" transform="translate(-5.577114 -1.171521) scale(1.036610)"><defs>
+ <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#b94e87" /></linearGradient>
+ <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#b39bd9" /></linearGradient>
+ <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9c3f2" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#71385f" /></linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs>
+<linearGradient id="copper" x2=".2" y2="1"><stop stop-color="#ffe0a3" /><stop offset=".35" stop-color="#e6ae62" /><stop offset="1" stop-color="#a7585d" /></linearGradient>
+<linearGradient id="jade" x2=".3" y2="1"><stop stop-color="#b4ead5" /><stop offset=".4" stop-color="#46b6a2" /><stop offset="1" stop-color="#306779" /></linearGradient>
+<linearGradient id="rose-metal" x2=".3" y2="1"><stop stop-color="#f8c5c2" /><stop offset=".35" stop-color="#df77ac" /><stop offset="1" stop-color="#8e477e" /></linearGradient>
+<linearGradient id="indigo" x2=".4" y2="1"><stop stop-color="#b6b5ec" /><stop offset=".4" stop-color="#8596ed" /><stop offset="1" stop-color="#494f85" /></linearGradient>
+<linearGradient id="paper" x2=".2" y2="1"><stop stop-color="#fff4df" /><stop offset="1" stop-color="#d8c5b9" /></linearGradient>
+<linearGradient id="metal" x2=".8" y2="1"><stop stop-color="#f3e8df" /><stop offset=".35" stop-color="#9cb9c6" /><stop offset=".5" stop-color="#d5dcde" /><stop offset="1" stop-color="#61788f" /></linearGradient>
+<radialGradient id="glass" cx=".35" cy=".27" r=".8"><stop stop-color="#b0a5df" /><stop offset=".4" stop-color="#5b70b5" /><stop offset=".75" stop-color="#35446d" /><stop offset="1" stop-color="#172b41" /></radialGradient>
+<linearGradient id="screen" x2=".6" y2="1"><stop stop-color="#354b67" /><stop offset=".5" stop-color="#232c46" /><stop offset="1" stop-color="#182339" /></linearGradient>
+</defs><defs>
+<linearGradient id="craft-sand" x2=".4" y2="1"><stop stop-color="#f1cc92" /><stop offset=".4" stop-color="#dfab6e" /><stop offset="1" stop-color="#b57668" /></linearGradient>
+<linearGradient id="craft-jade" x2=".4" y2="1"><stop stop-color="#9fd6c3" /><stop offset=".4" stop-color="#5fb7a5" /><stop offset="1" stop-color="#3d7d83" /></linearGradient>
+<linearGradient id="craft-rose" x2=".4" y2="1"><stop stop-color="#efb7ce" /><stop offset=".4" stop-color="#d784b0" /><stop offset="1" stop-color="#925a8b" /></linearGradient>
+<linearGradient id="craft-paper" x2=".4" y2="1"><stop stop-color="#fff3de" /><stop offset=".4" stop-color="#f4e7d4" /><stop offset="1" stop-color="#d2c8ce" /></linearGradient>
+</defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8H39L50 19V56H12Q10 56 10 54V10Q10 8 12 8Z" fill="url(#craft-paper)" stroke="#706079" stroke-width="0.8" /><path d="M10 53H50V56H12Q10 56 10 54Z" fill="#b9adbf" /><path d="M39 8V19H50Z" fill="#b39bd9" /><path d="M18 26h22m-22 8h19m-19 8h11" fill="none" stroke="#34304f" stroke-width="2" /><path d="M34 51 37 41 54 24 60 30 43 47Z" fill="url(#indigo)" stroke="#62517f" stroke-width="0.65" /><path d="M34 51 37 41 43 47Z" fill="#dfab6e" /><path d="M34 51 35.5 46 39 49Z" fill="#34304f" /><path d="M54 24 57 21 63 27 60 30Z" fill="#d784b0" /></g></g></svg>

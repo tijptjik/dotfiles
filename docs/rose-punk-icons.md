@@ -1,7 +1,7 @@
 # Rose Punk icons
 
 Rose Punk is the primary transparent icon theme, installed under directory ID
-`rose-punk`. The current catalog contains 114 app, service and workflow icons. It also
+`rose-punk`. The current catalog contains 142 app, service and workflow icons. It also
 supplies all fleet terminal sprites; 30 named SVG assets cover Homepage and
 Si’s complete service inventory, including two intentional helper aliases. These share source artwork and palette rules, with
 separate inventories and deployment paths.
@@ -21,6 +21,24 @@ for sample-only terminal commands. Review generation does not approve or release
 the new artwork.
 
 ## Build and release
+
+The fifteen Craft apps listed by ArtCraft have Rose Punk artwork, retaining
+their animal or tool identities with hand-authored paths and material colours.
+They include PhotoCraft, VectorCraft, FilmCraft, LightCraft, PdfCraft,
+EffectCraft, DesignCraft, FigCraft, TextureCraft, WordCraft, SoundCraft,
+DeckCraft, CADCraft, GridCraft and Craft Anything. Official Linux icon names
+(`ai.storyteller.*`) resolve through theme aliases. FilmCraft's cleaned owl is
+the accepted geometry/shading reference. The fourteen sibling refinements were
+accepted for `0.1.0-rc.13`, which adds all fifteen apps to both download variants. Studio and Launcher keep their official shared logo.
+
+Run `python3 -B scripts/icons/artcraft-review.py` for an original-versus-themed
+overview, family contact sheets, an interactive size/surface review, and
+24/32/48/64/96 px studies on dark, plum, ivory and white. An optional frozen
+baseline enables an equal-size before/after comparison. Official website images are optional local review
+inputs; the review labels missing originals and validates cached image hashes
+against provenance. The camera is unchanged. Upstream license notices are
+retained under `scripts/icons/upstream/artcraft/`; Craft Anything's new raven
+does not reuse its restricted upstream vector paths.
 
 `0.1.0-rc.10` revises Gitfetch into a repository inbox, adapts Mullvad to the
 animal family, adds plum outlines to all three Zed channels, and simplifies

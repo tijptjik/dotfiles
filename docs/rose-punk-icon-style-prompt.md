@@ -96,7 +96,8 @@ the original-icon review. Deployment is separate from generating the review.
 
 ## Active scope and revision 2
 
-The active catalog contains 114 apps, services and workflow entries, including four
+The active catalog contains 142 apps, services and workflow entries, including fifteen
+approved ArtCraft icons and four
 workflow revisions awaiting review and approved Bitwarden/bookmarks additions. `scripts/icons/retired.json`
 archives 13 retired/unused entries; do not add them back when making a new study.
 Their source artwork and frozen snapshots are historical, not active choices.
@@ -127,6 +128,32 @@ cyan glass. Functional marks remain legible at 24 px; secondary texture should
 recede at that size. Keep colour in shadows instead of muddy grey or brown.
 Simple brand marks can remain simple. Do not add texture or highlights merely
 to match the number of details in Camera.
+
+## ArtCraft family consistency
+
+FilmCraft's cleaned owl is the user-selected geometry and shading reference for
+the fifteen Craft apps. Keep that SVG unchanged when refining its siblings;
+the frozen camera remains the overall Rose Punk material reference.
+
+Use continuous filled contours, balanced curves and deliberate negative spaces.
+Keep bilateral features aligned where the subject is frontal; preserve the
+natural profiles and distinctive silhouettes of the other animals. A single
+main ramp and one or two quiet supporting planes should carry the form. Use
+clear dark eyes, with restrained amber irises where the size permits. Reserve
+small curved marks for meaningful feathers or fur, and omit decorative glints,
+fine hatching and fragmented polygon shading.
+
+The shared Craft ramps in `material_art.py` follow the owl's broad shading.
+Ivory objects may use a fine plum edge to remain visible on light surfaces;
+coloured animal silhouettes do not need a global outline. WordCraft, GridCraft
+and CADCraft share paper treatment, fine edges and consistent functional line
+weights; DeckCraft uses filled hardware surfaces. The fox's tail fan, the
+lion's full mane, the zebra's stripes and each tool's functional marks remain
+part of their identities. Review the family together at 24, 32, 48, 64 and 96 px.
+
+The owl remains the accepted reference. The fourteen sibling revisions were
+accepted for `0.1.0-rc.13`; the explicit release cut authorizes deriving its
+framed counterpart from the same approved SVGs and maintained optical layouts.
 
 ## Secondary set after sign-off
 

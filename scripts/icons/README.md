@@ -73,6 +73,19 @@ the icon build never writes `native/home/files/.local/share/icons/tjikup.png`.
 
 ## Optional reviews and historical studies
 
+`artcraft-review.py` renders the fifteen Craft app icons with the unchanged
+camera at five sizes on four surfaces, plus an interactive HTML comparison.
+It also renders dark/ivory family sheets against the unchanged FilmCraft owl.
+An optional `assets/artcraft-coherence/baseline.json` and `before/` SVG directory
+under the local review folder enable a hash-verified, equal-size previous/refined
+comparison. The tool never overwrites those frozen inputs or records approval.
+Optional official WebP originals belong under
+`.local/icon-reviews/docs/assets/artcraft/originals/<app-id>.webp`; URLs and
+expected hashes are in `provenance.json`. Missing originals are labelled.
+The build never reads these captures. The artwork is authored in
+`material_art.py` and retained as editable `local/` snapshots; source changes
+require updating those snapshots and provenance hashes.
+
 `gallery.py` produces the current catalog and contact sheets without requiring
 historical review files. Both the current previews and release gallery include
 application originals from `catalog.json` and shell companions from

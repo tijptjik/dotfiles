@@ -3531,6 +3531,76 @@
         "section": "Configuration",
         "icon": "Zen"
       }
+    },
+    {
+      "id": "home:reclaim-diskspace",
+      "label": "Disk cleanup (monthly)",
+      "interval_seconds": 2592000,
+      "needs": [
+        "require:fish",
+        "require:sudo"
+      ],
+      "after": [
+        "home:android-sdk:update",
+        "home:archive-restore",
+        "home:bartjik:update",
+        "home:bartjik:update:verify",
+        "home:bitwarden:update",
+        "home:codex-lb:update",
+        "home:codex-lb:update:verify",
+        "home:files",
+        "home:greetjik:update",
+        "home:llmtrim-install:update",
+        "home:notjik:update",
+        "home:notjik:update:verify",
+        "home:obsidian:update",
+        "home:obsidian:update:verify",
+        "home:python:update",
+        "home:runtjik:update",
+        "home:runtjik:update:verify",
+        "home:rust:update",
+        "home:tasktjik:update",
+        "home:tasktjik:update:verify",
+        "home:tjikup:update",
+        "system:apps",
+        "system:codex-desktop:update",
+        "system:flatpak:update",
+        "system:hyprvoice:update",
+        "system:hyprvoice:update:verify",
+        "system:launcher:update",
+        "system:nginx:update",
+        "system:rpm:update",
+        "system:strata:update",
+        "system:tailscale-package:update",
+        "system:terminal:update",
+        "system:tinty:update",
+        "system:tippecanoe:update",
+        "system:zed:update",
+        "system:zed:update:verify"
+      ],
+      "resources": [
+        "home-files",
+        "dnf",
+        "client-cli",
+        "storage"
+      ],
+      "apply": [
+        "fish",
+        "--no-config",
+        "$DOTJIK_REPO/native/home/files/.local/bin/reclaim-diskspace",
+        "--automatic"
+      ],
+      "timeout": 3600,
+      "optional": false,
+      "operation": "update",
+      "scope": "home",
+      "application": "reclaim-diskspace",
+      "ecosystem": "maintenance",
+      "display": {
+        "section": "Verification",
+        "icon": "Storage",
+        "reports": true
+      }
     }
   ]
 }

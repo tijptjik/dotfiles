@@ -4,15 +4,22 @@
 # Package caches are downloaded again when needed. Installed packages,
 # project node_modules, and Python virtual environments are not cache targets.
 
-argparse 'n/dry-run' 'clipboard-history' 'h/help' -- $argv; or exit 2
+argparse 'n/dry-run' 'automatic' 'clipboard-history' 'h/help' -- $argv; or exit 2
 if set -q _flag_help
-    echo 'Usage: reclaim-diskspace [--dry-run|-n] [--clipboard-history]'
-    echo 'Clean Docker images, old kernels, unused packages, package/browser caches, Spotify media cache, and thumbnails.'
+    echo 'Usage: reclaim-diskspace [--dry-run|-n] [--automatic] [--clipboard-history]'
+    echo 'Clean Docker images, old kernels, unused packages, package/browser caches, Spotify media cache, thumbnails, and systemd crash dumps.'
+    echo 'Saved systemd crash dumps are deleted; locked dumps and journal logs are retained.'
     echo '--clipboard-history permanently deletes saved clipboard text and images.'
+    echo '--automatic cleans only caches and crash dumps, with noninteractive sudo.'
+    echo 'Automatic mode retains packages, kernels, Docker images, and clipboard history; Flatpak repair stays manual.'
     echo 'Running browsers are skipped. Playwright browsers and Codex data are retained.'
     echo 'Spotify media cache is cleared only when Spotify is closed.'
     echo 'Run without sudo so package caches belong to your normal user.'
     exit 0
+end
+if set -q _flag_automatic; and set -q _flag_clipboard_history
+    echo '--automatic cannot be combined with --clipboard-history.' >&2
+    exit 2
 end
 if test (count $argv) -gt 0
     echo "Unexpected arguments: $argv" >&2
@@ -22,8 +29,24 @@ end
 set -g cleanup_dry_run 0
 set -q _flag_dry_run; and set -g cleanup_dry_run 1
 set -g cleanup_failures 0
+set -g cleanup_automatic 0
+set -q _flag_automatic; and set -g cleanup_automatic 1
+
+# Measure each filesystem once. Concurrent writes can affect this net change;
+# it is not an exact count of bytes deleted by this command.
+function cleanup_free_bytes
+    command -q df; and command -q awk; or return 1
+    command df -B1 --output=target,avail -- "$HOME" /var 2>/dev/null | command awk 'NR > 1 { available = $NF; $NF = ""; if (!seen[$0]++) { total += available; found = 1 } } END { if (found) printf "%.0f\n", total; else exit 1 }'
+end
+set -l free_before
+if test $cleanup_automatic -eq 1; and test $cleanup_dry_run -eq 0
+    set free_before (cleanup_free_bytes)
+end
 
 function cleanup_run
+    if test $cleanup_automatic -eq 1; and test "$argv[1]" = sudo
+        set argv sudo -n $argv[2..-1]
+    end
     if test $cleanup_dry_run -eq 1
         printf '[dry-run] %s\n' (string join ' ' -- (string escape -- $argv))
         return 0
@@ -44,7 +67,29 @@ function cleanup_cache --argument-names label executable
     end
 end
 
-cleanup_cache Bun bun pm cache rm
+# Bun requires a package.json even for cache removal. Use a disposable context
+# so this works outside projects without creating a manifest in the user's cwd.
+if not command -q bun
+    echo 'Bun not found, skipping.'
+else if test $cleanup_dry_run -eq 1
+    echo 'Cleaning Bun cache (using a temporary empty project)...'
+    cleanup_run bun pm cache rm
+else
+    echo 'Cleaning Bun cache...'
+    set -l bun_context (mktemp -d)
+    if test $status -eq 0; and test -n "$bun_context"
+        if printf '{}\n' >"$bun_context/package.json"
+            cleanup_run bun pm --cwd "$bun_context" cache rm
+        else
+            echo 'Cannot prepare temporary Bun project; skipping Bun cache cleanup.' >&2
+            set -g cleanup_failures (math $cleanup_failures + 1)
+        end
+        cleanup_run rm -rf -- "$bun_context"
+    else
+        echo 'Cannot create temporary Bun project; skipping Bun cache cleanup.' >&2
+        set -g cleanup_failures (math $cleanup_failures + 1)
+    end
+end
 cleanup_cache npm npm cache clean --force
 cleanup_cache uv uv cache clean
 cleanup_cache pnpm pnpm store prune
@@ -130,37 +175,57 @@ else
     echo 'pip not found, skipping.'
 end
 
-echo "Cleaning up Docker images..."
-if command -v docker &> /dev/null
-    cleanup_run sudo docker image prune -af
-else
-    echo "Docker not found, skipping."
-end
-
-if command -q dnf
-    echo "Finding old kernels (keeping the latest three)..."
-    set -l old_kernels (dnf repoquery --installonly --latest-limit=-3 -q)
-    if test $status -ne 0
-        echo 'Kernel query failed; skipping kernel removal.' >&2
-        set -g cleanup_failures (math $cleanup_failures + 1)
-    else if test (count $old_kernels) -gt 0
-        cleanup_run sudo dnf remove -y $old_kernels
-    else
-        echo 'No old kernels to remove.'
+# Use a one-shot age-zero rule, preserving the directory and respecting flock
+# locks held by active writers. Explicit stdin excludes unrelated tmpfiles rules.
+if command -q systemd-tmpfiles
+    echo 'Cleaning saved systemd crash dumps (debugging data; locked dumps are skipped)...'
+    set -l coredump_rule 'e /var/lib/systemd/coredump - - - 0'
+    if test $cleanup_dry_run -eq 1
+        echo "[dry-run] tmpfiles rule: $coredump_rule"
     end
-    echo "Removing unused dependencies..."
-    cleanup_run sudo dnf autoremove -y
-    cleanup_cache DNF sudo dnf clean all
+    printf '%s\n' "$coredump_rule" | cleanup_run sudo systemd-tmpfiles --clean --prefix=/var/lib/systemd/coredump -
 else
-    echo 'DNF not found, skipping.'
+    echo 'systemd-tmpfiles not found, skipping crash dumps.'
 end
 
-echo "Cleaning up Flatpak dependencies..."
-if command -v flatpak &> /dev/null
-    cleanup_run sudo flatpak uninstall --unused -y
-    cleanup_run sudo flatpak repair
+if test $cleanup_automatic -eq 0
+    echo "Cleaning up Docker images..."
+    if command -v docker &> /dev/null
+        cleanup_run sudo docker image prune -af
+    else
+        echo "Docker not found, skipping."
+    end
+
+    if command -q dnf
+        echo "Finding old kernels (keeping the latest three)..."
+        set -l old_kernels (dnf repoquery --installonly --latest-limit=-3 -q)
+        if test $status -ne 0
+            echo 'Kernel query failed; skipping kernel removal.' >&2
+            set -g cleanup_failures (math $cleanup_failures + 1)
+        else if test (count $old_kernels) -gt 0
+            cleanup_run sudo dnf remove -y $old_kernels
+        else
+            echo 'No old kernels to remove.'
+        end
+        echo "Removing unused dependencies..."
+        cleanup_run sudo dnf autoremove -y
+        cleanup_cache DNF sudo dnf clean all
+    else
+        echo 'DNF not found, skipping.'
+    end
+
+    echo "Cleaning up Flatpak dependencies..."
+    if command -v flatpak &> /dev/null
+        cleanup_run sudo flatpak uninstall --unused -y
+        cleanup_run sudo flatpak repair
+    else
+        echo "Flatpak not found, skipping."
+    end
 else
-    echo "Flatpak not found, skipping."
+    echo 'Automatic cleanup keeps Docker images, packages, kernels, and Flatpak installations.'
+    if command -q dnf
+        cleanup_cache DNF sudo dnf clean all
+    end
 end
 
 if test $cleanup_failures -gt 0
@@ -171,4 +236,13 @@ if test $cleanup_dry_run -eq 1
     echo 'Preview finished; no cleanup commands were run.'
 else
     echo "Cleanup finished!"
+    if test $cleanup_automatic -eq 1
+        set -l free_after (cleanup_free_bytes)
+        if test -n "$free_before"; and test -n "$free_after"
+            set -l net_mib (math --scale=1 "($free_after - $free_before) / 1048576")
+            echo "CLEAN    ✓ Disk cleanup  net free-space change: $net_mib MiB (concurrent writes may affect this)"
+        else
+            echo 'CLEAN    ✓ Disk cleanup  completed; free-space measurement unavailable'
+        end
+    end
 end

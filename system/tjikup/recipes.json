@@ -1963,7 +1963,8 @@
         "home:bartjik:update:verify",
         "home:runtjik:update:verify",
         "system:hyprvoice:update:verify",
-        "system:tinty:update"
+        "system:tinty:update",
+        "home:reclaim-diskspace"
       ],
       "operation": "update",
       "scope": "system",

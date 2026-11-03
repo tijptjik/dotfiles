@@ -91,6 +91,33 @@ Use the server recovery guides before applying policy to a rebuilt server.
 
 ## Validation and release status
 
+### Monthly disk cleanup
+
+The normal update workflow runs `reclaim-diskspace --automatic` after selected
+package updates and the existing home/archive readiness steps, before the final
+Fedora release-upgrade step. Tjikup's native
+`interval_seconds: 2592000` skips it until 30 days after its last successful run.
+The first run is due immediately. This is checked when Tjikup runs; it does not
+create a separate timer. `--skip-package-updates` and file-only applies exclude it.
+
+Automatic cleanup clears package/browser caches, thumbnails, closed Spotify's
+media cache and unlocked systemd coredumps. It keeps Docker images, installed
+packages, kernels, clipboard history and journal logs. Flatpak repair stays
+manual. It runs as the normal user, using `sudo -n` for system caches.
+`reclaim-diskspace --automatic --dry-run` previews this scope; invoking the
+command without `--automatic` retains the full manual cleanup.
+
+The workflow retains its existing locks and readiness gates. Tjikup also locks
+each periodic recipe across configurations and atomically writes a private
+success receipt under `$XDG_STATE_HOME/tjikup/periodic/` (default
+`~/.local/state/tjikup/periodic/`). Failed, interrupted or deferred cleanup does
+not advance the interval. Output reports the net free-space change on the home
+and `/var` filesystems and the next due date; concurrent writes can affect that
+space measurement. `--show-skips` displays the due date when cleanup is skipped.
+
+This policy requires a Tjikup build advertising `periodic_recipes: 1`. Upgrade
+the runner before applying this repository revision on another device.
+
 `bash scripts/validate.sh` runs policy regression tests and renders maintenance
 templates for Fi, Li and Si without executing them. Set `TJIKUP_BINARY` to the
 binary under test. Native behavior tests live in TjikOS `apps/tjikup/tests` and

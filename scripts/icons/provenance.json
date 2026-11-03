@@ -631,7 +631,7 @@
   "files": {
     "source": "scripts/icons/local/reviewed/files.svg",
     "license": "Original artwork",
-    "sha256": "e020050041bebc1fac6c2ba1f55b1071451794412812edae87d53e2ccd5a72ca",
+    "sha256": "4f789acd24df40c2fbdf3cd05dc60fdd377bd30ba64ef2a168b98fc4cd5bcce1",
     "material_revision": 11,
     "design_note": "Construction trio: near-frontal view, shallow right/lower depth, upper-left light, material-specific paper, enamel/glass and metal. No generic badge borders. Accepted by user for 0.1.0-rc.11 on 2026-10-30.",
     "previous_source": {
@@ -654,6 +654,19 @@
         "material_revision": 11,
         "design_note": "Construction trio: near-frontal view, shallow right/lower depth, upper-left light, material-specific paper, enamel/glass and metal. No generic badge borders. Accepted by user for 0.1.0-rc.11 on 2026-10-30."
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "e020050041bebc1fac6c2ba1f55b1071451794412812edae87d53e2ccd5a72ca",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+    },
+    "object_revision": {
+      "previous_sha256": "292460e81ab5109c2d0063d9451688e63367ea9d6467537f502e7326f886431f",
+      "reason": "An open amber folder with a folded lip, visible gussets, coloured document tabs and an ivory label."
+    },
+    "construction_refinement": {
+      "previous_sha256": "c524999a8da44f5b2d0ed056b720843badcade3acf11f7a4397ca2e8490ad41a",
+      "reason": "The open folder retains its paper stack, folded lip and label; redundant gusset lines removed."
     }
   },
   "settings": {
@@ -974,7 +987,7 @@
   "keyboard-layout-viewer": {
     "source": "scripts/icons/local/reviewed/keyboard-layout-viewer.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "2405ac508d631763c4df0a7ad38476ad921953ae3b720e73a64ab949be1e2fe7",
+    "sha256": "90296714cf5437eae0249b8c2ec6490b322398b2a2bc45e7c4e5b58b77fa3e11",
     "reference": "upstream/keyboard-layout-viewer-source.svg",
     "reference_sha256": "66d19f83de1cc1dd8d66748b42a87f12ec178133c8e20899601069d19e3b3370",
     "material_revision": 9,
@@ -1000,6 +1013,19 @@
         "reference_sha256": "66d19f83de1cc1dd8d66748b42a87f12ec178133c8e20899601069d19e3b3370",
         "material_revision": 9
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "2405ac508d631763c4df0a7ad38476ad921953ae3b720e73a64ab949be1e2fe7",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+    },
+    "object_revision": {
+      "previous_sha256": "7addb0758432d9fe065b88e99087ed2c5f73507a03b4fc9d9e311ca3d5dbab41",
+      "reason": "A violet mechanical keyboard with raised ivory caps, staggered rows and subject-specific coloured modifier keys."
+    },
+    "construction_refinement": {
+      "previous_sha256": "d29082f096bfbfc7527f5cbf4f626919ae466f9499f28005a437fcab8e4f5789",
+      "reason": "The mechanical chassis retains clear staggered keycaps, with quieter gaps and no overlapping per-key shadow blocks."
     }
   },
   "mpv-media-player": {
@@ -1276,7 +1302,7 @@
   "contacts": {
     "source": "scripts/icons/local/reviewed/contacts.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "ba57ee393f01c32522d47f8d98ead84e8ef6fcc536239f15fd36ee6cfcba323e",
+    "sha256": "d92e702a139ee21171b64fc2f060e55639aece738235bb7e7ca91b082441f9f0",
     "material_revision": 9,
     "previous_source": {
       "source": "scripts/icons/local/contacts.svg",
@@ -1296,6 +1322,19 @@
         "sha256": "3eb4df2f28228bca60f087ca5b4d7f1c756ce000a7994f533dca04b6e1cbfe6b",
         "material_revision": 9
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "ba57ee393f01c32522d47f8d98ead84e8ef6fcc536239f15fd36ee6cfcba323e",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+    },
+    "object_revision": {
+      "previous_sha256": "609e059952e22149e38fa1bcf391c9fc32a0669abda11b4bdb0b1217ae4fd54b",
+      "reason": "A bound violet address book with warm page edges, coloured index tabs and a jade portrait medallion."
+    },
+    "construction_refinement": {
+      "previous_sha256": "68b16efe0b3a84d7c9e201e5db018507744f29be1fe067edfb5f23a83bd7258e",
+      "reason": "The bound address book retains its page edges and index tabs, with a clear ivory portrait directly on the cover."
     }
   },
   "audio-player": {
@@ -1326,7 +1365,7 @@
   "disks": {
     "source": "scripts/icons/local/reviewed/disks.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "53bdcece71a8a82fed818be7bfa8cc1cd0fcb9921e1d8efd81fb60bf3b552c09",
+    "sha256": "cf81c7d6c7edafaeb9fd767e05c0e6b6a5537d864f06afeb561e765b5a82f993",
     "material_revision": 4,
     "design_note": "Construction trio: near-frontal view, shallow right/lower depth, upper-left light, material-specific paper, enamel/glass and metal. No generic badge borders. Accepted by user for 0.1.0-rc.11 on 2026-10-30.",
     "previous_source": {
@@ -1349,6 +1388,15 @@
         "material_revision": 4,
         "design_note": "Construction trio: near-frontal view, shallow right/lower depth, upper-left light, material-specific paper, enamel/glass and metal. No generic badge borders. Accepted by user for 0.1.0-rc.11 on 2026-10-30."
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "53bdcece71a8a82fed818be7bfa8cc1cd0fcb9921e1d8efd81fb60bf3b552c09",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+    },
+    "object_revision": {
+      "previous_sha256": "e458dd1590bd6c2eeb4b31e1f32c3104dd5537c035efb8ae74b84025ab76e94d",
+      "reason": "Violet-blue hardware casing, cool machined platter, amber actuator and connector detail. Approved platter geometry remains shared with Disk Usage Analyzer."
     }
   },
   "document-viewer": {
@@ -1388,7 +1436,7 @@
   "file-roller": {
     "source": "scripts/icons/local/reviewed/file-roller.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "a5bd1d8e6c8d0a5150f2dfb9413eb356d0b5a2025938a157737b72e060f03b9e",
+    "sha256": "341cb2c72fb81a9780c6fc4479e5b11b93e6134b5f159ae31d6edc8db34b53f1",
     "material_revision": 9,
     "previous_source": {
       "source": "scripts/icons/local/file-roller.svg",
@@ -1408,6 +1456,19 @@
         "sha256": "36e032923cd1a39cd7bec12dad853371ef79bb42c17c6392f3bd8e578c31dd13",
         "material_revision": 9
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "a5bd1d8e6c8d0a5150f2dfb9413eb356d0b5a2025938a157737b72e060f03b9e",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+    },
+    "object_revision": {
+      "previous_sha256": "32865d56bb6a0e68242f14b85aa0490ad94d1580629ed5cf6ec8a8659de63189",
+      "reason": "A rose fabric archive with inserted file tabs, alternating zipper teeth and a metal slider with an open pull."
+    },
+    "construction_refinement": {
+      "previous_sha256": "9b1e869f1d5a3697da43bd7aa654c262b6821132249b705be9a11ac4e395c076",
+      "reason": "A quieter rose archive with a coherent zipper slider, an open hinged pull and fewer, more readable teeth; decorative stitching removed."
     }
   },
   "logs": {
@@ -1516,7 +1577,7 @@
   "document-scanner": {
     "source": "scripts/icons/local/reviewed/document-scanner.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "07ad2b81b870da87675387afe6e0c06012145c75578e9535aed9fcc05ba8f90a",
+    "sha256": "e1676e1df58b6cd34ce7d3d74bab3fb4fa283e527871136da14bb88e20b4352d",
     "material_revision": 10,
     "previous_source": {
       "source": "scripts/icons/local/document-scanner.svg",
@@ -1536,6 +1597,11 @@
         "sha256": "633a2d5c7d497aff758d1987031d9ee8883cce4a5994a772fdc151ce9cd923a7",
         "material_revision": 10
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "07ad2b81b870da87675387afe6e0c06012145c75578e9535aed9fcc05ba8f90a",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
     }
   },
   "camera": {
@@ -1729,7 +1795,7 @@
   "disk-usage-analyzer": {
     "source": "scripts/icons/local/reviewed/disk-usage-analyzer.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "8a7f5d3adb6db19deafacb8626566b6bbc2f57e755fb4f1a17778ebe56c7e616",
+    "sha256": "cd1733ed670307b05f140bfada52d8fc9d6c2d114c6905c22779e99096177d4c",
     "material_revision": 7,
     "previous_source": {
       "source": "scripts/icons/local/disk-usage-analyzer.svg",
@@ -1749,6 +1815,11 @@
         "sha256": "46d26e13252b5ce00b41014b9fd10c870072946ef8e8bb3852d1e5e460c8efa7",
         "material_revision": 7
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "8a7f5d3adb6db19deafacb8626566b6bbc2f57e755fb4f1a17778ebe56c7e616",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
     }
   },
   "clocks": {
@@ -1851,7 +1922,7 @@
   "tweaks": {
     "source": "scripts/icons/local/reviewed/tweaks.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "c1fa73319f2cfa0230894d0c1b0fdc4fcd7ab4861d86f88edbc492ce20b150ec",
+    "sha256": "7aa0b821a4f10280cfa57298ee7d83afc33eee95e92185fff7421b59d1696d59",
     "reference": "upstream/tweaks-source.svg",
     "reference_sha256": "ba4ad0b409029e6a90207e875bb26130cbe69651956fb325eb06a8127aa9fcba",
     "material_revision": 10,
@@ -1877,12 +1948,17 @@
         "reference_sha256": "ba4ad0b409029e6a90207e875bb26130cbe69651956fb325eb06a8127aa9fcba",
         "material_revision": 10
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "c1fa73319f2cfa0230894d0c1b0fdc4fcd7ab4861d86f88edbc492ce20b150ec",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
     }
   },
   "volume-control": {
     "source": "scripts/icons/local/reviewed/volume-control.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "c85301621076f4e9ec2813a8be7f5177ec4ebb3d82524ebf6ce449d1549b19a4",
+    "sha256": "1abadecb18a106f831fe011ffdd58026b0b26bfff9e13ffd28b60e5f16808d4a",
     "reference": "upstream/volume-control-source.svg",
     "reference_sha256": "6f8879e9083ee2a23121fa29835dec46a9d070f11627b335ba51778b7e5f8b51",
     "material_revision": 8,
@@ -1908,6 +1984,19 @@
         "reference_sha256": "6f8879e9083ee2a23121fa29835dec46a9d070f11627b335ba51778b7e5f8b51",
         "material_revision": 8
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "c85301621076f4e9ec2813a8be7f5177ec4ebb3d82524ebf6ce449d1549b19a4",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+    },
+    "object_revision": {
+      "previous_sha256": "49ec5eb4677cd8a58196cddc0a311beabc3a7b94be7f9b891fa09d915a8e203a",
+      "reason": "A rose rotary dial with a cool metal rim, restrained knurl detail and concentric jade/coral volume arcs."
+    },
+    "construction_refinement": {
+      "previous_sha256": "01020b4311f90d5186e279323cbbb8e05409db6093f6252205c0115fa01f4292",
+      "reason": "A light warm dial face with colour concentrated in the concentric metal rim and volume arcs."
     }
   },
   "qgis-desktop": {
@@ -2070,7 +2159,7 @@
   "flatseal": {
     "source": "scripts/icons/local/reviewed/flatseal.svg",
     "license": "See bundled upstream theme licenses; source metadata retained",
-    "sha256": "db084f5436d5087dca14719c704f31f4495fbb410f3ed0ab3e2cc4ef5262d83a",
+    "sha256": "b67c3a476d02610ba6a796bfa87359032bcf0e80f4571e72225ea4cf54422d0e",
     "previous_source": {
       "source": "/var/lib/flatpak/exports/share/icons/hicolor/scalable/apps/com.github.tchx84.Flatseal.svg",
       "license": "See bundled upstream theme licenses; source metadata retained",
@@ -2102,6 +2191,19 @@
         ],
         "sizing": "One uniform outer transform restores the four-unit margin after widening the contour."
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "db084f5436d5087dca14719c704f31f4495fbb410f3ed0ab3e2cc4ef5262d83a",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+    },
+    "object_revision": {
+      "previous_sha256": "b6c3aa5abe4fba6828c4a002affca45ef3a581018e9b9ffebc960b54e72578f4",
+      "reason": "Jade tape with concentric wound layers and an amber cardboard core. Original upstream reel silhouette, aperture and tape end are preserved."
+    },
+    "construction_refinement": {
+      "previous_sha256": "4dce9848390ef3b20e7bbbd7528707fab5bbb92a681249a6bd4442cc66969841",
+      "reason": "The retained tape-roll silhouette has a warm ivory face, jade side thickness, cardboard core and only two faint winding lines."
     }
   },
   "obs-studio": {
@@ -2138,7 +2240,7 @@
   "passwords-and-keys": {
     "source": "scripts/icons/local/reviewed/passwords-and-keys.svg",
     "license": "Original themed redraw; app identity rights remain with their owners",
-    "sha256": "601c0a6f7ff9b91ba1bc9af4e70801786199a3b69c1fe2f106ef258da29dab9a",
+    "sha256": "abfcbc35492c8c89d70e9083ab72c82320e196e6f9c7f39999e98fae01fd228a",
     "previous_source": {
       "source": "scripts/icons/local/passwords-and-keys.svg",
       "license": "Original themed redraw; app identity rights remain with their owners",
@@ -2155,6 +2257,23 @@
         "license": "Original themed redraw; app identity rights remain with their owners",
         "sha256": "278218276106b978f8040d76cd05239e9980d861794103c21a9ce17f09245375"
       }
+    },
+    "freshness_revision": {
+      "baseline_commit": "e0441dc4",
+      "previous_sha256": "601c0a6f7ff9b91ba1bc9af4e70801786199a3b69c1fe2f106ef258da29dab9a",
+      "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+    },
+    "object_revision": {
+      "previous_sha256": "839c9e1893fbfb7f6ea7cc18100792d9447bd19d2daefa23c63079390773cea3",
+      "reason": "Two distinct cut keys in amber and jade, attached to a cool steel split ring."
+    },
+    "construction_refinement": {
+      "previous_sha256": "b25ee8f03d2d927bd8e509bef4c25d38b62070093ef7d7f71e818c0e63f40654",
+      "reason": "Two distinct cut keys with actual open bow holes, aligned with the steel ring passing behind them. Restrained metal ramps and clear edge cuts."
+    },
+    "key_correction": {
+      "previous_sha256": "6d8942de91a433086c716dee0c7676d8b0a1eadee4de2ccbc57da1c617e5682a",
+      "reason": "Retain the newer gold and jade keys unchanged; thread the steel ring through both bow holes with its upper arc behind the heads and its lower arc in front."
     }
   },
   "yuzu": {

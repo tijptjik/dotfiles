@@ -197,7 +197,7 @@
         0,
         0
       ],
-      "source_sha256": "ba57ee393f01c32522d47f8d98ead84e8ef6fcc536239f15fd36ee6cfcba323e",
+      "source_sha256": "d92e702a139ee21171b64fc2f060e55639aece738235bb7e7ca91b082441f9f0",
       "note": "Retain current optical size."
     },
     "discord": {
@@ -215,7 +215,7 @@
         0,
         0
       ],
-      "source_sha256": "8a7f5d3adb6db19deafacb8626566b6bbc2f57e755fb4f1a17778ebe56c7e616",
+      "source_sha256": "cd1733ed670307b05f140bfada52d8fc9d6c2d114c6905c22779e99096177d4c",
       "note": "Retain current optical size."
     },
     "disks": {
@@ -224,7 +224,7 @@
         0,
         0
       ],
-      "source_sha256": "53bdcece71a8a82fed818be7bfa8cc1cd0fcb9921e1d8efd81fb60bf3b552c09",
+      "source_sha256": "cf81c7d6c7edafaeb9fd767e05c0e6b6a5537d864f06afeb561e765b5a82f993",
       "note": "Accepted construction trio for rc.11; existing frame transform retained."
     },
     "docker": {
@@ -242,7 +242,7 @@
         0,
         0
       ],
-      "source_sha256": "07ad2b81b870da87675387afe6e0c06012145c75578e9535aed9fcc05ba8f90a",
+      "source_sha256": "e1676e1df58b6cd34ce7d3d74bab3fb4fa283e527871136da14bb88e20b4352d",
       "note": "Retain current optical size."
     },
     "document-viewer": {
@@ -314,7 +314,7 @@
         0,
         0
       ],
-      "source_sha256": "a5bd1d8e6c8d0a5150f2dfb9413eb356d0b5a2025938a157737b72e060f03b9e",
+      "source_sha256": "341cb2c72fb81a9780c6fc4479e5b11b93e6134b5f159ae31d6edc8db34b53f1",
       "note": "Retain current optical size."
     },
     "files": {
@@ -323,7 +323,7 @@
         0,
         0
       ],
-      "source_sha256": "e020050041bebc1fac6c2ba1f55b1071451794412812edae87d53e2ccd5a72ca",
+      "source_sha256": "4f789acd24df40c2fbdf3cd05dc60fdd377bd30ba64ef2a168b98fc4cd5bcce1",
       "note": "Accepted construction trio for rc.11; existing frame transform retained."
     },
     "firefox": {
@@ -368,7 +368,7 @@
         0,
         0
       ],
-      "source_sha256": "db084f5436d5087dca14719c704f31f4495fbb410f3ed0ab3e2cc4ef5262d83a",
+      "source_sha256": "b67c3a476d02610ba6a796bfa87359032bcf0e80f4571e72225ea4cf54422d0e",
       "note": "Reduce corner crowding while retaining the original proportions."
     },
     "fonts": {
@@ -512,7 +512,7 @@
         0,
         0
       ],
-      "source_sha256": "2405ac508d631763c4df0a7ad38476ad921953ae3b720e73a64ab949be1e2fe7",
+      "source_sha256": "90296714cf5437eae0249b8c2ec6490b322398b2a2bc45e7c4e5b58b77fa3e11",
       "note": "Retain current optical size."
     },
     "kitty": {
@@ -710,7 +710,7 @@
         0,
         0
       ],
-      "source_sha256": "601c0a6f7ff9b91ba1bc9af4e70801786199a3b69c1fe2f106ef258da29dab9a",
+      "source_sha256": "abfcbc35492c8c89d70e9083ab72c82320e196e6f9c7f39999e98fae01fd228a",
       "note": "Retain current optical size."
     },
     "plex": {
@@ -1115,7 +1115,7 @@
         0,
         0
       ],
-      "source_sha256": "c1fa73319f2cfa0230894d0c1b0fdc4fcd7ab4861d86f88edbc492ce20b150ec",
+      "source_sha256": "7aa0b821a4f10280cfa57298ee7d83afc33eee95e92185fff7421b59d1696d59",
       "note": "Retain current optical size."
     },
     "unpackerr": {
@@ -1169,7 +1169,7 @@
         0,
         0
       ],
-      "source_sha256": "c85301621076f4e9ec2813a8be7f5177ec4ebb3d82524ebf6ce449d1549b19a4",
+      "source_sha256": "1abadecb18a106f831fe011ffdd58026b0b26bfff9e13ffd28b60e5f16808d4a",
       "note": "Retain current optical size."
     },
     "weather": {

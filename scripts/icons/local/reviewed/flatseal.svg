@@ -1,30 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-<title>Flatseal — proposed Rose Punk refinement</title><desc>The tape-roll identity, including the hollow core and loose end. Retain the original reel geometry; clarify its inner core and side thickness with quiet ivory, copper and steel pigments. Review selection; source attribution accompanies the bundle.</desc><g id="frameless-artwork" transform="translate(-1.409492 -1.094072) scale(1.039984)"><defs>
- <linearGradient id="enamel" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".4" stop-color="#e88bb6" /><stop offset="1" stop-color="#b94e87" /></linearGradient>
- <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4c8d7" /><stop offset=".6" stop-color="#e56ea1" /><stop offset="1" stop-color="#b39bd9" /></linearGradient>
- <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9c3f2" /><stop offset=".5" stop-color="#9272ba" /><stop offset="1" stop-color="#71385f" /></linearGradient>
-</defs>
-<g stroke-linecap="round" stroke-linejoin="round" /><defs><linearGradient id="s-paper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#fff0da" /><stop offset="1" stop-color="#d7cbd3" /></linearGradient><linearGradient id="s-jade" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#88cdb9" /><stop offset="1" stop-color="#44878c" /></linearGradient><linearGradient id="s-blue" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#9ab8d8" /><stop offset="1" stop-color="#5d74a5" /></linearGradient><linearGradient id="s-violet" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#b3a1d9" /><stop offset="1" stop-color="#8274a9" /></linearGradient><linearGradient id="s-rose" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#eca2bc" /><stop offset="1" stop-color="#b66696" /></linearGradient><linearGradient id="s-copper" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#efbd78" /><stop offset="1" stop-color="#c58162" /></linearGradient><linearGradient id="s-steel" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#cbd9d9" /><stop offset="1" stop-color="#8298b0" /></linearGradient><linearGradient id="s-coral" gradientUnits="userSpaceOnUse" x1="15" y1="8" x2="43" y2="58"><stop stop-color="#ef9b83" /><stop offset="1" stop-color="#cc697c" /></linearGradient></defs><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="src-linear0" gradientUnits="userSpaceOnUse" x1="80" y1="106" x2="116" y2="106" gradientTransform="matrix(1,0,0,1,-8,-16)">
-<stop offset="0" stop-color="#6d7f9b" />
-<stop offset="1" stop-color="#a1b4c1" />
+<title>Flatseal — material redesign</title><desc>The retained tape-roll silhouette has a warm ivory face, jade side thickness, cardboard core and only two faint winding lines.</desc><g id="frameless-artwork" transform="translate(-1.409492 -1.094072) scale(1.039984)"><defs>
+ </defs>
+<g stroke-linecap="round" stroke-linejoin="round" /><defs /><g data-material="authored" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="src-linear0" gradientUnits="userSpaceOnUse" x1="80" y1="106" x2="116" y2="106" gradientTransform="matrix(1,0,0,1,-8,-16)">
+<stop offset="0" stop-color="#286d81" />
+<stop offset="1" stop-color="#53a5af" />
 </linearGradient>
 <linearGradient id="src-linear1" gradientUnits="userSpaceOnUse" x1="50" y1="67.750977" x2="94" y2="67.750977" gradientTransform="matrix(1,0,0,1,-8,-16)">
-<stop offset="0" stop-color="#986c74" />
-<stop offset="0.5" stop-color="#cf9c8e" />
-<stop offset="1" stop-color="#986c74" />
+<stop offset="0" stop-color="#b87855" />
+<stop offset="0.5" stop-color="#efc58b" />
+<stop offset="1" stop-color="#b87855" />
 </linearGradient>
 <linearGradient id="src-linear2" gradientUnits="userSpaceOnUse" x1="18" y1="104" x2="114" y2="104" gradientTransform="matrix(1,0,0,1,-8,-16)">
-<stop offset="0" stop-color="#8298b0" />
-<stop offset="0.458333" stop-color="#cbd9d9" />
-<stop offset="1" stop-color="#8298b0" />
+<stop offset="0" stop-color="#318a90" />
+<stop offset="0.458333" stop-color="#8edcbd" />
+<stop offset="1" stop-color="#318a90" />
 </linearGradient>
 <linearGradient id="src-linear3" gradientUnits="userSpaceOnUse" x1="17.920565" y1="43.995895" x2="142.316635" y2="107.84713" gradientTransform="matrix(1,0,0,1,-8,-16)">
-<stop offset="0" stop-color="#eadfc9" />
+<stop offset="0" stop-color="#fff8ec" />
 <stop offset="0.5" stop-color="#fff0da" />
-<stop offset="1" stop-color="#d7d0cf" />
+<stop offset="1" stop-color="#eddfc8" />
 </linearGradient>
 </defs><g transform="translate(4 4) scale(.44)"><path style=" stroke:none;fill-rule:nonzero;fill:url(#src-linear0);" d="M 96 56 L 96 88 L 64 88 L 64 124 C 93.824219 124 118 99.824219 118 70 L 118 56 Z M 96 56 " />
 <path style=" stroke:none;fill-rule:nonzero;fill:url(#src-linear1);" d="M 64 36 C 51.851562 36 42 45.851562 42 58 C 42 61.289062 42.738281 64.535156 44.15625 67.5 C 45.417969 57.5 53.921875 50 64 50 C 74.078125 50 82.582031 57.5 83.84375 67.5 C 85.261719 64.53125 86 61.289062 86 58 C 86 45.851562 76.148438 36 64 36 Z M 64 36 " />
 <path style=" stroke:none;fill-rule:nonzero;fill:url(#src-linear2);" d="M 10 56 L 10 70 C 10 84.320312 15.6875 98.058594 25.816406 108.183594 C 35.941406 118.3125 49.679688 124 64 124 L 118 124 L 115 121 L 118 118 L 115 115 L 118 112 L 64 112 L 64 88 L 32 88 L 32 56 Z M 10 56 " />
-<path style=" stroke:none;fill-rule:nonzero;fill:url(#src-linear3);stroke:#74657f;stroke-width:3;" d="M 63.832031 4 C 34.074219 4.089844 10 28.242188 10 58 C 10 87.824219 34.175781 112 64 112 C 93.824219 112 118 87.824219 118 58 C 118 28.175781 93.824219 4 64 4 C 63.945312 4 63.890625 4 63.832031 4 Z M 64 36 C 76.148438 36 86 45.851562 86 58 C 86 70.148438 76.148438 80 64 80 C 51.851562 80 42 70.148438 42 58 C 42 45.851562 51.851562 36 64 36 Z M 64 36 " />
-</g></g></g></svg>
+<path style=" stroke:none;fill-rule:nonzero;fill:url(#src-linear3);stroke:#347b80;stroke-width:2;" d="M 63.832031 4 C 34.074219 4.089844 10 28.242188 10 58 C 10 87.824219 34.175781 112 64 112 C 93.824219 112 118 87.824219 118 58 C 118 28.175781 93.824219 4 64 4 C 63.945312 4 63.890625 4 63.832031 4 Z M 64 36 C 76.148438 36 86 45.851562 86 58 C 86 70.148438 76.148438 80 64 80 C 51.851562 80 42 70.148438 42 58 C 42 45.851562 51.851562 36 64 36 Z M 64 36 " />
+<circle cx="64" cy="58" r="36" fill="none" stroke="#c9b99a" stroke-width=".65" stroke-opacity=".3" /><circle cx="64" cy="58" r="49" fill="none" stroke="#c9b99a" stroke-width=".65" stroke-opacity=".3" /></g></g></g></svg>

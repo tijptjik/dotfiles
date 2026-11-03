@@ -300,41 +300,72 @@
       "priority": 12,
       "id": "disks",
       "name": "Disks",
-      "decision": "Accepted",
+      "decision": "Redesigned from object review",
       "before_sha256": "ad9c22d11f883cce67d8e76cb630a6263e36b638976c1ca7bc54b3e112bdd4e1",
       "review_selection_sha256": "53bdcece71a8a82fed818be7bfa8cc1cd0fcb9921e1d8efd81fb60bf3b552c09",
-      "suggested_sha256": "53bdcece71a8a82fed818be7bfa8cc1cd0fcb9921e1d8efd81fb60bf3b552c09",
+      "suggested_sha256": "cf81c7d6c7edafaeb9fd767e05c0e6b6a5537d864f06afeb561e765b5a82f993",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/disks.svg",
       "critique": "The platter looks like camera glass; the purple housing and nested highlights feel overworked.",
       "preserve": "An exposed hard drive with platter, actuator and connector.",
-      "proposal": "Use restrained steel planes and a narrow copper actuator; reserve rings for machined parts."
+      "proposal": "Violet-blue hardware casing, cool machined platter, amber actuator and connector detail. Approved platter geometry remains shared with Disk Usage Analyzer.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "53bdcece71a8a82fed818be7bfa8cc1cd0fcb9921e1d8efd81fb60bf3b552c09",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      },
+      "object_revision": {
+        "previous_sha256": "e458dd1590bd6c2eeb4b31e1f32c3104dd5537c035efb8ae74b84025ab76e94d",
+        "reason": "Violet-blue hardware casing, cool machined platter, amber actuator and connector detail. Approved platter geometry remains shared with Disk Usage Analyzer."
+      }
     },
     {
       "priority": 13,
       "id": "passwords-and-keys",
       "name": "Passwords and Keys",
-      "decision": "Accepted",
+      "decision": "Newer key design retained; ring threading corrected",
       "before_sha256": "1557f2559f39af1c6388493e9f5c6064c92d6943ba8d36a3f420ac0b5f0b04c9",
       "review_selection_sha256": "601c0a6f7ff9b91ba1bc9af4e70801786199a3b69c1fe2f106ef258da29dab9a",
-      "suggested_sha256": "601c0a6f7ff9b91ba1bc9af4e70801786199a3b69c1fe2f106ef258da29dab9a",
+      "suggested_sha256": "abfcbc35492c8c89d70e9083ab72c82320e196e6f9c7f39999e98fae01fd228a",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/passwords-and-keys.svg",
       "critique": "The broad purple card dominates, while small dots add little recognition.",
       "preserve": "Two physical keys and their open key holes.",
-      "proposal": "Make the keys the silhouette, with separate copper and steel materials and readable teeth."
+      "proposal": "Retain the newer gold and jade keys unchanged; thread the steel ring through both bow holes with its upper arc behind the heads and its lower arc in front.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "601c0a6f7ff9b91ba1bc9af4e70801786199a3b69c1fe2f106ef258da29dab9a",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      },
+      "object_revision": {
+        "previous_sha256": "839c9e1893fbfb7f6ea7cc18100792d9447bd19d2daefa23c63079390773cea3",
+        "reason": "Two distinct cut keys in amber and jade, attached to a cool steel split ring."
+      },
+      "construction_refinement": {
+        "previous_sha256": "b25ee8f03d2d927bd8e509bef4c25d38b62070093ef7d7f71e818c0e63f40654",
+        "reason": "Two distinct cut keys with actual open bow holes, aligned with the steel ring passing behind them. Restrained metal ramps and clear edge cuts."
+      },
+      "key_correction": {
+        "previous_sha256": "6d8942de91a433086c716dee0c7676d8b0a1eadee4de2ccbc57da1c617e5682a",
+        "reason": "Retain the newer gold and jade keys unchanged; thread the steel ring through both bow holes with its upper arc behind the heads and its lower arc in front."
+      }
     },
     {
       "priority": 14,
       "id": "flatseal",
       "name": "Flatseal",
-      "decision": "Accepted with final light-surface contour correction",
+      "decision": "Refined after construction critique",
       "before_sha256": "23ff7c8096c712b6b918d999f4383a3164895dc063055c24d66b7166c56fa5cf",
       "review_selection_sha256": "33157fcdaa82a7116cb9966ebc81b8bdbbb91ec12a983c887842b4b9c9f9fa81",
-      "suggested_sha256": "db084f5436d5087dca14719c704f31f4495fbb410f3ed0ab3e2cc4ef5262d83a",
+      "suggested_sha256": "b67c3a476d02610ba6a796bfa87359032bcf0e80f4571e72225ea4cf54422d0e",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/flatseal.svg",
       "critique": "The pale reel and tail flatten into an ambiguous disc on light surfaces.",
       "preserve": "The tape-roll identity, including the hollow core and loose end.",
-      "proposal": "Retain the original reel geometry; clarify its inner core and side thickness with quiet ivory, copper and steel pigments.",
-      "final_refinement": [
+      "proposal": "The retained tape-roll silhouette has a warm ivory face, jade side thickness, cardboard core and only two faint winding lines.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "db084f5436d5087dca14719c704f31f4495fbb410f3ed0ab3e2cc4ef5262d83a",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      },
+      "previous_contour_refinement": [
         {
           "before": "stroke-width:1.5;",
           "after": "stroke-width:3;"
@@ -343,33 +374,67 @@
           "before": "translate(-1.784038 -1.652582) scale(1.051643)",
           "after": "translate(-1.409492 -1.094072) scale(1.039984)"
         }
-      ]
+      ],
+      "object_revision": {
+        "previous_sha256": "b6c3aa5abe4fba6828c4a002affca45ef3a581018e9b9ffebc960b54e72578f4",
+        "reason": "Jade tape with concentric wound layers and an amber cardboard core. Original upstream reel silhouette, aperture and tape end are preserved."
+      },
+      "construction_refinement": {
+        "previous_sha256": "4dce9848390ef3b20e7bbbd7528707fab5bbb92a681249a6bd4442cc66969841",
+        "reason": "The retained tape-roll silhouette has a warm ivory face, jade side thickness, cardboard core and only two faint winding lines."
+      }
     },
     {
       "priority": 15,
       "id": "volume-control",
       "name": "Volume Control",
-      "decision": "Accepted",
+      "decision": "Refined after construction critique",
       "before_sha256": "f98636abf5c60067922e4f82bb37234545e86933f109e567acae620cc518cf12",
       "review_selection_sha256": "c85301621076f4e9ec2813a8be7f5177ec4ebb3d82524ebf6ce449d1549b19a4",
-      "suggested_sha256": "c85301621076f4e9ec2813a8be7f5177ec4ebb3d82524ebf6ce449d1549b19a4",
+      "suggested_sha256": "1abadecb18a106f831fe011ffdd58026b0b26bfff9e13ffd28b60e5f16808d4a",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/volume-control.svg",
       "critique": "A large pale disc has little functional information; the pointer is nearly lost.",
       "preserve": "A rotary volume knob with a surrounding level arc.",
-      "proposal": "Give the knob a dark radial groove, cooler rim and distinct low/high arc pigments. Both level segments now share the knob centre (32,34), with radius 26.5 and a constant 2-unit clear gap to the 23-unit rim."
+      "proposal": "A light warm dial face with colour concentrated in the concentric metal rim and volume arcs.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "c85301621076f4e9ec2813a8be7f5177ec4ebb3d82524ebf6ce449d1549b19a4",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      },
+      "object_revision": {
+        "previous_sha256": "49ec5eb4677cd8a58196cddc0a311beabc3a7b94be7f9b891fa09d915a8e203a",
+        "reason": "A rose rotary dial with a cool metal rim, restrained knurl detail and concentric jade/coral volume arcs."
+      },
+      "construction_refinement": {
+        "previous_sha256": "01020b4311f90d5186e279323cbbb8e05409db6093f6252205c0115fa01f4292",
+        "reason": "A light warm dial face with colour concentrated in the concentric metal rim and volume arcs."
+      }
     },
     {
       "priority": 16,
       "id": "keyboard-layout-viewer",
       "name": "Keyboard layout viewer",
-      "decision": "Accepted",
+      "decision": "Refined after construction critique",
       "before_sha256": "27eaaba734af32167182ae1a6b2ef8e4db12fff894cba0b5a4a362cb3fd7db5c",
       "review_selection_sha256": "2405ac508d631763c4df0a7ad38476ad921953ae3b720e73a64ab949be1e2fe7",
-      "suggested_sha256": "2405ac508d631763c4df0a7ad38476ad921953ae3b720e73a64ab949be1e2fe7",
+      "suggested_sha256": "90296714cf5437eae0249b8c2ec6490b322398b2a2bc45e7c4e5b58b77fa3e11",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/keyboard-layout-viewer.svg",
       "critique": "The dense key grid becomes texture and gives no focal clue about layout.",
       "preserve": "A naturally wide keyboard with staggered rows.",
-      "proposal": "Reduce key count, enlarge the spacebar and distinguish two key groups with pigment."
+      "proposal": "The mechanical chassis retains clear staggered keycaps, with quieter gaps and no overlapping per-key shadow blocks.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "2405ac508d631763c4df0a7ad38476ad921953ae3b720e73a64ab949be1e2fe7",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      },
+      "object_revision": {
+        "previous_sha256": "7addb0758432d9fe065b88e99087ed2c5f73507a03b4fc9d9e311ca3d5dbab41",
+        "reason": "A violet mechanical keyboard with raised ivory caps, staggered rows and subject-specific coloured modifier keys."
+      },
+      "construction_refinement": {
+        "previous_sha256": "d29082f096bfbfc7527f5cbf4f626919ae466f9499f28005a437fcab8e4f5789",
+        "reason": "The mechanical chassis retains clear staggered keycaps, with quieter gaps and no overlapping per-key shadow blocks."
+      }
     },
     {
       "priority": 17,
@@ -510,27 +575,45 @@
       "priority": 27,
       "id": "file-roller",
       "name": "File Roller",
-      "decision": "Accepted",
+      "decision": "Refined after construction critique",
       "before_sha256": "41f4b5626e7773df6d97895d362b88151f02988a65721b4256e2efd5afe91a7b",
       "review_selection_sha256": "a5bd1d8e6c8d0a5150f2dfb9413eb356d0b5a2025938a157737b72e060f03b9e",
-      "suggested_sha256": "a5bd1d8e6c8d0a5150f2dfb9413eb356d0b5a2025938a157737b72e060f03b9e",
+      "suggested_sha256": "341cb2c72fb81a9780c6fc4479e5b11b93e6134b5f159ae31d6edc8db34b53f1",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/file-roller.svg",
       "critique": "The zipper is a thin checkerboard stripe; the archive body reads as a flat blue folder.",
       "preserve": "Blue fabric archive and a working brass zipper.",
-      "proposal": "Enlarge the metal slider and alternate the teeth; reserve a seam for the binding and keep the body quiet."
+      "proposal": "A quieter rose archive with a coherent zipper slider, an open hinged pull and fewer, more readable teeth; decorative stitching removed.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "a5bd1d8e6c8d0a5150f2dfb9413eb356d0b5a2025938a157737b72e060f03b9e",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      },
+      "object_revision": {
+        "previous_sha256": "32865d56bb6a0e68242f14b85aa0490ad94d1580629ed5cf6ec8a8659de63189",
+        "reason": "A rose fabric archive with inserted file tabs, alternating zipper teeth and a metal slider with an open pull."
+      },
+      "construction_refinement": {
+        "previous_sha256": "9b1e869f1d5a3697da43bd7aa654c262b6821132249b705be9a11ac4e395c076",
+        "reason": "A quieter rose archive with a coherent zipper slider, an open hinged pull and fewer, more readable teeth; decorative stitching removed."
+      }
     },
     {
       "priority": 28,
       "id": "tweaks",
       "name": "Tweaks",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "3a0cedde287c9c572b9034b6f4131b1f455460a4be27fb11cfea678c58774bae",
       "review_selection_sha256": "c1fa73319f2cfa0230894d0c1b0fdc4fcd7ab4861d86f88edbc492ce20b150ec",
-      "suggested_sha256": "c1fa73319f2cfa0230894d0c1b0fdc4fcd7ab4861d86f88edbc492ce20b150ec",
+      "suggested_sha256": "7aa0b821a4f10280cfa57298ee7d83afc33eee95e92185fff7421b59d1696d59",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/tweaks.svg",
       "critique": "Many thin drawer highlights compete with the small tools; the handle and tools merge.",
       "preserve": "Coral toolbox, metal spanner, screwdriver and carrying handle.",
-      "proposal": "Lower the spanner and screwdriver into the dark tool tray; the front lip conceals their lower sections and the carrying handle remains tallest."
+      "proposal": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "c1fa73319f2cfa0230894d0c1b0fdc4fcd7ab4861d86f88edbc492ce20b150ec",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      }
     },
     {
       "priority": 29,
@@ -601,14 +684,19 @@
       "priority": 34,
       "id": "document-scanner",
       "name": "Document Scanner",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "b6e43253aab6f853e71a1d45a70e2d5b36f1fec89cc1cd8b7a256bf47c2ad66c",
       "review_selection_sha256": "07ad2b81b870da87675387afe6e0c06012145c75578e9535aed9fcc05ba8f90a",
-      "suggested_sha256": "07ad2b81b870da87675387afe6e0c06012145c75578e9535aed9fcc05ba8f90a",
+      "suggested_sha256": "e1676e1df58b6cd34ce7d3d74bab3fb4fa283e527871136da14bb88e20b4352d",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/document-scanner.svg",
       "critique": "The paper and turquoise backplate resemble a clipboard more than a scanner.",
       "preserve": "An ivory document feeding into a jade scanner.",
-      "proposal": "Separate the upright sheet, dark feed slot and low scanner chassis; retain one button."
+      "proposal": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "07ad2b81b870da87675387afe6e0c06012145c75578e9535aed9fcc05ba8f90a",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      }
     },
     {
       "priority": 35,
@@ -692,27 +780,53 @@
       "priority": 41,
       "id": "contacts",
       "name": "Contacts",
-      "decision": "Accepted",
+      "decision": "Refined after construction critique",
       "before_sha256": "5ad5491f899ecf8f17eccadc63e1b6ceea6076ada98219580db9b08c0fa99aa9",
       "review_selection_sha256": "ba57ee393f01c32522d47f8d98ead84e8ef6fcc536239f15fd36ee6cfcba323e",
-      "suggested_sha256": "ba57ee393f01c32522d47f8d98ead84e8ef6fcc536239f15fd36ee6cfcba323e",
+      "suggested_sha256": "d92e702a139ee21171b64fc2f060e55639aece738235bb7e7ca91b082441f9f0",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/contacts.svg",
       "critique": "The address-book body looks like a plain panel; tiny tabs are stronger than its binding.",
       "preserve": "Blue address book, ivory portrait and three coloured index tabs.",
-      "proposal": "Give the spine a clear cloth fold and narrow seam; keep the portrait simple and the tabs useful."
+      "proposal": "The bound address book retains its page edges and index tabs, with a clear ivory portrait directly on the cover.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "ba57ee393f01c32522d47f8d98ead84e8ef6fcc536239f15fd36ee6cfcba323e",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      },
+      "object_revision": {
+        "previous_sha256": "609e059952e22149e38fa1bcf391c9fc32a0669abda11b4bdb0b1217ae4fd54b",
+        "reason": "A bound violet address book with warm page edges, coloured index tabs and a jade portrait medallion."
+      },
+      "construction_refinement": {
+        "previous_sha256": "68b16efe0b3a84d7c9e201e5db018507744f29be1fe067edfb5f23a83bd7258e",
+        "reason": "The bound address book retains its page edges and index tabs, with a clear ivory portrait directly on the cover."
+      }
     },
     {
       "priority": 42,
       "id": "files",
       "name": "Files",
-      "decision": "Accepted",
+      "decision": "Refined after construction critique",
       "before_sha256": "d2e30280c0e17e0cf2e274f3f250015e53294e5b8ca5348c748a013a9c564356",
       "review_selection_sha256": "e020050041bebc1fac6c2ba1f55b1071451794412812edae87d53e2ccd5a72ca",
-      "suggested_sha256": "e020050041bebc1fac6c2ba1f55b1071451794412812edae87d53e2ccd5a72ca",
+      "suggested_sha256": "4f789acd24df40c2fbdf3cd05dc60fdd377bd30ba64ef2a168b98fc4cd5bcce1",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/files.svg",
       "critique": "Several paper edges and folder rims crowd the opening and soften the folder silhouette.",
       "preserve": "Warm tabbed folder with ivory papers and a front label.",
-      "proposal": "Use two paper sheets, one label and a single shallow lower/right fold."
+      "proposal": "The open folder retains its paper stack, folded lip and label; redundant gusset lines removed.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "e020050041bebc1fac6c2ba1f55b1071451794412812edae87d53e2ccd5a72ca",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      },
+      "object_revision": {
+        "previous_sha256": "292460e81ab5109c2d0063d9451688e63367ea9d6467537f502e7326f886431f",
+        "reason": "An open amber folder with a folded lip, visible gussets, coloured document tabs and an ivory label."
+      },
+      "construction_refinement": {
+        "previous_sha256": "c524999a8da44f5b2d0ed056b720843badcade3acf11f7a4397ca2e8490ad41a",
+        "reason": "The open folder retains its paper stack, folded lip and label; redundant gusset lines removed."
+      }
     },
     {
       "priority": 43,
@@ -1106,14 +1220,19 @@
       "priority": 72,
       "id": "disk-usage-analyzer",
       "name": "Disk Usage Analyzer",
-      "decision": "Accepted",
+      "decision": "Revised from final review feedback",
       "before_sha256": "31674aedf34a8fd68cec211272ec18be573c53b0928ddaeb4b8f8c078846158e",
       "review_selection_sha256": "8a7f5d3adb6db19deafacb8626566b6bbc2f57e755fb4f1a17778ebe56c7e616",
-      "suggested_sha256": "8a7f5d3adb6db19deafacb8626566b6bbc2f57e755fb4f1a17778ebe56c7e616",
+      "suggested_sha256": "cd1733ed670307b05f140bfada52d8fc9d6c2d114c6905c22779e99096177d4c",
       "output": "native/home/files/.local/share/icons/rose-punk/scalable/apps/disk-usage-analyzer.svg",
       "critique": "The pie chart does not convincingly communicate the application; the user requested a variation of Disks.",
       "preserve": "The accepted Disks housing, machined platter, copper actuator and physical proportions.",
-      "proposal": "Use the same hard-drive geometry with a jade housing and an integrated capacity strip in place of the connector. No pie chart."
+      "proposal": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments.",
+      "freshness_revision": {
+        "baseline_commit": "e0441dc4",
+        "previous_sha256": "8a7f5d3adb6db19deafacb8626566b6bbc2f57e755fb4f1a17778ebe56c7e616",
+        "reason": "Lift material highlights, remove grey-violet cream shading, and use cleaner subject-specific pigments."
+      }
     },
     {
       "priority": 73,

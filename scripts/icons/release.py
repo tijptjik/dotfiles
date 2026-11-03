@@ -20,9 +20,11 @@ def generated_outputs():
     import fleet
     import fullset
     import homepage
+    import command_icons
     icons, aliases = fullset.render()
     services = homepage.render()
     sprites = fleet.render(icons, services)
+    companions, companion_manifest = command_icons.render()
     return {
         PRIMARY / 'scalable/apps': icons,
         homepage.DEST: services,
@@ -31,6 +33,9 @@ def generated_outputs():
                                       indent=2) + '\n').encode(),
         HERE / 'theme-aliases.json': (json.dumps(aliases, indent=2, sort_keys=True) + '\n').encode(),
         ROOT / 'scripts/icons/icons32.json': sprites,
+        HERE / 'command-icons.json': (json.dumps(companion_manifest, indent=2) + '\n').encode(),
+        **{HERE / 'local' / name: data for name, data in companions.items()
+           if not name.startswith('symlink_')},
     }
 
 

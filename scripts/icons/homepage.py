@@ -21,6 +21,9 @@ _spec.loader.exec_module(frameless)
 
 
 def artwork(entry):
+    if entry.get('mode') == 'reviewed-svg':
+        from reviewed import read_svg
+        return read_svg(entry['geometry'], entry['sha256']).decode()
     source = HERE / entry['geometry']
     if hashlib.sha256(source.read_bytes()).hexdigest() != entry['sha256']:
         raise ValueError(f'Changed source without provenance update: {source}')

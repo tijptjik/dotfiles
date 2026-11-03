@@ -26,6 +26,7 @@ SHELLS = {'fish': ('Fish shell', [], 'Friendly jade fish with copper fins and a 
 
 def render():
     outputs, manifest = {}, {}
+    reviewed = json.loads((HERE / 'command-sources.json').read_text())
     entries = [('runtjik-'+key, key, value, 'control') for key, value in COMMANDS.items()]
     entries += [(key, key, value, 'shell') for key, value in SHELLS.items()]
     for icon, key, (name, commands, description), role in entries:
@@ -34,6 +35,11 @@ def render():
                   + '<rect id="tile" x="3" y="2" width="58" height="58"/>'
                   + command_artwork(key) + '</svg>')
         output, sizing = normalize(source)
+        if icon in reviewed:
+            from reviewed import read_svg
+            entry = reviewed[icon]
+            output = read_svg(entry['geometry'], entry['sha256']).decode()
+            sizing = {'reviewed_original': True}
         outputs[icon + '.svg'] = output.encode()
         outputs['symlink_rose-punk-' + icon + '.svg'] = (icon + '.svg\n').encode()
         manifest[icon] = {
@@ -43,6 +49,8 @@ def render():
             'license': 'Original artwork',
             'sha256': hashlib.sha256(output.encode()).hexdigest(), 'sizing': sizing,
         }
+        if icon in reviewed:
+            manifest[icon]['authored_in'] = 'scripts/icons/' + reviewed[icon]['geometry']
     return outputs, manifest
 
 

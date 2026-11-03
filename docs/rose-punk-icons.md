@@ -210,3 +210,13 @@ Fish body contains only the standard deferral guard; skipped nodes remain in
 the dependency graph. Host predicates remain in the Tjikup templates.
 Obsidian is client-only, llmtrim desktop-only, and Codex LB client-only; an
 explicit `SKIP ... client only` result is retained when a hook emits one.
+
+### Approved review originals
+
+Accepted, already sized illustrations live in `scripts/icons/local/reviewed/`.
+The `reviewed-svg` catalog mode verifies their provenance hash and preserves
+the exact SVG bytes in desktop and Homepage outputs. It deliberately bypasses
+material overlays, recolouring and a second normalization. Companion shell
+artwork uses the same contract through `command-sources.json`. Keep upstream
+sources and their attribution when promoting a review original. Local study
+sheets are review artifacts, never build dependencies.

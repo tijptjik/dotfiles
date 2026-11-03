@@ -108,7 +108,13 @@ def render():
     outputs = {}
     original={**ART,**EXTRA}
     config, _, _, _, family, recolor, adapted = load_palette()
+    from reviewed import read_svg
+    provenance = json.loads((HERE / 'provenance.json').read_text())
     for key,entry in catalog.items():
+        if entry['mode'] == 'reviewed-svg':
+            outputs[f'{key}.svg'] = read_svg(entry['geometry'], provenance[key]['sha256'])
+            outputs[f'symlink_rose-punk-{key}.svg'] = (key + '.svg\n').encode()
+            continue
         authored = material_artwork(key)
         if authored is not None:
             output = original_icon(key, '').replace('</svg>', authored + '</svg>')

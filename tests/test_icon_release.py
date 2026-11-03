@@ -142,6 +142,28 @@ class IconReleaseTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'invalid icon source'):
                 icon_data.source_file('../outside.svg')
 
+    def test_reviewed_source_preserves_bytes_and_rejects_invalid_content(self):
+        import hashlib
+        import reviewed
+        import homepage
+        valid = b'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path fill="#df77ac" d="M4 4h50v50H4z"/></svg>\n'
+        with tempfile.TemporaryDirectory() as temporary, patch.object(icon_data, 'HERE', Path(temporary)):
+            source = Path(temporary) / 'source.svg'
+            source.write_bytes(valid)
+            digest = hashlib.sha256(valid).hexdigest()
+            self.assertEqual(reviewed.read_svg('source.svg', digest), valid)
+            self.assertEqual(homepage.artwork({'mode': 'reviewed-svg',
+                'geometry': 'source.svg', 'sha256': digest}).encode(), valid)
+            with self.assertRaisesRegex(ValueError, 'provenance'):
+                reviewed.read_svg('source.svg', 'wrong')
+            for content in [b'<image href="remote.png"/>', b'<use href="#missing"/>',
+                            b'<path fill="url(#missing)"/>', b'<script/>',
+                            b'<path onclick="alert(1)"/>', b'<rect id="tile"/>']:
+                bad = valid.replace(b'</svg>', content + b'</svg>')
+                source.write_bytes(bad)
+                with self.subTest(content=content), self.assertRaises(ValueError):
+                    reviewed.read_svg('source.svg', hashlib.sha256(bad).hexdigest())
+
     def test_failed_render_does_not_change_generated_outputs(self):
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / 'app.svg'

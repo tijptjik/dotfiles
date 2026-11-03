@@ -118,6 +118,33 @@ hyprctl reload config-only
 hyprctl configerrors
 ```
 
+Tjikup runs `home:hyprland-scrolling-gaps:update` after RPM updates on desktop
+and laptop hosts subscribed to `system:rpm`. It compares the installed Hyprland
+ABI, plugin sources and installed binary checksum against a successful build
+receipt. Unchanged builds are reused. Missing or changed builds use exact-version
+development RPMs extracted into the user cache, without installing system packages.
+The existing RPM policy supplies the compiler and ordinary build dependencies.
+A failed download or compilation leaves the installed plugin intact and fails the
+recipe so a later run retries. The prior binary is kept as `.so.previous` for recovery.
+
+The helper loads the result only when the current compositor ABI matches the
+installed version. If RPM updates leave an older compositor running, it preserves
+that session and reports that logout/login is needed; the Lua loader then loads
+the rebuilt plugin. No compositor restart or broad configuration reload is performed.
+Loading failure restores the previous binary when available and reports failure.
+Source compatibility errors after a future Hyprland API change still require a code
+fix; automatic rebuilding does not bypass the plugin's ABI guard.
+
+For a focused repair without running unrelated update recipes:
+
+```sh
+bash ~/code/dotjik/native/helpers/home/hyprland-scrolling-gaps.sh
+```
+
+`--check` is read-only and checks the build receipt and binary; the normal command
+also reconciles activation. Receipts, cached SDKs and the build lock live under
+`${XDG_CACHE_HOME:-~/.cache}/tjikup/scrolling-gaps/`.
+
 The build helper also accepts `SCROLLING_GAPS_SDK_DIR`, an extracted development-RPM
 root containing `usr/include`, and an optional output `.so` path. It replaces the
 binary atomically. `plugins.lua` loads `~/.local/lib/hypr/scrolling-gaps-local.so` when

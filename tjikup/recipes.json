@@ -3550,6 +3550,7 @@
         "home:codex-lb:update:verify",
         "home:files",
         "home:greetjik:update",
+        "home:hyprland-scrolling-gaps:update",
         "home:llmtrim-install:update",
         "home:notjik:update",
         "home:notjik:update:verify",
@@ -3600,6 +3601,38 @@
         "section": "Verification",
         "icon": "Storage",
         "reports": true
+      }
+    },
+    {
+      "id": "home:hyprland-scrolling-gaps:update",
+      "label": "Hyprland scrolling gaps",
+      "operation": "update",
+      "scope": "home",
+      "application": "hyprland-scrolling-gaps",
+      "ecosystem": "custom",
+      "part_of": "system:rpm",
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "needs": [
+        "system:rpm:update"
+      ],
+      "after": [
+        "home:files"
+      ],
+      "resources": [
+        "dnf",
+        "hyprland-plugins"
+      ],
+      "apply": [
+        "bash",
+        "$DOTJIK_REPO/native/helpers/home/hyprland-scrolling-gaps.sh"
+      ],
+      "timeout": 1800,
+      "display": {
+        "section": "Package updates",
+        "icon": "Hyprland"
       }
     }
   ]

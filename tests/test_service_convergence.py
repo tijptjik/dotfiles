@@ -57,9 +57,14 @@ elif cmd == 'nft':
     else:
         print(json.dumps({'nftables':[{'metainfo':{'version':'fixture'}}, {'rule':{'handle':s.get('handle', 1), 'expr':[{'policy':s.get('policy')}, {'counter':{'packets':s.get('packets', 0), 'bytes':42}}]}}]}))
 elif cmd == 'ip':
-    dst = '100.64.0.0/10' if '-4' in a else 'fd7a:115c:a1e0::/48'
-    rules = [{'priority':5100, 'dst':dst, 'table':52}] if s.get('routes') else []
-    if s.get('legacy'): rules.append({'priority':5197, 'dst':dst, 'table':52})
+    # iproute2 emits separate destination and prefix-length fields, and names
+    # numeric routing tables with strings. Match the actual Fi output shape.
+    family = '4' if '-4' in a else '6'
+    dst, prefix = ('100.64.0.0', 10) if family == '4' else ('fd7a:115c:a1e0::', 48)
+    if s.get('bad_prefix') == family: prefix += 1
+    rule = {'src':'all', 'dst':dst, 'dstlen':prefix, 'table':'52'}
+    rules = [dict(rule, priority=5100)] if s.get('routes') else []
+    if s.get('legacy'): rules.append(dict(rule, priority=5197))
     print(json.dumps(rules))
 elif cmd == 'resolvectl':
     values = {'dns':'100.85.220.100', 'domain':'~tailb49776.ts.net tjik.internal', 'default-route':'no'}
@@ -134,6 +139,17 @@ class TailnetConvergence(Fixtures):
         self.converge('dns')
         self.change(**{'tailnet-dns.timer': {'UnitFileState':'enabled', 'ActiveState':'inactive'}})
         self.converge('timer')
+
+    def test_ipv4_and_ipv6_prefix_lengths_are_checked(self):
+        self.converge('routing')
+        before = self.trace.read_text()
+        for family in ('4', '6'):
+            with self.subTest(family=family):
+                self.change(bad_prefix=family)
+                self.run_script(self.script, '--check', 'routing', expected=1)
+                self.change(bad_prefix=None)
+                self.run_script(self.script, '--check', 'routing')
+        self.assertEqual(self.trace.read_text(), before)
 
     def test_probe_errors_do_not_apply(self):
         for component in ('policy', 'routing', 'dns', 'timer'):

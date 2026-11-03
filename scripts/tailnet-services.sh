@@ -43,18 +43,18 @@ policy_digest() {
     } | sha256sum
 }
 routing_check() {
-    local family destination rules digest
+    local family destination prefix rules digest
     enabled tailnet-mullvad.service || return $?
     active tailnet-mullvad.service || return $?
     loaded tailnet-mullvad.service || return $?
     digest=$(unit_digest tailnet-mullvad.service) || return 2
     [[ -f "$state/routing" && "$(cat "$state/routing")" == "$digest" ]] || return 1
     for family in 4 6; do
-        destination=100.64.0.0/10
-        [[ "$family" == 4 ]] || destination=fd7a:115c:a1e0::/48
+        destination=100.64.0.0; prefix=10
+        if [[ "$family" == 6 ]]; then destination=fd7a:115c:a1e0::; prefix=48; fi
         rules=$(probe ip -j -"$family" rule show) || return 2
-        predicate --arg dst "$destination" '
-          [.[] | select(.dst == $dst and (.table | tostring) == "52") |
+        predicate --arg dst "$destination" --argjson prefix "$prefix" '
+          [.[] | select(.dst == $dst and .dstlen == $prefix and (.table | tostring) == "52") |
             select(.priority == 5100 or .priority == 5180 or .priority == 5197 or .priority == 5200)] |
           length == 1 and .[0].priority == 5100' <<< "$rules" || return $?
     done

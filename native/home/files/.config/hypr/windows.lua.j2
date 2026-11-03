@@ -15,6 +15,19 @@
 
 local widths = require("scrolling_widths")
 
+-- Ordinary launches belong to the regular workspace behind the special overlay.
+-- m+0 resolves that workspace on the focused monitor, including named workspaces.
+-- Keep this before app rules so explicit destinations still take precedence.
+-- Dedicated app dialogs retain their parent's special workspace as well.
+hl.window_rule({
+    name = "ordinary-apps-behind-special",
+    workspace = "m+0 silent",
+    match = {
+        workspace = "s[true]",
+        initial_class = "negative:^(Chatgpt|org[.]telegram[.]desktop.*|com[.]rtosta[.]zapzap|org[.]signal[.]Signal)$",
+    },
+})
+
 -- SMART GAPS
 hl.window_rule({
     name = "smart-gaps",

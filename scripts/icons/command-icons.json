@@ -234,7 +234,13 @@
     "license": "Original artwork",
     "sha256": "b8b82c69d41eb21d79888706ff0ba33dc2078014499c61c7e76b77e5ef535267",
     "sizing": {
-      "reviewed_original": true
+      "reviewed_original": true,
+      "result_bounds": [
+        4.0,
+        8.875,
+        60.0,
+        55.0
+      ]
     }
   }
 }

@@ -220,3 +220,10 @@ material overlays, recolouring and a second normalization. Companion shell
 artwork uses the same contract through `command-sources.json`. Keep upstream
 sources and their attribution when promoting a review original. Local study
 sheets are review artifacts, never build dependencies.
+
+The accepted seven-batch decisions and final contour corrections are recorded
+in `scripts/icons/review-selections.json`. Regenerate the complete local review
+with `python3 -B scripts/icons/consistency_review.py` after a release build/check.
+It checks selected output hashes, renders five sizes on four surfaces, and
+compares the unchanged framed transforms without recording release sign-off.
+Chezmoi and Chezetc appear under configuration, outside the Tjik family.

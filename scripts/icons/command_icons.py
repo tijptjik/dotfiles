@@ -39,7 +39,12 @@ def render():
             from reviewed import read_svg
             entry = reviewed[icon]
             output = read_svg(entry['geometry'], entry['sha256']).decode()
-            sizing = {'reviewed_original': True}
+            from frameless import render
+            bounds = render(output, 512).getchannel('A').getbbox()
+            if bounds is None:
+                raise ValueError(f'Empty reviewed artwork: {icon}')
+            sizing = {'reviewed_original': True,
+                      'result_bounds': [value / 8 for value in bounds]}
         outputs[icon + '.svg'] = output.encode()
         outputs['symlink_rose-punk-' + icon + '.svg'] = (icon + '.svg\n').encode()
         manifest[icon] = {

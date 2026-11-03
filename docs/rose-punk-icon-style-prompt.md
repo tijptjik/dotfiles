@@ -96,14 +96,15 @@ the original-icon review. Deployment is separate from generating the review.
 
 ## Active scope and revision 2
 
-The active catalog contains 142 apps, services and workflow entries, including fifteen
-approved ArtCraft icons and four
-workflow revisions awaiting review and approved Bitwarden/bookmarks additions. `scripts/icons/retired.json`
-archives 13 retired/unused entries; do not add them back when making a new study.
-Their source artwork and frozen snapshots are historical, not active choices.
-The revised clean forms are self-contained in `local/*.svg` with
-`data-material="authored"`, so the generic shading pass does not reintroduce the
-rejected glints or bevels. `rose-punk-refinements.svg` shows the active revisions.
+The active desktop catalog contains 142 entries. Together with the distinct
+Homepage services and Fish shell, the seven accepted review batches cover 167
+icons. `scripts/icons/retired.json` archives retired/unused entries; do not add
+them back when making a new study. Their sources remain historical inputs.
+Accepted normalized revisions live in `local/reviewed/*.svg` with the
+`reviewed-svg` build mode: verify provenance and preserve their exact bytes,
+without another shading or sizing pass. `review-selections.json` records all
+167 final decisions, including the 31 unchanged originals. Chezmoi and Chezetc
+share cyan/red house geometry in the configuration family, outside Tjik.
 Codex uses the attributed Lobe Icons vector in `upstream/codex-lobe.svg`.
 
 ## Google family, Herdr and Brave

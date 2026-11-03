@@ -44,7 +44,7 @@ class RosePunkIconsTests(unittest.TestCase):
             rendered = ET.parse(folder / f'{key}.svg').getroot()
             nested = rendered.find('.//{*}svg')
             self.assertEqual(nested.get('width'), '48')
-            self.assertEqual(nested.get('stroke-width'), '2')
+            self.assertEqual(nested.get('stroke-width'), '1.8' if key == 'oo7' else '2')
             self.assertEqual([n.get('d') for n in expected.iter() if n.tag.endswith('}path')],
                              [n.get('d') for n in nested.iter() if n.tag.endswith('}path')])
 

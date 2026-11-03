@@ -17,22 +17,22 @@ class IconPaletteTests(unittest.TestCase):
             colors = {c.lower() for c in re.findall(r'#[0-9a-fA-F]{6}', (folder / f'{key}.svg').read_text())}
             with self.subTest(icon=key):
                 self.assertFalse(colors.intersection(config['paint_overrides']))
-        # Local scanner paint must resolve before material shading.
-        for key in ('document-scanner',):
-            text = (folder / f'{key}.svg').read_text()
-            self.assertIn(config['paint_overrides']['#31748f'], text)
 
-    def test_spotify_and_audio_player_share_the_requested_mint_material(self):
+    def test_music_icons_keep_jade_surfaces_and_ivory_functional_marks(self):
+        import colorsys
         folder = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
-        spotify = ET.parse(folder / 'spotify.svg')
-        audio = ET.parse(folder / 'audio-player.svg')
-        badge = spotify.find('.//{*}circle')
-        mark = spotify.find('.//{*}path')
-        # User selected the lighter shared music palette; the former dark-jade
-        # 3:1 requirement no longer describes the requested artwork.
-        gradient = spotify.find(f".//*[@id='{badge.get('fill')[5:-1]}']")
-        audio_gradient = audio.find(".//*[@id='mint-clean']")
-        self.assertEqual([(n.get('offset', '0'), n.get('stop-color')) for n in gradient],
-                         [(n.get('offset', '0'), n.get('stop-color')) for n in audio_gradient])
-        self.assertEqual(mark.get('stroke'), '#fff5e9')
-        self.assertGreaterEqual(float(mark.get('stroke-width')), 3)
+        # The accepted music revisions use related jade ramps, with different
+        # shading for Spotify's badge and Audio Player's physical object.
+        for key, shape in [('spotify', 'circle'), ('audio-player', 'path')]:
+            root = ET.parse(folder / f'{key}.svg')
+            fill = root.find(f'.//{{*}}{shape}').get('fill')
+            stops = root.findall(f".//*[@id='{fill[5:-1]}']/{{*}}stop")
+            self.assertTrue(stops)
+            for stop in stops:
+                color = stop.get('stop-color')
+                rgb = [int(color[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+                hue, _, _ = colorsys.rgb_to_hsv(*rgb)
+                self.assertTrue(0.35 < hue < 0.55, (key, color))
+            marks = [n for n in root.iter() if n.get('fill') == '#fff0da'
+                     or n.get('stroke') == '#fff0da']
+            self.assertTrue(marks, key)

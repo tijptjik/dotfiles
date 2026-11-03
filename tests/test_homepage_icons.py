@@ -35,7 +35,11 @@ class HomepageIconTests(unittest.TestCase):
                 self.assertEqual((DEST / f'{key}.svg').read_text(), homepage.artwork(entry))
                 self.assertEqual(hashlib.sha256((HERE / entry['geometry']).read_bytes()).hexdigest(), entry['sha256'])
                 if 'theme_key' in entry:
-                    self.assertEqual(entry['geometry'], f"local/{entry['theme_key']}.svg")
+                    catalog = json.loads((HERE / 'catalog.json').read_text())
+                    self.assertEqual(entry['geometry'], catalog[entry['theme_key']]['geometry'])
+                    desktop = ROOT / 'native/home/files/.local/share/icons/rose-punk/scalable/apps'
+                    self.assertEqual((DEST / f'{key}.svg').read_bytes(),
+                                     (desktop / (entry['theme_key'] + '.svg')).read_bytes())
                 else:
                     self.assertRegex(entry['reference_sha256'], r'^[a-f0-9]{64}$')
                 if 'reference' in entry:

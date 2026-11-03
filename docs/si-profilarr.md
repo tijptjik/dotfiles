@@ -7,7 +7,7 @@ https://profiles.type.hk through host loopback port 6868. Cloudflare requires a
 proxied CNAME `profiles` → `type.hk`, with the existing origin TLS settings.
 
 The owner username is `admin`. The generated password and runtime API key are
-saved in Bitwarden Secrets Manager, `dotfiles` / `si-profilarr`. Never commit
+saved in Bitwarden Secrets Manager, `dotfiles` / `SI_PROFILARR_CREDENTIALS`. Never commit
 those values. The runtime API key is loaded from
 `/mnt/storage/meta/appData/profilarr/runtime.env`; a fresh host restores this
 file and Profilarr state from the normal encrypted application backup.

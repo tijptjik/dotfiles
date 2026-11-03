@@ -113,7 +113,7 @@ and verification protect against overlapping runs and failed uploads. The first
 backup must transfer the baseline and can take hours for large media folders.
 
 The password is recoverable from Bitwarden Secrets Manager as
-`PRIVATE_RESTIC_PASSWORD`. Losing that secret prevents restoration.
+`SYNCTIJK_RESTIC_PRIVATE_PASSWORD`. Losing that secret prevents restoration.
 
 ```sh
 private-storage backup
@@ -133,7 +133,7 @@ Docs, Sheets, Slides, and Drawings to
 keeping a persistent plaintext mirror, and backs them up to
 `/mnt/storage/private/backups/google-drive`. Each source is tagged
 and retained independently at **1 daily, 1 weekly, and 1 monthly** snapshot.
-The repository is encrypted with `PRIVATE_RESTIC_PASSWORD`, checked after
+The repository is encrypted with `SYNCTIJK_RESTIC_PRIVATE_PASSWORD`, checked after
 backup, and pruned only after the checks succeed. A failed transfer or empty
 Drive source fails closed and records a failure receipt. The transient mount
 lives in Si's user runtime directory and
@@ -206,8 +206,8 @@ private per-user runtime directory and starting the mount. It is not mounted
 at login. Password protection controls local unlocking; an account already
 permitted to read the Bitwarden recovery secret can also recover the key.
 
-Bitwarden holds `RCLONE_GOOGLE_DRIVE_CONFIG`, `RCLONE_CRYPT_RECOVERY_CONFIG`, and
-`PRIVATE_RESTIC_PASSWORD`. Tjikup creates the normal Drive configuration only
+Bitwarden holds `RCLONE_GOOGLE_DRIVE_CONFIG`, `SYNCTIJK_RCLONE_CRYPT_RECOVERY_CONFIG`, and
+`SYNCTIJK_RESTIC_PRIVATE_PASSWORD`. Tjikup creates the normal Drive configuration only
 when the local file is absent, and renders the Restic password into an
 owner-only managed file; the crypt recovery key is not rendered in plaintext at
 rest. This lets rclone persist routine OAuth token refreshes without Tjikup

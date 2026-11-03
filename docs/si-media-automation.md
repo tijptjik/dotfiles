@@ -134,7 +134,7 @@ run. LazyLibrarian's API was disabled and had no configured key; a dedicated key
 was configured in both applications, and its authenticated API and Prowlarr test
 pass. These app settings are in encrypted application backups, not Git.
 The dedicated key is also saved and verified in Bitwarden Secrets Manager's
-`dotfiles` project as `si-lazylibrarian-api-key`. After the repair and health
+`dotfiles` project as `SI_LAZYLIBRARIAN_API_KEY`. After the repair and health
 refresh, Prowlarr and Bookshelf both reported no health warnings.
 
 Lidarr's actual Tidal configuration is `/data/tidal-config`, not the stale
@@ -187,7 +187,7 @@ apply hook atomically copies them into Prowlarr's existing appData mount after
 storage is available; it leaves credentials and connection settings alone.
 Credentials are private at `/config/notifications/telegram.json` in the container,
 covered by encrypted application backups and verified in Bitwarden Secrets
-Manager (`dotfiles` / `si-prowlarr-telegram`), outside Git. See the source README
+Manager (`dotfiles` / `SI_PROWLARR_TELEGRAM_CONFIG`), outside Git. See the source README
 for restoration and offline previews. Fi/li skip deployment.
 
 The provider's Test action verifies its Telegram destination without posting.

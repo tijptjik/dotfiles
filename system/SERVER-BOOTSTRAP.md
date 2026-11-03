@@ -192,7 +192,7 @@ does not start sync/scrub or restore secrets, and reports a skip without credent
 
 The root-only `/etc/si-notifications/telegram.json` is deliberately unmanaged. Its
 JSON value is saved in Bitwarden Secrets Manager, project `dotfiles`, key
-`si-snapraid-telegram`, and in encrypted `/etc` backups. Restore it with root
+`SI_SNAPRAID_TELEGRAM_CONFIG`, and in encrypted `/etc` backups. Restore it with root
 ownership, directory mode 0700 and file mode 0600 before enabling alerts. On a
 fresh recovery, `synctjik app-restore install --include /etc/si-notifications` is allowlisted
 and retains the same empty-destination and stopped-service checks; never overwrite

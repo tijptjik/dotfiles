@@ -13,7 +13,7 @@ container (host: `/mnt/storage/meta/appData/prowlarr/notifications/telegram.json
 It contains `bot_token`, `chat_id`, optional `topic_id`, and `send_silently`.
 Keep it mode 0600, owned by Prowlarr's runtime UID; never add it to Git. It is
 included in encrypted application backups and saved in Bitwarden Secrets Manager,
-project `dotfiles`, key `si-prowlarr-telegram`.
+project `dotfiles`, key `SI_PROWLARR_TELEGRAM_CONFIG`.
 
 The existing connection retains its Grab and Application Update event selections,
 same bot/chat and silent delivery. Test verifies the Telegram destination without

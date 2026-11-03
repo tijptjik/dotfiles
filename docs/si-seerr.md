@@ -78,7 +78,7 @@ Telegram uses the existing `@starprowlarr_bot` and the same chat as Prowlarr.
 The enabled native agent embeds posters and sends silently. All request lifecycle
 and issue events shown in Seerr's notification settings are enabled. The topic
 field is empty for the existing private chat. Its bot token and chat ID are
-restorable from Bitwarden Secrets Manager, `dotfiles` / `si-prowlarr-telegram`:
+restorable from Bitwarden Secrets Manager, `dotfiles` / `SI_PROWLARR_TELEGRAM_CONFIG`:
 map `bot_token` to Bot Authorization Token and `chat_id` to Chat ID. Bot Username
 is `starprowlarr_bot`. Credentials remain in application state and encrypted
 backups, outside Git. A native Seerr test notification was delivered on October 22.
@@ -91,7 +91,7 @@ migrated using the same approved map as the Arr libraries. See
 profile-migration procedure. All legacy profiles have been removed from Arr.
 
 Service keys and Plex authentication belong in application state and Bitwarden,
-never Git. The generated key is saved as `si-seerr-api-key` in the Bitwarden
+never Git. The generated key is saved as `SI_SEERR_API_KEY` in the Bitwarden
 Secrets Manager `dotfiles` project. Seerr settings and its SQLite database are
 included in the existing encrypted daily appData backups and fi offsite copies. Rebuildable Seerr logs and
 cache are excluded. The application is paused alongside the other acquisition

@@ -188,7 +188,7 @@ An owner-only document on fi, `~/.config/si-app-backup/RECOVERY-KEYS.txt`,
 contains both independent repository passwords and basic recovery instructions.
 On October 22, both current repository passwords and the recovery instructions
 were saved to Bitwarden Secrets Manager, project `dotfiles`, secret
-`si-app-backup-recovery-keys`. The saved value was fetched and compared with the
+`SI_APP_BACKUP_RECOVERY_KEYS`. The saved value was fetched and compared with the
 owner-only document. This is a Secrets Manager entry, not a personal-vault secure
 note; recovery requires access to that project. The document is outside version
 control; do not put it in public downloads or commit it. Passwords alone are

@@ -1,5 +1,9 @@
 # Credential store
 
+Use `UPPER_SNAKE_CASE` display names and stable UUID references for Bitwarden
+operational entries. See the [naming convention and usage inventory](bitwarden-naming.md)
+for the reviewed names, consumers, and recovery records.
+
 Fedora 45 adopted [oo7 as the replacement for GNOME Keyring](https://fedoraproject.org/wiki/Changes/oo7_Secrets_Service_Provider).
 The `97-secret-service.fish` Tjikup hook installs `oo7-daemon`, `pam_oo7`, and
 `oo7-portal` on fi, li, and si. It removes the superseded `gnome-keyring` and

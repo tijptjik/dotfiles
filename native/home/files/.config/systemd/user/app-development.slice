@@ -1,0 +1,9 @@
+[Unit]
+Description=Development workloads (editors, agents and validation)
+
+[Slice]
+MemoryAccounting=yes
+MemoryHigh=50%
+MemoryMax=60%
+MemorySwapMax=2G
+CPUWeight=50

@@ -7,7 +7,7 @@ function bun --description 'Run Bun and its children in a memory-limited scope'
     # Preserve the terminal, environment, working directory and exit status.
     # Absolute-path Bun invocations and existing services are unaffected.
     command systemd-run --user --scope --quiet --collect \
-        --slice=app.slice --expand-environment=no \
+        --slice=app-development.slice --expand-environment=no \
         -p MemoryHigh=16G -p MemoryMax=24G -p MemorySwapMax=2G \
         -p OOMPolicy=kill -- "$executable" $argv
 end

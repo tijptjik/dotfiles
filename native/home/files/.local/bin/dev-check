@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# One heavy validation tree per user, across repositories and shells.
+set -euo pipefail
+if (( $# == 0 )); then
+    echo 'Usage: dev-check COMMAND [ARG ...]' >&2
+    exit 64
+fi
+# Nested package scripts already belong to the locked validation tree.
+if [[ ${DOTJIK_DEV_CHECK:-} == 1 ]]; then
+    exec "$@"
+fi
+: "${XDG_RUNTIME_DIR:?dev-check requires a user runtime directory}"
+export DOTJIK_DEV_CHECK=1
+exec flock --exclusive --close "$XDG_RUNTIME_DIR/dotjik-dev-check.lock" \
+    systemd-run --user --scope --quiet --collect --expand-environment=no \
+    --slice=app-development.slice \
+    -p MemoryHigh=15% -p MemoryMax=25% -p MemorySwapMax=512M \
+    -p CPUQuota=400% -p OOMPolicy=kill -- "$@"

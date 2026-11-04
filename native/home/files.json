@@ -6490,5 +6490,19 @@
     "group": "base",
     "kind": "symlink",
     "target": "wordcraft.svg"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/dev-check",
+    "kind": "file",
+    "source": "files/.local/bin/dev-check",
+    "mode": "0755",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/app-development.slice",
+    "kind": "file",
+    "source": "files/.config/systemd/user/app-development.slice",
+    "mode": "0644",
+    "group": "base"
   }
 ]

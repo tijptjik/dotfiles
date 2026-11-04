@@ -84,3 +84,48 @@ end
 '''
         subprocess.run(['lua', '-', str(ROOT / 'native/home/files/.config/hypr/scrolling_widths.lua')],
                        input=script, text=True, check=True)
+
+    def test_routed_startup_width_is_applied_once(self):
+        script = r'''
+local events, timer, actions = {}, nil, {}
+local a={name='A',active_workspace={id=1}}
+local b={name='B',active_workspace={id=11}}
+local original={mapped=true}
+local w={address='new',mapped=true,floating=false,workspace={id=1},monitor=a,
+    fullscreen=0,fullscreen_client=0,tags={'arrival-width-1*'},
+    layout={name='scrolling',column={width=.5}}}
+local windows={}
+package.preload.scrolling_gaps=function() return {
+    update=function() end,
+    resize=function(width) w.layout.column.width=width;actions[#actions+1]=width end,
+} end
+hl={window_rule=function() end,get_windows=function() return windows end,
+    get_active_window=function() return original end,get_active_monitor=function() return a end,
+    get_cursor_pos=function() return {x=17,y=23} end,
+    exec_scheduled_prop_refresh_immediately=function()
+        w.monitor=b;w.workspace=b.active_workspace
+        w.tags={'arrival-width-1*','arrival-width-2*'}
+    end,
+    on=function(event,callback) events[event]=callback;return {} end,
+    timer=function(callback) timer=callback;return {} end,
+    dsp={focus=function(target) return target end,cursor={move=function(pos) return pos end}},
+    dispatch=function(action) actions[#actions+1]=action end}
+local widths=dofile(arg[1])
+widths.rule({match={class='kitty'},scrolling_width=.5})
+widths.rule({match={class='kitty',workspace='m[B]'},scrolling_width=1})
+widths.start()
+windows={w};events['window.open'](w)
+assert(#actions==0) -- Wait until routing and native rule tags have settled.
+timer()
+assert(w.layout.column.width==1)
+assert(actions[1].window==w and actions[2]==1)
+assert(actions[3].window==original and actions[4].x==17 and actions[4].y==23)
+w.layout.column.width=.75;actions={}
+widths.refresh();events['window.move_to_workspace']();timer()
+assert(#actions==0 and w.layout.column.width==.75) -- Preserve later manual resizing.
+-- A window closed before the callback must not be resized.
+events['window.open'](w);events['window.close'](w);windows={};timer()
+assert(#actions==0)
+'''
+        subprocess.run(['lua', '-', str(ROOT / 'native/home/files/.config/hypr/scrolling_widths.lua')],
+                       input=script, text=True, check=True)

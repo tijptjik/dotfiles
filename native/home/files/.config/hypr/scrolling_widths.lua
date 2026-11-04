@@ -2,6 +2,7 @@
 local widths = {}
 local policies, monitors, subscriptions = {}, {}, nil
 local pending
+local opened = {}
 
 function widths.rule(rule)
     local handle = hl.window_rule(rule)
@@ -37,16 +38,18 @@ local function normal(window)
 end
 
 function widths.refresh()
-    -- Move events fire before the compositor finishes attaching the new layout.
+    -- Open/move events fire before the compositor finishes attaching the new layout.
     -- The next event-loop turn sees the final monitor, column and matching rules.
     hl.exec_scheduled_prop_refresh_immediately()
     for _, window in ipairs(hl.get_windows()) do
+        local newly_opened = opened[window.address]
+        opened[window.address] = nil
         if normal(window) then
             local address, monitor = window.address, window.monitor.name
             local previous = monitors[address]
             monitors[address] = monitor
             local layout = window.layout
-            if previous and previous ~= monitor and layout and layout.name == "scrolling"
+            if (newly_opened or (previous and previous ~= monitor)) and layout and layout.name == "scrolling"
                 and layout.column and window.fullscreen == 0 and window.fullscreen_client == 0 then
                 local width = desired(window)
                 if width and math.abs(layout.column.width - width) > 0.001 then
@@ -101,9 +104,15 @@ function widths.start()
     end
     subscriptions = {
         hl.on("window.open", function(window)
-            if normal(window) then monitors[window.address] = window.monitor.name end
+            -- Routing can resolve after the initial scrolling width was chosen.
+            -- Recheck once on the final output; later manual widths stay intact.
+            opened[window.address] = true
+            schedule()
         end),
-        hl.on("window.close", function(window) monitors[window.address] = nil end),
+        hl.on("window.close", function(window)
+            monitors[window.address] = nil
+            opened[window.address] = nil
+        end),
         hl.on("window.move_to_workspace", schedule),
         hl.on("workspace.move_to_monitor", schedule),
     }

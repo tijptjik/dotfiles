@@ -86,6 +86,10 @@
   "state": "/var/lib/si-snapraid-maintenance",
   "lock": "/run/lock/si-snapraid-maintenance.lock",
   "backup_lock": "/run/lock/si-app-backup.lock",
+  "coordination_locks": [
+    "/home/m/.local/state/drive-restic/operation.lock",
+    "/mnt/storage/private/backups/clients/.coordination/backup.lock"
+  ],
   "log_dir": "/var/log/si-snapraid-maintenance",
   "snapraid_config": "/etc/snapraid.conf",
   "scrub_percent": 25,

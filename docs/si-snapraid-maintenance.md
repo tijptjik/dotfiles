@@ -13,7 +13,9 @@ Sync checks the diff and stops if over 200 files are removed, or if the diff fai
 
 Running, unpaused media-writing containers are paused during diff/sync and resumed afterward. Containers already stopped or paused are left alone. Pause ownership is recorded persistently; ExecStopPost and a boot recovery service restore only containers paused by this workflow if a run is interrupted. Read-only media serving stays available. The external VIDEO transfer into meta/downloads is excluded from parity and is not paused. Direct writes to protected media paths should be avoided during a sync; detected file changes can make the run fail.
 
-Scrub does not pause applications. This is periodic integrity sampling, not backup or automatic repair. A recorded scrub failure blocks subsequent automatic sync until investigation and a successful scrub clear it.
+Scrub holds the maintenance, application-backup, Drive-backup and client-backup coordination locks, then pauses the configured media writers. With no recorded scrub failure, it first performs a normal guarded sync and then the configured scrub without resuming writers between them. The same removal limits and exact-list approvals apply. Writers resume on completion or failure; persistent pause ownership and ExecStopPost cover interruption. Read-only serving remains available, but paused applications are unavailable during the run.
+
+This is periodic integrity sampling, not backup or automatic repair. A recorded scrub failure still blocks sync; a scrub retry verifies existing parity without syncing first. Investigate missing-file failures before retrying. A diff/sync refusal records a sync failure, not a scrub failure.
 
 ## Check status (Fish-compatible)
 

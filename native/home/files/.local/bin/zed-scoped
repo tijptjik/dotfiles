@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Keep the editor and its agent children out of the compositor service.
+set -euo pipefail
+channel=${1:?Usage: zed-scoped stable|preview [ARG ...]}
+shift
+case "$channel" in
+    stable) editor="$HOME/.local/zed.app/bin/zed" ;;
+    preview) editor="$HOME/.local/zed-preview.app/bin/zed" ;;
+    *) exit 64 ;;
+esac
+exec uwsm app -s app-development.slice \
+    -p MemoryHigh=30% -p MemoryMax=40% -p MemorySwapMax=1G \
+    -p OOMPolicy=kill -- "$editor" "$@"

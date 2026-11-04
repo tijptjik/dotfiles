@@ -2032,8 +2032,9 @@
   },
   {
     "path": "{{ user.home }}/.local/bin/zed-preview",
-    "kind": "symlink",
-    "target": "{{ user.home }}/.local/zed-preview.app/bin/zed",
+    "kind": "file",
+    "source": "files/.local/bin/zed-preview",
+    "mode": "0755",
     "group": "zed"
   },
   {
@@ -6499,17 +6500,31 @@
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/app-development.slice",
-    "kind": "file",
-    "source": "files/.config/systemd/user/app-development.slice",
-    "mode": "0644",
-    "group": "base"
-  },
-  {
     "path": "{{ user.home }}/.local/bin/chrome-devtools-bounded",
     "kind": "file",
     "source": "files/.local/bin/chrome-devtools-bounded",
     "mode": "0755",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/zed-scoped",
+    "kind": "file",
+    "source": "files/.local/bin/zed-scoped",
+    "mode": "0755",
+    "group": "zed"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/zed",
+    "kind": "file",
+    "source": "files/.local/bin/zed",
+    "mode": "0755",
+    "group": "zed"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/app-development.slice",
+    "kind": "file",
+    "source": "files/.config/systemd/user/app-development.slice",
+    "mode": "0644",
     "group": "base"
   }
 ]

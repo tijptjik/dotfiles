@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Bound optional MCP sessions. Never write diagnostics onto MCP stdout.
+set -euo pipefail
+: "${XDG_RUNTIME_DIR:?Chrome MCP requires a user runtime directory}"
+for slot in 1 2 3 4; do
+    exec {slot_fd}>"$XDG_RUNTIME_DIR/dotjik-chrome-mcp-$slot.lock"
+    if flock --nonblock "$slot_fd"; then
+        # Keep the lock in this parent until the complete scope exits.
+        systemd-run --user --scope --quiet --collect --expand-environment=no \
+            --slice=app-development.slice \
+            -p MemoryHigh=1G -p MemoryMax=2G -p MemorySwapMax=256M \
+            -p CPUWeight=25 -p OOMPolicy=kill -- \
+            npx -y chrome-devtools-mcp@1.12.0 --channel canary "$@"
+        exit $?
+    fi
+    exec {slot_fd}>&-
+done
+echo 'Chrome MCP: four sessions already active; close an unused agent session and retry.' >&2
+exit 75

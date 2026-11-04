@@ -6504,5 +6504,12 @@
     "source": "files/.config/systemd/user/app-development.slice",
     "mode": "0644",
     "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/chrome-devtools-bounded",
+    "kind": "file",
+    "source": "files/.local/bin/chrome-devtools-bounded",
+    "mode": "0755",
+    "group": "base"
   }
 ]

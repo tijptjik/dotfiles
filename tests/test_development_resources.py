@@ -62,6 +62,29 @@ class DevelopmentResourceTests(unittest.TestCase):
         self.assertEqual(q.wait(timeout=3), 0)
         self.assertTrue((self.root / 'second').exists())
 
+    def test_mcp_slots_protocol_and_release(self):
+        processes = []
+        try:
+            for _ in range(4):
+                processes.append(subprocess.Popen([str(BIN / 'chrome-devtools-bounded')],
+                    env=self.env, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE, text=True))
+                time.sleep(.08)
+            fifth = subprocess.run([str(BIN / 'chrome-devtools-bounded')], env=self.env,
+                                   capture_output=True, text=True, timeout=3)
+            self.assertEqual(fifth.returncode, 75)
+            self.assertEqual(fifth.stdout, '')
+            for p in processes:
+                out, err = p.communicate('protocol\n', timeout=3)
+                self.assertEqual((p.returncode, out, err), (0, 'protocol\n', ''))
+            result = subprocess.run([str(BIN / 'chrome-devtools-bounded')], env=self.env,
+                input='again\n', capture_output=True, text=True, timeout=3)
+            self.assertEqual((result.returncode, result.stdout), (0, 'again\n'))
+        finally:
+            for p in processes:
+                if p.poll() is None:
+                    p.kill()
+                    p.communicate()
 
     def test_missing_bus_fails_closed(self):
         self.script('systemd-run', 'exit 1')

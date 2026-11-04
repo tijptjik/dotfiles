@@ -91,3 +91,13 @@ hl.monitor({
 })
 
 {%- endif %}
+
+
+-- Confirmed Bartjik preferences override only the fields changed in Displays.
+-- Base monitor declarations remain authoritative for every other setting.
+local display_loader = os.getenv("HOME") .. "/.local/lib/bartjik/hypr/monitors.lua"
+local display_file = io.open(display_loader, "r")
+if display_file then
+    display_file:close()
+    dofile(display_loader)
+end

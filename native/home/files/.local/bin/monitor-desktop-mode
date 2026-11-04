@@ -1,5 +1,11 @@
 #!/usr/bin/env fish
 
+# Use the guarded display preview when Bartjik is installed.
+set -l display_backend "$HOME/.local/lib/bartjik/bin/bartjik-core"
+if test -x "$display_backend"
+    exec "$display_backend" helper monitors preset desktop
+end
+
 # Restore the configured desktop monitor layout. In particular, this disables
 # HDMI-A-1 and restores DP-1 and DP-2 from ~/.config/hypr/monitors.lua.
 set -l state_home "$HOME/.local/state"

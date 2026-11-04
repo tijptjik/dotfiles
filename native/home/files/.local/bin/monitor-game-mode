@@ -40,6 +40,12 @@ switch "$argv[1]"
     case status
         report_status "$tv_output"
     case toggle
+        # Bartjik previews the change and offers Keep/Revert on each active output.
+        set -l display_backend "$HOME/.local/lib/bartjik/bin/bartjik-core"
+        if test -x "$display_backend"
+            exec "$display_backend" helper monitors preset toggle
+        end
+
         if tv_is_active "$tv_output"
             exec "$HOME/.local/bin/monitor-desktop-mode"
         end

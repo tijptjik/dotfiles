@@ -58,6 +58,8 @@ assert(#calls == 1)
                 bindings = render('hypr/bindings.lua.j2')
                 self.assertIn('hl.bind(ctrl("V", "SHIFT"), helpers.telegram_clipboard_shortcut)', bindings)
                 self.assertNotIn('hl.bind(super("N")', bindings)
+                for key, action in [('slash', 'dismiss'), ('apostrophe', 'primary'), ('semicolon', 'secondary')]:
+                    self.assertIn(f'hl.bind(super("{key}"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl selected {action}"))', bindings)
                 self.assertIn('hl.bind(super("code:9", "CAPS"),', bindings)
                 self.assertIn('hl.bind(super("code:9", "CAPS", "CTRL"),', bindings)
                 self.assertIn('hl.bind(super("code:9", "CAPS", "SHIFT"),', bindings)

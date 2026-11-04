@@ -231,6 +231,9 @@ hl.bind(super("M"), hl.dsp.exec_cmd("$HOME/.local/bin/desktop-panels-toggle"))
 
 hl.bind(super("comma"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate previous"))
 hl.bind(super("period"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl navigate next"))
+hl.bind(super("slash"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl selected dismiss"))
+hl.bind(super("apostrophe"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl selected primary"))
+hl.bind(super("semicolon"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl selected secondary"))
 
 -- Applications
 -- Runtjik opens on demand and stays warm after its first opening.

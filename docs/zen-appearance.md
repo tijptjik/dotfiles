@@ -46,6 +46,17 @@ Tjikup, then reload Hyprland. A Zen restart is required for stylesheet changes.
 To undo, remove the import, restore the Zen `border_size = 0` rule and restart
 Zen/reload Hyprland.
 
+## Compact-mode edge hover
+
+The Fi, Li and Si system autoconfig files set
+`zen.view.compact.hover-hack-delay` to 300 ms, requiring a sustained edge hover
+before the compact sidebar or toolbar opens. Zen also uses this delay for
+hover-leave checks. This uses Zen's native timer and cancellation handling.
+
+Apply the host's native system manifest with the `zen` group, then restart Zen
+when convenient. The preference is set at startup for every profile and is not
+locked. No profile CSS change is needed.
+
 ## Closing the last regular tab
 
 Dotjik manages `~/.config/zen/close-last-regular-tab.sys.mjs` in the `zen`

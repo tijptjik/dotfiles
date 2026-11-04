@@ -1,4 +1,7 @@
 // Dotjik Zen autoconfig. The first line is intentionally a comment.
+// Require a deliberate edge hover before revealing compact-mode panels.
+pref("zen.view.compact.hover-hack-delay", 300);
+
 // Load managed behavior before optional legacy per-profile userChromeJS.
 try {
   const directories = Cc["@mozilla.org/file/directory_service;1"].getService(Ci.nsIProperties);

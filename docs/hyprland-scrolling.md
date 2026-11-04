@@ -38,7 +38,7 @@ primary is `DP-1` and secondary is `DP-2`:
 | Zed (stable, Preview, Nightly) | 100% | 100% |
 | Spotify | 100% | 100%; opens on workspace 20, the secondary display's tenth workspace |
 | Zen | 50% | 100% |
-| Kitty | 50% | 75% |
+| Kitty | 50% | 100% |
 | Files / Strata / Nautilus | 50% | 75% |
 | Sublime Text | 50% | 100% |
 | Obsidian | 50% | 100% |
@@ -60,8 +60,10 @@ rules are unaffected. `scrolling_width` sets an initial column width, not
 fullscreen mode. A lone column keeps its configured width because
 `fullscreen_on_one_column` is disabled.
 
-`scrolling_widths.lua` reapplies registered widths when a tiled window arrives on
-a different monitor, including workspace transfers. It reuses the app matches
+`scrolling_widths.lua` applies registered widths once after a tiled window opens,
+when its final workspace and monitor are known. This corrects startup routing
+that initially inherits the launch monitor's width. It also reapplies widths when
+a tiled window arrives on a different monitor, including workspace transfers. It reuses the app matches
 and widths registered through `widths.rule` in `windows.lua`; routing-only launch
 overrides remain ordinary `hl.window_rule` calls. Destination output matching is
 read directly because native workspace tags can lag behind a move. A one-shot

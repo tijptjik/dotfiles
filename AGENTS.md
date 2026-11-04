@@ -21,3 +21,9 @@ without authorization. Keep credentials/private captures out of Git. Preserve
 private-file modes, ownership conditions, receipts, backup gates and locks.
 Never interrupt or replace a pinned archive worker. Use the server bootstrap
 and rebuild guides before provisioning; do not blanket-apply during recovery.
+
+On managed desktops, run heavy validation through `dev-check COMMAND ...`,
+including direct Vitest, Svelte checks, Cargo builds and this repository's
+validation script. It shares one user lock across agents and repositories.
+Do not set DOTJIK_DEV_CHECK manually or bypass a failed resource scope. Watch
+commands retain the validation slot until stopped; avoid them for one-shot checks.

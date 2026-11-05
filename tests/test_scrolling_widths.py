@@ -70,6 +70,17 @@ assert(actions[3].workspace==a.active_workspace and actions[4].workspace==a.acti
 assert(actions[5].x==17 and actions[5].y==23)
 a.active_workspace={id=1};w.workspace={id=1}
 actions={}
+-- A drag crosses monitors while temporarily floating; resize after the drop.
+w.monitor=a;widths.refresh();actions={}
+w.floating=true;w.monitor=b;w.tags={'arrival-width-1*','arrival-width-2*'}
+events['window.move_to_workspace']();timer();assert(#actions==0)
+w.floating=false;w.layout.column.width=.5;active=w
+-- Dropping has no second workspace move event.
+events['window.update_state'](w,{float=false});timer()
+assert(#actions==1 and actions[1]=='colresize 0.75')
+actions={};w.layout.column.width=.6
+widths.refresh();assert(#actions==0) -- Later manual resizing remains intact.
+w.monitor=a;widths.refresh();actions={}
 -- Scratch visits do not replace the last ordinary monitor.
 w.workspace.id=-1;w.monitor=b;widths.refresh();assert(#actions==0)
 w.workspace.id=1;w.monitor=a;widths.refresh();assert(#actions==0)

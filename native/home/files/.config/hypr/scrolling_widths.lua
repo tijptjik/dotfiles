@@ -113,6 +113,11 @@ function widths.start()
             monitors[window.address] = nil
             opened[window.address] = nil
         end),
+        -- Dragging temporarily floats tiled windows. The workspace arrival can
+        -- happen while floating, so retry after the drop attaches the column.
+        hl.on("window.update_state", function(_, changes)
+            if changes.float == false then schedule() end
+        end),
         hl.on("window.move_to_workspace", schedule),
         hl.on("workspace.move_to_monitor", schedule),
     }

@@ -68,7 +68,8 @@ and widths registered through `widths.rule` in `windows.lua`; routing-only launc
 overrides remain ordinary `hl.window_rule` calls. Destination output matching is
 read directly because native workspace tags can lag behind a move. A one-shot
 1ms event-loop callback lets the compositor finish attaching the destination
-column before resizing it. Same-monitor moves preserve manual widths; floating,
+column before resizing it. Dragging temporarily floats tiled windows, so the
+handler also retries when a drop tiles the window again. Same-monitor moves preserve manual widths; floating,
 fullscreen, scratch windows and apps without registered widths are ignored.
 Scratch visits retain the last ordinary monitor. Resizing a stacked window changes
 its shared column width. The gap policy is refreshed after the resize.

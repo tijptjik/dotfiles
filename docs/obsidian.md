@@ -7,7 +7,7 @@ The desktop launchers have separate roles:
 - **Markdown Viewer** (`obsidian-appimage.desktop`) runs
   `~/.local/bin/obsidian-viewer` and owns `text/markdown`. It uses the installed
   AppImage from `~/.local/opt/obsidian/`, opens external files in reading mode,
-  and disables community and core plugins. Both sidebars start collapsed.
+  and enables only the Editor Shortcuts community plugin; core plugins stay disabled. Both sidebars start collapsed.
 
 The viewer stores its empty vault and Electron profile under
 `~/.local/share/obsidian-viewer/`. It also isolates Obsidian 1.14's CLI socket in
@@ -21,8 +21,10 @@ Minimal Theme Settings and Minimal's Style Settings metadata to plain CSS,
 including body class selectors, CSS variables, units, and split HSL colours.
 Minimal’s table width is set to its default (content-sized) mode in the main
 vault, rather than the full-width mode; the viewer inherits this setting.
-It copies no plugin code, credentials, indexes, or workspace state from the main
-vault. Changes to the main theme/settings appear on the next viewer launch.
+It copies only Editor Shortcuts plugin code and editor/Markdown shortcut bindings
+from the main vault, including Ctrl+D to duplicate a line in editing mode. It does
+not copy plugin data, credentials, indexes, or workspace state. If Restricted mode
+is enabled in the viewer, turn it off once under Settings → Community plugins. Changes to the main theme/settings appear on the next viewer launch.
 Plugin-rendered content (for example Dataview queries) is unavailable by design.
 
 ## Launch latency

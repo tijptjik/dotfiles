@@ -53,6 +53,43 @@ body:not(.colorful-headings) h1 {color:inherit}
         self.assertIn('--list-spacing: 0.115em;', result)
         self.assertIn('--base-h:', result)
 
+    def test_editor_shortcuts_allowlist_and_hotkeys(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = Path(tmp) / 'main'
+            theme = source / 'themes/Minimal'
+            theme.mkdir(parents=True)
+            (theme / 'theme.css').write_text('body {}')
+            (theme / 'manifest.json').write_text('{}')
+            viewer.write_json(source / 'appearance.json', {'cssTheme': 'Minimal'})
+            plugin = source / 'plugins/obsidian-editor-shortcuts'
+            plugin.mkdir(parents=True)
+            (plugin / 'main.js').write_text('// synthetic plugin')
+            (plugin / 'manifest.json').write_text('{}')
+            (plugin / 'data.json').write_text('{"private": true}')
+            binding = [{'modifiers': ['Mod'], 'key': 'D'}]
+            viewer.write_json(source / 'hotkeys.json', {
+                'obsidian-editor-shortcuts:duplicateLine': binding,
+                'obsidian-editor-shortcuts:selectWordOrNextOccurrence': [],
+                'editor:delete-paragraph': [],
+                'dataview:refresh': binding,
+            })
+            state = Path(tmp) / 'viewer'
+            viewer.prepare(source, state)
+            config = state / 'vault/.obsidian'
+            self.assertEqual(viewer.read_json(config / 'community-plugins.json'),
+                             ['obsidian-editor-shortcuts'])
+            self.assertEqual(viewer.read_json(config / 'hotkeys.json'), {
+                'obsidian-editor-shortcuts:duplicateLine': binding,
+                'obsidian-editor-shortcuts:selectWordOrNextOccurrence': [],
+                'editor:delete-paragraph': [],
+            })
+            installed = config / 'plugins/obsidian-editor-shortcuts'
+            self.assertEqual((installed / 'main.js').read_bytes(), (plugin / 'main.js').read_bytes())
+            self.assertFalse((installed / 'data.json').exists())
+            (plugin / 'main.js').unlink()
+            viewer.prepare(source, state)
+            self.assertEqual(viewer.read_json(config / 'community-plugins.json'), [])
+
     def test_prepare_isolated_and_refreshes_appearance(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Open external Markdown with Obsidian in an isolated, plugin-free vault."""
+"""Open external Markdown with Obsidian in an isolated vault with Editor Shortcuts."""
 import colorsys
 import fcntl
 import json
@@ -146,7 +146,26 @@ def prepare(source, state):
             enabled.append(name)
     appearance['enabledCssSnippets'] = enabled
     write_json(config / 'appearance.json', appearance)
-    write_json(config / 'community-plugins.json', [])
+    # Only carry the explicitly supported editor plugin into this profile.
+    plugin_id = 'obsidian-editor-shortcuts'
+    plugin_source = source / 'plugins' / plugin_id
+    plugins = []
+    if all((plugin_source / name).is_file() for name in ('manifest.json', 'main.js')):
+        plugin_dest = config / 'plugins' / plugin_id
+        plugin_dest.mkdir(parents=True, exist_ok=True)
+        for name in ('manifest.json', 'main.js', 'styles.css'):
+            src = plugin_source / name
+            if src.is_file():
+                shutil.copy2(src, plugin_dest / name)
+            else:
+                (plugin_dest / name).unlink(missing_ok=True)
+        plugins.append(plugin_id)
+    write_json(config / 'community-plugins.json', plugins)
+    hotkeys = read_json(source / 'hotkeys.json', {})
+    write_json(config / 'hotkeys.json', {
+        command: bindings for command, bindings in hotkeys.items()
+        if command.startswith(('editor:', 'markdown:', plugin_id + ':'))
+    })
     core = set(read_json(source / 'core-plugins.json', {}))
     core.update(('canvas', 'properties', 'bookmarks', 'bases', 'webviewer'))
     core.update(read_json(config / 'core-plugins.json', {}))

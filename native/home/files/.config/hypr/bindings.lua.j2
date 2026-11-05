@@ -247,17 +247,12 @@ hl.bind(super("E"), hl.dsp.exec_cmd("uwsm app -- strata"))
 -- KEY BINDINGS : SCREENSHOTS
 -- #######################
 
-{%- if is_desktop %}
-local screenshot_prepare = "hyprctl eval 'hl.monitor({output=\"DP-1\",sdrbrightness=0.8})';"
-local screenshot_restore = ";hyprctl reload"
-{%- else %}
-local screenshot_prepare = ""
-local screenshot_restore = ""
-{%- endif %}
-hl.bind(super("P"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m region --clipboard-only --freeze --silent" .. screenshot_restore))
-hl.bind(super("P", "CTRL"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m window --clipboard-only --freeze --silent" .. screenshot_restore))
-hl.bind(super("P", "SHIFT"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m region --freeze --silent" .. screenshot_restore))
-hl.bind(super("P", "SHIFT", "CTRL"), hl.dsp.exec_cmd(screenshot_prepare .. "hyprshot -o ~/media/images/screenshots -m window --freeze --silent" .. screenshot_restore))
+-- The helper restores brightness and keyboard focus without reloading Hyprland.
+local screenshot = "{% if is_desktop %}SCREENSHOT_DIM=1 {% endif %}$HOME/.local/bin/screenshot "
+hl.bind(super("P"), hl.dsp.exec_cmd(screenshot .. "region"))
+hl.bind(super("P", "CTRL"), hl.dsp.exec_cmd(screenshot .. "window"))
+hl.bind(super("P", "SHIFT"), hl.dsp.exec_cmd(screenshot .. "region save"))
+hl.bind(super("P", "SHIFT", "CTRL"), hl.dsp.exec_cmd(screenshot .. "window save"))
 
 -- Toggle selected-region recording with a three-second countdown.
 hl.bind(super("G"), hl.dsp.exec_cmd("$HOME/.local/bin/screen-record"))

@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+mode="${1:-region}"
+case "$mode" in region|window) ;; *) exit 2 ;; esac
+case "${2:-}" in ""|save) ;; *) exit 2 ;; esac
+# Remember the application before either keyboard-interactive capture layer opens.
+origin="$(hyprctl activewindow -j | jq -r '.address // empty')"
+[[ "$origin" =~ ^0x[0-9a-fA-F]+$ ]] || origin=""
+brightness=""
+capture=""
+restore_desktop() {
+    if [[ -n "$brightness" ]]; then
+        hyprctl eval "hl.monitor({output=\"DP-1\",sdrbrightness=$brightness})" >/dev/null || true
+        brightness=""
+    fi
+    if [[ -n "$origin" ]]; then
+        # Repair the Wayland keyboard seat even when the logical active window
+        # still points at the application. Never cycle through another window.
+        hyprctl dispatch "hl.dsp.focus({window=\"address:$origin\"})" >/dev/null || true
+        origin=""
+    fi
+}
+cleanup() {
+    restore_desktop
+    [[ -z "$capture" ]] || rm -f -- "$capture"
+}
+trap cleanup EXIT
+if [[ "${SCREENSHOT_DIM:-0}" == 1 ]]; then
+    brightness="$(hyprctl monitors -j | jq -r '.[] | select(.name == "DP-1") | .sdrBrightness | numbers')"
+    if [[ -n "$brightness" ]]; then
+        hyprctl eval 'hl.monitor({output="DP-1",sdrbrightness=0.8})' >/dev/null
+    fi
+fi
+capture="$(mktemp "${XDG_RUNTIME_DIR:?}/screenshot.XXXXXXXX.png")"
+
+# Hyprshot normally copies while its keyboard-interactive freeze layer is alive.
+# Drain raw output through a pipe: cat reaches EOF only after both the capture
+# and the inherited stdout of the freeze overlay close. Publish after teardown
+# so Wayland clients receive the new selection with their keyboard focus back.
+hyprshot -m "$mode" --freeze --silent --raw | cat > "$capture"
+restore_desktop
+# Cancellation can return success from Hyprshot without producing an image.
+[[ "$(od -An -tx1 -N8 "$capture" | tr -d ' \n')" == 89504e470d0a1a0a ]] || exit 0
+if [[ "${2:-}" == save ]]; then
+    directory="$HOME/media/images/screenshots"
+    mkdir -p -- "$directory"
+    destination="$(mktemp "$directory/$(date +%Y-%m-%d-%H%M%S)_XXXXXXXX.png")"
+    cp -- "$capture" "$destination"
+fi
+wl-copy --type image/png < "$capture"

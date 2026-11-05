@@ -1965,6 +1965,14 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/.local/bin/screenshot",
+    "when": "hostname in [\"fi\", \"li\"]",
+    "kind": "file",
+    "source": "files/.local/bin/screenshot",
+    "mode": "0755",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/.local/bin/screen-record",
     "when": "hostname in [\"fi\", \"li\"]",
     "kind": "file",

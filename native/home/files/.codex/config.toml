@@ -300,3 +300,8 @@ NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "9230e2bd8b24b7ac7a0ba6774c64bf0d78ec
 
 [hooks.state."browser@openai-bundled:plugin.json#hooks[0]:stop:0:0"]
 trusted_hash = "sha256:317a07045dfc95aef2e80c55428a2f817e2768be867e3b1ef29a73da8636ae7f"
+
+# Disabled at user request: perform code reviews directly.
+[[skills.config]]
+path = "/home/io/.codex/plugins/cache/openai-curated-remote/coderabbit/1.1.4/skills/coderabbit-review/SKILL.md"
+enabled = false

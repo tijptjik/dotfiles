@@ -463,6 +463,31 @@ hl.window_rule({
 -- GENERIC MODALS
 -- #######################
 
+-- File pickers must clear both app routing and the special-workspace overlay.
+-- Pinned floating windows render above special workspaces (floating alone does
+-- not). Keep them on the regular workspace: special windows cannot be pinned.
+-- Portal matching also covers translated titles; title matching catches native
+-- browser/toolkit pickers that retain their application's class.
+for _, picker in ipairs({
+    { name = "portal", match = {
+        initial_class = "^(xdg-desktop-portal-gtk|org[.]freedesktop[.]impl[.]portal[.]desktop[.]kde)$",
+    } },
+    { name = "title", match = {
+        initial_title = "(?i)^(Open|Open File|Open Files|Open Folder|Open Directory|Save|Save As|Save File|Save File As|Save Image|Save Image As|Select File|Select Files|Select Folder|Select a File|Select a Folder|Select Directory|Choose File|Choose Files|Choose Folder|Choose Directory|File Upload)([.][.][.]|…)?$",
+    } },
+}) do
+    hl.window_rule({
+        name = "file-picker-" .. picker.name,
+        match = picker.match,
+        workspace = "m+0 silent",
+        float = true,
+        pin = true,
+        center = true,
+        no_initial_focus = false,
+        focus_on_activate = true,
+    })
+end
+
 -- Float as many modals as possible :)
 hl.window_rule({
     name = "float-generic-class",

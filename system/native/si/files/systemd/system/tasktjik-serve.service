@@ -6,6 +6,8 @@ Requires=tasktjik-api.service tailscaled.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
+Restart=on-failure
+RestartSec=5s
 ExecStart=/usr/bin/tailscale serve --bg --https=443 --set-path=/tasktjik unix:/run/tasktjik/api.sock
 ExecStop=/usr/bin/tailscale serve --https=443 --set-path=/tasktjik off
 TimeoutStartSec=45

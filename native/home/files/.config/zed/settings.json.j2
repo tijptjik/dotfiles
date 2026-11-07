@@ -8,6 +8,11 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "restore_on_startup": "last_session",
+  // Restart Zed after changing its Node runtime launcher.
+  "node": {
+    "path": "{{ user.home }}/.local/bin/zed-node",
+    "npm_path": "npm"
+  },
   "cli_default_open_behavior": "new_window",
   "markdown_preview": {
     "limit_content_width": false

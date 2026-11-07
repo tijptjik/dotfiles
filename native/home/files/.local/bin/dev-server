@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Long-lived development servers need isolation without the validation lock.
+set -euo pipefail
+if (( $# == 0 )); then
+    echo 'Usage: dev-server COMMAND [ARG ...]' >&2
+    exit 64
+fi
+exec systemd-run --user --scope --quiet --collect --expand-environment=no \
+    --slice=app-development.slice \
+    -p MemoryHigh=15% -p MemoryMax=25% -p MemorySwapMax=1G \
+    -p OOMPolicy=kill -- "$@"

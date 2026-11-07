@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Keep Node language servers and their children outside the editor's memory scope.
+set -euo pipefail
+node_binary=$(command -v node)
+exec systemd-run --user --scope --quiet --collect --expand-environment=no \
+    --slice=app-development.slice \
+    -p MemoryHigh=15% -p MemoryMax=20% -p MemorySwapMax=1G \
+    -p OOMPolicy=kill -- "$node_binary" "$@"

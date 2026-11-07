@@ -10,6 +10,19 @@ The development slice has MemoryHigh=50%, MemoryMax=60% of physical RAM and
 2 GiB maximum swap. Each editor scope has 30%/40% thresholds and 1 GiB swap.
 The memory limit is a final guard: an oversized job can be killed. Save work.
 
+Zed's Node runtime uses `zed-node`, which places each Node language server
+(including TypeScript and its child tsserver processes, Svelte and Tailwind)
+in a separate development scope with 15%/20% memory thresholds and 1 GiB swap.
+It preserves stdio, arguments, environment and working directory. Node probes
+also use this launcher; npm is resolved separately from PATH. Restart Zed
+normally after installing the setting; existing servers keep their old scopes.
+
+Use `dev-server COMMAND [ARG ...]` for long-running Vite and other development
+servers. It uses a separate scope with 15%/25% thresholds and 1 GiB swap without
+holding the validation lock. Hype's Vite launch scripts use this helper.
+These sibling scopes remain subject to the shared development slice limits;
+they isolate the editor's own allowance, not the host's total memory budget.
+
 Use `dev-check COMMAND [ARG ...]` for heavy tests, type checks and builds,
 including direct `bun x vitest` invocations. It waits for one per-user lock across
 repositories and shells, then runs the command with 15%/25% memory thresholds,

@@ -92,6 +92,36 @@ class DevelopmentResourceTests(unittest.TestCase):
         self.assertEqual(self.run_check('touch', str(marker)).returncode, 1)
         self.assertFalse(marker.exists())
 
+    def test_server_stdio_cwd_environment_and_exit(self):
+        for name in ('dev-server', 'zed-node'):
+            with self.subTest(launcher=name):
+                # Exercise the Node launcher contract without a real server or Node dependency.
+                self.script('node', 'exec "$@"')
+                command = [str(BIN / name), 'bash', '-c',
+                           'read -r line; printf "%s|%s|%s" "$line" "$PWD" "$SCOPE_TEST"; '
+                           'echo diagnostic >&2; exit 23']
+                result = subprocess.run(command, env={**self.env, 'SCOPE_TEST': 'a b'},
+                                        cwd=self.root, input='protocol\n',
+                                        capture_output=True, text=True, timeout=5)
+                self.assertEqual(result.returncode, 23)
+                self.assertEqual(result.stdout, f'protocol|{self.root}|a b')
+                self.assertEqual(result.stderr, 'diagnostic\n')
+
+    def test_servers_fail_closed_and_use_sibling_scopes_without_validation_lock(self):
+        for name in ('dev-server', 'zed-node'):
+            with self.subTest(launcher=name):
+                self.script('systemd-run', 'printf "%s\\n" "$@" > "$XDG_RUNTIME_DIR/args"; exit 19')
+                marker = self.root / 'unbounded-server'
+                result = subprocess.run([str(BIN / name), 'touch', str(marker)],
+                                        env=self.env, capture_output=True, timeout=5)
+                self.assertEqual(result.returncode, 19)
+                self.assertFalse(marker.exists())
+                args = (self.root / 'args').read_text().splitlines()
+                self.assertIn('--scope', args)
+                self.assertIn('--slice=app-development.slice', args)
+                self.assertIn('--quiet', args)
+                self.assertFalse((self.root / 'dotjik-dev-check.lock').exists())
+
     def test_zed_arguments(self):
         self.script('uwsm', 'printf "%s\\n" "$@"')
         result = subprocess.run([str(BIN / 'zed-scoped'), 'preview', 'a b'],
@@ -103,9 +133,10 @@ class DevelopmentResourceTests(unittest.TestCase):
     def test_native_render_all_hosts_and_subset_receipts(self):
         binary = os.environ.get('TJIKUP_BINARY', str(Path.home() / 'code/tjikos/apps/tjikup/target/debug/tjikup'))
         entries = json.loads((ROOT / 'native/home/files.json').read_text())
-        names = {'dev-check', 'chrome-devtools-bounded', 'zed-scoped', 'zed', 'zed-preview',
+        names = {'dev-check', 'dev-server', 'zed-node', 'chrome-devtools-bounded', 'zed-scoped', 'zed', 'zed-preview',
                  'app-development.slice', 'dev.zed.Zed.desktop.j2', 'dev.zed.Zed-Preview.desktop.j2'}
-        selected = [e for e in entries if Path(e.get('source', '')).name in names]
+        selected = [e for e in entries if Path(e.get('source', '')).name in names
+                    or e.get('source') == 'files/.config/zed/settings.json.j2']
         for host in ('fi', 'li', 'si'):
             with self.subTest(host=host):
                 policy = self.root / host
@@ -114,6 +145,12 @@ class DevelopmentResourceTests(unittest.TestCase):
                     target = policy / e['source']
                     target.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copyfile(ROOT / 'native/home' / e['source'], target)
+                    if e.get('sensitive'):
+                        # Render only synthetic data, without invoking the live secret provider.
+                        text = target.read_text().replace(
+                            '{{ secret("22a5479c-f2de-43e1-9547-b3ec001d508b") | json_quote }}',
+                            '"synthetic-context7-key"')
+                        target.write_text(text)
                 context = json.loads((ROOT / f'native/home/files-{host}.json').read_text())['context']
                 context['user'] = {'name': 'synthetic', 'home': '/home/synthetic'}
                 manifest = {'version': 1, 'id': 'fixture-' + host,

@@ -6508,6 +6508,20 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/.local/bin/dev-server",
+    "kind": "file",
+    "source": "files/.local/bin/dev-server",
+    "mode": "0755",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/zed-node",
+    "kind": "file",
+    "source": "files/.local/bin/zed-node",
+    "mode": "0755",
+    "group": "zed"
+  },
+  {
     "path": "{{ user.home }}/.local/bin/chrome-devtools-bounded",
     "kind": "file",
     "source": "files/.local/bin/chrome-devtools-bounded",

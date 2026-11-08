@@ -2498,6 +2498,13 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/.local/share/icons/hicolor/scalable/apps/discord-outline.svg",
+    "kind": "file",
+    "source": "files/.local/share/icons/hicolor/scalable/apps/discord-outline.svg",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/.local/share/icons/hicolor/scalable/apps/kitty.svg",
     "kind": "file",
     "source": "files/.local/share/icons/hicolor/scalable/apps/kitty.svg",

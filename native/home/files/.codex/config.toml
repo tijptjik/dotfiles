@@ -1,5 +1,5 @@
 model = "gpt-6-astra"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "low"
 model_provider = "codex-lb"
 approvals_reviewer = "auto_review"
 personality = "pragmatic"
@@ -157,6 +157,9 @@ trust_level = "trusted"
 [projects."/home/io/code/type.hk"]
 trust_level = "trusted"
 
+[projects."/home/io/code/hkfoodworks.com"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 screen_reader_detection_done = true
@@ -278,8 +281,8 @@ BROWSER_USE_TINYSKY_ENABLED = "1"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.1027.51404"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/io/.codex/plugins/cache/openai-bundled/browser/26.1027.51404/scripts/browser-service.mjs"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.1103.31037"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/io/.codex/plugins/cache/openai-bundled/browser/26.1103.31037/scripts/browser-service.mjs"}'
 CODEX_CLI_PATH = "/usr/lib/chatgpt/resources/codex"
 
 [model_providers.codex-lb]

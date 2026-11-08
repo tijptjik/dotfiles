@@ -140,6 +140,14 @@ lives in Si's user runtime directory and
 is unmounted after each source backup. The first baseline may take hours for a
 large archive; later runs deduplicate unchanged content.
 
+The scheduled service keeps rclone directory metadata in memory for up to
+12 hours, with Drive change polling every minute. This avoids expiring directory
+listings repeatedly during a long backup; it does not cache file contents.
+Each source still starts with a fresh mount and a full traversal, so this is
+an incremental optimization, not a change-feed-based backup. Direct manual
+`synctjik drive backup` runs use rclone's defaults unless these environment
+settings are supplied. Measure completed runs before assuming a speedup.
+
 Si's Drive OAuth config is created once from the Bitwarden
 `RCLONE_GOOGLE_DRIVE_CONFIG` secret so rclone can persist token refreshes. It is
 separate from Si's existing R2 rclone config. The native-file export preserves

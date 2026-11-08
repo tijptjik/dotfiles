@@ -8,4 +8,7 @@ Type=oneshot
 UMask=0077
 TimeoutStartSec=infinity
 TimeoutStopSec=120
+# Retain directory metadata during long scans; Drive polling invalidates changes.
+Environment=RCLONE_DIR_CACHE_TIME=12h
+Environment=RCLONE_POLL_INTERVAL=1m
 ExecStart=%h/.local/bin/synctjik drive backup

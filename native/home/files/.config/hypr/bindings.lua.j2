@@ -55,7 +55,7 @@ hl.bind(super("R"), hl.dsp.pass({ window = "class:^(com\\.obsproject\\.Studio)$"
 -- #######################
 
 -- Close
-hl.bind(super("Q"), hl.dsp.window.close())
+hl.bind(super("Q"), hl.dsp.exec_cmd("$HOME/.local/bin/runtjik close-active"))
 
 -- Lock
 {%- if is_client %}

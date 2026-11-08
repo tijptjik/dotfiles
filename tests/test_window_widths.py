@@ -50,13 +50,13 @@ dofile(arg[1])
                 self.assertTrue(gated)
                 commands = [shlex.split(c)[-1] if 'after-keyring-unlock' in c else c
                             for c in commands]
-                self.assertIn('uwsm app -- /opt/Telegram/Telegram', commands)
+                self.assertIn('uwsm app -- /usr/bin/mullvad-exclude /opt/Telegram/Telegram', commands)
                 zapzap = [c for c in commands if '/bin/zapzap' in c]
                 signal = [c for c in commands if 'org.signal.Signal' in c]
-                self.assertEqual(zapzap, ['uwsm app -- /bin/zapzap' +
+                self.assertEqual(zapzap, ['uwsm app -- /usr/bin/mullvad-exclude /bin/zapzap' +
                                          (' --hideStart' if host == 'li' else '')])
                 self.assertEqual(signal, [] if host == 'si' else [
-                    'uwsm app -- flatpak run org.signal.Signal' +
+                    'uwsm app -- /usr/bin/mullvad-exclude flatpak run org.signal.Signal' +
                     (' --start-in-tray' if host == 'li' else '')])
 
     def test_host_width_and_placement_rules(self):

@@ -6555,5 +6555,29 @@
     "source": "files/.config/systemd/user/app-development.slice",
     "mode": "0644",
     "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/com.discordapp.Discord.desktop",
+    "when": "is_client",
+    "kind": "file",
+    "source": "files/.local/share/applications/com.discordapp.Discord.desktop",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/org.signal.Signal.desktop",
+    "when": "is_client",
+    "kind": "file",
+    "source": "files/.local/share/applications/org.signal.Signal.desktop",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/applications/com.rtosta.zapzap.desktop",
+    "when": "is_client",
+    "kind": "file",
+    "source": "files/.local/share/applications/com.rtosta.zapzap.desktop",
+    "mode": "0644",
+    "group": "base"
   }
 ]

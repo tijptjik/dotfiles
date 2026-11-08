@@ -57,16 +57,16 @@ startup.subscription = hl.on("hyprland.start", function()
     -- Terminal
     start_after_unlock('uwsm app -- /bin/kitty --title "herdr ~" herdr')
 
-    -- Chat
-    start_after_unlock("uwsm app -- /opt/Telegram/Telegram")
+    -- Messengers bypass Mullvad; exclude after uwsm creates the app scope.
+    start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude /opt/Telegram/Telegram")
 {%- if is_laptop %}
     -- Keep the laptop's other messengers available in the tray at login.
-    start_after_unlock("uwsm app -- /bin/zapzap --hideStart")
-    start_after_unlock("uwsm app -- flatpak run org.signal.Signal --start-in-tray")
+    start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude /bin/zapzap --hideStart")
+    start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude flatpak run org.signal.Signal --start-in-tray")
 {%- else %}
-    start_after_unlock("uwsm app -- /bin/zapzap")
+    start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude /bin/zapzap")
 {%- if is_desktop %}
-    start_after_unlock("uwsm app -- flatpak run org.signal.Signal")
+    start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude flatpak run org.signal.Signal")
 {%- endif %}
 {%- endif %}
     start_after_unlock("uwsm app -- /bin/chatgpt")

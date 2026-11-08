@@ -167,7 +167,6 @@ gpt-6-astra = 2
 "gpt-6.1-sol" = 4
 
 [desktop]
-followUpQueueMode = "queue"
 appearanceLightCodeThemeId = "rose-pine"
 appearanceDarkCodeThemeId = "rose-pine"
 usePointerCursors = true
@@ -177,6 +176,7 @@ open-local-url-in-target-preference = "external-browser"
 git-commit-instructions = "use conventional commit style"
 conversationDetailMode = "STEPS_COMMANDS"
 keepRemoteControlAwakeWhilePluggedIn = true
+migratedFollowUpQueueToSteer = true
 
 [desktop.open-in-target-preferences]
 global = "zed"

@@ -160,6 +160,9 @@ trust_level = "trusted"
 [projects."/home/io/code/hkfoodworks.com"]
 trust_level = "trusted"
 
+[projects."/home/io/code/eurovision"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 screen_reader_detection_done = true

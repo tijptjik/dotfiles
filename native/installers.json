@@ -164,5 +164,45 @@
       "branch": "stable",
       "installation": "system"
     }
+  },
+  "espanso": {
+    "repository": "espanso/espanso",
+    "latest": true,
+    "kind": "git-build",
+    "binary": "bin/espanso",
+    "prefix": "{home}/.local/lib/espanso-patched/{patch_digest}/{version}",
+    "links": {
+      "{home}/.local/bin/espanso": "{prefix}/bin/espanso"
+    },
+    "patches": [
+      "{repo}/patches/espanso-wayland-sync-timeout.patch"
+    ],
+    "file_capability": "cap_dac_override=p",
+    "steps": [
+      [
+        "dev-check",
+        "env",
+        "CARGO_TARGET_DIR={home}/.cache/espanso-build/target",
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--no-default-features",
+        "--features",
+        "modulo,vendored-tls,wayland",
+        "-p",
+        "espanso"
+      ],
+      [
+        "{home}/.cache/espanso-build/target/release/espanso",
+        "--version"
+      ],
+      [
+        "install",
+        "-Dm755",
+        "{home}/.cache/espanso-build/target/release/espanso",
+        "{stage}/bin/espanso"
+      ]
+    ]
   }
 }

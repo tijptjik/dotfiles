@@ -13,6 +13,13 @@
     }
   },
   {
+    "context": "AgentPanel",
+    "bindings": {
+      "alt-left": "agent::FocusLeft",
+      "alt-right": "agent::FocusRight"
+    }
+  },
+  {
     "context": "Workspace",
     "bindings": {}
   },

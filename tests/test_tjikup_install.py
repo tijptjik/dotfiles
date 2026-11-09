@@ -59,8 +59,16 @@ class InstallTests(unittest.TestCase):
         self.release_case(candidate=0, installed=0, success=False, installs=False,
                           provenance="equal", candidate_flatpak=False, installed_flatpak=False)
 
+    def test_release_without_patch_support_preserves_patched_runner(self):
+        self.release_case(candidate=0, installed=0, success=True, installs=False,
+                          provenance="equal", candidate_patched=False)
+
+    def test_missing_patch_support_fails_closed(self):
+        self.release_case(candidate=0, installed=0, success=False, installs=False,
+                          candidate_patched=False, installed_patched=False)
+
     def release_case(self, candidate, installed, success, installs, candidate_cache=True, installed_cache=True,
-                     provenance=None, candidate_flatpak=True, installed_flatpak=True):
+                     provenance=None, candidate_flatpak=True, installed_flatpak=True, candidate_patched=True, installed_patched=True):
         with tempfile.TemporaryDirectory() as directory:
             home=Path(directory);repo=home/'checkout';tool=home/'tool'
             (repo/'scripts').mkdir(parents=True);(repo/'system/tjikup').mkdir(parents=True)
@@ -75,6 +83,7 @@ class InstallTests(unittest.TestCase):
             for path,code in [(tool/'apps/tjikup/dist/tjikup',candidate),(home/'.local/bin/tjikup',installed)]:
                 capabilities = {
                     'bootstrap_archives': 1, 'native_commands': 1, 'native_installers': 1,
+                    'patched_source_installers': int(candidate_patched if path == tool / 'apps/tjikup/dist/tjikup' else installed_patched),
                     'native_maintenance': 1, 'scheduled_telegram': 1, 'scheduled_telegram_bws': 1,
                     'native_workflow': int(candidate_cache if path == tool / 'apps/tjikup/dist/tjikup' else installed_cache),
                     'flatpak_bundle_installers': int(candidate_flatpak if path == tool / 'apps/tjikup/dist/tjikup' else installed_flatpak),

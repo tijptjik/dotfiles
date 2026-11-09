@@ -37,6 +37,31 @@ local function normal(window)
         and type(window.workspace.id) == "number" and window.workspace.id > 0 and window.monitor
 end
 
+-- A monitor transition can retire workspace handles during focus dispatch.
+-- Capture selectors first and restore only workspaces that still exist.
+local function workspace_selector(workspace)
+    local ok, selector = pcall(function()
+        if not workspace then return nil end
+        if type(workspace.id) == "number" and workspace.id > 0 then
+            return tostring(workspace.id)
+        end
+        if workspace.name and workspace.name ~= "" and not workspace.special then
+            return "name:" .. workspace.name
+        end
+    end)
+    return ok and selector or nil
+end
+
+local function restore_workspace(selector)
+    if not selector then return end
+    for _, workspace in ipairs(hl.get_workspaces()) do
+        if workspace_selector(workspace) == selector then
+            hl.dispatch(hl.dsp.focus({ workspace = selector }))
+            return
+        end
+    end
+end
+
 function widths.refresh()
     -- Open/move events fire before the compositor finishes attaching the new layout.
     -- The next event-loop turn sees the final monitor, column and matching rules.
@@ -62,21 +87,22 @@ function widths.refresh()
                         -- pointer before a frame can render. Pixel resize clamps
                         -- lone/offscreen columns and cannot set an exact fraction.
                         local focused_monitor = hl.get_active_monitor()
-                        local focused_workspace = focused_monitor.active_workspace
-                        local destination_workspace = window.monitor.active_workspace
+                        local focused_workspace = workspace_selector(focused_monitor and focused_monitor.active_workspace)
+                        local destination_workspace = workspace_selector(window.monitor.active_workspace)
+                        local target_workspace = workspace_selector(window.workspace)
                         local cursor = hl.get_cursor_pos()
                         local ok, err = pcall(function()
                             hl.dispatch(hl.dsp.focus({ window = window }))
                             require("scrolling_gaps").resize(width)
                         end)
-                        if destination_workspace and destination_workspace.id ~= window.workspace.id then
-                            hl.dispatch(hl.dsp.focus({ workspace = destination_workspace }))
+                        if destination_workspace ~= target_workspace then
+                            restore_workspace(destination_workspace)
                         end
                         if active and active.mapped then
                             hl.dispatch(hl.dsp.focus({ window = active }))
                         elseif focused_workspace then
-                            hl.dispatch(hl.dsp.focus({ workspace = focused_workspace }))
-                        else
+                            restore_workspace(focused_workspace)
+                        elseif focused_monitor then
                             hl.dispatch(hl.dsp.focus({ monitor = focused_monitor.name }))
                         end
                         hl.dispatch(hl.dsp.cursor.move(cursor))

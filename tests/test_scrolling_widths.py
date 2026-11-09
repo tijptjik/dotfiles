@@ -21,6 +21,7 @@ local active=w
 a.active_workspace={id=1};b.active_workspace={id=19}
 package.preload.scrolling_gaps=function() return {update=function() end,resize=function(width) actions[#actions+1]="colresize "..width end} end
 hl={window_rule=function(r) rules[#rules+1]=r end,
+    get_workspaces=function() return {a.active_workspace,b.active_workspace} end,
     get_active_monitor=function() return a end,get_cursor_pos=function() return {x=17,y=23} end,
     get_windows=function() return {w} end,get_active_window=function() return active end,
     exec_scheduled_prop_refresh_immediately=function() end,
@@ -29,7 +30,7 @@ hl={window_rule=function(r) rules[#rules+1]=r end,
     dsp={layout=function(s) return s end,focus=function(s)
         -- Hyprland accepts workspace handles/selectors, not numeric IDs.
         if s.workspace ~= nil then
-            assert(type(s.workspace)=='table' or type(s.workspace)=='string', 'invalid workspace target')
+            assert(type(s.workspace)=='string', 'workspace handles may expire during mirror changes')
         end
         return s
     end,cursor={move=function(s) return s end}},
@@ -53,20 +54,20 @@ widths.refresh();assert(#actions==1) -- no repeated enforcement
 w.layout.column.width=.75;w.monitor=a;w.workspace.id=1;w.tags={'arrival-width-1*'}
 active=nil;events['window.move_to_workspace']();timer()
 assert(actions[2].window==w and actions[3]=='colresize 0.5')
-assert(actions[4].workspace==a.active_workspace and actions[5].x==17 and actions[5].y==23)
+assert(actions[4].workspace=="1" and actions[5].x==17 and actions[5].y==23)
 actions={}
 -- Restore the destination's visible workspace and the original active window.
 local original={mapped=true}
 active=original;w.monitor=b;w.workspace={id=20}
 widths.refresh()
 assert(actions[1].window==w and actions[2]=='colresize 0.5')
-assert(actions[3].workspace==b.active_workspace and actions[4].window==original)
+assert(actions[3].workspace=="19" and actions[4].window==original)
 assert(actions[5].x==17 and actions[5].y==23)
 actions={}
 -- Named workspaces have no numeric ID; retain their handle when restoring.
 active=nil;a.active_workspace={name='named'};w.monitor=a
 widths.refresh()
-assert(actions[3].workspace==a.active_workspace and actions[4].workspace==a.active_workspace)
+assert(actions[3].workspace=="name:named" and actions[4].workspace=="name:named")
 assert(actions[5].x==17 and actions[5].y==23)
 a.active_workspace={id=1};w.workspace={id=1}
 actions={}
@@ -79,6 +80,17 @@ w.floating=false;w.layout.column.width=.5;active=w
 events['window.update_state'](w,{float=false});timer()
 assert(#actions==1 and actions[1]=='colresize 0.75')
 actions={};w.layout.column.width=.6
+-- Expired workspace handles are ignored rather than passed to hl.focus.
+local old_dispatch=hl.dispatch
+local expired=setmetatable({}, {__index=function() error('workspace object is expired') end})
+a.active_workspace=expired
+w.monitor=a;active=nil
+widths.refresh()
+for _, action in ipairs(actions) do
+ if type(action)=='table' then assert(action.workspace==nil) end
+end
+a.active_workspace={id=1};hl.dispatch=old_dispatch;actions={}
+
 widths.refresh();assert(#actions==0) -- Later manual resizing remains intact.
 w.monitor=a;widths.refresh();actions={}
 -- Scratch visits do not replace the last ordinary monitor.
@@ -111,7 +123,8 @@ package.preload.scrolling_gaps=function() return {
     resize=function(width) w.layout.column.width=width;actions[#actions+1]=width end,
 } end
 hl={window_rule=function() end,get_windows=function() return windows end,
-    get_active_window=function() return original end,get_active_monitor=function() return a end,
+    get_active_window=function() return original end,get_workspaces=function() return {a.active_workspace,b.active_workspace} end,
+    get_active_monitor=function() return a end,
     get_cursor_pos=function() return {x=17,y=23} end,
     exec_scheduled_prop_refresh_immediately=function()
         w.monitor=b;w.workspace=b.active_workspace

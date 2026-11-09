@@ -372,6 +372,13 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/.config/fish/conf.d/zoxide.fish",
+    "kind": "file",
+    "source": "files/.config/fish/conf.d/zoxide.fish",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/.config/fish/conf.d/tjikup-notifications.fish",
     "kind": "file",
     "source": "files/.config/fish/conf.d/tjikup-notifications.fish",

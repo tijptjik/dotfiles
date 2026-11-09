@@ -236,7 +236,7 @@ hl.bind(super("semicolon"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl selected
 
 -- Applications
 -- Runtjik opens on demand and stays warm after its first opening.
--- hl.bind(super("Escape"), hl.dsp.exec_cmd("$HOME/.local/bin/runtjik --gtk toggle"))
+hl.bind(super("Escape"), hl.dsp.exec_cmd("$HOME/.local/bin/runtjik toggle"))
 hl.bind(super("Return"), hl.dsp.exec_cmd("uwsm app -- kitty -o allow_remote_control=yes"))
 hl.bind(super("Backslash"), hl.dsp.exec_cmd("uwsm app -- /usr/bin/mullvad-exclude /opt/Telegram/Telegram"))
 hl.bind(super("Backspace"), hl.dsp.exec_cmd("uwsm app -- zen-browser"))

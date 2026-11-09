@@ -6586,5 +6586,13 @@
     "source": "files/.local/share/applications/com.rtosta.zapzap.desktop",
     "mode": "0644",
     "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/espanso/config/default.yml",
+    "when": "hostname == \"fi\"",
+    "kind": "file",
+    "source": "files/.config/espanso/config/default.yml",
+    "mode": "0644",
+    "group": "base"
   }
 ]

@@ -44,6 +44,10 @@ printf '%s\\n%s\\n' "$COMMIT" "$(cat "$(dirname "$0")/main.cpp")" > "$1"
         self.command('rpmkeys', 'exit 0')
         self.command('dnf', '''echo download >> "$TRACE"
 [[ "${FAIL_DOWNLOAD:-0}" == 0 ]] || exit 9
+if [[ "${STALE_METADATA:-0}" == 1 && " $* " != *" --setopt=cachedir=/var/cache/libdnf5 "* ]]; then
+    echo 'Exact installed development package unavailable in stale user metadata' >&2
+    exit 1
+fi
 mkdir -p "$3"
 touch "$3/headers.rpm"
 printf '%s\\n' "$@" > "$TRACE.download"
@@ -108,6 +112,16 @@ fi
         self.run_helper()
         self.assertIn('source v2', self.output.read_text())
 
+    def test_download_reuses_root_metadata_after_rpm_upgrade(self):
+        self.env['STALE_METADATA'] = '1'
+        self.run_helper()
+        self.assertEqual(self.events(), ['download', 'build', 'load'])
+        args = Path(str(self.trace) + '.download').read_text().splitlines()
+        self.assertIn('--setopt=cachedir=/var/cache/libdnf5', args)
+        self.assertIn('--setopt=cacheonly=metadata', args)
+        self.assertIn('--setopt=build_cache=False', args)
+        self.assertNotIn('--refresh', args)
+
     def test_upgrade_preserves_old_session_until_restart(self):
         self.run_helper()
         self.env.update(COMMIT='b' * 40, ABI='abi-b')
@@ -152,6 +166,21 @@ fi
         self.env['FAIL_DOWNLOAD'] = '1'
         self.run_helper(code=9)
         self.assertFalse(self.output.exists())
+
+    def test_archive_reader_can_stop_before_rpm_payload_padding(self):
+        self.command('rpm2cpio', 'head -c 1048576 /dev/zero')
+        self.command('cpio', '''head -c 1 >/dev/null
+mkdir -p usr/include/hyprland/src
+printf '#define GIT_COMMIT_HASH "%s"\\n' "$COMMIT" > usr/include/hyprland/src/version.h
+''')
+        self.run_helper()
+        self.assertEqual(self.events(), ['download', 'build', 'load'])
+
+    def test_failed_rpm_conversion_never_publishes(self):
+        self.command('rpm2cpio', 'printf partial; exit 7')
+        self.run_helper(code=7)
+        self.assertFalse(self.output.exists())
+        self.assertNotIn('build', self.events())
 
     def test_failed_load_restores_previous_binary_and_fails_recipe(self):
         self.run_helper()

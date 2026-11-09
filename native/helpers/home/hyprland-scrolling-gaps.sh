@@ -41,10 +41,19 @@ if ! current; then
         mkdir -p "$stage/rpms" "$stage/sdk"
         # Download exact installed runtime counterparts, never upgrade the system.
         # Scanner headers have no runtime ABI; other build tools come from system:rpm.
-        dnf download --destdir "$stage/rpms" "${packages[@]}" hyprwayland-scanner-devel
+        # Reuse metadata from the preceding root RPM update without refreshing
+        # repositories or writing to its cache. RPMs go to our staging directory.
+        dnf download --destdir "$stage/rpms" --setopt=cachedir=/var/cache/libdnf5 \
+            --setopt=cacheonly=metadata --setopt=build_cache=False \
+            "${packages[@]}" hyprwayland-scanner-devel
         for archive in "$stage/rpms/"*.rpm; do
             rpmkeys --checksig "$archive"
-            (cd "$stage/sdk"; rpm2cpio "$archive" | cpio -idm --quiet)
+            # cpio can stop at the end marker before rpm2cpio finishes writing
+            # padding, causing SIGPIPE under pipefail. Check conversion and
+            # extraction separately so genuine failures still stop the build.
+            rpm2cpio "$archive" > "$stage/payload.cpio"
+            (cd "$stage/sdk"; cpio -idm --quiet < "$stage/payload.cpio")
+            rm -- "$stage/payload.cpio"
         done
         grep -Fq "\"$commit\"" "$stage/sdk/usr/include/hyprland/src/version.h" || {
             echo 'Downloaded headers do not match installed Hyprland; leaving plugin untouched' >&2; exit 1;

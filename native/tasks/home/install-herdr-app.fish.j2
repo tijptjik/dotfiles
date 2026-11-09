@@ -1,0 +1,36 @@
+#!/usr/bin/env fish
+# App and Core coexist with the legacy `herdr` runtime and its sessions.
+source {{ (repo_dir ~ "/native/helpers/home/status.fish") | fish_quote }}
+set -gx PATH "$HOME/.local/bin" $PATH
+
+function install_herdr_component --argument-names component binary label
+    if command -q "$binary"
+        status_msg SKIP "✓" "$label" "available"
+        return 0
+    end
+
+    set -l installer (mktemp)
+    or return 1
+    # Download completely before executing: a failed transfer must not run a
+    # partial script. Upstream verifies the release archive's SHA-256 digest.
+    if not command curl --fail --silent --show-error --location \
+            --connect-timeout 15 --max-time 120 \
+            "https://releases.herdr.dev/$component/install.sh" -o "$installer"
+        command rm -f "$installer"
+        status_msg FAILED "✗" "$label" "installer download failed"
+        return 1
+    end
+    command env -u HERDR_RELEASES_URL -u HC_VERSION HC_INSTALL_DIR="$HOME/.local/bin" sh "$installer"
+    set -l result $status
+    command rm -f "$installer"
+    if test $result -ne 0; or not command -q "$binary"
+        status_msg FAILED "✗" "$label" "installation failed"
+        return 1
+    end
+    status_msg CONFIG "✓" "$label" "installed"
+end
+
+# Core first: the app installer treats a failed Core bootstrap as a warning.
+# Never launch a window/server or restart existing terminals during installation.
+install_herdr_component core herdr-core "Herdr Core"; or exit 1
+install_herdr_component app herdr-app "Herdr App"; or exit 1

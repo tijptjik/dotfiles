@@ -28,7 +28,9 @@ class RecipeTests(unittest.TestCase):
         render=runpy.run_path(str(ROOT/'scripts/check-task-templates.py'))['render']
         for host in ['fi','li','si']:
             with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {'TJIKUP_BINARY':str(BINARY)}):
-                self.assertEqual(len(render(host,directory)),52)
+                scripts = render(host,directory)
+                self.assertEqual(len(scripts),53)
+                self.assertIn('home-install-herdr-app.fish', scripts)
 
     @unittest.skipUnless(BINARY.is_file(), 'build Rust tjikup first')
     def test_complete_graph_orders_files_preparation_and_final_tasks(self):

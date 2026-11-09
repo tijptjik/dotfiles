@@ -447,5 +447,20 @@
       "desktop",
       "laptop"
     ]
+  },
+  "herdr-app": {
+    "checks": [
+      {
+        "command": "herdr-core"
+      },
+      {
+        "command": "herdr-app"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop",
+      "server"
+    ]
   }
 }

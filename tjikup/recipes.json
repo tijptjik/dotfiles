@@ -361,6 +361,16 @@
               "--no-execute",
               "{script}"
             ]
+          },
+          {
+            "name": "home-install-herdr-app.fish",
+            "source": "$DOTJIK_REPO/native/tasks/home/install-herdr-app.fish.j2",
+            "syntax": [
+              "fish",
+              "--no-config",
+              "--no-execute",
+              "{script}"
+            ]
           }
         ],
         "native": "$DOTJIK_REPO/native/tasks/home.json",
@@ -763,6 +773,59 @@
         "package",
         "check",
         "llmtrim-herdr"
+      ]
+    },
+    {
+      "id": "home:herdr-app",
+      "label": "Herdr App and Core",
+      "needs": [
+        "home:render"
+      ],
+      "resources": [
+        "herdr"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "package",
+        "run",
+        "herdr-app",
+        "--",
+        "fish",
+        "--no-config",
+        "{run_dir}/home-install-herdr-app.fish"
+      ],
+      "env": {
+        "TJIKUP_STATUS_LINES": "1",
+        "TJIKUP_NO_SPIN": "1",
+        "TJIKUP_NO_SECTIONS": "1",
+        "FLEET_UPGRADE": "0",
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Install applications",
+        "reports": true,
+        "icon": "Herdr"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop",
+        "server"
+      ],
+      "operation": "install",
+      "scope": "home",
+      "application": "herdr-app",
+      "ecosystem": "custom",
+      "after": [],
+      "check": [
+        "tjikup",
+        "workflow",
+        "package",
+        "check",
+        "herdr-app"
       ]
     },
     {

@@ -48,4 +48,9 @@ if [[ "${2:-}" == save ]]; then
     destination="$(mktemp "$directory/$(date +%Y-%m-%d-%H%M%S)_XXXXXXXX.png")"
     cp -- "$capture" "$destination"
 fi
+# Record keyboard captures explicitly; do not depend on the Wayland watcher
+# seeing the selection after a frozen capture surface releases focus.
+if ! cliphist store < "$capture"; then
+    printf 'Screenshot copied, but clipboard history could not be updated.\n' >&2
+fi
 wl-copy --type image/png < "$capture"

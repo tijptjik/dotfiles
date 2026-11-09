@@ -68,6 +68,9 @@ assert sys.argv[1:] == ['--type', 'image/png']
 (root / 'clipboard').write_bytes(sys.stdin.buffer.read())
 """)
             copy.chmod(0o755)
+            history = bindir / "cliphist"
+            history.write_text("#!/usr/bin/env python3\nimport os,sys\nfrom pathlib import Path\nassert sys.argv[1:] == ['store']\nPath(os.environ['HOME'], 'history').write_bytes(sys.stdin.buffer.read())\n")
+            history.chmod(0o755)
             result = subprocess.run([str(SCRIPT), "region", *(["save"] if save else [])],
                 env={**os.environ, "HOME": tmp, "XDG_RUNTIME_DIR": tmp,
                      "PATH": str(bindir) + os.pathsep + os.environ["PATH"], "OUTCOME": outcome, "ORIGIN": origin, "SCREENSHOT_DIM": str(int(dim))},
@@ -85,6 +88,7 @@ assert sys.argv[1:] == ['--type', 'image/png']
             else:
                 self.assertFalse(any(call[0] == "eval" for call in calls))
             if outcome == "success":
+                self.assertEqual((root / "history").read_bytes(), (root / "clipboard").read_bytes())
                 self.assertIn("--raw", (root / "args").read_text())
                 saved = list((root / "media/images/screenshots").glob("*.png"))
                 self.assertEqual(len(saved), int(save))

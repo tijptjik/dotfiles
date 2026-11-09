@@ -3611,6 +3611,8 @@
         "home:bitwarden:update",
         "home:codex-lb:update",
         "home:codex-lb:update:verify",
+        "home:espanso:update",
+        "home:espanso:update:verify",
         "home:files",
         "home:greetjik:update",
         "home:hyprland-scrolling-gaps:update",
@@ -3629,18 +3631,18 @@
         "system:apps",
         "system:codex-desktop:update",
         "system:flatpak:update",
-        "system:pdfcraft:update",
-        "system:wordcraft:update",
         "system:hyprvoice:update",
         "system:hyprvoice:update:verify",
         "system:launcher:update",
         "system:nginx:update",
+        "system:pdfcraft:update",
         "system:rpm:update",
         "system:strata:update",
         "system:tailscale-package:update",
         "system:terminal:update",
         "system:tinty:update",
         "system:tippecanoe:update",
+        "system:wordcraft:update",
         "system:zed:update",
         "system:zed:update:verify"
       ],
@@ -3699,6 +3701,79 @@
         "section": "Package updates",
         "icon": "Hyprland"
       }
+    },
+    {
+      "id": "home:espanso:update",
+      "label": "Espanso patched updates",
+      "needs": [
+        "require:sudo"
+      ],
+      "resources": [
+        "cargo",
+        "espanso",
+        "user-systemd"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "install",
+        "espanso"
+      ],
+      "env": {
+        "TJIKUP_OPERATION": "update"
+      },
+      "timeout": 7200,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Runtjik"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "home",
+      "application": "espanso",
+      "ecosystem": "custom",
+      "part_of": "home:runtjik"
+    },
+    {
+      "id": "home:espanso:update:verify",
+      "label": "Espanso service",
+      "needs": [
+        "home:espanso:update"
+      ],
+      "resources": [
+        "user-systemd"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "services",
+        "--unit",
+        "espanso.service"
+      ],
+      "env": {
+        "TJIKUP_HIDE_UNCHANGED_SERVICES": "1"
+      },
+      "timeout": 120,
+      "display": {
+        "section": "Verification",
+        "reports": true,
+        "icon": "Runtjik"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "home",
+      "application": "espanso",
+      "ecosystem": "verification",
+      "part_of": "home:runtjik"
     }
   ]
 }

@@ -1,4 +1,5 @@
 {
+  "espanso.service": ["~/.local/bin/espanso"],
   "notjik.service": ["~/.local/bin/notjik", "~/.local/lib/notjik", "~/.config/notjik", "/usr/bin/quickshell", "/usr/bin/python3"],
   "notjik-telegram.service": ["~/.local/bin/notjikctl", "~/.local/lib/notjik", "~/.local/share/notjik/telegram-venv"],
   "bartjik.service": ["~/.local/bin/bartjik", "~/.local/lib/bartjik", "~/.config/bartjik", "/usr/bin/quickshell", "/usr/bin/fish", "/usr/bin/python3"],

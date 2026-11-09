@@ -1,4 +1,6 @@
 [binds]
 <Escape> = quit
+r = rotate by 90
+l = rotate by -90
 # Fill the monitor as a regular floating window; press f again to restore.
 f = exec hyprctl eval "require('imv_gapless').toggle($imv_pid)"

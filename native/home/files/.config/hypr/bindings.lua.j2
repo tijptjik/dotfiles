@@ -214,9 +214,8 @@ hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locke
 -- KEY BINDINGS : HYPRVOICE
 -- #######################
 
--- Physical Escape is keycode 9; caps:swapescape adds the CAPS modifier.
--- Toggle dictation; Ctrl discards it; Shift opens configuration.
-hl.bind(super("code:9", "CAPS"), function()
+-- Right Alt is keycode 108 (ISO_Level3_Shift / Mod5); tap to toggle dictation.
+hl.bind("code:108", function()
     helpers.toggle_hyprvoice()
 end, { dont_inhibit = true })
 hl.bind(super("code:9", "CAPS", "CTRL"), hl.dsp.exec_cmd("$HOME/.local/bin/hyprvoice cancel"), { dont_inhibit = true })
@@ -237,7 +236,7 @@ hl.bind(super("semicolon"), hl.dsp.exec_cmd("$HOME/.local/bin/notjikctl selected
 
 -- Applications
 -- Runtjik opens on demand and stays warm after its first opening.
-hl.bind(super("Escape"), hl.dsp.exec_cmd("$HOME/.local/bin/runtjik toggle"))
+-- hl.bind(super("Escape"), hl.dsp.exec_cmd("$HOME/.local/bin/runtjik --gtk toggle"))
 hl.bind(super("Return"), hl.dsp.exec_cmd("uwsm app -- kitty -o allow_remote_control=yes"))
 hl.bind(super("Backslash"), hl.dsp.exec_cmd("uwsm app -- /usr/bin/mullvad-exclude /opt/Telegram/Telegram"))
 hl.bind(super("Backspace"), hl.dsp.exec_cmd("uwsm app -- zen-browser"))

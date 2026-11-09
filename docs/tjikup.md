@@ -143,13 +143,15 @@ templates for Fi, Li and Si without executing them. Set `TJIKUP_BINARY` to the
 binary under test. Native behavior tests live in TjikOS `apps/tjikup/tests` and
 Rust module tests; fixtures never require live credentials or services.
 
-Release publication and bootstrap pin updates are deferred. Source completion
-does not make the existing published bootstrap contain these commands. The
-bootstrap verifies required capabilities before replacing an installed runner.
+Tjikup `tjikup-v0.2.0-bootstrap.8` publishes the native patched-source installer
+and is checksum-pinned in TjikOS. The fleet installer requires
+`patched_source_installers: 1` before replacing an installed runner. Espanso
+updates apply the tracked Wayland startup patch before building and activating a
+new version; incompatible upstream changes preserve the current executable.
 
 `tjikup --version` includes a source revision on newer builds; `--build-info`
 returns machine-readable provenance. The fleet installer retains a compatible
 installed build when its source revision is a strict descendant of the pinned
 release. It reports that choice without recording a false cache success, and
-keeps the scheduled runtime aligned. Publishing a newer release and advancing
-the checksum pin are still required to deliver that build to other machines.
+keeps the scheduled runtime aligned. Future native capability changes likewise require a published release and an
+updated checksum pin before fleet distribution.

@@ -27,6 +27,8 @@ class CargoCredentialTests(unittest.TestCase):
             spec["context"]["is_client"] = True
         if enrolled:
             spec["context"]["cargo_registry_secret_id"] = SECRET_ID
+        else:
+            spec["context"].pop("cargo_registry_secret_id", None)
         marker = root / "must-not-execute"
         value = f"synthetic'quote\\slash $(touch {marker}) `false` $HOME\nsecond line"
         mock = root / "bws"

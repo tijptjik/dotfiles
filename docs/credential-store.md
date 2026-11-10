@@ -62,11 +62,14 @@ systems (Fi and Li, plus enrolled portable clients). The file is sensitive and m
 through the BWS UUID in `cargo_registry_secret_id`; token values never belong in Git.
 Si remains excluded by the existing `is_client` role policy.
 
-The template and manifest group are prepared but disabled until the real BWS entry is
-created and its UUID is set in the client credential context. The intended entry name
-is `CRATES_IO_API_TOKEN` in the `dotfiles` project. No placeholder secret is created.
+The BWS entry is `CRATES_IO_API_TOKEN` in the `dotfiles` project, UUID
+`ea529b3b-bac7-4e41-9452-b4fe009eb4f3`. Fi, Li and enrolled portable clients reference
+this UUID in their credential manifests. Portable clients require the `home:secrets`
+subscription; server roles remain excluded. The secret was uploaded through hidden
+local input and verified by exact value readback without logging its value.
 
-Once enrolled, use the existing native credential workflow:
+Normal credential application populates the file on eligible systems. To check or
+apply only this group, use the existing native credential workflow:
 
 ```sh
 tjikup workflow files credentials check --group cargo-registry

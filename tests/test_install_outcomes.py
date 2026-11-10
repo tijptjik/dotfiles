@@ -116,6 +116,10 @@ printf upstream > "$HOME/.config/systemd/user/bartjik.service"
             engine.write_text('synthetic engine')
             shared = tools / 'packages/notification-history/qml'
             shared.mkdir(parents=True)
+            for package in ('tjik-gtk', 'tjik-desktop'):
+                source = tools / 'packages' / package
+                source.mkdir(parents=True)
+                (source / 'Cargo.toml').write_text('synthetic shared GTK dependency')
             notjik = tools / 'apps/notjik/qml'
             notjik.mkdir(parents=True)
             helper = notjik / 'Clipboard.js'

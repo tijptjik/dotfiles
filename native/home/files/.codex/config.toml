@@ -174,7 +174,7 @@ sansFontSize = 12
 appearanceDiffMarkerStyle = "color"
 open-local-url-in-target-preference = "external-browser"
 git-commit-instructions = "use conventional commit style"
-conversationDetailMode = "STEPS_COMMANDS"
+conversationDetailMode = "STEPS_PROSE"
 keepRemoteControlAwakeWhilePluggedIn = true
 migratedFollowUpQueueToSteer = true
 

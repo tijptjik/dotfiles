@@ -58,6 +58,16 @@
       "mode": "0600",
       "sensitive": true,
       "create_only": true
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.cargo/credentials.toml",
+      "source": "templates/cargo/credentials.toml.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "group": "cargo-registry",
+      "when": "is_client and cargo_registry_secret_id is defined and cargo_registry_secret_id != \"\""
     }
   ]
 }

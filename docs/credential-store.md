@@ -53,3 +53,27 @@ bash -c 'set -a; . "$HOME/.config/runtjik/amo.env"; set +a; cd "$HOME/code/tjiko
 
 Keep credentials out of terminal logs and do not use shell tracing when loading
 or signing. The API key is the AMO JWT issuer; the API secret is its JWT secret.
+
+## Cargo publishing credentials
+
+The `cargo-registry` credential group manages `~/.cargo/credentials.toml` for client
+systems (Fi and Li, plus enrolled portable clients). The file is sensitive and mode
+0600, and Cargo can read it from any shell. Its JSON-quoted TOML token is resolved
+through the BWS UUID in `cargo_registry_secret_id`; token values never belong in Git.
+Si remains excluded by the existing `is_client` role policy.
+
+The template and manifest group are prepared but disabled until the real BWS entry is
+created and its UUID is set in the client credential context. The intended entry name
+is `CRATES_IO_API_TOKEN` in the `dotfiles` project. No placeholder secret is created.
+
+Once enrolled, use the existing native credential workflow:
+
+```sh
+tjikup workflow files credentials check --group cargo-registry
+tjikup workflow files credentials apply --group cargo-registry
+```
+
+Existing unmanaged credentials or local edits produce a conflict; they are not
+replaced automatically. Review and retain any other registry credentials before
+adopting the file. Token rotation uses the normal encrypted-cache refresh mechanism.
+Configuring the token does not publish a crate.

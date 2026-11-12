@@ -266,6 +266,12 @@ widths.rule({
     scrolling_width = 1.0,
     match = { class = "kitty", workspace = "m[DP-2]" },
 })
+{%- elif is_laptop %}
+widths.rule({
+    name = "zen-primary-width",
+    scrolling_width = 1.0,
+    match = { class = "zen", workspace = "m[eDP-1]" },
+})
 {%- endif %}
 
 hl.window_rule({

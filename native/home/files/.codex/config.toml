@@ -1,5 +1,5 @@
 model = "gpt-6-astra"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "low"
 model_provider = "codex-lb"
 approvals_reviewer = "auto_review"
 personality = "pragmatic"
@@ -157,6 +157,12 @@ trust_level = "trusted"
 [projects."/home/io/code/type.hk"]
 trust_level = "trusted"
 
+[projects."/home/io/code/hkfoodworks.com"]
+trust_level = "trusted"
+
+[projects."/home/io/code/eurovision"]
+trust_level = "trusted"
+
 [tui]
 resume_cwd = "session"
 screen_reader_detection_done = true
@@ -255,7 +261,7 @@ memories = true
 js_repl = false
 
 [mcp_servers.chrome-devtools]
-# Project browser checks use the queued Li runner; avoid idle local Chrome trees.
+# Project browser checks use the queued Li runner.
 enabled = false
 command = "chrome-devtools-bounded"
 args = []

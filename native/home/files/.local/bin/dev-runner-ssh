@@ -1,0 +1,3 @@
+#!/bin/sh
+# Keep address discovery and pinned host identity in native Tjikup.
+exec tjikup ssh --transport lan "$@"

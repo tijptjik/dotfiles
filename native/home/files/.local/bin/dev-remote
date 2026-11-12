@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+# Submit a private source snapshot; no remote edits are copied into the checkout.
+set -euo pipefail
+umask 077
+usage() {
+    echo 'Usage: dev-remote [--port LOCAL_PORT] lint|test|typecheck|chrome [COMMAND ARG ...]' >&2
+    echo '       dev-remote status | cancel JOB_ID' >&2
+    echo 'Defaults: bun run lint; bun run test:run; Chrome smoke check of forwarded server.' >&2
+    exit 64
+}
+ssh_base=(dev-runner-ssh li -o BatchMode=yes -o ConnectTimeout=10
+    -o ServerAliveInterval=15 -o ServerAliveCountMax=3)
+ssh_cmd=("${ssh_base[@]}")
+port=0
+if [[ ${1:-} == --port ]]; then
+    [[ ${2:-} =~ ^[0-9]{1,5}$ ]] || usage
+    port=$((10#$2)); shift 2
+    (( port > 0 && port < 65536 )) || usage
+fi
+kind=${1:-}; (( $# )) && shift
+case "$kind" in
+    status) exec "${ssh_cmd[@]}" '.local/bin/dev-runner-worker status' ;;
+    cancel)
+        [[ ${1:-} =~ ^job-[a-zA-Z0-9]+$ ]] || usage
+        exec "${ssh_cmd[@]}" ".local/bin/dev-runner-worker cancel $1" ;;
+    lint|test|typecheck|chrome) ;;
+    *) usage ;;
+esac
+root=$(git rev-parse --show-toplevel)
+[[ $PWD == "$root" ]] || { echo 'Run dev-remote from the repository root.' >&2; exit 64; }
+if [[ $kind == chrome && $port == 0 ]]; then
+    echo 'Chrome requires --port for the local application server.' >&2; exit 64
+fi
+if (( $# == 0 )); then
+    case "$kind" in
+        lint) set -- bun run lint ;;
+        test) set -- bun run test:run ;;
+        typecheck) set -- bash -c 'bun run i18n:build && bun x svelte-kit sync && bun x svelte-check --tsconfig ./tsconfig.json' ;;
+        chrome)
+            if [[ -f src/lib/auth/dev-personas.ts ]]; then
+                set -- env DEV_RUNNER_EXPECT_ADMIN=1 node .dotjik-runner/chrome-smoke.mjs
+            else
+                set -- node .dotjik-runner/chrome-smoke.mjs
+            fi ;;
+
+    esac
+fi
+result_root=${XDG_STATE_HOME:-$HOME/.local/state}/dev-runner/results
+mkdir -p "$result_root"
+result=$(mktemp -d "$result_root/job-XXXXXXXXXX")
+id=${result##*/}
+remote=".cache/dotjik-runner/jobs/$id"
+printf '%s\0' "$@" > "$result/command"
+printf '%s\n' "$root" > "$result/source"
+git rev-parse HEAD > "$result/revision"
+git status --porcelain > "$result/source-status"
+echo "Runner: $id; results: $result" >&2
+"${ssh_cmd[@]}" ".local/bin/dev-runner-worker prepare $id"
+# A Git file list includes current tracked edits and nonignored new files, not
+# node_modules, Git internals, local databases or ignored credentials.
+git ls-files --cached --others --exclude-standard -z > "$result/files"
+rsync -a --relative --ignore-missing-args --from0 --files-from="$result/files" \
+    --exclude='.git/' --exclude='node_modules/' --exclude='.env*' \
+    --exclude='.dev.vars*' --exclude='.npmrc' --exclude='.wrangler/' --exclude='.svelte-kit/' \
+    --exclude='.dotjik-runner/' --exclude='test-results/' --exclude='playwright-report/' \
+    -e dev-runner-ssh ./ "li:$remote/source/"
+rsync -a -e dev-runner-ssh "$result/command" "li:$remote/command"
+forward=0
+# Ask the remote kernel for its ephemeral range. SELinux on Fedora permits SSH
+# forwarding there, while many lower unreserved ports are denied name_bind.
+if (( port )); then
+    range=$("${ssh_base[@]}" 'cat /proc/sys/net/ipv4/ip_local_port_range')
+    read -r port_low port_high <<< "$range"
+    [[ $port_low =~ ^[0-9]+$ && $port_high =~ ^[0-9]+$ ]] &&
+        (( port_low >= 1024 && port_high <= 65535 && port_low < port_high )) || {
+        echo 'Invalid remote ephemeral port range; refusing to guess.' >&2; exit 69;
+    }
+fi
+cancel() {
+    trap - INT TERM
+    "${ssh_base[@]}" ".local/bin/dev-runner-worker cancel $id" >&2 || true
+    echo "Cancelled $id; remote artifacts retained." >&2
+    exit 130
+}
+trap cancel INT TERM
+rc=0
+for attempt in 1 2 3; do
+    ssh_cmd=("${ssh_base[@]}")
+    if (( port )); then
+        forward=$(shuf -i "$port_low-$port_high" -n 1)
+        ssh_cmd+=(-S none -o ControlMaster=no -o ExitOnForwardFailure=yes
+            -R "127.0.0.1:$forward:127.0.0.1:$port")
+    fi
+    rc=0
+    "${ssh_cmd[@]}" ".local/bin/dev-runner-worker run $id $kind $forward" \
+        2>&1 | tee "$result/attempt-$attempt.log" | tee -a "$result/runner.log" &
+    runner_pid=$!
+    wait "$runner_pid" || rc=$?
+    # ExitOnForwardFailure aborts before remote command execution. Never retry
+    # after a worker started: a disconnected check may still be running.
+    if (( port && rc == 255 && attempt < 3 )) &&
+        grep -q 'remote port forwarding failed for listen port' "$result/attempt-$attempt.log" &&
+        ! grep -q 'Runner: .*waiting for shared validation slot' "$result/attempt-$attempt.log"; then
+        echo "Runner: tunnel bind failed before job start; retrying ($attempt/3)." >&2
+        continue
+    fi
+    break
+done
+trap - INT TERM
+fetch_rc=0
+rsync -a -e dev-runner-ssh "li:$remote/artifacts/" "$result/artifacts/" || fetch_rc=$?
+[[ ! -f $result/artifacts/cancelled ]] || rc=130
+printf '%s\n' "$rc" > "$result/exit-code"
+echo "Runner: exit $rc; results: $result" >&2
+if (( fetch_rc == 0 )); then
+    "${ssh_base[@]}" ".local/bin/dev-runner-worker remove $id" || true
+else
+    echo "Artifact download failed; retained li:~/$remote. Retry retrieval before removal." >&2
+    (( rc )) || rc=$fetch_rc
+fi
+exit "$rc"

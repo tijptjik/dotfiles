@@ -14,5 +14,5 @@ export DOTJIK_DEV_CHECK=1
 exec flock --exclusive --close "$XDG_RUNTIME_DIR/dotjik-dev-check.lock" \
     systemd-run --user --scope --quiet --collect --expand-environment=no \
     --slice=app-development.slice \
-    -p MemoryHigh=15% -p MemoryMax=25% -p MemorySwapMax=512M \
+    -p MemoryHigh=3G -p MemoryMax=4G -p MemorySwapMax=512M \
     -p CPUQuota=400% -p OOMPolicy=kill -- "$@"

@@ -118,7 +118,7 @@ class DevelopmentResourceTests(unittest.TestCase):
                 self.assertFalse(marker.exists())
                 args = (self.root / 'args').read_text().splitlines()
                 self.assertIn('--scope', args)
-                self.assertIn('--slice=app-development.slice', args)
+                self.assertIn('--slice=' + ('app-devservers.slice' if name == 'dev-server' else 'app-development.slice'), args)
                 self.assertIn('--quiet', args)
                 self.assertFalse((self.root / 'dotjik-dev-check.lock').exists())
 
@@ -130,11 +130,27 @@ class DevelopmentResourceTests(unittest.TestCase):
         self.assertIn('app-development.slice\n', result.stdout)
         self.assertTrue(result.stdout.endswith('/.local/zed-preview.app/bin/zed\na b\n'))
 
+    def test_server_reuses_active_identity_across_port_changes(self):
+        self.script('systemctl', 'exit 0')
+        self.script('systemd-run', 'echo unexpected-launch; exit 99')
+        # Both requests resolve to the same managed scope identity.
+        self.script('cat', 'exit 0')
+        identities = []
+        for port in ('4173', '4199'):
+            result = subprocess.run([str(BIN / 'dev-server'), 'vite', 'dev', '--port', port],
+                                    env=self.env, cwd=self.root, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertNotIn('unexpected-launch', result.stdout)
+            identities.append(result.stderr)
+        self.assertEqual(identities[0], identities[1])
+
     def test_native_render_all_hosts_and_subset_receipts(self):
         binary = os.environ.get('TJIKUP_BINARY', str(Path.home() / 'code/tjikos/apps/tjikup/target/debug/tjikup'))
         entries = json.loads((ROOT / 'native/home/files.json').read_text())
         names = {'dev-check', 'dev-server', 'zed-node', 'chrome-devtools-bounded', 'zed-scoped', 'zed', 'zed-preview',
-                 'app-development.slice', 'dev.zed.Zed.desktop.j2', 'dev.zed.Zed-Preview.desktop.j2'}
+                 'app-development.slice', 'app-devservers.slice', 'app-devrunner.slice', 'dev-remote', 'dev-runner-worker',
+                 'dev-runner-ssh', 'chrome-smoke.mjs', 'playwright.config.mjs', 'AGENTS.md',
+                 'tasks.json', 'resources.conf', 'dev.zed.Zed.desktop.j2', 'dev.zed.Zed-Preview.desktop.j2'}
         selected = [e for e in entries if Path(e.get('source', '')).name in names
                     or e.get('source') == 'files/.config/zed/settings.json.j2']
         for host in ('fi', 'li', 'si'):

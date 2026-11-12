@@ -6594,5 +6594,89 @@
     "source": "files/.config/espanso/config/default.yml",
     "mode": "0644",
     "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/dev-remote",
+    "kind": "file",
+    "source": "files/.local/bin/dev-remote",
+    "mode": "0755",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/dev-runner-worker",
+    "kind": "file",
+    "source": "files/.local/bin/dev-runner-worker",
+    "mode": "0755",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/bin/dev-runner-ssh",
+    "kind": "file",
+    "source": "files/.local/bin/dev-runner-ssh",
+    "mode": "0755",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/dev-runner/chrome-smoke.mjs",
+    "kind": "file",
+    "source": "files/.local/share/dev-runner/chrome-smoke.mjs",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.local/share/dev-runner/playwright.config.mjs",
+    "kind": "file",
+    "source": "files/.local/share/dev-runner/playwright.config.mjs",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/app-devrunner.slice",
+    "kind": "file",
+    "source": "files/.config/systemd/user/app-devrunner.slice",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.codex/AGENTS.md",
+    "kind": "file",
+    "source": "files/.codex/AGENTS.md",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/zed/tasks.json",
+    "kind": "file",
+    "source": "files/.config/zed/tasks.json",
+    "mode": "0644",
+    "group": "zed"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/app-devservers.slice",
+    "kind": "file",
+    "source": "files/.config/systemd/user/app-devservers.slice",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/hype-web-dev.service.d/resources.conf",
+    "kind": "file",
+    "source": "files/.config/systemd/user/hype-web-dev.service.d/resources.conf",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/hype-atlas-dev.service.d/resources.conf",
+    "kind": "file",
+    "source": "files/.config/systemd/user/hype-atlas-dev.service.d/resources.conf",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/systemd/user/hype-exports-dev.service.d/resources.conf",
+    "kind": "file",
+    "source": "files/.config/systemd/user/hype-exports-dev.service.d/resources.conf",
+    "mode": "0644",
+    "group": "base"
   }
 ]

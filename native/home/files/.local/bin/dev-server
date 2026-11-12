@@ -1,11 +1,90 @@
 #!/usr/bin/env bash
-# Long-lived development servers need isolation without the validation lock.
+# Reuse compatible Vite servers; bound all newly launched server trees separately.
 set -euo pipefail
-if (( $# == 0 )); then
-    echo 'Usage: dev-server COMMAND [ARG ...]' >&2
-    exit 64
+(( $# )) || { echo 'Usage: dev-server COMMAND [ARG ...]' >&2; exit 64; }
+: "${XDG_RUNTIME_DIR:?dev-server requires a user runtime directory}"
+normalize() {
+    local skip=0 arg
+    for arg in "$@"; do
+        if (( skip )); then skip=0; continue; fi
+        case "$arg" in
+            --port) skip=1 ;;
+            --port=*|--strictPort) ;;
+            *) printf '%s\0' "$arg" ;;
+        esac
+    done
+}
+# Vite's requested port does not define a new application. State/persona and all
+# other arguments do. Non-Vite services still receive the shared server budget.
+if [[ ${1##*/} == vite && ${2:-} == dev ]]; then
+    server_cwd=$(pwd -P)
+    signature=$(normalize "${@:2}" | sha256sum | cut -d ' ' -f1)
+    identity=$(printf '%s\0' "$server_cwd" "${HYPE_DEV_PERSONA:-}" "${HYPE_DEV_STATE:-}" "${CLOUDFLARE_ENV:-}" "$signature" | sha256sum | cut -d ' ' -f1)
+    exec 8>"$XDG_RUNTIME_DIR/dotjik-server-$identity.lock"
+    flock 8
+    unit="dev-server-$identity.scope"
+    if systemctl --user is-active --quiet "$unit"; then
+        echo "Reusing managed server $unit in $server_cwd." >&2
+        cat "$XDG_RUNTIME_DIR/dotjik-server-$identity.command" >&2
+        exit 0
+    fi
+    # Inspect only own Vite processes; this also adopts pre-policy servers without
+    # restarting them or relying on a stale pid file.
+    for proc in /proc/[0-9]*; do
+        [[ -O $proc && -r $proc/cmdline && -r $proc/environ ]] || continue
+        [[ $(readlink "$proc/cwd" 2>/dev/null || true) == "$server_cwd" ]] || continue
+        args=(); mapfile -d '' -t args < "$proc/cmdline" 2>/dev/null || continue
+        [[ ${args[1]:-} == */vite || ${args[1]:-} == */vite.js ]] || continue
+        [[ ${args[2]:-} == dev ]] || continue
+        [[ $(normalize "${args[@]:2}" | sha256sum | cut -d ' ' -f1) == "$signature" ]] || continue
+        persona= state= stage=
+        while IFS= read -r -d '' entry; do
+            case "$entry" in
+                HYPE_DEV_PERSONA=*) persona=${entry#*=} ;;
+                HYPE_DEV_STATE=*) state=${entry#*=} ;;
+                CLOUDFLARE_ENV=*) stage=${entry#*=} ;;
+            esac
+        done < "$proc/environ"
+        [[ $persona == "${HYPE_DEV_PERSONA:-}" && $state == "${HYPE_DEV_STATE:-}" && $stage == "${CLOUDFLARE_ENV:-}" ]] || continue
+        echo "Reusing Vite PID ${proc##*/} in $server_cwd (persona=${persona:-none})." >&2
+        printf 'Existing command:' >&2; printf ' %q' "${args[@]}" >&2; echo >&2
+        echo 'Use its existing port. No additional server was launched.' >&2
+        exit 0
+    done
 fi
-exec systemd-run --user --scope --quiet --collect --expand-environment=no \
-    --slice=app-development.slice \
-    -p MemoryHigh=15% -p MemoryMax=25% -p MemorySwapMax=1G \
-    -p OOMPolicy=kill -- "$@"
+# Admission is host-wide, not per thread. Keep the slot lock in the parent until
+# the complete scope exits. Fail clearly rather than queue a long-lived server.
+unit=${unit:-dev-server-generic-$$.scope}
+scope_args=(--unit="$unit")
+if [[ -n ${identity:-} ]]; then
+    scope_args=(--unit="$unit")
+    printf '%q ' "$@" > "$XDG_RUNTIME_DIR/dotjik-server-$identity.command"
+    printf '\n' >> "$XDG_RUNTIME_DIR/dotjik-server-$identity.command"
+fi
+exec 7<&0
+for slot in 1 2 3; do
+    exec {slot_fd}>"$XDG_RUNTIME_DIR/dotjik-server-slot-$slot.lock"
+    if flock --nonblock "$slot_fd"; then
+        systemd-run --user --scope --quiet --collect --expand-environment=no \
+            --slice=app-devservers.slice "${scope_args[@]}" \
+            -p MemoryHigh=4G -p MemoryMax=6G -p MemorySwapMax=256M \
+            -p OOMPolicy=kill -- "$@" <&7 &
+        server_pid=$!
+        trap 'systemctl --user stop "$unit" >/dev/null 2>&1 || true; exit 130' INT TERM
+        # Release startup serialization once Vite is discoverable, while keeping
+        # the admission slot. Concurrent same-key launches wait for startup only.
+        if [[ -n ${identity:-} ]]; then
+            for attempt in {1..100}; do
+                if ! kill -0 "$server_pid" 2>/dev/null; then break; fi
+                if systemctl --user is-active --quiet "$unit"; then break; fi
+                sleep .1
+            done
+            flock -u 8
+        fi
+        wait "$server_pid"
+        exit $?
+    fi
+    exec {slot_fd}>&-
+done
+echo 'Server capacity reached (3 managed servers). Reuse an existing server; stop only an owned unused server before retrying.' >&2
+exit 75

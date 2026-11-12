@@ -255,6 +255,8 @@ memories = true
 js_repl = false
 
 [mcp_servers.chrome-devtools]
+# Project browser checks use the queued Li runner; avoid idle local Chrome trees.
+enabled = false
 command = "chrome-devtools-bounded"
 args = []
 

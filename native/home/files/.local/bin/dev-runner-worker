@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+export PATH="$HOME/.local/bin:$HOME/.bun/bin:$PATH"
+action=${1:-}; id=${2:-}
+base=$HOME/.cache/dotjik-runner/jobs
+if [[ $action == status ]]; then
+    printf '%-24s %-12s %-8s %s\n' JOB STATE KIND AGE_SECONDS
+    found=0
+    for directory in "$base"/job-*; do
+        [[ -f $directory/state ]] || continue
+        read -r state kind since < "$directory/state"
+        if ! systemctl --user is-active --quiet "dev-runner-${directory##*/}.service"; then
+            state="inactive/$state"
+        fi
+        printf '%-24s %-12s %-8s %s\n' "${directory##*/}" "$state" "$kind" "$(( $(date +%s) - since ))"
+        found=1
+    done
+    (( found )) || echo 'No retained jobs. A local dev-check may still own the shared lock.'
+    exit
+fi
+[[ $id =~ ^job-[a-zA-Z0-9]+$ ]] || { echo 'Invalid runner job ID' >&2; exit 64; }
+job=$base/$id
+unit=dev-runner-$id.service
+case "$action" in
+    prepare)
+        mkdir -p "$base"
+        mkdir "$job"
+        mkdir "$job/source" "$job/artifacts"
+        exit ;;
+    cancel)
+        [[ -d $job/artifacts ]] || exit 66
+        # systemctl stop may classify a requested stop as success. Preserve the
+        # cancellation for submitters so an interrupted check cannot turn green.
+        touch "$job/artifacts/cancelled"
+        exec systemctl --user stop "$unit" ;;
+    remove)
+        if systemctl --user is-active --quiet "$unit"; then
+            echo 'Cannot remove an active job' >&2; exit 75
+        fi
+        rm -rf -- "$job"
+        exit ;;
+    run|execute) ;;
+    *) echo 'Invalid worker action' >&2; exit 64 ;;
+esac
+kind=${3:-}; port=${4:-0}
+case "$kind" in
+    lint|test) high=3G; maximum=4G ;;
+    chrome) high=4G; maximum=5G ;;
+    typecheck) high=5500M; maximum=6G ;;
+    *) exit 64 ;;
+esac
+[[ $port =~ ^[0-9]{1,5}$ ]] && (( port < 65536 )) || exit 64
+[[ -d $job/source && -f $job/command ]] || exit 66
+if [[ $action == run ]]; then
+    # Sample from outside the job cgroup so an OOM kill cannot erase evidence.
+    monitor() {
+        sleeper=''
+        trap '[[ -z $sleeper ]] || kill "$sleeper" 2>/dev/null || true; exit 0' TERM INT
+        while :; do
+            systemctl --user show "$unit" -p ActiveState -p Result -p MemoryCurrent \
+                -p MemoryPeak -p MemoryMax -p MemoryHigh -p MemorySwapCurrent \
+                -p ExecMainCode -p ExecMainStatus > "$job/artifacts/resources.tmp" 2>/dev/null || true
+            if grep -Eq '^MemoryPeak=[0-9]+$' "$job/artifacts/resources.tmp"; then
+                mv "$job/artifacts/resources.tmp" "$job/artifacts/resources.txt"
+            fi
+            sleep 10 &
+            sleeper=$!
+            wait "$sleeper" || true
+        done
+    }
+    monitor </dev/null >/dev/null 2>&1 &
+    monitor_pid=$!
+    trap 'kill "$monitor_pid" 2>/dev/null || true; wait "$monitor_pid" 2>/dev/null || true' EXIT
+    rc=0
+    systemd-run --user --quiet --wait --pipe --collect --service-type=exec \
+        --unit="$unit" --slice=app-devrunner.slice --expand-environment=no \
+        -p "MemoryHigh=$high" -p "MemoryMax=$maximum" -p MemorySwapMax=256M \
+        -p CPUQuota=200% -p TasksMax=512 -p OOMPolicy=kill \
+        -p RuntimeMaxSec=65min -p TimeoutStopSec=10s -p KillMode=control-group \
+        -- "$HOME/.local/bin/dev-runner-worker" execute "$id" "$kind" "$port" || rc=$?
+    journalctl --user -u "$unit" --no-pager -o short-iso -n 25 > "$job/artifacts/service.log" 2>/dev/null || true
+    if [[ -f $job/artifacts/cancelled ]]; then
+        outcome=cancelled; rc=130
+    elif grep -q "result 'oom-kill'" "$job/artifacts/service.log"; then
+        outcome=oom-kill
+    elif [[ -f $job/state ]] && grep -q '^queue-timeout ' "$job/state"; then outcome=queue-timeout
+    elif grep -q "result 'timeout'" "$job/artifacts/service.log"; then outcome=service-timeout
+    elif (( rc == 124 )); then outcome=command-timeout
+    elif (( rc == 0 )); then outcome=passed
+    else outcome=failed
+    fi
+    printf 'outcome=%s\nexit_code=%s\nkind=%s\nmemory_max=%s\n' "$outcome" "$rc" "$kind" "$maximum" > "$job/artifacts/outcome.txt"
+    echo "Runner: $id outcome=$outcome exit=$rc; resource evidence saved." >&2
+    exit "$rc"
+fi
+: "${XDG_RUNTIME_DIR:?Runner requires the user systemd runtime}"
+exec 9>"$XDG_RUNTIME_DIR/dotjik-dev-check.lock"
+echo "Runner: $id waiting for shared validation slot" >&2
+printf 'queued %s %s\n' "$kind" "$(date +%s)" > "$job/state"
+wait_started=$SECONDS
+until flock --exclusive --timeout 15 9; do
+    waited=$(( SECONDS - wait_started ))
+    echo "Runner: $id queued for ${waited}s; waiting automatically, do not skip verification. Use dev-remote status." >&2
+    if (( waited >= 1800 )); then
+        printf 'queue-timeout %s %s\n' "$kind" "$(date +%s)" > "$job/state"
+        echo 'Runner: queue timeout after 30 minutes; verification did not run.' >&2
+        exit 75
+    fi
+done
+printf 'running %s %s\n' "$kind" "$(date +%s)" > "$job/state"
+echo "Runner: $id running ($kind, maximum $maximum)" >&2
+# This is the scope owner, just like dev-check; nested project wrappers must not
+# deadlock by reacquiring its lock or escape into a different resource scope.
+export DOTJIK_DEV_CHECK=1
+export CI=true PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+export PLAYWRIGHT_BROWSER=chromium PLAYWRIGHT_CHANNEL=chrome
+export PLAYWRIGHT_BASE_URL="http://127.0.0.1:$port"
+export DEV_RUNNER_ARTIFACTS="$job/artifacts"
+export RAYON_NUM_THREADS=2
+export DEV_RUNNER_CHROME_CLASS="dotjik-runner-$id"
+if [[ $kind == chrome ]]; then
+    # This service inherits the graphical environment from the user manager.
+    # Match only this job's X11 Chrome class; never move existing user windows.
+    : "${DISPLAY:?Visible Chrome requires Li graphical session}"
+    : "${HYPRLAND_INSTANCE_SIGNATURE:?Visible Chrome requires Hyprland}"
+    rule_result=$(hyprctl eval 'hl.window_rule({name="dotjik-runner-chrome",workspace="1 silent",match={class="^dotjik-runner-job-.*$"}})')
+    [[ $rule_result == ok* ]] || { echo "Chrome placement failed: $rule_result" >&2; exit 69; }
+fi
+cd "$job/source"
+mapfile -d '' -t command < "$job/command"
+(( ${#command[@]} )) || exit 64
+mkdir -p .dotjik-runner
+cp "$HOME/.local/share/dev-runner/chrome-smoke.mjs" .dotjik-runner/
+cp "$HOME/.local/share/dev-runner/playwright.config.mjs" .dotjik-runner/
+finish() {
+    rc=$?
+    trap - EXIT
+    printf '%s\n' "$rc" > "$job/artifacts/exit-code"
+    printf 'finished-%s %s %s\n' "$rc" "$kind" "$(date +%s)" > "$job/state"
+    for directory in test-results playwright-report output/playwright; do
+        if [[ -d $directory ]]; then cp -a "$directory" "$job/artifacts/"; fi
+    done
+    exit "$rc"
+}
+trap finish EXIT
+# Frozen installs share Bun's package download cache, never writable node_modules.
+# Lifecycle scripts are intentionally disabled in snapshots; explicit generation
+# (e.g. svelte-kit sync) belongs in the submitted command.
+if [[ -f package.json ]]; then
+    [[ -f bun.lock || -f bun.lockb ]] || { echo 'A Bun lockfile is required.' >&2; exit 66; }
+    printf 'installing %s %s\n' "$kind" "$(date +%s)" > "$job/state"
+    timeout --foreground 10m bun install --frozen-lockfile --ignore-scripts
+fi
+printf 'checking %s %s\n' "$kind" "$(date +%s)" > "$job/state"
+echo "Runner: $id checking; allow completion, memory pressure alone is not an OOM failure." >&2
+timeout --foreground 20m "${command[@]}"

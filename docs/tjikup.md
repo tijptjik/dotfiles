@@ -155,3 +155,17 @@ installed build when its source revision is a strict descendant of the pinned
 release. It reports that choice without recording a false cache success, and
 keeps the scheduled runtime aligned. Future native capability changes likewise require a published release and an
 updated checksum pin before fleet distribution.
+
+### Local file conflicts
+
+Home and system file recipes reserve the terminal for conflict review. Choose
+**Review difference**, **Keep local**, **Use managed**, or **Cancel**. Keep local
+preserves that whole file until its managed version changes, while other files
+continue to deploy. This accommodates application-written settings such as
+Codex browser-service version paths without copying them back into shared policy.
+Use managed retains a private recovery receipt. Sensitive previews appear only
+on the terminal after explicitly requesting them. Unattended runs stop on new
+conflicts; run `tjikup config home apply` interactively to resolve them.
+
+This policy requires `native_file_review: 1`. The installer retains a compatible
+local runner while awaiting a published release with that capability.

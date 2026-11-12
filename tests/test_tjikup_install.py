@@ -67,8 +67,16 @@ class InstallTests(unittest.TestCase):
         self.release_case(candidate=0, installed=0, success=False, installs=False,
                           candidate_patched=False, installed_patched=False)
 
+    def test_release_without_review_cannot_replace_new_state_reader(self):
+        self.release_case(candidate=0, installed=0, success=True, installs=False,
+                          provenance="equal", candidate_review=False)
+
+    def test_missing_review_support_preserves_existing_binary(self):
+        self.release_case(candidate=0, installed=0, success=False, installs=False,
+                          candidate_review=False, installed_review=False)
+
     def release_case(self, candidate, installed, success, installs, candidate_cache=True, installed_cache=True,
-                     provenance=None, candidate_flatpak=True, installed_flatpak=True, candidate_patched=True, installed_patched=True):
+                     provenance=None, candidate_flatpak=True, installed_flatpak=True, candidate_patched=True, installed_patched=True, candidate_review=True, installed_review=True):
         with tempfile.TemporaryDirectory() as directory:
             home=Path(directory);repo=home/'checkout';tool=home/'tool'
             (repo/'scripts').mkdir(parents=True);(repo/'system/tjikup').mkdir(parents=True)
@@ -82,6 +90,7 @@ class InstallTests(unittest.TestCase):
             (tool/'apps/tjikup/scripts/install-weekly.sh').write_text('#!/bin/sh\ntouch "$HOME/weekly-installed"\n')
             for path,code in [(tool/'apps/tjikup/dist/tjikup',candidate),(home/'.local/bin/tjikup',installed)]:
                 capabilities = {
+                    'native_file_review': int(candidate_review if path == tool / 'apps/tjikup/dist/tjikup' else installed_review),
                     'bootstrap_archives': 1, 'native_commands': 1, 'native_installers': 1,
                     'patched_source_installers': int(candidate_patched if path == tool / 'apps/tjikup/dist/tjikup' else installed_patched),
                     'native_maintenance': 1, 'scheduled_telegram': 1, 'scheduled_telegram_bws': 1,

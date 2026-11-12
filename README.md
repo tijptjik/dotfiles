@@ -161,7 +161,7 @@ Zed propagation updates existing scalar settings and preserves template settings
 
 On clients, the Tjikup recipe installs or updates `codex-lb` in `~/.codex-lb/runtime`. After an update, run `systemctl --user restart codex-lb.service` between Codex sessions to activate it; the update script leaves the running proxy alone to avoid interrupting requests.
 
-Use `tjikup --skip-conflicts` to automatically skip conflicting files during the legacy home Tjikup apply, preserving their local contents while applying other changes. Native file conflicts always stop that file deployment. Other apply errors still fail the command.
+Use `tjikup --skip-conflicts` to automatically skip conflicting files during the legacy home Tjikup apply, preserving their local contents while applying other changes. Native file conflicts offer interactive review, keep-local, managed-with-backup, or cancel choices. Unattended runs preserve unresolved conflicts. Other apply errors still fail the command.
 
 Apply stages stream plain output to avoid terminal capability replies leaking from Gum spinners. Interactive prompts remain available.
 

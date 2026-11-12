@@ -75,7 +75,8 @@
       "after": [
         "repo:home:push",
         "repo:tjikos:push"
-      ]
+      ],
+      "interactive": true
     },
     {
       "id": "system:render",

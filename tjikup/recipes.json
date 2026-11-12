@@ -81,7 +81,8 @@
       "operation": "configure",
       "scope": "home",
       "application": "files",
-      "ecosystem": "configuration"
+      "ecosystem": "configuration",
+      "interactive": true
     },
     {
       "id": "home:render",
@@ -1639,7 +1640,8 @@
       "ecosystem": "configuration",
       "after": [
         "home:files"
-      ]
+      ],
+      "interactive": true
     },
     {
       "id": "home:repositories",
@@ -1720,7 +1722,8 @@
         "section": "Configuration",
         "icon": "Zed"
       },
-      "after": []
+      "after": [],
+      "interactive": true
     },
     {
       "id": "home:config:telegram",
@@ -1755,7 +1758,8 @@
         "section": "Configuration",
         "icon": "Telegram"
       },
-      "after": []
+      "after": [],
+      "interactive": true
     },
     {
       "id": "home:config:obsidian",
@@ -1790,7 +1794,8 @@
         "section": "Configuration",
         "icon": "Obsidian"
       },
-      "after": []
+      "after": [],
+      "interactive": true
     },
     {
       "id": "home:config:codex-lb",
@@ -1825,7 +1830,8 @@
         "section": "Configuration",
         "icon": "Codex LB"
       },
-      "after": []
+      "after": [],
+      "interactive": true
     },
     {
       "id": "home:config:notjik",
@@ -1860,7 +1866,8 @@
         "section": "Configuration",
         "icon": "Notjik"
       },
-      "after": []
+      "after": [],
+      "interactive": true
     },
     {
       "id": "home:config:bartjik",
@@ -1895,7 +1902,8 @@
         "section": "Configuration",
         "icon": "Bartjik"
       },
-      "after": []
+      "after": [],
+      "interactive": true
     },
     {
       "id": "home:config:runtjik",
@@ -1930,7 +1938,8 @@
         "section": "Configuration",
         "icon": "Runtjik"
       },
-      "after": []
+      "after": [],
+      "interactive": true
     },
     {
       "id": "home:config:hyprvoice",
@@ -1965,7 +1974,8 @@
         "section": "Configuration",
         "icon": "Hyprvoice"
       },
-      "after": []
+      "after": [],
+      "interactive": true
     },
     {
       "id": "home:config:python-project",
@@ -1996,7 +2006,8 @@
         "section": "Configuration",
         "icon": "Python"
       },
-      "after": []
+      "after": [],
+      "interactive": true
     },
     {
       "id": "home:bitwarden:update",
@@ -3334,7 +3345,8 @@
         "section": "Configuration",
         "icon": "Tasktjik"
       },
-      "after": []
+      "after": [],
+      "interactive": true
     },
     {
       "id": "home:activate:tasktjik",
@@ -3593,7 +3605,8 @@
       "display": {
         "section": "Configuration",
         "icon": "Zen"
-      }
+      },
+      "interactive": true
     },
     {
       "id": "home:reclaim-diskspace",

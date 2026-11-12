@@ -1,5 +1,5 @@
 model = "gpt-6-astra"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "{{ "low" if is_desktop else "medium" }}"
 model_provider = "codex-lb"
 approvals_reviewer = "auto_review"
 personality = "pragmatic"
@@ -157,6 +157,14 @@ trust_level = "trusted"
 [projects."/home/io/code/type.hk"]
 trust_level = "trusted"
 
+{% if is_desktop %}
+[projects."/home/io/code/hkfoodworks.com"]
+trust_level = "trusted"
+
+[projects."/home/io/code/eurovision"]
+trust_level = "trusted"
+{% endif %}
+
 [tui]
 resume_cwd = "session"
 screen_reader_detection_done = true
@@ -174,7 +182,7 @@ sansFontSize = 12
 appearanceDiffMarkerStyle = "color"
 open-local-url-in-target-preference = "external-browser"
 git-commit-instructions = "use conventional commit style"
-conversationDetailMode = "STEPS_COMMANDS"
+conversationDetailMode = "{{ "STEPS_PROSE" if is_desktop else "STEPS_COMMANDS" }}"
 keepRemoteControlAwakeWhilePluggedIn = true
 migratedFollowUpQueueToSteer = true
 
@@ -255,6 +263,8 @@ memories = true
 js_repl = false
 
 [mcp_servers.chrome-devtools]
+# Project browser checks use the queued Li runner; avoid idle local Chrome trees.
+enabled = false
 command = "chrome-devtools-bounded"
 args = []
 

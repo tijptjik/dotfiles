@@ -82,7 +82,6 @@
         "files": [
           "native/home/data/gtk-bookmarks.json",
           "native/home/data/zapzap.json",
-          "native/home/files/.codex/config.toml",
           "native/home/files/.config/fcitx5/profile",
           "native/home/files/.config/herdr/session.json.j2",
           "native/home/files/.config/solaar/config.yaml",

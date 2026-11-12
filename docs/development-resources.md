@@ -49,6 +49,12 @@ loads the slice definition without restarting the desktop.
 
 ## Li runner
 
+Codex configuration is managed by `.codex/config.toml.j2`; whole-file live
+capture is disabled so an older machine cannot remove shared policy such as the
+Chrome MCP disable flag. The template retains Fi's local reasoning/display
+preferences and additional trusted projects. Edit the template for persistent
+changes; native deployment still preserves unexpected local drift for review.
+
 `dev-remote` uses native `tjikup ssh --transport lan li` for address discovery and
 pinned host verification. No shared tailnet, exposed browser debugging port, or
 new fleet deployment engine is required. Li must be awake and reachable over LAN.

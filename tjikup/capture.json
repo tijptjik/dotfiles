@@ -54,17 +54,6 @@
     ]
   },
   {
-    "name": "codex",
-    "source": "native/home/files/.codex/config.toml",
-    "target": ".codex/config.toml",
-    "kind": "copy",
-    "optional": true,
-    "hosts": [
-      "fi",
-      "li"
-    ]
-  },
-  {
     "name": "zapzap",
     "source": "native/home/data/zapzap.json",
     "target": ".config/ZapZap/ZapZap.conf",

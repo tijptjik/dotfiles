@@ -15,10 +15,11 @@
   {
     "path": "{{ user.home }}/.codex/config.toml",
     "kind": "file",
-    "source": "files/.codex/config.toml",
+    "source": "files/.codex/config.toml.j2",
     "mode": "0600",
     "sensitive": true,
-    "group": "base"
+    "group": "base",
+    "template": true
   },
   {
     "path": "{{ user.home }}/.config",

@@ -11,6 +11,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @unittest.skipUnless(shutil.which('fish'), 'render tools required')
 class PackageScripts(unittest.TestCase):
+    def test_presence_checks_and_installers_share_package_policy(self):
+        context = json.loads((ROOT / 'native/tasks/data.json').read_text())['packages']
+        installer = json.loads((ROOT / 'native/tasks/assets/system/data/packages.json').read_text())['packages']
+        self.assertEqual(context, installer)
+        for package in ('meson', 'yazi', 'zoxide'):
+            self.assertIn(package, context['common']['rpm'])
+
     def test_rpm_and_flatpak_install_and_update_are_separate(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

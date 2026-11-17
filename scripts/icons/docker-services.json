@@ -36,10 +36,6 @@
     "icon": "bookshelf",
     "glyph": "\uf02d"
   },
-  "ephemera": {
-    "icon": "ephemera",
-    "glyph": "\uf02d"
-  },
   "shelfmark": {
     "icon": "shelfmark",
     "glyph": "\uf02e"

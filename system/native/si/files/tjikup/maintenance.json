@@ -162,9 +162,7 @@
     "state": "/var/lib/si-app-updates",
     "max_backup_age_seconds": 86400,
     "image_workers": 3,
-    "frozen_services": {
-      "ephemera": "final release"
-    },
+    "frozen_services": {},
     "timeout_seconds": 1200,
     "lock": "/run/lock/si-app-updates.lock",
     "backup_lock": "/run/lock/si-app-backup.lock"

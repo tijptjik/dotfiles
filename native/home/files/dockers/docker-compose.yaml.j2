@@ -339,31 +339,8 @@ services:
       - /opt:/opt
 
 ######################
-###  EPHEMERA      ###
-###  anna.type.hk  ###
-######################
-
-  ephemera:
-    container_name: ephemera
-    image: ghcr.io/orwellianepilogue/ephemera:latest
-    restart: unless-stopped
-    environment:
-      <<: *common-env
-      # FlareSolverr URL (for slow download fallback)
-      FLARESOLVERR_URL: http://flaresolverr:{{ ports.byparr }}
-      AA_BASE_URL: https://annas-archive.gl/
-      ALLOWED_ORIGINS: https://anna.type.hk
-    ports:
-      - {{ ports.ephemera }}:{{ ports.ephemera }}
-    volumes:
-      - {{ paths.appData }}/ephemera:/app/data
-      - {{ paths.dlCache }}/ephemera:/downloads
-      - {{ paths.drops }}/booklore:/ingest
-      - {{ paths.publicRoot }}/library:{{ paths.publicRoot }}/library
-
-######################
 ###  SHELFMARK     ###
-###  mark.type.hk  ###
+###  anna.type.hk  ###
 ######################
 
   shelfmark:

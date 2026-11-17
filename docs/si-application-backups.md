@@ -23,6 +23,11 @@ This is application recovery coverage, not a disk image or backup of all private
 
 ### Ephemera final image
 
+Ephemera was retired from the Si service definitions on 2026-11-18.
+`anna.type.hk` now points to Shelfmark; `mark.type.hk` remains an alias.
+Its application data, download cache and archived image are retained for recovery.
+Restore the historical Compose definition before using the recovery command below.
+
 Ephemera 2.0.0 has a permanent, one-time Docker image backup on Google Drive:
 
 `type-drive:private/backups/software/ephemera/v2.0.0-37d95e68394b/`

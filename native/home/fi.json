@@ -9,7 +9,9 @@
     },
     "is_client": true,
     "anthropic_model_provider": "zai",
-    "cargo_registry_secret_id": "ea529b3b-bac7-4e41-9452-b4fe009eb4f3"
+    "cargo_registry_secret_id": "ea529b3b-bac7-4e41-9452-b4fe009eb4f3",
+    "npm_publish_secret_id": "86208a1d-f5eb-4483-a655-b505003cfd14",
+    "github_packages_secret_id": "a034c00d-d742-428f-81be-b505003fe010"
   },
   "bitwarden": {
     "command": [
@@ -94,6 +96,16 @@
       "sensitive": true,
       "group": "cargo-registry",
       "when": "is_client and cargo_registry_secret_id is defined and cargo_registry_secret_id != \"\""
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.npmrc",
+      "source": "templates/npm/npmrc.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "group": "npm-registry",
+      "when": "is_client and npm_publish_secret_id is defined and npm_publish_secret_id != \"\""
     }
   ]
 }

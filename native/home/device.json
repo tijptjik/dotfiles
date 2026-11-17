@@ -39,6 +39,16 @@
       "sensitive": true,
       "group": "cargo-registry",
       "when": "is_client and cargo_registry_secret_id is defined and cargo_registry_secret_id != \"\" and \"home:secrets\" in subscriptions"
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.npmrc",
+      "source": "templates/npm/npmrc.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "group": "npm-registry",
+      "when": "is_client and npm_publish_secret_id is defined and npm_publish_secret_id != \"\" and \"home:secrets\" in subscriptions"
     }
   ]
 }

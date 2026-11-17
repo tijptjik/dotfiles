@@ -80,3 +80,35 @@ Existing unmanaged credentials or local edits produce a conflict; they are not
 replaced automatically. Review and retain any other registry credentials before
 adopting the file. Token rotation uses the normal encrypted-cache refresh mechanism.
 Configuring the token does not publish a crate.
+
+## npm and GitHub Packages publishing
+
+The `npm-registry` credential group renders `~/.npmrc` with mode 0600 for enrolled
+client systems. It resolves `NPM_PUBLISH_TOKEN` and `GITHUB_PACKAGES_TOKEN` from the
+Bitwarden Secrets Manager `dotfiles` project, using the verified UUIDs configured as
+`npm_publish_secret_id` and `github_packages_secret_id`. The npm UUID enables the group; the GitHub UUID is optional until GitHub
+Packages publishing is configured. Servers remain excluded; portable clients also require
+`home:secrets`.
+
+The default registry stays npm. GitHub Packages is selected explicitly when publishing
+with `bun publish --registry https://npm.pkg.github.com/`; this avoids redirecting
+ordinary `@saanseoi` dependency installation away from npm. Registry-specific auth
+entries prevent sending one registry's token to the other.
+
+Create tokens in the registry account settings and save their values directly into
+Bitwarden. Never put tokens in Git, chat, command arguments or release logs. npm tokens
+need package write access to the intended scope and an expiry policy compatible with
+the registry. GitHub Packages requires a classic PAT with `write:packages` and
+`read:packages`, with organisation authorisation if applicable. Expired or revoked
+tokens must be replaced in Bitwarden; persistent configuration does not bypass expiry.
+
+After enrolling the verified secret UUIDs, apply only the credential group:
+
+```sh
+tjikup workflow files credentials check --group npm-registry
+tjikup workflow files credentials apply --group npm-registry
+```
+
+Existing unmanaged or locally modified `.npmrc` files must be reconciled before
+application; do not overwrite them. For rotation, refresh the same group with
+`TJIKUP_REFRESH_SECRETS=all`. Configuration alone does not publish any package.

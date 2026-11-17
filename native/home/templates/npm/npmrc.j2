@@ -1,0 +1,6 @@
+# Managed by Dotjik; registry tokens are resolved from Bitwarden by UUID.
+registry=https://registry.npmjs.org/
+//registry.npmjs.org/:_authToken={{ secret(npm_publish_secret_id) }}
+{% if github_packages_secret_id is defined and github_packages_secret_id != "" %}
+//npm.pkg.github.com/:_authToken={{ secret(github_packages_secret_id) }}
+{% endif %}

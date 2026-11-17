@@ -4,6 +4,7 @@ local zen_extension_title_subscription
 local staged_zen_windows = {}
 local zen_workspace_snapshot_timer
 local zen_workspace_restore_pending = false
+local hyprvoice_media_timer
 
 local function command_output(command)
     local process = io.popen(command .. " 2>/dev/null")
@@ -133,6 +134,26 @@ end
 function helpers.toggle_hyprvoice()
     local hyprvoice = os.getenv("HOME") .. "/.local/bin/hyprvoice"
     local pause_flag = "/tmp/hyprvoice_music_paused"
+    local function player_command(player, action)
+        local quoted = "'" .. player:gsub("'", "'\\''") .. "'"
+        return "playerctl --player=" .. quoted .. " " .. action
+    end
+    local function resume_media()
+        if hyprvoice_media_timer ~= nil then
+            hyprvoice_media_timer:set_enabled(false)
+            hyprvoice_media_timer = nil
+        end
+        local flag = io.open(pause_flag, "r")
+        if flag ~= nil then
+            for player in flag:lines() do
+                if player ~= "" then
+                    os.execute(player_command(player, "play"))
+                end
+            end
+            flag:close()
+            os.remove(pause_flag)
+        end
+    end
     local status = command_output(hyprvoice .. " status")
 
     if status == "" then
@@ -142,17 +163,24 @@ function helpers.toggle_hyprvoice()
 
     if not is_idle(status) then
         os.execute(hyprvoice .. " toggle")
-        if file_exists(pause_flag) then
-            os.execute("playerctl play")
-            os.remove(pause_flag)
-        end
+        resume_media()
         return
     end
 
-    if command_output("playerctl status"):match("^Playing") ~= nil then
-        os.execute("playerctl pause")
+    -- Save exact MPRIS instance names; an unrelated paused player can be first.
+    local paused_players = {}
+    for player in command_output("playerctl --list-all"):gmatch("[^\r\n]+") do
+        if command_output(player_command(player, "status")):match("^Playing") ~= nil then
+            local ok = os.execute(player_command(player, "pause"))
+            if ok == true or ok == 0 then
+                table.insert(paused_players, player)
+            end
+        end
+    end
+    if #paused_players > 0 then
         local flag = io.open(pause_flag, "w")
         if flag ~= nil then
+            flag:write(table.concat(paused_players, "\n"), "\n")
             flag:close()
         end
     end
@@ -179,11 +207,10 @@ function helpers.toggle_hyprvoice()
         end
 
         if is_idle(timer_status) then
-            os.execute("playerctl play")
-            os.remove(pause_flag)
-            timer:set_enabled(false)
+            resume_media()
         end
     end, { timeout = 100, type = "repeat" })
+    hyprvoice_media_timer = timer
 end
 
 -- Only float Zen's known extension popups. Regular browser windows must stay in

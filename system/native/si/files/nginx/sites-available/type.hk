@@ -129,7 +129,7 @@ server {
 }
 
 ######################
-###  EPHEMERA      ###
+###  SHELFMARK     ###
 ###  anna.type.hk  ###
 ######################
 
@@ -138,7 +138,7 @@ server {
     server_name anna.type.hk;
 
     location / {
-        proxy_pass http://localhost:8286;
+        proxy_pass http://localhost:8084;
         include /etc/nginx/snippets/reverse_proxy.conf;
     }
 }

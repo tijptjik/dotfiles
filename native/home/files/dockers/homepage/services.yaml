@@ -43,7 +43,7 @@
       siteMonitor: http://sonarr:8989/ping
   - Books:
       icon: /images/rose-punk/shelfmark.svg
-      href: https://mark.type.hk
+      href: https://anna.type.hk
       description: Shelfmark
       siteMonitor: http://shelfmark:8084/api/health
   - Torrent:

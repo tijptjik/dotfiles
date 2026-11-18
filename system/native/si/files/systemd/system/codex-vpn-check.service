@@ -1,0 +1,34 @@
+[Unit]
+Description=Codex subscription smoke request through Mullvad
+BindsTo=codex-vpn-network.service
+After=codex-vpn-network.service
+ConditionPathExists=/var/lib/codex-vpn/auth.json
+
+[Service]
+Type=oneshot
+User=codex-vpn
+Group=codex-vpn
+NetworkNamespacePath=/run/netns/codex-vpn
+BindReadOnlyPaths=/etc/codex-vpn/resolv.conf:/etc/resolv.conf
+BindReadOnlyPaths=/etc/codex-vpn/nsswitch.conf:/etc/nsswitch.conf
+InaccessiblePaths=-/run/nscd/socket -/run/systemd/resolve
+Environment=HOME=/var/lib/codex-vpn
+Environment=CODEX_HOME=/var/lib/codex-vpn
+StateDirectory=codex-vpn
+StateDirectoryMode=0700
+WorkingDirectory=/var/lib/codex-vpn
+UMask=0077
+ExecStart=/opt/codex-vpn/bin/codex exec --skip-git-repo-check --sandbox read-only --output-last-message /var/lib/codex-vpn/last-check.txt "Reply with exactly CODEX_SI_OK. Do not use tools."
+TimeoutStartSec=120
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+RestrictSUIDSGID=yes
+LockPersonality=yes

@@ -1,0 +1,32 @@
+[Unit]
+Description=Isolated Mullvad WireGuard network for Codex
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=/etc/codex-vpn/wireguard.conf
+ConditionPathExists=/etc/codex-vpn/address.env
+ConditionPathExists=!/run/netns/codex-vpn
+ConditionPathExists=!/sys/class/net/cvpn-si
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/codex-vpn/address.env
+UMask=0077
+ExecStart=/usr/bin/ip netns add codex-vpn
+# Create the encrypted UDP socket in the host namespace before moving the
+# interface. The host default route and DNS are never changed.
+ExecStart=/usr/bin/ip link add cvpn-si type wireguard
+ExecStart=/usr/bin/ip link set cvpn-si netns codex-vpn
+ExecStart=/usr/bin/ip netns exec codex-vpn /usr/bin/wg setconf cvpn-si /etc/codex-vpn/wireguard.conf
+ExecStart=/usr/bin/ip -n codex-vpn address add ${WIREGUARD_ADDRESS} dev cvpn-si
+ExecStart=/usr/bin/ip -n codex-vpn link set lo up
+ExecStart=/usr/bin/ip -n codex-vpn link set cvpn-si mtu 1380 up
+ExecStart=/usr/bin/ip -n codex-vpn route add default dev cvpn-si
+# Also remove the interface on partial startup failure; workers cannot fall
+# back to a host interface, even if they still hold the namespace open.
+ExecStopPost=-/usr/bin/ip -n codex-vpn link delete cvpn-si
+ExecStopPost=-/usr/bin/ip link delete cvpn-si
+ExecStopPost=-/usr/bin/ip netns delete codex-vpn
+
+[Install]
+WantedBy=multi-user.target

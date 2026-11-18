@@ -883,6 +883,59 @@
       "uid": 0,
       "gid": 0,
       "group": "zen"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/codex-vpn-network.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/codex-vpn-network.service",
+      "group": "codex-vpn"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/systemd/system/codex-vpn-check.service",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/systemd/system/codex-vpn-check.service",
+      "group": "codex-vpn"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/sysusers.d/codex-vpn.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/sysusers.d/codex-vpn.conf",
+      "group": "codex-vpn"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/codex-vpn/resolv.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/codex-vpn/resolv.conf",
+      "group": "codex-vpn"
+    },
+    {
+      "kind": "directory",
+      "path": "/etc/codex-vpn",
+      "mode": "0700",
+      "uid": 0,
+      "gid": 0,
+      "group": "codex-vpn"
+    },
+    {
+      "kind": "file",
+      "path": "/etc/codex-vpn/nsswitch.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/codex-vpn/nsswitch.conf",
+      "group": "codex-vpn"
     }
   ]
 }

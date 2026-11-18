@@ -54,6 +54,21 @@
       "sensitive": true,
       "group": "npm-registry",
       "when": "is_client and npm_publish_secret_id is defined and npm_publish_secret_id != \"\""
+    },
+    {
+      "kind": "directory",
+      "path": "{{ user.home }}/.config/codex-vpn",
+      "mode": "0700",
+      "group": "codex-vpn"
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/codex-vpn/mullvad.conf",
+      "source": "templates/codex-vpn/mullvad.conf.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "group": "codex-vpn"
     }
   ]
 }

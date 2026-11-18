@@ -83,6 +83,7 @@ sudo systemd-run --unit=codex-vpn-login --collect --wait --pipe \
   --property=StateDirectory=codex-vpn --property=StateDirectoryMode=0700 \
   --property=UMask=0077 --property=NoNewPrivileges=yes \
   --setenv=HOME=/var/lib/codex-vpn --setenv=CODEX_HOME=/var/lib/codex-vpn \
+  --setenv=PATH=/usr/bin:/bin \
   /opt/codex-vpn/bin/codex login --device-auth
 sudo systemctl start codex-vpn-check.service
 sudo cat /var/lib/codex-vpn/last-check.txt

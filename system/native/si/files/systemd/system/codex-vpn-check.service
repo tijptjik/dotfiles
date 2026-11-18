@@ -14,6 +14,7 @@ BindReadOnlyPaths=/etc/codex-vpn/nsswitch.conf:/etc/nsswitch.conf
 InaccessiblePaths=-/run/nscd/socket -/run/systemd/resolve
 Environment=HOME=/var/lib/codex-vpn
 Environment=CODEX_HOME=/var/lib/codex-vpn
+Environment=PATH=/usr/bin:/bin
 StateDirectory=codex-vpn
 StateDirectoryMode=0700
 WorkingDirectory=/var/lib/codex-vpn

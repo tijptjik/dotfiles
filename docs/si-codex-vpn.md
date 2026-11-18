@@ -14,6 +14,22 @@ disabled. Keep this runtime separate from the desktop Codex LB instances.
 
 ## Private prerequisites
 
+The initial Tokyo endpoint `jp-tyo-wg-001` is stored in the `dotfiles` Bitwarden
+Secrets Manager project as `SI_CODEX_MULLVAD_WIREGUARD` (secret ID
+`0537f34a-4616-4eb9-bc1e-b506008f6eff`). Only the secret reference is in Git.
+The Si-only credential manifest retrieves the complete downloaded configuration:
+
+```sh
+/usr/local/lib/tjikup/tjikup files apply \
+  --manifest native/home/si.json \
+  --state-dir /home/m/.local/state/tjikup/files/home --group codex-vpn
+```
+
+Run this as `m` on Si, using its existing BWS machine token. The directory is
+0700 and configuration 0600. A failed BWS lookup prevents application. Credential
+rotation requires reviewing the private source change, then refreshing the root
+runtime inputs below and restarting the namespace during an idle period.
+
 Generate a dedicated Mullvad WireGuard configuration for Si. Do not reuse an
 active device's private key or put the downloaded configuration in Git. Stage it
 at `/home/m/.config/codex-vpn/mullvad.conf`, directory mode 0700 and file mode

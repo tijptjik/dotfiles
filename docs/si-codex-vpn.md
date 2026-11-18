@@ -14,7 +14,7 @@ disabled. Keep this runtime separate from the desktop Codex LB instances.
 
 ## Private prerequisites
 
-The initial Tokyo endpoint `jp-tyo-wg-001` is stored in the `dotfiles` Bitwarden
+The Singapore endpoint `sg-sin-wg-001` is stored in the `dotfiles` Bitwarden
 Secrets Manager project as `SI_CODEX_MULLVAD_WIREGUARD` (secret ID
 `0537f34a-4616-4eb9-bc1e-b506008f6eff`). Only the secret reference is in Git.
 The Si-only credential manifest retrieves the complete downloaded configuration:
@@ -32,8 +32,7 @@ runtime inputs below and restarting the namespace during an idle period.
 
 Generate a dedicated Mullvad WireGuard configuration for Si. Do not reuse an
 active device's private key or put the downloaded configuration in Git. Stage it
-at `/home/m/.config/codex-vpn/mullvad.conf`, directory mode 0700 and file mode
-0600. Do not print its contents into logs or chat.
+at `/home/m/.config/codex-vpn/mullvad.conf`, directory mode 0700 and file mode 0600. Do not print its contents into logs or chat.
 
 Before activation, an administrator must prepare these root-owned private files:
 

@@ -48,3 +48,22 @@ write_nginx_dav_ext_spec /unused/spec
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("do not match", result.stdout)
         self.assertNotIn("UNEXPECTED WRITE", result.stdout)
+
+    def test_security_floor_for_stable_and_mainline(self):
+        for version, acceptable in (
+            ("1.30.5", False), ("1.30.6", False), ("1.30.7", True),
+            ("1.30.10", True), ("1.31.8", False), ("1.31.9", True),
+            ("1.32.0", True), ("", False),
+        ):
+            with self.subTest(version=version):
+                result = self.fish(f"nginx_security_version_ok '{version}'")
+                self.assertEqual(result.returncode == 0, acceptable, result.stderr)
+
+    def test_fixed_build_needs_no_package_transaction(self):
+        result = self.fish("""
+function nginx; echo 'nginx version: nginx/1.30.7' >&2; end
+function sudo; echo 'unexpected package transaction'; return 1; end
+ensure_nginx_security_version
+""")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout, "")

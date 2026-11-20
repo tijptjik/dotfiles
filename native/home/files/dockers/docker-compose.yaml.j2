@@ -550,7 +550,9 @@ services:
   feishin:
     container_name: feishin
     image: 'ghcr.io/jeffvli/feishin:latest'
-    restart: unless-stopped
+    # Hold until the image includes the NGINX security fixes.
+    profiles: [feishin-maintenance]
+    restart: "no"
     environment:
       SERVER_NAME: Navidrome            # pre-defined server name
       SERVER_LOCK: true                 # When true AND name/type/url are set, only username/password can be toggled

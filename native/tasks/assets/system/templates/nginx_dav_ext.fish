@@ -87,6 +87,11 @@ function converge_nginx_after_package_update
         or return 1
     end
 
+    if $upgrade_required; and systemctl is-active --quiet tasktjik-shortcuts.service
+        step_run_note_as RESTART "Tasktjik shortcut proxy" upgraded sudo systemctl restart tasktjik-shortcuts.service
+        or return 1
+    end
+
     if test -f "$nginx_rpm_upgrade_marker"
         step_run_note_as REMOVE "Nginx RPM upgrade guard" removed sudo rm -f "$nginx_rpm_upgrade_marker"
         or return 1
@@ -97,6 +102,64 @@ function nginx_dav_ext_current_abi
     # Interrupted RPM transactions can leave multiple version records. The
     # installed binary determines which ABI its dynamic modules must use.
     nginx -v 2>&1 | string match --regex --groups-only '^nginx version: nginx/([0-9]+\.[0-9]+\.[0-9]+)$'
+end
+
+# Si's stable build and the corresponding mainline security release.
+function nginx_security_version_ok --argument-names nginx_version
+    string match -qr '^[0-9]+\.[0-9]+\.[0-9]+$' -- "$nginx_version"; or return 1
+    set -l minimum 1.30.7
+    if string match -q '1.31.*' -- "$nginx_version"
+        set minimum 1.31.9
+    end
+    test (printf '%s\n' "$minimum" "$nginx_version" | sort -V | head -1) = "$minimum"
+end
+
+function restore_si_nginx_security_build
+    set -l root /mnt/data/disk42/.nginx-security-build-20261119/stage/RPMS
+    set -l release 1.30.7-0.1.si.fc45
+    set -l artifacts \
+        "9ea65e9601eede4b90314b439d3fd79e848f2f7d30670e817fb0387b70a8cc84  x86_64/nginx-$release.x86_64.rpm" \
+        "8c61ab82899b2aabdd6e70897882b3fc1358ce9cd7fb00b92b458eb53346f370  x86_64/nginx-core-$release.x86_64.rpm" \
+        "22da558ca552fa43ce6ce59d07191177cec427de9678d09c89a136623ec3659f  noarch/nginx-filesystem-$release.noarch.rpm" \
+        "b850efe533070458f076a4339de6bc1eef97e1c08bc65f3f21eec3133c1fc3b1  x86_64/nginx-mod-stream-$release.x86_64.rpm" \
+        "376b181f25931c3ca0d87d9fc4e12d28e6536ff02f92bd5bc8a289886a958480  x86_64/nginx-mod-devel-$release.x86_64.rpm" \
+        "ff85db0863ab1497aba4808c60988b5db5ca1f1a6ce75f8e5c7801a54ab1de46  x86_64/nginx-mod-dav-ext-3.0.0-4.fc45.nginx1.30.7.x86_64.rpm"
+    set -l stage (sudo mktemp -d)
+    or return 1
+    set -l packages
+    for artifact in $artifacts
+        set -l parts (string split '  ' -- "$artifact")
+        set -l dest "$stage/"(path basename "$parts[2]")
+        sudo install -m 0600 "$root/$parts[2]" "$dest"
+        and echo "$parts[1]  $dest" | sudo sha256sum --check --status
+        or begin
+            sudo rm -rf -- "$stage"
+            step_warn "Unable to verify Si NGINX package $parts[2]"
+            return 1
+        end
+        set -a packages "$dest"
+    end
+    step_run_note_as INSTALL "Si NGINX security build" installed sudo rpm --define '_pkgverify_level digest' -U --replacepkgs $packages
+    set -l result $status
+    sudo rm -rf -- "$stage"
+    return $result
+end
+
+function ensure_nginx_security_version
+    nginx_security_version_ok (nginx_dav_ext_current_abi)
+    and return 0
+
+    prepare_nginx_package_update
+    or return 1
+    if test (rpm -E '%fedora.%{_arch}') = 45.x86_64; and test -d /mnt/data/disk42/.nginx-security-build-20261119/stage/RPMS
+        restore_si_nginx_security_build
+        or return 1
+    else
+        # Select a fixed vendor build on a fresh host without Si's retained RPMs.
+        step_run_note_as INSTALL "Fedora NGINX security build" installed sudo dnf install -y 'nginx >= 2:1.30.7' nginx-mod-stream nginx-mod-devel
+        or return 1
+    end
+    nginx_security_version_ok (nginx_dav_ext_current_abi)
 end
 
 function nginx_dav_ext_is_current
@@ -180,7 +243,7 @@ function ensure_nginx_dav_ext
     remove_fedora_nginx_default_site
     or return 1
 
-    if nginx_dav_ext_is_current
+    if nginx_security_version_ok (nginx_dav_ext_current_abi); and nginx_dav_ext_is_current
         step_skip_ok "Nginx DAV extension" current
         return 0
     end
@@ -202,13 +265,9 @@ function ensure_nginx_dav_ext
         or return 1
     end
 
-    # DNF5's distro-sync only accepts installed packages. Sync the existing
-    # GetPageSpeed nginx package first; Fedora's split subpackages are added
-    # by the following install transaction.
-    if test "$TJIKUP_OPERATION" != install
-        step_run_note_as SYNC "Nginx" synced sudo dnf distro-sync -y --allowerasing nginx
-        or return 1
-    end
+    ensure_nginx_security_version
+    or return 1
+
     set -l missing_requirements
     for package in nginx-core nginx-mod-stream nginx-mod-devel rpm-build
         if not rpm -q $package >/dev/null 2>&1

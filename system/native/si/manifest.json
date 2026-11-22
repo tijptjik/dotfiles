@@ -123,6 +123,14 @@
     },
     {
       "kind": "file",
+      "path": "/etc/nginx/snippets/atlas-generator.conf",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "source": "files/nginx/snippets/atlas-generator.conf"
+    },
+    {
+      "kind": "file",
       "path": "/etc/nginx/snippets/cors_options_type.hk.conf",
       "mode": "0644",
       "uid": 0,

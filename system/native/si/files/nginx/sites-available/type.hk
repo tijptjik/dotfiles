@@ -16,6 +16,7 @@ server {
 server {
     include /etc/nginx/snippets/server_template.conf;
     server_name home.type.hk;
+    include /etc/nginx/snippets/atlas-generator.conf;
 
     # Runtime configuration assets must not be cached as immutable/static CSS.
     location ^~ /api/config/ {

@@ -86,7 +86,8 @@
           "native/home/files/.config/herdr/session.json.j2",
           "native/home/files/.config/solaar/config.yaml",
           "native/home/files/.config/zed/settings.json.j2",
-          "native/home/files/.config/herdr/session-li.json.j2"
+          "native/home/files/.config/herdr/session-li.json.j2",
+          "native/home/files/.local/share/applications/org.telegram.desktop._3e485da34fc040f9218e3891ecde1e6c.desktop"
         ],
         "message": "sync: update templates"
       },

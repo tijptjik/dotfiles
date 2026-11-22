@@ -159,13 +159,28 @@ updated checksum pin before fleet distribution.
 ### Local file conflicts
 
 Home and system file recipes reserve the terminal for conflict review. Choose
-**Review difference**, **Keep local**, **Use managed**, or **Cancel**. Keep local
+**D: Diff**, **K: Keep local**, **M: Use managed**, **A: Add**, **E: Edit**, or
+**Q: Cancel**. Keep local
 preserves that whole file until its managed version changes, while other files
 continue to deploy. This accommodates application-written settings such as
 Codex browser-service version paths without copying them back into shared policy.
 Use managed retains a private recovery receipt. Sensitive previews appear only
 on the terminal after explicitly requesting them. Unattended runs stop on new
 conflicts; run `tjikup config home apply` interactively to resolve them.
+
+Add writes the local file back to its existing managed source, without staging
+or committing it. Plain files copy directly; expression-only templates merge
+against the rendered managed version to retain untouched expressions. If edited
+lines overlap expressions, a warning requires a second A before replacing those
+lines with literal local values. Conditional templates and entries with `when`
+require Edit. Edit opens the managed source with template/local conflict markers
+for manual reconciliation, using `VISUAL`, `EDITOR`, or `zed --wait`. Save and close
+after removing the markers and preserving the desired template logic.
+
+Sensitive files allow source-only editing and cannot capture rendered secrets.
+Private source backups and unfinished edits are kept under deployment state in
+`source-reviews/`. Failed edits restore the source; valid saves remain even if
+deployment is later cancelled. The runner re-renders before applying changes.
 
 This policy requires `native_file_review: 1`. The installer retains a compatible
 local runner while awaiting a published release with that capability.

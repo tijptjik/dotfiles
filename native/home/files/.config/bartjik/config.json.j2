@@ -368,9 +368,12 @@
       }
     }
 {%- endif %}
-{%- if hostname == "fi" %}
+{%- if hostname == "fi" or is_laptop %}
     ,"display": {
       "provider": "monitor-layout",
+{%- if is_laptop %}
+      "powerOutput": "eDP-1",
+{%- endif %}
       "actions": {
         "leftClick": "monitor.toggle"
       }
@@ -509,9 +512,9 @@
           "modules": [
             "notifications",
             "idle",
-            "filter"{% if is_laptop %},
-            "battery"{% endif %}{% if hostname == "fi" %},
-            "display"{% endif %}
+            "filter"{% if hostname == "fi" or is_laptop %},
+            "display"{% endif %}{% if is_laptop %},
+            "battery"{% endif %}
           ]
         }
       ],

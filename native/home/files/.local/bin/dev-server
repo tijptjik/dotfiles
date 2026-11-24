@@ -62,7 +62,7 @@ if [[ -n ${identity:-} ]]; then
     printf '\n' >> "$XDG_RUNTIME_DIR/dotjik-server-$identity.command"
 fi
 exec 7<&0
-for slot in 1 2 3; do
+for slot in 1 2 3 4; do
     exec {slot_fd}>"$XDG_RUNTIME_DIR/dotjik-server-slot-$slot.lock"
     if flock --nonblock "$slot_fd"; then
         systemd-run --user --scope --quiet --collect --expand-environment=no \
@@ -86,5 +86,5 @@ for slot in 1 2 3; do
     fi
     exec {slot_fd}>&-
 done
-echo 'Server capacity reached (3 managed servers). Reuse an existing server; stop only an owned unused server before retrying.' >&2
+echo 'Server capacity reached (4 managed servers). Reuse an existing server; stop only an owned unused server before retrying.' >&2
 exit 75

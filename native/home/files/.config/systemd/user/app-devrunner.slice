@@ -3,9 +3,9 @@ Description=Queued remote development checks
 
 [Slice]
 MemoryAccounting=yes
-MemoryHigh=6G
-MemoryMax=7G
+MemoryHigh=9G
+MemoryMax=10G
 MemorySwapMax=512M
-CPUQuota=200%
+CPUQuota=400%
 CPUWeight=25
 TasksMax=1024

@@ -95,13 +95,39 @@ if [[ $action == run ]]; then
     exit "$rc"
 fi
 : "${XDG_RUNTIME_DIR:?Runner requires the user systemd runtime}"
+# The primary lock also covers local dev-check and workers already in flight.
 exec 9>"$XDG_RUNTIME_DIR/dotjik-dev-check.lock"
+slot=primary
+poll_seconds=15
+if [[ $kind == lint || $kind == test ]]; then
+    exec 8>"$XDG_RUNTIME_DIR/dotjik-dev-check-extra.lock"
+    poll_seconds=2
+fi
 echo "Runner: $id waiting for shared validation slot" >&2
 printf 'queued %s %s\n' "$kind" "$(date +%s)" > "$job/state"
 wait_started=$SECONDS
-until flock --exclusive --timeout 15 9; do
+# Retry only contention. A filesystem or descriptor error must stop admission.
+lock_slot() {
+    local rc=0
+    flock -E 75 "$@" || rc=$?
+    case $rc in
+        0) return 0 ;;
+        75) return 1 ;;
+        *) exit "$rc" ;;
+    esac
+}
+next_report=15
+while ! lock_slot -n 9; do
+    if [[ $kind == lint || $kind == test ]] && lock_slot -n 8; then
+        slot=extra
+        break
+    fi
+    if lock_slot -w "$poll_seconds" 9; then break; fi
     waited=$(( SECONDS - wait_started ))
-    echo "Runner: $id queued for ${waited}s; waiting automatically, do not skip verification. Use dev-remote status." >&2
+    if (( waited >= next_report )); then
+        echo "Runner: $id queued for ${waited}s; waiting automatically, do not skip verification. Use dev-remote status." >&2
+        next_report=$(( next_report + 15 ))
+    fi
     if (( waited >= 1800 )); then
         printf 'queue-timeout %s %s\n' "$kind" "$(date +%s)" > "$job/state"
         echo 'Runner: queue timeout after 30 minutes; verification did not run.' >&2
@@ -109,7 +135,7 @@ until flock --exclusive --timeout 15 9; do
     fi
 done
 printf 'running %s %s\n' "$kind" "$(date +%s)" > "$job/state"
-echo "Runner: $id running ($kind, maximum $maximum)" >&2
+echo "Runner: $id running ($kind, $slot slot, maximum $maximum)" >&2
 # This is the scope owner, just like dev-check; nested project wrappers must not
 # deadlock by reacquiring its lock or escape into a different resource scope.
 export DOTJIK_DEV_CHECK=1

@@ -76,9 +76,10 @@ dev-remote cancel job-EXAMPLE
 ```
 
 Defaults are `bun run lint`, `bun run test:run`, and a desktop/mobile Chrome smoke
-check. Supply the complete command after the job kind to override it. All three
-kinds use one shared validation lock on Li, including locally launched dev-check
-jobs. This is mutual exclusion, not a strict FIFO scheduler. Waiting jobs consume
+check. Supply the complete command after the job kind to override it. Li has two validation slots.
+All remote jobs and Li-local dev-check can use the primary slot. When it is
+occupied, remote lint and test jobs can use the second slot. Chrome and full
+typechecks always wait for the primary slot. Admission order is not FIFO. Waiting jobs consume
 only a small service process; they do not install dependencies or launch Chrome.
 Waiting is limited to 30 minutes, install to 10 minutes, command to 20 minutes,
 and total service lifetime (including queueing) to 65 minutes. Job cancellation
@@ -87,7 +88,7 @@ timeout. There is no automatic local fallback.
 
 Lint/tests have MemoryHigh=3G and MemoryMax=4G; Chrome has 4G/5G. Each complete job
 tree, including dependency installation and child processes, has two CPUs and
-256 MiB swap maximum. The separate app-devrunner.slice has 6G/7G thresholds and
+256 MiB swap maximum. The separate app-devrunner.slice has 9G/10G thresholds, four CPUs and
 512 MiB swap maximum. It leaves room on Li's 15 GiB system for the desktop and
 other services. A limit is a kill boundary, not a guarantee that a suite fits.
 
@@ -160,8 +161,8 @@ assignments; a generic user.role field is not used as an authorization assertion
 
 Use `dev-remote typecheck` for Hype's i18n generation, SvelteKit sync and full
 svelte-check. Other Bun projects can pass their own command after `typecheck`.
-This lane has MemoryHigh=5500M and MemoryMax=6G; it shares the same single heavy
-slot and 7 GiB aggregate ceiling. Chrome remains at 5 GiB, tests/lint at 4 GiB.
+This lane has MemoryHigh=5500M and MemoryMax=6G; it uses the primary slot and shares the
+10 GiB aggregate ceiling with the additional lint/test slot. Chrome remains at 5 GiB, tests/lint at 4 GiB.
 The total service limit is 65 minutes, allowing 30 minutes queueing, 10 minutes
 installation and 20 minutes checking with overhead. Status distinguishes installing
 and checking from waiting. Resource samples (every 10 seconds), service journal
@@ -175,7 +176,7 @@ same snapshot; prefer focused checks when they adequately verify the change.
 
 New dev-server launches use app-devservers.slice, a sibling of the editor slice,
 with aggregate 10/12 GiB soft/hard limits and 512 MiB swap. Each server has 4/6 GiB
-limits and 256 MiB swap. Three managed server slots prevent unbounded launches.
+limits and 256 MiB swap. Four managed server slots prevent unbounded launches.
 Vite launches reuse matching checkout, persona, state, stage and normalized args;
 port changes alone do not create a new server. The existing command/port is printed.
 Startup is serialized by identity; existing pre-policy Vite instances can be reused.

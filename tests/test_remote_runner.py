@@ -103,6 +103,47 @@ class RemoteRunnerTests(unittest.TestCase):
         self.job('job-nested', ('dev-check', 'true'))
         self.assertEqual(self.worker('execute', 'job-nested', 'test', '0').returncode, 0)
 
+    def test_two_slots_and_heavy_job_exclusion(self):
+        workers = []
+
+        def start(name, kind):
+            job = self.job('job-' + name, ('bash', '-ec',
+                'touch ready; until test -f "$1"; do sleep .05; done', '--', str(self.home / name)))
+            proc = subprocess.Popen([str(self.bin / 'dev-runner-worker'), 'execute',
+                                     job.name, kind, '0'], env=self.env)
+            workers.append((proc, self.home / name))
+            return job
+
+        def wait_for(path):
+            deadline = time.monotonic() + 5
+            while not path.exists() and time.monotonic() < deadline:
+                time.sleep(.02)
+            self.assertTrue(path.exists(), str(path))
+
+        def finish():
+            for _, release in workers:
+                release.touch()
+            for proc, _ in workers:
+                self.assertEqual(proc.wait(timeout=6), 0)
+
+        self.addCleanup(finish)
+        primary = start('primary', 'typecheck')
+        wait_for(primary / 'source/ready')
+        heavy = start('heavy', 'typecheck')
+        wait_for(heavy / 'state')
+        extra = start('extra', 'lint')
+        wait_for(extra / 'source/ready')
+        third = start('third', 'test')
+        wait_for(third / 'state')
+        time.sleep(.15)
+        self.assertEqual((heavy / 'state').read_text().split()[0], 'queued')
+        self.assertEqual((third / 'state').read_text().split()[0], 'queued')
+        # Free only the second slot. The queued test can proceed beside the
+        # original typecheck while the other typecheck still needs the primary.
+        (self.home / 'extra').touch()
+        wait_for(third / 'source/ready')
+        self.assertEqual((heavy / 'state').read_text().split()[0], 'queued')
+
     def test_active_jobs_cannot_be_removed(self):
         job = self.job()
         self.script('systemctl', 'exit 0')

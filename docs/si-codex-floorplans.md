@@ -57,7 +57,8 @@ Atlas route was preserved. NGINX configuration validation passed before reload.
 
 The dedicated BWS secret is `SI_CODEX_FLOORPLAN_TOKEN`, reference
 `56821c2b-cab7-408c-9f32-b50c00a44846`. The Si home credential template supplies the
-private environment file; root runtime uses `/etc/codex-vpn/floorplans.env` (0600).
+private environment file when the home group is applied. The current root
+credential was installed directly from that BWS-backed secret; root runtime uses `/etc/codex-vpn/floorplans.env` (0600).
 Do not print it. HYPE must use `User-Agent: HYPE-Floorplans/1.0`: the edge rejects
 the generic Python urllib user agent before requests reach the worker.
 
@@ -70,3 +71,9 @@ inference; production HYPE UI acceptance remains a separate check.
 `X-Floorplan-Pages` selects up to 12 distinct original PDF page numbers. The
 receipt retains `sourcePages` while rendered page filenames remain sequential.
 Retries reuse that selection and the original source.
+
+The real HYPE round trip also passed using local authenticated HYPE against this
+production endpoint. Job `01655982-5aa1-49bb-b8d0-c941f73700ca` returned two
+floors and 65 map polygons, then saved/reopened as an unpublished draft. Browser
+evidence is HYPE runner `job-njhIGlaTvy`. Production account UI acceptance is
+separate from this local-app/production-worker check.

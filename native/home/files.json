@@ -1717,6 +1717,13 @@
     "group": "base"
   },
   {
+    "path": "{{ user.home }}/.config/zen/full-width-chrome.sys.mjs",
+    "kind": "file",
+    "source": "files/.config/zen/full-width-chrome.sys.mjs",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
     "path": "{{ user.home }}/.git-tijptjik.conf",
     "kind": "file",
     "source": "files/.git-tijptjik.conf",

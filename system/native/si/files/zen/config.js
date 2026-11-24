@@ -12,6 +12,7 @@ try {
     const resources = io.getProtocolHandler("resource").QueryInterface(Ci.nsIResProtocolHandler);
     resources.setSubstitution("dotjik-zen", io.newFileURI(script.parent));
     ChromeUtils.importESModule("resource://dotjik-zen/close-last-regular-tab.sys.mjs");
+    ChromeUtils.importESModule("resource://dotjik-zen/full-width-chrome.sys.mjs");
   }
 } catch (error) {
   // A missing/broken customization must never prevent the browser from opening.

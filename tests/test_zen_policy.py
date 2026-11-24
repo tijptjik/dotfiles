@@ -12,6 +12,29 @@ MODULE = ROOT / 'native/home/files/.config/zen/close-last-regular-tab.sys.mjs'
 
 
 class ZenPolicyTests(unittest.TestCase):
+    def test_full_width_chrome_tracks_window_geometry(self):
+        harness = r'''
+const assert = require('node:assert/strict');
+const vm = require('node:vm');
+const fs = require('node:fs');
+const listeners = {};
+const attributes = new Set();
+const win = {gBrowser:{}, gBrowserInit:{delayedStartupFinished:true},
+  screen:{availWidth:1920,availHeight:1040},outerWidth:960,outerHeight:1020,
+  document:{documentElement:{toggleAttribute:(name,on)=>on ? attributes.add(name) : attributes.delete(name)}},
+  addEventListener:(name,fn)=>listeners[name]=fn};
+const Services = {wm:{getEnumerator:()=>[win]},obs:{addObserver:()=>{}}};
+vm.runInNewContext(fs.readFileSync(process.argv[1],'utf8'),{Services});
+assert.equal(attributes.has('dotjik-full-width'),false);
+win.outerWidth=1920; win.outerHeight=1040; listeners.resize();
+assert.equal(attributes.has('dotjik-full-width'),true);
+win.outerHeight=1020; listeners.resize();
+assert.equal(attributes.has('dotjik-full-width'),false);
+'''
+        module = ROOT / 'native/home/files/.config/zen/full-width-chrome.sys.mjs'
+        result = subprocess.run(['node', '-e', harness, str(module)], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def test_only_explicit_last_tab_closes_the_active_window(self):
         harness = r'''
 const assert = require('node:assert/strict');

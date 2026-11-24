@@ -43,6 +43,12 @@
     }
 }
 
+/* Scrolling full-width windows are not reported as maximized by Zen. */
+:root[dotjik-full-width]:not([popup-window]) {
+    --tijp-content-left-radius: 0px;
+    --tijp-content-right-radius: 0px;
+}
+
 :root:not([popup-window]):-moz-window-inactive {
     --tijp-split-border-color: #26233aaa;
 }

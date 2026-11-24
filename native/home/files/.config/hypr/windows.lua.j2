@@ -166,6 +166,15 @@ _G.tasktjik_settings_placement = {
     end),
 }
 
+{%- if is_laptop %}
+-- Give Chrome a full-width scrolling column on laptop clients.
+widths.rule({
+    name = "chrome-width",
+    scrolling_width = 1.0,
+    match = { class = "^google-chrome(-stable|-beta|-unstable|-canary)?$" },
+})
+{%- endif %}
+
 -- Playwright's headed Chrome windows must not interrupt the active workspace.
 hl.window_rule({
     name = "playwright-chrome",

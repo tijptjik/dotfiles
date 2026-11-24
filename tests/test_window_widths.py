@@ -112,6 +112,12 @@ assert(rules.spotify.scrolling_width == 1.0)
 assert(rules["codex-lb"].scrolling_width == (arg[2] == "fi" and 1.0 or nil))
 assert(rules.zen.scrolling_width == 0.5)
 assert(rules.kitty.scrolling_width == (arg[2] == "li" and 1.0 or 0.5))
+if arg[2] == "li" then
+    assert(rules["chrome-width"].scrolling_width == 1.0)
+    assert(rules["chrome-width"].match.class == "^google-chrome(-stable|-beta|-unstable|-canary)?$")
+else
+    assert(rules["chrome-width"] == nil)
+end
 assert(rules.telegram.match.initial_title == "negative:^(TelegramDesktop|Media viewer)$")
 if arg[2] == "fi" then
     assert(rules.telegram.workspace == "special:chat silent")

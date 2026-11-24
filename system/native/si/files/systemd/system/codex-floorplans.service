@@ -1,0 +1,45 @@
+[Unit]
+Description=Private Codex floor-plan extraction worker
+BindsTo=codex-vpn-network.service
+After=codex-vpn-network.service
+ConditionPathExists=/var/lib/codex-vpn/auth.json
+ConditionPathExists=/etc/codex-vpn/floorplans.env
+
+[Service]
+Type=simple
+User=codex-vpn
+Group=codex-vpn
+NetworkNamespacePath=/run/netns/codex-vpn
+BindReadOnlyPaths=/etc/codex-vpn/resolv.conf:/etc/resolv.conf
+BindReadOnlyPaths=/etc/codex-vpn/nsswitch.conf:/etc/nsswitch.conf
+InaccessiblePaths=-/run/nscd/socket -/run/systemd/resolve
+Environment=HOME=/var/lib/codex-vpn
+Environment=CODEX_HOME=/var/lib/codex-vpn
+Environment=FLOORPLAN_CODEX=/opt/codex-vpn/bin/codex
+Environment=FLOORPLAN_STATE=/var/lib/codex-floorplans
+Environment=FLOORPLAN_SOCKET=/run/codex-floorplans/worker.sock
+EnvironmentFile=/etc/codex-vpn/floorplans.env
+StateDirectory=codex-floorplans
+StateDirectoryMode=0700
+RuntimeDirectory=codex-floorplans
+RuntimeDirectoryMode=0750
+WorkingDirectory=/var/lib/codex-floorplans
+UMask=0077
+ExecStart=/usr/bin/python3 /usr/local/lib/hype-floorplans/server.py
+Restart=on-failure
+MemoryHigh=3G
+MemoryMax=4G
+CPUQuota=200%
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/codex-vpn
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+RestrictSUIDSGID=yes
+LockPersonality=yes

@@ -944,6 +944,51 @@
       "gid": 0,
       "source": "files/codex-vpn/nsswitch.conf",
       "group": "codex-vpn"
+    },
+    {
+      "kind": "file",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "codex-floorplans",
+      "path": "/usr/local/lib/hype-floorplans/server.py",
+      "source": "files/floorplans/server.py"
+    },
+    {
+      "kind": "file",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "codex-floorplans",
+      "path": "/usr/local/lib/hype-floorplans/extract.py",
+      "source": "files/floorplans/extract.py"
+    },
+    {
+      "kind": "file",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "codex-floorplans",
+      "path": "/usr/local/lib/hype-floorplans/prompt.txt",
+      "source": "files/floorplans/prompt.txt"
+    },
+    {
+      "kind": "file",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "codex-floorplans",
+      "path": "/usr/local/lib/hype-floorplans/extraction.schema.json",
+      "source": "files/floorplans/extraction.schema.json"
+    },
+    {
+      "kind": "file",
+      "mode": "0644",
+      "uid": 0,
+      "gid": 0,
+      "group": "codex-floorplans",
+      "path": "/etc/systemd/system/codex-floorplans.service",
+      "source": "files/systemd/system/codex-floorplans.service"
     }
   ]
 }

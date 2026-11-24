@@ -35,7 +35,7 @@ is performed.
 Verify with synthetic PDFs and mocked Codex output before sending building plans.
 Then perform a subscription inference check, upload/poll round trip, source image
 fetch and authenticated HYPE draft save. A running service alone does not prove
-this integration works. The current change has not been deployed to Si.
+this integration works. See the activation record below for the deployed state.
 
 The adapter now exposes `POST /jobs/:id/retry` for failed jobs using the retained
 source. Restart recovery marks interrupted queued/running jobs failed, allowing an
@@ -45,3 +45,28 @@ serves completed review data from its private bucket after worker shutdown.
 The test-only fixture server and integration harness in HYPE are never part of
 this manifest group. Production uses `extract.py` and the subscription Codex CLI.
 Page ordering is numeric, including PDFs with 10-12 pages.
+
+## Activation on 2026-11-24
+
+The isolated service and authenticated proxy are active on Si at
+`https://home.type.hk/hype-floorplans/`. Both the VPN and floor-plan service are
+enabled for boot. Native receipts `receipt-MpzADL` and `receipt-m7i5KC` retain the
+scoped installation. The managed-file check reports all seven files unchanged.
+The proxy is an extension of the existing home.type.hk API snippet; its original
+Atlas route was preserved. NGINX configuration validation passed before reload.
+
+The dedicated BWS secret is `SI_CODEX_FLOORPLAN_TOKEN`, reference
+`56821c2b-cab7-408c-9f32-b50c00a44846`. The Si home credential template supplies the
+private environment file; root runtime uses `/etc/codex-vpn/floorplans.env` (0600).
+Do not print it. HYPE must use `User-Agent: HYPE-Floorplans/1.0`: the edge rejects
+the generic Python urllib user agent before requests reach the worker.
+
+Si's default Node is too old for the Codex CLI launcher. The scoped `codex.sh`
+wrapper invokes `/usr/bin/node-22` without changing the system default. A real
+original GBP page completed extraction after this fix and passed HYPE MapBundle
+validation: two floors and 65 space polygons. This proves the endpoint and real
+inference; production HYPE UI acceptance remains a separate check.
+
+`X-Floorplan-Pages` selects up to 12 distinct original PDF page numbers. The
+receipt retains `sourcePages` while rendered page filenames remain sequential.
+Retries reuse that selection and the original source.

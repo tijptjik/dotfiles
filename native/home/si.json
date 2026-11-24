@@ -69,6 +69,15 @@
       "mode": "0600",
       "sensitive": true,
       "group": "codex-vpn"
+    },
+    {
+      "kind": "file",
+      "path": "{{ user.home }}/.config/codex-vpn/floorplans.env",
+      "source": "templates/codex-vpn/floorplans.env.j2",
+      "template": true,
+      "mode": "0600",
+      "sensitive": true,
+      "group": "codex-floorplans"
     }
   ]
 }

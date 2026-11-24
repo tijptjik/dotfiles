@@ -127,7 +127,8 @@
       "mode": "0644",
       "uid": 0,
       "gid": 0,
-      "source": "files/nginx/snippets/atlas-generator.conf"
+      "source": "files/nginx/snippets/atlas-generator.conf",
+      "group": "codex-floorplans"
     },
     {
       "kind": "file",
@@ -989,6 +990,15 @@
       "group": "codex-floorplans",
       "path": "/etc/systemd/system/codex-floorplans.service",
       "source": "files/systemd/system/codex-floorplans.service"
+    },
+    {
+      "kind": "file",
+      "mode": "0755",
+      "uid": 0,
+      "gid": 0,
+      "group": "codex-floorplans",
+      "path": "/usr/local/lib/hype-floorplans/codex.sh",
+      "source": "files/floorplans/codex.sh"
     }
   ]
 }

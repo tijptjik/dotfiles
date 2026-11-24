@@ -8,14 +8,14 @@ ConditionPathExists=/etc/codex-vpn/floorplans.env
 [Service]
 Type=simple
 User=codex-vpn
-Group=codex-vpn
+Group=nginx
 NetworkNamespacePath=/run/netns/codex-vpn
 BindReadOnlyPaths=/etc/codex-vpn/resolv.conf:/etc/resolv.conf
 BindReadOnlyPaths=/etc/codex-vpn/nsswitch.conf:/etc/nsswitch.conf
 InaccessiblePaths=-/run/nscd/socket -/run/systemd/resolve
 Environment=HOME=/var/lib/codex-vpn
 Environment=CODEX_HOME=/var/lib/codex-vpn
-Environment=FLOORPLAN_CODEX=/opt/codex-vpn/bin/codex
+Environment=FLOORPLAN_CODEX=/usr/local/lib/hype-floorplans/codex.sh
 Environment=FLOORPLAN_STATE=/var/lib/codex-floorplans
 Environment=FLOORPLAN_SOCKET=/run/codex-floorplans/worker.sock
 EnvironmentFile=/etc/codex-vpn/floorplans.env
@@ -43,3 +43,6 @@ RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
 CapabilityBoundingSet=
 RestrictSUIDSGID=yes
 LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

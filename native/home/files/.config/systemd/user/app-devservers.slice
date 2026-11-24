@@ -3,7 +3,7 @@ Description=Development application servers (separate from editors)
 
 [Slice]
 MemoryAccounting=yes
-MemoryHigh=10G
-MemoryMax=12G
+MemoryHigh=14G
+MemoryMax=16G
 MemorySwapMax=512M
 CPUWeight=25

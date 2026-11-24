@@ -56,6 +56,13 @@ fi
 # the complete scope exits. Fail clearly rather than queue a long-lived server.
 unit=${unit:-dev-server-generic-$$.scope}
 scope_args=(--unit="$unit")
+memory_high=4G
+memory_max=6G
+# The primary Hype server needs more room; leave other checkouts and personas bounded.
+if [[ $(pwd -P) == "$HOME/code/hype" && ${1##*/} == vite && ${2:-} == dev && -z ${HYPE_DEV_PERSONA:-} && -z ${HYPE_DEV_STATE:-} && -z ${CLOUDFLARE_ENV:-} ]]; then
+    memory_high=7G
+    memory_max=8G
+fi
 if [[ -n ${identity:-} ]]; then
     scope_args=(--unit="$unit")
     printf '%q ' "$@" > "$XDG_RUNTIME_DIR/dotjik-server-$identity.command"
@@ -67,7 +74,7 @@ for slot in 1 2 3 4; do
     if flock --nonblock "$slot_fd"; then
         systemd-run --user --scope --quiet --collect --expand-environment=no \
             --slice=app-devservers.slice "${scope_args[@]}" \
-            -p MemoryHigh=4G -p MemoryMax=6G -p MemorySwapMax=256M \
+            -p "MemoryHigh=$memory_high" -p "MemoryMax=$memory_max" -p MemorySwapMax=256M \
             -p OOMPolicy=kill -- "$@" <&7 &
         server_pid=$!
         trap 'systemctl --user stop "$unit" >/dev/null 2>&1 || true; exit 130' INT TERM

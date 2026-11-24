@@ -49,13 +49,18 @@ result_root=${XDG_STATE_HOME:-$HOME/.local/state}/dev-runner/results
 mkdir -p "$result_root"
 result=$(mktemp -d "$result_root/job-XXXXXXXXXX")
 id=${result##*/}
+# Client-side timings cover transfer and connection time outside the worker.
+client_phase() { printf '%s %s\n' "$(date +%s)" "$1" >> "$result/submission-phases.txt"; }
+client_phase created
 remote=".cache/dotjik-runner/jobs/$id"
 printf '%s\0' "$@" > "$result/command"
 printf '%s\n' "$root" > "$result/source"
 git rev-parse HEAD > "$result/revision"
 git status --porcelain > "$result/source-status"
 echo "Runner: $id; results: $result" >&2
+client_phase prepare
 "${ssh_cmd[@]}" ".local/bin/dev-runner-worker prepare $id"
+client_phase upload
 # A Git file list includes current tracked edits and nonignored new files, not
 # node_modules, Git internals, local databases or ignored credentials.
 git ls-files --cached --others --exclude-standard -z > "$result/files"
@@ -65,6 +70,7 @@ rsync -a --relative --ignore-missing-args --from0 --files-from="$result/files" \
     --exclude='.dotjik-runner/' --exclude='test-results/' --exclude='playwright-report/' \
     -e dev-runner-ssh ./ "li:$remote/source/"
 rsync -a -e dev-runner-ssh "$result/command" "li:$remote/command"
+client_phase uploaded
 forward=0
 # Ask the remote kernel for its ephemeral range. SELinux on Fedora permits SSH
 # forwarding there, while many lower unreserved ports are denied name_bind.
@@ -92,6 +98,7 @@ for attempt in 1 2 3; do
             -R "127.0.0.1:$forward:127.0.0.1:$port")
     fi
     rc=0
+    client_phase "attempt-$attempt"
     "${ssh_cmd[@]}" ".local/bin/dev-runner-worker run $id $kind $forward" \
         2>&1 | tee "$result/attempt-$attempt.log" | tee -a "$result/runner.log" &
     runner_pid=$!
@@ -107,8 +114,10 @@ for attempt in 1 2 3; do
     break
 done
 trap - INT TERM
+client_phase worker-returned
 fetch_rc=0
 rsync -a -e dev-runner-ssh "li:$remote/artifacts/" "$result/artifacts/" || fetch_rc=$?
+client_phase retrieval-finished
 [[ ! -f $result/artifacts/cancelled ]] || rc=130
 printf '%s\n' "$rc" > "$result/exit-code"
 echo "Runner: exit $rc; results: $result" >&2

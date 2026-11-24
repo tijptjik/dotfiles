@@ -52,6 +52,12 @@ class RemoteRunnerTests(unittest.TestCase):
         self.assertEqual(result.returncode, 23, result.stderr)
         self.assertEqual(result.stdout, 'a b;$(false)')
         self.assertEqual((job / 'artifacts/exit-code').read_text(), '23\n')
+        phases = (job / 'artifacts/phases.txt').read_text()
+        self.assertRegex(phases, r'(?m)^\d+ queued -$')
+        self.assertRegex(phases, r'(?m)^\d+ admitted primary$')
+        self.assertRegex(phases, r'(?m)^\d+ checking -$')
+        self.assertRegex(phases, r'(?m)^\d+ finished 23$')
+        self.assertNotIn('a b;', phases)
         self.assertNotEqual(self.worker('prepare', 'job-test').returncode, 0)
 
     def test_service_limits_and_fail_closed(self):
@@ -65,6 +71,28 @@ class RemoteRunnerTests(unittest.TestCase):
             self.assertIn('--slice=app-devrunner.slice', result.stdout)
             self.assertIn('RuntimeMaxSec=65min', result.stdout)
 
+    def test_diagnostics_capture_host_and_queue_without_command_arguments(self):
+        job = self.job(command=('true', 'private-command-argument'))
+        (job / 'state').write_text('queued test 100\n')
+        self.script('systemctl', """if [[ $* == *list-units* ]]; then
+    echo 'dev-runner-job-test.service loaded active running Runner'
+elif [[ $* == *ControlGroup* ]]; then
+    echo /
+fi
+exit 0""")
+        self.script('systemd-run', 'sleep 1; exit 0')
+        result = self.worker('run', 'job-test', 'test', '0')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        diagnostics = (job / 'artifacts/diagnostics.txt').read_text()
+        self.assertIn('[queue: job state kind age_seconds]', diagnostics)
+        self.assertIn('job-test queued test ', diagnostics)
+        self.assertIn('/proc/pressure/memory:', diagnostics)
+        self.assertIn('/proc/meminfo:', diagnostics)
+        if Path('/sys/fs/cgroup/memory.events').exists():
+            self.assertIn('memory.events:', diagnostics)
+            self.assertIn('cpu.stat:', diagnostics)
+        self.assertNotIn('private-command-argument', diagnostics)
+
     def test_frozen_install_failure_prevents_execution(self):
         marker = self.home / 'executed'
         job = self.job(command=('touch', str(marker)))
@@ -75,6 +103,10 @@ class RemoteRunnerTests(unittest.TestCase):
         self.assertEqual(result.returncode, 42)
         self.assertIn('--frozen-lockfile', result.stdout)
         self.assertIn('--ignore-scripts', result.stdout)
+        phases = (job / 'artifacts/phases.txt').read_text()
+        self.assertIn(' installing -', phases)
+        self.assertIn(' finished 42', phases)
+        self.assertNotIn(' checking -', phases)
         self.assertFalse(marker.exists())
 
     def test_timeout_kills_the_command_group_and_releases_the_slot(self):
@@ -200,7 +232,8 @@ if (( $# == 1 )); then exec bash -c "$1"; else exec "$@"; fi''')
         (repo / '.env').write_text('private')
         subprocess.run(['git', '-C', str(repo), 'add', '.'], check=True)
         subprocess.run(['git', '-C', str(repo), '-c', 'user.name=Test', '-c',
-                        'user.email=test@example.invalid', 'commit', '-qm', 'fixture'], check=True)
+                        'user.email=test@example.invalid', '-c', 'commit.gpgsign=false',
+                        'commit', '-qm', 'fixture'], check=True)
         (repo / 'tracked').write_text('edited')
         (repo / 'deleted').unlink()
         (repo / 'new file').write_text('new')
@@ -216,6 +249,10 @@ exit 23'''
         self.assertEqual(result.returncode, 23, result.stderr + result.stdout)
         results = list((self.home / 'state/dev-runner/results').glob('job-*'))
         self.assertEqual(len(results), 1)
+        submission = (results[0] / 'submission-phases.txt').read_text()
+        for phase in ('created', 'prepare', 'upload', 'uploaded', 'attempt-1',
+                      'attempt-2', 'worker-returned', 'retrieval-finished'):
+            self.assertRegex(submission, rf'(?m)^\d+ {phase}$')
         forwards = (self.home / 'forwards').read_text().splitlines()
         self.assertEqual(len(forwards), 2)
         low, high = map(int, Path('/proc/sys/net/ipv4/ip_local_port_range').read_text().split())

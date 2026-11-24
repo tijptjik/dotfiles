@@ -169,6 +169,16 @@ their own process groups; on timeout the group receives a termination signal, fo
 by a forced kill after ten seconds if it has not exited. Status distinguishes installing
 and checking from waiting. Resource samples (every 10 seconds), service journal
 and a classified outcome are returned with artifacts, including for OOM kills.
+The local result also includes `submission-phases.txt` for prepare, upload, worker
+attempts and retrieval; these timestamps use the submitting host clock.
+The artifacts also include `phases.txt` (epoch seconds for queue admission, slot,
+install, check and completion) and `diagnostics.txt` (10-second timestamped samples
+of active queue states, host memory/load/pressure, and job and runner-slice cgroup
+memory, pressure, CPU and throttling counters). Counter values are cumulative: compare
+samples to calculate interval deltas, and do not attribute aggregate or host pressure
+to one job. Diagnostics contain no submitted command or source path. Missing kernel
+files or a cgroup collected before a sample are omitted; the samples are not a complete
+host history. Phase records may be incomplete when a process is forcibly killed.
 Samples may miss peaks for very short jobs; the systemd journal is additional
 evidence. Cancellation is not an OOM failure. Do not stop a check solely because
 it is queued or approaching a memory limit. Avoid duplicate full checks for the

@@ -54,6 +54,41 @@ esac
 [[ -d $job/source && -f $job/command ]] || exit 66
 if [[ $action == run ]]; then
     # Sample from outside the job cgroup so an OOM kill cannot erase evidence.
+    # Counters are cumulative; timestamped samples support interval deltas.
+    sample_diagnostics() {
+        local group path file state_file state_name state_kind state_since state_job active_units
+        {
+            printf '\n=== sample epoch=%s ===\n' "$(date +%s)"
+            printf '%s\n' '[queue: job state kind age_seconds]'
+            active_units=$(systemctl --user list-units 'dev-runner-job-*.service' --state=active --plain --no-legend --no-pager 2>/dev/null || true)
+            for state_file in "$base"/job-*/state; do
+                [[ -r $state_file ]] || continue
+                read -r state_name state_kind state_since < "$state_file" || continue
+                [[ $state_since =~ ^[0-9]+$ ]] || continue
+                # Only active services represent live queue demand.
+                state_job=${state_file%/state}
+                [[ $'\n'$active_units$'\n' == *"dev-runner-${state_job##*/}.service "* ]] || continue
+                printf '%s %s %s %s\n' "${state_job##*/}" "$state_name" "$state_kind" "$(( $(date +%s) - state_since ))"
+            done
+            for group in "$unit" app-devrunner.slice; do
+                printf '[%s]\n' "$group"
+                path=$(systemctl --user show "$group" -p ControlGroup --value 2>/dev/null || true)
+                [[ $path == /* && $path != *..* ]] || continue
+                path="/sys/fs/cgroup$path"
+                for file in memory.current memory.peak memory.high memory.max memory.swap.current memory.events memory.events.local memory.pressure cpu.stat cpu.max cpu.pressure; do
+                    [[ -r $path/$file ]] || continue
+                    printf '%s:\n' "$file"
+                    cat "$path/$file" || true
+                done
+            done
+            printf '%s\n' '[host]'
+            for file in /proc/pressure/memory /proc/pressure/cpu /proc/pressure/io /proc/meminfo /proc/loadavg; do
+                [[ -r $file ]] || continue
+                printf '%s:\n' "$file"
+                cat "$file" || true
+            done
+        } >> "$job/artifacts/diagnostics.txt" 2>/dev/null || true
+    }
     monitor() {
         sleeper=''
         trap '[[ -z $sleeper ]] || kill "$sleeper" 2>/dev/null || true; exit 0' TERM INT
@@ -64,6 +99,7 @@ if [[ $action == run ]]; then
             if grep -Eq '^MemoryPeak=[0-9]+$' "$job/artifacts/resources.tmp"; then
                 mv "$job/artifacts/resources.tmp" "$job/artifacts/resources.txt"
             fi
+            sample_diagnostics
             sleep 10 &
             sleeper=$!
             wait "$sleeper" || true
@@ -95,6 +131,9 @@ if [[ $action == run ]]; then
     exit "$rc"
 fi
 : "${XDG_RUNTIME_DIR:?Runner requires the user systemd runtime}"
+# Phase events are append-only and contain no command arguments or source paths.
+phase() { printf '%s %s %s\n' "$(date +%s)" "$1" "${2:--}" >> "$job/artifacts/phases.txt"; }
+phase queued
 # The primary lock also covers local dev-check and workers already in flight.
 exec 9>"$XDG_RUNTIME_DIR/dotjik-dev-check.lock"
 slot=primary
@@ -129,11 +168,13 @@ while ! lock_slot -n 9; do
         next_report=$(( next_report + 15 ))
     fi
     if (( waited >= 1800 )); then
+        phase queue-timeout
         printf 'queue-timeout %s %s\n' "$kind" "$(date +%s)" > "$job/state"
         echo 'Runner: queue timeout after 30 minutes; verification did not run.' >&2
         exit 75
     fi
 done
+phase admitted "$slot"
 printf 'running %s %s\n' "$kind" "$(date +%s)" > "$job/state"
 echo "Runner: $id running ($kind, $slot slot, maximum $maximum)" >&2
 # This is the scope owner, just like dev-check; nested project wrappers must not
@@ -162,6 +203,7 @@ cp "$HOME/.local/share/dev-runner/playwright.config.mjs" .dotjik-runner/
 finish() {
     rc=$?
     trap - EXIT
+    phase finished "$rc"
     printf '%s\n' "$rc" > "$job/artifacts/exit-code"
     printf 'finished-%s %s %s\n' "$rc" "$kind" "$(date +%s)" > "$job/state"
     for directory in test-results playwright-report output/playwright; do
@@ -175,9 +217,11 @@ trap finish EXIT
 # (e.g. svelte-kit sync) belongs in the submitted command.
 if [[ -f package.json ]]; then
     [[ -f bun.lock || -f bun.lockb ]] || { echo 'A Bun lockfile is required.' >&2; exit 66; }
+    phase installing
     printf 'installing %s %s\n' "$kind" "$(date +%s)" > "$job/state"
     timeout --kill-after=10s 10m bun install --frozen-lockfile --ignore-scripts
 fi
+phase checking
 printf 'checking %s %s\n' "$kind" "$(date +%s)" > "$job/state"
 echo "Runner: $id checking; allow completion, memory pressure alone is not an OOM failure." >&2
 timeout --kill-after=10s 20m "${command[@]}"

@@ -176,8 +176,8 @@ trap finish EXIT
 if [[ -f package.json ]]; then
     [[ -f bun.lock || -f bun.lockb ]] || { echo 'A Bun lockfile is required.' >&2; exit 66; }
     printf 'installing %s %s\n' "$kind" "$(date +%s)" > "$job/state"
-    timeout --foreground 10m bun install --frozen-lockfile --ignore-scripts
+    timeout --kill-after=10s 10m bun install --frozen-lockfile --ignore-scripts
 fi
 printf 'checking %s %s\n' "$kind" "$(date +%s)" > "$job/state"
 echo "Runner: $id checking; allow completion, memory pressure alone is not an OOM failure." >&2
-timeout --foreground 20m "${command[@]}"
+timeout --kill-after=10s 20m "${command[@]}"

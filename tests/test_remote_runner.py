@@ -77,6 +77,22 @@ class RemoteRunnerTests(unittest.TestCase):
         self.assertIn('--ignore-scripts', result.stdout)
         self.assertFalse(marker.exists())
 
+    def test_timeout_kills_the_command_group_and_releases_the_slot(self):
+        child = self.home / 'child-pid'
+        self.job(command=('bash', '-c',
+                          'trap "" TERM; sleep 30 & echo $! > "$1"; wait',
+                          '--', str(child)))
+        real_timeout = shutil.which('timeout')
+        self.script('timeout', f'shift 2\nexec {real_timeout} --kill-after=1s 1s "$@"')
+        result = self.worker('execute', 'job-test', 'test', '0')
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue(child.exists())
+        stat = Path('/proc') / child.read_text().strip() / 'stat'
+        if stat.exists():
+            self.assertEqual(stat.read_text().split(') ')[1][0], 'Z')
+        self.job('job-after', ('true',))
+        self.assertEqual(self.worker('execute', 'job-after', 'test', '0').returncode, 0)
+
     def test_remote_and_local_share_lock_and_nested_checks(self):
         ready = self.home / 'ready'
         release = self.home / 'release'

@@ -164,7 +164,9 @@ svelte-check. Other Bun projects can pass their own command after `typecheck`.
 This lane has MemoryHigh=5500M and MemoryMax=6G; it uses the primary slot and shares the
 10 GiB aggregate ceiling with the additional lint/test slot. Chrome remains at 5 GiB, tests/lint at 4 GiB.
 The total service limit is 65 minutes, allowing 30 minutes queueing, 10 minutes
-installation and 20 minutes checking with overhead. Status distinguishes installing
+installation and 20 minutes checking with overhead. Install and check commands run in
+their own process groups; on timeout the group receives a termination signal, followed
+by a forced kill after ten seconds if it has not exited. Status distinguishes installing
 and checking from waiting. Resource samples (every 10 seconds), service journal
 and a classified outcome are returned with artifacts, including for OOM kills.
 Samples may miss peaks for very short jobs; the systemd journal is additional

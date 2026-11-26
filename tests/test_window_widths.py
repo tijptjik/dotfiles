@@ -51,10 +51,10 @@ dofile(arg[1])
                 commands = [shlex.split(c)[-1] if 'after-keyring-unlock' in c else c
                             for c in commands]
                 self.assertIn('uwsm app -- /usr/bin/mullvad-exclude /opt/Telegram/Telegram', commands)
-                zapzap = [c for c in commands if '/bin/zapzap' in c]
+                zapfast = [c for c in commands if '/bin/zapfast' in c]
                 signal = [c for c in commands if 'org.signal.Signal' in c]
-                self.assertEqual(zapzap, ['uwsm app -- /usr/bin/mullvad-exclude /bin/zapzap' +
-                                         (' --hideStart' if host == 'li' else '')])
+                self.assertEqual(zapfast, ['uwsm app -- /usr/bin/mullvad-exclude /bin/zapfast' +
+                                         (' --start-hidden' if host == 'li' else '')])
                 self.assertEqual(signal, [] if host == 'si' else [
                     'uwsm app -- /usr/bin/mullvad-exclude flatpak run org.signal.Signal' +
                     (' --start-in-tray' if host == 'li' else '')])

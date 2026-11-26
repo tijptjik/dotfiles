@@ -180,7 +180,7 @@
         "lionheartp/Hyprland",
         "errornointernet/quickshell",
         "iucar/duckdb",
-        "rafatosta/zapzap",
+        "paolino/zapfast",
         "zeno/scrcpy",
         "jerrycasiano/FontManager"
       ],
@@ -257,7 +257,7 @@
         "wtype",
         "xclip",
         "xdg-desktop-portal-hyprland",
-        "zapzap",
+        "zapfast",
         "zen-browser",
         "zram-generator-defaults",
         "decibels",

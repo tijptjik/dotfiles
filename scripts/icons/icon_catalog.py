@@ -23,7 +23,7 @@ SERVICE_ICONS = {
     "Vite": "\uf0e7", "Zed": "\uf044", "llmtrim": "\uf0c4",
     "Bitwarden": "\uf132", "Fish": "\uf489", "UV": "\ue73c", "FNM": "\ue718",
     "Gum": "\uf120", "Bun": "\ue76f", "Solaar": "\uf185", "Fcitx": "\uf11c",
-    "Codex": "\uf121", "Zapzap": "\uf232", "Gtk-bookmarks": "\uf02e",
+    "Codex": "\uf121", "Zapfast": "\uf232", "Gtk-bookmarks": "\uf02e",
     "Local Changes": "\ue702", "Templates": "\ue702", "Home and system": "\uf085",
     "Dotjik": "\uf015", "Systjik": "\uf013", "tjikOS": "\uf021",
     "dotjik": "\uf015", "systjik": "\uf013", "tjikos": "\uf021",
@@ -39,7 +39,7 @@ SERVICE_ICONS.update({"Plex": "\uf04b", "Docker images": "\uf308"})
 
 DISPLAY_NAMES = {
     "llmtrim": "Llmtrim", "Google Chrome stable": "Google Chrome Stable",
-    "Gtk-bookmarks": "GTK Bookmarks", "Zapzap": "ZapZap",
+    "Gtk-bookmarks": "GTK Bookmarks", "Zapfast": "ZapFast",
 }
 
 

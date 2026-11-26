@@ -43,19 +43,18 @@
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.config/ZapZap",
-    "when": "hostname in [\"fi\", \"li\"]",
+    "path": "{{ user.home }}/.config/zapfast/themes",
+    "when": "is_client",
     "kind": "directory",
     "mode": "0755",
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.config/ZapZap/ZapZap.conf",
-    "when": "hostname in [\"fi\", \"li\"]",
+    "path": "{{ user.home }}/.config/zapfast/themes/Rose Punk.json",
+    "when": "is_client",
     "kind": "file",
-    "source": "files/.config/ZapZap/ZapZap.conf.j2",
+    "source": "files/.config/zapfast/themes/Rose Punk.json",
     "mode": "0644",
-    "template": true,
     "group": "base"
   },
   {
@@ -2887,12 +2886,6 @@
     "target": "codex.svg"
   },
   {
-    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.rtosta.zapzap.svg",
-    "group": "base",
-    "kind": "symlink",
-    "target": "zapzap.svg"
-  },
-  {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/com.spotify.Client.svg",
     "group": "base",
     "kind": "symlink",
@@ -4427,10 +4420,10 @@
     "target": "yuzu.svg"
   },
   {
-    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zapzap.svg",
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zapfast.svg",
     "group": "base",
     "kind": "symlink",
-    "target": "zapzap.svg"
+    "target": "zapfast.svg"
   },
   {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-zed-nightly.svg",
@@ -4772,10 +4765,10 @@
     "mode": "0644"
   },
   {
-    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zapzap.svg",
+    "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/zapfast.svg",
     "group": "base",
     "kind": "file",
-    "source": "files/.local/share/icons/rose-punk/scalable/apps/zapzap.svg",
+    "source": "files/.local/share/icons/rose-punk/scalable/apps/zapfast.svg",
     "mode": "0644"
   },
   {
@@ -6145,11 +6138,6 @@
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.local/lib/tjikup/propagators/zapzap.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
     "path": "{{ user.home }}/.local/lib/tjikup/propagators/zed.py",
     "kind": "absent",
     "group": "base"
@@ -6588,10 +6576,10 @@
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/.local/share/applications/com.rtosta.zapzap.desktop",
+    "path": "{{ user.home }}/.local/share/applications/zapfast.desktop",
     "when": "is_client",
     "kind": "file",
-    "source": "files/.local/share/applications/com.rtosta.zapzap.desktop",
+    "source": "files/.local/share/applications/zapfast.desktop",
     "mode": "0644",
     "group": "base"
   },
@@ -6684,6 +6672,31 @@
     "path": "{{ user.home }}/.config/systemd/user/hype-exports-dev.service.d/resources.conf",
     "kind": "file",
     "source": "files/.config/systemd/user/hype-exports-dev.service.d/resources.conf",
+    "mode": "0644",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/zapfast",
+    "when": "is_client",
+    "kind": "directory",
+    "mode": "0700",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/zapfast/settings.json",
+    "when": "is_client",
+    "kind": "file",
+    "source": "files/.config/zapfast/settings.json.j2",
+    "template": true,
+    "create_only": true,
+    "mode": "0600",
+    "group": "base"
+  },
+  {
+    "path": "{{ user.home }}/.config/zapfast/wallpaper.png",
+    "when": "is_client",
+    "kind": "file",
+    "source": "files/.config/zapfast/wallpaper.png",
     "mode": "0644",
     "group": "base"
   }

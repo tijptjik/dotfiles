@@ -166,17 +166,17 @@
     "reviewed": true,
     "review_batch": 5
   },
-  "zapzap": {
-    "name": "ZapZap",
+  "zapfast": {
+    "name": "ZapFast",
     "installed": true,
     "desktop_ids": [
-      "com.rtosta.zapzap.desktop"
+      "zapfast.desktop"
     ],
     "icon_names": [
-      "com.rtosta.zapzap"
+      "zapfast"
     ],
     "mode": "reviewed-svg",
-    "geometry": "local/reviewed/zapzap.svg",
+    "geometry": "local/reviewed/zapfast.svg",
     "reviewed": true,
     "review_batch": 10
   },

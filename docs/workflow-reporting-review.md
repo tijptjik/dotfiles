@@ -57,7 +57,7 @@ The Hyprland startup callback currently:
 - starts Bartjik and Hyprsunset via systemd;
 - launches Fcitx, two clipboard watchers and user applications via `uwsm app`;
 - applies dconf interface settings and requests Mullvad connection;
-- launches Herdr, Telegram, Zapzap, Signal and configured browser/web applications.
+- launches Herdr, Telegram, ZapFast, Signal and configured browser/web applications.
 
 Other user units include Notjik, its Telegram bridge, Codex LB, Collie,
 Hypridle, Hyprpaper, Hyprpolkitagent and oo7. Activation hooks enable/check units;

@@ -46,10 +46,10 @@ primary is `DP-1` and secondary is `DP-2`:
 | System Monitor | 50% | 75% |
 | Tasktjik | 50% (default) | 100% |
 
-ZapZap, ChatGPT, and Signal keep their existing floating layouts on `fi`.
+ZapFast, ChatGPT, and Signal keep their existing floating layouts on `fi`.
 Telegram opens silently on `special:chat` on both `fi` and `li`. On `li`,
-login starts ZapZap (WhatsApp) and Signal minimized to the tray using
-`--hideStart` and `--start-in-tray` respectively; opening them from the tray
+login starts ZapFast (WhatsApp) and Signal minimized to the tray using
+`--start-hidden` and `--start-in-tray` respectively; opening them from the tray
 keeps their existing workspace rules.
 The current Codex LB launcher is routed to workspace 15 and explicitly gets its
 secondary-display width even when launched from the primary display.

@@ -61,10 +61,10 @@ startup.subscription = hl.on("hyprland.start", function()
     start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude /opt/Telegram/Telegram")
 {%- if is_laptop %}
     -- Keep the laptop's other messengers available in the tray at login.
-    start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude /bin/zapzap --hideStart")
+    start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude /bin/zapfast --start-hidden")
     start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude flatpak run org.signal.Signal --start-in-tray")
 {%- else %}
-    start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude /bin/zapzap")
+    start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude /bin/zapfast")
 {%- if is_desktop %}
     start_after_unlock("uwsm app -- /usr/bin/mullvad-exclude flatpak run org.signal.Signal")
 {%- endif %}

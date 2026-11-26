@@ -81,7 +81,7 @@
         "repository": "$DOTJIK_REPO",
         "files": [
           "native/home/data/gtk-bookmarks.json",
-          "native/home/data/zapzap.json",
+          "native/home/files/.config/zapfast/settings.json.j2",
           "native/home/files/.config/fcitx5/profile",
           "native/home/files/.config/herdr/session.json.j2",
           "native/home/files/.config/solaar/config.yaml",
@@ -254,7 +254,7 @@
       "Solaar": "",
       "Fcitx": "",
       "Codex": "",
-      "Zapzap": "",
+      "Zapfast": "",
       "Gtk-bookmarks": "",
       "Local Changes": "",
       "Templates": "",
@@ -321,7 +321,7 @@
       "llmtrim": "Llmtrim",
       "Google Chrome stable": "Google Chrome",
       "Gtk-bookmarks": "GTK Bookmarks",
-      "Zapzap": "ZapZap",
+      "Zapfast": "ZapFast",
       "Zoom Workplace": "Zoom",
       "Plugin : Local file links": "Herdr (local file links)",
       "Collie Bridge": "Collie (bridge)",
@@ -405,7 +405,7 @@
       "gtk-bookmarks": "GTK",
       "herdr": "Herdr",
       "solaar": "Solaar",
-      "zapzap": "ZapZap"
+      "zapfast": "ZapFast"
     },
     "icon_aliases": {
       "Bitwarden CLIs": "Bitwarden",
@@ -425,7 +425,7 @@
       "python": "Python",
       "fish": "Fish",
       "GTK Bookmarks": "Gtk-bookmarks",
-      "ZapZap": "Zapzap",
+      "ZapFast": "Zapfast",
       "ChatGPT": "ChatGPT Desktop",
       "Tennis and Tinty": "Terminal",
       "Tennis": "Tennis",
@@ -441,7 +441,7 @@
       "lionheartp/Hyprland": "Hyprland",
       "errornointernet/quickshell": "Quickshell",
       "iucar/duckdb": "DuckDB",
-      "rafatosta/zapzap": "Zapzap",
+      "paolino/zapfast": "Zapfast",
       "zeno/scrcpy": "Scrcpy",
       "jerrycasiano/FontManager": "Assets (fonts)",
       "notjik.service": "Notjik",
@@ -496,7 +496,7 @@
       "gtk-bookmarks": "Gtk-bookmarks",
       "herdr": "Herdr",
       "solaar": "Solaar",
-      "zapzap": "Zapzap",
+      "zapfast": "Zapfast",
       "zed": "Zed",
       "GTK": "Gtk-bookmarks"
     },

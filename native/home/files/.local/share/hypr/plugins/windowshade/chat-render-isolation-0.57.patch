@@ -94,7 +94,7 @@
 +    // bypass shaders and colour conversion, including Telegram and layer surfaces.
 +    const bool targetChat = pWindow && pWindow->m_workspace
 +        && pWindow->m_workspace->addressableName() == "special:chat"
-+        && (pWindow->metadata().appID() == "com.rtosta.zapzap" || pWindow->metadata().appID() == "org.signal.Signal");
++        && (pWindow->metadata().appID() == "zapfast" || pWindow->metadata().appID() == "org.signal.Signal");
 +    if (!targetChat) {
 +        g_pCurrentCompiledShader = nullptr;
 +        g_pCurrentRenderWindow.reset();

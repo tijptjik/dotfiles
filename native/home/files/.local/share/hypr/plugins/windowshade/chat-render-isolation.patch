@@ -100,7 +100,7 @@ index 0f51205..729d4e9 100644
 +    // the original renderer without entering any effect/colour conversion path.
 +    const bool targetChat = pWindow && pWindow->m_workspace
 +        && pWindow->m_workspace->m_name == "special:chat"
-+        && (pWindow->m_class == "com.rtosta.zapzap" || pWindow->m_class == "org.signal.Signal");
++        && (pWindow->m_class == "zapfast" || pWindow->m_class == "org.signal.Signal");
 +    if (!targetChat) {
 +        g_pCurrentCompiledShader = nullptr;
 +        g_pCurrentRenderWindow.reset();

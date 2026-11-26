@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DEST = ROOT / 'scripts/icons/archive/outline/scalable/apps'
 # Artwork is drawn on a 64-unit grid. Keep marks inside the 14..50 safe area.
 ART = {
-'zapzap': ('ZapZap', '<path d="M48 30a16 16 0 0 1-23 15l-10 4 3-10a16 16 0 1 1 30-9Z"/><path class="detail" d="m25 22 13 0-12 17h14"/>'),
+'zapfast': ('ZapFast', '<path d="M48 30a16 16 0 0 1-23 15l-10 4 3-10a16 16 0 1 1 30-9Z"/><path class="detail" d="m25 22 13 0-12 17h14"/>'),
 'files': ('Files', '<path d="M13 24v-5a3 3 0 0 1 3-3h11l5 6h16a3 3 0 0 1 3 3v20a3 3 0 0 1-3 3H16a3 3 0 0 1-3-3Z"/><path class="detail" d="M14 28h36"/>'),
 'codex-lb': ('Codex LB', '<path d="m23 21-11 11 11 11m18-22 11 11-11 11"/><path class="detail" d="M29 42V30m6 12V23"/><circle cx="29" cy="23" r="1" class="dot"/>'),
 'chrome': ('Chrome', '<circle cx="32" cy="32" r="19"/><circle class="detail" cx="32" cy="32" r="8"/><path d="M32 24h17M25 36l-8-15m19 18-8 12"/>'),

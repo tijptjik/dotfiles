@@ -54,20 +54,22 @@
     ]
   },
   {
-    "name": "zapzap",
-    "source": "native/home/data/zapzap.json",
-    "target": ".config/ZapZap/ZapZap.conf",
-    "kind": "host-text",
-    "optional": true,
-    "field": "zapzapConfigs",
-    "short_hostname": true
-  },
-  {
     "name": "gtk-bookmarks",
     "source": "native/home/data/gtk-bookmarks.json",
     "target": ".config/gtk-3.0/bookmarks",
     "kind": "host-text",
     "optional": true,
     "field": "gtkBookmarks"
+  },
+  {
+    "name": "zapfast",
+    "source": "native/home/files/.config/zapfast/settings.json.j2",
+    "target": ".config/zapfast/settings.json",
+    "kind": "jsonc-scalars",
+    "optional": true,
+    "hosts": [
+      "fi",
+      "li"
+    ]
   }
 ]

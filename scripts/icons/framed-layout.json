@@ -1190,7 +1190,7 @@
       "source_sha256": "2f95a421ef988fda43b72d02b6672d370e5c1b0d4797f4da7714cdd7f4fcfec7",
       "note": "Retain current optical size."
     },
-    "zapzap": {
+    "zapfast": {
       "scale": 0.83,
       "offset": [
         0,

@@ -358,19 +358,17 @@ safe; review unrelated local changes before allowing tjikup to commit them.
 5. Confirm `systemctl --user list-timers backup-packages.timer`: daily at 00:15.
    Until initial sync is complete, the enabled timer intentionally skips backups.
 
-ZapZap is managed separately by dotjik, not these archives. Its template uses
-`zapzapConfigs.fi` or `zapzapConfigs.li` from `.dotjikdata/zapzap.json`; tjikup
-captures only the current client's configuration, preserving Qt serialization,
-window geometry, window state, and recent-download paths on the other client.
-Close ZapZap before applying deliberately edited settings; its running process
-can otherwise write its old settings back at exit.
-On fi, keep `system/notificationCounter=true`: bartjik reads ZapZap's native
-unread badge to show a primary-color dot beside the white WhatsApp tray icon.
+ZapFast preferences, the Rosé Punk theme, and its chat wallpaper are declared in
+Dotjik under `native/home/files/.config/zapfast/`. The settings file initializes
+new clients and preserves existing local settings. Native scalar capture updates
+only the declared reusable preferences. Account rosters, security settings, and
+chat/session databases stay in the application's local state. Fi's wallpaper is
+the left-hand continuation of the Telegram texture for the fixed chat layout.
 
 ### Server (`si`)
 
 1. Install the current repository changes and run `tjikup` after reviewing local
-   server edits. Client-only Bartjik, Strata and ZapZap configuration is excluded.
+   server edits. Client-only Bartjik, Strata and ZapFast configuration is excluded.
 2. Run `device-archives ready` and inspect
    `systemctl --user list-timers backup-packages.timer`. Si has no mandatory
    initial-sync gate and backs up its own assigned folders daily at 00:30.

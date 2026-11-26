@@ -24,7 +24,7 @@ hl.window_rule({
     workspace = "m+0 silent",
     match = {
         workspace = "s[true]",
-        initial_class = "negative:^(Chatgpt|org[.]telegram[.]desktop.*|com[.]rtosta[.]zapzap|org[.]signal[.]Signal)$",
+        initial_class = "negative:^(Chatgpt|org[.]telegram[.]desktop.*|zapfast|org[.]signal[.]Signal)$",
     },
 })
 
@@ -343,7 +343,7 @@ hl.window_rule({
 {%- elif is_laptop %}
     workspace = "4",
 {%- endif %}
-    match = { class = "com.rtosta.zapzap" },
+    match = { class = "zapfast" },
 })
 
 hl.window_rule({

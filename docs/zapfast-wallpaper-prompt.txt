@@ -1,0 +1,23 @@
+Built-in imagegen, two-stage edit of Telegram texture
+40bd5c7e8b21da2e2424b358d6898332.jpg.
+
+Panorama prompt:
+Outpaint texture LEFT into one continuous canvas 3584x2304. Original RIGHT
+at x2048..3583, scaled1536x2304. New left2048x2304 dark navy/petrol/teal
+coarse weathered paint, irregular worn purple/olive patches and scattered rust.
+Do not duplicate/mirror original red/gold vertical stripe, no new red strip at
+joining boundary. Match coarse soft mottled texture, scratches, grain.
+Seamless x2048. Return full panorama, no UI/text/objects.
+
+Final extraction prompt (actual generated panorama 1564x1006):
+Precise crop/extraction only of the supplied panoramic texture, no repainting
+or creative changes. Source is 1564x1006 pixels. Extract rectangle
+x=24,y=0,width=800,height=1006. Return only this left dark continuation as a
+portrait image, filling the image, without borders. Preserve source texture
+shapes, colors, grain and scale. The bright rust/gold vertical band from the
+right half must be completely excluded. No duplication, mirroring, tiling,
+stretching or invented rust stripes. This will be used immediately to the LEFT
+of an existing texture; the original right side is NOT part of this output.
+
+The image tool regenerated this section; it is not a pixel-exact crop.
+Managed output: native/home/files/.config/zapfast/wallpaper.png

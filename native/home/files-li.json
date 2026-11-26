@@ -21,8 +21,7 @@
   },
   "context_files": [
     "data/shared.json",
-    "data/gtk-bookmarks.json",
-    "data/zapzap.json"
+    "data/gtk-bookmarks.json"
   ],
   "entries_files": [
     "files.json"

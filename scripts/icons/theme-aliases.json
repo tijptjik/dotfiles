@@ -52,7 +52,6 @@
   "com.obsproject.Studio": "obs-studio",
   "com.openai.Codex": "codex",
   "com.openai.codex": "codex",
-  "com.rtosta.zapzap": "zapzap",
   "com.spotify.Client": "spotify",
   "com.transmissionbt.Transmission": "transmission",
   "craft-anything": "craft-anything",
@@ -195,6 +194,7 @@
   "vivid": "vivid",
   "vlc": "vlc",
   "wordcraft": "wordcraft",
+  "zapfast": "zapfast",
   "zed": "zed",
   "zed-nightly": "zed-nightly",
   "zen-browser": "zen"

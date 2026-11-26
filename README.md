@@ -72,7 +72,7 @@ Readmes are available in `/docs/{topic}.md`
 - [`uv`](https://github.com/astral-sh/uv)
 - [`vivid`](https://github.com/sharkdp/vivid)
 - [`bartjik`](https://github.com/tijptjik/tjikos/tree/main/apps/bartjik)
-- [`zapzap`](https://github.com/rafatosta/zapzap)
+- [`zapfast`](https://github.com/crmne/zapfast)
 - [`zed`](https://zed.dev/)
 
 ## Backups and recovery

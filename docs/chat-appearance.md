@@ -1,10 +1,10 @@
 # Chat workspace appearance
 
-ZapZap (`com.rtosta.zapzap`) and Signal (`org.signal.Signal`) use the theme panel background and off-white
+ZapFast (`zapfast`) and Signal (`org.signal.Signal`) use the theme panel background and off-white
 while unfocused in `special:chat`, with a subtle 1.2px Gaussian blur and
 20% brightness reduction. Focus restores their original colours and sharpness.
 Telegram is excluded from all four shader rules and bypasses the plugin rendering path entirely.
-The local renderer patch only admits ZapZap and Signal in `special:chat`; all other
+The local renderer patch only admits ZapFast and Signal in `special:chat`; all other
 surfaces go directly to Hyprland’s original renderer. Inputs are normalized to sRGB
 using the native renderer before applying the shared palette.
 The monochrome effect does not affect other applications or workspaces.
@@ -61,19 +61,19 @@ Chat shader tags are registered only when the binary passes this preflight.
 ## Verification
 
 The 0.57 port was checked in a disposable compositor with synthetic Signal,
-ZapZap and Telegram classes. Both chat panes produced identical subdued colours;
+the previous WhatsApp client and Telegram classes. Both chat panes produced identical subdued colours;
 focus restored the original colour, Telegram stayed unchanged, and unloading
 restored both chat panes. This does not replace checking real application buffers.
 The nested compositor crashed on shutdown after unloading; the same shutdown
 crash reproduced with no plugins loaded.
 
 Headless checks passed for intermediate fade frames, both focus directions,
-matching tint for identical Signal/ZapZap inputs, and removal outside chat.
+matching tint for identical Signal/WhatsApp inputs, and removal outside chat.
 The synthetic Telegram window had zero pixel difference with the plugin loaded
 versus unloaded.
 
 After installation, live captures with focus/workspace assertions confirmed both
-Signal and ZapZap stay within the subdued palette, retain visible content, and
+Signal and the previous WhatsApp client stay within the subdued palette, retain visible content, and
 restore colour on focus. Telegram's actual instance-suffixed class takes the
 hard bypass. In its live loaded/unloaded comparison, 247 of 249 previously stable
 64px tiles were pixel-identical; changing content prevents whole-window equality.

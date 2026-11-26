@@ -45,7 +45,7 @@ SOURCES = {
     'Gitfetch': 'gitfetch',
     'Bitwarden': 'bitwarden', 'Fish': 'fish', 'UV': 'uv', 'FNM': 'fnm', 'Gum': 'gum',
     'Bun': 'bun', 'Solaar': 'solaar', 'Fcitx': 'fcitx-5-configuration', 'Codex': 'codex',
-    'Zapzap': 'zapzap', 'Gtk-bookmarks': 'bookmarks', 'Local Changes': 'gitfetch',
+    'Zapfast': 'zapfast', 'Gtk-bookmarks': 'bookmarks', 'Local Changes': 'gitfetch',
     'Templates': 'gitfetch', 'Home and system': 'settings',
     'Dotjik': 'chezmoi', 'Systjik': 'chezetc', 'tjikOS': 'tjikup',
     'dotjik': 'chezmoi', 'systjik': 'chezetc', 'tjikos': 'tjikup',

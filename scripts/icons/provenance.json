@@ -337,13 +337,13 @@
     "sha256": "c81aa89fa57a7d2b04d79fd01bda6f240e4b00db6802ec862c82e1bc73017aa0",
     "material_revision": 3
   },
-  "zapzap": {
-    "source": "scripts/icons/local/reviewed/zapzap.svg",
+  "zapfast": {
+    "source": "scripts/icons/local/reviewed/zapfast.svg",
     "license": "Original themed artwork; app identity rights remain with their owners",
-    "sha256": "90a797455e11cd8233017a062025d34a720367974d7ac787b0b1ba7d13e1d70e",
+    "sha256": "376a26dcf573d11c836823b23deaa03ff5e3ca84203c7baabcbe740f27209ca7",
     "material_revision": 8,
     "previous_source": {
-      "source": "scripts/icons/local/zapzap.svg",
+      "source": "scripts/icons/local/zapfast.svg",
       "license": "Original themed artwork; app identity rights remain with their owners",
       "sha256": "6c8d32039debf6825eef4af2ee40d5cf3eecb477e463b09fb73fd633e4c45baf",
       "material_revision": 8
@@ -355,7 +355,7 @@
       "decision": "Accepted",
       "design_note": "Nudge the handset upward and left and deepen the jade field to protect the ivory handset.",
       "attribution": {
-        "source": "scripts/icons/local/zapzap.svg",
+        "source": "scripts/icons/local/zapfast.svg",
         "license": "Original themed artwork; app identity rights remain with their owners",
         "sha256": "6c8d32039debf6825eef4af2ee40d5cf3eecb477e463b09fb73fd633e4c45baf",
         "material_revision": 8

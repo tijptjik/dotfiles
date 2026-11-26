@@ -18,7 +18,7 @@ if require("plugin_loader").load(plugin) then
         hl.window_rule({
             name = "chat-appearance-" .. entry[1],
             match = {
-                class = "^(com.rtosta.zapzap|org.signal.Signal)$",
+                class = "^(zapfast|org.signal.Signal)$",
                 workspace = "special:chat",
             },
             -- Bare tags are removed correctly when workspace matching stops.

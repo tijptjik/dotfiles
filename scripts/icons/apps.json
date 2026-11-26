@@ -44,8 +44,8 @@
     "google-chrome-canary.desktop",
     "google-chrome.desktop"
   ],
-  "zapzap": [
-    "com.rtosta.zapzap.desktop"
+  "zapfast": [
+    "zapfast.desktop"
   ],
   "spotify": [
     "com.spotify.Client.desktop"

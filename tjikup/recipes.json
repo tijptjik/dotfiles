@@ -52,8 +52,7 @@
       "needs": [
         "home:bitwarden",
         "home:archive-restore",
-        "home:archives",
-        "home:migrate-sync-units"
+        "home:archives"
       ],
       "timeout": 1800,
       "display": {
@@ -3146,32 +3145,6 @@
         "section": "Configuration",
         "icon": "llmtrim"
       }
-    },
-    {
-      "id": "home:migrate-sync-units",
-      "label": "Synctjik (schedule migration)",
-      "apply": [
-        "synctjik",
-        "migrate-schedules"
-      ],
-      "resources": [
-        "user-systemd",
-        "storage"
-      ],
-      "display": {
-        "section": "Configuration",
-        "icon": "Synctjik",
-        "reports": true
-      },
-      "operation": "configure",
-      "scope": "home",
-      "application": "storage",
-      "ecosystem": "configuration",
-      "stop_codes": [
-        1
-      ],
-      "needs": [],
-      "after": []
     },
     {
       "id": "home:tasktjik",

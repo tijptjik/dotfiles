@@ -59,8 +59,7 @@ classification is not a native feature; the curated presets and resolution
 guards are active. Seerr retains its existing 4K:3 Balanced movie default and
 uses HD:4 Balanced for TV and anime.
 
-Legacy assignments were migrated using the user-approved mapping in
-`native/home/files/dockers/profilarr-database/legacy-migration.json`. All 13 legacy profiles
+Legacy assignments were migrated using the user-approved mapping. All 13 legacy profiles
 were removed after migrating media, import lists, collections, Seerr defaults
 and saved request references. Paths, monitoring and tags were preserved.
 Profiles and quality definitions use manual Arr sync. Naming, delay profiles,
@@ -76,28 +75,9 @@ State and UI overrides are in the application backups; secrets remain in
 Bitwarden. Publish reviewed source changes explicitly; do not use a profile's
 requested bounds as evidence of native enforcement.
 
-## Explicit legacy migration
+## Completed migration
 
-The approved mapping and migration tool are versioned. This is a manual operation
-and is never invoked by dotjik, systjik or tjikup:
-
-```sh
-sudo python3 /home/m/code/dotjik/native/home/files/dockers/profilarr-tools/migrate-legacy-profiles.py
-# After reviewing that dry run:
-sudo python3 /home/m/code/dotjik/native/home/files/dockers/profilarr-tools/migrate-legacy-profiles.py --apply
-```
-
-The tool checks profile identities, makes native Arr backups, and stores private
-configuration/assignment snapshots below
-`/mnt/storage/meta/appData/profilarr/backups/profile-migration-<UTC timestamp>`.
-It uses bulk profile-only media edits and per-ID collection updates, preserving
-monitoring and paths. It does not start a search or move files. Approved Seerr
-request references require a short stopped-writer SQLite transaction because the
-API refuses to edit approved requests; all other request fields stay unchanged,
-and no approval hooks/notifications run. Seerr is restarted even on failure.
-
-Verification covers every existing media assignment, dependent defaults, all 12
-remaining profiles and both Seerr request dropdowns. Profilarr's library caches
-must be refreshed after the migration so its cards show the new assignments.
-Use the native backups and private snapshots for a guarded rollback if needed;
-restoration is never automatic.
+The one-time migration tool and mapping were retired after verification.
+Native backups and private assignment snapshots remain under
+`/mnt/storage/meta/appData/profilarr/backups/profile-migration-<UTC timestamp>`
+for guarded recovery; restoration is never automatic.

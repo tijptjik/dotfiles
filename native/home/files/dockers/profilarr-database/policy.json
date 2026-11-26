@@ -276,7 +276,7 @@
       "sonarr": "HD:4 Balanced",
       "sonarrAnime": "HD:4 Balanced"
     },
-    "legacyMigration": "Explicit manual migration from legacy-migration.json; never an apply hook."
+    "legacyMigration": "Completed; migration tooling retired."
   },
   "legacyCompatibility": {
     "sonarr": {
@@ -285,7 +285,7 @@
       "legacyScore": -10000000,
       "executableReleaseProfile": "boundary-aware suffix regex"
     },
-    "libraryAssignments": "Migrated by the approved legacy-migration.json map; monitoring and paths preserved."
+    "libraryAssignments": "Migration completed; monitoring and paths preserved."
   },
   "defaults": {
     "radarr": "4K:3 Balanced",

@@ -53,7 +53,7 @@ additional executable rejection. Remux is allowed only by the Remux presets.
 
 Native custom-format names have a `DI: ` prefix to preserve formats used by
 legacy library profiles during migration. All old assignments and dependent
-defaults were then migrated by `legacy-migration.json`, and the 13 unused legacy
+defaults were then migrated using the approved mapping, and the 13 unused legacy
 profiles were removed. Paths, monitoring and tags are preserved. Curated
 profiles apply their own HDR rules. Sonarr's global executable rule uses suffix
 boundaries to avoid Batman/Adventure false positives.
@@ -61,7 +61,7 @@ boundaries to avoid Batman/Adventure false positives.
 Global size definitions are Dictionarry's unrestricted limits. No bitrate-based
 quality classification, renaming job, backlog search or upgrade job is added.
 Seerr retains 4K:3 Balanced for new movie requests and uses HD:4 Balanced for new
-TV and anime requests. The mapping and explicit migration tool are documented in
+TV and anime requests. The completed migration is documented in
 [si-profilarr.md](../../../docs/si-profilarr.md). No migration runs during apply.
 
 ## Refresh and publish

@@ -5447,14 +5447,6 @@
     "group": "base"
   },
   {
-    "path": "{{ user.home }}/dockers/profilarr-database/legacy-migration.json",
-    "when": "hostname in [\"si\"]",
-    "kind": "file",
-    "source": "files/dockers/profilarr-database/legacy-migration.json",
-    "mode": "0644",
-    "group": "base"
-  },
-  {
     "path": "{{ user.home }}/dockers/profilarr-database/ops",
     "when": "hostname in [\"si\"]",
     "kind": "directory",
@@ -5505,14 +5497,6 @@
     "when": "hostname in [\"si\"]",
     "kind": "file",
     "source": "files/dockers/profilarr-tools/check-policy.py",
-    "mode": "0755",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/dockers/profilarr-tools/migrate-legacy-profiles.py",
-    "when": "hostname in [\"si\"]",
-    "kind": "file",
-    "source": "files/dockers/profilarr-tools/migrate-legacy-profiles.py",
     "mode": "0755",
     "group": "base"
   },

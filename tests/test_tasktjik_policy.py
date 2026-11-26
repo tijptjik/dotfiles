@@ -40,7 +40,7 @@ class TasktjikPolicyTests(unittest.TestCase):
             if entry.get('group') == 'tasktjik' and entry['path'].endswith(('.service', '.timer')):
                 self.assertEqual(entry['when'], 'is_client')
 
-    def test_timer_migration_order(self):
+    def test_timer_activation_order(self):
         with tempfile.TemporaryDirectory() as directory:
             home = Path(directory)
             (home / '.local/bin').mkdir(parents=True)
@@ -54,7 +54,7 @@ class TasktjikPolicyTests(unittest.TestCase):
             systemctl.chmod(0o755)
             subprocess.run(['bash', str(ROOT / 'scripts/activate-tasktjik.sh')], check=True, env={**os.environ, 'HOME': str(home), 'XDG_CONFIG_HOME': str(home / '.config'), 'PATH': str(home / '.local/bin') + ':' + os.environ['PATH']})
             calls = (home / 'calls').read_text()
-            self.assertLess(calls.index('disable --now runtjik-todo.timer'), calls.index('enable --now tasktjik.timer'))
+            self.assertLess(calls.index('daemon-reload'), calls.index('enable --now tasktjik.timer'))
 
     def test_older_runner_installs_without_new_cache_command(self):
         with tempfile.TemporaryDirectory() as directory:

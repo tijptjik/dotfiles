@@ -54,16 +54,11 @@ class RuntjikInstallTests(unittest.TestCase):
         return subprocess.run(['bash', str(self.script)], env={**self.env, **env},
                               capture_output=True, text=True)
 
-    def test_installs_and_checks_before_retiring_launcher(self):
+    def test_installs_and_checks_launcher(self):
         result = self.run_install()
         self.assertEqual(result.returncode, 0, result.stderr)
         calls = self.log.read_text().splitlines()
-        self.assertLess(calls.index('check'), calls.index('--user stop hamr-gtk.service'))
-
-    def test_preserves_launched_apps_when_old_kill_mode_is_unsafe(self):
-        result = self.run_install(KILL_MODE='control-group')
-        self.assertNotEqual(result.returncode, 0)
-        self.assertNotIn('--user stop hamr-gtk.service', self.log.read_text())
+        self.assertLess(calls.index('install'), calls.index('check'))
 
     def test_failed_build_keeps_existing_launcher(self):
         result = self.run_install(BUILD_RESULT='1')
@@ -92,8 +87,7 @@ class RuntjikInstallTests(unittest.TestCase):
         self.assertNotIn('install', calls)
 
     def test_activation_check_detects_pending_work_without_stopping_services(self):
-        for env in ({}, {'LEGACY_ACTIVE': '3', 'LEGACY_ENABLED': '0'},
-                    {'CLEANUP_PENDING': '1'}, {'HEALTH_RESULT': '1'}):
+        for env in ({'CLEANUP_PENDING': '1'}, {'HEALTH_RESULT': '1'}):
             result = self.run_check(**env)
             self.assertNotEqual(result.returncode, 0)
         calls = self.log.read_text()

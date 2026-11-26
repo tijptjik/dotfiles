@@ -61,20 +61,15 @@ class NotjikInstallTests(unittest.TestCase):
         return subprocess.run(['bash', str(self.script)],
                               env={**self.env, **extra}, capture_output=True, text=True)
 
-    def test_install_then_retire_old_server_without_restarting_notjik(self):
+    def test_install_then_activate_without_restarting_notjik(self):
         result = self.run_install()
         self.assertEqual(result.returncode, 0, result.stderr)
         calls = self.log.read_text().splitlines()
-        self.assertLess(calls.index('install notjik'), calls.index('--user mask --now dunst.service'))
         self.assertIn('--user enable notjik.service', calls)
         self.assertIn('--user start notjik.service', calls)
         self.assertFalse(any('restart' in call for call in calls))
-        archives = list((self.root / 'state/notjik/migration').glob('*/config/dunstrc'))
-        self.assertEqual(len(archives), 1)
-        self.assertEqual(archives[0].read_text(), 'personal settings\n')
-        self.assertFalse(self.old.exists())
+        self.assertTrue(self.old.exists())
         self.assertEqual(self.run_install().returncode, 0)
-        self.assertEqual(list((self.root / 'state/notjik/migration').glob('*/config/dunstrc')), archives)
 
     def test_managed_install_defers_activation_and_preserves_old_configuration(self):
         result = self.run_install(TJIKUP_MANAGED_CONFIG='1')

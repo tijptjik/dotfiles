@@ -62,20 +62,15 @@ class BartjikInstallTests(unittest.TestCase):
         return subprocess.run(['bash', str(self.script)],
                               env={**self.env, **extra}, capture_output=True, text=True)
 
-    def test_install_then_retire_old_server_without_restarting_bartjik(self):
+    def test_install_then_activate_without_restarting_bartjik(self):
         result = self.run_install()
         self.assertEqual(result.returncode, 0, result.stderr)
         calls = self.log.read_text().splitlines()
-        self.assertLess(calls.index('install bartjik'), calls.index('--user mask --now waybar.service'))
         self.assertIn('--user enable bartjik.service', calls)
         self.assertIn('--user start bartjik.service', calls)
         self.assertFalse(any('restart' in call for call in calls))
-        archives = list((self.root / 'state/bartjik/migration').glob('*/waybar/config'))
-        self.assertEqual(len(archives), 1)
-        self.assertEqual(archives[0].read_text(), 'personal settings\n')
-        self.assertFalse(self.old.exists())
+        self.assertTrue(self.old.exists())
         self.assertEqual(self.run_install().returncode, 0)
-        self.assertEqual(list((self.root / 'state/bartjik/migration').glob('*/waybar/config')), archives)
 
     def test_managed_install_defers_activation_and_preserves_old_configuration(self):
         result = self.run_install(TJIKUP_MANAGED_CONFIG='1')
@@ -95,7 +90,7 @@ class BartjikInstallTests(unittest.TestCase):
         self.assertIn('--user enable bartjik.service', self.log.read_text())
         self.assertNotIn('--user start bartjik.service', self.log.read_text())
 
-    def test_startup_failure_preserves_waybar(self):
+    def test_startup_failure_is_reported(self):
         result = self.run_install(BARTJIK_RESULT='3')
         self.assertNotEqual(result.returncode, 0)
         self.assertTrue((self.old / 'config').is_file())

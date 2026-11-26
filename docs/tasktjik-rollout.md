@@ -8,8 +8,7 @@ Clients use strict-host-key SSH through Mullvad exclusion to `m@ssh.type.hk`.
 Existing SSH credentials and trust remain external to the repository.
 
 The Tasktjik configuration group owns configuration and client systemd units.
-Client activation disables the legacy `runtjik-todo.timer` before enabling
-`tasktjik.timer`. Runtjik and Notjik installation/update depend on Tasktjik.
+Client activation enables `tasktjik.timer`. Runtjik and Notjik installation/update depend on Tasktjik.
 Tasktjik's new configuration overrides the legacy Runtjik Todo settings.
 Set the optional vault locally through policy when a specific vault is chosen.
 

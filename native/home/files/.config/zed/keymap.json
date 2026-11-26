@@ -7,23 +7,6 @@
 // from the command palette.
 [
   {
-    "context": "Workspace",
-    "bindings": {
-      "alt-g": ["task::Spawn", { "task_name": "lazygit" }]
-    }
-  },
-  {
-    "context": "AgentPanel",
-    "bindings": {
-      "alt-left": "agent::FocusLeft",
-      "alt-right": "agent::FocusRight"
-    }
-  },
-  {
-    "context": "Workspace",
-    "bindings": {}
-  },
-  {
     "bindings": {
       "ctrl-alt-l": null // cmd-r will do nothing when the Workspace context is active
     }

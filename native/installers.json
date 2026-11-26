@@ -204,5 +204,16 @@
         "{stage}/bin/espanso"
       ]
     ]
+  },
+  "figcraft": {
+    "repository": "storytold/figcraft",
+    "latest": true,
+    "asset": "figcraft-{version}-linux-{arch}.flatpak",
+    "kind": "flatpak-bundle",
+    "flatpak": {
+      "app_id": "ai.storyteller.figcraft",
+      "branch": "stable",
+      "installation": "system"
+    }
   }
 }

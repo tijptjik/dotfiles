@@ -3630,7 +3630,8 @@
         "system:tippecanoe:update",
         "system:wordcraft:update",
         "system:zed:update",
-        "system:zed:update:verify"
+        "system:zed:update:verify",
+        "system:figcraft:update"
       ],
       "resources": [
         "home-files",

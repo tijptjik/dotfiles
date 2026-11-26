@@ -1967,7 +1967,8 @@
         "home:runtjik:update:verify",
         "system:hyprvoice:update:verify",
         "system:tinty:update",
-        "home:reclaim-diskspace"
+        "home:reclaim-diskspace",
+        "system:figcraft:update"
       ],
       "operation": "update",
       "scope": "system",
@@ -2883,6 +2884,96 @@
         "{run_dir}/system-run_21-tailscale-package.fish",
         "--check-update"
       ]
+    },
+    {
+      "id": "system:figcraft:update",
+      "label": "FigCraft updates",
+      "needs": [
+        "require:sudo"
+      ],
+      "after": [
+        "system:flatpak:update"
+      ],
+      "resources": [
+        "flatpak"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "install",
+        "figcraft"
+      ],
+      "check": [
+        "tjikup",
+        "workflow",
+        "package",
+        "skip-update",
+        "figcraft"
+      ],
+      "env": {
+        "TJIKUP_OPERATION": "update",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 1800,
+      "display": {
+        "section": "Package updates",
+        "reports": true,
+        "icon": "Flatpak"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "update",
+      "scope": "system",
+      "application": "figcraft",
+      "ecosystem": "flatpak",
+      "part_of": "system:flatpak"
+    },
+    {
+      "id": "system:figcraft",
+      "label": "FigCraft",
+      "needs": [
+        "require:sudo"
+      ],
+      "after": [],
+      "resources": [
+        "flatpak"
+      ],
+      "apply": [
+        "tjikup",
+        "workflow",
+        "install",
+        "figcraft"
+      ],
+      "check": [
+        "tjikup",
+        "workflow",
+        "package",
+        "check",
+        "figcraft"
+      ],
+      "env": {
+        "TJIKUP_OPERATION": "install",
+        "TJIKUP_MANAGED_CONFIG": "1"
+      },
+      "timeout": 1800,
+      "display": {
+        "section": "Install applications",
+        "reports": true,
+        "icon": "Flatpak"
+      },
+      "optional": false,
+      "roles": [
+        "desktop",
+        "laptop"
+      ],
+      "operation": "install",
+      "scope": "system",
+      "application": "figcraft",
+      "ecosystem": "flatpak",
+      "part_of": "system:flatpak"
     }
   ]
 }

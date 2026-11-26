@@ -452,5 +452,16 @@
       "laptop",
       "server"
     ]
+  },
+  "figcraft": {
+    "checks": [
+      {
+        "flatpak": "ai.storyteller.figcraft"
+      }
+    ],
+    "roles": [
+      "desktop",
+      "laptop"
+    ]
   }
 }

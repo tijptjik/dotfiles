@@ -56,10 +56,10 @@ class ProtectionRouting(unittest.TestCase):
             self.assertIn('synctjik ', path.read_text())
             self.assertNotIn('notify-send', path.read_text())
 
-    def test_manifest_retires_engines_and_owns_policy(self):
+    def test_manifest_owns_current_policy(self):
         entries={e['path']:e for e in json.loads((NATIVE.parent/'manifest.json').read_text())['entries']}
         for name in ['si-app-backup/backup.py','si-provision/restore.py','si-snapraid-maintenance/maintenance.py','si-snapraid-maintenance/notify.py']:
-            self.assertEqual(entries['/etc/'+name]['kind'],'absent')
+            self.assertNotIn('/etc/'+name, entries)
             self.assertFalse((NATIVE/name).exists())
         for name in ['si-app-backup/policy.json','si-snapraid-maintenance/config.json','si-snapraid-maintenance/notifications.json']:
             self.assertEqual(entries['/etc/'+name]['source'],'files/'+name)

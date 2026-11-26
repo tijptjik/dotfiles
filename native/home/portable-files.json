@@ -193,11 +193,6 @@
     "group": "maintenance"
   },
   {
-    "path": "{{ user.home }}/.config/tjikup/telegram-relay.json",
-    "kind": "absent",
-    "group": "maintenance"
-  },
-  {
     "path": "{{ user.home }}/.config/tjikup/telegram.json",
     "kind": "file",
     "source": "files/.config/tjikup/telegram.json.j2",

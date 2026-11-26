@@ -68,10 +68,6 @@
       "group": "desktop-login"
     },
     {
-      "kind": "absent",
-      "path": "/etc/snapraid.conf"
-    },
-    {
       "kind": "file",
       "path": "/etc/ssh/ssh_config.d/10-connection-reuse.conf",
       "mode": "0644",
@@ -197,14 +193,6 @@
       "gid": 0,
       "when": "not (distribution == \"fedora\" and release >= 45)",
       "source": "files/yum.repos.d/google-chrome.repo"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/yum.repos.d/plex.repo"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/dnf/repos.override.d/60-chezetc-docker.repo"
     },
     {
       "kind": "file",

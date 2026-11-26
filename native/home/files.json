@@ -1763,10 +1763,6 @@
     "group": "base"
   },
   {
-    "kind": "absent",
-    "path": "{{ user.home }}/.local/bin/chezmoi-externals-backup"
-  },
-  {
     "path": "{{ user.home }}/.local/bin/cloudflare-restic-backup",
     "when": "hostname in [\"fi\"]",
     "kind": "file",
@@ -2066,14 +2062,6 @@
     "group": "base"
   },
   {
-    "kind": "absent",
-    "path": "{{ user.home }}/.local/lib/fleet_ssh.py"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.local/lib/tjik_git.py"
-  },
-  {
     "path": "{{ user.home }}/.local/share",
     "kind": "directory",
     "mode": "0755",
@@ -2123,11 +2111,6 @@
     "kind": "file",
     "source": "files/.local/share/applications/FFPWA-01KCGZY23320CJPTJNB8ZVMVPH.desktop",
     "mode": "0755",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/share/applications/FFPWA-01KFA5CCJHYYD2WY97911P3XG7.desktop",
-    "kind": "absent",
     "group": "base"
   },
   {
@@ -5635,96 +5618,6 @@
     "group": "base"
   },
   {
-    "kind": "absent",
-    "path": "{{ user.home }}/.config/fish/conf.d/fnm.fish",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.config/fnm/fnm",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.config/systemd/user/default.target.wants/hyprfloat.service",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.config/systemd/user/default.target.wants/rclone-crypt.service",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.config/systemd/user/graphical-session.target.wants/hyprfloat.service",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.config/systemd/user/hyprfloat.service",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.config/systemd/user/rclone-crypt.service",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.fnm/fnm",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.local/share/applications/com.brave.Browser.desktop",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.local/share/applications/com.google.Chrome.canary.desktop",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.local/share/applications/dev.zed.desktop",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.local/share/applications/org.telegram.desktop",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.local/share/applications/zed.desktop",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.local/share/fnm/fnm",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/pyproject.toml",
-    "group": "base"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/uv.lock",
-    "group": "base"
-  },
-  {
     "path": "{{ user.home }}/.config/systemd/user/notjik.service",
     "when": "hostname in [\"fi\", \"li\"]",
     "kind": "file",
@@ -5914,72 +5807,6 @@
     "target": "tinty.svg"
   },
   {
-    "path": "{{ user.home }}/.config/systemd/user/backup-packages.service",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "path": "{{ user.home }}/.config/systemd/user/backup-packages.timer",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup-failure.service",
-    "when": "hostname in [\"fi\"]",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup.service",
-    "when": "hostname in [\"fi\"]",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "path": "{{ user.home }}/.config/systemd/user/cloudflare-restic-backup.timer",
-    "when": "hostname in [\"fi\"]",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "path": "{{ user.home }}/.config/systemd/user/private-backup.service",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "path": "{{ user.home }}/.config/systemd/user/private-backup.timer",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "path": "{{ user.home }}/.config/systemd/user/private-sync.service",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "path": "{{ user.home }}/.config/systemd/user/private-sync.timer",
-    "when": "hostname in [\"fi\", \"li\"]",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "path": "{{ user.home }}/.config/systemd/user/synctjik-device-collections-backup.service",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "path": "{{ user.home }}/.config/systemd/user/synctjik-device-collections-backup.timer",
-    "group": "base",
-    "kind": "absent"
-  },
-  {
-    "kind": "absent",
-    "path": "{{ user.home }}/.local/bin/chezetc"
-  },
-  {
     "path": "{{ user.home }}/.local/share/icons/rose-punk/scalable/apps/rose-punk-dotjik.svg",
     "group": "base",
     "kind": "symlink",
@@ -6022,11 +5849,6 @@
     "group": "maintenance"
   },
   {
-    "path": "{{ user.home }}/.config/tjikup/telegram-relay.json",
-    "kind": "absent",
-    "group": "maintenance"
-  },
-  {
     "path": "{{ user.home }}/.config/tjikup/telegram.json",
     "kind": "file",
     "source": "files/.config/tjikup/telegram.json.j2",
@@ -6055,121 +5877,6 @@
     "kind": "file",
     "source": "files/.config/imv/config",
     "mode": "0644",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/bin/chezup",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezup/__init__.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezup/core.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezup/propagators/__init__.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezup/propagators/herdr.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezup/propagators/solaar.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezup/propagators/zed.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/tjikup/__init__.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/tjikup/core.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/tjikup/notifications.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/tjikup/propagators/__init__.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/tjikup/propagators/codex.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/tjikup/propagators/fcitx.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/tjikup/propagators/gtk_bookmarks.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/tjikup/propagators/herdr.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/tjikup/propagators/solaar.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/tjikup/propagators/zed.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/bin/chezupdate",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezupdate/__init__.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezupdate/core.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezupdate/propagators/__init__.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezupdate/propagators/herdr.py",
-    "kind": "absent",
-    "group": "base"
-  },
-  {
-    "path": "{{ user.home }}/.local/lib/chezupdate/propagators/zed.py",
-    "kind": "absent",
     "group": "base"
   },
   {

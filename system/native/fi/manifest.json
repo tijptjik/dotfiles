@@ -156,18 +156,6 @@
       "gid": 0
     },
     {
-      "kind": "absent",
-      "path": "/etc/snapraid.conf"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/yum.repos.d/plex.repo"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/dnf/repos.override.d/60-chezetc-docker.repo"
-    },
-    {
       "kind": "file",
       "path": "/etc/tailnet-mullvad.nft",
       "source": "files/tailnet-mullvad.nft",

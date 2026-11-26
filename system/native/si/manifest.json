@@ -39,10 +39,6 @@
       "source": "files/dnf/dnf.conf"
     },
     {
-      "kind": "absent",
-      "path": "/etc/dnf/repos.override.d/60-chezetc-docker.repo"
-    },
-    {
       "kind": "file",
       "path": "/etc/docker/daemon.json",
       "mode": "0644",
@@ -206,24 +202,12 @@
       "sensitive": true
     },
     {
-      "kind": "absent",
-      "path": "/etc/si-app-backup/backup.py"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/si-media-guard/guard.py"
-    },
-    {
       "kind": "file",
       "path": "/etc/si-media-permissions/README.md",
       "mode": "0644",
       "uid": 0,
       "gid": 0,
       "source": "files/si-media-permissions/README.md"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/si-media-permissions/permissions.py"
     },
     {
       "kind": "file",
@@ -250,26 +234,6 @@
       "source": "files/si-provision/mergerfs.json"
     },
     {
-      "kind": "absent",
-      "path": "/etc/si-provision/nss_systemd.py"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/si-provision/provision.py"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/si-provision/restore.py"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/si-provision/storage.py"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/si-provision/update_apps.py"
-    },
-    {
       "kind": "file",
       "path": "/etc/si-snapraid-maintenance/config.json",
       "mode": "0644",
@@ -278,24 +242,12 @@
       "source": "files/si-snapraid-maintenance/config.json"
     },
     {
-      "kind": "absent",
-      "path": "/etc/si-snapraid-maintenance/maintenance.py"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/si-snapraid-maintenance/notify.py"
-    },
-    {
       "kind": "file",
       "path": "/etc/si-transmission-cleanup/README.md",
       "mode": "0644",
       "uid": 0,
       "gid": 0,
       "source": "files/si-transmission-cleanup/README.md"
-    },
-    {
-      "kind": "absent",
-      "path": "/etc/si-transmission-cleanup/cleanup.py"
     },
     {
       "kind": "file",

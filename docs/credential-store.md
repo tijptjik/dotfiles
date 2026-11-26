@@ -5,11 +5,9 @@ operational entries. See the [naming convention and usage inventory](bitwarden-n
 for the reviewed names, consumers, and recovery records.
 
 Fedora 45 adopted [oo7 as the replacement for GNOME Keyring](https://fedoraproject.org/wiki/Changes/oo7_Secrets_Service_Provider).
-The `97-secret-service.fish` Tjikup hook installs `oo7-daemon`, `pam_oo7`, and
-`oo7-portal` on fi, li, and si. It removes the superseded `gnome-keyring` and
-`gnome-keyring-pam` packages with dependency cleanup disabled, stops this user's
-old daemon, and enables the oo7 user service. This removes the competing D-Bus
-activation and login startup paths that otherwise cause `Zbus(NameTaken)`.
+The Secret Service installation hook installs `oo7-daemon`, `pam_oo7`, and
+`oo7-portal`; the configuration hook enables the oo7 user service. The completed
+provider replacement no longer runs package removal or terminates old daemons.
 
 Existing files in `~/.local/share/keyrings` are retained. oo7 migrates legacy
 keyrings when unlocked; encrypted keyrings may need their password on first

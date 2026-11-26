@@ -44,7 +44,7 @@ class DesktopUserTests(unittest.TestCase):
 class CoprTests(unittest.TestCase):
     def test_native_target_is_required_before_install(self):
         text=(REPO/'../native/tasks/system/run_10-install-copr-repos.fish.j2').read_text()
-        function=text[text.index('function enable_copr'):text.index('# Retire the font COPR')]
+        function=text[text.index('function enable_copr'):text.index('# Initialize package arrays')]
         for available in (True,False):
             harness='''
 function is_copr_configured; return 1; end

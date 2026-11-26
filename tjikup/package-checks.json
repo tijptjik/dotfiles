@@ -173,16 +173,6 @@
       },
       {
         "rpm": "oo7-portal"
-      },
-      {
-        "not": {
-          "rpm": "gnome-keyring"
-        }
-      },
-      {
-        "not": {
-          "rpm": "gnome-keyring-pam"
-        }
       }
     ],
     "roles": [

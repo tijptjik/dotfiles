@@ -45,29 +45,6 @@ function enable_copr
     or return 1
 end
 
-# Retire the font COPR; Bartjik now ships its own pinned, application-local font.
-set -l font_copr purian23/material-symbols-fonts
-if is_copr_configured "$font_copr"
-    set -l repo_id "copr:copr.fedorainfracloud.org:purian23:material-symbols-fonts"
-    set -l overrides /etc/dnf/repos.override.d/99-config_manager.repo
-    if test -f "$overrides"; and tjikup workflow desktop ini-has "$overrides" "$repo_id" enabled
-        step_run_note_as CONFIG "Material Symbols COPR override" retired sudo dnf config-manager unsetopt "$repo_id.enabled"
-        or exit 1
-    end
-    step_run_note_as REMOVE "Material Symbols COPR" "font bundled with Bartjik" sudo dnf copr remove -y "$font_copr"
-    or exit 1
-end
-
-# Migrate si away from the desktop COPR formerly enabled for every host.
-# Keep the definition for troubleshooting; clients still enable it below.
-{% if is_server -%}
-set hyprland_repo 'copr:copr.fedorainfracloud.org:lionheartp:Hyprland'
-if dnf repo list --enabled --quiet | string match -q "$hyprland_repo *"
-    step_run_note_as DISABLE "Hyprland COPR" "client-only" sudo dnf config-manager setopt "$hyprland_repo.enabled=0"
-    or exit 1
-end
-{% endif %}
-
 # Initialize package arrays
 set common_copr_repos
 set client_copr_repos

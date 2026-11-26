@@ -248,23 +248,6 @@ function ensure_nginx_dav_ext
         return 0
     end
 
-    # This migration removes the subscription-gated repository package.  Its
-    # Nginx build is replaced with the Fedora build before the local module is
-    # compiled, ensuring the module and daemon always share an ABI.
-    if rpm -q getpagespeed-extras-release >/dev/null 2>&1
-        step_run_note_as REMOVE "GetPageSpeed repository" removed sudo dnf remove -y getpagespeed-extras-release
-        or return 1
-    end
-
-    # The old repository module requires the GetPageSpeed-specific nginx-r
-    # capability. Remove it before switching back to Fedora Nginx; the
-    # currently running daemon keeps serving until the local replacement is
-    # installed, validated, and reloaded below.
-    if rpm -q nginx-module-dav-ext >/dev/null 2>&1
-        step_run_note_as REMOVE "GetPageSpeed DAV extension" removed sudo dnf remove -y nginx-module-dav-ext
-        or return 1
-    end
-
     ensure_nginx_security_version
     or return 1
 
